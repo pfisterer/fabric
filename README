@@ -73,13 +73,13 @@ If you use Fabric, I appreciate if the papers below are referenced.
 ----------------------------------------
 REFERENCES
 ----------------------------------------
-[1]	Dennis Pfisterer, Horst Hellbrück, and Stefan Fischer. Fabric: 
+[1]	Dennis Pfisterer, Horst Hellbrueck, and Stefan Fischer. Fabric: 
 	Towards data type-centric middleware synthesis. In Proceedings 
 	of the Euro-American Workshop on Middleware for Sensor Networks 
 	in conjunction with the International Conference on Distributed 
 	Computing (DCOSS 06), 2006.
 
-[2]	Dennis Pfisterer, Marco Wegner, Horst Hellbrück, Christian Werner, 
+[2]	Dennis Pfisterer, Marco Wegner, Horst Hellbrueck, Christian Werner, 
 	and Stefan Fischer. Energy-optimized data serialization for 
 	heterogeneous WSNs using middleware synthesis. In Proceedings of 
 	The Sixth Annual Mediterranean Ad Hoc Networking Workshop 
