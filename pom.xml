@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~ 
+	Copyright (c) 2010, Institute of Telematics, University of Luebeck ~ ~ All rights reserved. ~ ~ ~ ~ Redistribution and use 
+	in source and binary forms, with or without modification, are permitted provided that the ~ ~ following conditions are met: 
+	~ ~ ~ ~ - Redistributions of source code must retain the above copyright notice, this list of conditions and the following~ 
+	~ disclaimer. ~ ~ - Redistributions in binary form must reproduce the above copyright notice, this list of conditions and 
+	the ~ ~ following disclaimer in the documentation and/or other materials provided with the distribution. ~ ~ - Neither the 
+	name of the University of Luebeck nor the names of its contributors may be used to endorse or promote ~ products derived 
+	from this software without specific prior written permission. ~ ~ ~ ~ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS 
+	AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,~ ~ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES 
+	OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ~ ~ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS 
+	BE LIABLE FOR ANY DIRECT, INDIRECT, ~ ~ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+	TO, PROCUREMENT OF SUBSTITUTE~ ~ GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED 
+	AND ON ANY THEORY OF ~ ~ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+	IN ANY WAY ~ ~ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+  		http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>Fabric Code Generation Framework</name>
+	<groupId>de.uniluebeck.itm</groupId>
+	<artifactId>fabric</artifactId>
+
+	<packaging>pom</packaging>
+	<version>1.0</version>
+
+	<modules>
+		<module>core/</module>
+		<module>codegeneration/</module>
+		<module>wsdl-schema-parser/</module>
+
+		<module>module/api/</module>
+		<!-- 
+		<module>module/microfibre/</module>
+		<module>module/macrofibre/</module>
+		<module>module/xml/</module>
+		-->
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<dependency>
+				<groupId>de.uniluebeck.itm</groupId>
+				<artifactId>fabric.codegeneration</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.uniluebeck.itm</groupId>
+				<artifactId>fabric.core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.uniluebeck.itm</groupId>
+				<artifactId>fabric.wsdl-schema-parser</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>de.uniluebeck.itm</groupId>
+				<artifactId>fabric.module.microfibre</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.uniluebeck.itm</groupId>
+				<artifactId>fabric.module.macrofibre</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.uniluebeck.itm</groupId>
+				<artifactId>fabric.module.xml</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.uniluebeck.itm</groupId>
+				<artifactId>fabric.module.api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+
+
+			<dependency>
+				<groupId>de.uniluebeck.itm</groupId>
+				<artifactId>tr.util</artifactId>
+				<version>0.5.6-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>r08</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-cli</groupId>
+				<artifactId>commons-cli</artifactId>
+				<version>1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>wsdl4j</groupId>
+				<artifactId>wsdl4j</artifactId>
+				<version>1.6.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.xmlbeans</groupId>
+				<artifactId>xmlbeans</artifactId>
+				<version>2.4.0</version>
+			</dependency>
+			
+		</dependencies>
+	</dependencyManagement>
+
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<version>1.9.0</version>
+				<artifactId>maven-license-plugin</artifactId>
+				<configuration>
+					<header>src/etc/license-header.txt</header>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<repositories>
+
+		<repository>
+			<id>google-maven-repository</id>
+			<name>Google Maven Repository</name>
+			<url>http://google-maven-repository.googlecode.com/svn/repository/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>itm-maven-repository-releases</id>
+			<url>http://www.itm.uni-luebeck.de/projects/maven/releases/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>itm-maven-repository-snapshots</id>
+			<url>http://www.itm.uni-luebeck.de/projects/maven/snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>repository.tu-bs.de</id>
+			<url>http://www.ibr.cs.tu-bs.de/maven/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<layout>default</layout>
+		</repository>
+
+		<repository>
+			<id>repository.jboss.org</id>
+			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>maven2-repository.dev.java.net</id>
+			<name>Java.net Repository for Maven 2</name>
+			<url>http://download.java.net/maven/2/</url>
+		</repository>
+
+	</repositories>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+</project>
+
+
