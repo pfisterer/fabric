@@ -50,6 +50,10 @@
 		</dependency>
 		<dependency>
 			<groupId>de.uniluebeck.itm</groupId>
+			<artifactId>fabric.module.protobuf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>de.uniluebeck.itm</groupId>
 			<artifactId>tr.util</artifactId>
 		</dependency>
 		<dependency>

@@ -23,9 +23,9 @@
 
 package de.uniluebeck.sourcegen.java;
 
-import de.uniluebeck.sourcegen.Elem;
+import de.uniluebeck.sourcegen.WorkspaceElement;
 
 
-public interface JElem extends Elem {
+public interface JElem extends WorkspaceElement {
 	// flag interface
 }

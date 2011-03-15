@@ -100,7 +100,7 @@ public class DotModule extends TreeWalkerBase {
 		} else if (type instanceof FComplexType) {
 			handle((FComplexType) type);
 		} else {
-			throw new Exception("Unknown Type: " + type.toString());
+			throw new Exception("Unknown SimpleType: " + type.toString());
 		}
 
 		writeTransition(elem, parent, type);

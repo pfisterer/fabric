@@ -23,9 +23,9 @@
 
 package de.uniluebeck.sourcegen.c;
 
-import de.uniluebeck.sourcegen.Elem;
+import de.uniluebeck.sourcegen.WorkspaceElement;
 
 
-public interface CElem extends Elem {
+public interface CElem extends WorkspaceElement {
 	// flag interface
 }

@@ -38,6 +38,7 @@ public abstract class TreeWalkerBase implements Module {
 
 	private Workspace workspace;
 
+	@Override
 	public final void handle(Workspace workspace, FSchema schema) throws Exception {
 		this.workspace = workspace;
 

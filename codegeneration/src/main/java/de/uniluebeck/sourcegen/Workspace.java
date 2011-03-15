@@ -44,10 +44,8 @@ import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JMethod;
 import de.uniluebeck.sourcegen.java.JSourceFile;
 import de.uniluebeck.sourcegen.java.JSourceFileImpl;
+import de.uniluebeck.sourcegen.protobuf.PSourceFile;
 
-/**
- * Abstract base containing common methods for the language specific workspaces.
- */
 public class Workspace {
 
 	private final org.slf4j.Logger log = LoggerFactory.getLogger(Workspace.class);
@@ -61,34 +59,55 @@ public class Workspace {
 	public static final String KEY_PROJECTSUBDIR = "project.subdir";
 
 	private Properties properties;
-	
+
 	private LinkedList<SourceFile> sourceFiles = new LinkedList<SourceFile>();
 
-	private static String jPackagePrefix;
+	private String jPackagePrefix;
 
-	//TODO Make sure that JMethod has a working Comparator
+	// TODO Make sure that JMethod has a working Comparator
 	private Set<JMethod> globalMethodStoreJava = new HashSet<JMethod>();
 
-	//TODO Make sure that CFun has a working Comparator
+	// TODO Make sure that CFun has a working Comparator
 	private Set<CFun> globalMethodStoreC = new HashSet<CFun>();
 
+	private JavaWorkspaceHelper javaHelper;
+
+	private CWorkspaceHelper cHelper;
+
+	private ProtobufWorkspaceHelper protobufHelper;
+	
 	public Workspace() {
 		this(new Properties());
 	}
-	
+
 	public Workspace(Properties properties) {
 		this.properties = properties;
+		
+		javaHelper = new JavaWorkspaceHelper();
+		cHelper = new CWorkspaceHelper();
+		protobufHelper = new ProtobufWorkspaceHelper(properties);
 	}
 
 	public Properties getProperties() {
 		return properties;
 	}
 
+	public JavaWorkspaceHelper getJava() {
+		return javaHelper;
+	}
+
+	public CWorkspaceHelper getC() {
+		return cHelper;
+	}
+
+	public ProtobufWorkspaceHelper getProtobuf() {
+		return protobufHelper;
+	}
+
 	public void generate() throws Exception {
-
-		Workspace.jPackagePrefix = properties.getProperty(KEY_JAVA_PKG_PREFIX, "");
-
 		log.info("Generating " + sourceFiles.size() + " source files.");
+
+		jPackagePrefix = properties.getProperty(KEY_JAVA_PKG_PREFIX, "");
 
 		for (SourceFile sF : sourceFiles) {
 
@@ -134,14 +153,14 @@ public class Workspace {
 			return sourceFile.getFileName() + ".hpp";
 		return sourceFile.getFileName() + ".cpp";
 	}
-	
+
 	private String getDirString(SourceFile sourceFile) {
 		String projectDirString = properties.getProperty(KEY_PROJECTDIR, System.getProperty("user.dir"));
 		String subDir = properties.getProperty(KEY_PROJECTSUBDIR, "");
-		
+
 		projectDirString = assureTrailingSeparator(projectDirString);
 		projectDirString += subDir;
-		
+
 		if (sourceFile instanceof JSourceFile) {
 			JSourceFile jSourceFile = (JSourceFile) sourceFile;
 			projectDirString = assureTrailingSeparator(projectDirString);
@@ -149,7 +168,7 @@ public class Workspace {
 			projectDirString = assureTrailingSeparator(projectDirString);
 			projectDirString += jSourceFile.getPackageName().replace('.', File.separatorChar);
 		}
-		
+
 		projectDirString = assureTrailingSeparator(projectDirString);
 		return projectDirString;
 	}
@@ -158,165 +177,212 @@ public class Workspace {
 		return s.endsWith(File.separator) ? s : s + File.separator;
 	}
 
-	public JSourceFile getJSourceFile(String packageName, String fileName) {
-		// check if source file already exists
-		for (SourceFile f : sourceFiles)
-			if (f instanceof JSourceFile && ((JSourceFile) f).getPackageName().equals(packageName)
-					&& ((JSourceFile) f).getFileName().equals(fileName)) {
-				log.error("Sourcefile " + fileName + " gibts schon!! SCHLECHT!");
-				log.info("Folgende JSourceFiles gibt es:");
-				for (SourceFile file : sourceFiles)
-					if (file instanceof JSourceFile) {
-						log.info("  " + file.getFileName());
-					}
-				return (JSourceFile) f;
-			}
-		JSourceFile f = new JSourceFileImpl(packageName, fileName);
-		sourceFiles.add(f);
-		log.info("Sourcefile " + fileName + " added to workspace");
-		return f;
-	}
+	/**
+	 * 
+	 *
+	 */
+	public class CWorkspaceHelper {
+		public CppHeaderFile getCppHeaderFile(String fileName) {
 
-	public CppHeaderFile getCppHeaderFile(String fileName) {
+			// check if file is already existing and
+			// return instance if so
+			for (SourceFile f : sourceFiles)
+				if (f instanceof CppHeaderFile && ((CppSourceFile) f).getFileName().equals(fileName))
+					return (CppHeaderFile) f;
 
-		// check if file is already existing and
-		// return instance if so
-		for (SourceFile f : sourceFiles)
-			if (f instanceof CppHeaderFile && ((CppSourceFile) f).getFileName().equals(fileName))
-				return (CppHeaderFile) f;
+			// create the new instance since it's not yet existing
+			CppHeaderFileImpl file = new CppHeaderFileImpl(fileName);
+			sourceFiles.add(file);
+			return file;
 
-		// create the new instance since it's not yet existing
-		CppHeaderFileImpl file = new CppHeaderFileImpl(fileName);
-		sourceFiles.add(file);
-		return file;
+		}
 
-	}
+		public CppSourceFile getCppSourceFile(String fileName) {
 
-	public CppSourceFile getCppSourceFile(String fileName) {
+			// check if file is already existing and
+			// return instance if so
+			for (SourceFile f : sourceFiles)
+				if (f instanceof CppSourceFile && !(f instanceof CppHeaderFile)
+						&& ((CppSourceFile) f).getFileName().equals(fileName))
+					return (CppSourceFile) f;
 
-		// check if file is already existing and
-		// return instance if so
-		for (SourceFile f : sourceFiles)
-			if (f instanceof CppSourceFile && !(f instanceof CppHeaderFile)
-					&& ((CppSourceFile) f).getFileName().equals(fileName))
-				return (CppSourceFile) f;
+			// create the new instance since it's not yet existing
+			CppSourceFile file = new CppSourceFileImpl(fileName);
+			sourceFiles.add(file);
+			return file;
+		}
 
-		// create the new instance since it's not yet existing
-		CppSourceFile file = new CppSourceFileImpl(fileName);
-		sourceFiles.add(file);
-		return file;
-	}
+		public CSourceFile getCSourceFile(String fileName) {
 
-	public CSourceFile getCSourceFile(String fileName) {
+			// check if source file already existing and
+			// return instance if so
+			for (SourceFile f : sourceFiles)
+				if (f instanceof CSourceFile && !(f instanceof CHeaderFile)
+						&& ((CSourceFile) f).getFileName().equals(fileName))
+					return (CSourceFile) f;
 
-		// check if source file already existing and
-		// return instance if so
-		for (SourceFile f : sourceFiles)
-			if (f instanceof CSourceFile && !(f instanceof CHeaderFile)
-					&& ((CSourceFile) f).getFileName().equals(fileName))
-				return (CSourceFile) f;
+			// create new instance since it's not yet existing
+			CSourceFile file = new CSourceFileImpl(fileName);
+			sourceFiles.add(file);
+			return file;
 
-		// create new instance since it's not yet existing
-		CSourceFile file = new CSourceFileImpl(fileName);
-		sourceFiles.add(file);
-		return file;
+		}
 
-	}
-
-	public boolean containsCHeaderFile(String fileName) {
-		for (SourceFile f : sourceFiles)
-			if (f instanceof CHeaderFile && f.getFileName().equals(fileName))
-				return true;
-		return false;
-
-	}
-
-	public boolean containsCSourceFile(String fileName) {
-		for (SourceFile f : sourceFiles)
-			if (f instanceof CSourceFile && !(f instanceof CHeaderFile) && f.getFileName().equals(fileName))
-				return true;
-		return false;
-	}
-
-	public boolean containsJavaClass(String clazz) {
-		for (SourceFile f : sourceFiles) {
-			if (f instanceof JSourceFile) {
-				JSourceFile file = (JSourceFile) f;
-				JClass jclazz = file.getClassByName(clazz);
-				if (jclazz != null) {
+		public boolean containsCHeaderFile(String fileName) {
+			for (SourceFile f : sourceFiles)
+				if (f instanceof CHeaderFile && f.getFileName().equals(fileName))
 					return true;
+			return false;
+
+		}
+
+		public boolean containsCSourceFile(String fileName) {
+			for (SourceFile f : sourceFiles)
+				if (f instanceof CSourceFile && !(f instanceof CHeaderFile) && f.getFileName().equals(fileName))
+					return true;
+			return false;
+		}
+
+		public CHeaderFile getCHeaderFile(String filename) {
+
+			// check if source file already existing and
+			// return instance if so
+			for (SourceFile f : sourceFiles)
+				if (f instanceof CHeaderFile && f.getFileName().equals(filename))
+					return (CHeaderFile) f;
+
+			// create new instance since it's not yet existing
+			CHeaderFileImpl header = new CHeaderFileImpl(filename);
+			sourceFiles.add(header);
+
+			try {
+
+				// adding header include guard (part 1)
+				String guard = filename.toUpperCase() + "_H";
+				header.addBeforeDirective("ifndef " + guard);
+				header.addBeforeDirective("define " + guard);
+
+				// adding the extern "C" directive
+				header.addBeforeDirective("if defined __cplusplus");
+				header.addBeforeDirective(false, "extern \"C\" {");
+				header.addBeforeDirective("endif");
+				header.addAfterDirective("if defined __cplusplus");
+				header.addAfterDirective(false, "}");
+				header.addAfterDirective("endif");
+
+				// belongs to the header include guard
+				header.addAfterDirective("endif");
+
+			} catch (Exception e) {
+				log.error("" + e, e);
+				e.printStackTrace();
+			}
+
+			return header;
+
+		}
+
+		/**
+		 * Stores a new method in the store
+		 * 
+		 * @param domain
+		 * @param aspect
+		 * @param type
+		 * @return
+		 */
+		public void setGlobalMethod(CFun fun) {
+			globalMethodStoreC.add(fun);
+
+		}
+
+	}
+
+	/**
+	 * 
+	 *
+	 */
+	public class JavaWorkspaceHelper {
+		public JSourceFile getJSourceFile(String packageName, String fileName) {
+			// check if source file already exists
+			for (SourceFile f : sourceFiles)
+				if (f instanceof JSourceFile && ((JSourceFile) f).getPackageName().equals(packageName)
+						&& ((JSourceFile) f).getFileName().equals(fileName)) {
+					log.error("Sourcefile " + fileName + " gibts schon!! SCHLECHT!");
+					log.info("Folgende JSourceFiles gibt es:");
+					for (SourceFile file : sourceFiles)
+						if (file instanceof JSourceFile) {
+							log.info("  " + file.getFileName());
+						}
+					return (JSourceFile) f;
+				}
+			JSourceFile f = new JSourceFileImpl(packageName, fileName);
+			sourceFiles.add(f);
+			log.info("Sourcefile " + fileName + " added to workspace");
+			return f;
+		}
+
+		public boolean containsJavaClass(String clazz) {
+			for (SourceFile f : sourceFiles) {
+				if (f instanceof JSourceFile) {
+					JSourceFile file = (JSourceFile) f;
+					JClass jclazz = file.getClassByName(clazz);
+					if (jclazz != null) {
+						return true;
+					}
 				}
 			}
-		}
-		return false;
-	}
-
-	public CHeaderFile getCHeaderFile(String filename) {
-
-		// check if source file already existing and
-		// return instance if so
-		for (SourceFile f : sourceFiles)
-			if (f instanceof CHeaderFile && f.getFileName().equals(filename))
-				return (CHeaderFile) f;
-
-		// create new instance since it's not yet existing
-		CHeaderFileImpl header = new CHeaderFileImpl(filename);
-		sourceFiles.add(header);
-
-		try {
-
-			// adding header include guard (part 1)
-			String guard = filename.toUpperCase() + "_H";
-			header.addBeforeDirective("ifndef " + guard);
-			header.addBeforeDirective("define " + guard);
-
-			// adding the extern "C" directive
-			header.addBeforeDirective("if defined __cplusplus");
-			header.addBeforeDirective(false, "extern \"C\" {");
-			header.addBeforeDirective("endif");
-			header.addAfterDirective("if defined __cplusplus");
-			header.addAfterDirective(false, "}");
-			header.addAfterDirective("endif");
-
-			// belongs to the header include guard
-			header.addAfterDirective("endif");
-
-		} catch (Exception e) {
-			log.error("" + e, e);
-			e.printStackTrace();
+			return false;
 		}
 
-		return header;
+		public String getJPackagePrefix() {
+			return jPackagePrefix;
+		}
+
+		/**
+		 * Stores a new method in the store
+		 * 
+		 * @param domain
+		 * @param aspect
+		 * @param type
+		 * @return
+		 */
+		public void setGlobalMethod(JMethod method) {
+			globalMethodStoreJava.add(method);
+		}
 
 	}
 
-	public static String getJPackagePrefix() {
-		return jPackagePrefix;
+	public class ProtobufWorkspaceHelper {
+		private static final String PACKAGE = "protobuf.package";
+		private static final String DEFAULT_FILENAME= "protobuf.file";
+		
+		private String packageName;
+		private String fileName;
+		private PSourceFile defaultSourceFile = null;
+		
+		public ProtobufWorkspaceHelper(Properties properties) {
+			packageName = properties.getProperty(PACKAGE);
+			fileName = properties.getProperty(DEFAULT_FILENAME, "protobuf.prot");
+		}
+
+		public String getPackageName() {
+			return packageName;
+		}
+
+		public String getFileName() {
+			return fileName;
+		}
+
+		public PSourceFile getDefaultSourceFile(){
+
+			if (defaultSourceFile == null ){
+				defaultSourceFile = new PSourceFile(fileName);
+				sourceFiles.add(defaultSourceFile);
+			}
+			
+			return defaultSourceFile;
+		}
+		
 	}
 
-	/**
-	 * Stores a new method in the store
-	 * 
-	 * @param domain
-	 * @param aspect
-	 * @param type
-	 * @return
-	 */
-	public void setGlobalMethod(JMethod method) {
-		globalMethodStoreJava.add(method);
-	}
-
-	/**
-	 * Stores a new method in the store
-	 * 
-	 * @param domain
-	 * @param aspect
-	 * @param type
-	 * @return
-	 */
-	public void setGlobalMethod(CFun fun) {
-		globalMethodStoreC.add(fun);
-
-	}
-	
 }

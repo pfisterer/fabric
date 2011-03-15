@@ -23,8 +23,8 @@
 
 package de.uniluebeck.sourcegen.c;
 
-import de.uniluebeck.sourcegen.Elem;
+import de.uniluebeck.sourcegen.WorkspaceElement;
 
-public interface CppElem extends Elem {
+public interface CppElem extends WorkspaceElement {
 	// flag interface
 }

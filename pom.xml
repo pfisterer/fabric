@@ -36,6 +36,7 @@
 
 		<module>module/api/</module>
 		<module>module/dot/</module>
+		<module>module/protobuf/</module>
 		<!-- 
 		<module>module/microfibre/</module>
 		<module>module/macrofibre/</module>
@@ -61,6 +62,11 @@
 				<artifactId>fabric.wsdl-schema-parser</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>de.uniluebeck.itm</groupId>
+				<artifactId>fabric.module.api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>de.uniluebeck.itm</groupId>
@@ -84,11 +90,9 @@
 			</dependency>
 			<dependency>
 				<groupId>de.uniluebeck.itm</groupId>
-				<artifactId>fabric.module.api</artifactId>
+				<artifactId>fabric.module.protobuf</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
-
 
 			<dependency>
 				<groupId>de.uniluebeck.itm</groupId>

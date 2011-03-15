@@ -26,7 +26,7 @@ package de.uniluebeck.sourcegen.c;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import de.uniluebeck.sourcegen.Elem;
+import de.uniluebeck.sourcegen.WorkspaceElement;
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
@@ -34,9 +34,9 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 class CppClassImpl extends CElemImpl implements CppClass {
 	
 	class VisElem {
-		public Elem elem;
+		public WorkspaceElement elem;
 		public long vis;
-		public VisElem(Elem elem, long vis) {
+		public VisElem(WorkspaceElement elem, long vis) {
 			this.vis = vis;
 			this.elem = elem;
 		}

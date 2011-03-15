@@ -94,6 +94,10 @@ public abstract class FSchemaObject {
 		this.fschema = fschema;
 	}
 
+	public FSchema getFSchema() {
+		return this.fschema;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -133,6 +137,10 @@ public abstract class FSchemaObject {
 	public void setNamespace(String namespace) {
 		this.namespace = namespace;
 	}
+	
+	public int getNamespaceCount() {
+		return this.fschema.getNamespaces().size();
+	}
 
 	/**
 	 * Returns the prefix of this object type.
@@ -144,7 +152,7 @@ public abstract class FSchemaObject {
 	 * 
 	 * @return the prefix of this schemaobject.
 	 */
-	public String getNSPrefix() {
+	public String getInternalNamespacePrefix() {
 
 		if (this.fschema == null) {
 			throw new RuntimeException("reference to FSchema object is undefined (at " + this.getName() + ")!");
