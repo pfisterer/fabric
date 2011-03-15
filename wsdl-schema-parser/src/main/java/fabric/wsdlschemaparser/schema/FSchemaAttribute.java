@@ -29,7 +29,7 @@ package fabric.wsdlschemaparser.schema;
 /**
  * @author Marco Wegner
  */
-public class FSchemaAttribute extends FSchemaElement {
+public class FSchemaAttribute extends FElement {
 	
 	private boolean isRequired;
 

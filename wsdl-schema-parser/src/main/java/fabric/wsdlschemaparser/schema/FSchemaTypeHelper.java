@@ -88,13 +88,13 @@ public final class FSchemaTypeHelper {
 
     // --------------------------------------------------------------------
 
-    public static boolean isOptional(FSchemaElement e) {
+    public static boolean isOptional(FElement e) {
         return (e.getMinOccurs( ) == 0 && e.getMaxOccurs( ) == 1);
     }
 
     // --------------------------------------------------------------------
 
-    public static boolean isArray(FSchemaElement e) {
+    public static boolean isArray(FElement e) {
     	return (e.getMinOccurs( ) != 1 || e.getMaxOccurs( ) != 1) && !isOptional(e);
     }
 

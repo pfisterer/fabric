@@ -176,9 +176,9 @@ public abstract class FComplexType extends FSchemaType {
     // --------------------------------------------------------------------
 
 	private boolean containsAllAttributes(FComplexType a, FComplexType b) {
-		for (FSchemaElement eA : a.attributes) {
+		for (FElement eA : a.attributes) {
 			boolean contained = false;
-			for (FSchemaElement eB : b.attributes) {
+			for (FElement eB : b.attributes) {
 				if (eA.equals(eB)) {
 					contained = true;
 					break;

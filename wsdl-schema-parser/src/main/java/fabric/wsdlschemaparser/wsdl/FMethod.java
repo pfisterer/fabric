@@ -23,7 +23,7 @@
 
 package fabric.wsdlschemaparser.wsdl;
 
-import fabric.wsdlschemaparser.schema.FSchemaElement;
+import fabric.wsdlschemaparser.schema.FElement;
 
 
 public class FMethod {
@@ -35,17 +35,17 @@ public class FMethod {
 	
 	/** Input of the operation
 	 *
-	 * Note that this FSchemaElement itself is only an artificial Container
+	 * Note that this FElement itself is only an artificial Container
 	 * and is not part of the XML-Schema defined in the WSDL.
 	 */
-	private FSchemaElement parameters;
+	private FElement parameters;
 	
 	/** return value(s) of the operation
 	 *
-	 * Note that this FSchemaElement itself is only an artificial Container
+	 * Note that this FElement itself is only an artificial Container
 	 * and is not part of the XML-Schema defined in the WSDL.
 	 */
-	private FSchemaElement returnVal;
+	private FElement returnVal;
 
 	//-------------------------------------------------------------------------
 	/**
@@ -77,7 +77,7 @@ public class FMethod {
 	/**
 	 * @return the parameters
 	 */
-	public FSchemaElement getParameters()
+	public FElement getParameters()
 	{
 		return parameters;
 	}
@@ -86,7 +86,7 @@ public class FMethod {
 	/**
 	 * @param parameters the parameters to set
 	 */
-	public void setParameters(FSchemaElement parameters)
+	public void setParameters(FElement parameters)
 	{
 		this.parameters = parameters;
 	}
@@ -95,7 +95,7 @@ public class FMethod {
 	/**
 	 * @return the returnVal
 	 */
-	public FSchemaElement getReturnVal()
+	public FElement getReturnVal()
 	{
 		return returnVal;
 	}
@@ -104,7 +104,7 @@ public class FMethod {
 	/**
 	 * @param returnVal the returnVal to set
 	 */
-	public void setReturnVal(FSchemaElement returnVal)
+	public void setReturnVal(FElement returnVal)
 	{
 		this.returnVal = returnVal;
 	}

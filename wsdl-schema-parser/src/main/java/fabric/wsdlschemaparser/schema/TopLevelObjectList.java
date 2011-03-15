@@ -39,7 +39,7 @@ public class TopLevelObjectList {
 
     private final String targetNamespace;
 
-	private List<FSchemaElement> topLevelElements;
+	private List<FElement> topLevelElements;
 
 	private List<FSchemaType> topLevelTypes;
 
@@ -48,7 +48,7 @@ public class TopLevelObjectList {
 	 */
 	public TopLevelObjectList(String targetNamespace) {
 		this.targetNamespace = targetNamespace;
-        topLevelElements = new LinkedList<FSchemaElement>( );
+        topLevelElements = new LinkedList<FElement>( );
 		topLevelTypes = new LinkedList<FSchemaType>( );
 	}
 
@@ -60,16 +60,16 @@ public class TopLevelObjectList {
     }
 
     public void add(FSchemaObject o) {
-    	if (o instanceof FSchemaElement) {
-    		add((FSchemaElement)o);
+    	if (o instanceof FElement) {
+    		add((FElement)o);
     	} else if (o instanceof FSchemaType) {
     		add((FSchemaType)o);
     	}
     }
 
-    public void add(FSchemaElement fse) {
+    public void add(FElement fse) {
         if (!fse.isTopLevel( )) {
-            log.warn("FSchemaElement " + fse.getName( ) + " doesn't appear to a top-level one!");
+            log.warn("FElement " + fse.getName( ) + " doesn't appear to a top-level one!");
         }
         topLevelElements.add(fse);
     }
@@ -87,7 +87,7 @@ public class TopLevelObjectList {
         }
     }
 
-	public List<FSchemaElement> getTopLevelElements( ) {
+	public List<FElement> getTopLevelElements( ) {
 		return topLevelElements;
 	}
 
@@ -102,9 +102,9 @@ public class TopLevelObjectList {
 		return fst;
 	}
 	
-	public FSchemaElement getTopLevelElement(String elemName) {
-		FSchemaElement fse = null;
-		for (FSchemaElement e : topLevelElements) {
+	public FElement getTopLevelElement(String elemName) {
+		FElement fse = null;
+		for (FElement e : topLevelElements) {
 			if (e.getName( ).equals(elemName)) {
 				fse = e;
 				break;
@@ -119,7 +119,7 @@ public class TopLevelObjectList {
 
 	public List<String> getUniqueNames( ) {
 	    List<String> names = new ArrayList<String>( );
-	    for (FSchemaElement e : topLevelElements) {
+	    for (FElement e : topLevelElements) {
 	        if (e.getSchemaType( ).isTopLevel( )) {
 	            names.add(e.getSchemaType( ).getName( ));
 	        } else {

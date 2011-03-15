@@ -30,7 +30,7 @@ package fabric.wsdlschemaparser.schema;
 /**
  * @author Marco Wegner
  */
-public class FSchemaElement extends FSchemaObject {
+public class FElement extends FSchemaObject {
 
 	// --------------------------------------------------------------------
 	// Constants
@@ -39,7 +39,7 @@ public class FSchemaElement extends FSchemaObject {
     // TODO
 	public static final int UNBOUNDED = 20;
 
-	public static final FSchemaElement BYTE_ARRAY = new FSchemaElement("", new FByte());
+	public static final FElement BYTE_ARRAY = new FElement("", new FByte());
 	
 	static {
 		BYTE_ARRAY.setMaxOccursUnbounded();
@@ -85,7 +85,7 @@ public class FSchemaElement extends FSchemaObject {
 	 * @param name
 	 * @param ftype
 	 */
-	public FSchemaElement(String name, FSchemaType ftype) {
+	public FElement(String name, FSchemaType ftype) {
 		super(name);
 		setSchemaType(ftype);
 		setMinOccurs(1);
@@ -200,13 +200,13 @@ public class FSchemaElement extends FSchemaObject {
 		if (this == other)
 			return true;
 		
-		if (!(other instanceof FSchemaElement))
+		if (!(other instanceof FElement))
 			return false;
 
-		if (!isTopLevel && (minOccurs != ((FSchemaElement)other).minOccurs || maxOccurs != ((FSchemaElement)other).maxOccurs))
+		if (!isTopLevel && (minOccurs != ((FElement)other).minOccurs || maxOccurs != ((FElement)other).maxOccurs))
 			return false;
 
 		return
-			schemaType.equals(((FSchemaElement)other).schemaType);
+			schemaType.equals(((FElement)other).schemaType);
 	}
 }

@@ -98,7 +98,7 @@ public class FSchemaTypeFactory {
 	 * @param elem
 	 * @return
 	 */
-	public FSchemaElement generate(TopLevelElement elem) {
+	public FElement generate(TopLevelElement elem) {
 		log.debug("Generating TopLevelElement");
 
 		String name = elem.getName();
@@ -112,7 +112,7 @@ public class FSchemaTypeFactory {
 
 		elemTrace.push(name);
 
-		FSchemaElement element = generateElement(elem);
+		FElement element = generateElement(elem);
 		FSchemaType schemaType = element.getSchemaType();
 		if (!schemaType.isTopLevel()) {
 			schemaType.setName(name);
@@ -199,11 +199,11 @@ public class FSchemaTypeFactory {
 		return fct;
 	}
 
-	public Collection<FSchemaElement> generateAll(TopLevelElement[] elements) {
-		Collection<FSchemaElement> list = new ArrayList<FSchemaElement>();
+	public Collection<FElement> generateAll(TopLevelElement[] elements) {
+		Collection<FElement> list = new ArrayList<FElement>();
 		for (TopLevelElement elem : elements) {
 			elem.setName(ReservedNames.instance().getNewName(elem.getName()));
-			FSchemaElement tle = generate(elem);
+			FElement tle = generate(elem);
 			if (tle != null) {
 				log.info(tle.getNamespace() + ":" + tle.getName() + " created.");
 				list.add(tle);
@@ -248,7 +248,7 @@ public class FSchemaTypeFactory {
 	 * @param elem
 	 * @return
 	 */
-	private FSchemaElement generateElement(Element elem) {
+	private FElement generateElement(Element elem) {
 		elem.setName(ReservedNames.instance().getNewName(elem.getName()));
 		String elemName = elem.getName();
 		log.debug("Element: " + elemName);
@@ -304,7 +304,7 @@ public class FSchemaTypeFactory {
 		if (ecount > 1) {
 			elemName += "_" + ecount;
 		}
-		FSchemaElement schemaElement = new FSchemaElement(elemName, ftype);
+		FElement schemaElement = new FElement(elemName, ftype);
 		
 		// check the element for minOccurs...
 		if (elem.isSetMinOccurs()) {
@@ -335,7 +335,7 @@ public class FSchemaTypeFactory {
 	 * @param any
 	 * @return
 	 */
-	private FSchemaElement generateElement(Any any) {
+	private FElement generateElement(Any any) {
 		String elemName = "any";
 
 		FSchemaType ftype = new FAny("String", getPriviousNodeNames(any), getNextNodeNames(any));
@@ -344,7 +344,7 @@ public class FSchemaTypeFactory {
 		if (ecount > 1) {
 			elemName += "_" + ecount;
 		}
-		FSchemaElement schemaElement = new FSchemaElement(elemName, ftype);
+		FElement schemaElement = new FElement(elemName, ftype);
 		// check the element for minOccurs...
 		if (any.isSetMinOccurs()) {
 			Object o = any.getMinOccurs();
@@ -421,7 +421,7 @@ public class FSchemaTypeFactory {
 		FSchemaType ftype = getTopLevelType(elemRefName);
 		if (ftype == null) {
 			TopLevelElement tle = (TopLevelElement) schemaHelper.getByName(reference);
-			FSchemaElement fse = generate(tle);
+			FElement fse = generate(tle);
 			if (fse == null) {
 				return null;
 			}
@@ -562,7 +562,7 @@ public class FSchemaTypeFactory {
 	private void handleComplexTypeChildElements(FComplexType fct, Element[] elements) {
 		if (elements != null) {
 			for (Element elem : elements) {
-				FSchemaElement ee = generateElement(elem);
+				FElement ee = generateElement(elem);
 				if (ee != null) {
 					fct.addChildObject(ee);
 				}
@@ -578,7 +578,7 @@ public class FSchemaTypeFactory {
 		if (anys != null) {
 			for (Any a : anys) {
 				elemTrace.push("any");
-				FSchemaElement ee = generateElement(a);
+				FElement ee = generateElement(a);
 				if (ee != null) {
 					String prev = null;
 					Node n = a.getDomNode().getPreviousSibling();
@@ -667,7 +667,7 @@ public class FSchemaTypeFactory {
 		SimpleExtensionType extension = simpleContent.getExtension();
 		SchemaType st_base = SchemaHelper.getSchemaType(extension.getBase());
 		FSimpleType fst = generateSimpleTypeFromBTC(st_base.getBuiltinTypeCode());
-		fct.addChildObject(initObject(new FSchemaElement("value", fst)));
+		fct.addChildObject(initObject(new FElement("value", fst)));
 
 		if (extension.sizeOfAttributeArray() > 0) {
 			handleComplexTypeAttributes(fct, extension.getAttributeArray());
@@ -685,7 +685,7 @@ public class FSchemaTypeFactory {
 		FComplexType fct = new FSequence();
 		SimpleRestrictionType restriction = simpleContent.getRestriction();
 		FSimpleType fst = generateSimpleRestrictionType(restriction);
-		fct.addChildObject(initObject(new FSchemaElement("value", fst)));
+		fct.addChildObject(initObject(new FElement("value", fst)));
 		initObject(fct);
 		return fct;
 	}
