@@ -21,6 +21,9 @@ In addition, a number of modules are contained that generate code
 	  
 	- XML: XML (de-)serialization for easy conversion from/to 
 	  macroFibre/microFibre
+	  
+	- protobuf: Converts XML Schema files to Google protobuf
+	  (http://code.google.com/p/protobuf/) files.
 
 Fabric works as follows:
 	1.)	Input files are XML Schema and WSDL files which are parsed 
