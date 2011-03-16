@@ -171,6 +171,7 @@ public class ProtobufModule implements Module {
 				sourceFile.add(messageType);
 			else
 				parent.add(messageType);
+			
 		} else {
 			log.debug("It's not a reference and not a top level type {}", element.getSchemaType());
 			
@@ -180,6 +181,7 @@ public class ProtobufModule implements Module {
 				handleSimpleType((FSimpleType) schemaType, element, parent, uniqueNumberTag);
 			else if (schemaType instanceof FComplexType)
 				handleComplexType((FComplexType) schemaType, element.getName(), parent);
+			else throw new RuntimeException("Unhandled: " + schemaType);
 			
 		}
 
@@ -206,8 +208,6 @@ public class ProtobufModule implements Module {
 		
 		PSimpleTypeField simpleTypeField = new PSimpleTypeField(simpleType, name, optional, required, repeated, uniqueNumberTag);
 		parent.add(simpleTypeField);
-		
-
 	}
 
 	private void handleComplexType(FComplexType type, String elementName, PMessage parent) {
@@ -220,9 +220,10 @@ public class ProtobufModule implements Module {
 		}
 
 		log.debug("Handling {} all/sequence/choice(s) of complex type {}", type.getChildObjects().size(), type);
-
+		
 		int uniqueNumberTag = 0;
 		for (FSchemaObject child : type.getChildObjects()) {
+			log.debug("Handling child {} of type {}", child.getName(), child.getClass().getName());
 			handleSchemaObject(child, elementName, parent, ++uniqueNumberTag);
 		}
 	}

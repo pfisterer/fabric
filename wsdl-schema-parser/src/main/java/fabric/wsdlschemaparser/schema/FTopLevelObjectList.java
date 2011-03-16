@@ -34,8 +34,8 @@ import java.util.List;
 import org.slf4j.LoggerFactory;
 
 
-public class TopLevelObjectList {
-	private static final org.slf4j.Logger log = LoggerFactory.getLogger(TopLevelObjectList.class);
+public class FTopLevelObjectList {
+	private static final org.slf4j.Logger log = LoggerFactory.getLogger(FTopLevelObjectList.class);
 
     private final String targetNamespace;
 
@@ -46,7 +46,7 @@ public class TopLevelObjectList {
 	/**
 	 * @param targetNamespace 
 	 */
-	public TopLevelObjectList(String targetNamespace) {
+	public FTopLevelObjectList(String targetNamespace) {
 		this.targetNamespace = targetNamespace;
         topLevelElements = new LinkedList<FElement>( );
 		topLevelTypes = new LinkedList<FSchemaType>( );

@@ -47,7 +47,7 @@ public class FSchema {
 
 	private HashMap<String, URI> targetNamespaceToFileLocationMap = new HashMap<String, URI>();
 
-	TopLevelObjectList topLevelObjectList = null;
+	FTopLevelObjectList topLevelObjectList = null;
 
 	public FSchema() {
 
@@ -176,34 +176,36 @@ public class FSchema {
 			File enclosingSchemaLocation = new File(enclosingSchemaLocationUrl.toURL().getFile()).getParentFile();
 
 			String importLocation = importElement.getSchemaLocation();
-			File importedSchemaLocation = new File(enclosingSchemaLocation, importLocation);
+			URI importLocationURI = new URI(importLocation);
+			
+			if( "file".equals(importLocationURI.getScheme()))
+				importLocationURI = new File(enclosingSchemaLocation, importLocation).toURI();
 
-			log.debug("Imported schema suspected to be at {}", importedSchemaLocation);
+			log.debug("Imported schema suspected to be at {}", importLocationURI);
 
 			if (!isKnownTargetNamespace(importElement.getNamespace())) {
 				log.debug("Importing schema with namespace {}", importElement.getNamespace());
 
-				URI uri = importedSchemaLocation.toURI();
-				SchemaDocument doc = SchemaDocument.Factory.parse(uri.toURL());
+				SchemaDocument doc = SchemaDocument.Factory.parse(importLocationURI.toURL());
 
-				addSchema(doc.getSchema(), uri);
+				addSchema(doc.getSchema(), importLocationURI);
 			}
 
 		}
 	}
 
-	public TopLevelObjectList getTopLevelObjectList() {
+	public FTopLevelObjectList getTopLevelObjectList() {
 		return topLevelObjectList;
 	}
 
-	private TopLevelObjectList generateSchemaTrees(Collection<Schema> schemata) {
+	private FTopLevelObjectList generateSchemaTrees(Collection<Schema> schemata) {
 
 		/*
 		 * Defining one Namespace for all Schemata doesnt make much sense if you
 		 * are dealing with multiple Schemata. But for backwart compatiblity I
 		 * will set it to the namespace of the first schema anyway. -- Dfo
 		 */
-		TopLevelObjectList topLevelObjects = new TopLevelObjectList(schemata.iterator().next().getTargetNamespace());
+		FTopLevelObjectList topLevelObjects = new FTopLevelObjectList(schemata.iterator().next().getTargetNamespace());
 
 		FSchemaTypeFactory factory = new FSchemaTypeFactory(this, schemata);
 
