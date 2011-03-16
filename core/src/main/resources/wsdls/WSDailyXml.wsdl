@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://xmlme.com/WebServices" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://xmlme.com/WebServices" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://xmlme.com/WebServices">
+    
+      <s:annotation>
+    <s:appinfo>
+      <fabric:fabric xmlns:fabric="http://www.coalesenses.com/fabric/v2" >
+        <fabric:Domain name="FabricDomainSerializer">
+          <fabric:Aspect name="plain" />
+        </fabric:Domain>
+      </fabric:fabric>
+    </s:appinfo>
+  </s:annotation>
+
+      <s:element name="GetXmlDailyFact">
+        <s:complexType name="fgjdsggjipfd"><s:sequence/> </s:complexType>
+      </s:element>
+      <s:element name="GetXmlDailyFactResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetXmlDailyFactResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetXmlDailyFactSoapIn">
+    <wsdl:part name="parameters" element="tns:GetXmlDailyFact" />
+  </wsdl:message>
+  <wsdl:message name="GetXmlDailyFactSoapOut">
+    <wsdl:part name="parameters" element="tns:GetXmlDailyFactResponse" />
+  </wsdl:message>
+  <wsdl:portType name="XmlDailyFactSoap">
+    <wsdl:operation name="GetXmlDailyFact">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an XML daily fact with an emphasis on XML Web Services and the use of XML within the Microsoft .NET Framework. See http://www.xmlme.com for a sample client and additional details.</wsdl:documentation>
+      <wsdl:input message="tns:GetXmlDailyFactSoapIn" />
+      <wsdl:output message="tns:GetXmlDailyFactSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="XmlDailyFactSoap" type="tns:XmlDailyFactSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetXmlDailyFact">
+      <soap:operation soapAction="http://xmlme.com/WebServices/GetXmlDailyFact" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="XmlDailyFactSoap12" type="tns:XmlDailyFactSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetXmlDailyFact">
+      <soap12:operation soapAction="http://xmlme.com/WebServices/GetXmlDailyFact" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="XmlDailyFact">
+    <wsdl:port name="XmlDailyFactSoap" binding="tns:XmlDailyFactSoap">
+      <soap:address location="http://www.xmlme.com/WSDailyXml.asmx" />
+    </wsdl:port>
+    <wsdl:port name="XmlDailyFactSoap12" binding="tns:XmlDailyFactSoap12">
+      <soap12:address location="http://www.xmlme.com/WSDailyXml.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

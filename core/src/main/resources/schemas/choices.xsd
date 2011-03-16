@@ -1,0 +1,31 @@
+<!--
+    Schema test file for testing choice types.
+-->
+
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fabric="http://www.coalesenses.com/fabric/v2" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <!-- choice with only one element -->
+  <xs:element name="Choice01">
+
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="elem01" type="xs:int" />
+      </xs:choice>
+    </xs:complexType>
+
+  </xs:element>
+
+  <!-- choice with more than one element -->
+  <xs:element name="Choice02">
+
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="elem01" type="xs:byte" />
+        <xs:element name="elem02" type="xs:short" />
+        <xs:element name="elem03" type="xs:int" />
+      </xs:choice>
+    </xs:complexType>
+
+  </xs:element>
+
+</xs:schema>

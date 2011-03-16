@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="urn:fherrmann.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="Query" targetNamespace="urn:fherrmann.com">
+  <types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:fherrmann.com">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <complexType name="ArrayOfstring">
+        <complexContent>
+          <restriction base="soap11-enc:Array">
+            <attribute ref="soap11-enc:arrayType" wsdl:arrayType="string[]"/></restriction></complexContent></complexType></schema></types>
+  <message name="QueryIF_query">
+    <part name="String_1" type="xsd:string"/></message>
+  <message name="QueryIF_queryResponse">
+    <part name="result" type="tns:ArrayOfstring"/></message>
+  <portType name="QueryIF">
+    <operation name="query" parameterOrder="String_1">
+      <input message="tns:QueryIF_query"/>
+      <output message="tns:QueryIF_queryResponse"/></operation></portType>
+  <binding name="QueryIFBinding" type="tns:QueryIF">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+    <operation name="query">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:fherrmann.com"/></input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:fherrmann.com"/></output></operation></binding>
+  <service name="Query">
+    <port name="QueryIFPort" binding="tns:QueryIFBinding">
+      <soap:address location="http://www.comp.rgu.ac.uk:80/QueryComputing/query" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"/></port></service></definitions>

@@ -1,0 +1,24 @@
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fabric="http://www.coalesenses.com/fabric/v2" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <xs:element name="CT01">
+	<xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:double">
+          <xs:attribute name="Units" type="xs:string" use="required"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="CT02">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:restriction base="xs:byte">
+          <xs:minInclusive value="111"/>
+          <xs:maxInclusive value="112"/>
+        </xs:restriction>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:annotation>
+    <xsd:appinfo>
+      <fabric:fabric xmlns:fabric="http://www.coalesenses.com/fabric/v2" >
+        <fabric:Domain name="FabricDomainSerializer">
+          <fabric:Aspect name="plain" />
+        </fabric:Domain>
+      </fabric:fabric>
+    </xsd:appinfo>
+</xsd:annotation>
+
+
+<xsd:complexType name="ArrayOfstring_literal">
+    <xsd:sequence>
+	<xsd:element minOccurs="1" name="string" type="xsd:string"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:element name="Param" type="xsd:ArrayOfstring_literal"/>
+<xsd:element name="Return" type="xsd:ArrayOfstring_literal"/>
+
+</xsd:schema>
+

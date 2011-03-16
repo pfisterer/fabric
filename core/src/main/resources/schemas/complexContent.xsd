@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <s:schema elementFormDefault="qualified" targetNamespace="http://skats.net/services/" xmlns:s="http://www.w3.org/2001/XMLSchema">
+
+<s:complexType name="personinfo">
+  <s:sequence>
+    <s:element name="firstname" type="s:string"/>
+    <s:element name="lastname" type="s:string"/>
+  </s:sequence>
+</s:complexType>
+
+<s:complexType name="fullpersoninfo">
+  <s:complexContent>
+    <s:extension base="personinfo">
+      <s:sequence>
+        <s:element name="address" type="s:string"/>
+        <s:element name="city" type="s:string"/>
+        <s:element name="country" type="s:string"/>
+      </s:sequence>
+    </s:extension>
+  </s:complexContent>
+</s:complexType>
+
+</s:schema>

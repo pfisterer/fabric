@@ -1,0 +1,65 @@
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fabric="http://www.coalesenses.com/fabric/v2" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+<!--  <xs:complexType name="CT01">
+    <xs:sequence>
+      <xs:element name="a" type="xs:byte" />
+      <xs:element name="b" type="xs:byte" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CT02">
+    <xs:all>
+      <xs:element name="c" type="xs:byte" />
+      <xs:element name="d" type="xs:byte" />
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="CT03">
+    <xs:choice>
+      <xs:element name="e" type="xs:byte" />
+      <xs:element name="f" type="xs:byte" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:element name="CT04">
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="x" type="itm:CT01" minOccurs="0" />
+        <xs:element name="y" type="itm:CT02" minOccurs="0" />
+        <xs:element name="z" type="itm:CT03" minOccurs="0" />
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="CT05">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="x" type="itm:CT01" />
+        <xs:element name="y" type="itm:CT02" />
+        <xs:element name="z" type="itm:CT03" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>-->
+
+  <xs:element name="CT06">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:double">
+          <xs:attribute name="Units" type="xs:string" use="required"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="CT07">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:restriction base="xs:byte">
+          <xs:minInclusive value="111"/>
+          <xs:maxInclusive value="112"/>
+        </xs:restriction>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

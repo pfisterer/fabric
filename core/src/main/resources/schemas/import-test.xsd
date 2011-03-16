@@ -1,0 +1,18 @@
+    <s:schema    elementFormDefault="qualified" targetNamespace="http://xmlme.com/WebServices"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:s="http://www.w3.org/2001/XMLSchema">
+
+    <s:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    
+      <s:annotation>
+    <s:appinfo>
+      <fabric:fabric xmlns:fabric="http://www.coalesenses.com/fabric/v2" >
+        <fabric:Domain name="FabricDomainSerializer">
+          <fabric:Aspect name="plain" />
+        </fabric:Domain>
+      </fabric:fabric>
+    </s:appinfo>
+  </s:annotation>
+
+      <s:element name="GetXmlDailyFact" type="soapenc:decimal" />
+
+</s:schema>

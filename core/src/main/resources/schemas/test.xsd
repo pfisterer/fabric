@@ -1,0 +1,15 @@
+<!--Schema test file for testing optional and array types.-->
+<xs:schema targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fabric="http://www.coalesenses.com/fabric/v2">
+  <xs:element name="ElemArray01">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="elem01" type="xs:int" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="elem02" type="xs:int" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="elem03" type="xs:int" minOccurs="0"/>
+        <xs:element name="elem04" type="xs:int" maxOccurs="2"/>
+        <xs:element name="elem05" type="xs:int" minOccurs="10" maxOccurs="10"/>
+        <xs:element name="elem06" type="xs:int" minOccurs="10" maxOccurs="12"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

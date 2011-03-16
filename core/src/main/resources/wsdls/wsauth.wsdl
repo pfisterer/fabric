@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ! WSDL Interface-Spezifikation fuer den WSAuthService Webservice.
+ !
+ ! $Id: wsauth.wsdl,v 1.17 2007-10-18 18:59:53 dariush Exp $
+ !
+ -->
+
+
+<wsdl:definitions targetNamespace="urn:WSAuth"
+  xmlns:impl="urn:WSAuth"
+  xmlns:types="urn:WSAuth"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+ <wsdl:types>
+  <xsd:schema elementFormDefault="qualified"
+	      targetNamespace="urn:WSAuth">
+
+
+  <xsd:annotation>
+    <xsd:appinfo>
+      <fabric:fabric xmlns:fabric="http://www.coalesenses.com/fabric/v2" >
+        <fabric:Domain name="FabricDomainSerializer">
+          <fabric:Aspect name="plain" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainSecurity">
+          <fabric:Aspect name="dummy" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainAPI">
+          <fabric:Aspect name="plain" />
+        </fabric:Domain>
+
+<!--
+        <fabric:Domain name="FabricDomainDummyEncryptor">
+          <fabric:Aspect name="default" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainDummyPacketizer">
+          <fabric:Aspect name="default" />
+        </fabric:Domain>
+
+
+        <fabric:Domain name="FabricDomainSerializer">
+          <fabric:Aspect name="compact" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainWebservice">
+          <fabric:Aspect name="plain" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainSecurity">
+          <fabric:Aspect name="plain" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainAPI">
+          <fabric:Aspect name="default" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainSerializer">
+          <fabric:Aspect name="plain" />
+        </fabric:Domain>
+-->
+<!--
+        <fabric:Domain name="FabricDomainDummyEncryptor">
+          <fabric:Aspect name="default" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainDummyPacketizer">
+          <fabric:Aspect name="default" />
+        </fabric:Domain>
+-->
+<!--
+        <fabric:Domain name="FabricDomainAPI">
+          <fabric:Aspect name="default" />
+        </fabric:Domain>
+-->
+      </fabric:fabric>
+    </xsd:appinfo>
+  </xsd:annotation>
+
+
+
+   <xsd:complexType name="PosixUser">
+    <xsd:all>
+     <xsd:element name="dir" nillable="false" type="xsd:string"/>
+     <xsd:element name="gecos" nillable="true" type="xsd:string"/>
+     <xsd:element name="gid" nillable="false" type="xsd:int"/>
+     <xsd:element name="name" nillable="false" type="xsd:string"/>
+     <xsd:element name="shadowExpire" nillable="true" type="xsd:int"/>
+     <xsd:element name="shadowFlag" nillable="true" type="xsd:int"/>
+     <xsd:element name="shadowInactive" nillable="true" type="xsd:int"/>
+     <xsd:element name="shadowLastChange" nillable="true" type="xsd:int"/>
+     <xsd:element name="shadowMax" nillable="true" type="xsd:int"/>
+     <xsd:element name="shadowMin" nillable="true" type="xsd:int"/>
+     <xsd:element name="shadowWarn" nillable="true" type="xsd:int"/>
+     <xsd:element name="shell" nillable="false" type="xsd:string"/>
+     <xsd:element name="uid" nillable="false" type="xsd:int"/>
+    </xsd:all>
+   </xsd:complexType>
+   
+   <xsd:complexType name="PosixGroup">
+    <xsd:sequence>
+     <xsd:element name="gid" nillable="false" type="xsd:int"/>
+     <xsd:element name="members" minOccurs="0" maxOccurs="100" type="xsd:string"/>
+     <xsd:element name="name" nillable="false" type="xsd:string"/>
+    </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:complexType name="void_t2">
+    <xsd:sequence/>
+   </xsd:complexType>
+   
+   <xsd:complexType name="void_t">
+    <xsd:sequence/>
+   </xsd:complexType>
+
+   <xsd:element name="getPosixUserlist" type="types:void_t2" />
+
+   <xsd:element name="getPosixUserlistResponse"
+   				type="types:getPosixUserlistResponse_t" />
+   <xsd:complexType name="getPosixUserlistResponse_t">
+    <xsd:sequence>
+     <xsd:element name="user" minOccurs="0" maxOccurs="100"
+     			  type="types:PosixUser"/>
+    </xsd:sequence>
+   </xsd:complexType>
+    
+   <xsd:element name="getPosixUserByUid"
+   				type="types:getPosixUserByUid_t" />
+   <xsd:element name="getPosixUserByUidResponse"
+   				type="types:getPosixUserByUidResponse_t" />
+   <xsd:complexType name="getPosixUserByUid_t">
+    <xsd:sequence>
+     <xsd:element name="uid" type="xsd:int"/>
+    </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="getPosixUserByUidResponse_t">
+    <xsd:sequence>
+     <xsd:element name="user" nillable="true" type="types:PosixUser"/>
+    </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:element name="getPosixUserByName"
+    			type="types:getPosixUserByName_t" />
+   <xsd:element name="getPosixUserByNameResponse"
+   				type="types:getPosixUserByNameResponse_t" />
+   <xsd:complexType name="getPosixUserByName_t">
+    <xsd:sequence>
+     <xsd:element name="username" type="xsd:string"/>
+    </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="getPosixUserByNameResponse_t">
+    <xsd:sequence>
+     <xsd:element name="user" nillable="true" type="types:PosixUser"/>
+    </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:element name="getPosixGrouplist" type="types:void_t" />
+   <xsd:element name="getPosixGrouplistResponse"
+   				type="types:getPosixGrouplistResponse_t" />
+   <xsd:complexType name="getPosixGrouplistResponse_t">
+    <xsd:sequence>
+     <xsd:element name="group" minOccurs="0" maxOccurs="100"
+     			  type="types:PosixGroup"/>
+    </xsd:sequence>
+   </xsd:complexType>
+    
+   <xsd:element name="getPosixGroupByGid"
+   				type="types:getPosixGroupByGid_t" />
+   <xsd:element name="getPosixGroupByGidResponse"
+   				type="types:getPosixGroupByGidResponse_t" />
+   <xsd:complexType name="getPosixGroupByGid_t">
+    <xsd:sequence>
+     <xsd:element name="gid" type="xsd:int"/>
+    </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="getPosixGroupByGidResponse_t">
+    <xsd:sequence>
+     <xsd:element name="group" nillable="true"
+     			  type="types:PosixGroup"/>
+    </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:element name="getPosixGroupByName"
+   				type="types:getPosixGroupByName_t" />
+   <xsd:element name="getPosixGroupByNameResponse"
+   				type="types:getPosixGroupByNameResponse_t" />
+   <xsd:complexType name="getPosixGroupByName_t">
+    <xsd:sequence>
+     <xsd:element name="groupname" type="xsd:string"/>
+    </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="getPosixGroupByNameResponse_t">
+    <xsd:sequence>
+     <xsd:element name="group" nillable="true"
+     			  type="types:PosixGroup"/>
+    </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:element name="changePassword"
+   				type="types:changePassword_t" />
+   <xsd:element name="changePasswordResponse"
+   				type="types:changePasswordResponse_t" />
+   <xsd:complexType name="changePassword_t">
+    <xsd:sequence>
+     <xsd:element name="authUser" nillable="false" 
+      			  type="xsd:string"/>
+     <xsd:element name="authPassword" nillable="false" 
+      			  type="xsd:string"/>
+     <xsd:element name="username" nillable="false" 
+      			  type="xsd:string"/>
+     <xsd:element name="newPassword" nillable="false" 
+      			  type="xsd:string"/>
+    </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="changePasswordResponse_t">
+    <xsd:sequence>
+     <xsd:element name="success" type="xsd:boolean"/>
+     <xsd:element name="errorMessage" nillable="true" 
+      			  type="xsd:string"/>
+    </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:element name="authUser" 
+      			type="types:authUser_t" />
+   <xsd:element name="authUserResponse" 
+      			type="types:authUserResponse_t" />
+   <xsd:complexType name="authUser_t">
+    <xsd:sequence>
+     <xsd:element name="authUser" nillable="false"
+     			  type="xsd:string"/>
+     <xsd:element name="authPassword" nillable="false"
+     			  type="xsd:string"/>
+    </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="authUserResponse_t">
+    <xsd:sequence>
+     <xsd:element name="success" type="xsd:boolean"/>
+    </xsd:sequence>
+   </xsd:complexType>
+
+  </xsd:schema>
+ </wsdl:types>
+
+
+
+
+
+   <wsdl:message name="getPosixUserlistRequest">
+      <wsdl:part name="parameters"
+      			 element="types:getPosixUserlist"/>
+   </wsdl:message>
+   <wsdl:message name="getPosixUserlistResponse">
+      <wsdl:part name="parameters"
+      			 element="types:getPosixUserlistResponse"/>
+   </wsdl:message>
+
+   <wsdl:message name="getPosixUserByUidRequest">
+      <wsdl:part name="parameters"
+      			 element="types:getPosixUserByUid"/>
+   </wsdl:message>
+   <wsdl:message name="getPosixUserByUidResponse">
+      <wsdl:part name="parameters" 
+      			 element="types:getPosixUserByUidResponse"/>
+   </wsdl:message>
+
+   <wsdl:message name="getPosixUserByNameRequest">
+      <wsdl:part name="parameters" 
+      			 element="types:getPosixUserByName"/>
+   </wsdl:message>
+   <wsdl:message name="getPosixUserByNameResponse">
+      <wsdl:part name="parameters" 
+      			 element="types:getPosixUserByNameResponse"/>
+   </wsdl:message>
+
+   <wsdl:message name="getPosixGrouplistRequest">
+      <wsdl:part name="parameters" 
+      			 element="types:getPosixGrouplist"/>
+   </wsdl:message>
+   <wsdl:message name="getPosixGrouplistResponse">
+      <wsdl:part name="parameters" 
+      			 element="types:getPosixGrouplistResponse"/>
+   </wsdl:message>
+
+   <wsdl:message name="getPosixGroupByGidRequest">
+      <wsdl:part name="parameters" 
+      			 element="types:getPosixGroupByGid"/>
+   </wsdl:message>
+   <wsdl:message name="getPosixGroupByGidResponse">
+      <wsdl:part name="parameters" 
+      			 element="types:getPosixGroupByGidResponse"/>
+   </wsdl:message>
+
+   <wsdl:message name="getPosixGroupByNameRequest">
+      <wsdl:part name="parameters" 
+      			 element="types:getPosixGroupByName"/>
+   </wsdl:message>
+   <wsdl:message name="getPosixGroupByNameResponse">
+      <wsdl:part name="parameters" 
+      			 element="types:getPosixGroupByNameResponse"/>
+   </wsdl:message>
+
+   <wsdl:message name="changePasswordRequest">
+      <wsdl:part name="parameters" 
+      			 element="types:changePassword"/>
+   </wsdl:message>
+   <wsdl:message name="changePasswordResponse">
+      <wsdl:part name="parameters" 
+      			 element="types:changePasswordResponse"/>
+   </wsdl:message>
+
+   <wsdl:message name="authUserRequest">
+      <wsdl:part name="parameters" 
+      			 element="types:authUser"/>
+   </wsdl:message>
+   <wsdl:message name="authUserResponse">
+      <wsdl:part name="parameters" 
+      			 element="types:authUserResponse"/>
+   </wsdl:message>
+
+
+
+
+
+   <wsdl:portType name="WSAuthPortType">
+
+      <wsdl:operation name="getPosixUserlist">
+         <wsdl:input message="impl:getPosixUserlistRequest"/>
+         <wsdl:output message="impl:getPosixUserlistResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="getPosixUserByUid">
+         <wsdl:input message="impl:getPosixUserByUidRequest"/>
+         <wsdl:output message="impl:getPosixUserByUidResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="getPosixUserByName">
+         <wsdl:input message="impl:getPosixUserByNameRequest"/>
+         <wsdl:output message="impl:getPosixUserByNameResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="getPosixGrouplist">
+         <wsdl:input message="impl:getPosixGrouplistRequest"/>
+         <wsdl:output message="impl:getPosixGrouplistResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="getPosixGroupByGid">
+         <wsdl:input message="impl:getPosixGroupByGidRequest"/>
+         <wsdl:output message="impl:getPosixGroupByGidResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="getPosixGroupByName">
+         <wsdl:input message="impl:getPosixGroupByNameRequest"/>
+         <wsdl:output message="impl:getPosixGroupByNameResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="authUser">
+         <wsdl:input message="impl:authUserRequest"/>
+         <wsdl:output message="impl:authUserResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="changePassword">
+         <wsdl:input message="impl:changePasswordRequest"/>
+         <wsdl:output message="impl:changePasswordResponse"/>
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+
+
+
+   <wsdl:binding name="WSAuthSoapBinding" type="impl:WSAuthPortType">
+
+      <soap:binding style="document"
+      				transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getPosixUserlist">
+         <soap:operation soapAction="urn:WSAuth"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getPosixUserByUid">
+         <soap:operation soapAction="urn:WSAuth"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getPosixUserByName">
+         <soap:operation soapAction="urn:WSAuth"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getPosixGrouplist">
+         <soap:operation soapAction="urn:WSAuth"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getPosixGroupByGid">
+         <soap:operation soapAction="urn:WSAuth"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getPosixGroupByName">
+         <soap:operation soapAction="urn:WSAuth"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="authUser">
+         <soap:operation soapAction="urn:WSAuth"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="changePassword">
+         <soap:operation soapAction="urn:WSAuth"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+
+
+
+
+   <wsdl:service name="WSAuthService">
+
+      <wsdl:port binding="impl:WSAuthSoapBinding" name="WSAuthPort">
+         <soap:address
+              location="http://localhost:8080/axis2/services/WSAuth"/>
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

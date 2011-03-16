@@ -1,0 +1,25 @@
+    <s:schema    elementFormDefault="qualified" targetNamespace="http://xmlme.com/WebServices"
+    xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://xmlme.com/WebServices" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    
+      <s:annotation>
+    <s:appinfo>
+      <fabric:fabric xmlns:fabric="http://www.coalesenses.com/fabric/v2" >
+        <fabric:Domain name="FabricDomainSerializer">
+          <fabric:Aspect name="plain" />
+        </fabric:Domain>
+      </fabric:fabric>
+    </s:appinfo>
+  </s:annotation>
+
+      <s:element name="GetXmlDailyFact">
+         <s:complexType/> 
+    <!--    <s:complexType> <s:sequence/> </s:complexType>  -->
+      </s:element>
+      <s:element name="GetXmlDailyFactResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetXmlDailyFactResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>

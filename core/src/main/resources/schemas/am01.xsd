@@ -1,0 +1,37 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:am="http://webservices.amazon.com/AWSECommerceService/2005-10-05" xmlns:tns="http://webservices.amazon.com/AWSECommerceService/2005-10-05" xmlns:fabric="http://www.coalesenses.com/fabric/v2" targetNamespace="http://webservices.amazon.com/AWSECommerceService/2005-10-05" elementFormDefault="qualified" attributeFormDefault="qualified">
+
+  <xs:annotation>
+    <xs:appinfo>
+      <fabric:fabric>
+        <fabric:Domain name="FabricDomainTypeGenerator">
+          <fabric:Aspect name="binary" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainSerializer">
+          <fabric:Aspect name="compact" />
+        </fabric:Domain>
+      </fabric:fabric>
+    </xs:appinfo>
+  </xs:annotation>
+
+  <xs:element name="TransactionLookup">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="SubscriptionId" type="xs:string" minOccurs="0"/>
+        <xs:element name="AWSAccessKeyId" type="xs:string" minOccurs="0"/>
+        <xs:element name="AssociateTag" type="xs:string" minOccurs="0"/>
+        <xs:element name="Validate" type="xs:string" minOccurs="0"/>
+        <xs:element name="XMLEscaping" type="xs:string" minOccurs="0"/>
+        <xs:element name="Shared" type="tns:TransactionLookupRequest" minOccurs="0"/>
+        <xs:element name="Request" type="tns:TransactionLookupRequest" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="TransactionLookupRequest">
+    <xs:sequence>
+      <xs:element name="ResponseGroup" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="TransactionId" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

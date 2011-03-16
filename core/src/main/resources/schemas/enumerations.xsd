@@ -1,0 +1,43 @@
+<!--
+    Schema test file for testing attributes.
+-->
+
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fabric="http://www.coalesenses.com/fabric/v2" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <xs:simpleType name="EnumType01">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EnumA" />
+      <xs:enumeration value="EnumB" />
+      <xs:enumeration value="EnumC" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="EnumElem01">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="enum01" />
+        <xs:enumeration value="enum02" />
+        <xs:enumeration value="enum03" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+
+  <xs:element name="EnumElem02">
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="elem01" type="itm:EnumType01" />
+        <xs:element name="elem02">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="One" />
+              <xs:enumeration value="Two" />
+              <xs:enumeration value="Three" />
+              <xs:enumeration value="Four" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

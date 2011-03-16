@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ! WSDL Interface-Spezifikation fuer den WSAuthService Webservice.
+ !
+ ! $Id: wsauth.wsdl,v 1.17 2007-10-18 18:59:53 dariush Exp $
+ !
+ -->
+
+
+<wsdl:definitions targetNamespace="urn:WSAuth"
+  xmlns:impl="urn:WSAuth"
+  xmlns:types="urn:WSAuth"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+ <wsdl:types>
+  <xsd:schema elementFormDefault="qualified"
+	      targetNamespace="urn:WSAuth">
+
+
+  <xsd:annotation>
+    <xsd:appinfo>
+      <fabric:fabric xmlns:fabric="http://www.coalesenses.com/fabric/v2" >
+        <fabric:Domain name="FabricDomainSerializer">
+          <fabric:Aspect name="plain" />
+        </fabric:Domain>
+      </fabric:fabric>
+    </xsd:appinfo>
+  </xsd:annotation>
+
+  </xsd:schema>
+ </wsdl:types>
+
+
+
+
+
+   <wsdl:message name="getPosixUserlistRequest">
+      <wsdl:part name="parameters"
+      			 type="xsd:int"/>
+   </wsdl:message>
+   <wsdl:message name="getPosixUserlistResponse">
+      <wsdl:part name="parameters"
+      			 type="xsd:int"/>
+   </wsdl:message>
+
+   <wsdl:message name="getPosixUserByUidRequest">
+      <wsdl:part name="parameters"
+      			 type="xsd:string"/>
+   </wsdl:message>
+   <wsdl:message name="getPosixUserByUidResponse">
+      <wsdl:part name="parameters" 
+      			 type="xsd:double"/>
+   </wsdl:message>
+
+
+
+
+   <wsdl:portType name="WSAuthPortType">
+
+      <wsdl:operation name="getPosixUserlist">
+         <wsdl:input message="impl:getPosixUserlistRequest"/>
+         <wsdl:output message="impl:getPosixUserlistResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="getPosixUserByUid">
+         <wsdl:input message="impl:getPosixUserByUidRequest"/>
+         <wsdl:output message="impl:getPosixUserByUidResponse"/>
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+
+
+
+   <wsdl:binding name="WSAuthSoapBinding" type="impl:WSAuthPortType">
+
+      <soap:binding style="document"
+      				transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getPosixUserlist">
+         <soap:operation soapAction="urn:WSAuth"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getPosixUserByUid">
+         <soap:operation soapAction="urn:WSAuth"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+
+
+
+
+   <wsdl:service name="WSAuthService">
+
+      <wsdl:port binding="impl:WSAuthSoapBinding" name="WSAuthPort">
+         <soap:address
+              location="http://localhost:8080/axis2/services/WSAuth"/>
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

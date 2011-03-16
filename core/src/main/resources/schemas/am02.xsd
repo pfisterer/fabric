@@ -1,0 +1,26 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:am="http://webservices.amazon.com/AWSECommerceService/2005-10-05" xmlns:tns="http://webservices.amazon.com/AWSECommerceService/2005-10-05" xmlns:fabric="http://www.coalesenses.com/fabric/v2" targetNamespace="http://webservices.amazon.com/AWSECommerceService/2005-10-05" elementFormDefault="qualified" attributeFormDefault="qualified">
+
+  <xs:annotation>
+    <xs:appinfo>
+      <fabric:fabric>
+        <fabric:Domain name="FabricDomainTypeGenerator">
+          <fabric:Aspect name="binary" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainSerializer">
+          <fabric:Aspect name="compact" />
+        </fabric:Domain>
+      </fabric:fabric>
+    </xs:appinfo>
+  </xs:annotation>
+
+  <xs:complexType name="StringWithUnits">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="Units" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:element name="FirstIssueLeadTime" type="tns:StringWithUnits" />
+
+</xs:schema>

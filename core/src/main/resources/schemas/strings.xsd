@@ -1,0 +1,27 @@
+<!--
+    Schema test file for testing simple types.
+-->
+
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fabric="http://www.coalesenses.com/fabric/v2" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <!-- string as built-in type -->
+  <xs:element name="String01" type="xs:string">
+  </xs:element>
+
+  <!-- string as restriction without actually defining any restrictions -->
+  <xs:element name="String02">
+    <xs:simpleType>
+      <xs:restriction base="xs:string" />
+    </xs:simpleType>
+  </xs:element>
+
+  <!-- string restricted with xs:length -->
+  <xs:element name="String03">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:length value="50" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+
+</xs:schema>

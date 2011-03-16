@@ -1,0 +1,128 @@
+<!--
+    Schema test file for testing optional and array types.
+-->
+
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fabric="http://www.coalesenses.com/fabric/v2" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <xs:annotation>
+    <xs:appinfo>
+      <fabric:fabric>
+        <fabric:Domain name="FabricDomainSerializer">
+          <fabric:Aspect name="plain" />
+        </fabric:Domain>
+      </fabric:fabric>
+    </xs:appinfo>
+  </xs:annotation>
+
+  <xs:element name="ElemArray01">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="elem01" type="xs:int" minOccurs="1" maxOccurs="1" />
+        <xs:element name="elem02" type="xs:int" minOccurs="0" maxOccurs="1" />
+        <xs:element name="elem03" type="xs:int" minOccurs="0" />
+        <xs:element name="elem04" type="xs:int" maxOccurs="2" />
+        <xs:element name="elem05" type="xs:int" minOccurs="10" maxOccurs="10" />
+        <xs:element name="elem06" type="xs:int" minOccurs="10" maxOccurs="12" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="ST01">
+    <xs:restriction base="xs:string">
+      <xs:length value="16" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="CT01">
+    <xs:sequence>
+      <xs:element name="elem_st01" type="itm:ST01" minOccurs="0" maxOccurs="1" />
+      <xs:element name="elem_st02" type="itm:ST01" minOccurs="3" maxOccurs="7" />
+      <xs:element name="elem_st03" type="itm:ST01" minOccurs="11" maxOccurs="17" />
+      <xs:element name="elem_st04" minOccurs="3" maxOccurs="11">
+        <xs:simpleType>
+          <xs:restriction base="xs:unsignedByte">
+            <xs:maxExclusive value="16" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="ElemArray02">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="elem_ct01" type="itm:CT01" minOccurs="0" maxOccurs="1" />
+        <xs:element name="elem_ct02" type="itm:CT01" minOccurs="7" maxOccurs="11" />
+        <xs:element name="elem_ct03" minOccurs="3" maxOccurs="13" >
+          <xs:complexType>
+            <xs:all>
+              <xs:element name="abc" type="xs:string" />
+              <xs:element name="xyz" type="xs:string" />
+            </xs:all>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ElemArray03">
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="one" minOccurs="0" maxOccurs="1" >
+          <xs:complexType>
+            <xs:all>
+              <xs:element name="two" type="xs:unsignedByte" minOccurs="0" maxOccurs="1" />
+            </xs:all>
+          </xs:complexType>
+        </xs:element>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ElemArray04">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="one" minOccurs="1" maxOccurs="2" >
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="two" type="xs:unsignedByte" minOccurs="1" maxOccurs="2" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ElemArray05">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="three" minOccurs="3" maxOccurs="5">
+          <xs:complexType>
+            <xs:choice>
+              <xs:element name="A" type="xs:unsignedByte" />
+              <xs:element name="B" type="xs:unsignedByte" />
+              <xs:element name="C" type="xs:unsignedByte" />
+            </xs:choice>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="CT02">
+    <xs:choice>
+      <xs:element name="A" type="xs:unsignedByte" />
+      <xs:element name="B" type="xs:unsignedByte" />
+      <xs:element name="C" type="xs:unsignedByte" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:element name="ElemArray06">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="two" type="itm:CT02" minOccurs="3" maxOccurs="5" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

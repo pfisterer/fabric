@@ -1,0 +1,33 @@
+    <s:schema    elementFormDefault="qualified" targetNamespace="http://xmlme.com/WebServices"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:s="http://www.w3.org/2001/XMLSchema">
+
+   <s:annotation>
+    <s:appinfo>
+      <fabric:fabric xmlns:fabric="http://www.coalesenses.com/fabric/v2" >
+<!--
+        <fabric:Domain name="FabricDomainDummySerializer">
+          <fabric:Aspect name="plain" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainDummyEncryptor">
+          <fabric:Aspect name="one" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainDummyPacketizer">
+          <fabric:Aspect name="one" />
+        </fabric:Domain>
+-->
+        <fabric:Domain name="FabricDomainSerializer">
+          <fabric:Aspect name="plain" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainSecurity">
+          <fabric:Aspect name="one" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainAPI">
+          <fabric:Aspect name="plain" />
+        </fabric:Domain>
+      </fabric:fabric>
+    </s:appinfo>
+  </s:annotation>
+
+      <s:element name="test" type="s:int" />
+
+</s:schema>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:IBANvalidation" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:IBANvalidation">
+<types>
+<xsd:schema targetNamespace="urn:IBANvalidation" >
+ <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+ <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+ <xsd:complexType name="validateIBANResult">
+  <xsd:all>
+   <xsd:element name="couldBeValidIBAN" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+</xsd:schema>
+</types>
+<message name="validateIBANRequest">
+  <part name="iban" type="xsd:string" />
+  <part name="key" type="xsd:string" /></message>
+<message name="validateIBANResponse">
+  <part name="return" type="tns:validateIBANResult" /></message>
+<portType name="IBANValidationPortType">
+  <operation name="validateIBAN">
+    <documentation>This Internet based utility performs basic validation of an IBAN. While it will not verify the account number it can quickly determine if an IBAN could be valid and identify the issuing country and the basic account number components.</documentation>
+    <input message="tns:validateIBANRequest"/>
+    <output message="tns:validateIBANResponse"/>
+  </operation>
+</portType>
+<binding name="IBANValidationBinding" type="tns:IBANValidationPortType">
+  <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="validateIBAN">
+    <soap:operation soapAction="urn:IBANValidation#validateIBAN" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:IBANValidation" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:IBANValidation" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+</binding>
+<service name="IBANValidation">
+  <port name="IBANValidationPort" binding="tns:IBANValidationBinding">
+    <soap:address location="http://ws.cabera-llc.com/IBANValidation/index.php"/>
+  </port>
+</service>
+</definitions>

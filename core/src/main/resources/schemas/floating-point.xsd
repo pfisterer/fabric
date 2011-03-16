@@ -1,0 +1,16 @@
+<!--
+    Schema test file for testing floating-point types.
+-->
+
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fabric="http://www.coalesenses.com/fabric/v2" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xs:element name="Real01">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="elem01" type="xs:float"/>
+                <xs:element name="elem02" type="xs:double"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

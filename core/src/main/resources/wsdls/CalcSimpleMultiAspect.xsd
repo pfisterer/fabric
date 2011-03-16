@@ -1,0 +1,78 @@
+  <schema elementFormDefault="qualified" targetNamespace="http://localhost/axis/Calculator"
+  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns="http://www.w3.org/2001/XMLSchema" 
+  xmlns:apachesoap="http://xml.apache.org/xml-soap" 
+  xmlns:impl="http://localhost/axis/Calculator" 
+  xmlns:intf="http://localhost/axis/Calculator" 
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+   <element name="add">
+
+  <xsd:annotation>
+    <xsd:appinfo>
+      <fabric:fabric xmlns:fabric="http://www.coalesenses.com/fabric/v2" >
+        <fabric:Domain name="FabricDomainSerializer">
+          <fabric:Aspect name="dummy2" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainSecurity">
+          <fabric:Aspect name="dummy2" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainAPI">
+          <fabric:Aspect name="plain" />
+        </fabric:Domain>
+<!--
+        <fabric:Domain name="FabricDomainDummyPacketizer">
+          <fabric:Aspect name="one" />
+        </fabric:Domain>
+-->
+      </fabric:fabric>
+    </xsd:appinfo>
+  </xsd:annotation>
+
+    <complexType>
+
+
+     <sequence>
+      <element name="arg_0_0" type="xsd:int"/>
+      <element name="arg_1_0" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   
+   <element name="addResponse">
+
+  <xsd:annotation>
+    <xsd:appinfo>
+      <fabric:fabric xmlns:fabric="http://www.coalesenses.com/fabric/v2" >
+        <fabric:Domain name="FabricDomainSerializer">
+          <fabric:Aspect name="dummy4" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainSecurity">
+          <fabric:Aspect name="dummy4" />
+          <fabric:Aspect name="dummy3" />
+          <fabric:Aspect name="dummy2" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainAPI">
+          <fabric:Aspect name="plain" />
+        </fabric:Domain>
+<!--
+        <fabric:Domain name="FabricDomainSecurity">
+          <fabric:Aspect name="dummy5" />
+        </fabric:Domain>
+        <fabric:Domain name="FabricDomainDummyPacketizer">
+          <fabric:Aspect name="one" />
+        </fabric:Domain>
+-->
+      </fabric:fabric>
+    </xsd:appinfo>
+  </xsd:annotation>
+
+
+    <complexType>
+     <sequence>
+      <element name="addReturn" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>

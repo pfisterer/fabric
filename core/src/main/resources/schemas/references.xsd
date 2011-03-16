@@ -1,0 +1,27 @@
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fabric="http://www.coalesenses.com/fabric/v2" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+<xs:element name="RefElem01">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="itm:RefElem02" minOccurs="0" />
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="RefElem02">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="itm:RefElem01" minOccurs="0" />
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="RefElem03">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="itm:RefElem03" minOccurs="0" />
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

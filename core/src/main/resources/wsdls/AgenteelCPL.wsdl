@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions name="AgenteelCodigoPostal" targetNamespace="urn:AgenteelCodigoPostal"
+  xmlns:typens="urn:AgenteelCodigoPostal" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+  <types>
+    <s:schema xmlns="http://www.w3.org/2001/XMLSchema" 
+      targetNamespace="urn:AgenteelCodigoPostal" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+      <s:complexType name="ResultElementArray">
+        <s:complexContent>
+          <s:restriction base="soapenc:Array">
+            <s:attribute ref="soapenc:arrayType" wsdl:arrayType="typens:CPResult[]"/>
+          </s:restriction>
+        </s:complexContent>
+      </s:complexType>
+
+      
+      <s:complexType name="AgenteelMessageResult">
+        <s:all>
+          <s:element name="hasMessage" type="s:int"/>  
+          <s:element name="MessageContent" type="s:string"/>
+        </s:all>
+      </s:complexType>
+      
+      
+      <s:complexType name ="AgenteelMessageQuery">
+        <s:all>
+          <s:element name="parametro" type="s:int"/>
+        </s:all>
+       </s:complexType>
+      
+      <s:complexType name="CPResult">
+        <s:all>
+          <s:element name="CodigoPostal" type="s:int"/>
+          <s:element name="Asentamiento" type="s:string"/>
+          <s:element name="TipoAsentamiento" type="s:string"/>
+          <s:element name="Municipio" type="s:string"/>
+          <s:element name="Estado" type="s:string"/>
+          <s:element name="Ciudad" type="s:string"/>
+          <s:element name="Lada" type="s:int"/>
+        </s:all>
+      </s:complexType>
+
+      <s:complexType name="CPQuery">
+        <s:all>
+          <s:element name="CodigoPostal" type="s:int"/>
+        </s:all>
+      </s:complexType>
+
+      <s:complexType name="AsentamientoQuery">
+        <s:all>
+          <s:element name="Asentamiento" type="s:string"/>
+        </s:all>
+      </s:complexType>
+      
+      <s:complexType name="MunicipioQuery">
+        <s:all>
+          <s:element name="Municipio" type="s:string"/>
+        </s:all>
+      </s:complexType>
+      
+
+     <s:complexType name="LadaQuery">
+        <s:all>
+          <s:element name="Lada" type="s:int"/>
+        </s:all>
+     </s:complexType>
+      
+      <s:complexType name="UserQuery">
+        <s:all>
+          <s:element name="User" type="s:string"/>
+          <s:element name="Password" type="s:string"/>
+        </s:all>
+     </s:complexType>
+      
+    </s:schema>
+  </types>
+
+  <message name="sendCodigoPostal">
+    <part name="codigo" type="typens:CPQuery"/>
+    <part name="user" type="typens:UserQuery"/>
+  </message>
+
+  <message name="sendAsentamiento">
+    <part name="elasentamiento" type="typens:AsentamientoQuery"/>
+    <part name="user" type="typens:UserQuery"/>
+  </message>
+  
+  <message name="sendMunicipio">
+    <part name="elasentamiento" type="typens:MunicipioQuery"/>
+    <part name="user" type="typens:UserQuery"/>
+  </message>
+ 
+ <message name="sendLada">
+    <part name="clavelada" type="typens:LadaQuery"/>
+    <part name="user" type="typens:UserQuery"/> 
+  </message>
+  
+  <message name="responseCodigoPostal">
+    <part name="lugar" type="typens:ResultElementArray"/>
+  </message>
+  
+ 
+  <message name="getAgenteelMessage">
+    <part name="foo" type="typens:AgenteelMessageQuery"/>
+  </message>
+  
+  <message name="responseAgenteelMessage">
+    <part name="mensaje" type="typens:AgenteelMessageResult"/>
+  </message>
+  
+  <portType name="AgenteelCodigoPostalPort">
+    
+    <operation name="getCodigoPostalFromNumber">
+      <input message="typens:sendCodigoPostal"/>
+      <output message="typens:responseCodigoPostal"/>
+    </operation>
+    
+    <operation name="getCodigoPostalFromAsentamiento">
+      <input message="typens:sendAsentamiento"/>
+      <output message="typens:responseCodigoPostal"/>
+    </operation>
+    
+   
+    <operation name="getCodigoPostalFromMunicipio">
+      <input message="typens:sendMunicipio"/>
+      <output message="typens:responseCodigoPostal"/>
+    </operation>
+    
+    
+    <operation name="getCodigoPostalFromLada">
+      <input message="typens:sendLada"/>
+      <output message="typens:responseCodigoPostal"/>
+    </operation>
+    
+    
+    <operation name="getMessageFromAgenteel">
+      <input message="typens:getAgenteelMessage"/>
+      <output message="typens:responseAgenteelMessage"/>
+    </operation>
+    
+  </portType>
+
+  <binding name="AgenteelCodigoPostalBinding" type="typens:AgenteelCodigoPostalPort">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+
+    <operation name="getCodigoPostalFromNumber">
+      <soap:operation soapAction="urn:AgenteelCodigoPostalAction"/>
+      <input>
+        <soap:body use="encoded" namespace="urn:AgenteelCodigoPostal"
+          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="urn:AgenteelCodigoPostal"
+          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+
+
+    <operation name="getCodigoPostalFromAsentamiento">
+      <soap:operation soapAction="urn:AgenteelCodigoPostalAction"/>
+      <input>
+        <soap:body use="encoded" namespace="urn:AgenteelCodigoPostal"
+          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="urn:AgenteelCodigoPostal"
+          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+    
+    <operation name="getCodigoPostalFromMunicipio">
+      <soap:operation soapAction="urn:AgenteelCodigoPostalAction"/>
+      <input>
+        <soap:body use="encoded" namespace="urn:AgenteelCodigoPostal"
+          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="urn:AgenteelCodigoPostal"
+          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+    
+    <operation name="getCodigoPostalFromLada">
+      <soap:operation soapAction="urn:AgenteelCodigoPostalAction"/>
+      <input>
+        <soap:body use="encoded" namespace="urn:AgenteelCodigoPostal"
+          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="urn:AgenteelCodigoPostal"
+          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+    
+    
+    
+    <operation name="getMessageFromAgenteel">
+      <soap:operation soapAction="urn:AgenteelCodigoPostalAction"/>
+      <input>
+        <soap:body use="encoded" namespace="urn:AgenteelCodigoPostal"
+          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="urn:AgenteelCodigoPostal"
+          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+
+  </binding>
+
+  <service name="AgenteelCodigoPostalService">
+    <port name="AgenteelCodigoPostalPort" binding="typens:AgenteelCodigoPostalBinding">
+      <soap:address location="https://agenteel.net/cgi-bin/codigopostallada"/>
+    </port>
+  </service>
+</definitions>

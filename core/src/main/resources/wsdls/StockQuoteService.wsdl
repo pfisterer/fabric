@@ -1,0 +1,103 @@
+
+
+<definitions targetNamespace="http://w3.ibm.com/schemas/services/2002/11/15/stockquote/wsdl"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:tns="http://w3.ibm.com/schemas/services/2002/11/15/stockquote/wsdl" 
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:types="http://w3.ibm.com/schemas/services/2002/11/15/stockquote">
+
+<types>
+<xsd:schema
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://w3.ibm.com/schemas/services/2002/11/15/stockquote"
+        xmlns="http://w3.ibm.com/schemas/services/2002/11/15/stockquote">
+
+  <xsd:annotation>
+    <xsd:appinfo>
+      <fabric:fabric xmlns:fabric="http://www.coalesenses.com/fabric/v2" >
+        <fabric:Domain name="FabricDomainSerializer">
+          <fabric:Aspect name="compact" />
+        </fabric:Domain>
+      </fabric:fabric>
+    </xsd:appinfo>
+  </xsd:annotation>
+
+
+    <xsd:complexType name="quote">
+        <xsd:sequence>
+            <xsd:element name="symbol" type="xsd:string"/>
+            <xsd:element name="volume" type="xsd:integer"/>
+            <xsd:element name="lastTrade" type="lastTradeType"/>
+            <xsd:element name="change" type="changeType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="changeType">
+        <xsd:sequence>
+            <xsd:element name="dollar" type="xsd:float"/>
+            <xsd:element name="percent" type="xsd:float"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="lastTradeType">
+        <xsd:sequence>
+            <xsd:element name="price" type="xsd:float"/>
+            <xsd:element name="date" type="xsd:long"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- Methods signatures -->
+    <xsd:element name="getStockQuote">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="symbol" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="getStockQuoteResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="returnQuote" type="quote"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
+</types>
+
+	<message name="getStockQuoteReq">
+		<part name="parameters" element="types:getStockQuote" />
+	</message>
+
+	<message name="getStockQuoteResp">
+		<part name="parameters" element="types:getStockQuoteResponse" />
+	</message>
+
+	<portType name="StockQuotePortType">
+		<operation name="getStockQuote">
+			<input message="tns:getStockQuoteReq" />
+			<output message="tns:getStockQuoteResp" />
+		</operation>
+	</portType>
+
+	<binding name="StockQuoteSOAPBinding" type="tns:StockQuotePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="getStockQuote">
+			<soap:operation style="document" soapAction="getStockQuote" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+
+	<service name="StockQuoteService">
+		<port name="StockQuoteSOAPPort" binding="tns:StockQuoteSOAPBinding">
+			<soap:address location="http://localhost:8080/axis2/services/StockQuoteService" />
+		</port>
+	</service>
+
+</definitions>

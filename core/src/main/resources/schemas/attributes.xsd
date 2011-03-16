@@ -1,0 +1,18 @@
+<!--
+    Schema test file for testing attributes.
+-->
+
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fabric="http://www.coalesenses.com/fabric/v2" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <xs:element name="AttrElem">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="abc" type="xs:string" minOccurs="0" maxOccurs="17" />
+        <xs:element name="def" type="xs:string" />
+      </xs:choice>
+      <xs:attribute name="type" type="xs:string" use="required" />
+      <xs:attribute name="version" type="xs:int" />
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
