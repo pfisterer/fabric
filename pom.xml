@@ -222,6 +222,15 @@
 
 	</repositories>
 
+    <pluginRepositories>
+
+	    <pluginRepository>
+		    <id>itm-maven-plugin-repository-releases</id>
+			<url>http://www.itm.uni-luebeck.de/projects/maven/releases/</url>
+		</pluginRepository>
+
+	</pluginRepositories>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
