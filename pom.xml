@@ -78,7 +78,7 @@
 			<dependency>
 				<groupId>de.uniluebeck.itm</groupId>
 				<artifactId>tr.util</artifactId>
-				<version>0.5.6-SNAPSHOT</version>
+				<version>0.6</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.guava</groupId>
