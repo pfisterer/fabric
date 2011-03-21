@@ -21,11 +21,8 @@
 		<module>module/api/</module>
 		<module>module/dot/</module>
 		<module>module/protobuf/</module>
-			<module>module/microfibre/</module>
-		<!-- 
-			<module>module/macrofibre/</module> 
-			<module>module/xml/</module> 
-		-->
+
+		<!-- <module>module/microfibre/</module> <module>module/macrofibre/</module> <module>module/xml/</module> -->
 	</modules>
 
 	<dependencyManagement>
@@ -107,8 +104,29 @@
 		</dependencies>
 	</dependencyManagement>
 
-
 	<build>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>2.6</version>
+					<dependencies>
+						<dependency>
+							<groupId>de.uniluebeck.itm</groupId>
+							<artifactId>itm-build-tools</artifactId>
+							<version>1.0</version>
+						</dependency>
+					</dependencies>
+					<configuration>
+						<configLocation>itm_checks.xml</configLocation>
+						<enableRulesSummary>false</enableRulesSummary>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
 
 			<plugin>
@@ -132,6 +150,16 @@
 
 		</plugins>
 	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.6</version>
+			</plugin>
+		</plugins>
+	</reporting>
 
 	<repositories>
 
