@@ -139,6 +139,7 @@
 				</configuration>
 			</plugin>
 
+			<!-- mvn license:check / mvn license:format -->
 			<plugin>
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<version>1.9.0</version>
@@ -222,10 +223,10 @@
 
 	</repositories>
 
-    <pluginRepositories>
+	<pluginRepositories>
 
-	    <pluginRepository>
-		    <id>itm-maven-plugin-repository-releases</id>
+		<pluginRepository>
+			<id>itm-maven-plugin-repository-releases</id>
 			<url>http://www.itm.uni-luebeck.de/projects/maven/releases/</url>
 		</pluginRepository>
 

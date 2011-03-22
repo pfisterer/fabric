@@ -23,7 +23,6 @@ import fabric.module.api.ModuleFactoryRegistry;
 import fabric.module.dot.DotModuleFactory;
 import fabric.module.protobuf.ProtobufModuleFactory;
 import fabric.wsdlschemaparser.schema.FSchema;
-import fabric.wsdlschemaparser.wsdl.FWSDL;
 
 public class Main {
 	private static final org.slf4j.Logger log = LoggerFactory.getLogger(Main.class);
@@ -116,7 +115,7 @@ public class Main {
 		}
 
 		if (wsdlFile != null) {
-			FWSDL wsdl = new FWSDL(wsdlFile);
+			//FWSDL wsdl = new FWSDL(wsdlFile);
 		} else if (schemaFile != null) {
 			FSchema schema = new FSchema(schemaFile);
 			System.out.println(schema.toString());
