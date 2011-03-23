@@ -30,7 +30,7 @@ public class Main {
 	private static Properties defaultProperties = new Properties();
 
 	static {
-		// Todo: set default properties
+		// TODO set default properties
 		// defaultProperties.put()
 	}
 
