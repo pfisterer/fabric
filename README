@@ -58,8 +58,16 @@ Dennis Pfisterer (fabric__A_T__farberg__de).
 ----------------------------------------
 INSTALLATION / BUILDING
 ----------------------------------------
-No installation is required. To build fabric, you need Java 6 and 
-Maven (http://maven.apache.org/). 
+No installation is required. To build fabric, you need Java 6 or higher
+ and Maven 2 or higher (http://maven.apache.org/). 
+
+Before cloning this repository, be sure to enable automatic
+conversion of CRLF/LF on your machine using "git config 
+--global core.autocrlf input". For more information, please 
+refer to http://help.github.com/dealing-with-lineendings/
+
+Clone the repository using 
+"git clone git://github.com/pfisterer/fabric.git"
 
 To build, run "mvn install", this will build fabric and place the 
 generated jar file in target/ and in your local Maven repository.  
