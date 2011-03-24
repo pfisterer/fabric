@@ -4,6 +4,7 @@
 package fabric.module.api;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -12,7 +13,7 @@ import java.util.Map.Entry;
  * 
  * @author Marco Wegner
  */
-public final class ModuleRegistry {
+public final class ModuleRegistry implements Iterable<FabricModule> {
 
     /**
      * This instance holds the registered Fabric modules mapped to their
@@ -47,6 +48,21 @@ public final class ModuleRegistry {
         this.modules.put(moduleName, m);
     }
 
+    /**
+     * Returns the module which has the specified name.
+     * 
+     * @param name The module name to be queried.
+     * @return The module.
+     * @throws Exception If there is no module registered with the specified
+     *         name.
+     */
+    public FabricModule get(String name) throws Exception {
+        if (!this.modules.containsKey(name)) {
+            throw new Exception(String.format("no module regsitered with name '%s'", name));
+        }
+        return this.modules.get(name);
+    }
+
     @Override
     public String toString( ) {
         final StringBuilder sb = new StringBuilder( );
@@ -56,5 +72,10 @@ public final class ModuleRegistry {
             sb.append(String.format("Module[%s]: %s\\n", m.getName( ), m.getDescription( )));
         }
         return sb.toString( );
+    }
+
+    @Override
+    public Iterator<FabricModule> iterator( ) {
+        return this.modules.values( ).iterator( );
     }
 }

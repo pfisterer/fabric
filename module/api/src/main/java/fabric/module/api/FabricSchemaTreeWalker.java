@@ -218,7 +218,7 @@ public final class FabricSchemaTreeWalker {
     private void handleComplexContent(FComplexType parent) throws Exception {
         for (final FSchemaObject o : parent.getChildObjects( )) {
             if (o instanceof FElement) {
-                handleElement((FElement)o, null);
+                handleElement((FElement)o, parent);
             } else if (o instanceof FComplexType) {
                 // TODO fix parent
                 handleComplexType((FComplexType)o, null);

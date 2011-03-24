@@ -2,9 +2,8 @@ package fabric;
 
 import java.io.File;
 import java.io.FileReader;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.apache.commons.cli.CommandLine;
@@ -18,24 +17,21 @@ import org.slf4j.LoggerFactory;
 
 import de.uniluebeck.itm.tr.util.Logging;
 import de.uniluebeck.sourcegen.Workspace;
-import fabric.module.api.Module;
-import fabric.module.api.ModuleFactoryRegistry;
-import fabric.module.dot.DotModuleFactory;
-import fabric.module.protobuf.ProtobufModuleFactory;
+import fabric.module.api.FabricModule;
+import fabric.module.api.FabricSchemaTreeItemHandler;
+import fabric.module.api.FabricSchemaTreeWalker;
+import fabric.module.api.ModuleRegistry;
+import fabric.module.dot.FabricDotGraphModule;
 import fabric.wsdlschemaparser.schema.FSchema;
 
 public class Main {
 	private static final org.slf4j.Logger log = LoggerFactory.getLogger(Main.class);
 
-	private static Properties defaultProperties = new Properties();
-
 	static {
-		// TODO set default properties
-		// defaultProperties.put()
+		Logging.setLoggingDefaults();
 	}
 
 	public static void main(String[] args) throws Exception {
-		Logging.setLoggingDefaults();
 
 		// create the command line parser
 		CommandLineParser parser = new PosixParser();
@@ -52,13 +48,15 @@ public class Main {
 		File schemaFile = null;
 		Workspace workspace = null;
 
-		List<Module> modulesToExecute = new LinkedList<Module>();
-		Properties properties = new Properties(defaultProperties);
+		final ModuleRegistry registry = new ModuleRegistry();
+		registry.register(new FabricDotGraphModule());
 
-		// Register all known module factories
-		ModuleFactoryRegistry moduleFactoryRegistry = new ModuleFactoryRegistry();
-		moduleFactoryRegistry.register(new DotModuleFactory());
-		moduleFactoryRegistry.register(new ProtobufModuleFactory());
+		final Properties properties = new Properties();
+		for (FabricModule m : registry) {
+			properties.putAll(m.getDefaultProperties());
+		}
+
+		final List<FabricSchemaTreeItemHandler> treeItemHandlers = new ArrayList<FabricSchemaTreeItemHandler>();
 
 		// Parse the command line
 		try {
@@ -73,11 +71,8 @@ public class Main {
 
 			// Output help and exit
 			if (line.hasOption('h')) {
-				usage(options, moduleFactoryRegistry);
-			}
-			// Output help and exit
-			if (line.hasOption('h')) {
-				usage(options, moduleFactoryRegistry);
+				usage(options, registry);
+				System.exit(0);
 			}
 
 			// Load properties from file
@@ -91,11 +86,11 @@ public class Main {
 
 			// Create module instances
 			if (line.hasOption('m')) {
-
 				for (String moduleName : line.getOptionValue('m').split(",")) {
 					moduleName = moduleName.trim();
 					log.debug("Creating instance of module {}", moduleName);
-					modulesToExecute.add(moduleFactoryRegistry.create(moduleName, properties, workspace));
+					treeItemHandlers.add(registry.get(moduleName).getHandler(
+							workspace, properties));
 				}
 			}
 
@@ -111,7 +106,8 @@ public class Main {
 
 		} catch (Exception e) {
 			log.error("Invalid command line: " + e, e);
-			usage(options, moduleFactoryRegistry);
+			usage(options, registry);
+			System.exit(1);
 		}
 
 		if (wsdlFile != null) {
@@ -120,11 +116,10 @@ public class Main {
 			FSchema schema = new FSchema(schemaFile);
 			System.out.println(schema.toString());
 
-			for (Module module : modulesToExecute)
-				module.handle(workspace, schema);
-
-			for (Module module : modulesToExecute)
-				module.done();
+			FabricSchemaTreeWalker tw = new FabricSchemaTreeWalker();
+			for (FabricSchemaTreeItemHandler h : treeItemHandlers) {
+				tw.walk(schema, h);
+			}
 
 			workspace.generate();
 
@@ -132,17 +127,9 @@ public class Main {
 
 	}
 
-	private static void usage(Options options, ModuleFactoryRegistry moduleFactoryRegistry) {
+	private static void usage(Options options, ModuleRegistry registry) {
 		HelpFormatter formatter = new HelpFormatter();
 		formatter.printHelp(120, Main.class.getCanonicalName(), null, options, null);
-
-		System.out.println();
-		System.out.println("-----------------------------");
-		System.out.println("Available modules: ");
-		System.out.println("-----------------------------");
-		for (Entry<String, String> nameAndDescription : moduleFactoryRegistry.getNameAndDescriptions().entrySet())
-			System.out.println("Module[" + nameAndDescription.getKey() + "]: " + nameAndDescription.getValue());
-
-		System.exit(1);
+		System.out.println(registry.toString());
 	}
 }
