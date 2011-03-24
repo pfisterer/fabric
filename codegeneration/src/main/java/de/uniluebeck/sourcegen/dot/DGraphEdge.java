@@ -112,7 +112,7 @@ public class DGraphEdge extends DGraphElement {
             sb.append(this.lineStyle);
         }
         final String s = sb.length( ) > 0 ? String.format(" [ %s ]", sb.toString( )) : "";
-        addLine(buffer, tabCount, String.format("%s -> %s%s;", getSourceNode( ).getIdentifier( ),
-                getTargetNode( ).getIdentifier( ), s));
+        addLine(buffer, tabCount, String.format("%s -> %s%s;", getSourceNode( ).getStringID( ),
+                getTargetNode( ).getStringID( ), s));
     }
 }

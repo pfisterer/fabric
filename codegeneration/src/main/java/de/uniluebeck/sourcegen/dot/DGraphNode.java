@@ -13,7 +13,7 @@ public class DGraphNode extends DGraphElement {
     /**
      * The node's identifier. This identifier must be unique within a graph.
      */
-    private final String id;
+    private final int id;
 
     /**
      * This node's label.
@@ -35,7 +35,7 @@ public class DGraphNode extends DGraphElement {
      * 
      * @param id The new node's identifier.
      */
-    public DGraphNode(String id) {
+    public DGraphNode(int id) {
         this.id = id;
     }
 
@@ -44,7 +44,7 @@ public class DGraphNode extends DGraphElement {
      * 
      * @return The node identifier.
      */
-    public String getIdentifier( ) {
+    public int getIdentifier( ) {
         return this.id;
     }
 
@@ -84,6 +84,16 @@ public class DGraphNode extends DGraphElement {
         return this.nodeStyle;
     }
 
+    /**
+     * Helper method that from a node identifier creates a string ID to be used
+     * in as dot graph node identifier.
+     * 
+     * @return The string ID.
+     */
+    public String getStringID( ) {
+        return String.format("ITEM%08d", getIdentifier( ));
+    }
+
     @Override
     public void toString(StringBuffer buffer, int tabCount) {
         final StringBuilder sb = new StringBuilder( );
@@ -97,6 +107,6 @@ public class DGraphNode extends DGraphElement {
             sb.append(this.nodeStyle);
         }
         final String s = sb.length( ) > 0 ? String.format(" [ %s ]", sb.toString( )) : "";
-        addLine(buffer, tabCount, String.format("%s%s;", getIdentifier( ), s));
+        addLine(buffer, tabCount, String.format("%s%s;", getStringID( ), s));
     }
 }
