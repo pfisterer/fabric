@@ -161,10 +161,10 @@ public final class FabricSchemaTreeWalker {
         final String typeName = type.getName( );
 
         if (type.isTopLevel( )) {
-            handler.startTopLevelSimpleType(type);
+            handler.startTopLevelSimpleType(type, parent);
             log.debug("Start handling top-level simple type '{}'", typeName);
             handleSimpleTypeContent( );
-            handler.endTopLevelSimpleType(type);
+            handler.endTopLevelSimpleType(type, parent);
             log.debug("Done handling top-level simple type '{}'", typeName);
         } else {
             handler.startLocalSimpleType(type, parent);

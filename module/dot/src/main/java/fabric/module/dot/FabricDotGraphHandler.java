@@ -56,6 +56,12 @@ public class FabricDotGraphHandler extends FabricDefaultHandler {
     private String localComplexTypeAttributes;
 
     /**
+     * The Graphviz dot attributes used edges which signify that a top-level
+     * type has been referenced.
+     */
+    private String edgeTopLevelTypeReference;
+
+    /**
      * 
      */
     private final DGraphFile graphSource;
@@ -67,6 +73,7 @@ public class FabricDotGraphHandler extends FabricDefaultHandler {
         this.localSimpleTypeAttributes = DotGraphConstants.DEFAULT_LOCAL_SIMPLE_TYPE_ATTRIBUTES;
         this.topLevelComplexTypeAttributes = DotGraphConstants.DEFAULT_TOP_LEVEL_COMPLEX_TYPE_ATTRIBUTES;
         this.localComplexTypeAttributes = DotGraphConstants.DEFAULT_LOCAL_COMPLEX_TYPE_ATTRIBUTES;
+        this.edgeTopLevelTypeReference = DotGraphConstants.DEFAULT_EDGE_TOP_LEVEL_TYPE;
     }
 
     /**
@@ -157,19 +164,25 @@ public class FabricDotGraphHandler extends FabricDefaultHandler {
 
     @Override
     public void startLocalElement(FElement element, FComplexType parent) throws Exception {
-        createGraphEdge(createGraphNode(element.getID( ), element.getName( ),
-                this.localElementAttributes), parent, null);
+        createGraphEdge(
+                createGraphNode(element.getID( ), element.getName( ), this.localElementAttributes),
+                parent, null);
     }
 
     @Override
-    public void startTopLevelSimpleType(FSimpleType type) throws Exception {
-        createGraphNode(type.getID( ), type.getName( ), this.topLevelSimpleTypeAttributes);
+    public void startTopLevelSimpleType(FSimpleType type, FElement parent) throws Exception {
+        final DGraphNode node = createGraphNode(type.getID( ), type.getName( ),
+                this.topLevelSimpleTypeAttributes);
+        if (parent != null) {
+            createGraphEdge(node, parent, this.edgeTopLevelTypeReference);
+        }
     }
 
     @Override
     public void startLocalSimpleType(FSimpleType type, FElement parent) throws Exception {
-        createGraphEdge(createGraphNode(type.getID( ), type.getName( ),
-                this.localSimpleTypeAttributes), parent, null);
+        createGraphEdge(
+                createGraphNode(type.getID( ), type.getName( ), this.localSimpleTypeAttributes),
+                parent, null);
     }
 
     @Override
@@ -179,8 +192,9 @@ public class FabricDotGraphHandler extends FabricDefaultHandler {
 
     @Override
     public void startLocalComplexType(FComplexType type, FElement parent) throws Exception {
-        createGraphEdge(createGraphNode(type.getID( ), type.getName( ),
-                this.localComplexTypeAttributes), parent, null);
+        createGraphEdge(
+                createGraphNode(type.getID( ), type.getName( ), this.localComplexTypeAttributes),
+                parent, null);
     }
 
     /**
@@ -195,10 +209,13 @@ public class FabricDotGraphHandler extends FabricDefaultHandler {
      *         data.
      */
     private DGraphNode createGraphNode(int id, String label, String attributes) throws IOException {
-        final DGraphNode node = new DGraphNode(id);
-        node.setLabel(label);
-        node.setNodeStyle(attributes);
-        this.graphSource.add(node);
+        DGraphNode node = this.graphSource.getNodeByID(id);
+        if (node == null) {
+            node = new DGraphNode(id);
+            node.setLabel(label);
+            node.setNodeStyle(attributes);
+            this.graphSource.add(node);
+        }
         return node;
     }
 

@@ -65,12 +65,12 @@ public class FabricDefaultHandler implements FabricSchemaTreeItemHandler {
     }
 
     @Override
-    public void startTopLevelSimpleType(FSimpleType type) throws Exception {
+    public void startTopLevelSimpleType(FSimpleType type, FElement parent) throws Exception {
         // doesn't do anything
     }
 
     @Override
-    public void endTopLevelSimpleType(FSimpleType type) {
+    public void endTopLevelSimpleType(FSimpleType type, FElement parent) {
         // doesn't do anything
     }
 

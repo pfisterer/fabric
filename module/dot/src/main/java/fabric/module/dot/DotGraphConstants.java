@@ -34,5 +34,10 @@ public final class DotGraphConstants {
      * The default attributes for local-complex-type nodes.
      */
     public static final String DEFAULT_LOCAL_COMPLEX_TYPE_ATTRIBUTES = "shape = box";
+    /**
+     * The default attribute for edges which signify references to top-level
+     * types.
+     */
+    public static final String DEFAULT_EDGE_TOP_LEVEL_TYPE = "style = dashed";
 
 }
