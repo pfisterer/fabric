@@ -5,6 +5,7 @@ package fabric.module.dot;
 
 import java.util.Properties;
 
+import de.uniluebeck.sourcegen.Workspace;
 import fabric.module.api.FabricModule;
 import fabric.module.api.FabricSchemaTreeItemHandler;
 
@@ -46,7 +47,8 @@ public class FabricDotGraphModule implements FabricModule {
     }
 
     @Override
-    public FabricSchemaTreeItemHandler getHandler(Properties p) throws Exception {
-        return new FabricDotGraphHandler(p.getProperty(KEY_DOT_OUTFILE));
+    public FabricSchemaTreeItemHandler getHandler(Workspace workspace, Properties properties)
+            throws Exception {
+        return new FabricDotGraphHandler(workspace, properties);
     }
 }

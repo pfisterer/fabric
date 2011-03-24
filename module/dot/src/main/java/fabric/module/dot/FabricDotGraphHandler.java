@@ -3,17 +3,17 @@
  */
 package fabric.module.dot;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
+import java.util.Properties;
 
+import de.uniluebeck.sourcegen.Workspace;
+import de.uniluebeck.sourcegen.dot.DGraphEdge;
+import de.uniluebeck.sourcegen.dot.DGraphFile;
+import de.uniluebeck.sourcegen.dot.DGraphNode;
 import fabric.module.api.FabricDefaultHandler;
 import fabric.wsdlschemaparser.schema.FComplexType;
 import fabric.wsdlschemaparser.schema.FElement;
-import fabric.wsdlschemaparser.schema.FSchema;
+import fabric.wsdlschemaparser.schema.FSchemaObject;
 import fabric.wsdlschemaparser.schema.FSimpleType;
 
 /**
@@ -24,11 +24,6 @@ import fabric.wsdlschemaparser.schema.FSimpleType;
  * @see <a href="http://www.graphviz.org">Graphviz Dot Homepage</a>
  */
 public class FabricDotGraphHandler extends FabricDefaultHandler {
-
-    /**
-     * The output writer used for creating the dot file.
-     */
-    private final BufferedWriter writer;
 
     /**
      * The Graphviz dot attributes used for top-level-element nodes.
@@ -60,6 +55,11 @@ public class FabricDotGraphHandler extends FabricDefaultHandler {
      */
     private String localComplexTypeAttributes;
 
+    /**
+     * 
+     */
+    private final DGraphFile graphSource;
+
     {
         this.topLevelElementAttributes = DotGraphConstants.DEFAULT_TOP_LEVEL_ELEMENT_ATTRIBUTES;
         this.localElementAttributes = DotGraphConstants.DEFAULT_LOCAL_ELEMENT_ATTRIBUTES;
@@ -70,33 +70,14 @@ public class FabricDotGraphHandler extends FabricDefaultHandler {
     }
 
     /**
-     * Constructs a new handler class for Graphviz dot graph files.
+     * Constructs a new handler for dot graph generation.
      * 
-     * @param outputPath The resulting dot file's path name. The path name may
-     *        be <code>null</code> - in that case the output is written to
-     *        {@link System#out}.
-     * @throws Exception If an error occurs during output file creation.
+     * @param workspace The workspace where the graph source file resides.
+     * @param properties The properties used to customise this handler.
      */
-    public FabricDotGraphHandler(String outputPath) throws Exception {
-        this(outputPath == null ? null : new File(outputPath));
-    }
-
-    /**
-     * Constructs a new handler class for Graphviz dot graph files.
-     * 
-     * @param outputFile The resulting dot file's abstract file path. The path
-     *        may be <code>null</code> - in that case the output is written to
-     *        {@link System#out}.
-     * @throws Exception If an error occurs during output file creation.
-     */
-    public FabricDotGraphHandler(File outputFile) throws Exception {
-        Writer w;
-        if (outputFile == null) {
-            w = new PrintWriter(System.out);
-        } else {
-            w = new FileWriter(outputFile);
-        }
-        this.writer = new BufferedWriter(w);
+    public FabricDotGraphHandler(Workspace workspace, Properties properties) {
+        this.graphSource = workspace.getDotHelper( ).getDefaultSourceFile( );
+        // TODO use the properties to customise the styles
     }
 
     /**
@@ -113,6 +94,7 @@ public class FabricDotGraphHandler extends FabricDefaultHandler {
      * </p>
      * 
      * @param attributes The new attributes.
+     * @see <a href="http://www.graphviz.org">Graphviz Dot Homepage</a>
      */
     public void setTopLevelElementAttributes(String attributes) {
         this.topLevelElementAttributes = attributes;
@@ -169,86 +151,77 @@ public class FabricDotGraphHandler extends FabricDefaultHandler {
     }
 
     @Override
-    public void startSchema(FSchema schema) throws Exception {
-        writeLine("digraph G {");
-    }
-
-    @Override
-    public void endSchema(FSchema schema) throws Exception {
-        writeLine("}");
-        this.writer.flush( );
-        this.writer.close( );
-    }
-
-    @Override
     public void startTopLevelElement(FElement element) throws Exception {
-        createGraphNode(element.getName( ), this.topLevelElementAttributes);
+        createGraphNode(element.getID( ), element.getName( ), this.topLevelElementAttributes);
     }
 
     @Override
-    public void startLocalElement(FElement element) throws Exception {
-        createGraphNode(element.getName( ), this.localElementAttributes);
+    public void startLocalElement(FElement element, FComplexType parent) throws Exception {
+        createGraphEdge(createGraphNode(element.getID( ), element.getName( ),
+                this.localElementAttributes), parent, null);
     }
 
     @Override
     public void startTopLevelSimpleType(FSimpleType type) throws Exception {
-        createGraphNode(type.getName( ), this.topLevelSimpleTypeAttributes);
+        createGraphNode(type.getID( ), type.getName( ), this.topLevelSimpleTypeAttributes);
     }
 
     @Override
-    public void startLocalSimpleType(FSimpleType type) throws Exception {
-        createGraphNode(type.getName( ), this.localSimpleTypeAttributes);
+    public void startLocalSimpleType(FSimpleType type, FElement parent) throws Exception {
+        createGraphEdge(createGraphNode(type.getID( ), type.getName( ),
+                this.localSimpleTypeAttributes), parent, null);
     }
 
     @Override
     public void startTopLevelComplexType(FComplexType type) throws Exception {
-        createGraphNode(type.getName( ), this.topLevelComplexTypeAttributes);
+        createGraphNode(type.getID( ), type.getName( ), this.topLevelComplexTypeAttributes);
     }
 
     @Override
-    public void startLocalComplexType(FComplexType type) throws Exception {
-        createGraphNode(type.getName( ), this.localComplexTypeAttributes);
+    public void startLocalComplexType(FComplexType type, FElement parent) throws Exception {
+        createGraphEdge(createGraphNode(type.getID( ), type.getName( ),
+                this.localComplexTypeAttributes), parent, null);
     }
 
     /**
-     * Creates and writes a single node. This can be either an element or a
-     * type.
+     * Creates and returns a single node. This node represents either an element
+     * or a type. The newly created node is also added to the graph source file.
      * 
-     * @param caption The node's caption.
+     * @param id The new node's ID.
+     * @param label The node's label.
      * @param attributes The node's attributes as comma-separated list.
+     * @return The newly created graph node.
      * @throws IOException If an error occurs while trying to write the node
      *         data.
      */
-    private void createGraphNode(String caption, String attributes) throws IOException {
-        writeLine(String.format("%s [%s];", caption, attributes));
+    private DGraphNode createGraphNode(int id, String label, String attributes) throws IOException {
+        final DGraphNode node = new DGraphNode(id);
+        node.setLabel(label);
+        node.setNodeStyle(attributes);
+        this.graphSource.add(node);
+        return node;
     }
 
     /**
-     * Creates and writes an edge. Edges are transitions and can occur from
-     * elements to types, from types to types and from types to elements.
+     * Creates and returns an edge. The edge is also added to the graph source
+     * file.
      * 
-     * @param source The edge's source.
-     * @param destination The edge's destination.
+     * @param node The target node.
+     * @param parent The parent object. The object's ID is used to retrieve the
+     *        corresponding node which will function as the edge's source node.
      * @param attributes The edge's attributes as comma-separated list.
+     * @return The newly created graph edge.
      * @throws IOException If an error occurs while trying to write the node
      *         data.
      */
-    private void createGraphEdge(String source, String destination, String attributes)
+    private DGraphEdge createGraphEdge(DGraphNode node, FSchemaObject parent, String attributes)
             throws IOException {
-        writeLine(String.format("%s -> %s [%s]", source, destination, attributes));
-    }
-
-    /**
-     * Writes a single line to the writer instance.
-     * 
-     * @param line The line to be written. The newline character should be
-     *        omitted from this string, since it is automatically added by this
-     *        method.
-     * @throws IOException If an I/O error occurs while trying to write the line
-     *         to the writer.
-     */
-    private void writeLine(String line) throws IOException {
-        this.writer.write(line);
-        this.writer.newLine( );
+        // retrieve the parent object's node
+        final DGraphNode parentNode = this.graphSource.getNodeByID(parent.getID( ));
+        // create the edge between the two nodes
+        final DGraphEdge edge = new DGraphEdge(parentNode, node);
+        edge.setLineStyle(attributes);
+        this.graphSource.add(edge);
+        return edge;
     }
 }

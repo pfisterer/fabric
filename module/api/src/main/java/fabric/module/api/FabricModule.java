@@ -5,6 +5,8 @@ package fabric.module.api;
 
 import java.util.Properties;
 
+import de.uniluebeck.sourcegen.Workspace;
+
 /**
  * <p>
  * Basic module interface in Fabric.
@@ -42,11 +44,12 @@ public interface FabricModule {
     /**
      * Creates and returns the handler for this module. That handler is used
      * when walking a Schema object tree.
-     * 
+     * @param workspace TODO
      * @param properties The properties used to set up the handler.
+     * 
      * @return The Schema tree item handler.
      * @throws Exception If an error occurs.
      */
-    public abstract FabricSchemaTreeItemHandler getHandler(Properties properties) throws Exception;
+    public abstract FabricSchemaTreeItemHandler getHandler(Workspace workspace, Properties properties) throws Exception;
 
 }
