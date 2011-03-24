@@ -167,7 +167,9 @@ public class Workspace {
 			return sourceFile.getFileName() + ".c";
 		if (sourceFile instanceof CppHeaderFile)
 			return sourceFile.getFileName() + ".hpp";
-		return sourceFile.getFileName() + ".cpp";
+        if (sourceFile instanceof CppSourceFile)
+            return sourceFile.getFileName( ) + ".cpp";
+        return sourceFile.getFileName( );
 	}
 
 	private String getDirString(SourceFile sourceFile) {
