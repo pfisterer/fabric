@@ -66,10 +66,10 @@ public final class ModuleRegistry implements Iterable<FabricModule> {
     @Override
     public String toString( ) {
         final StringBuilder sb = new StringBuilder( );
-        sb.append("Registered modules:\\n-------------------\\n");
+        sb.append("Registered modules:\n-------------------\n");
         for (final Entry<String, FabricModule> e : this.modules.entrySet( )) {
             final FabricModule m = e.getValue( );
-            sb.append(String.format("Module[%s]: %s\\n", m.getName( ), m.getDescription( )));
+            sb.append(String.format("Module[%s]: %s\n", m.getName( ), m.getDescription( )));
         }
         return sb.toString( );
     }

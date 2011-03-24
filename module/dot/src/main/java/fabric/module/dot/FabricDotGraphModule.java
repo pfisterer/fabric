@@ -36,7 +36,7 @@ public class FabricDotGraphModule implements FabricModule {
 
     @Override
     public String getDescription( ) {
-        return String.format("Creates a Graphviz DOT file. Valid options are '{0}'.",
+        return String.format("Creates a Graphviz DOT file. Valid options are '%s'.",
                 KEY_DOT_OUTFILE);
     }
 
