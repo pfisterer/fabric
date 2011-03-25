@@ -42,8 +42,9 @@ public class FabricDotGraphModule implements FabricModule {
 
     @Override
     public Properties getDefaultProperties( ) {
-        // TODO actually add any default properties
-        return new Properties( );
+        final Properties p = new Properties( );
+        p.put(KEY_DOT_OUTFILE, "dotfile.dot");
+        return p;
     }
 
     @Override
