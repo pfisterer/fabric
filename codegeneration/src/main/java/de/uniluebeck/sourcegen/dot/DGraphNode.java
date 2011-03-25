@@ -85,8 +85,7 @@ public class DGraphNode extends DGraphElement {
     }
 
     /**
-     * Helper method that from a node identifier creates a string ID to be used
-     * in as dot graph node identifier.
+     * Creates an ID string from the node's numerical identifier.
      * 
      * @return The string ID.
      */
@@ -97,15 +96,18 @@ public class DGraphNode extends DGraphElement {
     @Override
     public void toString(StringBuffer buffer, int tabCount) {
         final StringBuilder sb = new StringBuilder( );
+        // add the node's label, if any
         if (this.label != null && !this.label.isEmpty( )) {
             sb.append(String.format("label = \"%s\"", this.label));
         }
+        // add the node's style attributes, if any
         if (this.nodeStyle != null && !this.nodeStyle.isEmpty( )) {
             if (sb.length( ) > 0) {
                 sb.append(", ");
             }
             sb.append(this.nodeStyle);
         }
+        // put it all together
         final String s = sb.length( ) > 0 ? String.format(" [ %s ]", sb.toString( )) : "";
         addLine(buffer, tabCount, String.format("%s%s;", getStringID( ), s));
     }

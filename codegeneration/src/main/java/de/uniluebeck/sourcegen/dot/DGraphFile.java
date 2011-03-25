@@ -5,7 +5,9 @@ package de.uniluebeck.sourcegen.dot;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.uniluebeck.sourcegen.SourceFile;
 
@@ -23,9 +25,9 @@ public class DGraphFile extends DGraphElement implements SourceFile {
     private final File dotFile;
 
     /**
-     * The list of nodes contained in this graph.
+     * The nodes contained in this graph mapped to their respective node IDs.
      */
-    private final List<DGraphNode> nodes;
+    private final Map<Integer, DGraphNode> nodes;
 
     /**
      * The list of edges contained in this graph.
@@ -33,7 +35,7 @@ public class DGraphFile extends DGraphElement implements SourceFile {
     private final List<DGraphEdge> edges;
 
     {
-        this.nodes = new ArrayList<DGraphNode>( );
+        this.nodes = new HashMap<Integer, DGraphNode>( );
         this.edges = new ArrayList<DGraphEdge>( );
     }
 
@@ -57,7 +59,7 @@ public class DGraphFile extends DGraphElement implements SourceFile {
      * @param node The node to be added.
      */
     public void add(DGraphNode node) {
-        this.nodes.add(node);
+        this.nodes.put(node.getIdentifier( ), node);
     }
 
     /**
@@ -68,14 +70,7 @@ public class DGraphFile extends DGraphElement implements SourceFile {
      *         this graph.
      */
     public DGraphNode getNodeByID(int id) {
-        DGraphNode node = null;
-        for (final DGraphNode n : this.nodes) {
-            if (n.getIdentifier( ) == id) {
-                node = n;
-                break;
-            }
-        }
-        return node;
+        return this.nodes.get(id);
     }
 
     /**
@@ -110,7 +105,7 @@ public class DGraphFile extends DGraphElement implements SourceFile {
     @Override
     public void toString(StringBuffer buffer, int tabCount) {
         addLine(buffer, tabCount, "digraph G {");
-        for (final DGraphNode n : this.nodes) {
+        for (final DGraphNode n : this.nodes.values( )) {
             n.toString(buffer, tabCount + 1);
         }
         for (final DGraphEdge e : this.edges) {
