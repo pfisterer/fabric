@@ -91,7 +91,7 @@ public class DGraphNode extends DGraphElement {
      * @return The string ID.
      */
     public String getStringID( ) {
-        return String.format("ITEM%08d", getIdentifier( ));
+        return String.format("ID%08d", getIdentifier( ));
     }
 
     @Override

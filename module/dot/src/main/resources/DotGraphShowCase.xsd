@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:itm="http://www.itm.uni-luebeck.de/fabric"
+  targetNamespace="http://www.itm.uni-luebeck.de/fabric" elementFormDefault="qualified">
+
+  <xs:simpleType name="TwentyBits">
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="-1024" />
+      <xs:maxExclusive value="1024" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="DotGraphShowCase">
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="number" type="itm:TwentyBits" />
+        <xs:element name="comment">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:length value="256" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="somethingComplex">
+          <xs:complexType>
+            <xs:all>
+              <xs:element name="isCool" type="xs:boolean" />
+              <xs:element name="number" type="itm:TwentyBits" />
+            </xs:all>
+          </xs:complexType>
+        </xs:element>
+      </xs:all>
+      <xs:attribute name="description" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
