@@ -194,10 +194,10 @@ public final class FabricSchemaTreeWalker {
         final String typeName = type.getName( );
 
         if (type.isTopLevel( )) {
-            handler.startTopLevelComplexType(type);
+            handler.startTopLevelComplexType(type, parent);
             log.debug("Start handling top-level complex type '{}'", typeName);
             handleComplexContent(type);
-            handler.endTopLevelComplexType(type);
+            handler.endTopLevelComplexType(type, parent);
             log.debug("Done handling top-level complex type '{}'", typeName);
         } else {
             handler.startLocalComplexType(type, parent);

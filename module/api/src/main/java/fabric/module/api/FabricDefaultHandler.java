@@ -85,12 +85,12 @@ public class FabricDefaultHandler implements FabricSchemaTreeItemHandler {
     }
 
     @Override
-    public void startTopLevelComplexType(FComplexType type) throws Exception {
+    public void startTopLevelComplexType(FComplexType type, FElement parent) throws Exception {
         // doesn't do anything
     }
 
     @Override
-    public void endTopLevelComplexType(FComplexType type) {
+    public void endTopLevelComplexType(FComplexType type, FElement parent) {
         // doesn't do anything
     }
 

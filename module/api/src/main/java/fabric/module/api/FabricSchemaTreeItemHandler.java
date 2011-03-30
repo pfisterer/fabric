@@ -107,15 +107,17 @@ public interface FabricSchemaTreeItemHandler {
 
     /**
      * @param type
+     * @param parent TODO
      * @throws Exception If an error occurs.
      */
-    public abstract void startTopLevelComplexType(FComplexType type) throws Exception;
+    public abstract void startTopLevelComplexType(FComplexType type, FElement parent) throws Exception;
 
     /**
      * @param type
+     * @param parent TODO
      * @throws Exception If an error occurs.
      */
-    public abstract void endTopLevelComplexType(FComplexType type) throws Exception;
+    public abstract void endTopLevelComplexType(FComplexType type, FElement parent) throws Exception;
 
     /**
      * @param type
