@@ -1,1 +1,2026 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:s1="http://www.interfax.cc/AbstractTypes" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.interfax.cc" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://www.interfax.cc" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.interfax.cc">      <s:element name="GetListPP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetListPPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetListPPResult" type="tns:ListPPResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ListPPResult">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Valid" type="s:boolean" />          <s:element minOccurs="1" maxOccurs="1" name="AccountID" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DateFormat" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="AccountType" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PPCardsDetails" type="tns:ArrayOfPPCardDetails" />          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfPPCardDetails">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="PPCardDetails" type="tns:PPCardDetails" />        </s:sequence>      </s:complexType>      <s:complexType name="PPCardDetails">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Balance" type="s:decimal" />          <s:element minOccurs="1" maxOccurs="1" name="Bonus" type="s:decimal" />          <s:element minOccurs="1" maxOccurs="1" name="CloseDate" type="s:dateTime" />          <s:element minOccurs="1" maxOccurs="1" name="CurrentUsage" type="s:decimal" />          <s:element minOccurs="1" maxOccurs="1" name="FaceValue" type="s:decimal" />          <s:element minOccurs="1" maxOccurs="1" name="IssueDate" type="s:dateTime" />          <s:element minOccurs="1" maxOccurs="1" name="PPCardID" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="PreviousCharge" type="s:decimal" />          <s:element minOccurs="1" maxOccurs="1" name="PreviousPPCard" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="OriginalBalance" type="s:decimal" />        </s:sequence>      </s:complexType>      <s:element name="GetPPCardDetails">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="PPCardID" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetPPCardDetailsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetPPCardDetailsResult" type="tns:PPCardResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="PPCardResult">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Details" type="tns:PPCardDetails" />          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />        </s:sequence>      </s:complexType>      <s:element name="GetPPCardTransactions">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="PPCardID" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="FirstResult" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="NumOfResults" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetPPCardTransactionsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetPPCardTransactionsResult" type="tns:PPCardTransactions" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="PPCardTransactions">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Transactions" type="tns:ArrayOfFaxItemEx" />          <s:element minOccurs="1" maxOccurs="1" name="TotalNumOfTransactions" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Currency" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="FirstResult" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="NumOfResults" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="LastBalance" type="s:decimal" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfFaxItemEx">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="FaxItemEx" type="tns:FaxItemEx" />        </s:sequence>      </s:complexType>      <s:complexType name="FaxItemEx">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="ParentTransactionID" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="SubmitTime" type="s:dateTime" />          <s:element minOccurs="1" maxOccurs="1" name="PostponeTime" type="s:dateTime" />          <s:element minOccurs="1" maxOccurs="1" name="CompletionTime" type="s:dateTime" />          <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Contact" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="JobID" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DestinationFax" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ReplyEmail" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="RemoteCSID" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="PagesSent" type="s:short" />          <s:element minOccurs="1" maxOccurs="1" name="Status" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="Duration" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="PagesSubmitted" type="s:short" />          <s:element minOccurs="0" maxOccurs="1" name="SenderCSID" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Priority" type="s:short" />          <s:element minOccurs="1" maxOccurs="1" name="Units" type="s:decimal" />          <s:element minOccurs="1" maxOccurs="1" name="CostPerUnit" type="s:decimal" />          <s:element minOccurs="0" maxOccurs="1" name="PageSize" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PageOrientation" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PageResolution" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="RenderingQuality" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PageHeader" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="RetriesToPerform" type="s:short" />          <s:element minOccurs="1" maxOccurs="1" name="TrialsPerformed" type="s:short" />        </s:sequence>      </s:complexType>      <s:element name="GetPPCardTransactionsAsByteArray">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Year" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="Month" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetPPCardTransactionsAsByteArrayResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetPPCardTransactionsAsByteArrayResult" type="tns:PPCardTrasnactionsByteArray" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="PPCardTrasnactionsByteArray">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Transactions" type="s:base64Binary" />          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />        </s:sequence>      </s:complexType>      <s:element name="FaxStatusEx">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="LastTransactionID" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="MaxItems" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="TotalCount" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="ListSize" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="FaxStatusExResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="FaxStatusExResult" type="tns:ArrayOfFaxItemEx" />            <s:element minOccurs="1" maxOccurs="1" name="TotalCount" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="ListSize" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="FaxQuery2">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="QueryForm" type="tns:QueryForm" />            <s:element minOccurs="1" maxOccurs="1" name="QueryControl" type="tns:QueryControl" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="QueryForm">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Subject" type="tns:QueryCondition" />          <s:element minOccurs="1" maxOccurs="1" name="FaxNumber" type="tns:QueryCondition" />          <s:element minOccurs="1" maxOccurs="1" name="DateFrom" type="s:dateTime" />          <s:element minOccurs="1" maxOccurs="1" name="DateTo" type="s:dateTime" />          <s:element minOccurs="1" maxOccurs="1" name="UserID" type="tns:QueryCondition" />          <s:element minOccurs="1" maxOccurs="1" name="ReplyAddress" type="tns:QueryCondition" />          <s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="tns:QueryCondition" />          <s:element minOccurs="1" maxOccurs="1" name="ParentTransactionID" type="tns:QueryCondition" />          <s:element minOccurs="1" maxOccurs="1" name="Status" type="tns:QueryCondition" />          <s:element minOccurs="1" maxOccurs="1" name="ShowHiddenTransactions" type="s:boolean" />        </s:sequence>      </s:complexType>      <s:complexType name="QueryCondition">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Verb" type="tns:SQLOperatorEnum" />          <s:element minOccurs="0" maxOccurs="1" name="VerbData" type="s:string" />        </s:sequence>      </s:complexType>      <s:simpleType name="SQLOperatorEnum">        <s:restriction base="s:string">          <s:enumeration value="Equals" />          <s:enumeration value="GreaterThan" />          <s:enumeration value="GreaterOrEqual" />          <s:enumeration value="LessThan" />          <s:enumeration value="LessOrEqual" />          <s:enumeration value="Like" />          <s:enumeration value="IncludedIn" />          <s:enumeration value="Between" />        </s:restriction>      </s:simpleType>      <s:complexType name="QueryControl">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="OnlyParents" type="s:boolean" />          <s:element minOccurs="1" maxOccurs="1" name="NumOfResults" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="StartingRecord" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="OrderBy" type="tns:OrderByColumnEnum" />          <s:element minOccurs="1" maxOccurs="1" name="AscOrderDirection" type="s:boolean" />          <s:element minOccurs="1" maxOccurs="1" name="ReturnItems" type="s:boolean" />          <s:element minOccurs="1" maxOccurs="1" name="ReturnStats" type="s:boolean" />        </s:sequence>      </s:complexType>      <s:simpleType name="OrderByColumnEnum">        <s:restriction base="s:string">          <s:enumeration value="TransactionID" />          <s:enumeration value="SubmitTime" />          <s:enumeration value="CompletionTime" />          <s:enumeration value="Status" />          <s:enumeration value="DestinationFax" />          <s:enumeration value="Subject" />          <s:enumeration value="PagesSent" />          <s:enumeration value="UserID" />          <s:enumeration value="ReplyEmail" />        </s:restriction>      </s:simpleType>      <s:element name="FaxQuery2Response">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="FaxQuery2Result" type="tns:FaxQueryResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="FaxQueryResult">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="FaxItems" type="tns:ArrayOfFaxItemEx2" />          <s:element minOccurs="0" maxOccurs="1" name="Stats" type="tns:ArrayOfStatusCount" />          <s:element minOccurs="0" maxOccurs="1" name="ErrorsDescriptionHTMLFormat" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="TotalTransactionsNum" type="s:int" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfFaxItemEx2">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="FaxItemEx2" type="tns:FaxItemEx2" />        </s:sequence>      </s:complexType>      <s:complexType name="FaxItemEx2">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="ParentTransactionID" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="SubmitTime" type="s:dateTime" />          <s:element minOccurs="1" maxOccurs="1" name="PostponeTime" type="s:dateTime" />          <s:element minOccurs="1" maxOccurs="1" name="CompletionTime" type="s:dateTime" />          <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Contact" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="JobID" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DestinationFax" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ReplyEmail" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="RemoteCSID" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="PagesSent" type="s:short" />          <s:element minOccurs="1" maxOccurs="1" name="Status" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="Duration" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="PagesSubmitted" type="s:short" />          <s:element minOccurs="0" maxOccurs="1" name="SenderCSID" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Priority" type="s:short" />          <s:element minOccurs="1" maxOccurs="1" name="Units" type="s:decimal" />          <s:element minOccurs="1" maxOccurs="1" name="CostPerUnit" type="s:decimal" />          <s:element minOccurs="0" maxOccurs="1" name="PageSize" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PageOrientation" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PageResolution" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="RenderingQuality" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PageHeader" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="RetriesToPerform" type="s:short" />          <s:element minOccurs="1" maxOccurs="1" name="TrialsPerformed" type="s:short" />          <s:element minOccurs="1" maxOccurs="1" name="LocaleID" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="GMTBias" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="RetriesInterval" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="UserData" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DeleteAfterUsage" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Mode" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="NumOfTransactions" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="MessageID" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfStatusCount">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="StatusCount" type="tns:StatusCount" />        </s:sequence>      </s:complexType>      <s:complexType name="StatusCount">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Status" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />        </s:sequence>      </s:complexType>      <s:element name="FaxQuery">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Verb" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="VerbData" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="MaxItems" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="FaxQueryResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="FaxQueryResult" type="tns:ArrayOfFaxItemEx" />            <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="FaxStatus">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="LastTransactionID" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="MaxItems" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="TotalCount" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="ListSize" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="FaxStatusResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="FaxStatusResult" type="tns:ArrayOfFaxItem" />            <s:element minOccurs="1" maxOccurs="1" name="TotalCount" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="ListSize" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfFaxItem">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="FaxItem" type="tns:FaxItem" />        </s:sequence>      </s:complexType>      <s:complexType name="FaxItem">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="SubmitTime" type="s:dateTime" />          <s:element minOccurs="1" maxOccurs="1" name="PostponeTime" type="s:dateTime" />          <s:element minOccurs="1" maxOccurs="1" name="CompletionTime" type="s:dateTime" />          <s:element minOccurs="0" maxOccurs="1" name="DestinationFax" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="RemoteCSID" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="PagesSent" type="s:short" />          <s:element minOccurs="1" maxOccurs="1" name="Status" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="Duration" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="PagesSubmitted" type="s:short" />        </s:sequence>      </s:complexType>      <s:element name="FaxStatusXML">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="LastTransactionID" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="MaxItems" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="TotalCount" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="ListSize" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="FaxStatusXMLResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="FaxStatusXMLResult" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="TotalCount" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="ListSize" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendCharFax">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="FaxNumber" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Data" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="FileType" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendCharFaxResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="SendCharFaxResult" type="s:long" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Sendfax">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="FaxNumber" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="FileData" type="s:base64Binary" />            <s:element minOccurs="0" maxOccurs="1" name="FileType" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendfaxResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="SendfaxResult" type="s:long" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="CancelFax">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="CancelFaxResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="CancelFaxResult" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendfaxEx">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="FaxNumbers" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="FilesData" type="s:base64Binary" />            <s:element minOccurs="0" maxOccurs="1" name="FileTypes" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="FileSizes" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Postpone" type="s:dateTime" />            <s:element minOccurs="1" maxOccurs="1" name="IsHighResolution" type="s:boolean" />            <s:element minOccurs="0" maxOccurs="1" name="CSID" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ReplyAddress" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendfaxExResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="SendfaxExResult" type="s:long" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendfaxEx_2">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="FaxNumbers" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Contacts" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="FilesData" type="s:base64Binary" />            <s:element minOccurs="0" maxOccurs="1" name="FileTypes" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="FileSizes" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Postpone" type="s:dateTime" />            <s:element minOccurs="1" maxOccurs="1" name="RetriesToPerform" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="CSID" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PageHeader" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="JobID" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ReplyAddress" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PageSize" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PageOrientation" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IsHighResolution" type="s:boolean" />            <s:element minOccurs="1" maxOccurs="1" name="IsFineRendering" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendfaxEx_2Response">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="SendfaxEx_2Result" type="s:long" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ResendBroadcastFax">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="ParentTransactionID" type="s:long" />            <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="SendErrorsOnly" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ResendBroadcastFaxResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="ResendBroadcastFaxResult" type="s:long" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ReSendFax">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:long" />            <s:element minOccurs="0" maxOccurs="1" name="FaxNumber" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ReSendFaxResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="ReSendFaxResult" type="s:long" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetFaxImage">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:long" />            <s:element minOccurs="0" maxOccurs="1" name="Image" type="s:base64Binary" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetFaxImageResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetFaxImageResult" type="s:long" />            <s:element minOccurs="0" maxOccurs="1" name="Image" type="s:base64Binary" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="HideFax">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="HideFaxResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="HideFaxResult" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendWordMailMerge">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Document" type="s:base64Binary" />            <s:element minOccurs="0" maxOccurs="1" name="List" type="s:base64Binary" />            <s:element minOccurs="0" maxOccurs="1" name="Options" type="s:base64Binary" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendWordMailMergeResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="SendWordMailMergeResult" type="s:long" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetSupportedFileTypes">        <s:complexType />      </s:element>      <s:element name="GetSupportedFileTypesResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetSupportedFileTypesResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="IsSupportedFileType">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="FileType" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="IsSupportedFileTypeResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="IsSupportedFileTypeResult" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="StartFileUpload">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="SessionID" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="StartFileUploadResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="StartFileUploadResult" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="SessionID" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="UploadFileChunk">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SessionID" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Chunk" type="s:base64Binary" />            <s:element minOccurs="1" maxOccurs="1" name="IsLast" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="UploadFileChunkResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="UploadFileChunkResult" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="CancelFileUpload">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SessionID" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="CancelFileUploadResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="CancelFileUploadResult" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ListPPResult" type="tns:ListPPResult" />      <s:element name="PPCardResult" type="tns:PPCardResult" />      <s:element name="PPCardTransactions" type="tns:PPCardTransactions" />      <s:element name="PPCardTrasnactionsByteArray" type="tns:PPCardTrasnactionsByteArray" />      <s:element name="long" type="s:long" />      <s:element name="int" type="s:int" />      <s:element name="string" nillable="true" type="s:string" />      <s:element name="boolean" type="s:boolean" />    </s:schema>    <s:schema targetNamespace="http://www.interfax.cc/AbstractTypes">      <s:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />      <s:complexType name="StringArray">        <s:complexContent mixed="false">          <s:restriction base="soapenc:Array">            <s:sequence>              <s:element minOccurs="0" maxOccurs="unbounded" name="String" type="s:string" />            </s:sequence>          </s:restriction>        </s:complexContent>      </s:complexType>    </s:schema>  </wsdl:types>  <wsdl:message name="GetListPPSoapIn">    <wsdl:part name="parameters" element="tns:GetListPP" />  </wsdl:message>  <wsdl:message name="GetListPPSoapOut">    <wsdl:part name="parameters" element="tns:GetListPPResponse" />  </wsdl:message>  <wsdl:message name="GetPPCardDetailsSoapIn">    <wsdl:part name="parameters" element="tns:GetPPCardDetails" />  </wsdl:message>  <wsdl:message name="GetPPCardDetailsSoapOut">    <wsdl:part name="parameters" element="tns:GetPPCardDetailsResponse" />  </wsdl:message>  <wsdl:message name="GetPPCardTransactionsSoapIn">    <wsdl:part name="parameters" element="tns:GetPPCardTransactions" />  </wsdl:message>  <wsdl:message name="GetPPCardTransactionsSoapOut">    <wsdl:part name="parameters" element="tns:GetPPCardTransactionsResponse" />  </wsdl:message>  <wsdl:message name="GetPPCardTransactionsAsByteArraySoapIn">    <wsdl:part name="parameters" element="tns:GetPPCardTransactionsAsByteArray" />  </wsdl:message>  <wsdl:message name="GetPPCardTransactionsAsByteArraySoapOut">    <wsdl:part name="parameters" element="tns:GetPPCardTransactionsAsByteArrayResponse" />  </wsdl:message>  <wsdl:message name="FaxStatusExSoapIn">    <wsdl:part name="parameters" element="tns:FaxStatusEx" />  </wsdl:message>  <wsdl:message name="FaxStatusExSoapOut">    <wsdl:part name="parameters" element="tns:FaxStatusExResponse" />  </wsdl:message>  <wsdl:message name="FaxQuery2SoapIn">    <wsdl:part name="parameters" element="tns:FaxQuery2" />  </wsdl:message>  <wsdl:message name="FaxQuery2SoapOut">    <wsdl:part name="parameters" element="tns:FaxQuery2Response" />  </wsdl:message>  <wsdl:message name="FaxQuerySoapIn">    <wsdl:part name="parameters" element="tns:FaxQuery" />  </wsdl:message>  <wsdl:message name="FaxQuerySoapOut">    <wsdl:part name="parameters" element="tns:FaxQueryResponse" />  </wsdl:message>  <wsdl:message name="FaxStatusSoapIn">    <wsdl:part name="parameters" element="tns:FaxStatus" />  </wsdl:message>  <wsdl:message name="FaxStatusSoapOut">    <wsdl:part name="parameters" element="tns:FaxStatusResponse" />  </wsdl:message>  <wsdl:message name="FaxStatusXMLSoapIn">    <wsdl:part name="parameters" element="tns:FaxStatusXML" />  </wsdl:message>  <wsdl:message name="FaxStatusXMLSoapOut">    <wsdl:part name="parameters" element="tns:FaxStatusXMLResponse" />  </wsdl:message>  <wsdl:message name="SendCharFaxSoapIn">    <wsdl:part name="parameters" element="tns:SendCharFax" />  </wsdl:message>  <wsdl:message name="SendCharFaxSoapOut">    <wsdl:part name="parameters" element="tns:SendCharFaxResponse" />  </wsdl:message>  <wsdl:message name="SendfaxSoapIn">    <wsdl:part name="parameters" element="tns:Sendfax" />  </wsdl:message>  <wsdl:message name="SendfaxSoapOut">    <wsdl:part name="parameters" element="tns:SendfaxResponse" />  </wsdl:message>  <wsdl:message name="CancelFaxSoapIn">    <wsdl:part name="parameters" element="tns:CancelFax" />  </wsdl:message>  <wsdl:message name="CancelFaxSoapOut">    <wsdl:part name="parameters" element="tns:CancelFaxResponse" />  </wsdl:message>  <wsdl:message name="SendfaxExSoapIn">    <wsdl:part name="parameters" element="tns:SendfaxEx" />  </wsdl:message>  <wsdl:message name="SendfaxExSoapOut">    <wsdl:part name="parameters" element="tns:SendfaxExResponse" />  </wsdl:message>  <wsdl:message name="SendfaxEx_2SoapIn">    <wsdl:part name="parameters" element="tns:SendfaxEx_2" />  </wsdl:message>  <wsdl:message name="SendfaxEx_2SoapOut">    <wsdl:part name="parameters" element="tns:SendfaxEx_2Response" />  </wsdl:message>  <wsdl:message name="ResendBroadcastFaxSoapIn">    <wsdl:part name="parameters" element="tns:ResendBroadcastFax" />  </wsdl:message>  <wsdl:message name="ResendBroadcastFaxSoapOut">    <wsdl:part name="parameters" element="tns:ResendBroadcastFaxResponse" />  </wsdl:message>  <wsdl:message name="ReSendFaxSoapIn">    <wsdl:part name="parameters" element="tns:ReSendFax" />  </wsdl:message>  <wsdl:message name="ReSendFaxSoapOut">    <wsdl:part name="parameters" element="tns:ReSendFaxResponse" />  </wsdl:message>  <wsdl:message name="GetFaxImageSoapIn">    <wsdl:part name="parameters" element="tns:GetFaxImage" />  </wsdl:message>  <wsdl:message name="GetFaxImageSoapOut">    <wsdl:part name="parameters" element="tns:GetFaxImageResponse" />  </wsdl:message>  <wsdl:message name="HideFaxSoapIn">    <wsdl:part name="parameters" element="tns:HideFax" />  </wsdl:message>  <wsdl:message name="HideFaxSoapOut">    <wsdl:part name="parameters" element="tns:HideFaxResponse" />  </wsdl:message>  <wsdl:message name="SendWordMailMergeSoapIn">    <wsdl:part name="parameters" element="tns:SendWordMailMerge" />  </wsdl:message>  <wsdl:message name="SendWordMailMergeSoapOut">    <wsdl:part name="parameters" element="tns:SendWordMailMergeResponse" />  </wsdl:message>  <wsdl:message name="GetSupportedFileTypesSoapIn">    <wsdl:part name="parameters" element="tns:GetSupportedFileTypes" />  </wsdl:message>  <wsdl:message name="GetSupportedFileTypesSoapOut">    <wsdl:part name="parameters" element="tns:GetSupportedFileTypesResponse" />  </wsdl:message>  <wsdl:message name="IsSupportedFileTypeSoapIn">    <wsdl:part name="parameters" element="tns:IsSupportedFileType" />  </wsdl:message>  <wsdl:message name="IsSupportedFileTypeSoapOut">    <wsdl:part name="parameters" element="tns:IsSupportedFileTypeResponse" />  </wsdl:message>  <wsdl:message name="StartFileUploadSoapIn">    <wsdl:part name="parameters" element="tns:StartFileUpload" />  </wsdl:message>  <wsdl:message name="StartFileUploadSoapOut">    <wsdl:part name="parameters" element="tns:StartFileUploadResponse" />  </wsdl:message>  <wsdl:message name="UploadFileChunkSoapIn">    <wsdl:part name="parameters" element="tns:UploadFileChunk" />  </wsdl:message>  <wsdl:message name="UploadFileChunkSoapOut">    <wsdl:part name="parameters" element="tns:UploadFileChunkResponse" />  </wsdl:message>  <wsdl:message name="CancelFileUploadSoapIn">    <wsdl:part name="parameters" element="tns:CancelFileUpload" />  </wsdl:message>  <wsdl:message name="CancelFileUploadSoapOut">    <wsdl:part name="parameters" element="tns:CancelFileUploadResponse" />  </wsdl:message>  <wsdl:message name="GetListPPHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />  </wsdl:message>  <wsdl:message name="GetListPPHttpGetOut">    <wsdl:part name="Body" element="tns:ListPPResult" />  </wsdl:message>  <wsdl:message name="GetPPCardDetailsHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="PPCardID" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPPCardDetailsHttpGetOut">    <wsdl:part name="Body" element="tns:PPCardResult" />  </wsdl:message>  <wsdl:message name="GetPPCardTransactionsHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="PPCardID" type="s:string" />    <wsdl:part name="FirstResult" type="s:string" />    <wsdl:part name="NumOfResults" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPPCardTransactionsHttpGetOut">    <wsdl:part name="Body" element="tns:PPCardTransactions" />  </wsdl:message>  <wsdl:message name="GetPPCardTransactionsAsByteArrayHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="Year" type="s:string" />    <wsdl:part name="Month" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPPCardTransactionsAsByteArrayHttpGetOut">    <wsdl:part name="Body" element="tns:PPCardTrasnactionsByteArray" />  </wsdl:message>  <wsdl:message name="SendCharFaxHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="FaxNumber" type="s:string" />    <wsdl:part name="Data" type="s:string" />    <wsdl:part name="FileType" type="s:string" />  </wsdl:message>  <wsdl:message name="SendCharFaxHttpGetOut">    <wsdl:part name="Body" element="tns:long" />  </wsdl:message>  <wsdl:message name="SendfaxHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="FaxNumber" type="s:string" />    <wsdl:part name="FileData" type="s1:StringArray" />    <wsdl:part name="FileType" type="s:string" />  </wsdl:message>  <wsdl:message name="SendfaxHttpGetOut">    <wsdl:part name="Body" element="tns:long" />  </wsdl:message>  <wsdl:message name="CancelFaxHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransactionID" type="s:string" />  </wsdl:message>  <wsdl:message name="CancelFaxHttpGetOut">    <wsdl:part name="Body" element="tns:int" />  </wsdl:message>  <wsdl:message name="SendfaxExHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="FaxNumbers" type="s:string" />    <wsdl:part name="FilesData" type="s1:StringArray" />    <wsdl:part name="FileTypes" type="s:string" />    <wsdl:part name="FileSizes" type="s:string" />    <wsdl:part name="Postpone" type="s:string" />    <wsdl:part name="IsHighResolution" type="s:string" />    <wsdl:part name="CSID" type="s:string" />    <wsdl:part name="Subject" type="s:string" />    <wsdl:part name="ReplyAddress" type="s:string" />  </wsdl:message>  <wsdl:message name="SendfaxExHttpGetOut">    <wsdl:part name="Body" element="tns:long" />  </wsdl:message>  <wsdl:message name="SendfaxEx_2HttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="FaxNumbers" type="s:string" />    <wsdl:part name="Contacts" type="s:string" />    <wsdl:part name="FilesData" type="s1:StringArray" />    <wsdl:part name="FileTypes" type="s:string" />    <wsdl:part name="FileSizes" type="s:string" />    <wsdl:part name="Postpone" type="s:string" />    <wsdl:part name="RetriesToPerform" type="s:string" />    <wsdl:part name="CSID" type="s:string" />    <wsdl:part name="PageHeader" type="s:string" />    <wsdl:part name="JobID" type="s:string" />    <wsdl:part name="Subject" type="s:string" />    <wsdl:part name="ReplyAddress" type="s:string" />    <wsdl:part name="PageSize" type="s:string" />    <wsdl:part name="PageOrientation" type="s:string" />    <wsdl:part name="IsHighResolution" type="s:string" />    <wsdl:part name="IsFineRendering" type="s:string" />  </wsdl:message>  <wsdl:message name="SendfaxEx_2HttpGetOut">    <wsdl:part name="Body" element="tns:long" />  </wsdl:message>  <wsdl:message name="ResendBroadcastFaxHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="ParentTransactionID" type="s:string" />    <wsdl:part name="Subject" type="s:string" />    <wsdl:part name="SendErrorsOnly" type="s:string" />  </wsdl:message>  <wsdl:message name="ResendBroadcastFaxHttpGetOut">    <wsdl:part name="Body" element="tns:long" />  </wsdl:message>  <wsdl:message name="ReSendFaxHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransactionID" type="s:string" />    <wsdl:part name="FaxNumber" type="s:string" />  </wsdl:message>  <wsdl:message name="ReSendFaxHttpGetOut">    <wsdl:part name="Body" element="tns:long" />  </wsdl:message>  <wsdl:message name="HideFaxHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransactionID" type="s:string" />  </wsdl:message>  <wsdl:message name="HideFaxHttpGetOut">    <wsdl:part name="Body" element="tns:int" />  </wsdl:message>  <wsdl:message name="SendWordMailMergeHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="Document" type="s1:StringArray" />    <wsdl:part name="List" type="s1:StringArray" />    <wsdl:part name="Options" type="s1:StringArray" />  </wsdl:message>  <wsdl:message name="SendWordMailMergeHttpGetOut">    <wsdl:part name="Body" element="tns:long" />  </wsdl:message>  <wsdl:message name="GetSupportedFileTypesHttpGetIn" />  <wsdl:message name="GetSupportedFileTypesHttpGetOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:message name="IsSupportedFileTypeHttpGetIn">    <wsdl:part name="FileType" type="s:string" />  </wsdl:message>  <wsdl:message name="IsSupportedFileTypeHttpGetOut">    <wsdl:part name="Body" element="tns:boolean" />  </wsdl:message>  <wsdl:message name="UploadFileChunkHttpGetIn">    <wsdl:part name="SessionID" type="s:string" />    <wsdl:part name="Chunk" type="s1:StringArray" />    <wsdl:part name="IsLast" type="s:string" />  </wsdl:message>  <wsdl:message name="UploadFileChunkHttpGetOut">    <wsdl:part name="Body" element="tns:int" />  </wsdl:message>  <wsdl:message name="CancelFileUploadHttpGetIn">    <wsdl:part name="SessionID" type="s:string" />  </wsdl:message>  <wsdl:message name="CancelFileUploadHttpGetOut">    <wsdl:part name="Body" element="tns:int" />  </wsdl:message>  <wsdl:message name="GetListPPHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />  </wsdl:message>  <wsdl:message name="GetListPPHttpPostOut">    <wsdl:part name="Body" element="tns:ListPPResult" />  </wsdl:message>  <wsdl:message name="GetPPCardDetailsHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="PPCardID" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPPCardDetailsHttpPostOut">    <wsdl:part name="Body" element="tns:PPCardResult" />  </wsdl:message>  <wsdl:message name="GetPPCardTransactionsHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="PPCardID" type="s:string" />    <wsdl:part name="FirstResult" type="s:string" />    <wsdl:part name="NumOfResults" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPPCardTransactionsHttpPostOut">    <wsdl:part name="Body" element="tns:PPCardTransactions" />  </wsdl:message>  <wsdl:message name="GetPPCardTransactionsAsByteArrayHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="Year" type="s:string" />    <wsdl:part name="Month" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPPCardTransactionsAsByteArrayHttpPostOut">    <wsdl:part name="Body" element="tns:PPCardTrasnactionsByteArray" />  </wsdl:message>  <wsdl:message name="SendCharFaxHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="FaxNumber" type="s:string" />    <wsdl:part name="Data" type="s:string" />    <wsdl:part name="FileType" type="s:string" />  </wsdl:message>  <wsdl:message name="SendCharFaxHttpPostOut">    <wsdl:part name="Body" element="tns:long" />  </wsdl:message>  <wsdl:message name="SendfaxHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="FaxNumber" type="s:string" />    <wsdl:part name="FileData" type="s1:StringArray" />    <wsdl:part name="FileType" type="s:string" />  </wsdl:message>  <wsdl:message name="SendfaxHttpPostOut">    <wsdl:part name="Body" element="tns:long" />  </wsdl:message>  <wsdl:message name="CancelFaxHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransactionID" type="s:string" />  </wsdl:message>  <wsdl:message name="CancelFaxHttpPostOut">    <wsdl:part name="Body" element="tns:int" />  </wsdl:message>  <wsdl:message name="SendfaxExHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="FaxNumbers" type="s:string" />    <wsdl:part name="FilesData" type="s1:StringArray" />    <wsdl:part name="FileTypes" type="s:string" />    <wsdl:part name="FileSizes" type="s:string" />    <wsdl:part name="Postpone" type="s:string" />    <wsdl:part name="IsHighResolution" type="s:string" />    <wsdl:part name="CSID" type="s:string" />    <wsdl:part name="Subject" type="s:string" />    <wsdl:part name="ReplyAddress" type="s:string" />  </wsdl:message>  <wsdl:message name="SendfaxExHttpPostOut">    <wsdl:part name="Body" element="tns:long" />  </wsdl:message>  <wsdl:message name="SendfaxEx_2HttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="FaxNumbers" type="s:string" />    <wsdl:part name="Contacts" type="s:string" />    <wsdl:part name="FilesData" type="s1:StringArray" />    <wsdl:part name="FileTypes" type="s:string" />    <wsdl:part name="FileSizes" type="s:string" />    <wsdl:part name="Postpone" type="s:string" />    <wsdl:part name="RetriesToPerform" type="s:string" />    <wsdl:part name="CSID" type="s:string" />    <wsdl:part name="PageHeader" type="s:string" />    <wsdl:part name="JobID" type="s:string" />    <wsdl:part name="Subject" type="s:string" />    <wsdl:part name="ReplyAddress" type="s:string" />    <wsdl:part name="PageSize" type="s:string" />    <wsdl:part name="PageOrientation" type="s:string" />    <wsdl:part name="IsHighResolution" type="s:string" />    <wsdl:part name="IsFineRendering" type="s:string" />  </wsdl:message>  <wsdl:message name="SendfaxEx_2HttpPostOut">    <wsdl:part name="Body" element="tns:long" />  </wsdl:message>  <wsdl:message name="ResendBroadcastFaxHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="ParentTransactionID" type="s:string" />    <wsdl:part name="Subject" type="s:string" />    <wsdl:part name="SendErrorsOnly" type="s:string" />  </wsdl:message>  <wsdl:message name="ResendBroadcastFaxHttpPostOut">    <wsdl:part name="Body" element="tns:long" />  </wsdl:message>  <wsdl:message name="ReSendFaxHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransactionID" type="s:string" />    <wsdl:part name="FaxNumber" type="s:string" />  </wsdl:message>  <wsdl:message name="ReSendFaxHttpPostOut">    <wsdl:part name="Body" element="tns:long" />  </wsdl:message>  <wsdl:message name="HideFaxHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransactionID" type="s:string" />  </wsdl:message>  <wsdl:message name="HideFaxHttpPostOut">    <wsdl:part name="Body" element="tns:int" />  </wsdl:message>  <wsdl:message name="SendWordMailMergeHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="Document" type="s1:StringArray" />    <wsdl:part name="List" type="s1:StringArray" />    <wsdl:part name="Options" type="s1:StringArray" />  </wsdl:message>  <wsdl:message name="SendWordMailMergeHttpPostOut">    <wsdl:part name="Body" element="tns:long" />  </wsdl:message>  <wsdl:message name="GetSupportedFileTypesHttpPostIn" />  <wsdl:message name="GetSupportedFileTypesHttpPostOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:message name="IsSupportedFileTypeHttpPostIn">    <wsdl:part name="FileType" type="s:string" />  </wsdl:message>  <wsdl:message name="IsSupportedFileTypeHttpPostOut">    <wsdl:part name="Body" element="tns:boolean" />  </wsdl:message>  <wsdl:message name="UploadFileChunkHttpPostIn">    <wsdl:part name="SessionID" type="s:string" />    <wsdl:part name="Chunk" type="s1:StringArray" />    <wsdl:part name="IsLast" type="s:string" />  </wsdl:message>  <wsdl:message name="UploadFileChunkHttpPostOut">    <wsdl:part name="Body" element="tns:int" />  </wsdl:message>  <wsdl:message name="CancelFileUploadHttpPostIn">    <wsdl:part name="SessionID" type="s:string" />  </wsdl:message>  <wsdl:message name="CancelFileUploadHttpPostOut">    <wsdl:part name="Body" element="tns:int" />  </wsdl:message>  <wsdl:portType name="InterFaxSoap">    <wsdl:operation name="GetListPP">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a list of all the PP cards associated with the given user</documentation>      <wsdl:input message="tns:GetListPPSoapIn" />      <wsdl:output message="tns:GetListPPSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetPPCardDetails">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the details of the given PP card</documentation>      <wsdl:input message="tns:GetPPCardDetailsSoapIn" />      <wsdl:output message="tns:GetPPCardDetailsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetPPCardTransactions">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns NumOfResults transactions of the given PP card, starting from FirstResult. For NumOfResults=0 all transactions will be returned</documentation>      <wsdl:input message="tns:GetPPCardTransactionsSoapIn" />      <wsdl:output message="tns:GetPPCardTransactionsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetPPCardTransactionsAsByteArray">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a ZIP file containing a CSV file of all the transactions for the given PP Card. The file comes as an array of bytes</documentation>      <wsdl:input message="tns:GetPPCardTransactionsAsByteArraySoapIn" />      <wsdl:output message="tns:GetPPCardTransactionsAsByteArraySoapOut" />    </wsdl:operation>    <wsdl:operation name="FaxStatusEx">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns full information (27 fields - see &lt;a href="http://www.interfax.net/en/dev/webservice/reference.html#faxstatusex"&gt;Reference&lt;/a&gt;) regarding a fax transaction's current status.</documentation>      <wsdl:input message="tns:FaxStatusExSoapIn" />      <wsdl:output message="tns:FaxStatusExSoapOut" />    </wsdl:operation>    <wsdl:operation name="FaxQuery2">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns full information (27 fields - see &lt;a href="http://www.interfax.net/en/dev/webservice/reference.html#faxstatusex"&gt;Reference&lt;/a&gt;) regarding a population determined by query form.</documentation>      <wsdl:input message="tns:FaxQuery2SoapIn" />      <wsdl:output message="tns:FaxQuery2SoapOut" />    </wsdl:operation>    <wsdl:operation name="FaxQuery">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns full information (27 fields - see &lt;a href="http://www.interfax.net/en/dev/webservice/reference.html#faxstatusex"&gt;Reference&lt;/a&gt;) regarding a population determined by Verb.</documentation>      <wsdl:input message="tns:FaxQuerySoapIn" />      <wsdl:output message="tns:FaxQuerySoapOut" />    </wsdl:operation>    <wsdl:operation name="FaxStatus">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns quick and minimal information (11 fields - see &lt;a href="http://www.interfax.net/en/dev/webservice/reference.html#faxstatusex"&gt;Reference&lt;/a&gt;) regarding a fax transaction's current status.</documentation>      <wsdl:input message="tns:FaxStatusSoapIn" />      <wsdl:output message="tns:FaxStatusSoapOut" />    </wsdl:operation>    <wsdl:operation name="FaxStatusXML">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Similar to FaxStatusEx, however, returns information in XML-formatted structure.</documentation>      <wsdl:input message="tns:FaxStatusXMLSoapIn" />      <wsdl:output message="tns:FaxStatusXMLSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendCharFax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is the simplest method to fax ASCII text.  Also allows structured text documents, such as HTML, PostScript, etc.  (To fax an attachment simply - use the SendFax method.)</documentation>      <wsdl:input message="tns:SendCharFaxSoapIn" />      <wsdl:output message="tns:SendCharFaxSoapOut" />    </wsdl:operation>    <wsdl:operation name="Sendfax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is the simplest method to fax an attached file.  Five parameters are all that's required.  (To fax a simple text message - use the SendCharFax method.)</documentation>      <wsdl:input message="tns:SendfaxSoapIn" />      <wsdl:output message="tns:SendfaxSoapOut" />    </wsdl:operation>    <wsdl:operation name="CancelFax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This method is used to stop fax transmission after it was sent</documentation>      <wsdl:input message="tns:CancelFaxSoapIn" />      <wsdl:output message="tns:CancelFaxSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendfaxEx">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">[Retained for backward-compatibility; replaced by SendfaxEx_2]</documentation>      <wsdl:input message="tns:SendfaxExSoapIn" />      <wsdl:output message="tns:SendfaxExSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendfaxEx_2">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">The most feature-filled fax sending method.  Allows full control over all aspects of fax transmission.  Adds page-control features not previously found in the SendfaxEx method.</documentation>      <wsdl:input message="tns:SendfaxEx_2SoapIn" />      <wsdl:output message="tns:SendfaxEx_2SoapOut" />    </wsdl:operation>    <wsdl:operation name="ResendBroadcastFax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Resends a broadcast transaction (Multiple destinations</documentation>      <wsdl:input message="tns:ResendBroadcastFaxSoapIn" />      <wsdl:output message="tns:ResendBroadcastFaxSoapOut" />    </wsdl:operation>    <wsdl:operation name="ReSendFax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is a simple method to resend a fax. Four parameters are all that's required</documentation>      <wsdl:input message="tns:ReSendFaxSoapIn" />      <wsdl:output message="tns:ReSendFaxSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetFaxImage">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a TIF file of a transactions rendered document.</documentation>      <wsdl:input message="tns:GetFaxImageSoapIn" />      <wsdl:output message="tns:GetFaxImageSoapOut" />    </wsdl:operation>    <wsdl:operation name="HideFax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is a simple method to hide a transaction in the log</documentation>      <wsdl:input message="tns:HideFaxSoapIn" />      <wsdl:output message="tns:HideFaxSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendWordMailMerge">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Use this method to send an MS Word 2007 document with MailMerge</documentation>      <wsdl:input message="tns:SendWordMailMergeSoapIn" />      <wsdl:output message="tns:SendWordMailMergeSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetSupportedFileTypes">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">A utility method to obtain the currently supported file types.</documentation>      <wsdl:input message="tns:GetSupportedFileTypesSoapIn" />      <wsdl:output message="tns:GetSupportedFileTypesSoapOut" />    </wsdl:operation>    <wsdl:operation name="IsSupportedFileType">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">A utility method to verify if a given file type is supported.</documentation>      <wsdl:input message="tns:IsSupportedFileTypeSoapIn" />      <wsdl:output message="tns:IsSupportedFileTypeSoapOut" />    </wsdl:operation>    <wsdl:operation name="StartFileUpload">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Start an Upload session; Returns a Session ID string, to be used by subsequent calls.</documentation>      <wsdl:input message="tns:StartFileUploadSoapIn" />      <wsdl:output message="tns:StartFileUploadSoapOut" />    </wsdl:operation>    <wsdl:operation name="UploadFileChunk">      <wsdl:input message="tns:UploadFileChunkSoapIn" />      <wsdl:output message="tns:UploadFileChunkSoapOut" />    </wsdl:operation>    <wsdl:operation name="CancelFileUpload">      <wsdl:input message="tns:CancelFileUploadSoapIn" />      <wsdl:output message="tns:CancelFileUploadSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="InterFaxHttpGet">    <wsdl:operation name="GetListPP">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a list of all the PP cards associated with the given user</documentation>      <wsdl:input message="tns:GetListPPHttpGetIn" />      <wsdl:output message="tns:GetListPPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetPPCardDetails">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the details of the given PP card</documentation>      <wsdl:input message="tns:GetPPCardDetailsHttpGetIn" />      <wsdl:output message="tns:GetPPCardDetailsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetPPCardTransactions">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns NumOfResults transactions of the given PP card, starting from FirstResult. For NumOfResults=0 all transactions will be returned</documentation>      <wsdl:input message="tns:GetPPCardTransactionsHttpGetIn" />      <wsdl:output message="tns:GetPPCardTransactionsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetPPCardTransactionsAsByteArray">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a ZIP file containing a CSV file of all the transactions for the given PP Card. The file comes as an array of bytes</documentation>      <wsdl:input message="tns:GetPPCardTransactionsAsByteArrayHttpGetIn" />      <wsdl:output message="tns:GetPPCardTransactionsAsByteArrayHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="SendCharFax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is the simplest method to fax ASCII text.  Also allows structured text documents, such as HTML, PostScript, etc.  (To fax an attachment simply - use the SendFax method.)</documentation>      <wsdl:input message="tns:SendCharFaxHttpGetIn" />      <wsdl:output message="tns:SendCharFaxHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="Sendfax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is the simplest method to fax an attached file.  Five parameters are all that's required.  (To fax a simple text message - use the SendCharFax method.)</documentation>      <wsdl:input message="tns:SendfaxHttpGetIn" />      <wsdl:output message="tns:SendfaxHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="CancelFax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This method is used to stop fax transmission after it was sent</documentation>      <wsdl:input message="tns:CancelFaxHttpGetIn" />      <wsdl:output message="tns:CancelFaxHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="SendfaxEx">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">[Retained for backward-compatibility; replaced by SendfaxEx_2]</documentation>      <wsdl:input message="tns:SendfaxExHttpGetIn" />      <wsdl:output message="tns:SendfaxExHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="SendfaxEx_2">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">The most feature-filled fax sending method.  Allows full control over all aspects of fax transmission.  Adds page-control features not previously found in the SendfaxEx method.</documentation>      <wsdl:input message="tns:SendfaxEx_2HttpGetIn" />      <wsdl:output message="tns:SendfaxEx_2HttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ResendBroadcastFax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Resends a broadcast transaction (Multiple destinations</documentation>      <wsdl:input message="tns:ResendBroadcastFaxHttpGetIn" />      <wsdl:output message="tns:ResendBroadcastFaxHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ReSendFax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is a simple method to resend a fax. Four parameters are all that's required</documentation>      <wsdl:input message="tns:ReSendFaxHttpGetIn" />      <wsdl:output message="tns:ReSendFaxHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="HideFax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is a simple method to hide a transaction in the log</documentation>      <wsdl:input message="tns:HideFaxHttpGetIn" />      <wsdl:output message="tns:HideFaxHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="SendWordMailMerge">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Use this method to send an MS Word 2007 document with MailMerge</documentation>      <wsdl:input message="tns:SendWordMailMergeHttpGetIn" />      <wsdl:output message="tns:SendWordMailMergeHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetSupportedFileTypes">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">A utility method to obtain the currently supported file types.</documentation>      <wsdl:input message="tns:GetSupportedFileTypesHttpGetIn" />      <wsdl:output message="tns:GetSupportedFileTypesHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="IsSupportedFileType">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">A utility method to verify if a given file type is supported.</documentation>      <wsdl:input message="tns:IsSupportedFileTypeHttpGetIn" />      <wsdl:output message="tns:IsSupportedFileTypeHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="UploadFileChunk">      <wsdl:input message="tns:UploadFileChunkHttpGetIn" />      <wsdl:output message="tns:UploadFileChunkHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="CancelFileUpload">      <wsdl:input message="tns:CancelFileUploadHttpGetIn" />      <wsdl:output message="tns:CancelFileUploadHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="InterFaxHttpPost">    <wsdl:operation name="GetListPP">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a list of all the PP cards associated with the given user</documentation>      <wsdl:input message="tns:GetListPPHttpPostIn" />      <wsdl:output message="tns:GetListPPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetPPCardDetails">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the details of the given PP card</documentation>      <wsdl:input message="tns:GetPPCardDetailsHttpPostIn" />      <wsdl:output message="tns:GetPPCardDetailsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetPPCardTransactions">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns NumOfResults transactions of the given PP card, starting from FirstResult. For NumOfResults=0 all transactions will be returned</documentation>      <wsdl:input message="tns:GetPPCardTransactionsHttpPostIn" />      <wsdl:output message="tns:GetPPCardTransactionsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetPPCardTransactionsAsByteArray">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a ZIP file containing a CSV file of all the transactions for the given PP Card. The file comes as an array of bytes</documentation>      <wsdl:input message="tns:GetPPCardTransactionsAsByteArrayHttpPostIn" />      <wsdl:output message="tns:GetPPCardTransactionsAsByteArrayHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="SendCharFax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is the simplest method to fax ASCII text.  Also allows structured text documents, such as HTML, PostScript, etc.  (To fax an attachment simply - use the SendFax method.)</documentation>      <wsdl:input message="tns:SendCharFaxHttpPostIn" />      <wsdl:output message="tns:SendCharFaxHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="Sendfax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is the simplest method to fax an attached file.  Five parameters are all that's required.  (To fax a simple text message - use the SendCharFax method.)</documentation>      <wsdl:input message="tns:SendfaxHttpPostIn" />      <wsdl:output message="tns:SendfaxHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="CancelFax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This method is used to stop fax transmission after it was sent</documentation>      <wsdl:input message="tns:CancelFaxHttpPostIn" />      <wsdl:output message="tns:CancelFaxHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="SendfaxEx">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">[Retained for backward-compatibility; replaced by SendfaxEx_2]</documentation>      <wsdl:input message="tns:SendfaxExHttpPostIn" />      <wsdl:output message="tns:SendfaxExHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="SendfaxEx_2">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">The most feature-filled fax sending method.  Allows full control over all aspects of fax transmission.  Adds page-control features not previously found in the SendfaxEx method.</documentation>      <wsdl:input message="tns:SendfaxEx_2HttpPostIn" />      <wsdl:output message="tns:SendfaxEx_2HttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ResendBroadcastFax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Resends a broadcast transaction (Multiple destinations</documentation>      <wsdl:input message="tns:ResendBroadcastFaxHttpPostIn" />      <wsdl:output message="tns:ResendBroadcastFaxHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ReSendFax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is a simple method to resend a fax. Four parameters are all that's required</documentation>      <wsdl:input message="tns:ReSendFaxHttpPostIn" />      <wsdl:output message="tns:ReSendFaxHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="HideFax">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is a simple method to hide a transaction in the log</documentation>      <wsdl:input message="tns:HideFaxHttpPostIn" />      <wsdl:output message="tns:HideFaxHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="SendWordMailMerge">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Use this method to send an MS Word 2007 document with MailMerge</documentation>      <wsdl:input message="tns:SendWordMailMergeHttpPostIn" />      <wsdl:output message="tns:SendWordMailMergeHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetSupportedFileTypes">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">A utility method to obtain the currently supported file types.</documentation>      <wsdl:input message="tns:GetSupportedFileTypesHttpPostIn" />      <wsdl:output message="tns:GetSupportedFileTypesHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="IsSupportedFileType">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">A utility method to verify if a given file type is supported.</documentation>      <wsdl:input message="tns:IsSupportedFileTypeHttpPostIn" />      <wsdl:output message="tns:IsSupportedFileTypeHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="UploadFileChunk">      <wsdl:input message="tns:UploadFileChunkHttpPostIn" />      <wsdl:output message="tns:UploadFileChunkHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="CancelFileUpload">      <wsdl:input message="tns:CancelFileUploadHttpPostIn" />      <wsdl:output message="tns:CancelFileUploadHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="InterFaxSoap" type="tns:InterFaxSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <wsdl:operation name="GetListPP">      <soap:operation soapAction="http://www.interfax.cc/GetListPP" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPPCardDetails">      <soap:operation soapAction="http://www.interfax.cc/GetPPCardDetails" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPPCardTransactions">      <soap:operation soapAction="http://www.interfax.cc/GetPPCardTransactions" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPPCardTransactionsAsByteArray">      <soap:operation soapAction="http://www.interfax.cc/GetPPCardTransactionsAsByteArray" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="FaxStatusEx">      <soap:operation soapAction="http://www.interfax.cc/FaxStatusEx" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="FaxQuery2">      <soap:operation soapAction="http://www.interfax.cc/FaxQuery2" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="FaxQuery">      <soap:operation soapAction="http://www.interfax.cc/FaxQuery" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="FaxStatus">      <soap:operation soapAction="http://www.interfax.cc/FaxStatus" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="FaxStatusXML">      <soap:operation soapAction="http://www.interfax.cc/FaxStatusXML" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendCharFax">      <soap:operation soapAction="http://www.interfax.cc/SendCharFax" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Sendfax">      <soap:operation soapAction="http://www.interfax.cc/Sendfax" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="CancelFax">      <soap:operation soapAction="http://www.interfax.cc/CancelFax" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendfaxEx">      <soap:operation soapAction="http://www.interfax.cc/SendfaxEx" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendfaxEx_2">      <soap:operation soapAction="http://www.interfax.cc/SendfaxEx_2" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ResendBroadcastFax">      <soap:operation soapAction="http://www.interfax.cc/ResendBroadcastFax" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ReSendFax">      <soap:operation soapAction="http://www.interfax.cc/ReSendFax" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetFaxImage">      <soap:operation soapAction="http://www.interfax.cc/GetFaxImage" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="HideFax">      <soap:operation soapAction="http://www.interfax.cc/HideFax" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendWordMailMerge">      <soap:operation soapAction="http://www.interfax.cc/SendWordMailMerge" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSupportedFileTypes">      <soap:operation soapAction="http://www.interfax.cc/GetSupportedFileTypes" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsSupportedFileType">      <soap:operation soapAction="http://www.interfax.cc/IsSupportedFileType" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="StartFileUpload">      <soap:operation soapAction="http://www.interfax.cc/StartFileUpload" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="UploadFileChunk">      <soap:operation soapAction="http://www.interfax.cc/UploadFileChunk" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="CancelFileUpload">      <soap:operation soapAction="http://www.interfax.cc/CancelFileUpload" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="InterFaxHttpGet" type="tns:InterFaxHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetListPP">      <http:operation location="/GetListPP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPPCardDetails">      <http:operation location="/GetPPCardDetails" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPPCardTransactions">      <http:operation location="/GetPPCardTransactions" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPPCardTransactionsAsByteArray">      <http:operation location="/GetPPCardTransactionsAsByteArray" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendCharFax">      <http:operation location="/SendCharFax" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Sendfax">      <http:operation location="/Sendfax" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="CancelFax">      <http:operation location="/CancelFax" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendfaxEx">      <http:operation location="/SendfaxEx" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendfaxEx_2">      <http:operation location="/SendfaxEx_2" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ResendBroadcastFax">      <http:operation location="/ResendBroadcastFax" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ReSendFax">      <http:operation location="/ReSendFax" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="HideFax">      <http:operation location="/HideFax" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendWordMailMerge">      <http:operation location="/SendWordMailMerge" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSupportedFileTypes">      <http:operation location="/GetSupportedFileTypes" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsSupportedFileType">      <http:operation location="/IsSupportedFileType" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="UploadFileChunk">      <http:operation location="/UploadFileChunk" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="CancelFileUpload">      <http:operation location="/CancelFileUpload" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="InterFaxHttpPost" type="tns:InterFaxHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetListPP">      <http:operation location="/GetListPP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPPCardDetails">      <http:operation location="/GetPPCardDetails" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPPCardTransactions">      <http:operation location="/GetPPCardTransactions" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPPCardTransactionsAsByteArray">      <http:operation location="/GetPPCardTransactionsAsByteArray" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendCharFax">      <http:operation location="/SendCharFax" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Sendfax">      <http:operation location="/Sendfax" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="CancelFax">      <http:operation location="/CancelFax" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendfaxEx">      <http:operation location="/SendfaxEx" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendfaxEx_2">      <http:operation location="/SendfaxEx_2" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ResendBroadcastFax">      <http:operation location="/ResendBroadcastFax" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ReSendFax">      <http:operation location="/ReSendFax" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="HideFax">      <http:operation location="/HideFax" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendWordMailMerge">      <http:operation location="/SendWordMailMerge" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSupportedFileTypes">      <http:operation location="/GetSupportedFileTypes" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsSupportedFileType">      <http:operation location="/IsSupportedFileType" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="UploadFileChunk">      <http:operation location="/UploadFileChunk" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="CancelFileUpload">      <http:operation location="/CancelFileUpload" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="InterFax">    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">The InterFAX FAX Web Service allows developers to send faxes from any environment, including VB, .NET, Java, C# and any SOAP client. Build 2008-02-11</documentation>    <wsdl:port name="InterFaxSoap" binding="tns:InterFaxSoap">      <soap:address location="http://ws.interfax.net/dfs.asmx" />    </wsdl:port>    <wsdl:port name="InterFaxHttpGet" binding="tns:InterFaxHttpGet">      <http:address location="http://ws.interfax.net/dfs.asmx" />    </wsdl:port>    <wsdl:port name="InterFaxHttpPost" binding="tns:InterFaxHttpPost">      <http:address location="http://ws.interfax.net/dfs.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s1="http://www.interfax.cc/AbstractTypes" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:tns="http://www.interfax.cc" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	targetNamespace="http://www.interfax.cc" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.interfax.cc">
+			<s:element name="GetListPP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetListPPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetListPPResult" type="tns:ListPPResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ListPPResult">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Valid" type="s:boolean" />
+					<s:element minOccurs="1" maxOccurs="1" name="AccountID" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DateFormat" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="AccountType" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PPCardsDetails" type="tns:ArrayOfPPCardDetails" />
+					<s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfPPCardDetails">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="PPCardDetails" type="tns:PPCardDetails" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="PPCardDetails">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Balance" type="s:decimal" />
+					<s:element minOccurs="1" maxOccurs="1" name="Bonus" type="s:decimal" />
+					<s:element minOccurs="1" maxOccurs="1" name="CloseDate" type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1" name="CurrentUsage" type="s:decimal" />
+					<s:element minOccurs="1" maxOccurs="1" name="FaceValue" type="s:decimal" />
+					<s:element minOccurs="1" maxOccurs="1" name="IssueDate" type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1" name="PPCardID" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="PreviousCharge" type="s:decimal" />
+					<s:element minOccurs="1" maxOccurs="1" name="PreviousPPCard" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="OriginalBalance" type="s:decimal" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetPPCardDetails">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="PPCardID" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetPPCardDetailsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetPPCardDetailsResult" type="tns:PPCardResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="PPCardResult">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Details" type="tns:PPCardDetails" />
+					<s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetPPCardTransactions">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="PPCardID" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="FirstResult" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="NumOfResults" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetPPCardTransactionsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetPPCardTransactionsResult" type="tns:PPCardTransactions" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="PPCardTransactions">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Transactions" type="tns:ArrayOfFaxItemEx" />
+					<s:element minOccurs="1" maxOccurs="1" name="TotalNumOfTransactions" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Currency" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="FirstResult" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="NumOfResults" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="LastBalance" type="s:decimal" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfFaxItemEx">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="FaxItemEx" type="tns:FaxItemEx" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="FaxItemEx">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="ParentTransactionID" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="SubmitTime" type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1" name="PostponeTime" type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1" name="CompletionTime" type="s:dateTime" />
+					<s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Contact" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="JobID" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DestinationFax" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ReplyEmail" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="RemoteCSID" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="PagesSent" type="s:short" />
+					<s:element minOccurs="1" maxOccurs="1" name="Status" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="Duration" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="PagesSubmitted" type="s:short" />
+					<s:element minOccurs="0" maxOccurs="1" name="SenderCSID" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Priority" type="s:short" />
+					<s:element minOccurs="1" maxOccurs="1" name="Units" type="s:decimal" />
+					<s:element minOccurs="1" maxOccurs="1" name="CostPerUnit" type="s:decimal" />
+					<s:element minOccurs="0" maxOccurs="1" name="PageSize" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PageOrientation" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PageResolution" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="RenderingQuality" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PageHeader" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="RetriesToPerform" type="s:short" />
+					<s:element minOccurs="1" maxOccurs="1" name="TrialsPerformed" type="s:short" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetPPCardTransactionsAsByteArray">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Year" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="Month" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetPPCardTransactionsAsByteArrayResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetPPCardTransactionsAsByteArrayResult" type="tns:PPCardTrasnactionsByteArray" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="PPCardTrasnactionsByteArray">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Transactions" type="s:base64Binary" />
+					<s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="FaxStatusEx">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="LastTransactionID" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="MaxItems" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="TotalCount" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="ListSize" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="FaxStatusExResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="FaxStatusExResult" type="tns:ArrayOfFaxItemEx" />
+						<s:element minOccurs="1" maxOccurs="1" name="TotalCount" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="ListSize" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="FaxQuery2">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="QueryForm" type="tns:QueryForm" />
+						<s:element minOccurs="1" maxOccurs="1" name="QueryControl" type="tns:QueryControl" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="QueryForm">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Subject" type="tns:QueryCondition" />
+					<s:element minOccurs="1" maxOccurs="1" name="FaxNumber" type="tns:QueryCondition" />
+					<s:element minOccurs="1" maxOccurs="1" name="DateFrom" type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1" name="DateTo" type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1" name="UserID" type="tns:QueryCondition" />
+					<s:element minOccurs="1" maxOccurs="1" name="ReplyAddress" type="tns:QueryCondition" />
+					<s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="tns:QueryCondition" />
+					<s:element minOccurs="1" maxOccurs="1" name="ParentTransactionID" type="tns:QueryCondition" />
+					<s:element minOccurs="1" maxOccurs="1" name="Status" type="tns:QueryCondition" />
+					<s:element minOccurs="1" maxOccurs="1" name="ShowHiddenTransactions" type="s:boolean" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="QueryCondition">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Verb" type="tns:SQLOperatorEnum" />
+					<s:element minOccurs="0" maxOccurs="1" name="VerbData" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="SQLOperatorEnum">
+				<s:restriction base="s:string">
+					<s:enumeration value="Equals" />
+					<s:enumeration value="GreaterThan" />
+					<s:enumeration value="GreaterOrEqual" />
+					<s:enumeration value="LessThan" />
+					<s:enumeration value="LessOrEqual" />
+					<s:enumeration value="Like" />
+					<s:enumeration value="IncludedIn" />
+					<s:enumeration value="Between" />
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="QueryControl">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="OnlyParents" type="s:boolean" />
+					<s:element minOccurs="1" maxOccurs="1" name="NumOfResults" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="StartingRecord" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="OrderBy" type="tns:OrderByColumnEnum" />
+					<s:element minOccurs="1" maxOccurs="1" name="AscOrderDirection" type="s:boolean" />
+					<s:element minOccurs="1" maxOccurs="1" name="ReturnItems" type="s:boolean" />
+					<s:element minOccurs="1" maxOccurs="1" name="ReturnStats" type="s:boolean" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="OrderByColumnEnum">
+				<s:restriction base="s:string">
+					<s:enumeration value="TransactionID" />
+					<s:enumeration value="SubmitTime" />
+					<s:enumeration value="CompletionTime" />
+					<s:enumeration value="Status" />
+					<s:enumeration value="DestinationFax" />
+					<s:enumeration value="Subject" />
+					<s:enumeration value="PagesSent" />
+					<s:enumeration value="UserID" />
+					<s:enumeration value="ReplyEmail" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="FaxQuery2Response">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="FaxQuery2Result" type="tns:FaxQueryResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="FaxQueryResult">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="FaxItems" type="tns:ArrayOfFaxItemEx2" />
+					<s:element minOccurs="0" maxOccurs="1" name="Stats" type="tns:ArrayOfStatusCount" />
+					<s:element minOccurs="0" maxOccurs="1" name="ErrorsDescriptionHTMLFormat" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="TotalTransactionsNum" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfFaxItemEx2">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="FaxItemEx2" type="tns:FaxItemEx2" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="FaxItemEx2">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="ParentTransactionID" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="SubmitTime" type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1" name="PostponeTime" type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1" name="CompletionTime" type="s:dateTime" />
+					<s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Contact" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="JobID" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DestinationFax" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ReplyEmail" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="RemoteCSID" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="PagesSent" type="s:short" />
+					<s:element minOccurs="1" maxOccurs="1" name="Status" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="Duration" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="PagesSubmitted" type="s:short" />
+					<s:element minOccurs="0" maxOccurs="1" name="SenderCSID" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Priority" type="s:short" />
+					<s:element minOccurs="1" maxOccurs="1" name="Units" type="s:decimal" />
+					<s:element minOccurs="1" maxOccurs="1" name="CostPerUnit" type="s:decimal" />
+					<s:element minOccurs="0" maxOccurs="1" name="PageSize" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PageOrientation" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PageResolution" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="RenderingQuality" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PageHeader" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="RetriesToPerform" type="s:short" />
+					<s:element minOccurs="1" maxOccurs="1" name="TrialsPerformed" type="s:short" />
+					<s:element minOccurs="1" maxOccurs="1" name="LocaleID" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="GMTBias" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="RetriesInterval" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="UserData" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DeleteAfterUsage" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Mode" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="NumOfTransactions" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="MessageID" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfStatusCount">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="StatusCount" type="tns:StatusCount" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="StatusCount">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Status" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="FaxQuery">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Verb" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="VerbData" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="MaxItems" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="FaxQueryResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="FaxQueryResult" type="tns:ArrayOfFaxItemEx" />
+						<s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="FaxStatus">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="LastTransactionID" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="MaxItems" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="TotalCount" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="ListSize" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="FaxStatusResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="FaxStatusResult" type="tns:ArrayOfFaxItem" />
+						<s:element minOccurs="1" maxOccurs="1" name="TotalCount" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="ListSize" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfFaxItem">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="FaxItem" type="tns:FaxItem" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="FaxItem">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="SubmitTime" type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1" name="PostponeTime" type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1" name="CompletionTime" type="s:dateTime" />
+					<s:element minOccurs="0" maxOccurs="1" name="DestinationFax" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="RemoteCSID" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="PagesSent" type="s:short" />
+					<s:element minOccurs="1" maxOccurs="1" name="Status" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="Duration" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="PagesSubmitted" type="s:short" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="FaxStatusXML">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="LastTransactionID" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="MaxItems" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="TotalCount" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="ListSize" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="FaxStatusXMLResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="FaxStatusXMLResult" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="TotalCount" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="ListSize" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendCharFax">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="FaxNumber" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Data" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="FileType" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendCharFaxResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="SendCharFaxResult" type="s:long" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Sendfax">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="FaxNumber" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="FileData" type="s:base64Binary" />
+						<s:element minOccurs="0" maxOccurs="1" name="FileType" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendfaxResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="SendfaxResult" type="s:long" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="CancelFax">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="CancelFaxResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="CancelFaxResult" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendfaxEx">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="FaxNumbers" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="FilesData" type="s:base64Binary" />
+						<s:element minOccurs="0" maxOccurs="1" name="FileTypes" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="FileSizes" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Postpone" type="s:dateTime" />
+						<s:element minOccurs="1" maxOccurs="1" name="IsHighResolution" type="s:boolean" />
+						<s:element minOccurs="0" maxOccurs="1" name="CSID" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ReplyAddress" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendfaxExResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="SendfaxExResult" type="s:long" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendfaxEx_2">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="FaxNumbers" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Contacts" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="FilesData" type="s:base64Binary" />
+						<s:element minOccurs="0" maxOccurs="1" name="FileTypes" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="FileSizes" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Postpone" type="s:dateTime" />
+						<s:element minOccurs="1" maxOccurs="1" name="RetriesToPerform" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="CSID" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PageHeader" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="JobID" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ReplyAddress" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PageSize" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PageOrientation" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IsHighResolution" type="s:boolean" />
+						<s:element minOccurs="1" maxOccurs="1" name="IsFineRendering" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendfaxEx_2Response">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="SendfaxEx_2Result" type="s:long" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ResendBroadcastFax">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="ParentTransactionID" type="s:long" />
+						<s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="SendErrorsOnly" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ResendBroadcastFaxResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="ResendBroadcastFaxResult" type="s:long" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ReSendFax">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:long" />
+						<s:element minOccurs="0" maxOccurs="1" name="FaxNumber" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ReSendFaxResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="ReSendFaxResult" type="s:long" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetFaxImage">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:long" />
+						<s:element minOccurs="0" maxOccurs="1" name="Image" type="s:base64Binary" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetFaxImageResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetFaxImageResult" type="s:long" />
+						<s:element minOccurs="0" maxOccurs="1" name="Image" type="s:base64Binary" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="HideFax">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="HideFaxResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="HideFaxResult" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendWordMailMerge">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Document" type="s:base64Binary" />
+						<s:element minOccurs="0" maxOccurs="1" name="List" type="s:base64Binary" />
+						<s:element minOccurs="0" maxOccurs="1" name="Options" type="s:base64Binary" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendWordMailMergeResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="SendWordMailMergeResult" type="s:long" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetSupportedFileTypes">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetSupportedFileTypesResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetSupportedFileTypesResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="IsSupportedFileType">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="FileType" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="IsSupportedFileTypeResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="IsSupportedFileTypeResult" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="StartFileUpload">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="SessionID" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="StartFileUploadResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="StartFileUploadResult" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="SessionID" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="UploadFileChunk">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SessionID" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Chunk" type="s:base64Binary" />
+						<s:element minOccurs="1" maxOccurs="1" name="IsLast" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="UploadFileChunkResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="UploadFileChunkResult" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="CancelFileUpload">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SessionID" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="CancelFileUploadResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="CancelFileUploadResult" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ListPPResult" type="tns:ListPPResult" />
+			<s:element name="PPCardResult" type="tns:PPCardResult" />
+			<s:element name="PPCardTransactions" type="tns:PPCardTransactions" />
+			<s:element name="PPCardTrasnactionsByteArray" type="tns:PPCardTrasnactionsByteArray" />
+			<s:element name="long" type="s:long" />
+			<s:element name="int" type="s:int" />
+			<s:element name="string" nillable="true" type="s:string" />
+			<s:element name="boolean" type="s:boolean" />
+		</s:schema>
+		<s:schema targetNamespace="http://www.interfax.cc/AbstractTypes">
+			<s:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+			<s:complexType name="StringArray">
+				<s:complexContent mixed="false">
+					<s:restriction base="soapenc:Array">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="unbounded" name="String" type="s:string" />
+						</s:sequence>
+					</s:restriction>
+				</s:complexContent>
+			</s:complexType>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetListPPSoapIn">
+		<wsdl:part name="parameters" element="tns:GetListPP" />
+	</wsdl:message>
+	<wsdl:message name="GetListPPSoapOut">
+		<wsdl:part name="parameters" element="tns:GetListPPResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardDetailsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetPPCardDetails" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardDetailsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetPPCardDetailsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardTransactionsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetPPCardTransactions" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardTransactionsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetPPCardTransactionsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardTransactionsAsByteArraySoapIn">
+		<wsdl:part name="parameters" element="tns:GetPPCardTransactionsAsByteArray" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardTransactionsAsByteArraySoapOut">
+		<wsdl:part name="parameters" element="tns:GetPPCardTransactionsAsByteArrayResponse" />
+	</wsdl:message>
+	<wsdl:message name="FaxStatusExSoapIn">
+		<wsdl:part name="parameters" element="tns:FaxStatusEx" />
+	</wsdl:message>
+	<wsdl:message name="FaxStatusExSoapOut">
+		<wsdl:part name="parameters" element="tns:FaxStatusExResponse" />
+	</wsdl:message>
+	<wsdl:message name="FaxQuery2SoapIn">
+		<wsdl:part name="parameters" element="tns:FaxQuery2" />
+	</wsdl:message>
+	<wsdl:message name="FaxQuery2SoapOut">
+		<wsdl:part name="parameters" element="tns:FaxQuery2Response" />
+	</wsdl:message>
+	<wsdl:message name="FaxQuerySoapIn">
+		<wsdl:part name="parameters" element="tns:FaxQuery" />
+	</wsdl:message>
+	<wsdl:message name="FaxQuerySoapOut">
+		<wsdl:part name="parameters" element="tns:FaxQueryResponse" />
+	</wsdl:message>
+	<wsdl:message name="FaxStatusSoapIn">
+		<wsdl:part name="parameters" element="tns:FaxStatus" />
+	</wsdl:message>
+	<wsdl:message name="FaxStatusSoapOut">
+		<wsdl:part name="parameters" element="tns:FaxStatusResponse" />
+	</wsdl:message>
+	<wsdl:message name="FaxStatusXMLSoapIn">
+		<wsdl:part name="parameters" element="tns:FaxStatusXML" />
+	</wsdl:message>
+	<wsdl:message name="FaxStatusXMLSoapOut">
+		<wsdl:part name="parameters" element="tns:FaxStatusXMLResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendCharFaxSoapIn">
+		<wsdl:part name="parameters" element="tns:SendCharFax" />
+	</wsdl:message>
+	<wsdl:message name="SendCharFaxSoapOut">
+		<wsdl:part name="parameters" element="tns:SendCharFaxResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxSoapIn">
+		<wsdl:part name="parameters" element="tns:Sendfax" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxSoapOut">
+		<wsdl:part name="parameters" element="tns:SendfaxResponse" />
+	</wsdl:message>
+	<wsdl:message name="CancelFaxSoapIn">
+		<wsdl:part name="parameters" element="tns:CancelFax" />
+	</wsdl:message>
+	<wsdl:message name="CancelFaxSoapOut">
+		<wsdl:part name="parameters" element="tns:CancelFaxResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxExSoapIn">
+		<wsdl:part name="parameters" element="tns:SendfaxEx" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxExSoapOut">
+		<wsdl:part name="parameters" element="tns:SendfaxExResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxEx_2SoapIn">
+		<wsdl:part name="parameters" element="tns:SendfaxEx_2" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxEx_2SoapOut">
+		<wsdl:part name="parameters" element="tns:SendfaxEx_2Response" />
+	</wsdl:message>
+	<wsdl:message name="ResendBroadcastFaxSoapIn">
+		<wsdl:part name="parameters" element="tns:ResendBroadcastFax" />
+	</wsdl:message>
+	<wsdl:message name="ResendBroadcastFaxSoapOut">
+		<wsdl:part name="parameters" element="tns:ResendBroadcastFaxResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReSendFaxSoapIn">
+		<wsdl:part name="parameters" element="tns:ReSendFax" />
+	</wsdl:message>
+	<wsdl:message name="ReSendFaxSoapOut">
+		<wsdl:part name="parameters" element="tns:ReSendFaxResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetFaxImageSoapIn">
+		<wsdl:part name="parameters" element="tns:GetFaxImage" />
+	</wsdl:message>
+	<wsdl:message name="GetFaxImageSoapOut">
+		<wsdl:part name="parameters" element="tns:GetFaxImageResponse" />
+	</wsdl:message>
+	<wsdl:message name="HideFaxSoapIn">
+		<wsdl:part name="parameters" element="tns:HideFax" />
+	</wsdl:message>
+	<wsdl:message name="HideFaxSoapOut">
+		<wsdl:part name="parameters" element="tns:HideFaxResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendWordMailMergeSoapIn">
+		<wsdl:part name="parameters" element="tns:SendWordMailMerge" />
+	</wsdl:message>
+	<wsdl:message name="SendWordMailMergeSoapOut">
+		<wsdl:part name="parameters" element="tns:SendWordMailMergeResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetSupportedFileTypesSoapIn">
+		<wsdl:part name="parameters" element="tns:GetSupportedFileTypes" />
+	</wsdl:message>
+	<wsdl:message name="GetSupportedFileTypesSoapOut">
+		<wsdl:part name="parameters" element="tns:GetSupportedFileTypesResponse" />
+	</wsdl:message>
+	<wsdl:message name="IsSupportedFileTypeSoapIn">
+		<wsdl:part name="parameters" element="tns:IsSupportedFileType" />
+	</wsdl:message>
+	<wsdl:message name="IsSupportedFileTypeSoapOut">
+		<wsdl:part name="parameters" element="tns:IsSupportedFileTypeResponse" />
+	</wsdl:message>
+	<wsdl:message name="StartFileUploadSoapIn">
+		<wsdl:part name="parameters" element="tns:StartFileUpload" />
+	</wsdl:message>
+	<wsdl:message name="StartFileUploadSoapOut">
+		<wsdl:part name="parameters" element="tns:StartFileUploadResponse" />
+	</wsdl:message>
+	<wsdl:message name="UploadFileChunkSoapIn">
+		<wsdl:part name="parameters" element="tns:UploadFileChunk" />
+	</wsdl:message>
+	<wsdl:message name="UploadFileChunkSoapOut">
+		<wsdl:part name="parameters" element="tns:UploadFileChunkResponse" />
+	</wsdl:message>
+	<wsdl:message name="CancelFileUploadSoapIn">
+		<wsdl:part name="parameters" element="tns:CancelFileUpload" />
+	</wsdl:message>
+	<wsdl:message name="CancelFileUploadSoapOut">
+		<wsdl:part name="parameters" element="tns:CancelFileUploadResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetListPPHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetListPPHttpGetOut">
+		<wsdl:part name="Body" element="tns:ListPPResult" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardDetailsHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="PPCardID" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardDetailsHttpGetOut">
+		<wsdl:part name="Body" element="tns:PPCardResult" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardTransactionsHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="PPCardID" type="s:string" />
+		<wsdl:part name="FirstResult" type="s:string" />
+		<wsdl:part name="NumOfResults" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardTransactionsHttpGetOut">
+		<wsdl:part name="Body" element="tns:PPCardTransactions" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardTransactionsAsByteArrayHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="Year" type="s:string" />
+		<wsdl:part name="Month" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardTransactionsAsByteArrayHttpGetOut">
+		<wsdl:part name="Body" element="tns:PPCardTrasnactionsByteArray" />
+	</wsdl:message>
+	<wsdl:message name="SendCharFaxHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="FaxNumber" type="s:string" />
+		<wsdl:part name="Data" type="s:string" />
+		<wsdl:part name="FileType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SendCharFaxHttpGetOut">
+		<wsdl:part name="Body" element="tns:long" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="FaxNumber" type="s:string" />
+		<wsdl:part name="FileData" type="s1:StringArray" />
+		<wsdl:part name="FileType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxHttpGetOut">
+		<wsdl:part name="Body" element="tns:long" />
+	</wsdl:message>
+	<wsdl:message name="CancelFaxHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransactionID" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="CancelFaxHttpGetOut">
+		<wsdl:part name="Body" element="tns:int" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxExHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="FaxNumbers" type="s:string" />
+		<wsdl:part name="FilesData" type="s1:StringArray" />
+		<wsdl:part name="FileTypes" type="s:string" />
+		<wsdl:part name="FileSizes" type="s:string" />
+		<wsdl:part name="Postpone" type="s:string" />
+		<wsdl:part name="IsHighResolution" type="s:string" />
+		<wsdl:part name="CSID" type="s:string" />
+		<wsdl:part name="Subject" type="s:string" />
+		<wsdl:part name="ReplyAddress" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxExHttpGetOut">
+		<wsdl:part name="Body" element="tns:long" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxEx_2HttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="FaxNumbers" type="s:string" />
+		<wsdl:part name="Contacts" type="s:string" />
+		<wsdl:part name="FilesData" type="s1:StringArray" />
+		<wsdl:part name="FileTypes" type="s:string" />
+		<wsdl:part name="FileSizes" type="s:string" />
+		<wsdl:part name="Postpone" type="s:string" />
+		<wsdl:part name="RetriesToPerform" type="s:string" />
+		<wsdl:part name="CSID" type="s:string" />
+		<wsdl:part name="PageHeader" type="s:string" />
+		<wsdl:part name="JobID" type="s:string" />
+		<wsdl:part name="Subject" type="s:string" />
+		<wsdl:part name="ReplyAddress" type="s:string" />
+		<wsdl:part name="PageSize" type="s:string" />
+		<wsdl:part name="PageOrientation" type="s:string" />
+		<wsdl:part name="IsHighResolution" type="s:string" />
+		<wsdl:part name="IsFineRendering" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxEx_2HttpGetOut">
+		<wsdl:part name="Body" element="tns:long" />
+	</wsdl:message>
+	<wsdl:message name="ResendBroadcastFaxHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="ParentTransactionID" type="s:string" />
+		<wsdl:part name="Subject" type="s:string" />
+		<wsdl:part name="SendErrorsOnly" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ResendBroadcastFaxHttpGetOut">
+		<wsdl:part name="Body" element="tns:long" />
+	</wsdl:message>
+	<wsdl:message name="ReSendFaxHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransactionID" type="s:string" />
+		<wsdl:part name="FaxNumber" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ReSendFaxHttpGetOut">
+		<wsdl:part name="Body" element="tns:long" />
+	</wsdl:message>
+	<wsdl:message name="HideFaxHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransactionID" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="HideFaxHttpGetOut">
+		<wsdl:part name="Body" element="tns:int" />
+	</wsdl:message>
+	<wsdl:message name="SendWordMailMergeHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="Document" type="s1:StringArray" />
+		<wsdl:part name="List" type="s1:StringArray" />
+		<wsdl:part name="Options" type="s1:StringArray" />
+	</wsdl:message>
+	<wsdl:message name="SendWordMailMergeHttpGetOut">
+		<wsdl:part name="Body" element="tns:long" />
+	</wsdl:message>
+	<wsdl:message name="GetSupportedFileTypesHttpGetIn" />
+	<wsdl:message name="GetSupportedFileTypesHttpGetOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:message name="IsSupportedFileTypeHttpGetIn">
+		<wsdl:part name="FileType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="IsSupportedFileTypeHttpGetOut">
+		<wsdl:part name="Body" element="tns:boolean" />
+	</wsdl:message>
+	<wsdl:message name="UploadFileChunkHttpGetIn">
+		<wsdl:part name="SessionID" type="s:string" />
+		<wsdl:part name="Chunk" type="s1:StringArray" />
+		<wsdl:part name="IsLast" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="UploadFileChunkHttpGetOut">
+		<wsdl:part name="Body" element="tns:int" />
+	</wsdl:message>
+	<wsdl:message name="CancelFileUploadHttpGetIn">
+		<wsdl:part name="SessionID" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="CancelFileUploadHttpGetOut">
+		<wsdl:part name="Body" element="tns:int" />
+	</wsdl:message>
+	<wsdl:message name="GetListPPHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetListPPHttpPostOut">
+		<wsdl:part name="Body" element="tns:ListPPResult" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardDetailsHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="PPCardID" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardDetailsHttpPostOut">
+		<wsdl:part name="Body" element="tns:PPCardResult" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardTransactionsHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="PPCardID" type="s:string" />
+		<wsdl:part name="FirstResult" type="s:string" />
+		<wsdl:part name="NumOfResults" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardTransactionsHttpPostOut">
+		<wsdl:part name="Body" element="tns:PPCardTransactions" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardTransactionsAsByteArrayHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="Year" type="s:string" />
+		<wsdl:part name="Month" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPPCardTransactionsAsByteArrayHttpPostOut">
+		<wsdl:part name="Body" element="tns:PPCardTrasnactionsByteArray" />
+	</wsdl:message>
+	<wsdl:message name="SendCharFaxHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="FaxNumber" type="s:string" />
+		<wsdl:part name="Data" type="s:string" />
+		<wsdl:part name="FileType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SendCharFaxHttpPostOut">
+		<wsdl:part name="Body" element="tns:long" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="FaxNumber" type="s:string" />
+		<wsdl:part name="FileData" type="s1:StringArray" />
+		<wsdl:part name="FileType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxHttpPostOut">
+		<wsdl:part name="Body" element="tns:long" />
+	</wsdl:message>
+	<wsdl:message name="CancelFaxHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransactionID" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="CancelFaxHttpPostOut">
+		<wsdl:part name="Body" element="tns:int" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxExHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="FaxNumbers" type="s:string" />
+		<wsdl:part name="FilesData" type="s1:StringArray" />
+		<wsdl:part name="FileTypes" type="s:string" />
+		<wsdl:part name="FileSizes" type="s:string" />
+		<wsdl:part name="Postpone" type="s:string" />
+		<wsdl:part name="IsHighResolution" type="s:string" />
+		<wsdl:part name="CSID" type="s:string" />
+		<wsdl:part name="Subject" type="s:string" />
+		<wsdl:part name="ReplyAddress" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxExHttpPostOut">
+		<wsdl:part name="Body" element="tns:long" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxEx_2HttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="FaxNumbers" type="s:string" />
+		<wsdl:part name="Contacts" type="s:string" />
+		<wsdl:part name="FilesData" type="s1:StringArray" />
+		<wsdl:part name="FileTypes" type="s:string" />
+		<wsdl:part name="FileSizes" type="s:string" />
+		<wsdl:part name="Postpone" type="s:string" />
+		<wsdl:part name="RetriesToPerform" type="s:string" />
+		<wsdl:part name="CSID" type="s:string" />
+		<wsdl:part name="PageHeader" type="s:string" />
+		<wsdl:part name="JobID" type="s:string" />
+		<wsdl:part name="Subject" type="s:string" />
+		<wsdl:part name="ReplyAddress" type="s:string" />
+		<wsdl:part name="PageSize" type="s:string" />
+		<wsdl:part name="PageOrientation" type="s:string" />
+		<wsdl:part name="IsHighResolution" type="s:string" />
+		<wsdl:part name="IsFineRendering" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SendfaxEx_2HttpPostOut">
+		<wsdl:part name="Body" element="tns:long" />
+	</wsdl:message>
+	<wsdl:message name="ResendBroadcastFaxHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="ParentTransactionID" type="s:string" />
+		<wsdl:part name="Subject" type="s:string" />
+		<wsdl:part name="SendErrorsOnly" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ResendBroadcastFaxHttpPostOut">
+		<wsdl:part name="Body" element="tns:long" />
+	</wsdl:message>
+	<wsdl:message name="ReSendFaxHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransactionID" type="s:string" />
+		<wsdl:part name="FaxNumber" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ReSendFaxHttpPostOut">
+		<wsdl:part name="Body" element="tns:long" />
+	</wsdl:message>
+	<wsdl:message name="HideFaxHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransactionID" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="HideFaxHttpPostOut">
+		<wsdl:part name="Body" element="tns:int" />
+	</wsdl:message>
+	<wsdl:message name="SendWordMailMergeHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="Document" type="s1:StringArray" />
+		<wsdl:part name="List" type="s1:StringArray" />
+		<wsdl:part name="Options" type="s1:StringArray" />
+	</wsdl:message>
+	<wsdl:message name="SendWordMailMergeHttpPostOut">
+		<wsdl:part name="Body" element="tns:long" />
+	</wsdl:message>
+	<wsdl:message name="GetSupportedFileTypesHttpPostIn" />
+	<wsdl:message name="GetSupportedFileTypesHttpPostOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:message name="IsSupportedFileTypeHttpPostIn">
+		<wsdl:part name="FileType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="IsSupportedFileTypeHttpPostOut">
+		<wsdl:part name="Body" element="tns:boolean" />
+	</wsdl:message>
+	<wsdl:message name="UploadFileChunkHttpPostIn">
+		<wsdl:part name="SessionID" type="s:string" />
+		<wsdl:part name="Chunk" type="s1:StringArray" />
+		<wsdl:part name="IsLast" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="UploadFileChunkHttpPostOut">
+		<wsdl:part name="Body" element="tns:int" />
+	</wsdl:message>
+	<wsdl:message name="CancelFileUploadHttpPostIn">
+		<wsdl:part name="SessionID" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="CancelFileUploadHttpPostOut">
+		<wsdl:part name="Body" element="tns:int" />
+	</wsdl:message>
+	<wsdl:portType name="InterFaxSoap">
+		<wsdl:operation name="GetListPP">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a list of all the PP cards associated with the given user</documentation>
+			<wsdl:input message="tns:GetListPPSoapIn" />
+			<wsdl:output message="tns:GetListPPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardDetails">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the details of the given PP card</documentation>
+			<wsdl:input message="tns:GetPPCardDetailsSoapIn" />
+			<wsdl:output message="tns:GetPPCardDetailsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardTransactions">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns NumOfResults transactions of the given PP card, starting from FirstResult.
+				For NumOfResults=0 all transactions will be returned</documentation>
+			<wsdl:input message="tns:GetPPCardTransactionsSoapIn" />
+			<wsdl:output message="tns:GetPPCardTransactionsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardTransactionsAsByteArray">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a ZIP file containing a CSV file of all the transactions for the given PP
+				Card. The file comes as an array of bytes</documentation>
+			<wsdl:input message="tns:GetPPCardTransactionsAsByteArraySoapIn" />
+			<wsdl:output message="tns:GetPPCardTransactionsAsByteArraySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="FaxStatusEx">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns full information (27 fields - see &lt;a
+				href="http://www.interfax.net/en/dev/webservice/reference.html#faxstatusex"&gt;Reference&lt;/a&gt;) regarding a fax
+				transaction's current status.</documentation>
+			<wsdl:input message="tns:FaxStatusExSoapIn" />
+			<wsdl:output message="tns:FaxStatusExSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="FaxQuery2">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns full information (27 fields - see &lt;a
+				href="http://www.interfax.net/en/dev/webservice/reference.html#faxstatusex"&gt;Reference&lt;/a&gt;) regarding a
+				population determined by query form.</documentation>
+			<wsdl:input message="tns:FaxQuery2SoapIn" />
+			<wsdl:output message="tns:FaxQuery2SoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="FaxQuery">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns full information (27 fields - see &lt;a
+				href="http://www.interfax.net/en/dev/webservice/reference.html#faxstatusex"&gt;Reference&lt;/a&gt;) regarding a
+				population determined by Verb.</documentation>
+			<wsdl:input message="tns:FaxQuerySoapIn" />
+			<wsdl:output message="tns:FaxQuerySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="FaxStatus">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns quick and minimal information (11 fields - see &lt;a
+				href="http://www.interfax.net/en/dev/webservice/reference.html#faxstatusex"&gt;Reference&lt;/a&gt;) regarding a fax
+				transaction's current status.</documentation>
+			<wsdl:input message="tns:FaxStatusSoapIn" />
+			<wsdl:output message="tns:FaxStatusSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="FaxStatusXML">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Similar to FaxStatusEx, however, returns information in XML-formatted structure.
+			</documentation>
+			<wsdl:input message="tns:FaxStatusXMLSoapIn" />
+			<wsdl:output message="tns:FaxStatusXMLSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendCharFax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is the simplest method to fax ASCII text. Also allows structured text
+				documents, such as HTML, PostScript, etc. (To fax an attachment simply - use the SendFax method.)</documentation>
+			<wsdl:input message="tns:SendCharFaxSoapIn" />
+			<wsdl:output message="tns:SendCharFaxSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Sendfax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is the simplest method to fax an attached file. Five parameters are all
+				that's required. (To fax a simple text message - use the SendCharFax method.)</documentation>
+			<wsdl:input message="tns:SendfaxSoapIn" />
+			<wsdl:output message="tns:SendfaxSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CancelFax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This method is used to stop fax transmission after it was sent</documentation>
+			<wsdl:input message="tns:CancelFaxSoapIn" />
+			<wsdl:output message="tns:CancelFaxSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendfaxEx">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">[Retained for backward-compatibility; replaced by SendfaxEx_2]</documentation>
+			<wsdl:input message="tns:SendfaxExSoapIn" />
+			<wsdl:output message="tns:SendfaxExSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendfaxEx_2">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">The most feature-filled fax sending method. Allows full control over all aspects
+				of fax transmission. Adds page-control features not previously found in the SendfaxEx method.</documentation>
+			<wsdl:input message="tns:SendfaxEx_2SoapIn" />
+			<wsdl:output message="tns:SendfaxEx_2SoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ResendBroadcastFax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Resends a broadcast transaction (Multiple destinations</documentation>
+			<wsdl:input message="tns:ResendBroadcastFaxSoapIn" />
+			<wsdl:output message="tns:ResendBroadcastFaxSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReSendFax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is a simple method to resend a fax. Four parameters are all that's required
+			</documentation>
+			<wsdl:input message="tns:ReSendFaxSoapIn" />
+			<wsdl:output message="tns:ReSendFaxSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetFaxImage">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a TIF file of a transactions rendered document.</documentation>
+			<wsdl:input message="tns:GetFaxImageSoapIn" />
+			<wsdl:output message="tns:GetFaxImageSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="HideFax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is a simple method to hide a transaction in the log</documentation>
+			<wsdl:input message="tns:HideFaxSoapIn" />
+			<wsdl:output message="tns:HideFaxSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendWordMailMerge">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Use this method to send an MS Word 2007 document with MailMerge</documentation>
+			<wsdl:input message="tns:SendWordMailMergeSoapIn" />
+			<wsdl:output message="tns:SendWordMailMergeSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSupportedFileTypes">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">A utility method to obtain the currently supported file types.</documentation>
+			<wsdl:input message="tns:GetSupportedFileTypesSoapIn" />
+			<wsdl:output message="tns:GetSupportedFileTypesSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsSupportedFileType">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">A utility method to verify if a given file type is supported.</documentation>
+			<wsdl:input message="tns:IsSupportedFileTypeSoapIn" />
+			<wsdl:output message="tns:IsSupportedFileTypeSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="StartFileUpload">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Start an Upload session; Returns a Session ID string, to be used by subsequent
+				calls.</documentation>
+			<wsdl:input message="tns:StartFileUploadSoapIn" />
+			<wsdl:output message="tns:StartFileUploadSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="UploadFileChunk">
+			<wsdl:input message="tns:UploadFileChunkSoapIn" />
+			<wsdl:output message="tns:UploadFileChunkSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CancelFileUpload">
+			<wsdl:input message="tns:CancelFileUploadSoapIn" />
+			<wsdl:output message="tns:CancelFileUploadSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="InterFaxHttpGet">
+		<wsdl:operation name="GetListPP">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a list of all the PP cards associated with the given user</documentation>
+			<wsdl:input message="tns:GetListPPHttpGetIn" />
+			<wsdl:output message="tns:GetListPPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardDetails">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the details of the given PP card</documentation>
+			<wsdl:input message="tns:GetPPCardDetailsHttpGetIn" />
+			<wsdl:output message="tns:GetPPCardDetailsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardTransactions">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns NumOfResults transactions of the given PP card, starting from FirstResult.
+				For NumOfResults=0 all transactions will be returned</documentation>
+			<wsdl:input message="tns:GetPPCardTransactionsHttpGetIn" />
+			<wsdl:output message="tns:GetPPCardTransactionsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardTransactionsAsByteArray">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a ZIP file containing a CSV file of all the transactions for the given PP
+				Card. The file comes as an array of bytes</documentation>
+			<wsdl:input message="tns:GetPPCardTransactionsAsByteArrayHttpGetIn" />
+			<wsdl:output message="tns:GetPPCardTransactionsAsByteArrayHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendCharFax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is the simplest method to fax ASCII text. Also allows structured text
+				documents, such as HTML, PostScript, etc. (To fax an attachment simply - use the SendFax method.)</documentation>
+			<wsdl:input message="tns:SendCharFaxHttpGetIn" />
+			<wsdl:output message="tns:SendCharFaxHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Sendfax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is the simplest method to fax an attached file. Five parameters are all
+				that's required. (To fax a simple text message - use the SendCharFax method.)</documentation>
+			<wsdl:input message="tns:SendfaxHttpGetIn" />
+			<wsdl:output message="tns:SendfaxHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CancelFax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This method is used to stop fax transmission after it was sent</documentation>
+			<wsdl:input message="tns:CancelFaxHttpGetIn" />
+			<wsdl:output message="tns:CancelFaxHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendfaxEx">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">[Retained for backward-compatibility; replaced by SendfaxEx_2]</documentation>
+			<wsdl:input message="tns:SendfaxExHttpGetIn" />
+			<wsdl:output message="tns:SendfaxExHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendfaxEx_2">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">The most feature-filled fax sending method. Allows full control over all aspects
+				of fax transmission. Adds page-control features not previously found in the SendfaxEx method.</documentation>
+			<wsdl:input message="tns:SendfaxEx_2HttpGetIn" />
+			<wsdl:output message="tns:SendfaxEx_2HttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ResendBroadcastFax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Resends a broadcast transaction (Multiple destinations</documentation>
+			<wsdl:input message="tns:ResendBroadcastFaxHttpGetIn" />
+			<wsdl:output message="tns:ResendBroadcastFaxHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReSendFax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is a simple method to resend a fax. Four parameters are all that's required
+			</documentation>
+			<wsdl:input message="tns:ReSendFaxHttpGetIn" />
+			<wsdl:output message="tns:ReSendFaxHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="HideFax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is a simple method to hide a transaction in the log</documentation>
+			<wsdl:input message="tns:HideFaxHttpGetIn" />
+			<wsdl:output message="tns:HideFaxHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendWordMailMerge">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Use this method to send an MS Word 2007 document with MailMerge</documentation>
+			<wsdl:input message="tns:SendWordMailMergeHttpGetIn" />
+			<wsdl:output message="tns:SendWordMailMergeHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSupportedFileTypes">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">A utility method to obtain the currently supported file types.</documentation>
+			<wsdl:input message="tns:GetSupportedFileTypesHttpGetIn" />
+			<wsdl:output message="tns:GetSupportedFileTypesHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsSupportedFileType">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">A utility method to verify if a given file type is supported.</documentation>
+			<wsdl:input message="tns:IsSupportedFileTypeHttpGetIn" />
+			<wsdl:output message="tns:IsSupportedFileTypeHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="UploadFileChunk">
+			<wsdl:input message="tns:UploadFileChunkHttpGetIn" />
+			<wsdl:output message="tns:UploadFileChunkHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CancelFileUpload">
+			<wsdl:input message="tns:CancelFileUploadHttpGetIn" />
+			<wsdl:output message="tns:CancelFileUploadHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="InterFaxHttpPost">
+		<wsdl:operation name="GetListPP">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a list of all the PP cards associated with the given user</documentation>
+			<wsdl:input message="tns:GetListPPHttpPostIn" />
+			<wsdl:output message="tns:GetListPPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardDetails">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the details of the given PP card</documentation>
+			<wsdl:input message="tns:GetPPCardDetailsHttpPostIn" />
+			<wsdl:output message="tns:GetPPCardDetailsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardTransactions">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns NumOfResults transactions of the given PP card, starting from FirstResult.
+				For NumOfResults=0 all transactions will be returned</documentation>
+			<wsdl:input message="tns:GetPPCardTransactionsHttpPostIn" />
+			<wsdl:output message="tns:GetPPCardTransactionsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardTransactionsAsByteArray">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a ZIP file containing a CSV file of all the transactions for the given PP
+				Card. The file comes as an array of bytes</documentation>
+			<wsdl:input message="tns:GetPPCardTransactionsAsByteArrayHttpPostIn" />
+			<wsdl:output message="tns:GetPPCardTransactionsAsByteArrayHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendCharFax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is the simplest method to fax ASCII text. Also allows structured text
+				documents, such as HTML, PostScript, etc. (To fax an attachment simply - use the SendFax method.)</documentation>
+			<wsdl:input message="tns:SendCharFaxHttpPostIn" />
+			<wsdl:output message="tns:SendCharFaxHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Sendfax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is the simplest method to fax an attached file. Five parameters are all
+				that's required. (To fax a simple text message - use the SendCharFax method.)</documentation>
+			<wsdl:input message="tns:SendfaxHttpPostIn" />
+			<wsdl:output message="tns:SendfaxHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CancelFax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This method is used to stop fax transmission after it was sent</documentation>
+			<wsdl:input message="tns:CancelFaxHttpPostIn" />
+			<wsdl:output message="tns:CancelFaxHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendfaxEx">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">[Retained for backward-compatibility; replaced by SendfaxEx_2]</documentation>
+			<wsdl:input message="tns:SendfaxExHttpPostIn" />
+			<wsdl:output message="tns:SendfaxExHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendfaxEx_2">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">The most feature-filled fax sending method. Allows full control over all aspects
+				of fax transmission. Adds page-control features not previously found in the SendfaxEx method.</documentation>
+			<wsdl:input message="tns:SendfaxEx_2HttpPostIn" />
+			<wsdl:output message="tns:SendfaxEx_2HttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ResendBroadcastFax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Resends a broadcast transaction (Multiple destinations</documentation>
+			<wsdl:input message="tns:ResendBroadcastFaxHttpPostIn" />
+			<wsdl:output message="tns:ResendBroadcastFaxHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReSendFax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is a simple method to resend a fax. Four parameters are all that's required
+			</documentation>
+			<wsdl:input message="tns:ReSendFaxHttpPostIn" />
+			<wsdl:output message="tns:ReSendFaxHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="HideFax">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This is a simple method to hide a transaction in the log</documentation>
+			<wsdl:input message="tns:HideFaxHttpPostIn" />
+			<wsdl:output message="tns:HideFaxHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendWordMailMerge">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Use this method to send an MS Word 2007 document with MailMerge</documentation>
+			<wsdl:input message="tns:SendWordMailMergeHttpPostIn" />
+			<wsdl:output message="tns:SendWordMailMergeHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSupportedFileTypes">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">A utility method to obtain the currently supported file types.</documentation>
+			<wsdl:input message="tns:GetSupportedFileTypesHttpPostIn" />
+			<wsdl:output message="tns:GetSupportedFileTypesHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsSupportedFileType">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">A utility method to verify if a given file type is supported.</documentation>
+			<wsdl:input message="tns:IsSupportedFileTypeHttpPostIn" />
+			<wsdl:output message="tns:IsSupportedFileTypeHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="UploadFileChunk">
+			<wsdl:input message="tns:UploadFileChunkHttpPostIn" />
+			<wsdl:output message="tns:UploadFileChunkHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CancelFileUpload">
+			<wsdl:input message="tns:CancelFileUploadHttpPostIn" />
+			<wsdl:output message="tns:CancelFileUploadHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="InterFaxSoap" type="tns:InterFaxSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<wsdl:operation name="GetListPP">
+			<soap:operation soapAction="http://www.interfax.cc/GetListPP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardDetails">
+			<soap:operation soapAction="http://www.interfax.cc/GetPPCardDetails" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardTransactions">
+			<soap:operation soapAction="http://www.interfax.cc/GetPPCardTransactions" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardTransactionsAsByteArray">
+			<soap:operation soapAction="http://www.interfax.cc/GetPPCardTransactionsAsByteArray" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="FaxStatusEx">
+			<soap:operation soapAction="http://www.interfax.cc/FaxStatusEx" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="FaxQuery2">
+			<soap:operation soapAction="http://www.interfax.cc/FaxQuery2" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="FaxQuery">
+			<soap:operation soapAction="http://www.interfax.cc/FaxQuery" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="FaxStatus">
+			<soap:operation soapAction="http://www.interfax.cc/FaxStatus" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="FaxStatusXML">
+			<soap:operation soapAction="http://www.interfax.cc/FaxStatusXML" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendCharFax">
+			<soap:operation soapAction="http://www.interfax.cc/SendCharFax" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Sendfax">
+			<soap:operation soapAction="http://www.interfax.cc/Sendfax" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CancelFax">
+			<soap:operation soapAction="http://www.interfax.cc/CancelFax" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendfaxEx">
+			<soap:operation soapAction="http://www.interfax.cc/SendfaxEx" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendfaxEx_2">
+			<soap:operation soapAction="http://www.interfax.cc/SendfaxEx_2" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ResendBroadcastFax">
+			<soap:operation soapAction="http://www.interfax.cc/ResendBroadcastFax" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReSendFax">
+			<soap:operation soapAction="http://www.interfax.cc/ReSendFax" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetFaxImage">
+			<soap:operation soapAction="http://www.interfax.cc/GetFaxImage" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="HideFax">
+			<soap:operation soapAction="http://www.interfax.cc/HideFax" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendWordMailMerge">
+			<soap:operation soapAction="http://www.interfax.cc/SendWordMailMerge" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSupportedFileTypes">
+			<soap:operation soapAction="http://www.interfax.cc/GetSupportedFileTypes" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsSupportedFileType">
+			<soap:operation soapAction="http://www.interfax.cc/IsSupportedFileType" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="StartFileUpload">
+			<soap:operation soapAction="http://www.interfax.cc/StartFileUpload" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UploadFileChunk">
+			<soap:operation soapAction="http://www.interfax.cc/UploadFileChunk" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CancelFileUpload">
+			<soap:operation soapAction="http://www.interfax.cc/CancelFileUpload" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="InterFaxHttpGet" type="tns:InterFaxHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetListPP">
+			<http:operation location="/GetListPP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardDetails">
+			<http:operation location="/GetPPCardDetails" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardTransactions">
+			<http:operation location="/GetPPCardTransactions" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardTransactionsAsByteArray">
+			<http:operation location="/GetPPCardTransactionsAsByteArray" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendCharFax">
+			<http:operation location="/SendCharFax" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Sendfax">
+			<http:operation location="/Sendfax" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CancelFax">
+			<http:operation location="/CancelFax" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendfaxEx">
+			<http:operation location="/SendfaxEx" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendfaxEx_2">
+			<http:operation location="/SendfaxEx_2" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ResendBroadcastFax">
+			<http:operation location="/ResendBroadcastFax" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReSendFax">
+			<http:operation location="/ReSendFax" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="HideFax">
+			<http:operation location="/HideFax" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendWordMailMerge">
+			<http:operation location="/SendWordMailMerge" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSupportedFileTypes">
+			<http:operation location="/GetSupportedFileTypes" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsSupportedFileType">
+			<http:operation location="/IsSupportedFileType" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UploadFileChunk">
+			<http:operation location="/UploadFileChunk" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CancelFileUpload">
+			<http:operation location="/CancelFileUpload" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="InterFaxHttpPost" type="tns:InterFaxHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetListPP">
+			<http:operation location="/GetListPP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardDetails">
+			<http:operation location="/GetPPCardDetails" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardTransactions">
+			<http:operation location="/GetPPCardTransactions" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPPCardTransactionsAsByteArray">
+			<http:operation location="/GetPPCardTransactionsAsByteArray" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendCharFax">
+			<http:operation location="/SendCharFax" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Sendfax">
+			<http:operation location="/Sendfax" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CancelFax">
+			<http:operation location="/CancelFax" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendfaxEx">
+			<http:operation location="/SendfaxEx" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendfaxEx_2">
+			<http:operation location="/SendfaxEx_2" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ResendBroadcastFax">
+			<http:operation location="/ResendBroadcastFax" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReSendFax">
+			<http:operation location="/ReSendFax" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="HideFax">
+			<http:operation location="/HideFax" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendWordMailMerge">
+			<http:operation location="/SendWordMailMerge" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSupportedFileTypes">
+			<http:operation location="/GetSupportedFileTypes" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsSupportedFileType">
+			<http:operation location="/IsSupportedFileType" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UploadFileChunk">
+			<http:operation location="/UploadFileChunk" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CancelFileUpload">
+			<http:operation location="/CancelFileUpload" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="InterFax">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">The InterFAX FAX Web Service allows developers to send faxes from any environment,
+			including VB, .NET, Java, C# and any SOAP client. Build 2008-02-11</documentation>
+		<wsdl:port name="InterFaxSoap" binding="tns:InterFaxSoap">
+			<soap:address location="http://ws.interfax.net/dfs.asmx" />
+		</wsdl:port>
+		<wsdl:port name="InterFaxHttpGet" binding="tns:InterFaxHttpGet">
+			<http:address location="http://ws.interfax.net/dfs.asmx" />
+		</wsdl:port>
+		<wsdl:port name="InterFaxHttpPost" binding="tns:InterFaxHttpPost">
+			<http:address location="http://ws.interfax.net/dfs.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

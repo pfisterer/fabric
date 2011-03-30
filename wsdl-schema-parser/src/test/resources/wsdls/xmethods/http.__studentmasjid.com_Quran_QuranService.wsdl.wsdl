@@ -1,1 +1,69 @@
-<?xml version="1.0"?><definitions xmlns:tns="http://studentmasjid.com/Quran" targetNamespace="http://studentmasjid.com/Quran" xmlns:typens="http://studentmasjid.com/Quran" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="QuranService">	<message name="getVerseRequest">		<part name="chapter" type="xsd:string"/>		<part name="verse" type="xsd:string"/>	</message>	<message name="getVerseResponse">		<part name="english" type="xsd:string"/>		<part name="arabic" type="xsd:string"/>	</message>	<message name="getVerseEnglishResponse">		<part name="s-gensym3" type="xsd:string"/>	</message>	<message name="getVerseArabicResponse">		<part name="s-gensym3" type="xsd:string"/>	</message>	<portType name="QuranPortType">		<operation name="getVerseEnglish">			<input message="tns:getVerseRequest"/>			<output message="tns:getVerseEnglishResponse"/>		</operation>		<operation name="getVerseArabic">			<input message="tns:getVerseRequest"/>			<output message="tns:getVerseArabicResponse"/>		</operation>		<operation name="getVerse">			<input message="tns:getVerseRequest"/>			<output message="tns:getVerseResponse"/>		</operation>	</portType>	<binding name="QuranBinding" type="tns:QuranPortType">		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>		<operation name="getVerseEnglish">			<soap:operation soapAction="http://studentmasjid.com/Quran#getVerseEnglish"/>			<input>				<soap:body use="literal" namespace="http://studentmasjid.com/Quran"/>			</input>			<output>                                <soap:body use="literal" namespace="http://studentmasjid.com/Quran"/>			</output>		</operation>		<operation name="getVerseArabic">			<soap:operation soapAction="http://studentmasjid.com/Quran#getVerseArabic"/>			<input>				<soap:body use="literal" namespace="http://studentmasjid.com/Quran"/>			</input>			<output>				<soap:body use="literal" namespace="http://studentmasjid.com/Quran"/>			</output>		</operation>		<operation name="getVerse">			<soap:operation soapAction="http://studentmasjid.com/Quran#getVerse"/>			<input>                                <soap:body use="literal" namespace="http://studentmasjid.com/Quran"/>			</input>			<output>                                <soap:body use="literal" namespace="http://studentmasjid.com/Quran"/>			</output>		</operation>	</binding>	<service name="QuranService">		<documentation>Returns verses from the Quran</documentation>		<port name="QuranPort" binding="tns:QuranBinding">			<soap:address location="http://studentmasjid.com:80/cgi-bin/quranserver.cgi"/>		</port>	</service></definitions>
+<?xml version="1.0"?>
+<definitions xmlns:tns="http://studentmasjid.com/Quran" targetNamespace="http://studentmasjid.com/Quran"
+	xmlns:typens="http://studentmasjid.com/Quran" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" name="QuranService">
+	<message name="getVerseRequest">
+		<part name="chapter" type="xsd:string" />
+		<part name="verse" type="xsd:string" />
+	</message>
+	<message name="getVerseResponse">
+		<part name="english" type="xsd:string" />
+		<part name="arabic" type="xsd:string" />
+	</message>
+	<message name="getVerseEnglishResponse">
+		<part name="s-gensym3" type="xsd:string" />
+	</message>
+	<message name="getVerseArabicResponse">
+		<part name="s-gensym3" type="xsd:string" />
+	</message>
+	<portType name="QuranPortType">
+		<operation name="getVerseEnglish">
+			<input message="tns:getVerseRequest" />
+			<output message="tns:getVerseEnglishResponse" />
+		</operation>
+		<operation name="getVerseArabic">
+			<input message="tns:getVerseRequest" />
+			<output message="tns:getVerseArabicResponse" />
+		</operation>
+		<operation name="getVerse">
+			<input message="tns:getVerseRequest" />
+			<output message="tns:getVerseResponse" />
+		</operation>
+	</portType>
+	<binding name="QuranBinding" type="tns:QuranPortType">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="getVerseEnglish">
+			<soap:operation soapAction="http://studentmasjid.com/Quran#getVerseEnglish" />
+			<input>
+				<soap:body use="literal" namespace="http://studentmasjid.com/Quran" />
+			</input>
+			<output>
+				<soap:body use="literal" namespace="http://studentmasjid.com/Quran" />
+			</output>
+		</operation>
+		<operation name="getVerseArabic">
+			<soap:operation soapAction="http://studentmasjid.com/Quran#getVerseArabic" />
+			<input>
+				<soap:body use="literal" namespace="http://studentmasjid.com/Quran" />
+			</input>
+			<output>
+				<soap:body use="literal" namespace="http://studentmasjid.com/Quran" />
+			</output>
+		</operation>
+		<operation name="getVerse">
+			<soap:operation soapAction="http://studentmasjid.com/Quran#getVerse" />
+			<input>
+				<soap:body use="literal" namespace="http://studentmasjid.com/Quran" />
+			</input>
+			<output>
+				<soap:body use="literal" namespace="http://studentmasjid.com/Quran" />
+			</output>
+		</operation>
+	</binding>
+	<service name="QuranService">
+		<documentation>Returns verses from the Quran</documentation>
+		<port name="QuranPort" binding="tns:QuranBinding">
+			<soap:address location="http://studentmasjid.com:80/cgi-bin/quranserver.cgi" />
+		</port>
+	</service>
+</definitions>

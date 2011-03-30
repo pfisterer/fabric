@@ -1,1 +1,128 @@
-<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions targetNamespace="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService" xmlns:intf="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><wsdl:types><schema targetNamespace="http://xml.apache.org/xml-soap" xmlns="http://www.w3.org/2001/XMLSchema"><import namespace="http://schemas.xmlsoap.org/soap/encoding/"/><complexType name="mapItem"><sequence><element name="key" nillable="true" type="xsd:string"/><element name="value" nillable="true" type="xsd:string"/></sequence></complexType><complexType name="Map"><sequence><element maxOccurs="unbounded" minOccurs="0" name="item" type="apachesoap:mapItem"/></sequence></complexType></schema><schema targetNamespace="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService" xmlns="http://www.w3.org/2001/XMLSchema"><import namespace="http://schemas.xmlsoap.org/soap/encoding/"/><complexType name="ArrayOf_xsd_string"><complexContent><restriction base="soapenc:Array"><attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]"/></restriction></complexContent></complexType></schema></wsdl:types>  <wsdl:message name="execAMICommand_arrayRequest">    <wsdl:part name="args" type="impl:ArrayOf_xsd_string"/>  </wsdl:message>  <wsdl:message name="execAMICommandRequest">    <wsdl:part name="confArgs" type="apachesoap:Map"/>    <wsdl:part name="args" type="apachesoap:Map"/>  </wsdl:message>  <wsdl:message name="execAMICommand_mapRequest">    <wsdl:part name="args" type="apachesoap:Map"/>  </wsdl:message>  <wsdl:message name="execAMICommand_map_arrayResponse">    <wsdl:part name="execAMICommand_map_arrayReturn" type="xsd:string"/>  </wsdl:message>  <wsdl:message name="execAMICommand_arrayResponse">    <wsdl:part name="execAMICommand_arrayReturn" type="xsd:string"/>  </wsdl:message>  <wsdl:message name="execAMICommand_mapResponse">    <wsdl:part name="execAMICommand_mapReturn" type="xsd:string"/>  </wsdl:message>  <wsdl:message name="execAMICommand_map_arrayRequest">    <wsdl:part name="confArgs" type="apachesoap:Map"/>    <wsdl:part name="args" type="impl:ArrayOf_xsd_string"/>  </wsdl:message>  <wsdl:message name="execAMICommandResponse">    <wsdl:part name="execAMICommandReturn" type="xsd:string"/>  </wsdl:message>  <wsdl:portType name="AMIWebService">    <wsdl:operation name="execAMICommand" parameterOrder="confArgs args">      <wsdl:input message="impl:execAMICommandRequest" name="execAMICommandRequest"/>      <wsdl:output message="impl:execAMICommandResponse" name="execAMICommandResponse"/>    </wsdl:operation>    <wsdl:operation name="execAMICommand_map_array" parameterOrder="confArgs args">      <wsdl:input message="impl:execAMICommand_map_arrayRequest" name="execAMICommand_map_arrayRequest"/>      <wsdl:output message="impl:execAMICommand_map_arrayResponse" name="execAMICommand_map_arrayResponse"/>    </wsdl:operation>    <wsdl:operation name="execAMICommand_map" parameterOrder="args">      <wsdl:input message="impl:execAMICommand_mapRequest" name="execAMICommand_mapRequest"/>      <wsdl:output message="impl:execAMICommand_mapResponse" name="execAMICommand_mapResponse"/>    </wsdl:operation>    <wsdl:operation name="execAMICommand_array" parameterOrder="args">      <wsdl:input message="impl:execAMICommand_arrayRequest" name="execAMICommand_arrayRequest"/>      <wsdl:output message="impl:execAMICommand_arrayResponse" name="execAMICommand_arrayResponse"/>    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="AMIWebServiceSoapBinding" type="impl:AMIWebService">    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>    <wsdl:operation name="execAMICommand">      <wsdlsoap:operation soapAction=""/>      <wsdl:input name="execAMICommandRequest">        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://Webservice.AMI.Bookkeeping.Database.atlas.hep.net" use="encoded"/>      </wsdl:input>      <wsdl:output name="execAMICommandResponse">        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService" use="encoded"/>      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="execAMICommand_map_array">      <wsdlsoap:operation soapAction=""/>      <wsdl:input name="execAMICommand_map_arrayRequest">        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://Webservice.AMI.Bookkeeping.Database.atlas.hep.net" use="encoded"/>      </wsdl:input>      <wsdl:output name="execAMICommand_map_arrayResponse">        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService" use="encoded"/>      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="execAMICommand_map">      <wsdlsoap:operation soapAction=""/>      <wsdl:input name="execAMICommand_mapRequest">        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://Webservice.AMI.Bookkeeping.Database.atlas.hep.net" use="encoded"/>      </wsdl:input>      <wsdl:output name="execAMICommand_mapResponse">        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService" use="encoded"/>      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="execAMICommand_array">      <wsdlsoap:operation soapAction=""/>      <wsdl:input name="execAMICommand_arrayRequest">        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://Webservice.AMI.Bookkeeping.Database.atlas.hep.net" use="encoded"/>      </wsdl:input>      <wsdl:output name="execAMICommand_arrayResponse">        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService" use="encoded"/>      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="AMIWebServiceService">    <wsdl:port binding="impl:AMIWebServiceSoapBinding" name="AMIWebService">      <wsdlsoap:address location="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService"/>    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService" xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService"
+	xmlns:intf="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:types>
+		<schema targetNamespace="http://xml.apache.org/xml-soap" xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+			<complexType name="mapItem">
+				<sequence>
+					<element name="key" nillable="true" type="xsd:string" />
+					<element name="value" nillable="true" type="xsd:string" />
+				</sequence>
+			</complexType>
+			<complexType name="Map">
+				<sequence>
+					<element maxOccurs="unbounded" minOccurs="0" name="item" type="apachesoap:mapItem" />
+				</sequence>
+			</complexType>
+		</schema>
+		<schema targetNamespace="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService" xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+			<complexType name="ArrayOf_xsd_string">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+		</schema>
+	</wsdl:types>
+	<wsdl:message name="execAMICommand_arrayRequest">
+		<wsdl:part name="args" type="impl:ArrayOf_xsd_string" />
+	</wsdl:message>
+	<wsdl:message name="execAMICommandRequest">
+		<wsdl:part name="confArgs" type="apachesoap:Map" />
+		<wsdl:part name="args" type="apachesoap:Map" />
+	</wsdl:message>
+	<wsdl:message name="execAMICommand_mapRequest">
+		<wsdl:part name="args" type="apachesoap:Map" />
+	</wsdl:message>
+	<wsdl:message name="execAMICommand_map_arrayResponse">
+		<wsdl:part name="execAMICommand_map_arrayReturn" type="xsd:string" />
+	</wsdl:message>
+	<wsdl:message name="execAMICommand_arrayResponse">
+		<wsdl:part name="execAMICommand_arrayReturn" type="xsd:string" />
+	</wsdl:message>
+	<wsdl:message name="execAMICommand_mapResponse">
+		<wsdl:part name="execAMICommand_mapReturn" type="xsd:string" />
+	</wsdl:message>
+	<wsdl:message name="execAMICommand_map_arrayRequest">
+		<wsdl:part name="confArgs" type="apachesoap:Map" />
+		<wsdl:part name="args" type="impl:ArrayOf_xsd_string" />
+	</wsdl:message>
+	<wsdl:message name="execAMICommandResponse">
+		<wsdl:part name="execAMICommandReturn" type="xsd:string" />
+	</wsdl:message>
+	<wsdl:portType name="AMIWebService">
+		<wsdl:operation name="execAMICommand" parameterOrder="confArgs args">
+			<wsdl:input message="impl:execAMICommandRequest" name="execAMICommandRequest" />
+			<wsdl:output message="impl:execAMICommandResponse" name="execAMICommandResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="execAMICommand_map_array" parameterOrder="confArgs args">
+			<wsdl:input message="impl:execAMICommand_map_arrayRequest" name="execAMICommand_map_arrayRequest" />
+			<wsdl:output message="impl:execAMICommand_map_arrayResponse" name="execAMICommand_map_arrayResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="execAMICommand_map" parameterOrder="args">
+			<wsdl:input message="impl:execAMICommand_mapRequest" name="execAMICommand_mapRequest" />
+			<wsdl:output message="impl:execAMICommand_mapResponse" name="execAMICommand_mapResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="execAMICommand_array" parameterOrder="args">
+			<wsdl:input message="impl:execAMICommand_arrayRequest" name="execAMICommand_arrayRequest" />
+			<wsdl:output message="impl:execAMICommand_arrayResponse" name="execAMICommand_arrayResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="AMIWebServiceSoapBinding" type="impl:AMIWebService">
+		<wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="execAMICommand">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="execAMICommandRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://Webservice.AMI.Bookkeeping.Database.atlas.hep.net"
+					use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="execAMICommandResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService"
+					use="encoded" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="execAMICommand_map_array">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="execAMICommand_map_arrayRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://Webservice.AMI.Bookkeeping.Database.atlas.hep.net"
+					use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="execAMICommand_map_arrayResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService"
+					use="encoded" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="execAMICommand_map">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="execAMICommand_mapRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://Webservice.AMI.Bookkeeping.Database.atlas.hep.net"
+					use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="execAMICommand_mapResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService"
+					use="encoded" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="execAMICommand_array">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="execAMICommand_arrayRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://Webservice.AMI.Bookkeeping.Database.atlas.hep.net"
+					use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="execAMICommand_arrayResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService"
+					use="encoded" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="AMIWebServiceService">
+		<wsdl:port binding="impl:AMIWebServiceSoapBinding" name="AMIWebService">
+			<wsdlsoap:address location="http://isnpx1158.in2p3.fr:8180/axis/services/AMIWebService" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,1 +1,146 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://ws.fraudlabs.com/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://ws.fraudlabs.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://ws.fraudlabs.com/">      <s:element name="ZIPCodeWorld_US">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ZIPCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LICENSE" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ZIPCodeWorld_USResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ZIPCodeWorld_USResult" type="tns:ZIPCODEWORLD_US" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ZIPCODEWORLD_US">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="CREDITSAVAILABLE" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ZIP_CODE" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="STATE" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CITY" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="AREA_CODE" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CITY_ALIAS_ABBR" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CITY_ALIAS_NAME" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="STATE_FIPS" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="COUNTY_FIPS" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="LATITUDE" type="s:float" />          <s:element minOccurs="1" maxOccurs="1" name="LONGITUDE" type="s:float" />          <s:element minOccurs="0" maxOccurs="1" name="CITY_TYPE" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="COUNTY_NAME" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="TIME_ZONE" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DAY_LIGHT_SAVING" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ELEVATION" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="MSA2000" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PMSA" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CBSA" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CBSA_DIV" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CBSA_TITLE" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="PERSONS_PER_HOUSEHOLD" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="ZIPCODE_POPULATION" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="COUNTIES_AREA" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="HOUSEHOLDS_PER_ZIPCODE" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="WHITE_POPULATION" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="BLACK_POPULATION" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="HISPANIC_POPULATION" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="INCOME_PER_HOUSEHOLD" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="AVERAGE_HOUSE_VALUE" type="s:double" />          <s:element minOccurs="0" maxOccurs="1" name="MESSAGE" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="ZIPCODEWORLD_US" nillable="true" type="tns:ZIPCODEWORLD_US" />    </s:schema>  </wsdl:types>  <wsdl:message name="ZIPCodeWorld_USSoapIn">    <wsdl:part name="parameters" element="tns:ZIPCodeWorld_US" />  </wsdl:message>  <wsdl:message name="ZIPCodeWorld_USSoapOut">    <wsdl:part name="parameters" element="tns:ZIPCodeWorld_USResponse" />  </wsdl:message>  <wsdl:message name="ZIPCodeWorld_USHttpGetIn">    <wsdl:part name="ZIPCode" type="s:string" />    <wsdl:part name="LICENSE" type="s:string" />  </wsdl:message>  <wsdl:message name="ZIPCodeWorld_USHttpGetOut">    <wsdl:part name="Body" element="tns:ZIPCODEWORLD_US" />  </wsdl:message>  <wsdl:message name="ZIPCodeWorld_USHttpPostIn">    <wsdl:part name="ZIPCode" type="s:string" />    <wsdl:part name="LICENSE" type="s:string" />  </wsdl:message>  <wsdl:message name="ZIPCodeWorld_USHttpPostOut">    <wsdl:part name="Body" element="tns:ZIPCODEWORLD_US" />  </wsdl:message>  <wsdl:portType name="ZIPCodeWorldUS_WebServiceSoap">    <wsdl:operation name="ZIPCodeWorld_US">      <wsdl:input message="tns:ZIPCodeWorld_USSoapIn" />      <wsdl:output message="tns:ZIPCodeWorld_USSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="ZIPCodeWorldUS_WebServiceHttpGet">    <wsdl:operation name="ZIPCodeWorld_US">      <wsdl:input message="tns:ZIPCodeWorld_USHttpGetIn" />      <wsdl:output message="tns:ZIPCodeWorld_USHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="ZIPCodeWorldUS_WebServiceHttpPost">    <wsdl:operation name="ZIPCodeWorld_US">      <wsdl:input message="tns:ZIPCodeWorld_USHttpPostIn" />      <wsdl:output message="tns:ZIPCodeWorld_USHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="ZIPCodeWorldUS_WebServiceSoap" type="tns:ZIPCodeWorldUS_WebServiceSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <wsdl:operation name="ZIPCodeWorld_US">      <soap:operation soapAction="http://ws.fraudlabs.com/ZIPCodeWorld_US" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="ZIPCodeWorldUS_WebServiceHttpGet" type="tns:ZIPCodeWorldUS_WebServiceHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="ZIPCodeWorld_US">      <http:operation location="/ZIPCodeWorld_US" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="ZIPCodeWorldUS_WebServiceHttpPost" type="tns:ZIPCodeWorldUS_WebServiceHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="ZIPCodeWorld_US">      <http:operation location="/ZIPCodeWorld_US" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="ZIPCodeWorldUS_WebService">    <wsdl:port name="ZIPCodeWorldUS_WebServiceSoap" binding="tns:ZIPCodeWorldUS_WebServiceSoap">      <soap:address location="http://ws.fraudlabs.com/zipcodeworldUS_webservice.asmx" />    </wsdl:port>    <wsdl:port name="ZIPCodeWorldUS_WebServiceHttpGet" binding="tns:ZIPCodeWorldUS_WebServiceHttpGet">      <http:address location="http://ws.fraudlabs.com/zipcodeworldUS_webservice.asmx" />    </wsdl:port>    <wsdl:port name="ZIPCodeWorldUS_WebServiceHttpPost" binding="tns:ZIPCodeWorldUS_WebServiceHttpPost">      <http:address location="http://ws.fraudlabs.com/zipcodeworldUS_webservice.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://ws.fraudlabs.com/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	targetNamespace="http://ws.fraudlabs.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://ws.fraudlabs.com/">
+			<s:element name="ZIPCodeWorld_US">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ZIPCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LICENSE" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ZIPCodeWorld_USResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ZIPCodeWorld_USResult" type="tns:ZIPCODEWORLD_US" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ZIPCODEWORLD_US">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="CREDITSAVAILABLE" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ZIP_CODE" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="STATE" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CITY" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="AREA_CODE" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CITY_ALIAS_ABBR" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CITY_ALIAS_NAME" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="STATE_FIPS" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="COUNTY_FIPS" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="LATITUDE" type="s:float" />
+					<s:element minOccurs="1" maxOccurs="1" name="LONGITUDE" type="s:float" />
+					<s:element minOccurs="0" maxOccurs="1" name="CITY_TYPE" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="COUNTY_NAME" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="TIME_ZONE" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DAY_LIGHT_SAVING" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ELEVATION" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="MSA2000" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PMSA" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CBSA" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CBSA_DIV" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CBSA_TITLE" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="PERSONS_PER_HOUSEHOLD" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="ZIPCODE_POPULATION" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="COUNTIES_AREA" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="HOUSEHOLDS_PER_ZIPCODE" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="WHITE_POPULATION" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="BLACK_POPULATION" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="HISPANIC_POPULATION" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="INCOME_PER_HOUSEHOLD" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="AVERAGE_HOUSE_VALUE" type="s:double" />
+					<s:element minOccurs="0" maxOccurs="1" name="MESSAGE" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="ZIPCODEWORLD_US" nillable="true" type="tns:ZIPCODEWORLD_US" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="ZIPCodeWorld_USSoapIn">
+		<wsdl:part name="parameters" element="tns:ZIPCodeWorld_US" />
+	</wsdl:message>
+	<wsdl:message name="ZIPCodeWorld_USSoapOut">
+		<wsdl:part name="parameters" element="tns:ZIPCodeWorld_USResponse" />
+	</wsdl:message>
+	<wsdl:message name="ZIPCodeWorld_USHttpGetIn">
+		<wsdl:part name="ZIPCode" type="s:string" />
+		<wsdl:part name="LICENSE" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ZIPCodeWorld_USHttpGetOut">
+		<wsdl:part name="Body" element="tns:ZIPCODEWORLD_US" />
+	</wsdl:message>
+	<wsdl:message name="ZIPCodeWorld_USHttpPostIn">
+		<wsdl:part name="ZIPCode" type="s:string" />
+		<wsdl:part name="LICENSE" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ZIPCodeWorld_USHttpPostOut">
+		<wsdl:part name="Body" element="tns:ZIPCODEWORLD_US" />
+	</wsdl:message>
+	<wsdl:portType name="ZIPCodeWorldUS_WebServiceSoap">
+		<wsdl:operation name="ZIPCodeWorld_US">
+			<wsdl:input message="tns:ZIPCodeWorld_USSoapIn" />
+			<wsdl:output message="tns:ZIPCodeWorld_USSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="ZIPCodeWorldUS_WebServiceHttpGet">
+		<wsdl:operation name="ZIPCodeWorld_US">
+			<wsdl:input message="tns:ZIPCodeWorld_USHttpGetIn" />
+			<wsdl:output message="tns:ZIPCodeWorld_USHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="ZIPCodeWorldUS_WebServiceHttpPost">
+		<wsdl:operation name="ZIPCodeWorld_US">
+			<wsdl:input message="tns:ZIPCodeWorld_USHttpPostIn" />
+			<wsdl:output message="tns:ZIPCodeWorld_USHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="ZIPCodeWorldUS_WebServiceSoap" type="tns:ZIPCodeWorldUS_WebServiceSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<wsdl:operation name="ZIPCodeWorld_US">
+			<soap:operation soapAction="http://ws.fraudlabs.com/ZIPCodeWorld_US" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="ZIPCodeWorldUS_WebServiceHttpGet" type="tns:ZIPCodeWorldUS_WebServiceHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="ZIPCodeWorld_US">
+			<http:operation location="/ZIPCodeWorld_US" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="ZIPCodeWorldUS_WebServiceHttpPost" type="tns:ZIPCodeWorldUS_WebServiceHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="ZIPCodeWorld_US">
+			<http:operation location="/ZIPCodeWorld_US" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="ZIPCodeWorldUS_WebService">
+		<wsdl:port name="ZIPCodeWorldUS_WebServiceSoap" binding="tns:ZIPCodeWorldUS_WebServiceSoap">
+			<soap:address location="http://ws.fraudlabs.com/zipcodeworldUS_webservice.asmx" />
+		</wsdl:port>
+		<wsdl:port name="ZIPCodeWorldUS_WebServiceHttpGet" binding="tns:ZIPCodeWorldUS_WebServiceHttpGet">
+			<http:address location="http://ws.fraudlabs.com/zipcodeworldUS_webservice.asmx" />
+		</wsdl:port>
+		<wsdl:port name="ZIPCodeWorldUS_WebServiceHttpPost" binding="tns:ZIPCodeWorldUS_WebServiceHttpPost">
+			<http:address location="http://ws.fraudlabs.com/zipcodeworldUS_webservice.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

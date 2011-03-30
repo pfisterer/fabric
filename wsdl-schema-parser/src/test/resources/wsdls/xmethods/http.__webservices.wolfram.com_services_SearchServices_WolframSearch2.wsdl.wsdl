@@ -1,1 +1,298 @@
-<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions targetNamespace='http://www.wolfram.com/XML/SOAP/Version2/WolframSearch'    xmlns='http://schemas.xmlsoap.org/wsdl/'    xmlns:wsdl='http://schemas.xmlsoap.org/wsdl/'    xmlns:wsdlsoap='http://schemas.xmlsoap.org/wsdl/soap/'    xmlns:xsd='http://www.w3.org/2001/XMLSchema'    xmlns:ns1='http://www.wolfram.com/XML/SOAP/Version2/WolframSearch'> <wsdl:types>  <xsd:schema targetNamespace='http://www.wolfram.com/XML/SOAP/Version2/WolframSearch'>   <xsd:complexType name='StringArray'>    <xsd:sequence>     <xsd:element name='Item'         minOccurs='0'         maxOccurs='unbounded'         type='xsd:string'/>    </xsd:sequence>   </xsd:complexType>   <xsd:complexType name='WolframSearchMatch'>    <xsd:sequence>     <xsd:element name='Title'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='URL'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='Index'         minOccurs='0'         maxOccurs='1'         type='xsd:int'/>     <xsd:element name='Score'         minOccurs='0'         maxOccurs='1'         type='xsd:int'/>     <xsd:element name='Excerpt'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='Modified'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='Size'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='Mime'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='Description'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='HelpBrowserLocation'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='NotebookURL'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>    </xsd:sequence>   </xsd:complexType>   <xsd:complexType name='WolframSearchMatchArray'>    <xsd:sequence>     <xsd:element name='Item'         minOccurs='0'         maxOccurs='unbounded'         type='ns1:WolframSearchMatch'/>    </xsd:sequence>   </xsd:complexType>   <xsd:complexType name='WolframSearchOptions'>    <xsd:sequence>     <xsd:element name='Query'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='Mode'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='Limit'         minOccurs='0'         maxOccurs='1'         type='xsd:int'/>     <xsd:element name='StartIndex'         minOccurs='0'         maxOccurs='1'         type='xsd:int'/>     <xsd:element name='ReturnTypes'         minOccurs='0'         maxOccurs='1'         type='ns1:StringArray'/>     <xsd:element name='Collection'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='RestrictSite'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='ExcludeSite'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='Language'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='MatchLocation'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='Filter'         minOccurs='0'         maxOccurs='1'         type='xsd:boolean'/>    </xsd:sequence>   </xsd:complexType>   <xsd:complexType name='WolframSearchResult'>    <xsd:sequence>     <xsd:element name='SearchTime'         minOccurs='0'         maxOccurs='1'         type='xsd:double'/>     <xsd:element name='TotalMatches'         minOccurs='0'         maxOccurs='1'         type='xsd:int'/>     <xsd:element name='Suggestion'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='Comment'         minOccurs='0'         maxOccurs='1'         type='xsd:string'/>     <xsd:element name='Matches'         minOccurs='0'         maxOccurs='1'         type='ns1:WolframSearchMatchArray'/>    </xsd:sequence>   </xsd:complexType>   <xsd:element name='GetCollections'>    <xsd:complexType>     <xsd:sequence/>    </xsd:complexType>   </xsd:element>   <xsd:element name='GetCollectionsReturn'>    <xsd:complexType>     <xsd:sequence>      <xsd:element name='Result'          minOccurs='0'          maxOccurs='1'          type='ns1:StringArray'/>     </xsd:sequence>    </xsd:complexType>   </xsd:element>   <xsd:element name='GetLanguages'>    <xsd:complexType>     <xsd:sequence/>    </xsd:complexType>   </xsd:element>   <xsd:element name='GetLanguagesReturn'>    <xsd:complexType>     <xsd:sequence>      <xsd:element name='Result'          minOccurs='0'          maxOccurs='1'          type='ns1:StringArray'/>     </xsd:sequence>    </xsd:complexType>   </xsd:element>   <xsd:element name='GetModes'>    <xsd:complexType>     <xsd:sequence/>    </xsd:complexType>   </xsd:element>   <xsd:element name='GetModesReturn'>    <xsd:complexType>     <xsd:sequence>      <xsd:element name='Result'          minOccurs='0'          maxOccurs='1'          type='ns1:StringArray'/>     </xsd:sequence>    </xsd:complexType>   </xsd:element>   <xsd:element name='GetMatchLocations'>    <xsd:complexType>     <xsd:sequence/>    </xsd:complexType>   </xsd:element>   <xsd:element name='GetMatchLocationsReturn'>    <xsd:complexType>     <xsd:sequence>      <xsd:element name='Result'          minOccurs='0'          maxOccurs='1'          type='ns1:StringArray'/>     </xsd:sequence>    </xsd:complexType>   </xsd:element>   <xsd:element name='GetReturnTypes'>    <xsd:complexType>     <xsd:sequence/>    </xsd:complexType>   </xsd:element>   <xsd:element name='GetReturnTypesReturn'>    <xsd:complexType>     <xsd:sequence>      <xsd:element name='Result'          minOccurs='0'          maxOccurs='1'          type='ns1:StringArray'/>     </xsd:sequence>    </xsd:complexType>   </xsd:element>   <xsd:element name='WolframQuickSearch'>    <xsd:complexType>     <xsd:sequence>      <xsd:element name='Query'          minOccurs='0'          maxOccurs='1'          type='xsd:string'/>      <xsd:element name='Limit'          minOccurs='0'          maxOccurs='1'          type='xsd:int'/>     </xsd:sequence>    </xsd:complexType>   </xsd:element>   <xsd:element name='WolframQuickSearchReturn'>    <xsd:complexType>     <xsd:sequence>      <xsd:element name='Result'          minOccurs='0'          maxOccurs='1'          type='ns1:WolframSearchResult'/>     </xsd:sequence>    </xsd:complexType>   </xsd:element>   <xsd:element name='WolframSearch'>    <xsd:complexType>     <xsd:sequence>      <xsd:element name='Options'          minOccurs='0'          maxOccurs='1'          type='ns1:WolframSearchOptions'/>     </xsd:sequence>    </xsd:complexType>   </xsd:element>   <xsd:element name='WolframSearchReturn'>    <xsd:complexType>     <xsd:sequence>      <xsd:element name='Result'          minOccurs='0'          maxOccurs='1'          type='ns1:WolframSearchResult'/>     </xsd:sequence>    </xsd:complexType>   </xsd:element>  </xsd:schema> </wsdl:types> <wsdl:message name='GetCollectionsRequest'>  <wsdl:part element='ns1:GetCollections'      name='part'/> </wsdl:message> <wsdl:message name='GetCollectionsResponse'>  <wsdl:part element='ns1:GetCollectionsReturn'      name='GetCollectionsReturn'/> </wsdl:message> <wsdl:message name='GetLanguagesRequest'>  <wsdl:part element='ns1:GetLanguages'      name='part'/> </wsdl:message> <wsdl:message name='GetLanguagesResponse'>  <wsdl:part element='ns1:GetLanguagesReturn'      name='GetLanguagesReturn'/> </wsdl:message> <wsdl:message name='GetModesRequest'>  <wsdl:part element='ns1:GetModes'      name='part'/> </wsdl:message> <wsdl:message name='GetModesResponse'>  <wsdl:part element='ns1:GetModesReturn'      name='GetModesReturn'/> </wsdl:message> <wsdl:message name='GetMatchLocationsRequest'>  <wsdl:part element='ns1:GetMatchLocations'      name='part'/> </wsdl:message> <wsdl:message name='GetMatchLocationsResponse'>  <wsdl:part element='ns1:GetMatchLocationsReturn'      name='GetMatchLocationsReturn'/> </wsdl:message> <wsdl:message name='GetReturnTypesRequest'>  <wsdl:part element='ns1:GetReturnTypes'      name='part'/> </wsdl:message> <wsdl:message name='GetReturnTypesResponse'>  <wsdl:part element='ns1:GetReturnTypesReturn'      name='GetReturnTypesReturn'/> </wsdl:message> <wsdl:message name='WolframQuickSearchRequest'>  <wsdl:part element='ns1:WolframQuickSearch'      name='part'/> </wsdl:message> <wsdl:message name='WolframQuickSearchResponse'>  <wsdl:part element='ns1:WolframQuickSearchReturn'      name='WolframQuickSearchReturn'/> </wsdl:message> <wsdl:message name='WolframSearchRequest'>  <wsdl:part element='ns1:WolframSearch'      name='part'/> </wsdl:message> <wsdl:message name='WolframSearchResponse'>  <wsdl:part element='ns1:WolframSearchReturn'      name='WolframSearchReturn'/> </wsdl:message> <wsdl:portType name='WolframSearchmyPortType'>  <wsdl:operation name='GetCollections'>   <wsdl:documentation>Returns a list of valid restrict options.</wsdl:documentation>   <wsdl:input message='ns1:GetCollectionsRequest'       name='GetCollectionsRequest'/>   <wsdl:output message='ns1:GetCollectionsResponse'       name='GetCollectionsResponse'/>  </wsdl:operation>  <wsdl:operation name='GetLanguages'>   <wsdl:documentation>Returns a list of valid language options.</wsdl:documentation>   <wsdl:input message='ns1:GetLanguagesRequest'       name='GetLanguagesRequest'/>   <wsdl:output message='ns1:GetLanguagesResponse'       name='GetLanguagesResponse'/>  </wsdl:operation>  <wsdl:operation name='GetModes'>   <wsdl:documentation>Returns a list of valid mode options.</wsdl:documentation>   <wsdl:input message='ns1:GetModesRequest'       name='GetModesRequest'/>   <wsdl:output message='ns1:GetModesResponse'       name='GetModesResponse'/>  </wsdl:operation>  <wsdl:operation name='GetMatchLocations'>   <wsdl:documentation>Returns a list of valid match locations.</wsdl:documentation>   <wsdl:input message='ns1:GetMatchLocationsRequest'       name='GetMatchLocationsRequest'/>   <wsdl:output message='ns1:GetMatchLocationsResponse'       name='GetMatchLocationsResponse'/>  </wsdl:operation>  <wsdl:operation name='GetReturnTypes'>   <wsdl:documentation>Returns a list of the valid return types.</wsdl:documentation>   <wsdl:input message='ns1:GetReturnTypesRequest'       name='GetReturnTypesRequest'/>   <wsdl:output message='ns1:GetReturnTypesResponse'       name='GetReturnTypesResponse'/>  </wsdl:operation>  <wsdl:operation name='WolframQuickSearch'>   <wsdl:documentation>Searches wolfram.com web sites requiring only words to search for and a limit to the number of results.</wsdl:documentation>   <wsdl:input message='ns1:WolframQuickSearchRequest'       name='WolframQuickSearchRequest'/>   <wsdl:output message='ns1:WolframQuickSearchResponse'       name='WolframQuickSearchResponse'/>  </wsdl:operation>  <wsdl:operation name='WolframSearch'>   <wsdl:documentation>Searches wolfram.com web sites with a full range of options.</wsdl:documentation>   <wsdl:input message='ns1:WolframSearchRequest'       name='WolframSearchRequest'/>   <wsdl:output message='ns1:WolframSearchResponse'       name='WolframSearchResponse'/>  </wsdl:operation> </wsdl:portType> <wsdl:binding name='WolframSearchBinding'     type='ns1:WolframSearchmyPortType'>  <wsdlsoap:binding style='document'      transport='http://schemas.xmlsoap.org/soap/http'/>  <wsdl:operation name='GetCollections'>   <wsdlsoap:operation soapAction=''/>   <wsdl:input name='GetCollectionsRequest'>    <wsdlsoap:body use='literal'/>   </wsdl:input>   <wsdl:output name='GetCollectionsResponse'>    <wsdlsoap:body use='literal'/>   </wsdl:output>  </wsdl:operation>  <wsdl:operation name='GetLanguages'>   <wsdlsoap:operation soapAction=''/>   <wsdl:input name='GetLanguagesRequest'>    <wsdlsoap:body use='literal'/>   </wsdl:input>   <wsdl:output name='GetLanguagesResponse'>    <wsdlsoap:body use='literal'/>   </wsdl:output>  </wsdl:operation>  <wsdl:operation name='GetModes'>   <wsdlsoap:operation soapAction=''/>   <wsdl:input name='GetModesRequest'>    <wsdlsoap:body use='literal'/>   </wsdl:input>   <wsdl:output name='GetModesResponse'>    <wsdlsoap:body use='literal'/>   </wsdl:output>  </wsdl:operation>  <wsdl:operation name='GetMatchLocations'>   <wsdlsoap:operation soapAction=''/>   <wsdl:input name='GetMatchLocationsRequest'>    <wsdlsoap:body use='literal'/>   </wsdl:input>   <wsdl:output name='GetMatchLocationsResponse'>    <wsdlsoap:body use='literal'/>   </wsdl:output>  </wsdl:operation>  <wsdl:operation name='GetReturnTypes'>   <wsdlsoap:operation soapAction=''/>   <wsdl:input name='GetReturnTypesRequest'>    <wsdlsoap:body use='literal'/>   </wsdl:input>   <wsdl:output name='GetReturnTypesResponse'>    <wsdlsoap:body use='literal'/>   </wsdl:output>  </wsdl:operation>  <wsdl:operation name='WolframQuickSearch'>   <wsdlsoap:operation soapAction=''/>   <wsdl:input name='WolframQuickSearchRequest'>    <wsdlsoap:body use='literal'/>   </wsdl:input>   <wsdl:output name='WolframQuickSearchResponse'>    <wsdlsoap:body use='literal'/>   </wsdl:output>  </wsdl:operation>  <wsdl:operation name='WolframSearch'>   <wsdlsoap:operation soapAction=''/>   <wsdl:input name='WolframSearchRequest'>    <wsdlsoap:body use='literal'/>   </wsdl:input>   <wsdl:output name='WolframSearchResponse'>    <wsdlsoap:body use='literal'/>   </wsdl:output>  </wsdl:operation> </wsdl:binding> <wsdl:service name='WolframSearchService'>  <wsdl:port binding='ns1:WolframSearchBinding'      name='WolframSearchPort'>   <wsdlsoap:address location='http://webservices.wolfram.com/services/SearchServices/services/WolframSearch2'/>  </wsdl:port> </wsdl:service></wsdl:definitions>
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions targetNamespace='http://www.wolfram.com/XML/SOAP/Version2/WolframSearch' xmlns='http://schemas.xmlsoap.org/wsdl/'
+	xmlns:wsdl='http://schemas.xmlsoap.org/wsdl/' xmlns:wsdlsoap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:xsd='http://www.w3.org/2001/XMLSchema'
+	xmlns:ns1='http://www.wolfram.com/XML/SOAP/Version2/WolframSearch'>
+	<wsdl:types>
+		<xsd:schema targetNamespace='http://www.wolfram.com/XML/SOAP/Version2/WolframSearch'>
+			<xsd:complexType name='StringArray'>
+				<xsd:sequence>
+					<xsd:element name='Item' minOccurs='0' maxOccurs='unbounded' type='xsd:string' />
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name='WolframSearchMatch'>
+				<xsd:sequence>
+					<xsd:element name='Title' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='URL' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='Index' minOccurs='0' maxOccurs='1' type='xsd:int' />
+					<xsd:element name='Score' minOccurs='0' maxOccurs='1' type='xsd:int' />
+					<xsd:element name='Excerpt' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='Modified' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='Size' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='Mime' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='Description' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='HelpBrowserLocation' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='NotebookURL' minOccurs='0' maxOccurs='1' type='xsd:string' />
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name='WolframSearchMatchArray'>
+				<xsd:sequence>
+					<xsd:element name='Item' minOccurs='0' maxOccurs='unbounded' type='ns1:WolframSearchMatch' />
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name='WolframSearchOptions'>
+				<xsd:sequence>
+					<xsd:element name='Query' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='Mode' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='Limit' minOccurs='0' maxOccurs='1' type='xsd:int' />
+					<xsd:element name='StartIndex' minOccurs='0' maxOccurs='1' type='xsd:int' />
+					<xsd:element name='ReturnTypes' minOccurs='0' maxOccurs='1' type='ns1:StringArray' />
+					<xsd:element name='Collection' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='RestrictSite' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='ExcludeSite' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='Language' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='MatchLocation' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='Filter' minOccurs='0' maxOccurs='1' type='xsd:boolean' />
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name='WolframSearchResult'>
+				<xsd:sequence>
+					<xsd:element name='SearchTime' minOccurs='0' maxOccurs='1' type='xsd:double' />
+					<xsd:element name='TotalMatches' minOccurs='0' maxOccurs='1' type='xsd:int' />
+					<xsd:element name='Suggestion' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='Comment' minOccurs='0' maxOccurs='1' type='xsd:string' />
+					<xsd:element name='Matches' minOccurs='0' maxOccurs='1' type='ns1:WolframSearchMatchArray' />
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name='GetCollections'>
+				<xsd:complexType>
+					<xsd:sequence />
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name='GetCollectionsReturn'>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name='Result' minOccurs='0' maxOccurs='1' type='ns1:StringArray' />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name='GetLanguages'>
+				<xsd:complexType>
+					<xsd:sequence />
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name='GetLanguagesReturn'>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name='Result' minOccurs='0' maxOccurs='1' type='ns1:StringArray' />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name='GetModes'>
+				<xsd:complexType>
+					<xsd:sequence />
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name='GetModesReturn'>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name='Result' minOccurs='0' maxOccurs='1' type='ns1:StringArray' />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name='GetMatchLocations'>
+				<xsd:complexType>
+					<xsd:sequence />
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name='GetMatchLocationsReturn'>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name='Result' minOccurs='0' maxOccurs='1' type='ns1:StringArray' />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name='GetReturnTypes'>
+				<xsd:complexType>
+					<xsd:sequence />
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name='GetReturnTypesReturn'>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name='Result' minOccurs='0' maxOccurs='1' type='ns1:StringArray' />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name='WolframQuickSearch'>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name='Query' minOccurs='0' maxOccurs='1' type='xsd:string' />
+						<xsd:element name='Limit' minOccurs='0' maxOccurs='1' type='xsd:int' />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name='WolframQuickSearchReturn'>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name='Result' minOccurs='0' maxOccurs='1' type='ns1:WolframSearchResult' />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name='WolframSearch'>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name='Options' minOccurs='0' maxOccurs='1' type='ns1:WolframSearchOptions' />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name='WolframSearchReturn'>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name='Result' minOccurs='0' maxOccurs='1' type='ns1:WolframSearchResult' />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name='GetCollectionsRequest'>
+		<wsdl:part element='ns1:GetCollections' name='part' />
+	</wsdl:message>
+	<wsdl:message name='GetCollectionsResponse'>
+		<wsdl:part element='ns1:GetCollectionsReturn' name='GetCollectionsReturn' />
+	</wsdl:message>
+	<wsdl:message name='GetLanguagesRequest'>
+		<wsdl:part element='ns1:GetLanguages' name='part' />
+	</wsdl:message>
+	<wsdl:message name='GetLanguagesResponse'>
+		<wsdl:part element='ns1:GetLanguagesReturn' name='GetLanguagesReturn' />
+	</wsdl:message>
+	<wsdl:message name='GetModesRequest'>
+		<wsdl:part element='ns1:GetModes' name='part' />
+	</wsdl:message>
+	<wsdl:message name='GetModesResponse'>
+		<wsdl:part element='ns1:GetModesReturn' name='GetModesReturn' />
+	</wsdl:message>
+	<wsdl:message name='GetMatchLocationsRequest'>
+		<wsdl:part element='ns1:GetMatchLocations' name='part' />
+	</wsdl:message>
+	<wsdl:message name='GetMatchLocationsResponse'>
+		<wsdl:part element='ns1:GetMatchLocationsReturn' name='GetMatchLocationsReturn' />
+	</wsdl:message>
+	<wsdl:message name='GetReturnTypesRequest'>
+		<wsdl:part element='ns1:GetReturnTypes' name='part' />
+	</wsdl:message>
+	<wsdl:message name='GetReturnTypesResponse'>
+		<wsdl:part element='ns1:GetReturnTypesReturn' name='GetReturnTypesReturn' />
+	</wsdl:message>
+	<wsdl:message name='WolframQuickSearchRequest'>
+		<wsdl:part element='ns1:WolframQuickSearch' name='part' />
+	</wsdl:message>
+	<wsdl:message name='WolframQuickSearchResponse'>
+		<wsdl:part element='ns1:WolframQuickSearchReturn' name='WolframQuickSearchReturn' />
+	</wsdl:message>
+	<wsdl:message name='WolframSearchRequest'>
+		<wsdl:part element='ns1:WolframSearch' name='part' />
+	</wsdl:message>
+	<wsdl:message name='WolframSearchResponse'>
+		<wsdl:part element='ns1:WolframSearchReturn' name='WolframSearchReturn' />
+	</wsdl:message>
+	<wsdl:portType name='WolframSearchmyPortType'>
+		<wsdl:operation name='GetCollections'>
+			<wsdl:documentation>Returns a list of valid restrict options.</wsdl:documentation>
+			<wsdl:input message='ns1:GetCollectionsRequest' name='GetCollectionsRequest' />
+			<wsdl:output message='ns1:GetCollectionsResponse' name='GetCollectionsResponse' />
+		</wsdl:operation>
+		<wsdl:operation name='GetLanguages'>
+			<wsdl:documentation>Returns a list of valid language options.</wsdl:documentation>
+			<wsdl:input message='ns1:GetLanguagesRequest' name='GetLanguagesRequest' />
+			<wsdl:output message='ns1:GetLanguagesResponse' name='GetLanguagesResponse' />
+		</wsdl:operation>
+		<wsdl:operation name='GetModes'>
+			<wsdl:documentation>Returns a list of valid mode options.</wsdl:documentation>
+			<wsdl:input message='ns1:GetModesRequest' name='GetModesRequest' />
+			<wsdl:output message='ns1:GetModesResponse' name='GetModesResponse' />
+		</wsdl:operation>
+		<wsdl:operation name='GetMatchLocations'>
+			<wsdl:documentation>Returns a list of valid match locations.</wsdl:documentation>
+			<wsdl:input message='ns1:GetMatchLocationsRequest' name='GetMatchLocationsRequest' />
+			<wsdl:output message='ns1:GetMatchLocationsResponse' name='GetMatchLocationsResponse' />
+		</wsdl:operation>
+		<wsdl:operation name='GetReturnTypes'>
+			<wsdl:documentation>Returns a list of the valid return types.</wsdl:documentation>
+			<wsdl:input message='ns1:GetReturnTypesRequest' name='GetReturnTypesRequest' />
+			<wsdl:output message='ns1:GetReturnTypesResponse' name='GetReturnTypesResponse' />
+		</wsdl:operation>
+		<wsdl:operation name='WolframQuickSearch'>
+			<wsdl:documentation>Searches wolfram.com web sites requiring only words to search for and a limit to the number of
+				results.</wsdl:documentation>
+			<wsdl:input message='ns1:WolframQuickSearchRequest' name='WolframQuickSearchRequest' />
+			<wsdl:output message='ns1:WolframQuickSearchResponse' name='WolframQuickSearchResponse' />
+		</wsdl:operation>
+		<wsdl:operation name='WolframSearch'>
+			<wsdl:documentation>Searches wolfram.com web sites with a full range of options.</wsdl:documentation>
+			<wsdl:input message='ns1:WolframSearchRequest' name='WolframSearchRequest' />
+			<wsdl:output message='ns1:WolframSearchResponse' name='WolframSearchResponse' />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name='WolframSearchBinding' type='ns1:WolframSearchmyPortType'>
+		<wsdlsoap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http' />
+		<wsdl:operation name='GetCollections'>
+			<wsdlsoap:operation soapAction='' />
+			<wsdl:input name='GetCollectionsRequest'>
+				<wsdlsoap:body use='literal' />
+			</wsdl:input>
+			<wsdl:output name='GetCollectionsResponse'>
+				<wsdlsoap:body use='literal' />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name='GetLanguages'>
+			<wsdlsoap:operation soapAction='' />
+			<wsdl:input name='GetLanguagesRequest'>
+				<wsdlsoap:body use='literal' />
+			</wsdl:input>
+			<wsdl:output name='GetLanguagesResponse'>
+				<wsdlsoap:body use='literal' />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name='GetModes'>
+			<wsdlsoap:operation soapAction='' />
+			<wsdl:input name='GetModesRequest'>
+				<wsdlsoap:body use='literal' />
+			</wsdl:input>
+			<wsdl:output name='GetModesResponse'>
+				<wsdlsoap:body use='literal' />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name='GetMatchLocations'>
+			<wsdlsoap:operation soapAction='' />
+			<wsdl:input name='GetMatchLocationsRequest'>
+				<wsdlsoap:body use='literal' />
+			</wsdl:input>
+			<wsdl:output name='GetMatchLocationsResponse'>
+				<wsdlsoap:body use='literal' />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name='GetReturnTypes'>
+			<wsdlsoap:operation soapAction='' />
+			<wsdl:input name='GetReturnTypesRequest'>
+				<wsdlsoap:body use='literal' />
+			</wsdl:input>
+			<wsdl:output name='GetReturnTypesResponse'>
+				<wsdlsoap:body use='literal' />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name='WolframQuickSearch'>
+			<wsdlsoap:operation soapAction='' />
+			<wsdl:input name='WolframQuickSearchRequest'>
+				<wsdlsoap:body use='literal' />
+			</wsdl:input>
+			<wsdl:output name='WolframQuickSearchResponse'>
+				<wsdlsoap:body use='literal' />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name='WolframSearch'>
+			<wsdlsoap:operation soapAction='' />
+			<wsdl:input name='WolframSearchRequest'>
+				<wsdlsoap:body use='literal' />
+			</wsdl:input>
+			<wsdl:output name='WolframSearchResponse'>
+				<wsdlsoap:body use='literal' />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name='WolframSearchService'>
+		<wsdl:port binding='ns1:WolframSearchBinding' name='WolframSearchPort'>
+			<wsdlsoap:address location='http://webservices.wolfram.com/services/SearchServices/services/WolframSearch2' />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,1 +1,54 @@
-<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions targetNamespace="urn:Country" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="urn:Country" xmlns:intf="urn:Country" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">   <wsdl:message name="getCountryNameResponse">      <wsdl:part name="getCountryNameReturn" type="xsd:string"/>   </wsdl:message>   <wsdl:message name="getShortCutResponse">      <wsdl:part name="getShortCutReturn" type="xsd:string"/>   </wsdl:message>   <wsdl:message name="getCountryNameRequest">      <wsdl:part name="shortCut" type="xsd:string"/>   </wsdl:message>   <wsdl:message name="getShortCutRequest">      <wsdl:part name="name" type="xsd:string"/>   </wsdl:message>   <wsdl:portType name="Country">      <wsdl:operation name="getShortCut" parameterOrder="name">         <wsdl:input message="impl:getShortCutRequest" name="getShortCutRequest"/>         <wsdl:output message="impl:getShortCutResponse" name="getShortCutResponse"/>      </wsdl:operation>      <wsdl:operation name="getCountryName" parameterOrder="shortCut">         <wsdl:input message="impl:getCountryNameRequest" name="getCountryNameRequest"/>         <wsdl:output message="impl:getCountryNameResponse" name="getCountryNameResponse"/>      </wsdl:operation>   </wsdl:portType>   <wsdl:binding name="CountrySoapBinding" type="impl:Country">      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>      <wsdl:operation name="getShortCut">         <wsdlsoap:operation soapAction=""/>         <wsdl:input name="getShortCutRequest">            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:Country" use="encoded"/>         </wsdl:input>         <wsdl:output name="getShortCutResponse">            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:Country" use="encoded"/>         </wsdl:output>      </wsdl:operation>      <wsdl:operation name="getCountryName">         <wsdlsoap:operation soapAction=""/>         <wsdl:input name="getCountryNameRequest">            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:Country" use="encoded"/>         </wsdl:input>         <wsdl:output name="getCountryNameResponse">            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:Country" use="encoded"/>         </wsdl:output>      </wsdl:operation>   </wsdl:binding>   <wsdl:service name="CountryService">      <wsdl:port binding="impl:CountrySoapBinding" name="Country">         <wsdlsoap:address location="http://user.cs.tu-berlin.de/~karima/workspase/OWL-S/org/src/ws/services/Country"/>      </wsdl:port>   </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="urn:Country" xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="urn:Country" xmlns:intf="urn:Country"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:message name="getCountryNameResponse">
+		<wsdl:part name="getCountryNameReturn" type="xsd:string" />
+	</wsdl:message>
+	<wsdl:message name="getShortCutResponse">
+		<wsdl:part name="getShortCutReturn" type="xsd:string" />
+	</wsdl:message>
+	<wsdl:message name="getCountryNameRequest">
+		<wsdl:part name="shortCut" type="xsd:string" />
+	</wsdl:message>
+	<wsdl:message name="getShortCutRequest">
+		<wsdl:part name="name" type="xsd:string" />
+	</wsdl:message>
+	<wsdl:portType name="Country">
+		<wsdl:operation name="getShortCut" parameterOrder="name">
+			<wsdl:input message="impl:getShortCutRequest" name="getShortCutRequest" />
+			<wsdl:output message="impl:getShortCutResponse" name="getShortCutResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="getCountryName" parameterOrder="shortCut">
+			<wsdl:input message="impl:getCountryNameRequest" name="getCountryNameRequest" />
+			<wsdl:output message="impl:getCountryNameResponse" name="getCountryNameResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="CountrySoapBinding" type="impl:Country">
+		<wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="getShortCut">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="getShortCutRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:Country" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="getShortCutResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:Country" use="encoded" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getCountryName">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="getCountryNameRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:Country" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="getCountryNameResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:Country" use="encoded" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="CountryService">
+		<wsdl:port binding="impl:CountrySoapBinding" name="Country">
+			<wsdlsoap:address location="http://user.cs.tu-berlin.de/~karima/workspase/OWL-S/org/src/ws/services/Country" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,1 +1,336 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ws.levelsoft.net/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://ws.levelsoft.net/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Levelsoft GeoServices ZipDetailService web services provides methods to retrieve and analyze ZIP (postal codes) where a ZIP code belongs by country.</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://ws.levelsoft.net/">      <s:element name="GetCallPermssion">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="member" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:UserCredentials" />            <s:element minOccurs="0" maxOccurs="1" name="countryCode" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="UserCredentials">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="GetCallPermssionResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetCallPermssionResult" type="tns:AuthoriseType" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="AuthoriseType">        <s:restriction base="s:string">          <s:enumeration value="None" />          <s:enumeration value="Denied" />          <s:enumeration value="Open" />          <s:enumeration value="SuperRole" />          <s:enumeration value="SubscribedRole" />          <s:enumeration value="SuperDemoRole" />          <s:enumeration value="SubscribedDemoRole" />          <s:enumeration value="SubscribedByHit" />        </s:restriction>      </s:simpleType>      <s:element name="SEKHeader" type="tns:SEKHeader" />      <s:complexType name="SEKHeader">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="SEK" type="s:string" />        </s:sequence>        <s:anyAttribute />      </s:complexType>      <s:element name="GetZipTownlandsCount">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:UserCredentials" />            <s:element minOccurs="0" maxOccurs="1" name="countryCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="zip" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetZipTownlandsCountResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetZipTownlandsCountResult" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetZipTownlands">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:UserCredentials" />            <s:element minOccurs="0" maxOccurs="1" name="countryCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="zip" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetZipTownlandsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetZipTownlandsResult" type="tns:ArrayOfZipTownlandData" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfZipTownlandData">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="ZipTownlandData" nillable="true" type="tns:ZipTownlandData" />        </s:sequence>      </s:complexType>      <s:complexType name="ZipTownlandData">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="TownlandCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="TownlandDescription" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="GetTownlandZipCodesCount">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:UserCredentials" />            <s:element minOccurs="0" maxOccurs="1" name="countryCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="code" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTownlandZipCodesCountResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetTownlandZipCodesCountResult" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTownlandZipCodes">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:UserCredentials" />            <s:element minOccurs="0" maxOccurs="1" name="countryCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="code" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTownlandZipCodesResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTownlandZipCodesResult" type="tns:ArrayOfZipListData" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfZipListData">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="ZipListData" nillable="true" type="tns:ZipListData" />        </s:sequence>      </s:complexType>      <s:complexType name="ZipListData">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Streets" type="s:int" />        </s:sequence>      </s:complexType>    </s:schema>  </wsdl:types>  <wsdl:message name="GetCallPermssionSoapIn">    <wsdl:part name="parameters" element="tns:GetCallPermssion" />  </wsdl:message>  <wsdl:message name="GetCallPermssionSoapOut">    <wsdl:part name="parameters" element="tns:GetCallPermssionResponse" />  </wsdl:message>  <wsdl:message name="GetCallPermssionSEKHeader">    <wsdl:part name="SEKHeader" element="tns:SEKHeader" />  </wsdl:message>  <wsdl:message name="GetZipTownlandsCountSoapIn">    <wsdl:part name="parameters" element="tns:GetZipTownlandsCount" />  </wsdl:message>  <wsdl:message name="GetZipTownlandsCountSoapOut">    <wsdl:part name="parameters" element="tns:GetZipTownlandsCountResponse" />  </wsdl:message>  <wsdl:message name="GetZipTownlandsCountSEKHeader">    <wsdl:part name="SEKHeader" element="tns:SEKHeader" />  </wsdl:message>  <wsdl:message name="GetZipTownlandsSoapIn">    <wsdl:part name="parameters" element="tns:GetZipTownlands" />  </wsdl:message>  <wsdl:message name="GetZipTownlandsSoapOut">    <wsdl:part name="parameters" element="tns:GetZipTownlandsResponse" />  </wsdl:message>  <wsdl:message name="GetZipTownlandsSEKHeader">    <wsdl:part name="SEKHeader" element="tns:SEKHeader" />  </wsdl:message>  <wsdl:message name="GetTownlandZipCodesCountSoapIn">    <wsdl:part name="parameters" element="tns:GetTownlandZipCodesCount" />  </wsdl:message>  <wsdl:message name="GetTownlandZipCodesCountSoapOut">    <wsdl:part name="parameters" element="tns:GetTownlandZipCodesCountResponse" />  </wsdl:message>  <wsdl:message name="GetTownlandZipCodesCountSEKHeader">    <wsdl:part name="SEKHeader" element="tns:SEKHeader" />  </wsdl:message>  <wsdl:message name="GetTownlandZipCodesSoapIn">    <wsdl:part name="parameters" element="tns:GetTownlandZipCodes" />  </wsdl:message>  <wsdl:message name="GetTownlandZipCodesSoapOut">    <wsdl:part name="parameters" element="tns:GetTownlandZipCodesResponse" />  </wsdl:message>  <wsdl:message name="GetTownlandZipCodesSEKHeader">    <wsdl:part name="SEKHeader" element="tns:SEKHeader" />  </wsdl:message>  <wsdl:portType name="ZipDetailServiceSoap">    <wsdl:operation name="GetCallPermssion">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Queries whether there is available credit or security permission to successfully query the service.</wsdl:documentation>      <wsdl:input message="tns:GetCallPermssionSoapIn" />      <wsdl:output message="tns:GetCallPermssionSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetZipTownlandsCount">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Counts the number of rows in a list of townlands, this method requires ZIP and a valid 2 digit ISO country code</wsdl:documentation>      <wsdl:input message="tns:GetZipTownlandsCountSoapIn" />      <wsdl:output message="tns:GetZipTownlandsCountSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetZipTownlands">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a list of townlands, this method requires ZIP and a valid 2 digit ISO country code.</wsdl:documentation>      <wsdl:input message="tns:GetZipTownlandsSoapIn" />      <wsdl:output message="tns:GetZipTownlandsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetTownlandZipCodesCount">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Count a list of postal codes for a selected townland, this method requires a valid 2 digit ISO country code.</wsdl:documentation>      <wsdl:input message="tns:GetTownlandZipCodesCountSoapIn" />      <wsdl:output message="tns:GetTownlandZipCodesCountSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetTownlandZipCodes">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a list of postal codes for a selected townland, this method requires a valid 2 digit ISO country code.</wsdl:documentation>      <wsdl:input message="tns:GetTownlandZipCodesSoapIn" />      <wsdl:output message="tns:GetTownlandZipCodesSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="ZipDetailServiceSoap" type="tns:ZipDetailServiceSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetCallPermssion">      <soap:operation soapAction="http://ws.levelsoft.net/GetCallPermssion" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetCallPermssionSEKHeader" part="SEKHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetZipTownlandsCount">      <soap:operation soapAction="http://ws.levelsoft.net/GetZipTownlandsCount" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetZipTownlandsCountSEKHeader" part="SEKHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetZipTownlands">      <soap:operation soapAction="http://ws.levelsoft.net/GetZipTownlands" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetZipTownlandsSEKHeader" part="SEKHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTownlandZipCodesCount">      <soap:operation soapAction="http://ws.levelsoft.net/GetTownlandZipCodesCount" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetTownlandZipCodesCountSEKHeader" part="SEKHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTownlandZipCodes">      <soap:operation soapAction="http://ws.levelsoft.net/GetTownlandZipCodes" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetTownlandZipCodesSEKHeader" part="SEKHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="ZipDetailServiceSoap12" type="tns:ZipDetailServiceSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetCallPermssion">      <soap12:operation soapAction="http://ws.levelsoft.net/GetCallPermssion" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetCallPermssionSEKHeader" part="SEKHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetZipTownlandsCount">      <soap12:operation soapAction="http://ws.levelsoft.net/GetZipTownlandsCount" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetZipTownlandsCountSEKHeader" part="SEKHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetZipTownlands">      <soap12:operation soapAction="http://ws.levelsoft.net/GetZipTownlands" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetZipTownlandsSEKHeader" part="SEKHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTownlandZipCodesCount">      <soap12:operation soapAction="http://ws.levelsoft.net/GetTownlandZipCodesCount" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetTownlandZipCodesCountSEKHeader" part="SEKHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTownlandZipCodes">      <soap12:operation soapAction="http://ws.levelsoft.net/GetTownlandZipCodes" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetTownlandZipCodesSEKHeader" part="SEKHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="ZipDetailService">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Levelsoft GeoServices ZipDetailService web services provides methods to retrieve and analyze ZIP (postal codes) where a ZIP code belongs by country.</wsdl:documentation>    <wsdl:port name="ZipDetailServiceSoap" binding="tns:ZipDetailServiceSoap">      <soap:address location="http://ws.srlink.com/geoservices/zipdetailservice.asmx" />    </wsdl:port>    <wsdl:port name="ZipDetailServiceSoap12" binding="tns:ZipDetailServiceSoap12">      <soap12:address location="http://ws.srlink.com/geoservices/zipdetailservice.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ws.levelsoft.net/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://ws.levelsoft.net/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Levelsoft GeoServices ZipDetailService web services provides methods
+		to retrieve and analyze ZIP (postal codes) where a ZIP code belongs by country.</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://ws.levelsoft.net/">
+			<s:element name="GetCallPermssion">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="member" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:UserCredentials" />
+						<s:element minOccurs="0" maxOccurs="1" name="countryCode" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="UserCredentials">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetCallPermssionResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetCallPermssionResult" type="tns:AuthoriseType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="AuthoriseType">
+				<s:restriction base="s:string">
+					<s:enumeration value="None" />
+					<s:enumeration value="Denied" />
+					<s:enumeration value="Open" />
+					<s:enumeration value="SuperRole" />
+					<s:enumeration value="SubscribedRole" />
+					<s:enumeration value="SuperDemoRole" />
+					<s:enumeration value="SubscribedDemoRole" />
+					<s:enumeration value="SubscribedByHit" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="SEKHeader" type="tns:SEKHeader" />
+			<s:complexType name="SEKHeader">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="SEK" type="s:string" />
+				</s:sequence>
+				<s:anyAttribute />
+			</s:complexType>
+			<s:element name="GetZipTownlandsCount">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:UserCredentials" />
+						<s:element minOccurs="0" maxOccurs="1" name="countryCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="zip" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetZipTownlandsCountResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetZipTownlandsCountResult" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetZipTownlands">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:UserCredentials" />
+						<s:element minOccurs="0" maxOccurs="1" name="countryCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="zip" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetZipTownlandsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetZipTownlandsResult" type="tns:ArrayOfZipTownlandData" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfZipTownlandData">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="ZipTownlandData" nillable="true" type="tns:ZipTownlandData" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ZipTownlandData">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="TownlandCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="TownlandDescription" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetTownlandZipCodesCount">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:UserCredentials" />
+						<s:element minOccurs="0" maxOccurs="1" name="countryCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="code" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTownlandZipCodesCountResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetTownlandZipCodesCountResult" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTownlandZipCodes">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:UserCredentials" />
+						<s:element minOccurs="0" maxOccurs="1" name="countryCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="code" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTownlandZipCodesResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTownlandZipCodesResult" type="tns:ArrayOfZipListData" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfZipListData">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="ZipListData" nillable="true" type="tns:ZipListData" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ZipListData">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Streets" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetCallPermssionSoapIn">
+		<wsdl:part name="parameters" element="tns:GetCallPermssion" />
+	</wsdl:message>
+	<wsdl:message name="GetCallPermssionSoapOut">
+		<wsdl:part name="parameters" element="tns:GetCallPermssionResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetCallPermssionSEKHeader">
+		<wsdl:part name="SEKHeader" element="tns:SEKHeader" />
+	</wsdl:message>
+	<wsdl:message name="GetZipTownlandsCountSoapIn">
+		<wsdl:part name="parameters" element="tns:GetZipTownlandsCount" />
+	</wsdl:message>
+	<wsdl:message name="GetZipTownlandsCountSoapOut">
+		<wsdl:part name="parameters" element="tns:GetZipTownlandsCountResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetZipTownlandsCountSEKHeader">
+		<wsdl:part name="SEKHeader" element="tns:SEKHeader" />
+	</wsdl:message>
+	<wsdl:message name="GetZipTownlandsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetZipTownlands" />
+	</wsdl:message>
+	<wsdl:message name="GetZipTownlandsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetZipTownlandsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetZipTownlandsSEKHeader">
+		<wsdl:part name="SEKHeader" element="tns:SEKHeader" />
+	</wsdl:message>
+	<wsdl:message name="GetTownlandZipCodesCountSoapIn">
+		<wsdl:part name="parameters" element="tns:GetTownlandZipCodesCount" />
+	</wsdl:message>
+	<wsdl:message name="GetTownlandZipCodesCountSoapOut">
+		<wsdl:part name="parameters" element="tns:GetTownlandZipCodesCountResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTownlandZipCodesCountSEKHeader">
+		<wsdl:part name="SEKHeader" element="tns:SEKHeader" />
+	</wsdl:message>
+	<wsdl:message name="GetTownlandZipCodesSoapIn">
+		<wsdl:part name="parameters" element="tns:GetTownlandZipCodes" />
+	</wsdl:message>
+	<wsdl:message name="GetTownlandZipCodesSoapOut">
+		<wsdl:part name="parameters" element="tns:GetTownlandZipCodesResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTownlandZipCodesSEKHeader">
+		<wsdl:part name="SEKHeader" element="tns:SEKHeader" />
+	</wsdl:message>
+	<wsdl:portType name="ZipDetailServiceSoap">
+		<wsdl:operation name="GetCallPermssion">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Queries whether there is available credit or security permission to
+				successfully query the service.</wsdl:documentation>
+			<wsdl:input message="tns:GetCallPermssionSoapIn" />
+			<wsdl:output message="tns:GetCallPermssionSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetZipTownlandsCount">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Counts the number of rows in a list of townlands, this method
+				requires ZIP and a valid 2 digit ISO country code</wsdl:documentation>
+			<wsdl:input message="tns:GetZipTownlandsCountSoapIn" />
+			<wsdl:output message="tns:GetZipTownlandsCountSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetZipTownlands">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a list of townlands, this method requires ZIP and a valid 2
+				digit ISO country code.</wsdl:documentation>
+			<wsdl:input message="tns:GetZipTownlandsSoapIn" />
+			<wsdl:output message="tns:GetZipTownlandsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTownlandZipCodesCount">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Count a list of postal codes for a selected townland, this method
+				requires a valid 2 digit ISO country code.</wsdl:documentation>
+			<wsdl:input message="tns:GetTownlandZipCodesCountSoapIn" />
+			<wsdl:output message="tns:GetTownlandZipCodesCountSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTownlandZipCodes">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a list of postal codes for a selected townland, this method
+				requires a valid 2 digit ISO country code.</wsdl:documentation>
+			<wsdl:input message="tns:GetTownlandZipCodesSoapIn" />
+			<wsdl:output message="tns:GetTownlandZipCodesSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="ZipDetailServiceSoap" type="tns:ZipDetailServiceSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetCallPermssion">
+			<soap:operation soapAction="http://ws.levelsoft.net/GetCallPermssion" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetCallPermssionSEKHeader" part="SEKHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetZipTownlandsCount">
+			<soap:operation soapAction="http://ws.levelsoft.net/GetZipTownlandsCount" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetZipTownlandsCountSEKHeader" part="SEKHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetZipTownlands">
+			<soap:operation soapAction="http://ws.levelsoft.net/GetZipTownlands" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetZipTownlandsSEKHeader" part="SEKHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTownlandZipCodesCount">
+			<soap:operation soapAction="http://ws.levelsoft.net/GetTownlandZipCodesCount" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetTownlandZipCodesCountSEKHeader" part="SEKHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTownlandZipCodes">
+			<soap:operation soapAction="http://ws.levelsoft.net/GetTownlandZipCodes" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetTownlandZipCodesSEKHeader" part="SEKHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="ZipDetailServiceSoap12" type="tns:ZipDetailServiceSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetCallPermssion">
+			<soap12:operation soapAction="http://ws.levelsoft.net/GetCallPermssion" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetCallPermssionSEKHeader" part="SEKHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetZipTownlandsCount">
+			<soap12:operation soapAction="http://ws.levelsoft.net/GetZipTownlandsCount" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetZipTownlandsCountSEKHeader" part="SEKHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetZipTownlands">
+			<soap12:operation soapAction="http://ws.levelsoft.net/GetZipTownlands" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetZipTownlandsSEKHeader" part="SEKHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTownlandZipCodesCount">
+			<soap12:operation soapAction="http://ws.levelsoft.net/GetTownlandZipCodesCount" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetTownlandZipCodesCountSEKHeader" part="SEKHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTownlandZipCodes">
+			<soap12:operation soapAction="http://ws.levelsoft.net/GetTownlandZipCodes" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetTownlandZipCodesSEKHeader" part="SEKHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="ZipDetailService">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Levelsoft GeoServices ZipDetailService web services provides methods
+			to retrieve and analyze ZIP (postal codes) where a ZIP code belongs by country.</wsdl:documentation>
+		<wsdl:port name="ZipDetailServiceSoap" binding="tns:ZipDetailServiceSoap">
+			<soap:address location="http://ws.srlink.com/geoservices/zipdetailservice.asmx" />
+		</wsdl:port>
+		<wsdl:port name="ZipDetailServiceSoap12" binding="tns:ZipDetailServiceSoap12">
+			<soap12:address location="http://ws.srlink.com/geoservices/zipdetailservice.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

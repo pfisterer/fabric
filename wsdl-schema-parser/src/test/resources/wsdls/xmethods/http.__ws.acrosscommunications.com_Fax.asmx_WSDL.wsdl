@@ -1,1 +1,213 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://ws.AcrossCommunications.com/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://ws.AcrossCommunications.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://ws.AcrossCommunications.com/">      <s:element name="EnqueueTextDocument">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strPhoneNumber" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strText" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="EnqueueTextDocumentResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="EnqueueTextDocumentResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLastMethodDuration">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="MethodName" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLastMethodDurationResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetLastMethodDurationResult" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SetSearchString">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strValue" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SetSearchStringResponse">        <s:complexType />      </s:element>      <s:element name="GetSearchString">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetSearchStringResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetSearchStringResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Release">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ReleaseResponse">        <s:complexType />      </s:element>      <s:element name="SendTextDocument">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strPhoneNumber" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strText" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendTextDocumentResponse">        <s:complexType />      </s:element>    </s:schema>  </wsdl:types>  <wsdl:message name="EnqueueTextDocumentSoapIn">    <wsdl:part name="parameters" element="tns:EnqueueTextDocument" />  </wsdl:message>  <wsdl:message name="EnqueueTextDocumentSoapOut">    <wsdl:part name="parameters" element="tns:EnqueueTextDocumentResponse" />  </wsdl:message>  <wsdl:message name="GetLastMethodDurationSoapIn">    <wsdl:part name="parameters" element="tns:GetLastMethodDuration" />  </wsdl:message>  <wsdl:message name="GetLastMethodDurationSoapOut">    <wsdl:part name="parameters" element="tns:GetLastMethodDurationResponse" />  </wsdl:message>  <wsdl:message name="SetSearchStringSoapIn">    <wsdl:part name="parameters" element="tns:SetSearchString" />  </wsdl:message>  <wsdl:message name="SetSearchStringSoapOut">    <wsdl:part name="parameters" element="tns:SetSearchStringResponse" />  </wsdl:message>  <wsdl:message name="GetSearchStringSoapIn">    <wsdl:part name="parameters" element="tns:GetSearchString" />  </wsdl:message>  <wsdl:message name="GetSearchStringSoapOut">    <wsdl:part name="parameters" element="tns:GetSearchStringResponse" />  </wsdl:message>  <wsdl:message name="ReleaseSoapIn">    <wsdl:part name="parameters" element="tns:Release" />  </wsdl:message>  <wsdl:message name="ReleaseSoapOut">    <wsdl:part name="parameters" element="tns:ReleaseResponse" />  </wsdl:message>  <wsdl:message name="SendTextDocumentSoapIn">    <wsdl:part name="parameters" element="tns:SendTextDocument" />  </wsdl:message>  <wsdl:message name="SendTextDocumentSoapOut">    <wsdl:part name="parameters" element="tns:SendTextDocumentResponse" />  </wsdl:message>  <wsdl:portType name="FaxSoap">    <wsdl:operation name="EnqueueTextDocument">      <wsdl:input message="tns:EnqueueTextDocumentSoapIn" />      <wsdl:output message="tns:EnqueueTextDocumentSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetLastMethodDuration">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get sending duration</documentation>      <wsdl:input message="tns:GetLastMethodDurationSoapIn" />      <wsdl:output message="tns:GetLastMethodDurationSoapOut" />    </wsdl:operation>    <wsdl:operation name="SetSearchString">      <wsdl:input message="tns:SetSearchStringSoapIn" />      <wsdl:output message="tns:SetSearchStringSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetSearchString">      <wsdl:input message="tns:GetSearchStringSoapIn" />      <wsdl:output message="tns:GetSearchStringSoapOut" />    </wsdl:operation>    <wsdl:operation name="Release">      <wsdl:input message="tns:ReleaseSoapIn" />      <wsdl:output message="tns:ReleaseSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendTextDocument">      <wsdl:input message="tns:SendTextDocumentSoapIn" />      <wsdl:output message="tns:SendTextDocumentSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="FaxSoap" type="tns:FaxSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <wsdl:operation name="EnqueueTextDocument">      <soap:operation soapAction="http://ws.AcrossCommunications.com/EnqueueTextDocument" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLastMethodDuration">      <soap:operation soapAction="http://ws.AcrossCommunications.com/GetLastMethodDuration" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SetSearchString">      <soap:operation soapAction="http://ws.AcrossCommunications.com/SetSearchString" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSearchString">      <soap:operation soapAction="http://ws.AcrossCommunications.com/GetSearchString" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Release">      <soap:operation soapAction="http://ws.AcrossCommunications.com/Release" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendTextDocument">      <soap:operation soapAction="http://ws.AcrossCommunications.com/SendTextDocument" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="Fax">    <wsdl:port name="FaxSoap" binding="tns:FaxSoap">      <soap:address location="http://ws.acrosscommunications.com/Fax.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://ws.AcrossCommunications.com/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	targetNamespace="http://ws.AcrossCommunications.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://ws.AcrossCommunications.com/">
+			<s:element name="EnqueueTextDocument">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strPhoneNumber" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strText" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="EnqueueTextDocumentResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="EnqueueTextDocumentResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLastMethodDuration">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="MethodName" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLastMethodDurationResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetLastMethodDurationResult" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SetSearchString">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strValue" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SetSearchStringResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetSearchString">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetSearchStringResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetSearchStringResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Release">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ReleaseResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="SendTextDocument">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strPhoneNumber" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strText" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendTextDocumentResponse">
+				<s:complexType />
+			</s:element>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="EnqueueTextDocumentSoapIn">
+		<wsdl:part name="parameters" element="tns:EnqueueTextDocument" />
+	</wsdl:message>
+	<wsdl:message name="EnqueueTextDocumentSoapOut">
+		<wsdl:part name="parameters" element="tns:EnqueueTextDocumentResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetLastMethodDurationSoapIn">
+		<wsdl:part name="parameters" element="tns:GetLastMethodDuration" />
+	</wsdl:message>
+	<wsdl:message name="GetLastMethodDurationSoapOut">
+		<wsdl:part name="parameters" element="tns:GetLastMethodDurationResponse" />
+	</wsdl:message>
+	<wsdl:message name="SetSearchStringSoapIn">
+		<wsdl:part name="parameters" element="tns:SetSearchString" />
+	</wsdl:message>
+	<wsdl:message name="SetSearchStringSoapOut">
+		<wsdl:part name="parameters" element="tns:SetSearchStringResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetSearchStringSoapIn">
+		<wsdl:part name="parameters" element="tns:GetSearchString" />
+	</wsdl:message>
+	<wsdl:message name="GetSearchStringSoapOut">
+		<wsdl:part name="parameters" element="tns:GetSearchStringResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReleaseSoapIn">
+		<wsdl:part name="parameters" element="tns:Release" />
+	</wsdl:message>
+	<wsdl:message name="ReleaseSoapOut">
+		<wsdl:part name="parameters" element="tns:ReleaseResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendTextDocumentSoapIn">
+		<wsdl:part name="parameters" element="tns:SendTextDocument" />
+	</wsdl:message>
+	<wsdl:message name="SendTextDocumentSoapOut">
+		<wsdl:part name="parameters" element="tns:SendTextDocumentResponse" />
+	</wsdl:message>
+	<wsdl:portType name="FaxSoap">
+		<wsdl:operation name="EnqueueTextDocument">
+			<wsdl:input message="tns:EnqueueTextDocumentSoapIn" />
+			<wsdl:output message="tns:EnqueueTextDocumentSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLastMethodDuration">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get sending duration</documentation>
+			<wsdl:input message="tns:GetLastMethodDurationSoapIn" />
+			<wsdl:output message="tns:GetLastMethodDurationSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SetSearchString">
+			<wsdl:input message="tns:SetSearchStringSoapIn" />
+			<wsdl:output message="tns:SetSearchStringSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSearchString">
+			<wsdl:input message="tns:GetSearchStringSoapIn" />
+			<wsdl:output message="tns:GetSearchStringSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Release">
+			<wsdl:input message="tns:ReleaseSoapIn" />
+			<wsdl:output message="tns:ReleaseSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendTextDocument">
+			<wsdl:input message="tns:SendTextDocumentSoapIn" />
+			<wsdl:output message="tns:SendTextDocumentSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="FaxSoap" type="tns:FaxSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<wsdl:operation name="EnqueueTextDocument">
+			<soap:operation soapAction="http://ws.AcrossCommunications.com/EnqueueTextDocument" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLastMethodDuration">
+			<soap:operation soapAction="http://ws.AcrossCommunications.com/GetLastMethodDuration" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SetSearchString">
+			<soap:operation soapAction="http://ws.AcrossCommunications.com/SetSearchString" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSearchString">
+			<soap:operation soapAction="http://ws.AcrossCommunications.com/GetSearchString" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Release">
+			<soap:operation soapAction="http://ws.AcrossCommunications.com/Release" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendTextDocument">
+			<soap:operation soapAction="http://ws.AcrossCommunications.com/SendTextDocument" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="Fax">
+		<wsdl:port name="FaxSoap" binding="tns:FaxSoap">
+			<soap:address location="http://ws.acrosscommunications.com/Fax.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

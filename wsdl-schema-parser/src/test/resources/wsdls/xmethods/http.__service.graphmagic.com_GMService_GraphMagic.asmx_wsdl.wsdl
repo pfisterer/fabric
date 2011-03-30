@@ -1,1 +1,383 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://GraphMagic.com" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://GraphMagic.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://GraphMagic.com">      <s:element name="XYChart">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="gmp" type="tns:GMXYProperties" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="GMXYProperties">        <s:complexContent mixed="false">          <s:extension base="tns:GMBaseProperties">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="PlotWidth" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="PlotHeight" type="s:int" />              <s:element minOccurs="0" maxOccurs="1" name="XAxis" type="tns:GMXAxis" />              <s:element minOccurs="0" maxOccurs="1" name="XAxis2" type="tns:GMXAxis" />              <s:element minOccurs="0" maxOccurs="1" name="YAxis" type="tns:GMYAxis" />              <s:element minOccurs="0" maxOccurs="1" name="YAxis2" type="tns:GMYAxis" />              <s:element minOccurs="0" maxOccurs="1" name="Layers" type="tns:ArrayOfGMLayer" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="GMBaseProperties" abstract="true">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="LegendKey" type="tns:ArrayOfGMLegendKey" />          <s:element minOccurs="0" maxOccurs="1" name="Background" type="tns:GMBackground" />          <s:element minOccurs="0" maxOccurs="1" name="LegendBackground" type="tns:GMBackground" />          <s:element minOccurs="1" maxOccurs="1" name="TitleColor" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="TitleSize" type="s:double" />          <s:element minOccurs="0" maxOccurs="1" name="TitleBackground" type="tns:GMBackground" />          <s:element minOccurs="0" maxOccurs="1" name="PlotBackground" type="tns:GMPlotBackground" />          <s:element minOccurs="0" maxOccurs="1" name="Text" type="tns:ArrayOfGMText" />          <s:element minOccurs="0" maxOccurs="1" name="AuthKey" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="ImageWidth" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="ImageHeight" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="PlotX" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="PlotY" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="ShowLegend" type="s:boolean" />          <s:element minOccurs="1" maxOccurs="1" name="HLegend" type="s:boolean" />          <s:element minOccurs="1" maxOccurs="1" name="SwapXY" type="s:boolean" />          <s:element minOccurs="1" maxOccurs="1" name="LegendX" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="LegendY" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="HTMLImageMap" type="tns:HTMLMap" />          <s:element minOccurs="0" maxOccurs="1" name="HTMLLegendMap" type="tns:HTMLMap" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfGMLegendKey">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="GMLegendKey" nillable="true" type="tns:GMLegendKey" />        </s:sequence>      </s:complexType>      <s:complexType name="GMLegendKey">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Color" type="s:int" />        </s:sequence>      </s:complexType>      <s:complexType name="GMBackground">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Color" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="EdgeColor" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="RaisedEffect" type="s:int" />        </s:sequence>      </s:complexType>      <s:complexType name="GMPlotBackground">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Color" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="AltColor" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="EdgeColor" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="HGridColor" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="VGridColor" type="s:int" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfGMText">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="GMText" nillable="true" type="tns:GMText" />        </s:sequence>      </s:complexType>      <s:complexType name="GMText">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="X" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="Y" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Font" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="FontSize" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="FontColor" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="Alignment" type="tns:eTextAlignment" />          <s:element minOccurs="1" maxOccurs="1" name="Angle" type="s:double" />        </s:sequence>      </s:complexType>      <s:simpleType name="eTextAlignment">        <s:restriction base="s:string">          <s:enumeration value="BottomLeft" />          <s:enumeration value="BottomCenter" />          <s:enumeration value="BottomRight" />          <s:enumeration value="Left" />          <s:enumeration value="Center" />          <s:enumeration value="Right" />          <s:enumeration value="TopLeft" />          <s:enumeration value="TopCenter" />          <s:enumeration value="TopRight" />          <s:enumeration value="Bottom" />          <s:enumeration value="Top" />        </s:restriction>      </s:simpleType>      <s:complexType name="HTMLMap">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="GetMap" type="s:boolean" />          <s:element minOccurs="0" maxOccurs="1" name="MapUrl" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="MapFormat" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="MapAttributes" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="GMXAxis">        <s:complexContent mixed="false">          <s:extension base="tns:aAxis">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="LabelAngle" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="TitleAngle" type="s:double" />              <s:element minOccurs="0" maxOccurs="1" name="Labels" type="tns:ArrayOfString" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="aAxis" abstract="true">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Zones" type="tns:ArrayOfGMZones" />          <s:element minOccurs="0" maxOccurs="1" name="Marks" type="tns:ArrayOfGMMarks" />          <s:element minOccurs="1" maxOccurs="1" name="AxisColor" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="LabelColor" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="TitleColor" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="TickColor" type="s:int" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfGMZones">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="GMZones" nillable="true" type="tns:GMZones" />        </s:sequence>      </s:complexType>      <s:complexType name="GMZones">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="StartValue" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="EndValue" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="Color" type="s:int" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfGMMarks">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="GMMarks" nillable="true" type="tns:GMMarks" />        </s:sequence>      </s:complexType>      <s:complexType name="GMMarks">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="FontSize" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="LineColor" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="LineWidth" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Font" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Alignment" type="tns:eTextAlignment" />        </s:sequence>      </s:complexType>      <s:complexType name="GMYAxis">        <s:complexContent mixed="false">          <s:extension base="tns:aAxis">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="TitleAngle" type="s:double" />              <s:element minOccurs="0" maxOccurs="1" name="LabelFormat" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="TopMargin" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="LowerLimit" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="UpperLimit" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="TickInc" type="s:int" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="ArrayOfString">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfGMLayer">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="GMLayer" nillable="true" type="tns:GMLayer" />        </s:sequence>      </s:complexType>      <s:complexType name="GMLayer">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Color" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="LayerType" type="tns:eLayerType" />          <s:element minOccurs="1" maxOccurs="1" name="CombineMethod" type="tns:eCombineMethod" />          <s:element minOccurs="1" maxOccurs="1" name="Depth3D" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="Gap3D" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="BarGap" type="s:double" />          <s:element minOccurs="0" maxOccurs="1" name="DataSets" type="tns:ArrayOfGMDataSet" />          <s:element minOccurs="1" maxOccurs="1" name="LineWidth" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="LabelFormat" type="s:string" />        </s:sequence>      </s:complexType>      <s:simpleType name="eLayerType">        <s:restriction base="s:string">          <s:enumeration value="Bar" />          <s:enumeration value="Line" />          <s:enumeration value="Area" />          <s:enumeration value="CandleStick" />          <s:enumeration value="HLOC" />          <s:enumeration value="Scatter" />        </s:restriction>      </s:simpleType>      <s:simpleType name="eCombineMethod">        <s:restriction base="s:string">          <s:enumeration value="Stack" />          <s:enumeration value="Overlay" />          <s:enumeration value="Side" />        </s:restriction>      </s:simpleType>      <s:complexType name="ArrayOfGMDataSet">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="GMDataSet" nillable="true" type="tns:GMDataSet" />        </s:sequence>      </s:complexType>      <s:complexType name="GMDataSet">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="LabelFormat" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="UseYAxis2" type="s:boolean" />          <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="tns:DataSymbol" />          <s:element minOccurs="0" maxOccurs="1" name="Values" type="tns:ArrayOfDouble" />          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Color" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="EdgeColor" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="ShadowColor" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="ShadowEdgeColor" type="s:int" />        </s:sequence>      </s:complexType>      <s:complexType name="DataSymbol">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:eSymbolType" />          <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="FillColor" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="EdgeColor" type="s:int" />        </s:sequence>      </s:complexType>      <s:simpleType name="eSymbolType">        <s:restriction base="s:string">          <s:enumeration value="Null" />          <s:enumeration value="Square" />          <s:enumeration value="Diamond" />          <s:enumeration value="Triangle" />          <s:enumeration value="RightTriangle" />          <s:enumeration value="LeftTriangle" />          <s:enumeration value="InvertedTriangle" />          <s:enumeration value="Circle" />          <s:enumeration value="Cross" />          <s:enumeration value="Cross2" />        </s:restriction>      </s:simpleType>      <s:complexType name="ArrayOfDouble">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="double" type="s:double" />        </s:sequence>      </s:complexType>      <s:element name="XYChartResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="XYChartResult" type="tns:GMResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="GMResult">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Image" type="s:base64Binary" />          <s:element minOccurs="0" maxOccurs="1" name="HTMLImageMap" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="HTMLLegendMap" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="PieChart">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="gmp" type="tns:GMPieProperties" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="GMPieProperties">        <s:complexContent mixed="false">          <s:extension base="tns:GMBaseProperties">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="LabelLayout" type="tns:eLayout" />              <s:element minOccurs="1" maxOccurs="1" name="LabelPos" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="PlotRadius" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="Tilt3D" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="Depth3D" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="StartAngle" type="s:int" />              <s:element minOccurs="0" maxOccurs="1" name="Labels" type="tns:ArrayOfString" />              <s:element minOccurs="0" maxOccurs="1" name="Values" type="tns:ArrayOfDouble" />              <s:element minOccurs="0" maxOccurs="1" name="Colors" type="tns:ArrayOfInt" />              <s:element minOccurs="0" maxOccurs="1" name="Explode" type="tns:ArrayOfInt" />              <s:element minOccurs="0" maxOccurs="1" name="LabelFormat" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="LineColor" type="s:int" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:simpleType name="eLayout">        <s:restriction base="s:string">          <s:enumeration value="Circular" />          <s:enumeration value="Side" />        </s:restriction>      </s:simpleType>      <s:complexType name="ArrayOfInt">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />        </s:sequence>      </s:complexType>      <s:element name="PieChartResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="PieChartResult" type="tns:GMResult" />          </s:sequence>        </s:complexType>      </s:element>    </s:schema>  </wsdl:types>  <wsdl:message name="XYChartSoapIn">    <wsdl:part name="parameters" element="tns:XYChart" />  </wsdl:message>  <wsdl:message name="XYChartSoapOut">    <wsdl:part name="parameters" element="tns:XYChartResponse" />  </wsdl:message>  <wsdl:message name="PieChartSoapIn">    <wsdl:part name="parameters" element="tns:PieChart" />  </wsdl:message>  <wsdl:message name="PieChartSoapOut">    <wsdl:part name="parameters" element="tns:PieChartResponse" />  </wsdl:message>  <wsdl:portType name="GMChartSoap">    <wsdl:operation name="XYChart">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Use this method to create XY-Charts.</documentation>      <wsdl:input message="tns:XYChartSoapIn" />      <wsdl:output message="tns:XYChartSoapOut" />    </wsdl:operation>    <wsdl:operation name="PieChart">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Use this method to create Pie-Charts.</documentation>      <wsdl:input message="tns:PieChartSoapIn" />      <wsdl:output message="tns:PieChartSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="GMChartSoap" type="tns:GMChartSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <wsdl:operation name="XYChart">      <soap:operation soapAction="http://GraphMagic.com/XYChart" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="PieChart">      <soap:operation soapAction="http://GraphMagic.com/PieChart" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="GMChart">    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">GraphMagic - Charting Web Service.</documentation>    <wsdl:port name="GMChartSoap" binding="tns:GMChartSoap">      <soap:address location="http://service.graphmagic.com/GMService/GraphMagic.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://GraphMagic.com"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	targetNamespace="http://GraphMagic.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://GraphMagic.com">
+			<s:element name="XYChart">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="gmp" type="tns:GMXYProperties" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="GMXYProperties">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:GMBaseProperties">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="PlotWidth" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="PlotHeight" type="s:int" />
+							<s:element minOccurs="0" maxOccurs="1" name="XAxis" type="tns:GMXAxis" />
+							<s:element minOccurs="0" maxOccurs="1" name="XAxis2" type="tns:GMXAxis" />
+							<s:element minOccurs="0" maxOccurs="1" name="YAxis" type="tns:GMYAxis" />
+							<s:element minOccurs="0" maxOccurs="1" name="YAxis2" type="tns:GMYAxis" />
+							<s:element minOccurs="0" maxOccurs="1" name="Layers" type="tns:ArrayOfGMLayer" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="GMBaseProperties" abstract="true">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="LegendKey" type="tns:ArrayOfGMLegendKey" />
+					<s:element minOccurs="0" maxOccurs="1" name="Background" type="tns:GMBackground" />
+					<s:element minOccurs="0" maxOccurs="1" name="LegendBackground" type="tns:GMBackground" />
+					<s:element minOccurs="1" maxOccurs="1" name="TitleColor" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="TitleSize" type="s:double" />
+					<s:element minOccurs="0" maxOccurs="1" name="TitleBackground" type="tns:GMBackground" />
+					<s:element minOccurs="0" maxOccurs="1" name="PlotBackground" type="tns:GMPlotBackground" />
+					<s:element minOccurs="0" maxOccurs="1" name="Text" type="tns:ArrayOfGMText" />
+					<s:element minOccurs="0" maxOccurs="1" name="AuthKey" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="ImageWidth" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="ImageHeight" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="PlotX" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="PlotY" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="ShowLegend" type="s:boolean" />
+					<s:element minOccurs="1" maxOccurs="1" name="HLegend" type="s:boolean" />
+					<s:element minOccurs="1" maxOccurs="1" name="SwapXY" type="s:boolean" />
+					<s:element minOccurs="1" maxOccurs="1" name="LegendX" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="LegendY" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="HTMLImageMap" type="tns:HTMLMap" />
+					<s:element minOccurs="0" maxOccurs="1" name="HTMLLegendMap" type="tns:HTMLMap" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfGMLegendKey">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="GMLegendKey" nillable="true" type="tns:GMLegendKey" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="GMLegendKey">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Color" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="GMBackground">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Color" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="EdgeColor" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="RaisedEffect" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="GMPlotBackground">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Color" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="AltColor" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="EdgeColor" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="HGridColor" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="VGridColor" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfGMText">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="GMText" nillable="true" type="tns:GMText" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="GMText">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="X" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="Y" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Font" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="FontSize" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="FontColor" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="Alignment" type="tns:eTextAlignment" />
+					<s:element minOccurs="1" maxOccurs="1" name="Angle" type="s:double" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="eTextAlignment">
+				<s:restriction base="s:string">
+					<s:enumeration value="BottomLeft" />
+					<s:enumeration value="BottomCenter" />
+					<s:enumeration value="BottomRight" />
+					<s:enumeration value="Left" />
+					<s:enumeration value="Center" />
+					<s:enumeration value="Right" />
+					<s:enumeration value="TopLeft" />
+					<s:enumeration value="TopCenter" />
+					<s:enumeration value="TopRight" />
+					<s:enumeration value="Bottom" />
+					<s:enumeration value="Top" />
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="HTMLMap">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="GetMap" type="s:boolean" />
+					<s:element minOccurs="0" maxOccurs="1" name="MapUrl" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="MapFormat" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="MapAttributes" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="GMXAxis">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:aAxis">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="LabelAngle" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="TitleAngle" type="s:double" />
+							<s:element minOccurs="0" maxOccurs="1" name="Labels" type="tns:ArrayOfString" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="aAxis" abstract="true">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Zones" type="tns:ArrayOfGMZones" />
+					<s:element minOccurs="0" maxOccurs="1" name="Marks" type="tns:ArrayOfGMMarks" />
+					<s:element minOccurs="1" maxOccurs="1" name="AxisColor" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="LabelColor" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="TitleColor" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="TickColor" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfGMZones">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="GMZones" nillable="true" type="tns:GMZones" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="GMZones">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="StartValue" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="EndValue" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="Color" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfGMMarks">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="GMMarks" nillable="true" type="tns:GMMarks" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="GMMarks">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="FontSize" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="LineColor" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="LineWidth" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Font" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Alignment" type="tns:eTextAlignment" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="GMYAxis">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:aAxis">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="TitleAngle" type="s:double" />
+							<s:element minOccurs="0" maxOccurs="1" name="LabelFormat" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="TopMargin" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="LowerLimit" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="UpperLimit" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="TickInc" type="s:int" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="ArrayOfString">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfGMLayer">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="GMLayer" nillable="true" type="tns:GMLayer" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="GMLayer">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Color" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="LayerType" type="tns:eLayerType" />
+					<s:element minOccurs="1" maxOccurs="1" name="CombineMethod" type="tns:eCombineMethod" />
+					<s:element minOccurs="1" maxOccurs="1" name="Depth3D" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="Gap3D" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="BarGap" type="s:double" />
+					<s:element minOccurs="0" maxOccurs="1" name="DataSets" type="tns:ArrayOfGMDataSet" />
+					<s:element minOccurs="1" maxOccurs="1" name="LineWidth" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="LabelFormat" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="eLayerType">
+				<s:restriction base="s:string">
+					<s:enumeration value="Bar" />
+					<s:enumeration value="Line" />
+					<s:enumeration value="Area" />
+					<s:enumeration value="CandleStick" />
+					<s:enumeration value="HLOC" />
+					<s:enumeration value="Scatter" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="eCombineMethod">
+				<s:restriction base="s:string">
+					<s:enumeration value="Stack" />
+					<s:enumeration value="Overlay" />
+					<s:enumeration value="Side" />
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="ArrayOfGMDataSet">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="GMDataSet" nillable="true" type="tns:GMDataSet" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="GMDataSet">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="LabelFormat" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="UseYAxis2" type="s:boolean" />
+					<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="tns:DataSymbol" />
+					<s:element minOccurs="0" maxOccurs="1" name="Values" type="tns:ArrayOfDouble" />
+					<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Color" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="EdgeColor" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="ShadowColor" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="ShadowEdgeColor" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="DataSymbol">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:eSymbolType" />
+					<s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="FillColor" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="EdgeColor" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="eSymbolType">
+				<s:restriction base="s:string">
+					<s:enumeration value="Null" />
+					<s:enumeration value="Square" />
+					<s:enumeration value="Diamond" />
+					<s:enumeration value="Triangle" />
+					<s:enumeration value="RightTriangle" />
+					<s:enumeration value="LeftTriangle" />
+					<s:enumeration value="InvertedTriangle" />
+					<s:enumeration value="Circle" />
+					<s:enumeration value="Cross" />
+					<s:enumeration value="Cross2" />
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="ArrayOfDouble">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="double" type="s:double" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="XYChartResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="XYChartResult" type="tns:GMResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="GMResult">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Image" type="s:base64Binary" />
+					<s:element minOccurs="0" maxOccurs="1" name="HTMLImageMap" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="HTMLLegendMap" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="PieChart">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="gmp" type="tns:GMPieProperties" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="GMPieProperties">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:GMBaseProperties">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="LabelLayout" type="tns:eLayout" />
+							<s:element minOccurs="1" maxOccurs="1" name="LabelPos" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="PlotRadius" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="Tilt3D" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="Depth3D" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="StartAngle" type="s:int" />
+							<s:element minOccurs="0" maxOccurs="1" name="Labels" type="tns:ArrayOfString" />
+							<s:element minOccurs="0" maxOccurs="1" name="Values" type="tns:ArrayOfDouble" />
+							<s:element minOccurs="0" maxOccurs="1" name="Colors" type="tns:ArrayOfInt" />
+							<s:element minOccurs="0" maxOccurs="1" name="Explode" type="tns:ArrayOfInt" />
+							<s:element minOccurs="0" maxOccurs="1" name="LabelFormat" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="LineColor" type="s:int" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:simpleType name="eLayout">
+				<s:restriction base="s:string">
+					<s:enumeration value="Circular" />
+					<s:enumeration value="Side" />
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="ArrayOfInt">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="PieChartResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="PieChartResult" type="tns:GMResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="XYChartSoapIn">
+		<wsdl:part name="parameters" element="tns:XYChart" />
+	</wsdl:message>
+	<wsdl:message name="XYChartSoapOut">
+		<wsdl:part name="parameters" element="tns:XYChartResponse" />
+	</wsdl:message>
+	<wsdl:message name="PieChartSoapIn">
+		<wsdl:part name="parameters" element="tns:PieChart" />
+	</wsdl:message>
+	<wsdl:message name="PieChartSoapOut">
+		<wsdl:part name="parameters" element="tns:PieChartResponse" />
+	</wsdl:message>
+	<wsdl:portType name="GMChartSoap">
+		<wsdl:operation name="XYChart">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Use this method to create XY-Charts.</documentation>
+			<wsdl:input message="tns:XYChartSoapIn" />
+			<wsdl:output message="tns:XYChartSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="PieChart">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Use this method to create Pie-Charts.</documentation>
+			<wsdl:input message="tns:PieChartSoapIn" />
+			<wsdl:output message="tns:PieChartSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="GMChartSoap" type="tns:GMChartSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<wsdl:operation name="XYChart">
+			<soap:operation soapAction="http://GraphMagic.com/XYChart" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="PieChart">
+			<soap:operation soapAction="http://GraphMagic.com/PieChart" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="GMChart">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">GraphMagic - Charting Web Service.</documentation>
+		<wsdl:port name="GMChartSoap" binding="tns:GMChartSoap">
+			<soap:address location="http://service.graphmagic.com/GMService/GraphMagic.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,1 +1,128 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://ws.fraudlabs.com/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://ws.fraudlabs.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://ws.fraudlabs.com/">      <s:element name="PostalCodeWorld_Mexico">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LICENSE" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="PostalCodeWorld_MexicoResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="PostalCodeWorld_MexicoResult" type="tns:POSTALCODEWORLD_MEXICO" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="POSTALCODEWORLD_MEXICO">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="CREDITSAVAILABLE" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="POSTAL_CODE" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="COLONY_NAME" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CITY_NAME" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="STATE_ABBR" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="STATE_NAME" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="LATITUDE" type="s:float" />          <s:element minOccurs="1" maxOccurs="1" name="LONGITUDE" type="s:float" />          <s:element minOccurs="0" maxOccurs="1" name="OLD_AREA_CODE" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="NEW_AREA_CODE" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="TIME_ZONE" type="s:float" />          <s:element minOccurs="0" maxOccurs="1" name="DAY_LIGHT_SAVING" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="MESSAGE" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="POSTALCODEWORLD_MEXICO" nillable="true" type="tns:POSTALCODEWORLD_MEXICO" />    </s:schema>  </wsdl:types>  <wsdl:message name="PostalCodeWorld_MexicoSoapIn">    <wsdl:part name="parameters" element="tns:PostalCodeWorld_Mexico" />  </wsdl:message>  <wsdl:message name="PostalCodeWorld_MexicoSoapOut">    <wsdl:part name="parameters" element="tns:PostalCodeWorld_MexicoResponse" />  </wsdl:message>  <wsdl:message name="PostalCodeWorld_MexicoHttpGetIn">    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LICENSE" type="s:string" />  </wsdl:message>  <wsdl:message name="PostalCodeWorld_MexicoHttpGetOut">    <wsdl:part name="Body" element="tns:POSTALCODEWORLD_MEXICO" />  </wsdl:message>  <wsdl:message name="PostalCodeWorld_MexicoHttpPostIn">    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LICENSE" type="s:string" />  </wsdl:message>  <wsdl:message name="PostalCodeWorld_MexicoHttpPostOut">    <wsdl:part name="Body" element="tns:POSTALCODEWORLD_MEXICO" />  </wsdl:message>  <wsdl:portType name="PostalCodeWorldMexico_WebServiceSoap">    <wsdl:operation name="PostalCodeWorld_Mexico">      <wsdl:input message="tns:PostalCodeWorld_MexicoSoapIn" />      <wsdl:output message="tns:PostalCodeWorld_MexicoSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="PostalCodeWorldMexico_WebServiceHttpGet">    <wsdl:operation name="PostalCodeWorld_Mexico">      <wsdl:input message="tns:PostalCodeWorld_MexicoHttpGetIn" />      <wsdl:output message="tns:PostalCodeWorld_MexicoHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="PostalCodeWorldMexico_WebServiceHttpPost">    <wsdl:operation name="PostalCodeWorld_Mexico">      <wsdl:input message="tns:PostalCodeWorld_MexicoHttpPostIn" />      <wsdl:output message="tns:PostalCodeWorld_MexicoHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="PostalCodeWorldMexico_WebServiceSoap" type="tns:PostalCodeWorldMexico_WebServiceSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <wsdl:operation name="PostalCodeWorld_Mexico">      <soap:operation soapAction="http://ws.fraudlabs.com/PostalCodeWorld_Mexico" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="PostalCodeWorldMexico_WebServiceHttpGet" type="tns:PostalCodeWorldMexico_WebServiceHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="PostalCodeWorld_Mexico">      <http:operation location="/PostalCodeWorld_Mexico" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="PostalCodeWorldMexico_WebServiceHttpPost" type="tns:PostalCodeWorldMexico_WebServiceHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="PostalCodeWorld_Mexico">      <http:operation location="/PostalCodeWorld_Mexico" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="PostalCodeWorldMexico_WebService">    <wsdl:port name="PostalCodeWorldMexico_WebServiceSoap" binding="tns:PostalCodeWorldMexico_WebServiceSoap">      <soap:address location="http://ws.fraudlabs.com/postalcodeworldMexico_webservice.asmx" />    </wsdl:port>    <wsdl:port name="PostalCodeWorldMexico_WebServiceHttpGet" binding="tns:PostalCodeWorldMexico_WebServiceHttpGet">      <http:address location="http://ws.fraudlabs.com/postalcodeworldMexico_webservice.asmx" />    </wsdl:port>    <wsdl:port name="PostalCodeWorldMexico_WebServiceHttpPost" binding="tns:PostalCodeWorldMexico_WebServiceHttpPost">      <http:address location="http://ws.fraudlabs.com/postalcodeworldMexico_webservice.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://ws.fraudlabs.com/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	targetNamespace="http://ws.fraudlabs.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://ws.fraudlabs.com/">
+			<s:element name="PostalCodeWorld_Mexico">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LICENSE" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="PostalCodeWorld_MexicoResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="PostalCodeWorld_MexicoResult" type="tns:POSTALCODEWORLD_MEXICO" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="POSTALCODEWORLD_MEXICO">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="CREDITSAVAILABLE" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="POSTAL_CODE" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="COLONY_NAME" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CITY_NAME" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="STATE_ABBR" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="STATE_NAME" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="LATITUDE" type="s:float" />
+					<s:element minOccurs="1" maxOccurs="1" name="LONGITUDE" type="s:float" />
+					<s:element minOccurs="0" maxOccurs="1" name="OLD_AREA_CODE" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="NEW_AREA_CODE" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="TIME_ZONE" type="s:float" />
+					<s:element minOccurs="0" maxOccurs="1" name="DAY_LIGHT_SAVING" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="MESSAGE" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="POSTALCODEWORLD_MEXICO" nillable="true" type="tns:POSTALCODEWORLD_MEXICO" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="PostalCodeWorld_MexicoSoapIn">
+		<wsdl:part name="parameters" element="tns:PostalCodeWorld_Mexico" />
+	</wsdl:message>
+	<wsdl:message name="PostalCodeWorld_MexicoSoapOut">
+		<wsdl:part name="parameters" element="tns:PostalCodeWorld_MexicoResponse" />
+	</wsdl:message>
+	<wsdl:message name="PostalCodeWorld_MexicoHttpGetIn">
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LICENSE" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="PostalCodeWorld_MexicoHttpGetOut">
+		<wsdl:part name="Body" element="tns:POSTALCODEWORLD_MEXICO" />
+	</wsdl:message>
+	<wsdl:message name="PostalCodeWorld_MexicoHttpPostIn">
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LICENSE" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="PostalCodeWorld_MexicoHttpPostOut">
+		<wsdl:part name="Body" element="tns:POSTALCODEWORLD_MEXICO" />
+	</wsdl:message>
+	<wsdl:portType name="PostalCodeWorldMexico_WebServiceSoap">
+		<wsdl:operation name="PostalCodeWorld_Mexico">
+			<wsdl:input message="tns:PostalCodeWorld_MexicoSoapIn" />
+			<wsdl:output message="tns:PostalCodeWorld_MexicoSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="PostalCodeWorldMexico_WebServiceHttpGet">
+		<wsdl:operation name="PostalCodeWorld_Mexico">
+			<wsdl:input message="tns:PostalCodeWorld_MexicoHttpGetIn" />
+			<wsdl:output message="tns:PostalCodeWorld_MexicoHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="PostalCodeWorldMexico_WebServiceHttpPost">
+		<wsdl:operation name="PostalCodeWorld_Mexico">
+			<wsdl:input message="tns:PostalCodeWorld_MexicoHttpPostIn" />
+			<wsdl:output message="tns:PostalCodeWorld_MexicoHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="PostalCodeWorldMexico_WebServiceSoap" type="tns:PostalCodeWorldMexico_WebServiceSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<wsdl:operation name="PostalCodeWorld_Mexico">
+			<soap:operation soapAction="http://ws.fraudlabs.com/PostalCodeWorld_Mexico" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="PostalCodeWorldMexico_WebServiceHttpGet" type="tns:PostalCodeWorldMexico_WebServiceHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="PostalCodeWorld_Mexico">
+			<http:operation location="/PostalCodeWorld_Mexico" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="PostalCodeWorldMexico_WebServiceHttpPost" type="tns:PostalCodeWorldMexico_WebServiceHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="PostalCodeWorld_Mexico">
+			<http:operation location="/PostalCodeWorld_Mexico" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="PostalCodeWorldMexico_WebService">
+		<wsdl:port name="PostalCodeWorldMexico_WebServiceSoap" binding="tns:PostalCodeWorldMexico_WebServiceSoap">
+			<soap:address location="http://ws.fraudlabs.com/postalcodeworldMexico_webservice.asmx" />
+		</wsdl:port>
+		<wsdl:port name="PostalCodeWorldMexico_WebServiceHttpGet" binding="tns:PostalCodeWorldMexico_WebServiceHttpGet">
+			<http:address location="http://ws.fraudlabs.com/postalcodeworldMexico_webservice.asmx" />
+		</wsdl:port>
+		<wsdl:port name="PostalCodeWorldMexico_WebServiceHttpPost" binding="tns:PostalCodeWorldMexico_WebServiceHttpPost">
+			<http:address location="http://ws.fraudlabs.com/postalcodeworldMexico_webservice.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,1 +1,1605 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ws.cdyne.com/ProfanityWS/Profanity.asmx" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://ws.cdyne.com/ProfanityWS/Profanity.asmx" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">CDYNE Profanity Filter web service is a simple, but elegant way to remove words that are considered profanity to keep professionalism in online web-based applications. Basic Profanity Filtering can be accomplished by utilizing the &lt;b&gt;SimpleProfanityFilter&lt;/b&gt; operation below. &lt;br /&gt;&lt;br /&gt; &lt;b&gt;Please look at our &lt;a href="http://wiki.cdyne.com/wiki/index.php?title=Profanity_Filter"&gt;wiki&lt;/a&gt; for details on CDYNE's Profanity filter (Character limits, etc).&lt;/b&gt;</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://ws.cdyne.com/ProfanityWS/Profanity.asmx">      <s:element name="SimpleProfanityFilter">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SimpleProfanityFilterResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="SimpleProfanityFilterResult" type="tns:FilterReturn" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="FilterReturn">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="FoundProfanity" type="s:boolean" />          <s:element minOccurs="1" maxOccurs="1" name="ProfanityCount" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="CleanText" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="ProfanityFilter">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="LevelToClean" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="UseNumberFilter" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ProfanityFilterResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="ProfanityFilterResult" type="tns:FilterReturn" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="AdvancedProfanityFilter">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Request" type="tns:FilterRequest" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="FilterRequest">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="UseCharacterFilter" type="s:boolean" />          <s:element minOccurs="1" maxOccurs="1" name="UsePhonetics" type="s:boolean" />          <s:element minOccurs="1" maxOccurs="1" name="LevelToClean" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="ReplaceProfanityType" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="UserDefinedLevelsID" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ReplaceProfanityText" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="AdvancedProfanityFilterResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="AdvancedProfanityFilterResult" type="tns:FilterReturn" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetReplaceTypes">        <s:complexType />      </s:element>      <s:element name="GetReplaceTypesResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetReplaceTypesResult" type="tns:ArrayOfReplaceType" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfReplaceType">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="ReplaceType" type="tns:ReplaceType" />        </s:sequence>      </s:complexType>      <s:complexType name="ReplaceType">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="TypeID" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Example" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="CreateUserDefinedKey">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Alias" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="UseDefaultDatabase" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="CreateUserDefinedKeyResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="CreateUserDefinedKeyResult" type="tns:UserDefinedResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="UserDefinedResult">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Success" type="s:boolean" />          <s:element minOccurs="1" maxOccurs="1" name="ResponseCode" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="ResponseText" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />        </s:sequence>      </s:complexType>      <s:element name="CreateProfanityLevel">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="DefaultWordsLevel" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="CreateProfanityLevelResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="CreateProfanityLevelResult" type="tns:UserDefinedResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetProfanityLevels">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetProfanityLevelsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetProfanityLevelsResult" type="tns:ArrayOfProfanityLevel" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfProfanityLevel">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="ProfanityLevel" type="tns:ProfanityLevel" />        </s:sequence>      </s:complexType>      <s:complexType name="ProfanityLevel">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="AddProfanityWordToLevelByKey">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Word" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="AddProfanityWordToLevelByKeyResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="AddProfanityWordToLevelByKeyResult" type="tns:UserDefinedResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeleteProfanityWordFromLevelByKey">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Word" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeleteProfanityWordFromLevelByKeyResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="DeleteProfanityWordFromLevelByKeyResult" type="tns:UserDefinedResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetKeysByLicenseKey">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetKeysByLicenseKeyResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetKeysByLicenseKeyResult" type="tns:ArrayOfProfanityKey" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfProfanityKey">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="ProfanityKey" type="tns:ProfanityKey" />        </s:sequence>      </s:complexType>      <s:complexType name="ProfanityKey">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Alias" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="GetWordsByLevel">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetWordsByLevelResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetWordsByLevelResult" type="tns:ArrayOfString" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfString">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="DeleteProfanityLevelByKey">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeleteProfanityLevelByKeyResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="DeleteProfanityLevelByKeyResult" type="tns:UserDefinedResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeleteKeyByLicenseKey">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeleteKeyByLicenseKeyResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="DeleteKeyByLicenseKeyResult" type="tns:UserDefinedResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="AddWordToNonProfanityListByKey">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Word" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="AddWordToNonProfanityListByKeyResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="AddWordToNonProfanityListByKeyResult" type="tns:UserDefinedResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeleteWordFromNonProfanityListByKey">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Word" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeleteWordFromNonProfanityListByKeyResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="DeleteWordFromNonProfanityListByKeyResult" type="tns:UserDefinedResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetDefaultLevels">        <s:complexType />      </s:element>      <s:element name="GetDefaultLevelsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetDefaultLevelsResult" type="tns:ArrayOfProfanityLevel" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetDefaultWordsByLevel">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetDefaultWordsByLevelResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetDefaultWordsByLevelResult" type="tns:ArrayOfString" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="FilterReturn" type="tns:FilterReturn" />      <s:element name="ArrayOfReplaceType" nillable="true" type="tns:ArrayOfReplaceType" />      <s:element name="UserDefinedResult" type="tns:UserDefinedResult" />      <s:element name="ArrayOfProfanityLevel" nillable="true" type="tns:ArrayOfProfanityLevel" />      <s:element name="ArrayOfProfanityKey" nillable="true" type="tns:ArrayOfProfanityKey" />      <s:element name="ArrayOfString" nillable="true" type="tns:ArrayOfString" />    </s:schema>  </wsdl:types>  <wsdl:message name="SimpleProfanityFilterSoapIn">    <wsdl:part name="parameters" element="tns:SimpleProfanityFilter" />  </wsdl:message>  <wsdl:message name="SimpleProfanityFilterSoapOut">    <wsdl:part name="parameters" element="tns:SimpleProfanityFilterResponse" />  </wsdl:message>  <wsdl:message name="ProfanityFilterSoapIn">    <wsdl:part name="parameters" element="tns:ProfanityFilter" />  </wsdl:message>  <wsdl:message name="ProfanityFilterSoapOut">    <wsdl:part name="parameters" element="tns:ProfanityFilterResponse" />  </wsdl:message>  <wsdl:message name="AdvancedProfanityFilterSoapIn">    <wsdl:part name="parameters" element="tns:AdvancedProfanityFilter" />  </wsdl:message>  <wsdl:message name="AdvancedProfanityFilterSoapOut">    <wsdl:part name="parameters" element="tns:AdvancedProfanityFilterResponse" />  </wsdl:message>  <wsdl:message name="GetReplaceTypesSoapIn">    <wsdl:part name="parameters" element="tns:GetReplaceTypes" />  </wsdl:message>  <wsdl:message name="GetReplaceTypesSoapOut">    <wsdl:part name="parameters" element="tns:GetReplaceTypesResponse" />  </wsdl:message>  <wsdl:message name="CreateUserDefinedKeySoapIn">    <wsdl:part name="parameters" element="tns:CreateUserDefinedKey" />  </wsdl:message>  <wsdl:message name="CreateUserDefinedKeySoapOut">    <wsdl:part name="parameters" element="tns:CreateUserDefinedKeyResponse" />  </wsdl:message>  <wsdl:message name="CreateProfanityLevelSoapIn">    <wsdl:part name="parameters" element="tns:CreateProfanityLevel" />  </wsdl:message>  <wsdl:message name="CreateProfanityLevelSoapOut">    <wsdl:part name="parameters" element="tns:CreateProfanityLevelResponse" />  </wsdl:message>  <wsdl:message name="GetProfanityLevelsSoapIn">    <wsdl:part name="parameters" element="tns:GetProfanityLevels" />  </wsdl:message>  <wsdl:message name="GetProfanityLevelsSoapOut">    <wsdl:part name="parameters" element="tns:GetProfanityLevelsResponse" />  </wsdl:message>  <wsdl:message name="AddProfanityWordToLevelByKeySoapIn">    <wsdl:part name="parameters" element="tns:AddProfanityWordToLevelByKey" />  </wsdl:message>  <wsdl:message name="AddProfanityWordToLevelByKeySoapOut">    <wsdl:part name="parameters" element="tns:AddProfanityWordToLevelByKeyResponse" />  </wsdl:message>  <wsdl:message name="DeleteProfanityWordFromLevelByKeySoapIn">    <wsdl:part name="parameters" element="tns:DeleteProfanityWordFromLevelByKey" />  </wsdl:message>  <wsdl:message name="DeleteProfanityWordFromLevelByKeySoapOut">    <wsdl:part name="parameters" element="tns:DeleteProfanityWordFromLevelByKeyResponse" />  </wsdl:message>  <wsdl:message name="GetKeysByLicenseKeySoapIn">    <wsdl:part name="parameters" element="tns:GetKeysByLicenseKey" />  </wsdl:message>  <wsdl:message name="GetKeysByLicenseKeySoapOut">    <wsdl:part name="parameters" element="tns:GetKeysByLicenseKeyResponse" />  </wsdl:message>  <wsdl:message name="GetWordsByLevelSoapIn">    <wsdl:part name="parameters" element="tns:GetWordsByLevel" />  </wsdl:message>  <wsdl:message name="GetWordsByLevelSoapOut">    <wsdl:part name="parameters" element="tns:GetWordsByLevelResponse" />  </wsdl:message>  <wsdl:message name="DeleteProfanityLevelByKeySoapIn">    <wsdl:part name="parameters" element="tns:DeleteProfanityLevelByKey" />  </wsdl:message>  <wsdl:message name="DeleteProfanityLevelByKeySoapOut">    <wsdl:part name="parameters" element="tns:DeleteProfanityLevelByKeyResponse" />  </wsdl:message>  <wsdl:message name="DeleteKeyByLicenseKeySoapIn">    <wsdl:part name="parameters" element="tns:DeleteKeyByLicenseKey" />  </wsdl:message>  <wsdl:message name="DeleteKeyByLicenseKeySoapOut">    <wsdl:part name="parameters" element="tns:DeleteKeyByLicenseKeyResponse" />  </wsdl:message>  <wsdl:message name="AddWordToNonProfanityListByKeySoapIn">    <wsdl:part name="parameters" element="tns:AddWordToNonProfanityListByKey" />  </wsdl:message>  <wsdl:message name="AddWordToNonProfanityListByKeySoapOut">    <wsdl:part name="parameters" element="tns:AddWordToNonProfanityListByKeyResponse" />  </wsdl:message>  <wsdl:message name="DeleteWordFromNonProfanityListByKeySoapIn">    <wsdl:part name="parameters" element="tns:DeleteWordFromNonProfanityListByKey" />  </wsdl:message>  <wsdl:message name="DeleteWordFromNonProfanityListByKeySoapOut">    <wsdl:part name="parameters" element="tns:DeleteWordFromNonProfanityListByKeyResponse" />  </wsdl:message>  <wsdl:message name="GetDefaultLevelsSoapIn">    <wsdl:part name="parameters" element="tns:GetDefaultLevels" />  </wsdl:message>  <wsdl:message name="GetDefaultLevelsSoapOut">    <wsdl:part name="parameters" element="tns:GetDefaultLevelsResponse" />  </wsdl:message>  <wsdl:message name="GetDefaultWordsByLevelSoapIn">    <wsdl:part name="parameters" element="tns:GetDefaultWordsByLevel" />  </wsdl:message>  <wsdl:message name="GetDefaultWordsByLevelSoapOut">    <wsdl:part name="parameters" element="tns:GetDefaultWordsByLevelResponse" />  </wsdl:message>  <wsdl:message name="SimpleProfanityFilterHttpGetIn">    <wsdl:part name="Text" type="s:string" />  </wsdl:message>  <wsdl:message name="SimpleProfanityFilterHttpGetOut">    <wsdl:part name="Body" element="tns:FilterReturn" />  </wsdl:message>  <wsdl:message name="ProfanityFilterHttpGetIn">    <wsdl:part name="Text" type="s:string" />    <wsdl:part name="LevelToClean" type="s:string" />    <wsdl:part name="UseNumberFilter" type="s:string" />  </wsdl:message>  <wsdl:message name="ProfanityFilterHttpGetOut">    <wsdl:part name="Body" element="tns:FilterReturn" />  </wsdl:message>  <wsdl:message name="GetReplaceTypesHttpGetIn" />  <wsdl:message name="GetReplaceTypesHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfReplaceType" />  </wsdl:message>  <wsdl:message name="CreateUserDefinedKeyHttpGetIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Alias" type="s:string" />    <wsdl:part name="UseDefaultDatabase" type="s:string" />  </wsdl:message>  <wsdl:message name="CreateUserDefinedKeyHttpGetOut">    <wsdl:part name="Body" element="tns:UserDefinedResult" />  </wsdl:message>  <wsdl:message name="CreateProfanityLevelHttpGetIn">    <wsdl:part name="Level" type="s:string" />    <wsdl:part name="Description" type="s:string" />    <wsdl:part name="DefaultWordsLevel" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />  </wsdl:message>  <wsdl:message name="CreateProfanityLevelHttpGetOut">    <wsdl:part name="Body" element="tns:UserDefinedResult" />  </wsdl:message>  <wsdl:message name="GetProfanityLevelsHttpGetIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />  </wsdl:message>  <wsdl:message name="GetProfanityLevelsHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfProfanityLevel" />  </wsdl:message>  <wsdl:message name="AddProfanityWordToLevelByKeyHttpGetIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />    <wsdl:part name="Level" type="s:string" />    <wsdl:part name="Word" type="s:string" />  </wsdl:message>  <wsdl:message name="AddProfanityWordToLevelByKeyHttpGetOut">    <wsdl:part name="Body" element="tns:UserDefinedResult" />  </wsdl:message>  <wsdl:message name="DeleteProfanityWordFromLevelByKeyHttpGetIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />    <wsdl:part name="Level" type="s:string" />    <wsdl:part name="Word" type="s:string" />  </wsdl:message>  <wsdl:message name="DeleteProfanityWordFromLevelByKeyHttpGetOut">    <wsdl:part name="Body" element="tns:UserDefinedResult" />  </wsdl:message>  <wsdl:message name="GetKeysByLicenseKeyHttpGetIn">    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetKeysByLicenseKeyHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfProfanityKey" />  </wsdl:message>  <wsdl:message name="GetWordsByLevelHttpGetIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />    <wsdl:part name="Level" type="s:string" />  </wsdl:message>  <wsdl:message name="GetWordsByLevelHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfString" />  </wsdl:message>  <wsdl:message name="DeleteProfanityLevelByKeyHttpGetIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />    <wsdl:part name="Level" type="s:string" />  </wsdl:message>  <wsdl:message name="DeleteProfanityLevelByKeyHttpGetOut">    <wsdl:part name="Body" element="tns:UserDefinedResult" />  </wsdl:message>  <wsdl:message name="DeleteKeyByLicenseKeyHttpGetIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />  </wsdl:message>  <wsdl:message name="DeleteKeyByLicenseKeyHttpGetOut">    <wsdl:part name="Body" element="tns:UserDefinedResult" />  </wsdl:message>  <wsdl:message name="AddWordToNonProfanityListByKeyHttpGetIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />    <wsdl:part name="Word" type="s:string" />  </wsdl:message>  <wsdl:message name="AddWordToNonProfanityListByKeyHttpGetOut">    <wsdl:part name="Body" element="tns:UserDefinedResult" />  </wsdl:message>  <wsdl:message name="DeleteWordFromNonProfanityListByKeyHttpGetIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />    <wsdl:part name="Word" type="s:string" />  </wsdl:message>  <wsdl:message name="DeleteWordFromNonProfanityListByKeyHttpGetOut">    <wsdl:part name="Body" element="tns:UserDefinedResult" />  </wsdl:message>  <wsdl:message name="GetDefaultLevelsHttpGetIn" />  <wsdl:message name="GetDefaultLevelsHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfProfanityLevel" />  </wsdl:message>  <wsdl:message name="GetDefaultWordsByLevelHttpGetIn">    <wsdl:part name="Level" type="s:string" />  </wsdl:message>  <wsdl:message name="GetDefaultWordsByLevelHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfString" />  </wsdl:message>  <wsdl:message name="SimpleProfanityFilterHttpPostIn">    <wsdl:part name="Text" type="s:string" />  </wsdl:message>  <wsdl:message name="SimpleProfanityFilterHttpPostOut">    <wsdl:part name="Body" element="tns:FilterReturn" />  </wsdl:message>  <wsdl:message name="ProfanityFilterHttpPostIn">    <wsdl:part name="Text" type="s:string" />    <wsdl:part name="LevelToClean" type="s:string" />    <wsdl:part name="UseNumberFilter" type="s:string" />  </wsdl:message>  <wsdl:message name="ProfanityFilterHttpPostOut">    <wsdl:part name="Body" element="tns:FilterReturn" />  </wsdl:message>  <wsdl:message name="GetReplaceTypesHttpPostIn" />  <wsdl:message name="GetReplaceTypesHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfReplaceType" />  </wsdl:message>  <wsdl:message name="CreateUserDefinedKeyHttpPostIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Alias" type="s:string" />    <wsdl:part name="UseDefaultDatabase" type="s:string" />  </wsdl:message>  <wsdl:message name="CreateUserDefinedKeyHttpPostOut">    <wsdl:part name="Body" element="tns:UserDefinedResult" />  </wsdl:message>  <wsdl:message name="CreateProfanityLevelHttpPostIn">    <wsdl:part name="Level" type="s:string" />    <wsdl:part name="Description" type="s:string" />    <wsdl:part name="DefaultWordsLevel" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />  </wsdl:message>  <wsdl:message name="CreateProfanityLevelHttpPostOut">    <wsdl:part name="Body" element="tns:UserDefinedResult" />  </wsdl:message>  <wsdl:message name="GetProfanityLevelsHttpPostIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />  </wsdl:message>  <wsdl:message name="GetProfanityLevelsHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfProfanityLevel" />  </wsdl:message>  <wsdl:message name="AddProfanityWordToLevelByKeyHttpPostIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />    <wsdl:part name="Level" type="s:string" />    <wsdl:part name="Word" type="s:string" />  </wsdl:message>  <wsdl:message name="AddProfanityWordToLevelByKeyHttpPostOut">    <wsdl:part name="Body" element="tns:UserDefinedResult" />  </wsdl:message>  <wsdl:message name="DeleteProfanityWordFromLevelByKeyHttpPostIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />    <wsdl:part name="Level" type="s:string" />    <wsdl:part name="Word" type="s:string" />  </wsdl:message>  <wsdl:message name="DeleteProfanityWordFromLevelByKeyHttpPostOut">    <wsdl:part name="Body" element="tns:UserDefinedResult" />  </wsdl:message>  <wsdl:message name="GetKeysByLicenseKeyHttpPostIn">    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetKeysByLicenseKeyHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfProfanityKey" />  </wsdl:message>  <wsdl:message name="GetWordsByLevelHttpPostIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />    <wsdl:part name="Level" type="s:string" />  </wsdl:message>  <wsdl:message name="GetWordsByLevelHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfString" />  </wsdl:message>  <wsdl:message name="DeleteProfanityLevelByKeyHttpPostIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />    <wsdl:part name="Level" type="s:string" />  </wsdl:message>  <wsdl:message name="DeleteProfanityLevelByKeyHttpPostOut">    <wsdl:part name="Body" element="tns:UserDefinedResult" />  </wsdl:message>  <wsdl:message name="DeleteKeyByLicenseKeyHttpPostIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />  </wsdl:message>  <wsdl:message name="DeleteKeyByLicenseKeyHttpPostOut">    <wsdl:part name="Body" element="tns:UserDefinedResult" />  </wsdl:message>  <wsdl:message name="AddWordToNonProfanityListByKeyHttpPostIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />    <wsdl:part name="Word" type="s:string" />  </wsdl:message>  <wsdl:message name="AddWordToNonProfanityListByKeyHttpPostOut">    <wsdl:part name="Body" element="tns:UserDefinedResult" />  </wsdl:message>  <wsdl:message name="DeleteWordFromNonProfanityListByKeyHttpPostIn">    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Key" type="s:string" />    <wsdl:part name="Word" type="s:string" />  </wsdl:message>  <wsdl:message name="DeleteWordFromNonProfanityListByKeyHttpPostOut">    <wsdl:part name="Body" element="tns:UserDefinedResult" />  </wsdl:message>  <wsdl:message name="GetDefaultLevelsHttpPostIn" />  <wsdl:message name="GetDefaultLevelsHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfProfanityLevel" />  </wsdl:message>  <wsdl:message name="GetDefaultWordsByLevelHttpPostIn">    <wsdl:part name="Level" type="s:string" />  </wsdl:message>  <wsdl:message name="GetDefaultWordsByLevelHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfString" />  </wsdl:message>  <wsdl:portType name="ProfanitySoap">    <wsdl:operation name="SimpleProfanityFilter">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Basic Profanity Filter, which replaces curse words with the world [Explicit]. CDYNE uses a proprietary database of words. To suggest a new word, please email info@cdyne.com</wsdl:documentation>      <wsdl:input message="tns:SimpleProfanityFilterSoapIn" />      <wsdl:output message="tns:SimpleProfanityFilterSoapOut" />    </wsdl:operation>    <wsdl:operation name="ProfanityFilter">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Regular Profanity Filter, Allows you to specify the level you wish to clean, and this also goes through a number filter to help find cleanse more profanity.</wsdl:documentation>      <wsdl:input message="tns:ProfanityFilterSoapIn" />      <wsdl:output message="tns:ProfanityFilterSoapOut" />    </wsdl:operation>    <wsdl:operation name="AdvancedProfanityFilter">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This allows you to access to the more advanced functions which allow you to create your own lists, and levels of profanity, and the use of Phonetics(Sounds Like)</wsdl:documentation>      <wsdl:input message="tns:AdvancedProfanityFilterSoapIn" />      <wsdl:output message="tns:AdvancedProfanityFilterSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetReplaceTypes">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all the Types of Replacement values you are allowed to use</wsdl:documentation>      <wsdl:input message="tns:GetReplaceTypesSoapIn" />      <wsdl:output message="tns:GetReplaceTypesSoapOut" />    </wsdl:operation>    <wsdl:operation name="CreateUserDefinedKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will create a new User Defined Levels Identification Code for you when you want to create your own Profanity Levels.</wsdl:documentation>      <wsdl:input message="tns:CreateUserDefinedKeySoapIn" />      <wsdl:output message="tns:CreateUserDefinedKeySoapOut" />    </wsdl:operation>    <wsdl:operation name="CreateProfanityLevel">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a profanity level within a key. Use 0 For DefaultWordsLevel paramter if you do not wish to include words from default database.</wsdl:documentation>      <wsdl:input message="tns:CreateProfanityLevelSoapIn" />      <wsdl:output message="tns:CreateProfanityLevelSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetProfanityLevels">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all the profanity level.</wsdl:documentation>      <wsdl:input message="tns:GetProfanityLevelsSoapIn" />      <wsdl:output message="tns:GetProfanityLevelsSoapOut" />    </wsdl:operation>    <wsdl:operation name="AddProfanityWordToLevelByKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds a profanity word to a profanity level.</wsdl:documentation>      <wsdl:input message="tns:AddProfanityWordToLevelByKeySoapIn" />      <wsdl:output message="tns:AddProfanityWordToLevelByKeySoapOut" />    </wsdl:operation>    <wsdl:operation name="DeleteProfanityWordFromLevelByKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a profanity word from a level.</wsdl:documentation>      <wsdl:input message="tns:DeleteProfanityWordFromLevelByKeySoapIn" />      <wsdl:output message="tns:DeleteProfanityWordFromLevelByKeySoapOut" />    </wsdl:operation>    <wsdl:operation name="GetKeysByLicenseKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will retrieve a list of all the keys based on a LicenseKey.</wsdl:documentation>      <wsdl:input message="tns:GetKeysByLicenseKeySoapIn" />      <wsdl:output message="tns:GetKeysByLicenseKeySoapOut" />    </wsdl:operation>    <wsdl:operation name="GetWordsByLevel">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will get all the words in a specific level.</wsdl:documentation>      <wsdl:input message="tns:GetWordsByLevelSoapIn" />      <wsdl:output message="tns:GetWordsByLevelSoapOut" />    </wsdl:operation>    <wsdl:operation name="DeleteProfanityLevelByKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete a profanity level from a key</wsdl:documentation>      <wsdl:input message="tns:DeleteProfanityLevelByKeySoapIn" />      <wsdl:output message="tns:DeleteProfanityLevelByKeySoapOut" />    </wsdl:operation>    <wsdl:operation name="DeleteKeyByLicenseKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete your key.</wsdl:documentation>      <wsdl:input message="tns:DeleteKeyByLicenseKeySoapIn" />      <wsdl:output message="tns:DeleteKeyByLicenseKeySoapOut" />    </wsdl:operation>    <wsdl:operation name="AddWordToNonProfanityListByKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will add a word to our Non Profanity List, incase our Profanity Filter mistakens a word.</wsdl:documentation>      <wsdl:input message="tns:AddWordToNonProfanityListByKeySoapIn" />      <wsdl:output message="tns:AddWordToNonProfanityListByKeySoapOut" />    </wsdl:operation>    <wsdl:operation name="DeleteWordFromNonProfanityListByKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete a non-profane word from our Non Profanity Database.</wsdl:documentation>      <wsdl:input message="tns:DeleteWordFromNonProfanityListByKeySoapIn" />      <wsdl:output message="tns:DeleteWordFromNonProfanityListByKeySoapOut" />    </wsdl:operation>    <wsdl:operation name="GetDefaultLevels">      <wsdl:input message="tns:GetDefaultLevelsSoapIn" />      <wsdl:output message="tns:GetDefaultLevelsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetDefaultWordsByLevel">      <wsdl:input message="tns:GetDefaultWordsByLevelSoapIn" />      <wsdl:output message="tns:GetDefaultWordsByLevelSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="ProfanityHttpGet">    <wsdl:operation name="SimpleProfanityFilter">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Basic Profanity Filter, which replaces curse words with the world [Explicit]. CDYNE uses a proprietary database of words. To suggest a new word, please email info@cdyne.com</wsdl:documentation>      <wsdl:input message="tns:SimpleProfanityFilterHttpGetIn" />      <wsdl:output message="tns:SimpleProfanityFilterHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ProfanityFilter">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Regular Profanity Filter, Allows you to specify the level you wish to clean, and this also goes through a number filter to help find cleanse more profanity.</wsdl:documentation>      <wsdl:input message="tns:ProfanityFilterHttpGetIn" />      <wsdl:output message="tns:ProfanityFilterHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetReplaceTypes">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all the Types of Replacement values you are allowed to use</wsdl:documentation>      <wsdl:input message="tns:GetReplaceTypesHttpGetIn" />      <wsdl:output message="tns:GetReplaceTypesHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="CreateUserDefinedKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will create a new User Defined Levels Identification Code for you when you want to create your own Profanity Levels.</wsdl:documentation>      <wsdl:input message="tns:CreateUserDefinedKeyHttpGetIn" />      <wsdl:output message="tns:CreateUserDefinedKeyHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="CreateProfanityLevel">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a profanity level within a key. Use 0 For DefaultWordsLevel paramter if you do not wish to include words from default database.</wsdl:documentation>      <wsdl:input message="tns:CreateProfanityLevelHttpGetIn" />      <wsdl:output message="tns:CreateProfanityLevelHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetProfanityLevels">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all the profanity level.</wsdl:documentation>      <wsdl:input message="tns:GetProfanityLevelsHttpGetIn" />      <wsdl:output message="tns:GetProfanityLevelsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="AddProfanityWordToLevelByKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds a profanity word to a profanity level.</wsdl:documentation>      <wsdl:input message="tns:AddProfanityWordToLevelByKeyHttpGetIn" />      <wsdl:output message="tns:AddProfanityWordToLevelByKeyHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DeleteProfanityWordFromLevelByKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a profanity word from a level.</wsdl:documentation>      <wsdl:input message="tns:DeleteProfanityWordFromLevelByKeyHttpGetIn" />      <wsdl:output message="tns:DeleteProfanityWordFromLevelByKeyHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetKeysByLicenseKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will retrieve a list of all the keys based on a LicenseKey.</wsdl:documentation>      <wsdl:input message="tns:GetKeysByLicenseKeyHttpGetIn" />      <wsdl:output message="tns:GetKeysByLicenseKeyHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetWordsByLevel">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will get all the words in a specific level.</wsdl:documentation>      <wsdl:input message="tns:GetWordsByLevelHttpGetIn" />      <wsdl:output message="tns:GetWordsByLevelHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DeleteProfanityLevelByKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete a profanity level from a key</wsdl:documentation>      <wsdl:input message="tns:DeleteProfanityLevelByKeyHttpGetIn" />      <wsdl:output message="tns:DeleteProfanityLevelByKeyHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DeleteKeyByLicenseKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete your key.</wsdl:documentation>      <wsdl:input message="tns:DeleteKeyByLicenseKeyHttpGetIn" />      <wsdl:output message="tns:DeleteKeyByLicenseKeyHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="AddWordToNonProfanityListByKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will add a word to our Non Profanity List, incase our Profanity Filter mistakens a word.</wsdl:documentation>      <wsdl:input message="tns:AddWordToNonProfanityListByKeyHttpGetIn" />      <wsdl:output message="tns:AddWordToNonProfanityListByKeyHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DeleteWordFromNonProfanityListByKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete a non-profane word from our Non Profanity Database.</wsdl:documentation>      <wsdl:input message="tns:DeleteWordFromNonProfanityListByKeyHttpGetIn" />      <wsdl:output message="tns:DeleteWordFromNonProfanityListByKeyHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetDefaultLevels">      <wsdl:input message="tns:GetDefaultLevelsHttpGetIn" />      <wsdl:output message="tns:GetDefaultLevelsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetDefaultWordsByLevel">      <wsdl:input message="tns:GetDefaultWordsByLevelHttpGetIn" />      <wsdl:output message="tns:GetDefaultWordsByLevelHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="ProfanityHttpPost">    <wsdl:operation name="SimpleProfanityFilter">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Basic Profanity Filter, which replaces curse words with the world [Explicit]. CDYNE uses a proprietary database of words. To suggest a new word, please email info@cdyne.com</wsdl:documentation>      <wsdl:input message="tns:SimpleProfanityFilterHttpPostIn" />      <wsdl:output message="tns:SimpleProfanityFilterHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ProfanityFilter">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Regular Profanity Filter, Allows you to specify the level you wish to clean, and this also goes through a number filter to help find cleanse more profanity.</wsdl:documentation>      <wsdl:input message="tns:ProfanityFilterHttpPostIn" />      <wsdl:output message="tns:ProfanityFilterHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetReplaceTypes">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all the Types of Replacement values you are allowed to use</wsdl:documentation>      <wsdl:input message="tns:GetReplaceTypesHttpPostIn" />      <wsdl:output message="tns:GetReplaceTypesHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="CreateUserDefinedKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will create a new User Defined Levels Identification Code for you when you want to create your own Profanity Levels.</wsdl:documentation>      <wsdl:input message="tns:CreateUserDefinedKeyHttpPostIn" />      <wsdl:output message="tns:CreateUserDefinedKeyHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="CreateProfanityLevel">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a profanity level within a key. Use 0 For DefaultWordsLevel paramter if you do not wish to include words from default database.</wsdl:documentation>      <wsdl:input message="tns:CreateProfanityLevelHttpPostIn" />      <wsdl:output message="tns:CreateProfanityLevelHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetProfanityLevels">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all the profanity level.</wsdl:documentation>      <wsdl:input message="tns:GetProfanityLevelsHttpPostIn" />      <wsdl:output message="tns:GetProfanityLevelsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="AddProfanityWordToLevelByKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds a profanity word to a profanity level.</wsdl:documentation>      <wsdl:input message="tns:AddProfanityWordToLevelByKeyHttpPostIn" />      <wsdl:output message="tns:AddProfanityWordToLevelByKeyHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DeleteProfanityWordFromLevelByKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a profanity word from a level.</wsdl:documentation>      <wsdl:input message="tns:DeleteProfanityWordFromLevelByKeyHttpPostIn" />      <wsdl:output message="tns:DeleteProfanityWordFromLevelByKeyHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetKeysByLicenseKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will retrieve a list of all the keys based on a LicenseKey.</wsdl:documentation>      <wsdl:input message="tns:GetKeysByLicenseKeyHttpPostIn" />      <wsdl:output message="tns:GetKeysByLicenseKeyHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetWordsByLevel">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will get all the words in a specific level.</wsdl:documentation>      <wsdl:input message="tns:GetWordsByLevelHttpPostIn" />      <wsdl:output message="tns:GetWordsByLevelHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DeleteProfanityLevelByKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete a profanity level from a key</wsdl:documentation>      <wsdl:input message="tns:DeleteProfanityLevelByKeyHttpPostIn" />      <wsdl:output message="tns:DeleteProfanityLevelByKeyHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DeleteKeyByLicenseKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete your key.</wsdl:documentation>      <wsdl:input message="tns:DeleteKeyByLicenseKeyHttpPostIn" />      <wsdl:output message="tns:DeleteKeyByLicenseKeyHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="AddWordToNonProfanityListByKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will add a word to our Non Profanity List, incase our Profanity Filter mistakens a word.</wsdl:documentation>      <wsdl:input message="tns:AddWordToNonProfanityListByKeyHttpPostIn" />      <wsdl:output message="tns:AddWordToNonProfanityListByKeyHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DeleteWordFromNonProfanityListByKey">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete a non-profane word from our Non Profanity Database.</wsdl:documentation>      <wsdl:input message="tns:DeleteWordFromNonProfanityListByKeyHttpPostIn" />      <wsdl:output message="tns:DeleteWordFromNonProfanityListByKeyHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetDefaultLevels">      <wsdl:input message="tns:GetDefaultLevelsHttpPostIn" />      <wsdl:output message="tns:GetDefaultLevelsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetDefaultWordsByLevel">      <wsdl:input message="tns:GetDefaultWordsByLevelHttpPostIn" />      <wsdl:output message="tns:GetDefaultWordsByLevelHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="ProfanitySoap" type="tns:ProfanitySoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="SimpleProfanityFilter">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/SimpleProfanityFilter" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProfanityFilter">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/ProfanityFilter" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AdvancedProfanityFilter">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/AdvancedProfanityFilter" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetReplaceTypes">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetReplaceTypes" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="CreateUserDefinedKey">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/CreateUserDefinedKey" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="CreateProfanityLevel">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/CreateProfanityLevel" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetProfanityLevels">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetProfanityLevels" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddProfanityWordToLevelByKey">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/AddProfanityWordToLevelByKey" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteProfanityWordFromLevelByKey">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/DeleteProfanityWordFromLevelByKey" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetKeysByLicenseKey">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetKeysByLicenseKey" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetWordsByLevel">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetWordsByLevel" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteProfanityLevelByKey">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/DeleteProfanityLevelByKey" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteKeyByLicenseKey">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/DeleteKeyByLicenseKey" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWordToNonProfanityListByKey">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/AddWordToNonProfanityListByKey" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWordFromNonProfanityListByKey">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/DeleteWordFromNonProfanityListByKey" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDefaultLevels">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetDefaultLevels" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDefaultWordsByLevel">      <soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetDefaultWordsByLevel" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="ProfanitySoap12" type="tns:ProfanitySoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="SimpleProfanityFilter">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/SimpleProfanityFilter" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProfanityFilter">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/ProfanityFilter" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AdvancedProfanityFilter">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/AdvancedProfanityFilter" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetReplaceTypes">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetReplaceTypes" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="CreateUserDefinedKey">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/CreateUserDefinedKey" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="CreateProfanityLevel">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/CreateProfanityLevel" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetProfanityLevels">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetProfanityLevels" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddProfanityWordToLevelByKey">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/AddProfanityWordToLevelByKey" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteProfanityWordFromLevelByKey">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/DeleteProfanityWordFromLevelByKey" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetKeysByLicenseKey">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetKeysByLicenseKey" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetWordsByLevel">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetWordsByLevel" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteProfanityLevelByKey">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/DeleteProfanityLevelByKey" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteKeyByLicenseKey">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/DeleteKeyByLicenseKey" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWordToNonProfanityListByKey">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/AddWordToNonProfanityListByKey" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWordFromNonProfanityListByKey">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/DeleteWordFromNonProfanityListByKey" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDefaultLevels">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetDefaultLevels" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDefaultWordsByLevel">      <soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetDefaultWordsByLevel" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="ProfanityHttpGet" type="tns:ProfanityHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="SimpleProfanityFilter">      <http:operation location="/SimpleProfanityFilter" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProfanityFilter">      <http:operation location="/ProfanityFilter" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetReplaceTypes">      <http:operation location="/GetReplaceTypes" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="CreateUserDefinedKey">      <http:operation location="/CreateUserDefinedKey" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="CreateProfanityLevel">      <http:operation location="/CreateProfanityLevel" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetProfanityLevels">      <http:operation location="/GetProfanityLevels" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddProfanityWordToLevelByKey">      <http:operation location="/AddProfanityWordToLevelByKey" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteProfanityWordFromLevelByKey">      <http:operation location="/DeleteProfanityWordFromLevelByKey" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetKeysByLicenseKey">      <http:operation location="/GetKeysByLicenseKey" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetWordsByLevel">      <http:operation location="/GetWordsByLevel" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteProfanityLevelByKey">      <http:operation location="/DeleteProfanityLevelByKey" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteKeyByLicenseKey">      <http:operation location="/DeleteKeyByLicenseKey" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWordToNonProfanityListByKey">      <http:operation location="/AddWordToNonProfanityListByKey" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWordFromNonProfanityListByKey">      <http:operation location="/DeleteWordFromNonProfanityListByKey" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDefaultLevels">      <http:operation location="/GetDefaultLevels" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDefaultWordsByLevel">      <http:operation location="/GetDefaultWordsByLevel" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="ProfanityHttpPost" type="tns:ProfanityHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="SimpleProfanityFilter">      <http:operation location="/SimpleProfanityFilter" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProfanityFilter">      <http:operation location="/ProfanityFilter" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetReplaceTypes">      <http:operation location="/GetReplaceTypes" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="CreateUserDefinedKey">      <http:operation location="/CreateUserDefinedKey" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="CreateProfanityLevel">      <http:operation location="/CreateProfanityLevel" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetProfanityLevels">      <http:operation location="/GetProfanityLevels" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddProfanityWordToLevelByKey">      <http:operation location="/AddProfanityWordToLevelByKey" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteProfanityWordFromLevelByKey">      <http:operation location="/DeleteProfanityWordFromLevelByKey" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetKeysByLicenseKey">      <http:operation location="/GetKeysByLicenseKey" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetWordsByLevel">      <http:operation location="/GetWordsByLevel" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteProfanityLevelByKey">      <http:operation location="/DeleteProfanityLevelByKey" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteKeyByLicenseKey">      <http:operation location="/DeleteKeyByLicenseKey" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWordToNonProfanityListByKey">      <http:operation location="/AddWordToNonProfanityListByKey" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWordFromNonProfanityListByKey">      <http:operation location="/DeleteWordFromNonProfanityListByKey" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDefaultLevels">      <http:operation location="/GetDefaultLevels" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDefaultWordsByLevel">      <http:operation location="/GetDefaultWordsByLevel" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="Profanity">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">CDYNE Profanity Filter web service is a simple, but elegant way to remove words that are considered profanity to keep professionalism in online web-based applications. Basic Profanity Filtering can be accomplished by utilizing the &lt;b&gt;SimpleProfanityFilter&lt;/b&gt; operation below. &lt;br /&gt;&lt;br /&gt; &lt;b&gt;Please look at our &lt;a href="http://wiki.cdyne.com/wiki/index.php?title=Profanity_Filter"&gt;wiki&lt;/a&gt; for details on CDYNE's Profanity filter (Character limits, etc).&lt;/b&gt;</wsdl:documentation>    <wsdl:port name="ProfanitySoap" binding="tns:ProfanitySoap">      <soap:address location="http://ws.cdyne.com/ProfanityWS/Profanity.asmx" />    </wsdl:port>    <wsdl:port name="ProfanitySoap12" binding="tns:ProfanitySoap12">      <soap12:address location="http://ws.cdyne.com/ProfanityWS/Profanity.asmx" />    </wsdl:port>    <wsdl:port name="ProfanityHttpGet" binding="tns:ProfanityHttpGet">      <http:address location="http://ws.cdyne.com/ProfanityWS/Profanity.asmx" />    </wsdl:port>    <wsdl:port name="ProfanityHttpPost" binding="tns:ProfanityHttpPost">      <http:address location="http://ws.cdyne.com/ProfanityWS/Profanity.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ws.cdyne.com/ProfanityWS/Profanity.asmx"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://ws.cdyne.com/ProfanityWS/Profanity.asmx"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">CDYNE Profanity Filter web service is a simple, but elegant way to
+		remove words that are considered profanity to keep professionalism in online web-based applications. Basic Profanity
+		Filtering can be accomplished by utilizing the &lt;b&gt;SimpleProfanityFilter&lt;/b&gt; operation below. &lt;br
+		/&gt;&lt;br /&gt; &lt;b&gt;Please look at our &lt;a
+		href="http://wiki.cdyne.com/wiki/index.php?title=Profanity_Filter"&gt;wiki&lt;/a&gt; for details on CDYNE's Profanity
+		filter (Character limits, etc).&lt;/b&gt;</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://ws.cdyne.com/ProfanityWS/Profanity.asmx">
+			<s:element name="SimpleProfanityFilter">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SimpleProfanityFilterResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="SimpleProfanityFilterResult" type="tns:FilterReturn" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="FilterReturn">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="FoundProfanity" type="s:boolean" />
+					<s:element minOccurs="1" maxOccurs="1" name="ProfanityCount" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="CleanText" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="ProfanityFilter">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="LevelToClean" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="UseNumberFilter" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ProfanityFilterResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="ProfanityFilterResult" type="tns:FilterReturn" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="AdvancedProfanityFilter">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Request" type="tns:FilterRequest" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="FilterRequest">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="UseCharacterFilter" type="s:boolean" />
+					<s:element minOccurs="1" maxOccurs="1" name="UsePhonetics" type="s:boolean" />
+					<s:element minOccurs="1" maxOccurs="1" name="LevelToClean" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="ReplaceProfanityType" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="UserDefinedLevelsID" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ReplaceProfanityText" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="AdvancedProfanityFilterResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="AdvancedProfanityFilterResult" type="tns:FilterReturn" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetReplaceTypes">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetReplaceTypesResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetReplaceTypesResult" type="tns:ArrayOfReplaceType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfReplaceType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="ReplaceType" type="tns:ReplaceType" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ReplaceType">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="TypeID" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Example" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="CreateUserDefinedKey">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Alias" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="UseDefaultDatabase" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="CreateUserDefinedKeyResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="CreateUserDefinedKeyResult" type="tns:UserDefinedResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="UserDefinedResult">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Success" type="s:boolean" />
+					<s:element minOccurs="1" maxOccurs="1" name="ResponseCode" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="ResponseText" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="CreateProfanityLevel">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="DefaultWordsLevel" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="CreateProfanityLevelResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="CreateProfanityLevelResult" type="tns:UserDefinedResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetProfanityLevels">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetProfanityLevelsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetProfanityLevelsResult" type="tns:ArrayOfProfanityLevel" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfProfanityLevel">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="ProfanityLevel" type="tns:ProfanityLevel" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ProfanityLevel">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="AddProfanityWordToLevelByKey">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Word" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="AddProfanityWordToLevelByKeyResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="AddProfanityWordToLevelByKeyResult" type="tns:UserDefinedResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeleteProfanityWordFromLevelByKey">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Word" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeleteProfanityWordFromLevelByKeyResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="DeleteProfanityWordFromLevelByKeyResult" type="tns:UserDefinedResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetKeysByLicenseKey">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetKeysByLicenseKeyResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetKeysByLicenseKeyResult" type="tns:ArrayOfProfanityKey" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfProfanityKey">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="ProfanityKey" type="tns:ProfanityKey" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ProfanityKey">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Alias" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetWordsByLevel">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetWordsByLevelResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetWordsByLevelResult" type="tns:ArrayOfString" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfString">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="DeleteProfanityLevelByKey">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeleteProfanityLevelByKeyResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="DeleteProfanityLevelByKeyResult" type="tns:UserDefinedResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeleteKeyByLicenseKey">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeleteKeyByLicenseKeyResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="DeleteKeyByLicenseKeyResult" type="tns:UserDefinedResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="AddWordToNonProfanityListByKey">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Word" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="AddWordToNonProfanityListByKeyResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="AddWordToNonProfanityListByKeyResult" type="tns:UserDefinedResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeleteWordFromNonProfanityListByKey">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Key" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Word" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeleteWordFromNonProfanityListByKeyResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="DeleteWordFromNonProfanityListByKeyResult" type="tns:UserDefinedResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetDefaultLevels">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetDefaultLevelsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetDefaultLevelsResult" type="tns:ArrayOfProfanityLevel" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetDefaultWordsByLevel">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetDefaultWordsByLevelResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetDefaultWordsByLevelResult" type="tns:ArrayOfString" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="FilterReturn" type="tns:FilterReturn" />
+			<s:element name="ArrayOfReplaceType" nillable="true" type="tns:ArrayOfReplaceType" />
+			<s:element name="UserDefinedResult" type="tns:UserDefinedResult" />
+			<s:element name="ArrayOfProfanityLevel" nillable="true" type="tns:ArrayOfProfanityLevel" />
+			<s:element name="ArrayOfProfanityKey" nillable="true" type="tns:ArrayOfProfanityKey" />
+			<s:element name="ArrayOfString" nillable="true" type="tns:ArrayOfString" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="SimpleProfanityFilterSoapIn">
+		<wsdl:part name="parameters" element="tns:SimpleProfanityFilter" />
+	</wsdl:message>
+	<wsdl:message name="SimpleProfanityFilterSoapOut">
+		<wsdl:part name="parameters" element="tns:SimpleProfanityFilterResponse" />
+	</wsdl:message>
+	<wsdl:message name="ProfanityFilterSoapIn">
+		<wsdl:part name="parameters" element="tns:ProfanityFilter" />
+	</wsdl:message>
+	<wsdl:message name="ProfanityFilterSoapOut">
+		<wsdl:part name="parameters" element="tns:ProfanityFilterResponse" />
+	</wsdl:message>
+	<wsdl:message name="AdvancedProfanityFilterSoapIn">
+		<wsdl:part name="parameters" element="tns:AdvancedProfanityFilter" />
+	</wsdl:message>
+	<wsdl:message name="AdvancedProfanityFilterSoapOut">
+		<wsdl:part name="parameters" element="tns:AdvancedProfanityFilterResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetReplaceTypesSoapIn">
+		<wsdl:part name="parameters" element="tns:GetReplaceTypes" />
+	</wsdl:message>
+	<wsdl:message name="GetReplaceTypesSoapOut">
+		<wsdl:part name="parameters" element="tns:GetReplaceTypesResponse" />
+	</wsdl:message>
+	<wsdl:message name="CreateUserDefinedKeySoapIn">
+		<wsdl:part name="parameters" element="tns:CreateUserDefinedKey" />
+	</wsdl:message>
+	<wsdl:message name="CreateUserDefinedKeySoapOut">
+		<wsdl:part name="parameters" element="tns:CreateUserDefinedKeyResponse" />
+	</wsdl:message>
+	<wsdl:message name="CreateProfanityLevelSoapIn">
+		<wsdl:part name="parameters" element="tns:CreateProfanityLevel" />
+	</wsdl:message>
+	<wsdl:message name="CreateProfanityLevelSoapOut">
+		<wsdl:part name="parameters" element="tns:CreateProfanityLevelResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetProfanityLevelsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetProfanityLevels" />
+	</wsdl:message>
+	<wsdl:message name="GetProfanityLevelsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetProfanityLevelsResponse" />
+	</wsdl:message>
+	<wsdl:message name="AddProfanityWordToLevelByKeySoapIn">
+		<wsdl:part name="parameters" element="tns:AddProfanityWordToLevelByKey" />
+	</wsdl:message>
+	<wsdl:message name="AddProfanityWordToLevelByKeySoapOut">
+		<wsdl:part name="parameters" element="tns:AddProfanityWordToLevelByKeyResponse" />
+	</wsdl:message>
+	<wsdl:message name="DeleteProfanityWordFromLevelByKeySoapIn">
+		<wsdl:part name="parameters" element="tns:DeleteProfanityWordFromLevelByKey" />
+	</wsdl:message>
+	<wsdl:message name="DeleteProfanityWordFromLevelByKeySoapOut">
+		<wsdl:part name="parameters" element="tns:DeleteProfanityWordFromLevelByKeyResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetKeysByLicenseKeySoapIn">
+		<wsdl:part name="parameters" element="tns:GetKeysByLicenseKey" />
+	</wsdl:message>
+	<wsdl:message name="GetKeysByLicenseKeySoapOut">
+		<wsdl:part name="parameters" element="tns:GetKeysByLicenseKeyResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetWordsByLevelSoapIn">
+		<wsdl:part name="parameters" element="tns:GetWordsByLevel" />
+	</wsdl:message>
+	<wsdl:message name="GetWordsByLevelSoapOut">
+		<wsdl:part name="parameters" element="tns:GetWordsByLevelResponse" />
+	</wsdl:message>
+	<wsdl:message name="DeleteProfanityLevelByKeySoapIn">
+		<wsdl:part name="parameters" element="tns:DeleteProfanityLevelByKey" />
+	</wsdl:message>
+	<wsdl:message name="DeleteProfanityLevelByKeySoapOut">
+		<wsdl:part name="parameters" element="tns:DeleteProfanityLevelByKeyResponse" />
+	</wsdl:message>
+	<wsdl:message name="DeleteKeyByLicenseKeySoapIn">
+		<wsdl:part name="parameters" element="tns:DeleteKeyByLicenseKey" />
+	</wsdl:message>
+	<wsdl:message name="DeleteKeyByLicenseKeySoapOut">
+		<wsdl:part name="parameters" element="tns:DeleteKeyByLicenseKeyResponse" />
+	</wsdl:message>
+	<wsdl:message name="AddWordToNonProfanityListByKeySoapIn">
+		<wsdl:part name="parameters" element="tns:AddWordToNonProfanityListByKey" />
+	</wsdl:message>
+	<wsdl:message name="AddWordToNonProfanityListByKeySoapOut">
+		<wsdl:part name="parameters" element="tns:AddWordToNonProfanityListByKeyResponse" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWordFromNonProfanityListByKeySoapIn">
+		<wsdl:part name="parameters" element="tns:DeleteWordFromNonProfanityListByKey" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWordFromNonProfanityListByKeySoapOut">
+		<wsdl:part name="parameters" element="tns:DeleteWordFromNonProfanityListByKeyResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetDefaultLevelsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetDefaultLevels" />
+	</wsdl:message>
+	<wsdl:message name="GetDefaultLevelsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetDefaultLevelsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetDefaultWordsByLevelSoapIn">
+		<wsdl:part name="parameters" element="tns:GetDefaultWordsByLevel" />
+	</wsdl:message>
+	<wsdl:message name="GetDefaultWordsByLevelSoapOut">
+		<wsdl:part name="parameters" element="tns:GetDefaultWordsByLevelResponse" />
+	</wsdl:message>
+	<wsdl:message name="SimpleProfanityFilterHttpGetIn">
+		<wsdl:part name="Text" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SimpleProfanityFilterHttpGetOut">
+		<wsdl:part name="Body" element="tns:FilterReturn" />
+	</wsdl:message>
+	<wsdl:message name="ProfanityFilterHttpGetIn">
+		<wsdl:part name="Text" type="s:string" />
+		<wsdl:part name="LevelToClean" type="s:string" />
+		<wsdl:part name="UseNumberFilter" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ProfanityFilterHttpGetOut">
+		<wsdl:part name="Body" element="tns:FilterReturn" />
+	</wsdl:message>
+	<wsdl:message name="GetReplaceTypesHttpGetIn" />
+	<wsdl:message name="GetReplaceTypesHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfReplaceType" />
+	</wsdl:message>
+	<wsdl:message name="CreateUserDefinedKeyHttpGetIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Alias" type="s:string" />
+		<wsdl:part name="UseDefaultDatabase" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="CreateUserDefinedKeyHttpGetOut">
+		<wsdl:part name="Body" element="tns:UserDefinedResult" />
+	</wsdl:message>
+	<wsdl:message name="CreateProfanityLevelHttpGetIn">
+		<wsdl:part name="Level" type="s:string" />
+		<wsdl:part name="Description" type="s:string" />
+		<wsdl:part name="DefaultWordsLevel" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="CreateProfanityLevelHttpGetOut">
+		<wsdl:part name="Body" element="tns:UserDefinedResult" />
+	</wsdl:message>
+	<wsdl:message name="GetProfanityLevelsHttpGetIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetProfanityLevelsHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfProfanityLevel" />
+	</wsdl:message>
+	<wsdl:message name="AddProfanityWordToLevelByKeyHttpGetIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+		<wsdl:part name="Level" type="s:string" />
+		<wsdl:part name="Word" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="AddProfanityWordToLevelByKeyHttpGetOut">
+		<wsdl:part name="Body" element="tns:UserDefinedResult" />
+	</wsdl:message>
+	<wsdl:message name="DeleteProfanityWordFromLevelByKeyHttpGetIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+		<wsdl:part name="Level" type="s:string" />
+		<wsdl:part name="Word" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DeleteProfanityWordFromLevelByKeyHttpGetOut">
+		<wsdl:part name="Body" element="tns:UserDefinedResult" />
+	</wsdl:message>
+	<wsdl:message name="GetKeysByLicenseKeyHttpGetIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetKeysByLicenseKeyHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfProfanityKey" />
+	</wsdl:message>
+	<wsdl:message name="GetWordsByLevelHttpGetIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+		<wsdl:part name="Level" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetWordsByLevelHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfString" />
+	</wsdl:message>
+	<wsdl:message name="DeleteProfanityLevelByKeyHttpGetIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+		<wsdl:part name="Level" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DeleteProfanityLevelByKeyHttpGetOut">
+		<wsdl:part name="Body" element="tns:UserDefinedResult" />
+	</wsdl:message>
+	<wsdl:message name="DeleteKeyByLicenseKeyHttpGetIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DeleteKeyByLicenseKeyHttpGetOut">
+		<wsdl:part name="Body" element="tns:UserDefinedResult" />
+	</wsdl:message>
+	<wsdl:message name="AddWordToNonProfanityListByKeyHttpGetIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+		<wsdl:part name="Word" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="AddWordToNonProfanityListByKeyHttpGetOut">
+		<wsdl:part name="Body" element="tns:UserDefinedResult" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWordFromNonProfanityListByKeyHttpGetIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+		<wsdl:part name="Word" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWordFromNonProfanityListByKeyHttpGetOut">
+		<wsdl:part name="Body" element="tns:UserDefinedResult" />
+	</wsdl:message>
+	<wsdl:message name="GetDefaultLevelsHttpGetIn" />
+	<wsdl:message name="GetDefaultLevelsHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfProfanityLevel" />
+	</wsdl:message>
+	<wsdl:message name="GetDefaultWordsByLevelHttpGetIn">
+		<wsdl:part name="Level" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetDefaultWordsByLevelHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfString" />
+	</wsdl:message>
+	<wsdl:message name="SimpleProfanityFilterHttpPostIn">
+		<wsdl:part name="Text" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SimpleProfanityFilterHttpPostOut">
+		<wsdl:part name="Body" element="tns:FilterReturn" />
+	</wsdl:message>
+	<wsdl:message name="ProfanityFilterHttpPostIn">
+		<wsdl:part name="Text" type="s:string" />
+		<wsdl:part name="LevelToClean" type="s:string" />
+		<wsdl:part name="UseNumberFilter" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ProfanityFilterHttpPostOut">
+		<wsdl:part name="Body" element="tns:FilterReturn" />
+	</wsdl:message>
+	<wsdl:message name="GetReplaceTypesHttpPostIn" />
+	<wsdl:message name="GetReplaceTypesHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfReplaceType" />
+	</wsdl:message>
+	<wsdl:message name="CreateUserDefinedKeyHttpPostIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Alias" type="s:string" />
+		<wsdl:part name="UseDefaultDatabase" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="CreateUserDefinedKeyHttpPostOut">
+		<wsdl:part name="Body" element="tns:UserDefinedResult" />
+	</wsdl:message>
+	<wsdl:message name="CreateProfanityLevelHttpPostIn">
+		<wsdl:part name="Level" type="s:string" />
+		<wsdl:part name="Description" type="s:string" />
+		<wsdl:part name="DefaultWordsLevel" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="CreateProfanityLevelHttpPostOut">
+		<wsdl:part name="Body" element="tns:UserDefinedResult" />
+	</wsdl:message>
+	<wsdl:message name="GetProfanityLevelsHttpPostIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetProfanityLevelsHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfProfanityLevel" />
+	</wsdl:message>
+	<wsdl:message name="AddProfanityWordToLevelByKeyHttpPostIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+		<wsdl:part name="Level" type="s:string" />
+		<wsdl:part name="Word" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="AddProfanityWordToLevelByKeyHttpPostOut">
+		<wsdl:part name="Body" element="tns:UserDefinedResult" />
+	</wsdl:message>
+	<wsdl:message name="DeleteProfanityWordFromLevelByKeyHttpPostIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+		<wsdl:part name="Level" type="s:string" />
+		<wsdl:part name="Word" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DeleteProfanityWordFromLevelByKeyHttpPostOut">
+		<wsdl:part name="Body" element="tns:UserDefinedResult" />
+	</wsdl:message>
+	<wsdl:message name="GetKeysByLicenseKeyHttpPostIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetKeysByLicenseKeyHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfProfanityKey" />
+	</wsdl:message>
+	<wsdl:message name="GetWordsByLevelHttpPostIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+		<wsdl:part name="Level" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetWordsByLevelHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfString" />
+	</wsdl:message>
+	<wsdl:message name="DeleteProfanityLevelByKeyHttpPostIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+		<wsdl:part name="Level" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DeleteProfanityLevelByKeyHttpPostOut">
+		<wsdl:part name="Body" element="tns:UserDefinedResult" />
+	</wsdl:message>
+	<wsdl:message name="DeleteKeyByLicenseKeyHttpPostIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DeleteKeyByLicenseKeyHttpPostOut">
+		<wsdl:part name="Body" element="tns:UserDefinedResult" />
+	</wsdl:message>
+	<wsdl:message name="AddWordToNonProfanityListByKeyHttpPostIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+		<wsdl:part name="Word" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="AddWordToNonProfanityListByKeyHttpPostOut">
+		<wsdl:part name="Body" element="tns:UserDefinedResult" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWordFromNonProfanityListByKeyHttpPostIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Key" type="s:string" />
+		<wsdl:part name="Word" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWordFromNonProfanityListByKeyHttpPostOut">
+		<wsdl:part name="Body" element="tns:UserDefinedResult" />
+	</wsdl:message>
+	<wsdl:message name="GetDefaultLevelsHttpPostIn" />
+	<wsdl:message name="GetDefaultLevelsHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfProfanityLevel" />
+	</wsdl:message>
+	<wsdl:message name="GetDefaultWordsByLevelHttpPostIn">
+		<wsdl:part name="Level" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetDefaultWordsByLevelHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfString" />
+	</wsdl:message>
+	<wsdl:portType name="ProfanitySoap">
+		<wsdl:operation name="SimpleProfanityFilter">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Basic Profanity Filter, which replaces curse words with the world
+				[Explicit]. CDYNE uses a proprietary database of words. To suggest a new word, please email info@cdyne.com
+			</wsdl:documentation>
+			<wsdl:input message="tns:SimpleProfanityFilterSoapIn" />
+			<wsdl:output message="tns:SimpleProfanityFilterSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProfanityFilter">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Regular Profanity Filter, Allows you to specify the level you wish
+				to clean, and this also goes through a number filter to help find cleanse more profanity.</wsdl:documentation>
+			<wsdl:input message="tns:ProfanityFilterSoapIn" />
+			<wsdl:output message="tns:ProfanityFilterSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AdvancedProfanityFilter">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This allows you to access to the more advanced functions which
+				allow you to create your own lists, and levels of profanity, and the use of Phonetics(Sounds Like)
+			</wsdl:documentation>
+			<wsdl:input message="tns:AdvancedProfanityFilterSoapIn" />
+			<wsdl:output message="tns:AdvancedProfanityFilterSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetReplaceTypes">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all the Types of Replacement values you are allowed to use
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetReplaceTypesSoapIn" />
+			<wsdl:output message="tns:GetReplaceTypesSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CreateUserDefinedKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will create a new User Defined Levels Identification Code for
+				you when you want to create your own Profanity Levels.</wsdl:documentation>
+			<wsdl:input message="tns:CreateUserDefinedKeySoapIn" />
+			<wsdl:output message="tns:CreateUserDefinedKeySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CreateProfanityLevel">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a profanity level within a key. Use 0 For DefaultWordsLevel
+				paramter if you do not wish to include words from default database.</wsdl:documentation>
+			<wsdl:input message="tns:CreateProfanityLevelSoapIn" />
+			<wsdl:output message="tns:CreateProfanityLevelSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetProfanityLevels">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all the profanity level.</wsdl:documentation>
+			<wsdl:input message="tns:GetProfanityLevelsSoapIn" />
+			<wsdl:output message="tns:GetProfanityLevelsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddProfanityWordToLevelByKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds a profanity word to a profanity level.</wsdl:documentation>
+			<wsdl:input message="tns:AddProfanityWordToLevelByKeySoapIn" />
+			<wsdl:output message="tns:AddProfanityWordToLevelByKeySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteProfanityWordFromLevelByKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a profanity word from a level.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteProfanityWordFromLevelByKeySoapIn" />
+			<wsdl:output message="tns:DeleteProfanityWordFromLevelByKeySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetKeysByLicenseKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will retrieve a list of all the keys based on a LicenseKey.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetKeysByLicenseKeySoapIn" />
+			<wsdl:output message="tns:GetKeysByLicenseKeySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetWordsByLevel">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will get all the words in a specific level.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetWordsByLevelSoapIn" />
+			<wsdl:output message="tns:GetWordsByLevelSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteProfanityLevelByKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete a profanity level from a key</wsdl:documentation>
+			<wsdl:input message="tns:DeleteProfanityLevelByKeySoapIn" />
+			<wsdl:output message="tns:DeleteProfanityLevelByKeySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteKeyByLicenseKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete your key.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteKeyByLicenseKeySoapIn" />
+			<wsdl:output message="tns:DeleteKeyByLicenseKeySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddWordToNonProfanityListByKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will add a word to our Non Profanity List, incase our
+				Profanity Filter mistakens a word.</wsdl:documentation>
+			<wsdl:input message="tns:AddWordToNonProfanityListByKeySoapIn" />
+			<wsdl:output message="tns:AddWordToNonProfanityListByKeySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWordFromNonProfanityListByKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete a non-profane word from our Non Profanity
+				Database.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteWordFromNonProfanityListByKeySoapIn" />
+			<wsdl:output message="tns:DeleteWordFromNonProfanityListByKeySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDefaultLevels">
+			<wsdl:input message="tns:GetDefaultLevelsSoapIn" />
+			<wsdl:output message="tns:GetDefaultLevelsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDefaultWordsByLevel">
+			<wsdl:input message="tns:GetDefaultWordsByLevelSoapIn" />
+			<wsdl:output message="tns:GetDefaultWordsByLevelSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="ProfanityHttpGet">
+		<wsdl:operation name="SimpleProfanityFilter">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Basic Profanity Filter, which replaces curse words with the world
+				[Explicit]. CDYNE uses a proprietary database of words. To suggest a new word, please email info@cdyne.com
+			</wsdl:documentation>
+			<wsdl:input message="tns:SimpleProfanityFilterHttpGetIn" />
+			<wsdl:output message="tns:SimpleProfanityFilterHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProfanityFilter">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Regular Profanity Filter, Allows you to specify the level you wish
+				to clean, and this also goes through a number filter to help find cleanse more profanity.</wsdl:documentation>
+			<wsdl:input message="tns:ProfanityFilterHttpGetIn" />
+			<wsdl:output message="tns:ProfanityFilterHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetReplaceTypes">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all the Types of Replacement values you are allowed to use
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetReplaceTypesHttpGetIn" />
+			<wsdl:output message="tns:GetReplaceTypesHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CreateUserDefinedKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will create a new User Defined Levels Identification Code for
+				you when you want to create your own Profanity Levels.</wsdl:documentation>
+			<wsdl:input message="tns:CreateUserDefinedKeyHttpGetIn" />
+			<wsdl:output message="tns:CreateUserDefinedKeyHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CreateProfanityLevel">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a profanity level within a key. Use 0 For DefaultWordsLevel
+				paramter if you do not wish to include words from default database.</wsdl:documentation>
+			<wsdl:input message="tns:CreateProfanityLevelHttpGetIn" />
+			<wsdl:output message="tns:CreateProfanityLevelHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetProfanityLevels">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all the profanity level.</wsdl:documentation>
+			<wsdl:input message="tns:GetProfanityLevelsHttpGetIn" />
+			<wsdl:output message="tns:GetProfanityLevelsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddProfanityWordToLevelByKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds a profanity word to a profanity level.</wsdl:documentation>
+			<wsdl:input message="tns:AddProfanityWordToLevelByKeyHttpGetIn" />
+			<wsdl:output message="tns:AddProfanityWordToLevelByKeyHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteProfanityWordFromLevelByKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a profanity word from a level.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteProfanityWordFromLevelByKeyHttpGetIn" />
+			<wsdl:output message="tns:DeleteProfanityWordFromLevelByKeyHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetKeysByLicenseKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will retrieve a list of all the keys based on a LicenseKey.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetKeysByLicenseKeyHttpGetIn" />
+			<wsdl:output message="tns:GetKeysByLicenseKeyHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetWordsByLevel">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will get all the words in a specific level.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetWordsByLevelHttpGetIn" />
+			<wsdl:output message="tns:GetWordsByLevelHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteProfanityLevelByKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete a profanity level from a key</wsdl:documentation>
+			<wsdl:input message="tns:DeleteProfanityLevelByKeyHttpGetIn" />
+			<wsdl:output message="tns:DeleteProfanityLevelByKeyHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteKeyByLicenseKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete your key.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteKeyByLicenseKeyHttpGetIn" />
+			<wsdl:output message="tns:DeleteKeyByLicenseKeyHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddWordToNonProfanityListByKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will add a word to our Non Profanity List, incase our
+				Profanity Filter mistakens a word.</wsdl:documentation>
+			<wsdl:input message="tns:AddWordToNonProfanityListByKeyHttpGetIn" />
+			<wsdl:output message="tns:AddWordToNonProfanityListByKeyHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWordFromNonProfanityListByKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete a non-profane word from our Non Profanity
+				Database.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteWordFromNonProfanityListByKeyHttpGetIn" />
+			<wsdl:output message="tns:DeleteWordFromNonProfanityListByKeyHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDefaultLevels">
+			<wsdl:input message="tns:GetDefaultLevelsHttpGetIn" />
+			<wsdl:output message="tns:GetDefaultLevelsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDefaultWordsByLevel">
+			<wsdl:input message="tns:GetDefaultWordsByLevelHttpGetIn" />
+			<wsdl:output message="tns:GetDefaultWordsByLevelHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="ProfanityHttpPost">
+		<wsdl:operation name="SimpleProfanityFilter">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Basic Profanity Filter, which replaces curse words with the world
+				[Explicit]. CDYNE uses a proprietary database of words. To suggest a new word, please email info@cdyne.com
+			</wsdl:documentation>
+			<wsdl:input message="tns:SimpleProfanityFilterHttpPostIn" />
+			<wsdl:output message="tns:SimpleProfanityFilterHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProfanityFilter">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Regular Profanity Filter, Allows you to specify the level you wish
+				to clean, and this also goes through a number filter to help find cleanse more profanity.</wsdl:documentation>
+			<wsdl:input message="tns:ProfanityFilterHttpPostIn" />
+			<wsdl:output message="tns:ProfanityFilterHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetReplaceTypes">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all the Types of Replacement values you are allowed to use
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetReplaceTypesHttpPostIn" />
+			<wsdl:output message="tns:GetReplaceTypesHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CreateUserDefinedKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will create a new User Defined Levels Identification Code for
+				you when you want to create your own Profanity Levels.</wsdl:documentation>
+			<wsdl:input message="tns:CreateUserDefinedKeyHttpPostIn" />
+			<wsdl:output message="tns:CreateUserDefinedKeyHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CreateProfanityLevel">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a profanity level within a key. Use 0 For DefaultWordsLevel
+				paramter if you do not wish to include words from default database.</wsdl:documentation>
+			<wsdl:input message="tns:CreateProfanityLevelHttpPostIn" />
+			<wsdl:output message="tns:CreateProfanityLevelHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetProfanityLevels">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all the profanity level.</wsdl:documentation>
+			<wsdl:input message="tns:GetProfanityLevelsHttpPostIn" />
+			<wsdl:output message="tns:GetProfanityLevelsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddProfanityWordToLevelByKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds a profanity word to a profanity level.</wsdl:documentation>
+			<wsdl:input message="tns:AddProfanityWordToLevelByKeyHttpPostIn" />
+			<wsdl:output message="tns:AddProfanityWordToLevelByKeyHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteProfanityWordFromLevelByKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a profanity word from a level.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteProfanityWordFromLevelByKeyHttpPostIn" />
+			<wsdl:output message="tns:DeleteProfanityWordFromLevelByKeyHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetKeysByLicenseKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will retrieve a list of all the keys based on a LicenseKey.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetKeysByLicenseKeyHttpPostIn" />
+			<wsdl:output message="tns:GetKeysByLicenseKeyHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetWordsByLevel">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will get all the words in a specific level.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetWordsByLevelHttpPostIn" />
+			<wsdl:output message="tns:GetWordsByLevelHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteProfanityLevelByKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete a profanity level from a key</wsdl:documentation>
+			<wsdl:input message="tns:DeleteProfanityLevelByKeyHttpPostIn" />
+			<wsdl:output message="tns:DeleteProfanityLevelByKeyHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteKeyByLicenseKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete your key.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteKeyByLicenseKeyHttpPostIn" />
+			<wsdl:output message="tns:DeleteKeyByLicenseKeyHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddWordToNonProfanityListByKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will add a word to our Non Profanity List, incase our
+				Profanity Filter mistakens a word.</wsdl:documentation>
+			<wsdl:input message="tns:AddWordToNonProfanityListByKeyHttpPostIn" />
+			<wsdl:output message="tns:AddWordToNonProfanityListByKeyHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWordFromNonProfanityListByKey">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This will delete a non-profane word from our Non Profanity
+				Database.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteWordFromNonProfanityListByKeyHttpPostIn" />
+			<wsdl:output message="tns:DeleteWordFromNonProfanityListByKeyHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDefaultLevels">
+			<wsdl:input message="tns:GetDefaultLevelsHttpPostIn" />
+			<wsdl:output message="tns:GetDefaultLevelsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDefaultWordsByLevel">
+			<wsdl:input message="tns:GetDefaultWordsByLevelHttpPostIn" />
+			<wsdl:output message="tns:GetDefaultWordsByLevelHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="ProfanitySoap" type="tns:ProfanitySoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="SimpleProfanityFilter">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/SimpleProfanityFilter"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProfanityFilter">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/ProfanityFilter" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AdvancedProfanityFilter">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/AdvancedProfanityFilter"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetReplaceTypes">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetReplaceTypes" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateUserDefinedKey">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/CreateUserDefinedKey"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateProfanityLevel">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/CreateProfanityLevel"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetProfanityLevels">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetProfanityLevels" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddProfanityWordToLevelByKey">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/AddProfanityWordToLevelByKey"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteProfanityWordFromLevelByKey">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/DeleteProfanityWordFromLevelByKey"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetKeysByLicenseKey">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetKeysByLicenseKey" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetWordsByLevel">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetWordsByLevel" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteProfanityLevelByKey">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/DeleteProfanityLevelByKey"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteKeyByLicenseKey">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/DeleteKeyByLicenseKey"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWordToNonProfanityListByKey">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/AddWordToNonProfanityListByKey"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWordFromNonProfanityListByKey">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/DeleteWordFromNonProfanityListByKey"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDefaultLevels">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetDefaultLevels" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDefaultWordsByLevel">
+			<soap:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetDefaultWordsByLevel"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="ProfanitySoap12" type="tns:ProfanitySoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="SimpleProfanityFilter">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/SimpleProfanityFilter"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProfanityFilter">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/ProfanityFilter" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AdvancedProfanityFilter">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/AdvancedProfanityFilter"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetReplaceTypes">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetReplaceTypes" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateUserDefinedKey">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/CreateUserDefinedKey"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateProfanityLevel">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/CreateProfanityLevel"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetProfanityLevels">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetProfanityLevels"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddProfanityWordToLevelByKey">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/AddProfanityWordToLevelByKey"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteProfanityWordFromLevelByKey">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/DeleteProfanityWordFromLevelByKey"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetKeysByLicenseKey">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetKeysByLicenseKey"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetWordsByLevel">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetWordsByLevel" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteProfanityLevelByKey">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/DeleteProfanityLevelByKey"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteKeyByLicenseKey">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/DeleteKeyByLicenseKey"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWordToNonProfanityListByKey">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/AddWordToNonProfanityListByKey"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWordFromNonProfanityListByKey">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/DeleteWordFromNonProfanityListByKey"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDefaultLevels">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetDefaultLevels"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDefaultWordsByLevel">
+			<soap12:operation soapAction="http://ws.cdyne.com/ProfanityWS/Profanity.asmx/GetDefaultWordsByLevel"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="ProfanityHttpGet" type="tns:ProfanityHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="SimpleProfanityFilter">
+			<http:operation location="/SimpleProfanityFilter" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProfanityFilter">
+			<http:operation location="/ProfanityFilter" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetReplaceTypes">
+			<http:operation location="/GetReplaceTypes" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateUserDefinedKey">
+			<http:operation location="/CreateUserDefinedKey" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateProfanityLevel">
+			<http:operation location="/CreateProfanityLevel" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetProfanityLevels">
+			<http:operation location="/GetProfanityLevels" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddProfanityWordToLevelByKey">
+			<http:operation location="/AddProfanityWordToLevelByKey" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteProfanityWordFromLevelByKey">
+			<http:operation location="/DeleteProfanityWordFromLevelByKey" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetKeysByLicenseKey">
+			<http:operation location="/GetKeysByLicenseKey" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetWordsByLevel">
+			<http:operation location="/GetWordsByLevel" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteProfanityLevelByKey">
+			<http:operation location="/DeleteProfanityLevelByKey" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteKeyByLicenseKey">
+			<http:operation location="/DeleteKeyByLicenseKey" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWordToNonProfanityListByKey">
+			<http:operation location="/AddWordToNonProfanityListByKey" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWordFromNonProfanityListByKey">
+			<http:operation location="/DeleteWordFromNonProfanityListByKey" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDefaultLevels">
+			<http:operation location="/GetDefaultLevels" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDefaultWordsByLevel">
+			<http:operation location="/GetDefaultWordsByLevel" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="ProfanityHttpPost" type="tns:ProfanityHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="SimpleProfanityFilter">
+			<http:operation location="/SimpleProfanityFilter" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProfanityFilter">
+			<http:operation location="/ProfanityFilter" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetReplaceTypes">
+			<http:operation location="/GetReplaceTypes" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateUserDefinedKey">
+			<http:operation location="/CreateUserDefinedKey" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateProfanityLevel">
+			<http:operation location="/CreateProfanityLevel" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetProfanityLevels">
+			<http:operation location="/GetProfanityLevels" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddProfanityWordToLevelByKey">
+			<http:operation location="/AddProfanityWordToLevelByKey" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteProfanityWordFromLevelByKey">
+			<http:operation location="/DeleteProfanityWordFromLevelByKey" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetKeysByLicenseKey">
+			<http:operation location="/GetKeysByLicenseKey" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetWordsByLevel">
+			<http:operation location="/GetWordsByLevel" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteProfanityLevelByKey">
+			<http:operation location="/DeleteProfanityLevelByKey" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteKeyByLicenseKey">
+			<http:operation location="/DeleteKeyByLicenseKey" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWordToNonProfanityListByKey">
+			<http:operation location="/AddWordToNonProfanityListByKey" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWordFromNonProfanityListByKey">
+			<http:operation location="/DeleteWordFromNonProfanityListByKey" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDefaultLevels">
+			<http:operation location="/GetDefaultLevels" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDefaultWordsByLevel">
+			<http:operation location="/GetDefaultWordsByLevel" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="Profanity">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">CDYNE Profanity Filter web service is a simple, but elegant way to
+			remove words that are considered profanity to keep professionalism in online web-based applications. Basic Profanity
+			Filtering can be accomplished by utilizing the &lt;b&gt;SimpleProfanityFilter&lt;/b&gt; operation below. &lt;br
+			/&gt;&lt;br /&gt; &lt;b&gt;Please look at our &lt;a
+			href="http://wiki.cdyne.com/wiki/index.php?title=Profanity_Filter"&gt;wiki&lt;/a&gt; for details on CDYNE's Profanity
+			filter (Character limits, etc).&lt;/b&gt;</wsdl:documentation>
+		<wsdl:port name="ProfanitySoap" binding="tns:ProfanitySoap">
+			<soap:address location="http://ws.cdyne.com/ProfanityWS/Profanity.asmx" />
+		</wsdl:port>
+		<wsdl:port name="ProfanitySoap12" binding="tns:ProfanitySoap12">
+			<soap12:address location="http://ws.cdyne.com/ProfanityWS/Profanity.asmx" />
+		</wsdl:port>
+		<wsdl:port name="ProfanityHttpGet" binding="tns:ProfanityHttpGet">
+			<http:address location="http://ws.cdyne.com/ProfanityWS/Profanity.asmx" />
+		</wsdl:port>
+		<wsdl:port name="ProfanityHttpPost" binding="tns:ProfanityHttpPost">
+			<http:address location="http://ws.cdyne.com/ProfanityWS/Profanity.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

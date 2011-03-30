@@ -1,1 +1,75 @@
-<?xml version="1.0"?><wsdl:definitions name="BFOGraph2"            targetNamespace="http://bfo.co.uk/ns/graph/soap?version=2"            xmlns:xs="http://www.w3.org/2001/XMLSchema"            xmlns:bfgsoap="http://bfo.co.uk/ns/graph/soap?version=2"            xmlns:bfg="http://bfo.co.uk/ns/graph?version=2"            xmlns:bfgxsd="http://bfo.co.uk/ns/graph/xsd?version=2"            xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"            xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"            xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"            xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"            xmlns="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <xs:schema elementFormDefault="qualified" targetNamespace="http://bfo.co.uk/ns/graph/soap?version=2">      <xs:import namespace="http://bfo.co.uk/ns/graph?version=2" schemaLocation="http://bfo.co.uk/products/graph/docs/bfograph-2.1.xsd"/>      <xs:element name="GetHTML" type="bfg:GraphType"/>      <xs:element name="GetRaw" type="bfg:GraphType"/>      <xs:element name="GetMultipart" type="bfg:GraphType"/>      <xs:element name="HTMLResponse" type="xs:string"/>      <xs:element name="RawResponse" type="xs:hexBinary"/>      <xs:element name="ImageResponse" type="xs:base64Binary"/>    </xs:schema>  </wsdl:types>  <wsdl:message name="getXMLToHTMLRequest">    <part name="parameters" element="bfgsoap:GetHTML"/>  </wsdl:message>  <wsdl:message name="getXMLToMultipartRequest">    <part name="GetRaw" element="bfgsoap:GetMultipart"/>  </wsdl:message>  <wsdl:message name="getHTMLResponse">    <part name="HTMLReturn" element="bfgsoap:HTMLResponse"/>  </wsdl:message>  <wsdl:message name="getMultipartResponse">    <part name="HTMLReturn" element="bfgsoap:HTMLResponse"/>    <part name="ImageReturn" element="bfgsoap:ImageResponse"/>  </wsdl:message>  <wsdl:portType name="BFOGraphPortType">    <wsdl:operation name="GetHTML" >      <wsdl:input message="bfgsoap:getXMLToHTMLRequest" name="getXMLToHTMLInput"/>      <wsdl:output message="bfgsoap:getHTMLResponse" name="getHTMLOutput"/>    </wsdl:operation>    <wsdl:operation name="GetMultipartHTML" >      <wsdl:input message="bfgsoap:getXMLToMultipartRequest" name="getXMLToMultipartInput"/>      <wsdl:output message="bfgsoap:getMultipartResponse" name="getMultipartOutput"/>    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="BFOGraphBinding" type="bfgsoap:BFOGraphPortType">    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>    <wsdl:operation name="GetHTML">      <soap:operation soapAction="GetHTML"/>      <wsdl:input name="getXMLToHTMLInput">        <soap:body use="literal" />      </wsdl:input>      <wsdl:output name="getHTMLOutput">        <soap:body use="literal"/>      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetMultipartHTML">      <soap:operation soapAction="GetMultipart"/>      <wsdl:input name="getXMLToMultipartInput">        <soap:body use="literal"/>      </wsdl:input>      <wsdl:output name="getMultipartOutput">        <mime:multipartRelated>          <mime:part>            <soap:body parts="HTMLReturn" use="literal"/>          </mime:part>          <mime:part>            <mime:content part="ImageReturn" type="image/png"/>          </mime:part>        </mime:multipartRelated>      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="BFOGraphService">    <wsdl:documentation>      Creates a PNG, SVG or Flash image of a Graph that represents the specified data.      See http://big.faceless.org/products/graph for more information.    </wsdl:documentation>    <wsdl:port name="BFOGraphPort" binding="bfgsoap:BFOGraphBinding">      <!-- You should change this to the appropriate URL on your own server -->      <soap:address location="http://bfo.co.uk/servlet/GraphServlet/soap"/>    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0"?>
+<wsdl:definitions name="BFOGraph2" targetNamespace="http://bfo.co.uk/ns/graph/soap?version=2" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:bfgsoap="http://bfo.co.uk/ns/graph/soap?version=2" xmlns:bfg="http://bfo.co.uk/ns/graph?version=2" xmlns:bfgxsd="http://bfo.co.uk/ns/graph/xsd?version=2"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<xs:schema elementFormDefault="qualified" targetNamespace="http://bfo.co.uk/ns/graph/soap?version=2">
+			<xs:import namespace="http://bfo.co.uk/ns/graph?version=2" schemaLocation="http://bfo.co.uk/products/graph/docs/bfograph-2.1.xsd" />
+			<xs:element name="GetHTML" type="bfg:GraphType" />
+			<xs:element name="GetRaw" type="bfg:GraphType" />
+			<xs:element name="GetMultipart" type="bfg:GraphType" />
+			<xs:element name="HTMLResponse" type="xs:string" />
+			<xs:element name="RawResponse" type="xs:hexBinary" />
+			<xs:element name="ImageResponse" type="xs:base64Binary" />
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="getXMLToHTMLRequest">
+		<part name="parameters" element="bfgsoap:GetHTML" />
+	</wsdl:message>
+	<wsdl:message name="getXMLToMultipartRequest">
+		<part name="GetRaw" element="bfgsoap:GetMultipart" />
+	</wsdl:message>
+	<wsdl:message name="getHTMLResponse">
+		<part name="HTMLReturn" element="bfgsoap:HTMLResponse" />
+	</wsdl:message>
+	<wsdl:message name="getMultipartResponse">
+		<part name="HTMLReturn" element="bfgsoap:HTMLResponse" />
+		<part name="ImageReturn" element="bfgsoap:ImageResponse" />
+	</wsdl:message>
+	<wsdl:portType name="BFOGraphPortType">
+		<wsdl:operation name="GetHTML">
+			<wsdl:input message="bfgsoap:getXMLToHTMLRequest" name="getXMLToHTMLInput" />
+			<wsdl:output message="bfgsoap:getHTMLResponse" name="getHTMLOutput" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMultipartHTML">
+			<wsdl:input message="bfgsoap:getXMLToMultipartRequest" name="getXMLToMultipartInput" />
+			<wsdl:output message="bfgsoap:getMultipartResponse" name="getMultipartOutput" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="BFOGraphBinding" type="bfgsoap:BFOGraphPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetHTML">
+			<soap:operation soapAction="GetHTML" />
+			<wsdl:input name="getXMLToHTMLInput">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getHTMLOutput">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMultipartHTML">
+			<soap:operation soapAction="GetMultipart" />
+			<wsdl:input name="getXMLToMultipartInput">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getMultipartOutput">
+				<mime:multipartRelated>
+					<mime:part>
+						<soap:body parts="HTMLReturn" use="literal" />
+					</mime:part>
+					<mime:part>
+						<mime:content part="ImageReturn" type="image/png" />
+					</mime:part>
+				</mime:multipartRelated>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="BFOGraphService">
+		<wsdl:documentation> Creates a PNG, SVG or Flash image of a Graph that represents the specified data. See
+			http://big.faceless.org/products/graph for more information.    </wsdl:documentation>
+		<wsdl:port name="BFOGraphPort" binding="bfgsoap:BFOGraphBinding">      <!-- You should change this to the appropriate URL on your own server -->
+			<soap:address location="http://bfo.co.uk/servlet/GraphServlet/soap" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,1 +1,235 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://ws.acrosscommunications.com/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://ws.acrosscommunications.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://ws.acrosscommunications.com/">      <s:element name="Logon">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="UIN" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strPassword" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="LogonResponse">        <s:complexType />      </s:element>      <s:element name="Send">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TargetUIN" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strText" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendResponse">        <s:complexType />      </s:element>      <s:element name="SendURL">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TargetUIN" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strURL" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strDescription" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendURLResponse">        <s:complexType />      </s:element>      <s:element name="Disconnect">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DisconnectResponse">        <s:complexType />      </s:element>      <s:element name="SetSearchString">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strValue" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SetSearchStringResponse">        <s:complexType />      </s:element>      <s:element name="GetSearchString">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetSearchStringResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetSearchStringResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Release">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ReleaseResponse">        <s:complexType />      </s:element>    </s:schema>  </wsdl:types>  <wsdl:message name="LogonSoapIn">    <wsdl:part name="parameters" element="tns:Logon" />  </wsdl:message>  <wsdl:message name="LogonSoapOut">    <wsdl:part name="parameters" element="tns:LogonResponse" />  </wsdl:message>  <wsdl:message name="SendSoapIn">    <wsdl:part name="parameters" element="tns:Send" />  </wsdl:message>  <wsdl:message name="SendSoapOut">    <wsdl:part name="parameters" element="tns:SendResponse" />  </wsdl:message>  <wsdl:message name="SendURLSoapIn">    <wsdl:part name="parameters" element="tns:SendURL" />  </wsdl:message>  <wsdl:message name="SendURLSoapOut">    <wsdl:part name="parameters" element="tns:SendURLResponse" />  </wsdl:message>  <wsdl:message name="DisconnectSoapIn">    <wsdl:part name="parameters" element="tns:Disconnect" />  </wsdl:message>  <wsdl:message name="DisconnectSoapOut">    <wsdl:part name="parameters" element="tns:DisconnectResponse" />  </wsdl:message>  <wsdl:message name="SetSearchStringSoapIn">    <wsdl:part name="parameters" element="tns:SetSearchString" />  </wsdl:message>  <wsdl:message name="SetSearchStringSoapOut">    <wsdl:part name="parameters" element="tns:SetSearchStringResponse" />  </wsdl:message>  <wsdl:message name="GetSearchStringSoapIn">    <wsdl:part name="parameters" element="tns:GetSearchString" />  </wsdl:message>  <wsdl:message name="GetSearchStringSoapOut">    <wsdl:part name="parameters" element="tns:GetSearchStringResponse" />  </wsdl:message>  <wsdl:message name="ReleaseSoapIn">    <wsdl:part name="parameters" element="tns:Release" />  </wsdl:message>  <wsdl:message name="ReleaseSoapOut">    <wsdl:part name="parameters" element="tns:ReleaseResponse" />  </wsdl:message>  <wsdl:portType name="ICQSoap">    <wsdl:operation name="Logon">      <wsdl:input message="tns:LogonSoapIn" />      <wsdl:output message="tns:LogonSoapOut" />    </wsdl:operation>    <wsdl:operation name="Send">      <wsdl:input message="tns:SendSoapIn" />      <wsdl:output message="tns:SendSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendURL">      <wsdl:input message="tns:SendURLSoapIn" />      <wsdl:output message="tns:SendURLSoapOut" />    </wsdl:operation>    <wsdl:operation name="Disconnect">      <wsdl:input message="tns:DisconnectSoapIn" />      <wsdl:output message="tns:DisconnectSoapOut" />    </wsdl:operation>    <wsdl:operation name="SetSearchString">      <wsdl:input message="tns:SetSearchStringSoapIn" />      <wsdl:output message="tns:SetSearchStringSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetSearchString">      <wsdl:input message="tns:GetSearchStringSoapIn" />      <wsdl:output message="tns:GetSearchStringSoapOut" />    </wsdl:operation>    <wsdl:operation name="Release">      <wsdl:input message="tns:ReleaseSoapIn" />      <wsdl:output message="tns:ReleaseSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="ICQSoap" type="tns:ICQSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <wsdl:operation name="Logon">      <soap:operation soapAction="http://ws.acrosscommunications.com/Logon" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Send">      <soap:operation soapAction="http://ws.acrosscommunications.com/Send" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendURL">      <soap:operation soapAction="http://ws.acrosscommunications.com/SendURL" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Disconnect">      <soap:operation soapAction="http://ws.acrosscommunications.com/Disconnect" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SetSearchString">      <soap:operation soapAction="http://ws.acrosscommunications.com/SetSearchString" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSearchString">      <soap:operation soapAction="http://ws.acrosscommunications.com/GetSearchString" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Release">      <soap:operation soapAction="http://ws.acrosscommunications.com/Release" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="ICQ">    <wsdl:port name="ICQSoap" binding="tns:ICQSoap">      <soap:address location="http://ws.acrosscommunications.com/ICQ.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://ws.acrosscommunications.com/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	targetNamespace="http://ws.acrosscommunications.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://ws.acrosscommunications.com/">
+			<s:element name="Logon">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="UIN" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strPassword" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="LogonResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="Send">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TargetUIN" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strText" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="SendURL">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TargetUIN" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strURL" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strDescription" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendURLResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="Disconnect">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DisconnectResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="SetSearchString">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strValue" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SetSearchStringResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetSearchString">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetSearchStringResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetSearchStringResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Release">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strGuidNotification" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ReleaseResponse">
+				<s:complexType />
+			</s:element>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="LogonSoapIn">
+		<wsdl:part name="parameters" element="tns:Logon" />
+	</wsdl:message>
+	<wsdl:message name="LogonSoapOut">
+		<wsdl:part name="parameters" element="tns:LogonResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendSoapIn">
+		<wsdl:part name="parameters" element="tns:Send" />
+	</wsdl:message>
+	<wsdl:message name="SendSoapOut">
+		<wsdl:part name="parameters" element="tns:SendResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendURLSoapIn">
+		<wsdl:part name="parameters" element="tns:SendURL" />
+	</wsdl:message>
+	<wsdl:message name="SendURLSoapOut">
+		<wsdl:part name="parameters" element="tns:SendURLResponse" />
+	</wsdl:message>
+	<wsdl:message name="DisconnectSoapIn">
+		<wsdl:part name="parameters" element="tns:Disconnect" />
+	</wsdl:message>
+	<wsdl:message name="DisconnectSoapOut">
+		<wsdl:part name="parameters" element="tns:DisconnectResponse" />
+	</wsdl:message>
+	<wsdl:message name="SetSearchStringSoapIn">
+		<wsdl:part name="parameters" element="tns:SetSearchString" />
+	</wsdl:message>
+	<wsdl:message name="SetSearchStringSoapOut">
+		<wsdl:part name="parameters" element="tns:SetSearchStringResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetSearchStringSoapIn">
+		<wsdl:part name="parameters" element="tns:GetSearchString" />
+	</wsdl:message>
+	<wsdl:message name="GetSearchStringSoapOut">
+		<wsdl:part name="parameters" element="tns:GetSearchStringResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReleaseSoapIn">
+		<wsdl:part name="parameters" element="tns:Release" />
+	</wsdl:message>
+	<wsdl:message name="ReleaseSoapOut">
+		<wsdl:part name="parameters" element="tns:ReleaseResponse" />
+	</wsdl:message>
+	<wsdl:portType name="ICQSoap">
+		<wsdl:operation name="Logon">
+			<wsdl:input message="tns:LogonSoapIn" />
+			<wsdl:output message="tns:LogonSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Send">
+			<wsdl:input message="tns:SendSoapIn" />
+			<wsdl:output message="tns:SendSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendURL">
+			<wsdl:input message="tns:SendURLSoapIn" />
+			<wsdl:output message="tns:SendURLSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Disconnect">
+			<wsdl:input message="tns:DisconnectSoapIn" />
+			<wsdl:output message="tns:DisconnectSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SetSearchString">
+			<wsdl:input message="tns:SetSearchStringSoapIn" />
+			<wsdl:output message="tns:SetSearchStringSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSearchString">
+			<wsdl:input message="tns:GetSearchStringSoapIn" />
+			<wsdl:output message="tns:GetSearchStringSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Release">
+			<wsdl:input message="tns:ReleaseSoapIn" />
+			<wsdl:output message="tns:ReleaseSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="ICQSoap" type="tns:ICQSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<wsdl:operation name="Logon">
+			<soap:operation soapAction="http://ws.acrosscommunications.com/Logon" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Send">
+			<soap:operation soapAction="http://ws.acrosscommunications.com/Send" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendURL">
+			<soap:operation soapAction="http://ws.acrosscommunications.com/SendURL" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Disconnect">
+			<soap:operation soapAction="http://ws.acrosscommunications.com/Disconnect" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SetSearchString">
+			<soap:operation soapAction="http://ws.acrosscommunications.com/SetSearchString" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSearchString">
+			<soap:operation soapAction="http://ws.acrosscommunications.com/GetSearchString" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Release">
+			<soap:operation soapAction="http://ws.acrosscommunications.com/Release" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="ICQ">
+		<wsdl:port name="ICQSoap" binding="tns:ICQSoap">
+			<soap:address location="http://ws.acrosscommunications.com/ICQ.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

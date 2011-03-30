@@ -1,1 +1,276 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ws.levelsoft.net/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://ws.levelsoft.net/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Levelsoft BusDirectory TownlandSummaryService web services provides up-to-date summary of retail business locations within townlands using geographical criteria.</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://ws.levelsoft.net/">      <s:element name="GetCallPermssion">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="member" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:UserCredentials" />            <s:element minOccurs="0" maxOccurs="1" name="countryCode" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="UserCredentials">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="GetCallPermssionResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetCallPermssionResult" type="tns:AuthoriseType" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="AuthoriseType">        <s:restriction base="s:string">          <s:enumeration value="None" />          <s:enumeration value="Denied" />          <s:enumeration value="Open" />          <s:enumeration value="SuperRole" />          <s:enumeration value="SubscribedRole" />          <s:enumeration value="SuperDemoRole" />          <s:enumeration value="SubscribedDemoRole" />          <s:enumeration value="SubscribedByHit" />        </s:restriction>      </s:simpleType>      <s:element name="SEKHeader" type="tns:SEKHeader" />      <s:complexType name="SEKHeader">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="SEK" type="s:string" />        </s:sequence>        <s:anyAttribute />      </s:complexType>      <s:element name="GetTownlandSummaryRowCount">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:UserCredentials" />            <s:element minOccurs="0" maxOccurs="1" name="criteria" type="tns:GeoFindCriteria" />            <s:element minOccurs="0" maxOccurs="1" name="rblCriteria" type="tns:RBLCriteria" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="GeoFindCriteria">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="NielsenAreaCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="NielsenCitySize" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="SrLinkCitySize" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="StreetCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="StreetDescription" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="BoroughCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="BoroughDescription" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="TownlandCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="TownlandDescription" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="MunicipalityCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="MunicipalityDescription" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountyCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountyDescription" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PrefectureCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PrefectureDescription" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="RegionCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="RegionDescription" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="RBLCriteria">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="PrincipleLineOfBusiness" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="AdditionalLineOfBusiness" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="StatusCodes" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="GetTownlandSummaryRowCountResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetTownlandSummaryRowCountResult" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTownlandSummary">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:UserCredentials" />            <s:element minOccurs="0" maxOccurs="1" name="criteria" type="tns:GeoFindCriteria" />            <s:element minOccurs="0" maxOccurs="1" name="rblCriteria" type="tns:RBLCriteria" />            <s:element minOccurs="0" maxOccurs="1" name="locale" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTownlandSummaryResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTownlandSummaryResult" type="tns:ArrayOfTownlandSummaryData" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfTownlandSummaryData">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="TownlandSummaryData" nillable="true" type="tns:TownlandSummaryData" />        </s:sequence>      </s:complexType>      <s:complexType name="TownlandSummaryData">        <s:complexContent mixed="false">          <s:extension base="tns:Location">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="MunicipalityCode" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="MunicipalityDescription" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="MunicipalityDescriptionLocal" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="CountyCode" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="CountyDescription" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="CountyDescriptionLocal" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="PrefectureCode" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="PrefectureDescription" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="PrefectureDescriptionLocal" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="RegionCode" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="RegionDescription" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="RegionDescriptionLocal" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="TotalRBL" type="s:long" />              <s:element minOccurs="1" maxOccurs="1" name="Residents" type="s:long" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="Location">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DescriptionLocal" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />        </s:sequence>      </s:complexType>    </s:schema>  </wsdl:types>  <wsdl:message name="GetCallPermssionSoapIn">    <wsdl:part name="parameters" element="tns:GetCallPermssion" />  </wsdl:message>  <wsdl:message name="GetCallPermssionSoapOut">    <wsdl:part name="parameters" element="tns:GetCallPermssionResponse" />  </wsdl:message>  <wsdl:message name="GetCallPermssionSEKHeader">    <wsdl:part name="SEKHeader" element="tns:SEKHeader" />  </wsdl:message>  <wsdl:message name="GetTownlandSummaryRowCountSoapIn">    <wsdl:part name="parameters" element="tns:GetTownlandSummaryRowCount" />  </wsdl:message>  <wsdl:message name="GetTownlandSummaryRowCountSoapOut">    <wsdl:part name="parameters" element="tns:GetTownlandSummaryRowCountResponse" />  </wsdl:message>  <wsdl:message name="GetTownlandSummaryRowCountSEKHeader">    <wsdl:part name="SEKHeader" element="tns:SEKHeader" />  </wsdl:message>  <wsdl:message name="GetTownlandSummarySoapIn">    <wsdl:part name="parameters" element="tns:GetTownlandSummary" />  </wsdl:message>  <wsdl:message name="GetTownlandSummarySoapOut">    <wsdl:part name="parameters" element="tns:GetTownlandSummaryResponse" />  </wsdl:message>  <wsdl:message name="GetTownlandSummarySEKHeader">    <wsdl:part name="SEKHeader" element="tns:SEKHeader" />  </wsdl:message>  <wsdl:portType name="TownlandSummaryServiceSoap">    <wsdl:operation name="GetCallPermssion">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Queries whether there is available credit or security permission to successfully query the service.</wsdl:documentation>      <wsdl:input message="tns:GetCallPermssionSoapIn" />      <wsdl:output message="tns:GetCallPermssionSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetTownlandSummaryRowCount">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Provides the number of rows for an area profile of retail outlet distribution analysis for a given geographical area.</wsdl:documentation>      <wsdl:input message="tns:GetTownlandSummaryRowCountSoapIn" />      <wsdl:output message="tns:GetTownlandSummaryRowCountSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetTownlandSummary">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Provides an area profile of retail outlet distribution analysis for a given geographical area.</wsdl:documentation>      <wsdl:input message="tns:GetTownlandSummarySoapIn" />      <wsdl:output message="tns:GetTownlandSummarySoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="TownlandSummaryServiceSoap" type="tns:TownlandSummaryServiceSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetCallPermssion">      <soap:operation soapAction="http://ws.levelsoft.net/GetCallPermssion" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetCallPermssionSEKHeader" part="SEKHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTownlandSummaryRowCount">      <soap:operation soapAction="http://ws.levelsoft.net/GetTownlandSummaryRowCount" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetTownlandSummaryRowCountSEKHeader" part="SEKHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTownlandSummary">      <soap:operation soapAction="http://ws.levelsoft.net/GetTownlandSummary" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetTownlandSummarySEKHeader" part="SEKHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="TownlandSummaryServiceSoap12" type="tns:TownlandSummaryServiceSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetCallPermssion">      <soap12:operation soapAction="http://ws.levelsoft.net/GetCallPermssion" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetCallPermssionSEKHeader" part="SEKHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTownlandSummaryRowCount">      <soap12:operation soapAction="http://ws.levelsoft.net/GetTownlandSummaryRowCount" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetTownlandSummaryRowCountSEKHeader" part="SEKHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTownlandSummary">      <soap12:operation soapAction="http://ws.levelsoft.net/GetTownlandSummary" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetTownlandSummarySEKHeader" part="SEKHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="TownlandSummaryService">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Levelsoft BusDirectory TownlandSummaryService web services provides up-to-date summary of retail business locations within townlands using geographical criteria.</wsdl:documentation>    <wsdl:port name="TownlandSummaryServiceSoap" binding="tns:TownlandSummaryServiceSoap">      <soap:address location="http://ws.srlink.com/BusDirectory/TownlandSummaryService.asmx" />    </wsdl:port>    <wsdl:port name="TownlandSummaryServiceSoap12" binding="tns:TownlandSummaryServiceSoap12">      <soap12:address location="http://ws.srlink.com/BusDirectory/TownlandSummaryService.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ws.levelsoft.net/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://ws.levelsoft.net/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Levelsoft BusDirectory TownlandSummaryService web services provides
+		up-to-date summary of retail business locations within townlands using geographical criteria.</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://ws.levelsoft.net/">
+			<s:element name="GetCallPermssion">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="member" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:UserCredentials" />
+						<s:element minOccurs="0" maxOccurs="1" name="countryCode" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="UserCredentials">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetCallPermssionResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetCallPermssionResult" type="tns:AuthoriseType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="AuthoriseType">
+				<s:restriction base="s:string">
+					<s:enumeration value="None" />
+					<s:enumeration value="Denied" />
+					<s:enumeration value="Open" />
+					<s:enumeration value="SuperRole" />
+					<s:enumeration value="SubscribedRole" />
+					<s:enumeration value="SuperDemoRole" />
+					<s:enumeration value="SubscribedDemoRole" />
+					<s:enumeration value="SubscribedByHit" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="SEKHeader" type="tns:SEKHeader" />
+			<s:complexType name="SEKHeader">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="SEK" type="s:string" />
+				</s:sequence>
+				<s:anyAttribute />
+			</s:complexType>
+			<s:element name="GetTownlandSummaryRowCount">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:UserCredentials" />
+						<s:element minOccurs="0" maxOccurs="1" name="criteria" type="tns:GeoFindCriteria" />
+						<s:element minOccurs="0" maxOccurs="1" name="rblCriteria" type="tns:RBLCriteria" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="GeoFindCriteria">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="NielsenAreaCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="NielsenCitySize" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="SrLinkCitySize" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="StreetCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="StreetDescription" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="BoroughCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="BoroughDescription" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="TownlandCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="TownlandDescription" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="MunicipalityCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="MunicipalityDescription" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountyCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountyDescription" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PrefectureCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PrefectureDescription" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="RegionCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="RegionDescription" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="RBLCriteria">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="PrincipleLineOfBusiness" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="AdditionalLineOfBusiness" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="StatusCodes" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetTownlandSummaryRowCountResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetTownlandSummaryRowCountResult" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTownlandSummary">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:UserCredentials" />
+						<s:element minOccurs="0" maxOccurs="1" name="criteria" type="tns:GeoFindCriteria" />
+						<s:element minOccurs="0" maxOccurs="1" name="rblCriteria" type="tns:RBLCriteria" />
+						<s:element minOccurs="0" maxOccurs="1" name="locale" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTownlandSummaryResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTownlandSummaryResult" type="tns:ArrayOfTownlandSummaryData" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfTownlandSummaryData">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="TownlandSummaryData" nillable="true"
+						type="tns:TownlandSummaryData" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="TownlandSummaryData">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Location">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="MunicipalityCode" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="MunicipalityDescription" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="MunicipalityDescriptionLocal" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="CountyCode" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="CountyDescription" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="CountyDescriptionLocal" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="PrefectureCode" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="PrefectureDescription" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="PrefectureDescriptionLocal" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="RegionCode" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="RegionDescription" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="RegionDescriptionLocal" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="TotalRBL" type="s:long" />
+							<s:element minOccurs="1" maxOccurs="1" name="Residents" type="s:long" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="Location">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DescriptionLocal" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetCallPermssionSoapIn">
+		<wsdl:part name="parameters" element="tns:GetCallPermssion" />
+	</wsdl:message>
+	<wsdl:message name="GetCallPermssionSoapOut">
+		<wsdl:part name="parameters" element="tns:GetCallPermssionResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetCallPermssionSEKHeader">
+		<wsdl:part name="SEKHeader" element="tns:SEKHeader" />
+	</wsdl:message>
+	<wsdl:message name="GetTownlandSummaryRowCountSoapIn">
+		<wsdl:part name="parameters" element="tns:GetTownlandSummaryRowCount" />
+	</wsdl:message>
+	<wsdl:message name="GetTownlandSummaryRowCountSoapOut">
+		<wsdl:part name="parameters" element="tns:GetTownlandSummaryRowCountResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTownlandSummaryRowCountSEKHeader">
+		<wsdl:part name="SEKHeader" element="tns:SEKHeader" />
+	</wsdl:message>
+	<wsdl:message name="GetTownlandSummarySoapIn">
+		<wsdl:part name="parameters" element="tns:GetTownlandSummary" />
+	</wsdl:message>
+	<wsdl:message name="GetTownlandSummarySoapOut">
+		<wsdl:part name="parameters" element="tns:GetTownlandSummaryResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTownlandSummarySEKHeader">
+		<wsdl:part name="SEKHeader" element="tns:SEKHeader" />
+	</wsdl:message>
+	<wsdl:portType name="TownlandSummaryServiceSoap">
+		<wsdl:operation name="GetCallPermssion">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Queries whether there is available credit or security permission to
+				successfully query the service.</wsdl:documentation>
+			<wsdl:input message="tns:GetCallPermssionSoapIn" />
+			<wsdl:output message="tns:GetCallPermssionSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTownlandSummaryRowCount">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Provides the number of rows for an area profile of retail outlet
+				distribution analysis for a given geographical area.</wsdl:documentation>
+			<wsdl:input message="tns:GetTownlandSummaryRowCountSoapIn" />
+			<wsdl:output message="tns:GetTownlandSummaryRowCountSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTownlandSummary">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Provides an area profile of retail outlet distribution analysis for
+				a given geographical area.</wsdl:documentation>
+			<wsdl:input message="tns:GetTownlandSummarySoapIn" />
+			<wsdl:output message="tns:GetTownlandSummarySoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="TownlandSummaryServiceSoap" type="tns:TownlandSummaryServiceSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetCallPermssion">
+			<soap:operation soapAction="http://ws.levelsoft.net/GetCallPermssion" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetCallPermssionSEKHeader" part="SEKHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTownlandSummaryRowCount">
+			<soap:operation soapAction="http://ws.levelsoft.net/GetTownlandSummaryRowCount" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetTownlandSummaryRowCountSEKHeader" part="SEKHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTownlandSummary">
+			<soap:operation soapAction="http://ws.levelsoft.net/GetTownlandSummary" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetTownlandSummarySEKHeader" part="SEKHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="TownlandSummaryServiceSoap12" type="tns:TownlandSummaryServiceSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetCallPermssion">
+			<soap12:operation soapAction="http://ws.levelsoft.net/GetCallPermssion" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetCallPermssionSEKHeader" part="SEKHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTownlandSummaryRowCount">
+			<soap12:operation soapAction="http://ws.levelsoft.net/GetTownlandSummaryRowCount" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetTownlandSummaryRowCountSEKHeader" part="SEKHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTownlandSummary">
+			<soap12:operation soapAction="http://ws.levelsoft.net/GetTownlandSummary" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetTownlandSummarySEKHeader" part="SEKHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="TownlandSummaryService">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Levelsoft BusDirectory TownlandSummaryService web services provides
+			up-to-date summary of retail business locations within townlands using geographical criteria.</wsdl:documentation>
+		<wsdl:port name="TownlandSummaryServiceSoap" binding="tns:TownlandSummaryServiceSoap">
+			<soap:address location="http://ws.srlink.com/BusDirectory/TownlandSummaryService.asmx" />
+		</wsdl:port>
+		<wsdl:port name="TownlandSummaryServiceSoap12" binding="tns:TownlandSummaryServiceSoap12">
+			<soap12:address location="http://ws.srlink.com/BusDirectory/TownlandSummaryService.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

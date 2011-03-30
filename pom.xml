@@ -146,6 +146,16 @@
 				<artifactId>maven-license-plugin</artifactId>
 				<configuration>
 					<header>src/etc/license-header.txt</header>
+					
+					<strictCheck>true</strictCheck>
+					
+					<excludes>
+                    	<exclude>**/resources/wsdls/**</exclude>
+						<exclude>.git/**</exclude>
+						<exclude>.gitignore</exclude>
+						<exclude>README</exclude>
+                	</excludes>
+
 				</configuration>
 			</plugin>
 

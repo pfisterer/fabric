@@ -81,9 +81,11 @@ USAGE
 ----------------------------------------
 LICENSE
 ----------------------------------------
-Fabric is licenced under a BSD license. For details, see LICENSE.txt
-If you use Fabric for scientific publications, I appreciate if the 
-papers below are referenced.
+Fabric is licenced under a BSD license. For details, see 
+src/etc/license-header.txt
+
+If you use Fabric for scientific publications, I appreciate 
+if the papers below are referenced.
 
 ----------------------------------------
 REFERENCES

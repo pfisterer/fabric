@@ -1,1 +1,1189 @@
-<?xml version="1.0" encoding="ISO-8859-1"?><definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:si="http://soapinterop.org/xsd" xmlns:tns="urn:jaduka" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:jaduka"><types><xsd:schema targetNamespace="urn:jaduka"> <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" /> <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" /> <xsd:complexType name="PinDetailType">  <xsd:all>   <xsd:element name="pin" type="xsd:string"/>   <xsd:element name="customer" type="xsd:string"/>   <xsd:element name="dnisSet" type="xsd:string"/>   <xsd:element name="pinStatus" type="xsd:string"/>   <xsd:element name="subCustomer" type="xsd:string"/>   <xsd:element name="batchNumber" type="xsd:int"/>   <xsd:element name="brickNumber" type="xsd:int"/>   <xsd:element name="brickStatus" type="xsd:string"/>   <xsd:element name="sequenceNumber" type="xsd:int"/>   <xsd:element name="reference1" type="xsd:string"/>   <xsd:element name="reference2" type="xsd:string"/>   <xsd:element name="amountRemaining" type="xsd:float"/>   <xsd:element name="amountUsed" type="xsd:float"/>   <xsd:element name="adjustments" type="xsd:float"/>   <xsd:element name="retailPlan" type="xsd:string"/>   <xsd:element name="firstAttemptDate" type="xsd:date"/>   <xsd:element name="firstUseDate" type="xsd:date"/>   <xsd:element name="lastUseDate" type="xsd:date"/>   <xsd:element name="maintLastDate" type="xsd:date"/>   <xsd:element name="maintNextDate" type="xsd:date"/>   <xsd:element name="maintCount" type="xsd:int"/>   <xsd:element name="maintTotal" type="xsd:float"/>   <xsd:element name="renewals" type="xsd:int"/>   <xsd:element name="rechargeDate" type="xsd:date"/>   <xsd:element name="extension" type="xsd:string"/>   <xsd:element name="forwardingNumber" type="xsd:string"/>   <xsd:element name="callCount" type="xsd:int"/>  </xsd:all> </xsd:complexType> <xsd:complexType name="VFAccountSummaryType">  <xsd:all>   <xsd:element name="pin" type="xsd:string"/>   <xsd:element name="customer" type="xsd:string"/>   <xsd:element name="dnisSet" type="xsd:string"/>   <xsd:element name="extension" type="xsd:string"/>   <xsd:element name="pinStatus" type="xsd:string"/>   <xsd:element name="firstUseDate" type="xsd:date"/>   <xsd:element name="lastUseDate" type="xsd:date"/>   <xsd:element name="accessNumber" type="xsd:string"/>   <xsd:element name="managementNumber" type="xsd:string"/>   <xsd:element name="forwardingMode" type="xsd:string"/>   <xsd:element name="forwardingNumber" type="xsd:string"/>   <xsd:element name="amountRemaining" type="xsd:float"/>   <xsd:element name="domesticMinutes" type="xsd:int"/>   <xsd:element name="playBalance" type="xsd:boolean"/>   <xsd:element name="playMinutes" type="xsd:boolean"/>   <xsd:element name="playCallerId" type="xsd:boolean"/>   <xsd:element name="acceptPromptOn" type="xsd:boolean"/>   <xsd:element name="voiceMailOn" type="xsd:boolean"/>   <xsd:element name="greetingPromptName" type="xsd:string"/>   <xsd:element name="callingPlan" type="xsd:string"/>   <xsd:element name="expireTime" type="xsd:dateTime"/>   <xsd:element name="simCallsPerPin" type="xsd:int"/>  </xsd:all> </xsd:complexType> <xsd:complexType name="CallRecordType">  <xsd:all>   <xsd:element name="callIdentifier" type="xsd:string"/>   <xsd:element name="pin" type="xsd:string"/>   <xsd:element name="customer" type="xsd:string"/>   <xsd:element name="dnisSet" type="xsd:string"/>   <xsd:element name="serviceCode" type="xsd:int"/>   <xsd:element name="secondaryServiceCode" type="xsd:int"/>   <xsd:element name="callTime" type="xsd:dateTime"/>   <xsd:element name="callingPartyNumber" type="xsd:string"/>   <xsd:element name="callingPartyCity" type="xsd:string"/>   <xsd:element name="callingPartyState" type="xsd:string"/>   <xsd:element name="calledPartyNumber" type="xsd:string"/>   <xsd:element name="calledPartyCity" type="xsd:string"/>   <xsd:element name="calledPartyState" type="xsd:string"/>   <xsd:element name="answered" type="xsd:boolean"/>   <xsd:element name="talkSeconds" type="xsd:int"/>   <xsd:element name="talkRate" type="xsd:float"/>   <xsd:element name="talkCharge" type="xsd:float"/>   <xsd:element name="connectCharge" type="xsd:float"/>   <xsd:element name="bongCharge" type="xsd:float"/>   <xsd:element name="payphoneCharge" type="xsd:float"/>   <xsd:element name="vccCharge" type="xsd:float"/>   <xsd:element name="firstUseCharge" type="xsd:float"/>   <xsd:element name="totalCharge" type="xsd:float"/>   <xsd:element name="recordsAvailable" type="xsd:int"/>   <xsd:element name="pagesAvailable" type="xsd:int"/>   <xsd:element name="disconnectType" type="xsd:string"/>  </xsd:all> </xsd:complexType> <xsd:complexType name="VoiceMailSummaryType">  <xsd:all>   <xsd:element name="voiceMailId" type="xsd:string"/>   <xsd:element name="voiceMailBox" type="xsd:string"/>   <xsd:element name="callingPartyNumber" type="xsd:string"/>   <xsd:element name="callTime" type="xsd:dateTime"/>   <xsd:element name="talkSeconds" type="xsd:int"/>  </xsd:all> </xsd:complexType> <xsd:complexType name="AccountSummaryType">  <xsd:all>   <xsd:element name="pinStatus" type="xsd:string"/>   <xsd:element name="firstUseDate" type="xsd:date"/>   <xsd:element name="lastUseDate" type="xsd:date"/>   <xsd:element name="forwardingMode" type="xsd:string"/>   <xsd:element name="forwardingNumber" type="xsd:string"/>   <xsd:element name="amountRemaining" type="xsd:float"/>   <xsd:element name="domesticMinutes" type="xsd:int"/>   <xsd:element name="playBalance" type="xsd:boolean"/>   <xsd:element name="playMinutes" type="xsd:boolean"/>   <xsd:element name="playCallerId" type="xsd:boolean"/>   <xsd:element name="acceptPromptOn" type="xsd:boolean"/>   <xsd:element name="voiceMailOn" type="xsd:boolean"/>   <xsd:element name="greetingPromptName" type="xsd:string"/>  </xsd:all> </xsd:complexType> <xsd:complexType name="CreditCardInfoType">  <xsd:all>   <xsd:element name="serviceCode" type="xsd:int"/>   <xsd:element name="ccType" type="xsd:string"/>   <xsd:element name="ccNumber" type="xsd:string"/>   <xsd:element name="ccCvvCode" type="xsd:string"/>   <xsd:element name="ccExpireMonth" type="xsd:int"/>   <xsd:element name="ccExpireYear" type="xsd:int"/>   <xsd:element name="ccFirstName" type="xsd:string"/>   <xsd:element name="ccLastName" type="xsd:string"/>   <xsd:element name="ccAddress1" type="xsd:string"/>   <xsd:element name="ccAddress2" type="xsd:string"/>   <xsd:element name="ccCity" type="xsd:string"/>   <xsd:element name="ccState" type="xsd:string"/>   <xsd:element name="ccZip" type="xsd:string"/>   <xsd:element name="emailAddress" type="xsd:string"/>   <xsd:element name="phoneNumber" type="xsd:string"/>  </xsd:all> </xsd:complexType> <xsd:complexType name="ArsInfoType">  <xsd:all>   <xsd:element name="arsMinutes" type="xsd:int"/>   <xsd:element name="arsUrl" type="xsd:string"/>  </xsd:all> </xsd:complexType> <xsd:complexType name="PinArsInfoType">  <xsd:all>   <xsd:element name="arsMinutes" type="xsd:int"/>   <xsd:element name="arsAmount" type="xsd:float"/>  </xsd:all> </xsd:complexType> <xsd:complexType name="RateSummaryType">  <xsd:all>   <xsd:element name="retailPlan" type="xsd:string"/>   <xsd:element name="amountRemaining" type="xsd:float"/>   <xsd:element name="talkRate" type="xsd:float"/>   <xsd:element name="talkMinutes" type="xsd:int"/>   <xsd:element name="minimumSeconds" type="xsd:int"/>   <xsd:element name="incrementSeconds" type="xsd:int"/>   <xsd:element name="connectCharge" type="xsd:float"/>   <xsd:element name="payphoneCharge" type="xsd:float"/>   <xsd:element name="phoneNumber" type="xsd:string"/>   <xsd:element name="description" type="xsd:string"/>   <xsd:element name="bongCharge" type="xsd:float"/>   <xsd:element name="locationType" type="xsd:int"/>   <xsd:element name="locationIndex" type="xsd:string"/>  </xsd:all> </xsd:complexType> <xsd:complexType name="WebCallRecordType">  <xsd:all>   <xsd:element name="callIdentifier" type="xsd:string"/>   <xsd:element name="pin" type="xsd:string"/>   <xsd:element name="customer" type="xsd:string"/>   <xsd:element name="dnisSet" type="xsd:string"/>   <xsd:element name="callTime" type="xsd:dateTime"/>   <xsd:element name="callingPartyNumber" type="xsd:string"/>   <xsd:element name="callingPartyCity" type="xsd:string"/>   <xsd:element name="callingPartyState" type="xsd:string"/>   <xsd:element name="callingPartyRate" type="xsd:float"/>   <xsd:element name="callingPartyCharge" type="xsd:float"/>   <xsd:element name="callingPartyConnected" type="xsd:boolean"/>   <xsd:element name="calledPartyNumber" type="xsd:string"/>   <xsd:element name="calledPartyCity" type="xsd:string"/>   <xsd:element name="calledPartyState" type="xsd:string"/>   <xsd:element name="calledPartyRate" type="xsd:float"/>   <xsd:element name="calledPartyCharge" type="xsd:float"/>   <xsd:element name="calledPartyConnected" type="xsd:boolean"/>   <xsd:element name="forwardedToVoiceMail" type="xsd:boolean"/>   <xsd:element name="answered" type="xsd:boolean"/>   <xsd:element name="talkSeconds" type="xsd:int"/>   <xsd:element name="totalCharge" type="xsd:float"/>   <xsd:element name="averageRate" type="xsd:float"/>   <xsd:element name="recordsAvailable" type="xsd:int"/>   <xsd:element name="pagesAvailable" type="xsd:int"/>  </xsd:all> </xsd:complexType> <xsd:complexType name="VoiceMailType">  <xsd:all>   <xsd:element name="fileName" type="xsd:string"/>   <xsd:element name="fileSize" type="xsd:int"/>   <xsd:element name="fileContent" type="xsd:base64Binary"/>   <xsd:element name="voiceMailBox" type="xsd:string"/>   <xsd:element name="callingPartyNumber" type="xsd:string"/>   <xsd:element name="callTime" type="xsd:dateTime"/>   <xsd:element name="talkSeconds" type="xsd:int"/>  </xsd:all> </xsd:complexType> <xsd:complexType name="ArrayCallRecordType">  <xsd:complexContent>   <xsd:restriction base="SOAP-ENC:Array">    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:CallRecordType[]"/>   </xsd:restriction>  </xsd:complexContent> </xsd:complexType> <xsd:complexType name="ArrayVoiceMailSummaryType">  <xsd:complexContent>   <xsd:restriction base="SOAP-ENC:Array">    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:VoiceMailSummaryType[]"/>   </xsd:restriction>  </xsd:complexContent> </xsd:complexType> <xsd:complexType name="ArrayCreditCardInfoType">  <xsd:complexContent>   <xsd:restriction base="SOAP-ENC:Array">    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:CreditCardInfoType[]"/>   </xsd:restriction>  </xsd:complexContent> </xsd:complexType> <xsd:complexType name="ArrayVFAccountSummaryType">  <xsd:complexContent>   <xsd:restriction base="SOAP-ENC:Array">    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:VFAccountSummaryType[]"/>   </xsd:restriction>  </xsd:complexContent> </xsd:complexType> <xsd:complexType name="ArrayWebCallRecordType">  <xsd:complexContent>   <xsd:restriction base="SOAP-ENC:Array">    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:WebCallRecordType[]"/>   </xsd:restriction>  </xsd:complexContent> </xsd:complexType> <xsd:complexType name="ArrayRateSummaryType">  <xsd:complexContent>   <xsd:restriction base="SOAP-ENC:Array">    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:RateSummaryType[]"/>   </xsd:restriction>  </xsd:complexContent> </xsd:complexType></xsd:schema></types><message name="adjustPinBalanceRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="pin" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="dnisSet" type="xsd:string" /><part name="adjustment" type="xsd:float" /><part name="transCode" type="xsd:string" /><part name="description" type="xsd:string" /><part name="complaintCode" type="xsd:string" /></message><message name="adjustPinBalanceResponse"><part name="result" type="tns:PinDetailType" /></message><message name="createVFAccountRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="subCustomer" type="xsd:string" /><part name="reference1" type="xsd:string" /><part name="reference2" type="xsd:string" /><part name="amountRemaining" type="xsd:float" /><part name="forwardingNumber" type="xsd:string" /></message><message name="createVFAccountResponse"><part name="result" type="tns:VFAccountSummaryType" /></message><message name="deleteVoiceMailRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="voiceMailId" type="xsd:string" /></message><message name="deleteVoiceMailResponse"><part name="result" type="xsd:boolean" /></message><message name="findCallRecordsRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="pin" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="dnisSet" type="xsd:string" /><part name="startTime" type="xsd:dateTime" /><part name="endTime" type="xsd:dateTime" /><part name="recordLimit" type="xsd:int" /></message><message name="findCallRecordsResponse"><part name="result" type="tns:ArrayCallRecordType" /></message><message name="findVoiceMailByTokenRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="applicationToken" type="xsd:string" /></message><message name="findVoiceMailByTokenResponse"><part name="result" type="tns:ArrayVoiceMailSummaryType" /></message><message name="getAccountSummaryByTokenRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="applicationToken" type="xsd:string" /></message><message name="getAccountSummaryByTokenResponse"><part name="result" type="tns:AccountSummaryType" /></message><message name="getCallRecordsRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="pin" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="dnisSet" type="xsd:string" /><part name="startTime" type="xsd:dateTime" /><part name="endTime" type="xsd:dateTime" /><part name="pageNumber" type="xsd:int" /><part name="recordsPerPage" type="xsd:int" /></message><message name="getCallRecordsResponse"><part name="result" type="tns:ArrayCallRecordType" /></message><message name="getCreditCardInfoRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="pin" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="dnisSet" type="xsd:string" /><part name="serviceCode" type="xsd:int" /></message><message name="getCreditCardInfoResponse"><part name="result" type="tns:ArrayCreditCardInfoType" /></message><message name="getCustomerArsInfoRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="customer" type="xsd:string" /></message><message name="getCustomerArsInfoResponse"><part name="result" type="tns:ArsInfoType" /></message><message name="getPinArsInfoRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="pin" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="dnisSet" type="xsd:string" /></message><message name="getPinArsInfoResponse"><part name="result" type="tns:PinArsInfoType" /></message><message name="getRateSummaryRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="pin" type="xsd:string" /><part name="accessNumber" type="xsd:string" /><part name="toPhoneNumber" type="xsd:string" /></message><message name="getRateSummaryResponse"><part name="result" type="tns:RateSummaryType" /></message><message name="getSubCustomerArsInfoRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="subCustomer" type="xsd:string" /></message><message name="getSubCustomerArsInfoResponse"><part name="result" type="tns:ArsInfoType" /></message><message name="getVFAccountSummaryRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="pin" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="dnisSet" type="xsd:string" /><part name="extension" type="xsd:string" /></message><message name="getVFAccountSummaryResponse"><part name="result" type="tns:ArrayVFAccountSummaryType" /></message><message name="getVFCallRecordsByTokenRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="applicationToken" type="xsd:string" /><part name="startTime" type="xsd:dateTime" /><part name="endTime" type="xsd:dateTime" /><part name="pageNumber" type="xsd:int" /><part name="recordsPerPage" type="xsd:int" /></message><message name="getVFCallRecordsByTokenResponse"><part name="result" type="tns:ArrayWebCallRecordType" /></message><message name="getVoiceMailRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="voiceMailId" type="xsd:string" /></message><message name="getVoiceMailResponse"><part name="result" type="tns:VoiceMailType" /></message><message name="getWebCallRecordsByTokenRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="applicationToken" type="xsd:string" /><part name="startTime" type="xsd:dateTime" /><part name="endTime" type="xsd:dateTime" /><part name="pageNumber" type="xsd:int" /><part name="recordsPerPage" type="xsd:int" /></message><message name="getWebCallRecordsByTokenResponse"><part name="result" type="tns:ArrayWebCallRecordType" /></message><message name="getWebCallStatusRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="callIdentifier" type="xsd:string" /></message><message name="getWebCallStatusResponse"><part name="result" type="xsd:int" /></message><message name="getWebRateSummaryRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="pin" type="xsd:string" /><part name="accessNumber" type="xsd:string" /><part name="fromPhoneNumber" type="xsd:string" /><part name="toPhoneNumber" type="xsd:string" /></message><message name="getWebRateSummaryResponse"><part name="result" type="tns:ArrayRateSummaryType" /></message><message name="setAccountOptionsByTokenRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="applicationToken" type="xsd:string" /><part name="playBalance" type="xsd:boolean" /><part name="playMinutes" type="xsd:boolean" /><part name="playCallerId" type="xsd:boolean" /><part name="acceptPromptOn" type="xsd:boolean" /><part name="voiceMailOn" type="xsd:boolean" /><part name="greetingPromptName" type="xsd:string" /></message><message name="setAccountOptionsByTokenResponse"><part name="result" type="xsd:boolean" /></message><message name="setCallingPlanByPinRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="pin" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="dnisSet" type="xsd:string" /><part name="callingPlan" type="xsd:string" /><part name="expireTime" type="xsd:dateTime" /></message><message name="setCallingPlanByPinResponse"><part name="result" type="xsd:boolean" /></message><message name="setCreditCardInfoRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="pin" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="dnisSet" type="xsd:string" /><part name="serviceCode" type="xsd:int" /><part name="ccType" type="xsd:string" /><part name="ccNumber" type="xsd:string" /><part name="ccCvvCode" type="xsd:string" /><part name="ccExpireMonth" type="xsd:int" /><part name="ccExpireYear" type="xsd:int" /><part name="ccFirstName" type="xsd:string" /><part name="ccLastName" type="xsd:string" /><part name="ccAddress1" type="xsd:string" /><part name="ccAddress2" type="xsd:string" /><part name="ccCity" type="xsd:string" /><part name="ccState" type="xsd:string" /><part name="ccZip" type="xsd:string" /><part name="emailAddress" type="xsd:string" /><part name="phoneNumber" type="xsd:string" /></message><message name="setCreditCardInfoResponse"><part name="result" type="xsd:boolean" /></message><message name="setCustomerArsInfoRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="arsMinutes" type="xsd:int" /><part name="arsUrl" type="xsd:string" /></message><message name="setCustomerArsInfoResponse"><part name="result" type="xsd:boolean" /></message><message name="setForwardingNumberRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="pin" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="dnisSet" type="xsd:string" /><part name="extension" type="xsd:string" /><part name="forwardingMode" type="xsd:string" /><part name="forwardingNumber" type="xsd:string" /></message><message name="setForwardingNumberResponse"><part name="result" type="xsd:boolean" /></message><message name="setPinArsInfoRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="pin" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="dnisSet" type="xsd:string" /><part name="arsMinutes" type="xsd:int" /><part name="arsAmount" type="xsd:float" /></message><message name="setPinArsInfoResponse"><part name="result" type="xsd:boolean" /></message><message name="setPinStatusRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="pin" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="dnisSet" type="xsd:string" /><part name="pinStatus" type="xsd:string" /><part name="description" type="xsd:string" /></message><message name="setPinStatusResponse"><part name="result" type="tns:PinDetailType" /></message><message name="setSimultaneousCallsByBatchRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="batchNumber" type="xsd:int" /><part name="enabled" type="xsd:boolean" /><part name="simCallsPerPin" type="xsd:int" /></message><message name="setSimultaneousCallsByBatchResponse"><part name="result" type="xsd:boolean" /></message><message name="setSimultaneousCallsByBrickRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="batchNumber" type="xsd:int" /><part name="brickNumber" type="xsd:int" /><part name="enabled" type="xsd:boolean" /><part name="simCallsPerPin" type="xsd:int" /></message><message name="setSimultaneousCallsByBrickResponse"><part name="result" type="xsd:boolean" /></message><message name="setSimultaneousCallsByDnisSetRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="dnisSet" type="xsd:string" /><part name="enabled" type="xsd:boolean" /></message><message name="setSimultaneousCallsByDnisSetResponse"><part name="result" type="xsd:boolean" /></message><message name="setSimultaneousCallsByPinRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="pin" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="dnisSet" type="xsd:string" /><part name="enabled" type="xsd:boolean" /><part name="simCallsPerPin" type="xsd:int" /></message><message name="setSimultaneousCallsByPinResponse"><part name="result" type="xsd:boolean" /></message><message name="setSubCustomerArsInfoRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="subCustomer" type="xsd:string" /><part name="arsMinutes" type="xsd:int" /><part name="arsUrl" type="xsd:string" /></message><message name="setSubCustomerArsInfoResponse"><part name="result" type="xsd:boolean" /></message><message name="setVFAccountOptionsRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="pin" type="xsd:string" /><part name="customer" type="xsd:string" /><part name="dnisSet" type="xsd:string" /><part name="extension" type="xsd:string" /><part name="playBalance" type="xsd:boolean" /><part name="playMinutes" type="xsd:boolean" /><part name="playCallerId" type="xsd:boolean" /><part name="acceptPromptOn" type="xsd:boolean" /><part name="voiceMailOn" type="xsd:boolean" /><part name="greetingPromptName" type="xsd:string" /></message><message name="setVFAccountOptionsResponse"><part name="result" type="xsd:boolean" /></message><message name="startButtonCallByTokenRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="applicationToken" type="xsd:string" /><part name="callingPartyNumber" type="xsd:string" /></message><message name="startButtonCallByTokenResponse"><part name="result" type="xsd:string" /></message><message name="startGreetingRecordingCallRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="accessNumber" type="xsd:string" /><part name="extension" type="xsd:string" /><part name="callingPartyNumber" type="xsd:string" /></message><message name="startGreetingRecordingCallResponse"><part name="result" type="xsd:string" /></message><message name="startLDCallByTokenRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="applicationToken" type="xsd:string" /><part name="callingPartyNumber" type="xsd:string" /><part name="calledPartyNumber" type="xsd:string" /></message><message name="startLDCallByTokenResponse"><part name="result" type="xsd:string" /></message><message name="startWebCallRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="accessNumber" type="xsd:string" /><part name="extension" type="xsd:string" /><part name="callingPartyNumber" type="xsd:string" /></message><message name="startWebCallResponse"><part name="result" type="xsd:string" /></message><message name="startWebCallBackRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="accessNumber" type="xsd:string" /><part name="extension" type="xsd:string" /><part name="callingPartyNumber" type="xsd:string" /><part name="calledPartyNumber" type="xsd:string" /></message><message name="startWebCallBackResponse"><part name="result" type="xsd:string" /></message><message name="startWebCallBackByPinRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="accessNumber" type="xsd:string" /><part name="pin" type="xsd:string" /><part name="callingPartyNumber" type="xsd:string" /><part name="calledPartyNumber" type="xsd:string" /></message><message name="startWebCallBackByPinResponse"><part name="result" type="xsd:string" /></message><message name="startWebRecordingCallRequest"><part name="username" type="xsd:string" /><part name="check" type="xsd:string" /><part name="accessNumber" type="xsd:string" /><part name="extension" type="xsd:string" /><part name="callingPartyNumber" type="xsd:string" /><part name="passcode" type="xsd:string" /></message><message name="startWebRecordingCallResponse"><part name="result" type="xsd:string" /></message><portType name="jadukaPortType"><operation name="adjustPinBalance"><input message="tns:adjustPinBalanceRequest"/><output message="tns:adjustPinBalanceResponse"/></operation><operation name="createVFAccount"><input message="tns:createVFAccountRequest"/><output message="tns:createVFAccountResponse"/></operation><operation name="deleteVoiceMail"><input message="tns:deleteVoiceMailRequest"/><output message="tns:deleteVoiceMailResponse"/></operation><operation name="findCallRecords"><input message="tns:findCallRecordsRequest"/><output message="tns:findCallRecordsResponse"/></operation><operation name="findVoiceMailByToken"><input message="tns:findVoiceMailByTokenRequest"/><output message="tns:findVoiceMailByTokenResponse"/></operation><operation name="getAccountSummaryByToken"><input message="tns:getAccountSummaryByTokenRequest"/><output message="tns:getAccountSummaryByTokenResponse"/></operation><operation name="getCallRecords"><input message="tns:getCallRecordsRequest"/><output message="tns:getCallRecordsResponse"/></operation><operation name="getCreditCardInfo"><input message="tns:getCreditCardInfoRequest"/><output message="tns:getCreditCardInfoResponse"/></operation><operation name="getCustomerArsInfo"><input message="tns:getCustomerArsInfoRequest"/><output message="tns:getCustomerArsInfoResponse"/></operation><operation name="getPinArsInfo"><input message="tns:getPinArsInfoRequest"/><output message="tns:getPinArsInfoResponse"/></operation><operation name="getRateSummary"><input message="tns:getRateSummaryRequest"/><output message="tns:getRateSummaryResponse"/></operation><operation name="getSubCustomerArsInfo"><input message="tns:getSubCustomerArsInfoRequest"/><output message="tns:getSubCustomerArsInfoResponse"/></operation><operation name="getVFAccountSummary"><input message="tns:getVFAccountSummaryRequest"/><output message="tns:getVFAccountSummaryResponse"/></operation><operation name="getVFCallRecordsByToken"><input message="tns:getVFCallRecordsByTokenRequest"/><output message="tns:getVFCallRecordsByTokenResponse"/></operation><operation name="getVoiceMail"><input message="tns:getVoiceMailRequest"/><output message="tns:getVoiceMailResponse"/></operation><operation name="getWebCallRecordsByToken"><input message="tns:getWebCallRecordsByTokenRequest"/><output message="tns:getWebCallRecordsByTokenResponse"/></operation><operation name="getWebCallStatus"><input message="tns:getWebCallStatusRequest"/><output message="tns:getWebCallStatusResponse"/></operation><operation name="getWebRateSummary"><input message="tns:getWebRateSummaryRequest"/><output message="tns:getWebRateSummaryResponse"/></operation><operation name="setAccountOptionsByToken"><input message="tns:setAccountOptionsByTokenRequest"/><output message="tns:setAccountOptionsByTokenResponse"/></operation><operation name="setCallingPlanByPin"><input message="tns:setCallingPlanByPinRequest"/><output message="tns:setCallingPlanByPinResponse"/></operation><operation name="setCreditCardInfo"><input message="tns:setCreditCardInfoRequest"/><output message="tns:setCreditCardInfoResponse"/></operation><operation name="setCustomerArsInfo"><input message="tns:setCustomerArsInfoRequest"/><output message="tns:setCustomerArsInfoResponse"/></operation><operation name="setForwardingNumber"><input message="tns:setForwardingNumberRequest"/><output message="tns:setForwardingNumberResponse"/></operation><operation name="setPinArsInfo"><input message="tns:setPinArsInfoRequest"/><output message="tns:setPinArsInfoResponse"/></operation><operation name="setPinStatus"><input message="tns:setPinStatusRequest"/><output message="tns:setPinStatusResponse"/></operation><operation name="setSimultaneousCallsByBatch"><input message="tns:setSimultaneousCallsByBatchRequest"/><output message="tns:setSimultaneousCallsByBatchResponse"/></operation><operation name="setSimultaneousCallsByBrick"><input message="tns:setSimultaneousCallsByBrickRequest"/><output message="tns:setSimultaneousCallsByBrickResponse"/></operation><operation name="setSimultaneousCallsByDnisSet"><input message="tns:setSimultaneousCallsByDnisSetRequest"/><output message="tns:setSimultaneousCallsByDnisSetResponse"/></operation><operation name="setSimultaneousCallsByPin"><input message="tns:setSimultaneousCallsByPinRequest"/><output message="tns:setSimultaneousCallsByPinResponse"/></operation><operation name="setSubCustomerArsInfo"><input message="tns:setSubCustomerArsInfoRequest"/><output message="tns:setSubCustomerArsInfoResponse"/></operation><operation name="setVFAccountOptions"><input message="tns:setVFAccountOptionsRequest"/><output message="tns:setVFAccountOptionsResponse"/></operation><operation name="startButtonCallByToken"><input message="tns:startButtonCallByTokenRequest"/><output message="tns:startButtonCallByTokenResponse"/></operation><operation name="startGreetingRecordingCall"><input message="tns:startGreetingRecordingCallRequest"/><output message="tns:startGreetingRecordingCallResponse"/></operation><operation name="startLDCallByToken"><input message="tns:startLDCallByTokenRequest"/><output message="tns:startLDCallByTokenResponse"/></operation><operation name="startWebCall"><input message="tns:startWebCallRequest"/><output message="tns:startWebCallResponse"/></operation><operation name="startWebCallBack"><input message="tns:startWebCallBackRequest"/><output message="tns:startWebCallBackResponse"/></operation><operation name="startWebCallBackByPin"><input message="tns:startWebCallBackByPinRequest"/><output message="tns:startWebCallBackByPinResponse"/></operation><operation name="startWebRecordingCall"><input message="tns:startWebRecordingCallRequest"/><output message="tns:startWebRecordingCallResponse"/></operation></portType><binding name="jadukaBinding" type="tns:jadukaPortType"><soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/><operation name="adjustPinBalance"><soap:operation soapAction="adjustPinBalance" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="createVFAccount"><soap:operation soapAction="createVFAccount" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="deleteVoiceMail"><soap:operation soapAction="deleteVoiceMail" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="findCallRecords"><soap:operation soapAction="findCallRecords" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="findVoiceMailByToken"><soap:operation soapAction="findVoiceMailByToken" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getAccountSummaryByToken"><soap:operation soapAction="getAccountSummaryByToken" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getCallRecords"><soap:operation soapAction="getCallRecords" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getCreditCardInfo"><soap:operation soapAction="getCreditCardInfo" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getCustomerArsInfo"><soap:operation soapAction="getCustomerArsInfo" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getPinArsInfo"><soap:operation soapAction="getPinArsInfo" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getRateSummary"><soap:operation soapAction="getRateSummary" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getSubCustomerArsInfo"><soap:operation soapAction="getSubCustomerArsInfo" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getVFAccountSummary"><soap:operation soapAction="getVFAccountSummary" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getVFCallRecordsByToken"><soap:operation soapAction="getVFCallRecordsByToken" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getVoiceMail"><soap:operation soapAction="getVoiceMail" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getWebCallRecordsByToken"><soap:operation soapAction="getWebCallRecordsByToken" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getWebCallStatus"><soap:operation soapAction="getWebCallStatus" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getWebRateSummary"><soap:operation soapAction="getWebRateSummary" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="setAccountOptionsByToken"><soap:operation soapAction="setAccountOptionsByToken" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="setCallingPlanByPin"><soap:operation soapAction="setCallingPlanByPin" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="setCreditCardInfo"><soap:operation soapAction="setCreditCardInfo" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="setCustomerArsInfo"><soap:operation soapAction="setCustomerArsInfo" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="setForwardingNumber"><soap:operation soapAction="setForwardingNumber" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="setPinArsInfo"><soap:operation soapAction="setPinArsInfo" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="setPinStatus"><soap:operation soapAction="setPinStatus" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="setSimultaneousCallsByBatch"><soap:operation soapAction="setSimultaneousCallsByBatch" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="setSimultaneousCallsByBrick"><soap:operation soapAction="setSimultaneousCallsByBrick" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="setSimultaneousCallsByDnisSet"><soap:operation soapAction="setSimultaneousCallsByDnisSet" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="setSimultaneousCallsByPin"><soap:operation soapAction="setSimultaneousCallsByPin" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="setSubCustomerArsInfo"><soap:operation soapAction="setSubCustomerArsInfo" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="setVFAccountOptions"><soap:operation soapAction="setVFAccountOptions" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="startButtonCallByToken"><soap:operation soapAction="startButtonCallByToken" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="startGreetingRecordingCall"><soap:operation soapAction="startGreetingRecordingCall" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="startLDCallByToken"><soap:operation soapAction="startLDCallByToken" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="startWebCall"><soap:operation soapAction="startWebCall" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="startWebCallBack"><soap:operation soapAction="startWebCallBack" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="startWebCallBackByPin"><soap:operation soapAction="startWebCallBackByPin" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="startWebRecordingCall"><soap:operation soapAction="startWebRecordingCall" style="rpc"/><input><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation></binding><service name="jaduka"><port name="jadukaPort" binding="tns:jadukaBinding"><soap:address location="http://api.networkip.net/jaduka/index.php"/></port></service></definitions>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:si="http://soapinterop.org/xsd" xmlns:tns="urn:jaduka" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:jaduka">
+	<types>
+		<xsd:schema targetNamespace="urn:jaduka">
+			<xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+			<xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+			<xsd:complexType name="PinDetailType">
+				<xsd:all>
+					<xsd:element name="pin" type="xsd:string" />
+					<xsd:element name="customer" type="xsd:string" />
+					<xsd:element name="dnisSet" type="xsd:string" />
+					<xsd:element name="pinStatus" type="xsd:string" />
+					<xsd:element name="subCustomer" type="xsd:string" />
+					<xsd:element name="batchNumber" type="xsd:int" />
+					<xsd:element name="brickNumber" type="xsd:int" />
+					<xsd:element name="brickStatus" type="xsd:string" />
+					<xsd:element name="sequenceNumber" type="xsd:int" />
+					<xsd:element name="reference1" type="xsd:string" />
+					<xsd:element name="reference2" type="xsd:string" />
+					<xsd:element name="amountRemaining" type="xsd:float" />
+					<xsd:element name="amountUsed" type="xsd:float" />
+					<xsd:element name="adjustments" type="xsd:float" />
+					<xsd:element name="retailPlan" type="xsd:string" />
+					<xsd:element name="firstAttemptDate" type="xsd:date" />
+					<xsd:element name="firstUseDate" type="xsd:date" />
+					<xsd:element name="lastUseDate" type="xsd:date" />
+					<xsd:element name="maintLastDate" type="xsd:date" />
+					<xsd:element name="maintNextDate" type="xsd:date" />
+					<xsd:element name="maintCount" type="xsd:int" />
+					<xsd:element name="maintTotal" type="xsd:float" />
+					<xsd:element name="renewals" type="xsd:int" />
+					<xsd:element name="rechargeDate" type="xsd:date" />
+					<xsd:element name="extension" type="xsd:string" />
+					<xsd:element name="forwardingNumber" type="xsd:string" />
+					<xsd:element name="callCount" type="xsd:int" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="VFAccountSummaryType">
+				<xsd:all>
+					<xsd:element name="pin" type="xsd:string" />
+					<xsd:element name="customer" type="xsd:string" />
+					<xsd:element name="dnisSet" type="xsd:string" />
+					<xsd:element name="extension" type="xsd:string" />
+					<xsd:element name="pinStatus" type="xsd:string" />
+					<xsd:element name="firstUseDate" type="xsd:date" />
+					<xsd:element name="lastUseDate" type="xsd:date" />
+					<xsd:element name="accessNumber" type="xsd:string" />
+					<xsd:element name="managementNumber" type="xsd:string" />
+					<xsd:element name="forwardingMode" type="xsd:string" />
+					<xsd:element name="forwardingNumber" type="xsd:string" />
+					<xsd:element name="amountRemaining" type="xsd:float" />
+					<xsd:element name="domesticMinutes" type="xsd:int" />
+					<xsd:element name="playBalance" type="xsd:boolean" />
+					<xsd:element name="playMinutes" type="xsd:boolean" />
+					<xsd:element name="playCallerId" type="xsd:boolean" />
+					<xsd:element name="acceptPromptOn" type="xsd:boolean" />
+					<xsd:element name="voiceMailOn" type="xsd:boolean" />
+					<xsd:element name="greetingPromptName" type="xsd:string" />
+					<xsd:element name="callingPlan" type="xsd:string" />
+					<xsd:element name="expireTime" type="xsd:dateTime" />
+					<xsd:element name="simCallsPerPin" type="xsd:int" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="CallRecordType">
+				<xsd:all>
+					<xsd:element name="callIdentifier" type="xsd:string" />
+					<xsd:element name="pin" type="xsd:string" />
+					<xsd:element name="customer" type="xsd:string" />
+					<xsd:element name="dnisSet" type="xsd:string" />
+					<xsd:element name="serviceCode" type="xsd:int" />
+					<xsd:element name="secondaryServiceCode" type="xsd:int" />
+					<xsd:element name="callTime" type="xsd:dateTime" />
+					<xsd:element name="callingPartyNumber" type="xsd:string" />
+					<xsd:element name="callingPartyCity" type="xsd:string" />
+					<xsd:element name="callingPartyState" type="xsd:string" />
+					<xsd:element name="calledPartyNumber" type="xsd:string" />
+					<xsd:element name="calledPartyCity" type="xsd:string" />
+					<xsd:element name="calledPartyState" type="xsd:string" />
+					<xsd:element name="answered" type="xsd:boolean" />
+					<xsd:element name="talkSeconds" type="xsd:int" />
+					<xsd:element name="talkRate" type="xsd:float" />
+					<xsd:element name="talkCharge" type="xsd:float" />
+					<xsd:element name="connectCharge" type="xsd:float" />
+					<xsd:element name="bongCharge" type="xsd:float" />
+					<xsd:element name="payphoneCharge" type="xsd:float" />
+					<xsd:element name="vccCharge" type="xsd:float" />
+					<xsd:element name="firstUseCharge" type="xsd:float" />
+					<xsd:element name="totalCharge" type="xsd:float" />
+					<xsd:element name="recordsAvailable" type="xsd:int" />
+					<xsd:element name="pagesAvailable" type="xsd:int" />
+					<xsd:element name="disconnectType" type="xsd:string" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="VoiceMailSummaryType">
+				<xsd:all>
+					<xsd:element name="voiceMailId" type="xsd:string" />
+					<xsd:element name="voiceMailBox" type="xsd:string" />
+					<xsd:element name="callingPartyNumber" type="xsd:string" />
+					<xsd:element name="callTime" type="xsd:dateTime" />
+					<xsd:element name="talkSeconds" type="xsd:int" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="AccountSummaryType">
+				<xsd:all>
+					<xsd:element name="pinStatus" type="xsd:string" />
+					<xsd:element name="firstUseDate" type="xsd:date" />
+					<xsd:element name="lastUseDate" type="xsd:date" />
+					<xsd:element name="forwardingMode" type="xsd:string" />
+					<xsd:element name="forwardingNumber" type="xsd:string" />
+					<xsd:element name="amountRemaining" type="xsd:float" />
+					<xsd:element name="domesticMinutes" type="xsd:int" />
+					<xsd:element name="playBalance" type="xsd:boolean" />
+					<xsd:element name="playMinutes" type="xsd:boolean" />
+					<xsd:element name="playCallerId" type="xsd:boolean" />
+					<xsd:element name="acceptPromptOn" type="xsd:boolean" />
+					<xsd:element name="voiceMailOn" type="xsd:boolean" />
+					<xsd:element name="greetingPromptName" type="xsd:string" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="CreditCardInfoType">
+				<xsd:all>
+					<xsd:element name="serviceCode" type="xsd:int" />
+					<xsd:element name="ccType" type="xsd:string" />
+					<xsd:element name="ccNumber" type="xsd:string" />
+					<xsd:element name="ccCvvCode" type="xsd:string" />
+					<xsd:element name="ccExpireMonth" type="xsd:int" />
+					<xsd:element name="ccExpireYear" type="xsd:int" />
+					<xsd:element name="ccFirstName" type="xsd:string" />
+					<xsd:element name="ccLastName" type="xsd:string" />
+					<xsd:element name="ccAddress1" type="xsd:string" />
+					<xsd:element name="ccAddress2" type="xsd:string" />
+					<xsd:element name="ccCity" type="xsd:string" />
+					<xsd:element name="ccState" type="xsd:string" />
+					<xsd:element name="ccZip" type="xsd:string" />
+					<xsd:element name="emailAddress" type="xsd:string" />
+					<xsd:element name="phoneNumber" type="xsd:string" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="ArsInfoType">
+				<xsd:all>
+					<xsd:element name="arsMinutes" type="xsd:int" />
+					<xsd:element name="arsUrl" type="xsd:string" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="PinArsInfoType">
+				<xsd:all>
+					<xsd:element name="arsMinutes" type="xsd:int" />
+					<xsd:element name="arsAmount" type="xsd:float" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="RateSummaryType">
+				<xsd:all>
+					<xsd:element name="retailPlan" type="xsd:string" />
+					<xsd:element name="amountRemaining" type="xsd:float" />
+					<xsd:element name="talkRate" type="xsd:float" />
+					<xsd:element name="talkMinutes" type="xsd:int" />
+					<xsd:element name="minimumSeconds" type="xsd:int" />
+					<xsd:element name="incrementSeconds" type="xsd:int" />
+					<xsd:element name="connectCharge" type="xsd:float" />
+					<xsd:element name="payphoneCharge" type="xsd:float" />
+					<xsd:element name="phoneNumber" type="xsd:string" />
+					<xsd:element name="description" type="xsd:string" />
+					<xsd:element name="bongCharge" type="xsd:float" />
+					<xsd:element name="locationType" type="xsd:int" />
+					<xsd:element name="locationIndex" type="xsd:string" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="WebCallRecordType">
+				<xsd:all>
+					<xsd:element name="callIdentifier" type="xsd:string" />
+					<xsd:element name="pin" type="xsd:string" />
+					<xsd:element name="customer" type="xsd:string" />
+					<xsd:element name="dnisSet" type="xsd:string" />
+					<xsd:element name="callTime" type="xsd:dateTime" />
+					<xsd:element name="callingPartyNumber" type="xsd:string" />
+					<xsd:element name="callingPartyCity" type="xsd:string" />
+					<xsd:element name="callingPartyState" type="xsd:string" />
+					<xsd:element name="callingPartyRate" type="xsd:float" />
+					<xsd:element name="callingPartyCharge" type="xsd:float" />
+					<xsd:element name="callingPartyConnected" type="xsd:boolean" />
+					<xsd:element name="calledPartyNumber" type="xsd:string" />
+					<xsd:element name="calledPartyCity" type="xsd:string" />
+					<xsd:element name="calledPartyState" type="xsd:string" />
+					<xsd:element name="calledPartyRate" type="xsd:float" />
+					<xsd:element name="calledPartyCharge" type="xsd:float" />
+					<xsd:element name="calledPartyConnected" type="xsd:boolean" />
+					<xsd:element name="forwardedToVoiceMail" type="xsd:boolean" />
+					<xsd:element name="answered" type="xsd:boolean" />
+					<xsd:element name="talkSeconds" type="xsd:int" />
+					<xsd:element name="totalCharge" type="xsd:float" />
+					<xsd:element name="averageRate" type="xsd:float" />
+					<xsd:element name="recordsAvailable" type="xsd:int" />
+					<xsd:element name="pagesAvailable" type="xsd:int" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="VoiceMailType">
+				<xsd:all>
+					<xsd:element name="fileName" type="xsd:string" />
+					<xsd:element name="fileSize" type="xsd:int" />
+					<xsd:element name="fileContent" type="xsd:base64Binary" />
+					<xsd:element name="voiceMailBox" type="xsd:string" />
+					<xsd:element name="callingPartyNumber" type="xsd:string" />
+					<xsd:element name="callTime" type="xsd:dateTime" />
+					<xsd:element name="talkSeconds" type="xsd:int" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="ArrayCallRecordType">
+				<xsd:complexContent>
+					<xsd:restriction base="SOAP-ENC:Array">
+						<xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:CallRecordType[]" />
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="ArrayVoiceMailSummaryType">
+				<xsd:complexContent>
+					<xsd:restriction base="SOAP-ENC:Array">
+						<xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:VoiceMailSummaryType[]" />
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="ArrayCreditCardInfoType">
+				<xsd:complexContent>
+					<xsd:restriction base="SOAP-ENC:Array">
+						<xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:CreditCardInfoType[]" />
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="ArrayVFAccountSummaryType">
+				<xsd:complexContent>
+					<xsd:restriction base="SOAP-ENC:Array">
+						<xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:VFAccountSummaryType[]" />
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="ArrayWebCallRecordType">
+				<xsd:complexContent>
+					<xsd:restriction base="SOAP-ENC:Array">
+						<xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:WebCallRecordType[]" />
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="ArrayRateSummaryType">
+				<xsd:complexContent>
+					<xsd:restriction base="SOAP-ENC:Array">
+						<xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:RateSummaryType[]" />
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
+		</xsd:schema>
+	</types>
+	<message name="adjustPinBalanceRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="pin" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="dnisSet" type="xsd:string" />
+		<part name="adjustment" type="xsd:float" />
+		<part name="transCode" type="xsd:string" />
+		<part name="description" type="xsd:string" />
+		<part name="complaintCode" type="xsd:string" />
+	</message>
+	<message name="adjustPinBalanceResponse">
+		<part name="result" type="tns:PinDetailType" />
+	</message>
+	<message name="createVFAccountRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="subCustomer" type="xsd:string" />
+		<part name="reference1" type="xsd:string" />
+		<part name="reference2" type="xsd:string" />
+		<part name="amountRemaining" type="xsd:float" />
+		<part name="forwardingNumber" type="xsd:string" />
+	</message>
+	<message name="createVFAccountResponse">
+		<part name="result" type="tns:VFAccountSummaryType" />
+	</message>
+	<message name="deleteVoiceMailRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="voiceMailId" type="xsd:string" />
+	</message>
+	<message name="deleteVoiceMailResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+	<message name="findCallRecordsRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="pin" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="dnisSet" type="xsd:string" />
+		<part name="startTime" type="xsd:dateTime" />
+		<part name="endTime" type="xsd:dateTime" />
+		<part name="recordLimit" type="xsd:int" />
+	</message>
+	<message name="findCallRecordsResponse">
+		<part name="result" type="tns:ArrayCallRecordType" />
+	</message>
+	<message name="findVoiceMailByTokenRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="applicationToken" type="xsd:string" />
+	</message>
+	<message name="findVoiceMailByTokenResponse">
+		<part name="result" type="tns:ArrayVoiceMailSummaryType" />
+	</message>
+	<message name="getAccountSummaryByTokenRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="applicationToken" type="xsd:string" />
+	</message>
+	<message name="getAccountSummaryByTokenResponse">
+		<part name="result" type="tns:AccountSummaryType" />
+	</message>
+	<message name="getCallRecordsRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="pin" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="dnisSet" type="xsd:string" />
+		<part name="startTime" type="xsd:dateTime" />
+		<part name="endTime" type="xsd:dateTime" />
+		<part name="pageNumber" type="xsd:int" />
+		<part name="recordsPerPage" type="xsd:int" />
+	</message>
+	<message name="getCallRecordsResponse">
+		<part name="result" type="tns:ArrayCallRecordType" />
+	</message>
+	<message name="getCreditCardInfoRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="pin" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="dnisSet" type="xsd:string" />
+		<part name="serviceCode" type="xsd:int" />
+	</message>
+	<message name="getCreditCardInfoResponse">
+		<part name="result" type="tns:ArrayCreditCardInfoType" />
+	</message>
+	<message name="getCustomerArsInfoRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+	</message>
+	<message name="getCustomerArsInfoResponse">
+		<part name="result" type="tns:ArsInfoType" />
+	</message>
+	<message name="getPinArsInfoRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="pin" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="dnisSet" type="xsd:string" />
+	</message>
+	<message name="getPinArsInfoResponse">
+		<part name="result" type="tns:PinArsInfoType" />
+	</message>
+	<message name="getRateSummaryRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="pin" type="xsd:string" />
+		<part name="accessNumber" type="xsd:string" />
+		<part name="toPhoneNumber" type="xsd:string" />
+	</message>
+	<message name="getRateSummaryResponse">
+		<part name="result" type="tns:RateSummaryType" />
+	</message>
+	<message name="getSubCustomerArsInfoRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="subCustomer" type="xsd:string" />
+	</message>
+	<message name="getSubCustomerArsInfoResponse">
+		<part name="result" type="tns:ArsInfoType" />
+	</message>
+	<message name="getVFAccountSummaryRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="pin" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="dnisSet" type="xsd:string" />
+		<part name="extension" type="xsd:string" />
+	</message>
+	<message name="getVFAccountSummaryResponse">
+		<part name="result" type="tns:ArrayVFAccountSummaryType" />
+	</message>
+	<message name="getVFCallRecordsByTokenRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="applicationToken" type="xsd:string" />
+		<part name="startTime" type="xsd:dateTime" />
+		<part name="endTime" type="xsd:dateTime" />
+		<part name="pageNumber" type="xsd:int" />
+		<part name="recordsPerPage" type="xsd:int" />
+	</message>
+	<message name="getVFCallRecordsByTokenResponse">
+		<part name="result" type="tns:ArrayWebCallRecordType" />
+	</message>
+	<message name="getVoiceMailRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="voiceMailId" type="xsd:string" />
+	</message>
+	<message name="getVoiceMailResponse">
+		<part name="result" type="tns:VoiceMailType" />
+	</message>
+	<message name="getWebCallRecordsByTokenRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="applicationToken" type="xsd:string" />
+		<part name="startTime" type="xsd:dateTime" />
+		<part name="endTime" type="xsd:dateTime" />
+		<part name="pageNumber" type="xsd:int" />
+		<part name="recordsPerPage" type="xsd:int" />
+	</message>
+	<message name="getWebCallRecordsByTokenResponse">
+		<part name="result" type="tns:ArrayWebCallRecordType" />
+	</message>
+	<message name="getWebCallStatusRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="callIdentifier" type="xsd:string" />
+	</message>
+	<message name="getWebCallStatusResponse">
+		<part name="result" type="xsd:int" />
+	</message>
+	<message name="getWebRateSummaryRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="pin" type="xsd:string" />
+		<part name="accessNumber" type="xsd:string" />
+		<part name="fromPhoneNumber" type="xsd:string" />
+		<part name="toPhoneNumber" type="xsd:string" />
+	</message>
+	<message name="getWebRateSummaryResponse">
+		<part name="result" type="tns:ArrayRateSummaryType" />
+	</message>
+	<message name="setAccountOptionsByTokenRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="applicationToken" type="xsd:string" />
+		<part name="playBalance" type="xsd:boolean" />
+		<part name="playMinutes" type="xsd:boolean" />
+		<part name="playCallerId" type="xsd:boolean" />
+		<part name="acceptPromptOn" type="xsd:boolean" />
+		<part name="voiceMailOn" type="xsd:boolean" />
+		<part name="greetingPromptName" type="xsd:string" />
+	</message>
+	<message name="setAccountOptionsByTokenResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+	<message name="setCallingPlanByPinRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="pin" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="dnisSet" type="xsd:string" />
+		<part name="callingPlan" type="xsd:string" />
+		<part name="expireTime" type="xsd:dateTime" />
+	</message>
+	<message name="setCallingPlanByPinResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+	<message name="setCreditCardInfoRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="pin" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="dnisSet" type="xsd:string" />
+		<part name="serviceCode" type="xsd:int" />
+		<part name="ccType" type="xsd:string" />
+		<part name="ccNumber" type="xsd:string" />
+		<part name="ccCvvCode" type="xsd:string" />
+		<part name="ccExpireMonth" type="xsd:int" />
+		<part name="ccExpireYear" type="xsd:int" />
+		<part name="ccFirstName" type="xsd:string" />
+		<part name="ccLastName" type="xsd:string" />
+		<part name="ccAddress1" type="xsd:string" />
+		<part name="ccAddress2" type="xsd:string" />
+		<part name="ccCity" type="xsd:string" />
+		<part name="ccState" type="xsd:string" />
+		<part name="ccZip" type="xsd:string" />
+		<part name="emailAddress" type="xsd:string" />
+		<part name="phoneNumber" type="xsd:string" />
+	</message>
+	<message name="setCreditCardInfoResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+	<message name="setCustomerArsInfoRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="arsMinutes" type="xsd:int" />
+		<part name="arsUrl" type="xsd:string" />
+	</message>
+	<message name="setCustomerArsInfoResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+	<message name="setForwardingNumberRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="pin" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="dnisSet" type="xsd:string" />
+		<part name="extension" type="xsd:string" />
+		<part name="forwardingMode" type="xsd:string" />
+		<part name="forwardingNumber" type="xsd:string" />
+	</message>
+	<message name="setForwardingNumberResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+	<message name="setPinArsInfoRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="pin" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="dnisSet" type="xsd:string" />
+		<part name="arsMinutes" type="xsd:int" />
+		<part name="arsAmount" type="xsd:float" />
+	</message>
+	<message name="setPinArsInfoResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+	<message name="setPinStatusRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="pin" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="dnisSet" type="xsd:string" />
+		<part name="pinStatus" type="xsd:string" />
+		<part name="description" type="xsd:string" />
+	</message>
+	<message name="setPinStatusResponse">
+		<part name="result" type="tns:PinDetailType" />
+	</message>
+	<message name="setSimultaneousCallsByBatchRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="batchNumber" type="xsd:int" />
+		<part name="enabled" type="xsd:boolean" />
+		<part name="simCallsPerPin" type="xsd:int" />
+	</message>
+	<message name="setSimultaneousCallsByBatchResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+	<message name="setSimultaneousCallsByBrickRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="batchNumber" type="xsd:int" />
+		<part name="brickNumber" type="xsd:int" />
+		<part name="enabled" type="xsd:boolean" />
+		<part name="simCallsPerPin" type="xsd:int" />
+	</message>
+	<message name="setSimultaneousCallsByBrickResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+	<message name="setSimultaneousCallsByDnisSetRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="dnisSet" type="xsd:string" />
+		<part name="enabled" type="xsd:boolean" />
+	</message>
+	<message name="setSimultaneousCallsByDnisSetResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+	<message name="setSimultaneousCallsByPinRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="pin" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="dnisSet" type="xsd:string" />
+		<part name="enabled" type="xsd:boolean" />
+		<part name="simCallsPerPin" type="xsd:int" />
+	</message>
+	<message name="setSimultaneousCallsByPinResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+	<message name="setSubCustomerArsInfoRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="subCustomer" type="xsd:string" />
+		<part name="arsMinutes" type="xsd:int" />
+		<part name="arsUrl" type="xsd:string" />
+	</message>
+	<message name="setSubCustomerArsInfoResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+	<message name="setVFAccountOptionsRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="pin" type="xsd:string" />
+		<part name="customer" type="xsd:string" />
+		<part name="dnisSet" type="xsd:string" />
+		<part name="extension" type="xsd:string" />
+		<part name="playBalance" type="xsd:boolean" />
+		<part name="playMinutes" type="xsd:boolean" />
+		<part name="playCallerId" type="xsd:boolean" />
+		<part name="acceptPromptOn" type="xsd:boolean" />
+		<part name="voiceMailOn" type="xsd:boolean" />
+		<part name="greetingPromptName" type="xsd:string" />
+	</message>
+	<message name="setVFAccountOptionsResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+	<message name="startButtonCallByTokenRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="applicationToken" type="xsd:string" />
+		<part name="callingPartyNumber" type="xsd:string" />
+	</message>
+	<message name="startButtonCallByTokenResponse">
+		<part name="result" type="xsd:string" />
+	</message>
+	<message name="startGreetingRecordingCallRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="accessNumber" type="xsd:string" />
+		<part name="extension" type="xsd:string" />
+		<part name="callingPartyNumber" type="xsd:string" />
+	</message>
+	<message name="startGreetingRecordingCallResponse">
+		<part name="result" type="xsd:string" />
+	</message>
+	<message name="startLDCallByTokenRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="applicationToken" type="xsd:string" />
+		<part name="callingPartyNumber" type="xsd:string" />
+		<part name="calledPartyNumber" type="xsd:string" />
+	</message>
+	<message name="startLDCallByTokenResponse">
+		<part name="result" type="xsd:string" />
+	</message>
+	<message name="startWebCallRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="accessNumber" type="xsd:string" />
+		<part name="extension" type="xsd:string" />
+		<part name="callingPartyNumber" type="xsd:string" />
+	</message>
+	<message name="startWebCallResponse">
+		<part name="result" type="xsd:string" />
+	</message>
+	<message name="startWebCallBackRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="accessNumber" type="xsd:string" />
+		<part name="extension" type="xsd:string" />
+		<part name="callingPartyNumber" type="xsd:string" />
+		<part name="calledPartyNumber" type="xsd:string" />
+	</message>
+	<message name="startWebCallBackResponse">
+		<part name="result" type="xsd:string" />
+	</message>
+	<message name="startWebCallBackByPinRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="accessNumber" type="xsd:string" />
+		<part name="pin" type="xsd:string" />
+		<part name="callingPartyNumber" type="xsd:string" />
+		<part name="calledPartyNumber" type="xsd:string" />
+	</message>
+	<message name="startWebCallBackByPinResponse">
+		<part name="result" type="xsd:string" />
+	</message>
+	<message name="startWebRecordingCallRequest">
+		<part name="username" type="xsd:string" />
+		<part name="check" type="xsd:string" />
+		<part name="accessNumber" type="xsd:string" />
+		<part name="extension" type="xsd:string" />
+		<part name="callingPartyNumber" type="xsd:string" />
+		<part name="passcode" type="xsd:string" />
+	</message>
+	<message name="startWebRecordingCallResponse">
+		<part name="result" type="xsd:string" />
+	</message>
+	<portType name="jadukaPortType">
+		<operation name="adjustPinBalance">
+			<input message="tns:adjustPinBalanceRequest" />
+			<output message="tns:adjustPinBalanceResponse" />
+		</operation>
+		<operation name="createVFAccount">
+			<input message="tns:createVFAccountRequest" />
+			<output message="tns:createVFAccountResponse" />
+		</operation>
+		<operation name="deleteVoiceMail">
+			<input message="tns:deleteVoiceMailRequest" />
+			<output message="tns:deleteVoiceMailResponse" />
+		</operation>
+		<operation name="findCallRecords">
+			<input message="tns:findCallRecordsRequest" />
+			<output message="tns:findCallRecordsResponse" />
+		</operation>
+		<operation name="findVoiceMailByToken">
+			<input message="tns:findVoiceMailByTokenRequest" />
+			<output message="tns:findVoiceMailByTokenResponse" />
+		</operation>
+		<operation name="getAccountSummaryByToken">
+			<input message="tns:getAccountSummaryByTokenRequest" />
+			<output message="tns:getAccountSummaryByTokenResponse" />
+		</operation>
+		<operation name="getCallRecords">
+			<input message="tns:getCallRecordsRequest" />
+			<output message="tns:getCallRecordsResponse" />
+		</operation>
+		<operation name="getCreditCardInfo">
+			<input message="tns:getCreditCardInfoRequest" />
+			<output message="tns:getCreditCardInfoResponse" />
+		</operation>
+		<operation name="getCustomerArsInfo">
+			<input message="tns:getCustomerArsInfoRequest" />
+			<output message="tns:getCustomerArsInfoResponse" />
+		</operation>
+		<operation name="getPinArsInfo">
+			<input message="tns:getPinArsInfoRequest" />
+			<output message="tns:getPinArsInfoResponse" />
+		</operation>
+		<operation name="getRateSummary">
+			<input message="tns:getRateSummaryRequest" />
+			<output message="tns:getRateSummaryResponse" />
+		</operation>
+		<operation name="getSubCustomerArsInfo">
+			<input message="tns:getSubCustomerArsInfoRequest" />
+			<output message="tns:getSubCustomerArsInfoResponse" />
+		</operation>
+		<operation name="getVFAccountSummary">
+			<input message="tns:getVFAccountSummaryRequest" />
+			<output message="tns:getVFAccountSummaryResponse" />
+		</operation>
+		<operation name="getVFCallRecordsByToken">
+			<input message="tns:getVFCallRecordsByTokenRequest" />
+			<output message="tns:getVFCallRecordsByTokenResponse" />
+		</operation>
+		<operation name="getVoiceMail">
+			<input message="tns:getVoiceMailRequest" />
+			<output message="tns:getVoiceMailResponse" />
+		</operation>
+		<operation name="getWebCallRecordsByToken">
+			<input message="tns:getWebCallRecordsByTokenRequest" />
+			<output message="tns:getWebCallRecordsByTokenResponse" />
+		</operation>
+		<operation name="getWebCallStatus">
+			<input message="tns:getWebCallStatusRequest" />
+			<output message="tns:getWebCallStatusResponse" />
+		</operation>
+		<operation name="getWebRateSummary">
+			<input message="tns:getWebRateSummaryRequest" />
+			<output message="tns:getWebRateSummaryResponse" />
+		</operation>
+		<operation name="setAccountOptionsByToken">
+			<input message="tns:setAccountOptionsByTokenRequest" />
+			<output message="tns:setAccountOptionsByTokenResponse" />
+		</operation>
+		<operation name="setCallingPlanByPin">
+			<input message="tns:setCallingPlanByPinRequest" />
+			<output message="tns:setCallingPlanByPinResponse" />
+		</operation>
+		<operation name="setCreditCardInfo">
+			<input message="tns:setCreditCardInfoRequest" />
+			<output message="tns:setCreditCardInfoResponse" />
+		</operation>
+		<operation name="setCustomerArsInfo">
+			<input message="tns:setCustomerArsInfoRequest" />
+			<output message="tns:setCustomerArsInfoResponse" />
+		</operation>
+		<operation name="setForwardingNumber">
+			<input message="tns:setForwardingNumberRequest" />
+			<output message="tns:setForwardingNumberResponse" />
+		</operation>
+		<operation name="setPinArsInfo">
+			<input message="tns:setPinArsInfoRequest" />
+			<output message="tns:setPinArsInfoResponse" />
+		</operation>
+		<operation name="setPinStatus">
+			<input message="tns:setPinStatusRequest" />
+			<output message="tns:setPinStatusResponse" />
+		</operation>
+		<operation name="setSimultaneousCallsByBatch">
+			<input message="tns:setSimultaneousCallsByBatchRequest" />
+			<output message="tns:setSimultaneousCallsByBatchResponse" />
+		</operation>
+		<operation name="setSimultaneousCallsByBrick">
+			<input message="tns:setSimultaneousCallsByBrickRequest" />
+			<output message="tns:setSimultaneousCallsByBrickResponse" />
+		</operation>
+		<operation name="setSimultaneousCallsByDnisSet">
+			<input message="tns:setSimultaneousCallsByDnisSetRequest" />
+			<output message="tns:setSimultaneousCallsByDnisSetResponse" />
+		</operation>
+		<operation name="setSimultaneousCallsByPin">
+			<input message="tns:setSimultaneousCallsByPinRequest" />
+			<output message="tns:setSimultaneousCallsByPinResponse" />
+		</operation>
+		<operation name="setSubCustomerArsInfo">
+			<input message="tns:setSubCustomerArsInfoRequest" />
+			<output message="tns:setSubCustomerArsInfoResponse" />
+		</operation>
+		<operation name="setVFAccountOptions">
+			<input message="tns:setVFAccountOptionsRequest" />
+			<output message="tns:setVFAccountOptionsResponse" />
+		</operation>
+		<operation name="startButtonCallByToken">
+			<input message="tns:startButtonCallByTokenRequest" />
+			<output message="tns:startButtonCallByTokenResponse" />
+		</operation>
+		<operation name="startGreetingRecordingCall">
+			<input message="tns:startGreetingRecordingCallRequest" />
+			<output message="tns:startGreetingRecordingCallResponse" />
+		</operation>
+		<operation name="startLDCallByToken">
+			<input message="tns:startLDCallByTokenRequest" />
+			<output message="tns:startLDCallByTokenResponse" />
+		</operation>
+		<operation name="startWebCall">
+			<input message="tns:startWebCallRequest" />
+			<output message="tns:startWebCallResponse" />
+		</operation>
+		<operation name="startWebCallBack">
+			<input message="tns:startWebCallBackRequest" />
+			<output message="tns:startWebCallBackResponse" />
+		</operation>
+		<operation name="startWebCallBackByPin">
+			<input message="tns:startWebCallBackByPinRequest" />
+			<output message="tns:startWebCallBackByPinResponse" />
+		</operation>
+		<operation name="startWebRecordingCall">
+			<input message="tns:startWebRecordingCallRequest" />
+			<output message="tns:startWebRecordingCallResponse" />
+		</operation>
+	</portType>
+	<binding name="jadukaBinding" type="tns:jadukaPortType">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="adjustPinBalance">
+			<soap:operation soapAction="adjustPinBalance" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="createVFAccount">
+			<soap:operation soapAction="createVFAccount" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="deleteVoiceMail">
+			<soap:operation soapAction="deleteVoiceMail" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="findCallRecords">
+			<soap:operation soapAction="findCallRecords" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="findVoiceMailByToken">
+			<soap:operation soapAction="findVoiceMailByToken" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="getAccountSummaryByToken">
+			<soap:operation soapAction="getAccountSummaryByToken" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="getCallRecords">
+			<soap:operation soapAction="getCallRecords" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="getCreditCardInfo">
+			<soap:operation soapAction="getCreditCardInfo" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="getCustomerArsInfo">
+			<soap:operation soapAction="getCustomerArsInfo" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="getPinArsInfo">
+			<soap:operation soapAction="getPinArsInfo" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="getRateSummary">
+			<soap:operation soapAction="getRateSummary" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="getSubCustomerArsInfo">
+			<soap:operation soapAction="getSubCustomerArsInfo" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="getVFAccountSummary">
+			<soap:operation soapAction="getVFAccountSummary" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="getVFCallRecordsByToken">
+			<soap:operation soapAction="getVFCallRecordsByToken" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="getVoiceMail">
+			<soap:operation soapAction="getVoiceMail" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="getWebCallRecordsByToken">
+			<soap:operation soapAction="getWebCallRecordsByToken" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="getWebCallStatus">
+			<soap:operation soapAction="getWebCallStatus" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="getWebRateSummary">
+			<soap:operation soapAction="getWebRateSummary" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="setAccountOptionsByToken">
+			<soap:operation soapAction="setAccountOptionsByToken" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="setCallingPlanByPin">
+			<soap:operation soapAction="setCallingPlanByPin" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="setCreditCardInfo">
+			<soap:operation soapAction="setCreditCardInfo" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="setCustomerArsInfo">
+			<soap:operation soapAction="setCustomerArsInfo" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="setForwardingNumber">
+			<soap:operation soapAction="setForwardingNumber" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="setPinArsInfo">
+			<soap:operation soapAction="setPinArsInfo" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="setPinStatus">
+			<soap:operation soapAction="setPinStatus" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="setSimultaneousCallsByBatch">
+			<soap:operation soapAction="setSimultaneousCallsByBatch" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="setSimultaneousCallsByBrick">
+			<soap:operation soapAction="setSimultaneousCallsByBrick" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="setSimultaneousCallsByDnisSet">
+			<soap:operation soapAction="setSimultaneousCallsByDnisSet" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="setSimultaneousCallsByPin">
+			<soap:operation soapAction="setSimultaneousCallsByPin" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="setSubCustomerArsInfo">
+			<soap:operation soapAction="setSubCustomerArsInfo" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="setVFAccountOptions">
+			<soap:operation soapAction="setVFAccountOptions" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="startButtonCallByToken">
+			<soap:operation soapAction="startButtonCallByToken" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="startGreetingRecordingCall">
+			<soap:operation soapAction="startGreetingRecordingCall" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="startLDCallByToken">
+			<soap:operation soapAction="startLDCallByToken" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="startWebCall">
+			<soap:operation soapAction="startWebCall" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="startWebCallBack">
+			<soap:operation soapAction="startWebCallBack" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="startWebCallBackByPin">
+			<soap:operation soapAction="startWebCallBackByPin" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="startWebRecordingCall">
+			<soap:operation soapAction="startWebRecordingCall" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:jaduka" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+	</binding>
+	<service name="jaduka">
+		<port name="jadukaPort" binding="tns:jadukaBinding">
+			<soap:address location="http://api.networkip.net/jaduka/index.php" />
+		</port>
+	</service>
+</definitions>

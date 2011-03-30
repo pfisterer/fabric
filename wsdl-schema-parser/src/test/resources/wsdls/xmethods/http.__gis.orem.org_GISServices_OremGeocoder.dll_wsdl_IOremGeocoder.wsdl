@@ -1,1 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?><definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="IOremGeocoderservice" targetNamespace="http://gis.orem.org" xmlns:tns="http://gis.orem.org" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:ns1="urn:OremGeocoderIntf">  <types>    <xs:schema targetNamespace="urn:OremGeocoderIntf" xmlns="urn:OremGeocoderIntf">      <xs:complexType name="TNAD27Point">        <xs:sequence>          <xs:element name="X" type="xs:double"/>          <xs:element name="Y" type="xs:double"/>        </xs:sequence>      </xs:complexType>    </xs:schema>  </types>  <message name="GeocodeOremAddress0Request">    <part name="sAddress" type="xs:string"/>    <part name="FeetOffset" type="xs:double"/>  </message>  <message name="GeocodeOremAddress0Response">    <part name="return" type="ns1:TNAD27Point"/>  </message>  <portType name="IOremGeocoder">    <operation name="GeocodeOremAddress">      <input message="tns:GeocodeOremAddress0Request"/>      <output message="tns:GeocodeOremAddress0Response"/>    </operation>  </portType>  <binding name="IOremGeocoderbinding" type="tns:IOremGeocoder">    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>    <operation name="GeocodeOremAddress">      <soap:operation soapAction="urn:OremGeocoderIntf-IOremGeocoder#GeocodeOremAddress" style="rpc"/>      <input message="tns:GeocodeOremAddress0Request">        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:OremGeocoderIntf-IOremGeocoder"/>      </input>      <output message="tns:GeocodeOremAddress0Response">        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:OremGeocoderIntf-IOremGeocoder"/>      </output>    </operation>  </binding>  <service name="IOremGeocoderservice">    <port name="IOremGeocoderPort" binding="tns:IOremGeocoderbinding">      <soap:address location="http://gis.orem.org/GISServices/OremGeocoder.dll/soap/IOremGeocoder"/>    </port>  </service></definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="IOremGeocoderservice"
+	targetNamespace="http://gis.orem.org" xmlns:tns="http://gis.orem.org" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:ns1="urn:OremGeocoderIntf">
+	<types>
+		<xs:schema targetNamespace="urn:OremGeocoderIntf" xmlns="urn:OremGeocoderIntf">
+			<xs:complexType name="TNAD27Point">
+				<xs:sequence>
+					<xs:element name="X" type="xs:double" />
+					<xs:element name="Y" type="xs:double" />
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+	</types>
+	<message name="GeocodeOremAddress0Request">
+		<part name="sAddress" type="xs:string" />
+		<part name="FeetOffset" type="xs:double" />
+	</message>
+	<message name="GeocodeOremAddress0Response">
+		<part name="return" type="ns1:TNAD27Point" />
+	</message>
+	<portType name="IOremGeocoder">
+		<operation name="GeocodeOremAddress">
+			<input message="tns:GeocodeOremAddress0Request" />
+			<output message="tns:GeocodeOremAddress0Response" />
+		</operation>
+	</portType>
+	<binding name="IOremGeocoderbinding" type="tns:IOremGeocoder">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="GeocodeOremAddress">
+			<soap:operation soapAction="urn:OremGeocoderIntf-IOremGeocoder#GeocodeOremAddress" style="rpc" />
+			<input message="tns:GeocodeOremAddress0Request">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:OremGeocoderIntf-IOremGeocoder" />
+			</input>
+			<output message="tns:GeocodeOremAddress0Response">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:OremGeocoderIntf-IOremGeocoder" />
+			</output>
+		</operation>
+	</binding>
+	<service name="IOremGeocoderservice">
+		<port name="IOremGeocoderPort" binding="tns:IOremGeocoderbinding">
+			<soap:address location="http://gis.orem.org/GISServices/OremGeocoder.dll/soap/IOremGeocoder" />
+		</port>
+	</service>
+</definitions>

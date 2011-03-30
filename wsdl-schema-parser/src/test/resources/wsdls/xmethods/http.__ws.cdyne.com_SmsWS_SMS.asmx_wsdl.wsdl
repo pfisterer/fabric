@@ -1,1 +1,545 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ws.cdyne.com/SmsWS/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://ws.cdyne.com/SmsWS/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">A reminder about abuse:  &lt;b&gt;Threats and illegal activity can be shared with the authorities.&lt;/b&gt;&lt;br /&gt;&lt;br /&gt; Please Refer to our &lt;a href='http://wiki.cdyne.com/wiki/index.php?title=SMS_Notify%21'&gt;Wiki&lt;/a&gt; for international calling, and pricing. &lt;br /&gt;</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://ws.cdyne.com/SmsWS/">      <s:element name="SendSMSBasic">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendSMSBasicResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="SendSMSBasicResult" type="tns:SmsReturn" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="SmsReturn">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="StatusCode" type="s:unsignedByte" />          <s:element minOccurs="0" maxOccurs="1" name="StatusText" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Completed" type="s:boolean" />          <s:element minOccurs="1" maxOccurs="1" name="TextID" type="s:unsignedLong" />          <s:element minOccurs="1" maxOccurs="1" name="Demo" type="s:boolean" />          <s:element minOccurs="1" maxOccurs="1" name="ScheduledTime" type="s:dateTime" />          <s:element minOccurs="1" maxOccurs="1" name="Responded" type="s:boolean" />        </s:sequence>      </s:complexType>      <s:element name="SendMultipleSMSBasic">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumbers" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendMultipleSMSBasicResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SendMultipleSMSBasicResult" type="tns:ArrayOfSmsReturn" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfSmsReturn">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="SmsReturn" type="tns:SmsReturn" />        </s:sequence>      </s:complexType>      <s:element name="SendSMSAdvanced">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Request" type="tns:SmsRequest" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="SmsRequest">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Licensekey" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="ScheduledTime" type="s:dateTime" />          <s:element minOccurs="1" maxOccurs="1" name="Response" type="s:boolean" />          <s:element minOccurs="0" maxOccurs="1" name="ResponsePostURL" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="SendSMSAdvancedResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="SendSMSAdvancedResult" type="tns:SmsReturn" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendMultipleSMSAdvanced">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Request" type="tns:ArrayOfSmsRequest" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfSmsRequest">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="SmsRequest" type="tns:SmsRequest" />        </s:sequence>      </s:complexType>      <s:element name="SendMultipleSMSAdvancedResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SendMultipleSMSAdvancedResult" type="tns:ArrayOfSmsReturn" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetSMSStatus">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="TextID" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetSMSStatusResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetSMSStatusResult" type="tns:SmsReturn" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetSMSResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="TextID" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetSMSResponseResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetSMSResponseResult" type="tns:ArrayOfSmsResponse" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfSmsResponse">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="SmsResponse" type="tns:SmsResponse" />        </s:sequence>      </s:complexType>      <s:complexType name="SmsResponse">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="ResponseID" type="s:unsignedLong" />          <s:element minOccurs="1" maxOccurs="1" name="TextID" type="s:unsignedLong" />          <s:element minOccurs="1" maxOccurs="1" name="StatusCode" type="s:unsignedByte" />          <s:element minOccurs="0" maxOccurs="1" name="ReceivedDate" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="SmsReturn" type="tns:SmsReturn" />      <s:element name="ArrayOfSmsReturn" nillable="true" type="tns:ArrayOfSmsReturn" />      <s:element name="ArrayOfSmsResponse" nillable="true" type="tns:ArrayOfSmsResponse" />    </s:schema>  </wsdl:types>  <wsdl:message name="SendSMSBasicSoapIn">    <wsdl:part name="parameters" element="tns:SendSMSBasic" />  </wsdl:message>  <wsdl:message name="SendSMSBasicSoapOut">    <wsdl:part name="parameters" element="tns:SendSMSBasicResponse" />  </wsdl:message>  <wsdl:message name="SendMultipleSMSBasicSoapIn">    <wsdl:part name="parameters" element="tns:SendMultipleSMSBasic" />  </wsdl:message>  <wsdl:message name="SendMultipleSMSBasicSoapOut">    <wsdl:part name="parameters" element="tns:SendMultipleSMSBasicResponse" />  </wsdl:message>  <wsdl:message name="SendSMSAdvancedSoapIn">    <wsdl:part name="parameters" element="tns:SendSMSAdvanced" />  </wsdl:message>  <wsdl:message name="SendSMSAdvancedSoapOut">    <wsdl:part name="parameters" element="tns:SendSMSAdvancedResponse" />  </wsdl:message>  <wsdl:message name="SendMultipleSMSAdvancedSoapIn">    <wsdl:part name="parameters" element="tns:SendMultipleSMSAdvanced" />  </wsdl:message>  <wsdl:message name="SendMultipleSMSAdvancedSoapOut">    <wsdl:part name="parameters" element="tns:SendMultipleSMSAdvancedResponse" />  </wsdl:message>  <wsdl:message name="GetSMSStatusSoapIn">    <wsdl:part name="parameters" element="tns:GetSMSStatus" />  </wsdl:message>  <wsdl:message name="GetSMSStatusSoapOut">    <wsdl:part name="parameters" element="tns:GetSMSStatusResponse" />  </wsdl:message>  <wsdl:message name="GetSMSResponseSoapIn">    <wsdl:part name="parameters" element="tns:GetSMSResponse" />  </wsdl:message>  <wsdl:message name="GetSMSResponseSoapOut">    <wsdl:part name="parameters" element="tns:GetSMSResponseResponse" />  </wsdl:message>  <wsdl:message name="SendSMSBasicHttpGetIn">    <wsdl:part name="PhoneNumber" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Message" type="s:string" />  </wsdl:message>  <wsdl:message name="SendSMSBasicHttpGetOut">    <wsdl:part name="Body" element="tns:SmsReturn" />  </wsdl:message>  <wsdl:message name="SendMultipleSMSBasicHttpGetIn">    <wsdl:part name="PhoneNumbers" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Message" type="s:string" />  </wsdl:message>  <wsdl:message name="SendMultipleSMSBasicHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfSmsReturn" />  </wsdl:message>  <wsdl:message name="GetSMSStatusHttpGetIn">    <wsdl:part name="TextID" type="s:string" />  </wsdl:message>  <wsdl:message name="GetSMSStatusHttpGetOut">    <wsdl:part name="Body" element="tns:SmsReturn" />  </wsdl:message>  <wsdl:message name="GetSMSResponseHttpGetIn">    <wsdl:part name="TextID" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetSMSResponseHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfSmsResponse" />  </wsdl:message>  <wsdl:message name="SendSMSBasicHttpPostIn">    <wsdl:part name="PhoneNumber" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Message" type="s:string" />  </wsdl:message>  <wsdl:message name="SendSMSBasicHttpPostOut">    <wsdl:part name="Body" element="tns:SmsReturn" />  </wsdl:message>  <wsdl:message name="SendMultipleSMSBasicHttpPostIn">    <wsdl:part name="PhoneNumbers" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />    <wsdl:part name="Message" type="s:string" />  </wsdl:message>  <wsdl:message name="SendMultipleSMSBasicHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfSmsReturn" />  </wsdl:message>  <wsdl:message name="GetSMSStatusHttpPostIn">    <wsdl:part name="TextID" type="s:string" />  </wsdl:message>  <wsdl:message name="GetSMSStatusHttpPostOut">    <wsdl:part name="Body" element="tns:SmsReturn" />  </wsdl:message>  <wsdl:message name="GetSMSResponseHttpPostIn">    <wsdl:part name="TextID" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetSMSResponseHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfSmsResponse" />  </wsdl:message>  <wsdl:portType name="SMSSoap">    <wsdl:operation name="SendSMSBasic">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This is the most basic of SMS Notify! This allows you to insert a  single PhoneNumber and a message to send out to your customers. This Web Method is available for Demo (License Key value of 0, International Demos are not allowed, Please contact us for more information.</wsdl:documentation>      <wsdl:input message="tns:SendSMSBasicSoapIn" />      <wsdl:output message="tns:SendSMSBasicSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendMultipleSMSBasic">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method allows for multiple text messages without the need to repeatedly calling SendSMSBasic. Demo is not allowed.</wsdl:documentation>      <wsdl:input message="tns:SendMultipleSMSBasicSoapIn" />      <wsdl:output message="tns:SendMultipleSMSBasicSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendSMSAdvanced">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends out an SMS Message that also allows user to usemore advanced properties. Demo is not allowed.</wsdl:documentation>      <wsdl:input message="tns:SendSMSAdvancedSoapIn" />      <wsdl:output message="tns:SendSMSAdvancedSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendMultipleSMSAdvanced">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This advance method allows for multiple text messages without the need to repeatedly calling SendSMSAdvanced. Demo not allowed.</wsdl:documentation>      <wsdl:input message="tns:SendMultipleSMSAdvancedSoapIn" />      <wsdl:output message="tns:SendMultipleSMSAdvancedSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetSMSStatus">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the Status of the SMS Message that you may have previously sent, provided that you have the Identification number of that Text Message</wsdl:documentation>      <wsdl:input message="tns:GetSMSStatusSoapIn" />      <wsdl:output message="tns:GetSMSStatusSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetSMSResponse">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Views the Response of the TextID</wsdl:documentation>      <wsdl:input message="tns:GetSMSResponseSoapIn" />      <wsdl:output message="tns:GetSMSResponseSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="SMSHttpGet">    <wsdl:operation name="SendSMSBasic">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This is the most basic of SMS Notify! This allows you to insert a  single PhoneNumber and a message to send out to your customers. This Web Method is available for Demo (License Key value of 0, International Demos are not allowed, Please contact us for more information.</wsdl:documentation>      <wsdl:input message="tns:SendSMSBasicHttpGetIn" />      <wsdl:output message="tns:SendSMSBasicHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="SendMultipleSMSBasic">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method allows for multiple text messages without the need to repeatedly calling SendSMSBasic. Demo is not allowed.</wsdl:documentation>      <wsdl:input message="tns:SendMultipleSMSBasicHttpGetIn" />      <wsdl:output message="tns:SendMultipleSMSBasicHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetSMSStatus">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the Status of the SMS Message that you may have previously sent, provided that you have the Identification number of that Text Message</wsdl:documentation>      <wsdl:input message="tns:GetSMSStatusHttpGetIn" />      <wsdl:output message="tns:GetSMSStatusHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetSMSResponse">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Views the Response of the TextID</wsdl:documentation>      <wsdl:input message="tns:GetSMSResponseHttpGetIn" />      <wsdl:output message="tns:GetSMSResponseHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="SMSHttpPost">    <wsdl:operation name="SendSMSBasic">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This is the most basic of SMS Notify! This allows you to insert a  single PhoneNumber and a message to send out to your customers. This Web Method is available for Demo (License Key value of 0, International Demos are not allowed, Please contact us for more information.</wsdl:documentation>      <wsdl:input message="tns:SendSMSBasicHttpPostIn" />      <wsdl:output message="tns:SendSMSBasicHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="SendMultipleSMSBasic">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method allows for multiple text messages without the need to repeatedly calling SendSMSBasic. Demo is not allowed.</wsdl:documentation>      <wsdl:input message="tns:SendMultipleSMSBasicHttpPostIn" />      <wsdl:output message="tns:SendMultipleSMSBasicHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetSMSStatus">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the Status of the SMS Message that you may have previously sent, provided that you have the Identification number of that Text Message</wsdl:documentation>      <wsdl:input message="tns:GetSMSStatusHttpPostIn" />      <wsdl:output message="tns:GetSMSStatusHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetSMSResponse">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Views the Response of the TextID</wsdl:documentation>      <wsdl:input message="tns:GetSMSResponseHttpPostIn" />      <wsdl:output message="tns:GetSMSResponseHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="SMSSoap" type="tns:SMSSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="SendSMSBasic">      <soap:operation soapAction="http://ws.cdyne.com/SmsWS/SendSMSBasic" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMultipleSMSBasic">      <soap:operation soapAction="http://ws.cdyne.com/SmsWS/SendMultipleSMSBasic" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendSMSAdvanced">      <soap:operation soapAction="http://ws.cdyne.com/SmsWS/SendSMSAdvanced" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMultipleSMSAdvanced">      <soap:operation soapAction="http://ws.cdyne.com/SmsWS/SendMultipleSMSAdvanced" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSMSStatus">      <soap:operation soapAction="http://ws.cdyne.com/SmsWS/GetSMSStatus" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSMSResponse">      <soap:operation soapAction="http://ws.cdyne.com/SmsWS/GetSMSResponse" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="SMSSoap12" type="tns:SMSSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="SendSMSBasic">      <soap12:operation soapAction="http://ws.cdyne.com/SmsWS/SendSMSBasic" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMultipleSMSBasic">      <soap12:operation soapAction="http://ws.cdyne.com/SmsWS/SendMultipleSMSBasic" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendSMSAdvanced">      <soap12:operation soapAction="http://ws.cdyne.com/SmsWS/SendSMSAdvanced" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMultipleSMSAdvanced">      <soap12:operation soapAction="http://ws.cdyne.com/SmsWS/SendMultipleSMSAdvanced" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSMSStatus">      <soap12:operation soapAction="http://ws.cdyne.com/SmsWS/GetSMSStatus" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSMSResponse">      <soap12:operation soapAction="http://ws.cdyne.com/SmsWS/GetSMSResponse" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="SMSHttpGet" type="tns:SMSHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="SendSMSBasic">      <http:operation location="/SendSMSBasic" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMultipleSMSBasic">      <http:operation location="/SendMultipleSMSBasic" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSMSStatus">      <http:operation location="/GetSMSStatus" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSMSResponse">      <http:operation location="/GetSMSResponse" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="SMSHttpPost" type="tns:SMSHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="SendSMSBasic">      <http:operation location="/SendSMSBasic" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMultipleSMSBasic">      <http:operation location="/SendMultipleSMSBasic" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSMSStatus">      <http:operation location="/GetSMSStatus" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSMSResponse">      <http:operation location="/GetSMSResponse" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="SMS">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">A reminder about abuse:  &lt;b&gt;Threats and illegal activity can be shared with the authorities.&lt;/b&gt;&lt;br /&gt;&lt;br /&gt; Please Refer to our &lt;a href='http://wiki.cdyne.com/wiki/index.php?title=SMS_Notify%21'&gt;Wiki&lt;/a&gt; for international calling, and pricing. &lt;br /&gt;</wsdl:documentation>    <wsdl:port name="SMSSoap" binding="tns:SMSSoap">      <soap:address location="http://ws.cdyne.com/SmsWS/SMS.asmx" />    </wsdl:port>    <wsdl:port name="SMSSoap12" binding="tns:SMSSoap12">      <soap12:address location="http://ws.cdyne.com/SmsWS/SMS.asmx" />    </wsdl:port>    <wsdl:port name="SMSHttpGet" binding="tns:SMSHttpGet">      <http:address location="http://ws.cdyne.com/SmsWS/SMS.asmx" />    </wsdl:port>    <wsdl:port name="SMSHttpPost" binding="tns:SMSHttpPost">      <http:address location="http://ws.cdyne.com/SmsWS/SMS.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ws.cdyne.com/SmsWS/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://ws.cdyne.com/SmsWS/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">A reminder about abuse: &lt;b&gt;Threats and illegal activity can be
+		shared with the authorities.&lt;/b&gt;&lt;br /&gt;&lt;br /&gt; Please Refer to our &lt;a
+		href='http://wiki.cdyne.com/wiki/index.php?title=SMS_Notify%21'&gt;Wiki&lt;/a&gt; for international calling, and
+		pricing. &lt;br /&gt;</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://ws.cdyne.com/SmsWS/">
+			<s:element name="SendSMSBasic">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendSMSBasicResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="SendSMSBasicResult" type="tns:SmsReturn" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="SmsReturn">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="StatusCode" type="s:unsignedByte" />
+					<s:element minOccurs="0" maxOccurs="1" name="StatusText" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Completed" type="s:boolean" />
+					<s:element minOccurs="1" maxOccurs="1" name="TextID" type="s:unsignedLong" />
+					<s:element minOccurs="1" maxOccurs="1" name="Demo" type="s:boolean" />
+					<s:element minOccurs="1" maxOccurs="1" name="ScheduledTime" type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1" name="Responded" type="s:boolean" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="SendMultipleSMSBasic">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="PhoneNumbers" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendMultipleSMSBasicResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SendMultipleSMSBasicResult" type="tns:ArrayOfSmsReturn" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfSmsReturn">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="SmsReturn" type="tns:SmsReturn" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="SendSMSAdvanced">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Request" type="tns:SmsRequest" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="SmsRequest">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Licensekey" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="ScheduledTime" type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1" name="Response" type="s:boolean" />
+					<s:element minOccurs="0" maxOccurs="1" name="ResponsePostURL" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="SendSMSAdvancedResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="SendSMSAdvancedResult" type="tns:SmsReturn" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendMultipleSMSAdvanced">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Request" type="tns:ArrayOfSmsRequest" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfSmsRequest">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="SmsRequest" type="tns:SmsRequest" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="SendMultipleSMSAdvancedResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SendMultipleSMSAdvancedResult" type="tns:ArrayOfSmsReturn" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetSMSStatus">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="TextID" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetSMSStatusResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetSMSStatusResult" type="tns:SmsReturn" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetSMSResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="TextID" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetSMSResponseResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetSMSResponseResult" type="tns:ArrayOfSmsResponse" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfSmsResponse">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="SmsResponse" type="tns:SmsResponse" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="SmsResponse">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="ResponseID" type="s:unsignedLong" />
+					<s:element minOccurs="1" maxOccurs="1" name="TextID" type="s:unsignedLong" />
+					<s:element minOccurs="1" maxOccurs="1" name="StatusCode" type="s:unsignedByte" />
+					<s:element minOccurs="0" maxOccurs="1" name="ReceivedDate" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="SmsReturn" type="tns:SmsReturn" />
+			<s:element name="ArrayOfSmsReturn" nillable="true" type="tns:ArrayOfSmsReturn" />
+			<s:element name="ArrayOfSmsResponse" nillable="true" type="tns:ArrayOfSmsResponse" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="SendSMSBasicSoapIn">
+		<wsdl:part name="parameters" element="tns:SendSMSBasic" />
+	</wsdl:message>
+	<wsdl:message name="SendSMSBasicSoapOut">
+		<wsdl:part name="parameters" element="tns:SendSMSBasicResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendMultipleSMSBasicSoapIn">
+		<wsdl:part name="parameters" element="tns:SendMultipleSMSBasic" />
+	</wsdl:message>
+	<wsdl:message name="SendMultipleSMSBasicSoapOut">
+		<wsdl:part name="parameters" element="tns:SendMultipleSMSBasicResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendSMSAdvancedSoapIn">
+		<wsdl:part name="parameters" element="tns:SendSMSAdvanced" />
+	</wsdl:message>
+	<wsdl:message name="SendSMSAdvancedSoapOut">
+		<wsdl:part name="parameters" element="tns:SendSMSAdvancedResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendMultipleSMSAdvancedSoapIn">
+		<wsdl:part name="parameters" element="tns:SendMultipleSMSAdvanced" />
+	</wsdl:message>
+	<wsdl:message name="SendMultipleSMSAdvancedSoapOut">
+		<wsdl:part name="parameters" element="tns:SendMultipleSMSAdvancedResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetSMSStatusSoapIn">
+		<wsdl:part name="parameters" element="tns:GetSMSStatus" />
+	</wsdl:message>
+	<wsdl:message name="GetSMSStatusSoapOut">
+		<wsdl:part name="parameters" element="tns:GetSMSStatusResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetSMSResponseSoapIn">
+		<wsdl:part name="parameters" element="tns:GetSMSResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetSMSResponseSoapOut">
+		<wsdl:part name="parameters" element="tns:GetSMSResponseResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendSMSBasicHttpGetIn">
+		<wsdl:part name="PhoneNumber" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Message" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SendSMSBasicHttpGetOut">
+		<wsdl:part name="Body" element="tns:SmsReturn" />
+	</wsdl:message>
+	<wsdl:message name="SendMultipleSMSBasicHttpGetIn">
+		<wsdl:part name="PhoneNumbers" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Message" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SendMultipleSMSBasicHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfSmsReturn" />
+	</wsdl:message>
+	<wsdl:message name="GetSMSStatusHttpGetIn">
+		<wsdl:part name="TextID" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetSMSStatusHttpGetOut">
+		<wsdl:part name="Body" element="tns:SmsReturn" />
+	</wsdl:message>
+	<wsdl:message name="GetSMSResponseHttpGetIn">
+		<wsdl:part name="TextID" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetSMSResponseHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfSmsResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendSMSBasicHttpPostIn">
+		<wsdl:part name="PhoneNumber" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Message" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SendSMSBasicHttpPostOut">
+		<wsdl:part name="Body" element="tns:SmsReturn" />
+	</wsdl:message>
+	<wsdl:message name="SendMultipleSMSBasicHttpPostIn">
+		<wsdl:part name="PhoneNumbers" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+		<wsdl:part name="Message" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SendMultipleSMSBasicHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfSmsReturn" />
+	</wsdl:message>
+	<wsdl:message name="GetSMSStatusHttpPostIn">
+		<wsdl:part name="TextID" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetSMSStatusHttpPostOut">
+		<wsdl:part name="Body" element="tns:SmsReturn" />
+	</wsdl:message>
+	<wsdl:message name="GetSMSResponseHttpPostIn">
+		<wsdl:part name="TextID" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetSMSResponseHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfSmsResponse" />
+	</wsdl:message>
+	<wsdl:portType name="SMSSoap">
+		<wsdl:operation name="SendSMSBasic">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This is the most basic of SMS Notify! This allows you to insert a
+				single PhoneNumber and a message to send out to your customers. This Web Method is available for Demo (License Key
+				value of 0, International Demos are not allowed, Please contact us for more information.</wsdl:documentation>
+			<wsdl:input message="tns:SendSMSBasicSoapIn" />
+			<wsdl:output message="tns:SendSMSBasicSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendMultipleSMSBasic">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method allows for multiple text messages without the need to
+				repeatedly calling SendSMSBasic. Demo is not allowed.</wsdl:documentation>
+			<wsdl:input message="tns:SendMultipleSMSBasicSoapIn" />
+			<wsdl:output message="tns:SendMultipleSMSBasicSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendSMSAdvanced">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends out an SMS Message that also allows user to usemore advanced
+				properties. Demo is not allowed.</wsdl:documentation>
+			<wsdl:input message="tns:SendSMSAdvancedSoapIn" />
+			<wsdl:output message="tns:SendSMSAdvancedSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendMultipleSMSAdvanced">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This advance method allows for multiple text messages without the
+				need to repeatedly calling SendSMSAdvanced. Demo not allowed.</wsdl:documentation>
+			<wsdl:input message="tns:SendMultipleSMSAdvancedSoapIn" />
+			<wsdl:output message="tns:SendMultipleSMSAdvancedSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSMSStatus">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the Status of the SMS Message that you may have previously
+				sent, provided that you have the Identification number of that Text Message</wsdl:documentation>
+			<wsdl:input message="tns:GetSMSStatusSoapIn" />
+			<wsdl:output message="tns:GetSMSStatusSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSMSResponse">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Views the Response of the TextID</wsdl:documentation>
+			<wsdl:input message="tns:GetSMSResponseSoapIn" />
+			<wsdl:output message="tns:GetSMSResponseSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="SMSHttpGet">
+		<wsdl:operation name="SendSMSBasic">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This is the most basic of SMS Notify! This allows you to insert a
+				single PhoneNumber and a message to send out to your customers. This Web Method is available for Demo (License Key
+				value of 0, International Demos are not allowed, Please contact us for more information.</wsdl:documentation>
+			<wsdl:input message="tns:SendSMSBasicHttpGetIn" />
+			<wsdl:output message="tns:SendSMSBasicHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendMultipleSMSBasic">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method allows for multiple text messages without the need to
+				repeatedly calling SendSMSBasic. Demo is not allowed.</wsdl:documentation>
+			<wsdl:input message="tns:SendMultipleSMSBasicHttpGetIn" />
+			<wsdl:output message="tns:SendMultipleSMSBasicHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSMSStatus">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the Status of the SMS Message that you may have previously
+				sent, provided that you have the Identification number of that Text Message</wsdl:documentation>
+			<wsdl:input message="tns:GetSMSStatusHttpGetIn" />
+			<wsdl:output message="tns:GetSMSStatusHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSMSResponse">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Views the Response of the TextID</wsdl:documentation>
+			<wsdl:input message="tns:GetSMSResponseHttpGetIn" />
+			<wsdl:output message="tns:GetSMSResponseHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="SMSHttpPost">
+		<wsdl:operation name="SendSMSBasic">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This is the most basic of SMS Notify! This allows you to insert a
+				single PhoneNumber and a message to send out to your customers. This Web Method is available for Demo (License Key
+				value of 0, International Demos are not allowed, Please contact us for more information.</wsdl:documentation>
+			<wsdl:input message="tns:SendSMSBasicHttpPostIn" />
+			<wsdl:output message="tns:SendSMSBasicHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendMultipleSMSBasic">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method allows for multiple text messages without the need to
+				repeatedly calling SendSMSBasic. Demo is not allowed.</wsdl:documentation>
+			<wsdl:input message="tns:SendMultipleSMSBasicHttpPostIn" />
+			<wsdl:output message="tns:SendMultipleSMSBasicHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSMSStatus">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the Status of the SMS Message that you may have previously
+				sent, provided that you have the Identification number of that Text Message</wsdl:documentation>
+			<wsdl:input message="tns:GetSMSStatusHttpPostIn" />
+			<wsdl:output message="tns:GetSMSStatusHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSMSResponse">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Views the Response of the TextID</wsdl:documentation>
+			<wsdl:input message="tns:GetSMSResponseHttpPostIn" />
+			<wsdl:output message="tns:GetSMSResponseHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="SMSSoap" type="tns:SMSSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="SendSMSBasic">
+			<soap:operation soapAction="http://ws.cdyne.com/SmsWS/SendSMSBasic" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMultipleSMSBasic">
+			<soap:operation soapAction="http://ws.cdyne.com/SmsWS/SendMultipleSMSBasic" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendSMSAdvanced">
+			<soap:operation soapAction="http://ws.cdyne.com/SmsWS/SendSMSAdvanced" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMultipleSMSAdvanced">
+			<soap:operation soapAction="http://ws.cdyne.com/SmsWS/SendMultipleSMSAdvanced" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSMSStatus">
+			<soap:operation soapAction="http://ws.cdyne.com/SmsWS/GetSMSStatus" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSMSResponse">
+			<soap:operation soapAction="http://ws.cdyne.com/SmsWS/GetSMSResponse" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="SMSSoap12" type="tns:SMSSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="SendSMSBasic">
+			<soap12:operation soapAction="http://ws.cdyne.com/SmsWS/SendSMSBasic" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMultipleSMSBasic">
+			<soap12:operation soapAction="http://ws.cdyne.com/SmsWS/SendMultipleSMSBasic" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendSMSAdvanced">
+			<soap12:operation soapAction="http://ws.cdyne.com/SmsWS/SendSMSAdvanced" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMultipleSMSAdvanced">
+			<soap12:operation soapAction="http://ws.cdyne.com/SmsWS/SendMultipleSMSAdvanced" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSMSStatus">
+			<soap12:operation soapAction="http://ws.cdyne.com/SmsWS/GetSMSStatus" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSMSResponse">
+			<soap12:operation soapAction="http://ws.cdyne.com/SmsWS/GetSMSResponse" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="SMSHttpGet" type="tns:SMSHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="SendSMSBasic">
+			<http:operation location="/SendSMSBasic" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMultipleSMSBasic">
+			<http:operation location="/SendMultipleSMSBasic" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSMSStatus">
+			<http:operation location="/GetSMSStatus" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSMSResponse">
+			<http:operation location="/GetSMSResponse" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="SMSHttpPost" type="tns:SMSHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="SendSMSBasic">
+			<http:operation location="/SendSMSBasic" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMultipleSMSBasic">
+			<http:operation location="/SendMultipleSMSBasic" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSMSStatus">
+			<http:operation location="/GetSMSStatus" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSMSResponse">
+			<http:operation location="/GetSMSResponse" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="SMS">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">A reminder about abuse: &lt;b&gt;Threats and illegal activity can be
+			shared with the authorities.&lt;/b&gt;&lt;br /&gt;&lt;br /&gt; Please Refer to our &lt;a
+			href='http://wiki.cdyne.com/wiki/index.php?title=SMS_Notify%21'&gt;Wiki&lt;/a&gt; for international calling, and
+			pricing. &lt;br /&gt;</wsdl:documentation>
+		<wsdl:port name="SMSSoap" binding="tns:SMSSoap">
+			<soap:address location="http://ws.cdyne.com/SmsWS/SMS.asmx" />
+		</wsdl:port>
+		<wsdl:port name="SMSSoap12" binding="tns:SMSSoap12">
+			<soap12:address location="http://ws.cdyne.com/SmsWS/SMS.asmx" />
+		</wsdl:port>
+		<wsdl:port name="SMSHttpGet" binding="tns:SMSHttpGet">
+			<http:address location="http://ws.cdyne.com/SmsWS/SMS.asmx" />
+		</wsdl:port>
+		<wsdl:port name="SMSHttpPost" binding="tns:SMSHttpPost">
+			<http:address location="http://ws.cdyne.com/SmsWS/SMS.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

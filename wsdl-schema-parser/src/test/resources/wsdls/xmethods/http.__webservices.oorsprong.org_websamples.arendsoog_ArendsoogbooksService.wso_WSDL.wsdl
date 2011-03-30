@@ -1,1 +1,328 @@
-<?xml version="1.0" encoding="UTF-8"?><definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.oorsprong.org/" name="ArendsoogBooksService" targetNamespace="http://www.oorsprong.org/">  <types>    <xs:schema elementFormDefault="qualified" targetNamespace="http://www.oorsprong.org/">      <xs:complexType name="tBookTitlesByAuthor">        <xs:sequence>          <xs:element name="sAuthorName" type="xs:string"/>          <xs:element name="sTitles" type="tns:ArrayOfString"/>        </xs:sequence>      </xs:complexType>      <xs:complexType name="tBooksInfo">        <xs:sequence>          <xs:element name="iBookNumber" type="xs:int"/>          <xs:element name="sTitle" type="xs:string"/>          <xs:element name="sDescription" type="xs:string"/>          <xs:element name="sISBN" type="xs:string"/>          <xs:element name="sDrawingsBy" type="xs:string"/>          <xs:element name="sCoverBy" type="xs:string"/>          <xs:element name="sAuthorName" type="xs:string"/>          <xs:element name="sCoverPhotoPath" type="xs:string"/>        </xs:sequence>      </xs:complexType>      <xs:complexType name="ArrayOfString">        <xs:sequence>          <xs:element name="string" type="xs:string" minOccurs="0" maxOccurs="unbounded" nillable="true"/>        </xs:sequence>      </xs:complexType>      <xs:complexType name="ArrayOftBookTitlesByAuthor">        <xs:sequence>          <xs:element name="tBookTitlesByAuthor" type="tns:tBookTitlesByAuthor" minOccurs="0" maxOccurs="unbounded" nillable="true"/>        </xs:sequence>      </xs:complexType>      <xs:complexType name="ArrayOftBooksInfo">        <xs:sequence>          <xs:element name="tBooksInfo" type="tns:tBooksInfo" minOccurs="0" maxOccurs="unbounded" nillable="true"/>        </xs:sequence>      </xs:complexType>      <xs:element name="BooktitleByISBN">        <xs:complexType>          <xs:sequence>            <xs:element name="sISBN" type="xs:string"/>          </xs:sequence>        </xs:complexType>      </xs:element>      <xs:element name="BooktitleByISBNResponse">        <xs:complexType>          <xs:sequence>            <xs:element name="BooktitleByISBNResult" type="xs:string"/>          </xs:sequence>        </xs:complexType>      </xs:element>      <xs:element name="Booktitles">        <xs:complexType>          <xs:sequence/>        </xs:complexType>      </xs:element>      <xs:element name="BooktitlesResponse">        <xs:complexType>          <xs:sequence>            <xs:element name="BooktitlesResult" type="tns:ArrayOfString"/>          </xs:sequence>        </xs:complexType>      </xs:element>      <xs:element name="BookTitlesGroupedByAuthor">        <xs:complexType>          <xs:sequence/>        </xs:complexType>      </xs:element>      <xs:element name="BookTitlesGroupedByAuthorResponse">        <xs:complexType>          <xs:sequence>            <xs:element name="BookTitlesGroupedByAuthorResult" type="tns:ArrayOftBookTitlesByAuthor"/>          </xs:sequence>        </xs:complexType>      </xs:element>      <xs:element name="BookDescription">        <xs:complexType>          <xs:sequence>            <xs:element name="iBookNumber" type="xs:int"/>          </xs:sequence>        </xs:complexType>      </xs:element>      <xs:element name="BookDescriptionResponse">        <xs:complexType>          <xs:sequence>            <xs:element name="BookDescriptionResult" type="xs:string"/>          </xs:sequence>        </xs:complexType>      </xs:element>      <xs:element name="BooksInfo">        <xs:complexType>          <xs:sequence/>        </xs:complexType>      </xs:element>      <xs:element name="BooksInfoResponse">        <xs:complexType>          <xs:sequence>            <xs:element name="BooksInfoResult" type="tns:ArrayOftBooksInfo"/>          </xs:sequence>        </xs:complexType>      </xs:element>      <xs:element name="AuthorsList">        <xs:complexType>          <xs:sequence>            <xs:element name="sType" type="xs:string"/>          </xs:sequence>        </xs:complexType>      </xs:element>      <xs:element name="AuthorsListResponse">        <xs:complexType>          <xs:sequence>            <xs:element name="AuthorsListResult" type="tns:ArrayOfString"/>          </xs:sequence>        </xs:complexType>      </xs:element>      <xs:element name="BookTitlesByAuthor">        <xs:complexType>          <xs:sequence>            <xs:element name="sName" type="xs:string"/>            <xs:element name="eType" type="xs:int"/>          </xs:sequence>        </xs:complexType>      </xs:element>      <xs:element name="BookTitlesByAuthorResponse">        <xs:complexType>          <xs:sequence>            <xs:element name="BookTitlesByAuthorResult" type="tns:ArrayOfString"/>          </xs:sequence>        </xs:complexType>      </xs:element>      <xs:element name="SearchBookDescriptions">        <xs:complexType>          <xs:sequence>            <xs:element name="sWord" type="xs:string"/>            <xs:element name="bCaseInSensitive" type="xs:boolean"/>          </xs:sequence>        </xs:complexType>      </xs:element>      <xs:element name="SearchBookDescriptionsResponse">        <xs:complexType>          <xs:sequence>            <xs:element name="SearchBookDescriptionsResult" type="tns:ArrayOftBooksInfo"/>          </xs:sequence>        </xs:complexType>      </xs:element>    </xs:schema>  </types>  <message name="BooktitleByISBNSoapRequest">    <part name="parameters" element="tns:BooktitleByISBN"/>  </message>  <message name="BooktitleByISBNSoapResponse">    <part name="parameters" element="tns:BooktitleByISBNResponse"/>  </message>  <message name="BooktitlesSoapRequest">    <part name="parameters" element="tns:Booktitles"/>  </message>  <message name="BooktitlesSoapResponse">    <part name="parameters" element="tns:BooktitlesResponse"/>  </message>  <message name="BookTitlesGroupedByAuthorSoapRequest">    <part name="parameters" element="tns:BookTitlesGroupedByAuthor"/>  </message>  <message name="BookTitlesGroupedByAuthorSoapResponse">    <part name="parameters" element="tns:BookTitlesGroupedByAuthorResponse"/>  </message>  <message name="BookDescriptionSoapRequest">    <part name="parameters" element="tns:BookDescription"/>  </message>  <message name="BookDescriptionSoapResponse">    <part name="parameters" element="tns:BookDescriptionResponse"/>  </message>  <message name="BooksInfoSoapRequest">    <part name="parameters" element="tns:BooksInfo"/>  </message>  <message name="BooksInfoSoapResponse">    <part name="parameters" element="tns:BooksInfoResponse"/>  </message>  <message name="AuthorsListSoapRequest">    <part name="parameters" element="tns:AuthorsList"/>  </message>  <message name="AuthorsListSoapResponse">    <part name="parameters" element="tns:AuthorsListResponse"/>  </message>  <message name="BookTitlesByAuthorSoapRequest">    <part name="parameters" element="tns:BookTitlesByAuthor"/>  </message>  <message name="BookTitlesByAuthorSoapResponse">    <part name="parameters" element="tns:BookTitlesByAuthorResponse"/>  </message>  <message name="SearchBookDescriptionsSoapRequest">    <part name="parameters" element="tns:SearchBookDescriptions"/>  </message>  <message name="SearchBookDescriptionsSoapResponse">    <part name="parameters" element="tns:SearchBookDescriptionsResponse"/>  </message>  <portType name="ArendsoogBooksServiceSoapType">    <operation name="BooktitleByISBN">      <documentation>Returns the title of a book based on the ISBN Number, if found in the serie.</documentation>      <input message="tns:BooktitleByISBNSoapRequest"/>      <output message="tns:BooktitleByISBNSoapResponse"/>    </operation>    <operation name="Booktitles">      <documentation>Returns an array of all booktitles.</documentation>      <input message="tns:BooktitlesSoapRequest"/>      <output message="tns:BooktitlesSoapResponse"/>    </operation>    <operation name="BookTitlesGroupedByAuthor">      <documentation>Returns an array of booktitles grouped by author</documentation>      <input message="tns:BookTitlesGroupedByAuthorSoapRequest"/>      <output message="tns:BookTitlesGroupedByAuthorSoapResponse"/>    </operation>    <operation name="BookDescription">      <documentation>Returns the description for a given book</documentation>      <input message="tns:BookDescriptionSoapRequest"/>      <output message="tns:BookDescriptionSoapResponse"/>    </operation>    <operation name="BooksInfo">      <documentation>Returns an array of bookinformation</documentation>      <input message="tns:BooksInfoSoapRequest"/>      <output message="tns:BooksInfoSoapResponse"/>    </operation>    <operation name="AuthorsList">      <documentation>List of authors for the passed type. Type can be 'T', 'S' or nothing (for complete list)</documentation>      <input message="tns:AuthorsListSoapRequest"/>      <output message="tns:AuthorsListSoapResponse"/>    </operation>    <operation name="BookTitlesByAuthor">      <documentation>Get a list of book titles for the passed author. The authorname must be one of the existing names, use AuthorsList to get the correct names. The type parameter indicates whether you want to select on writer (0), illustrations author (1) or cover drawings author (2).</documentation>      <input message="tns:BookTitlesByAuthorSoapRequest"/>      <output message="tns:BookTitlesByAuthorSoapResponse"/>    </operation>    <operation name="SearchBookDescriptions">      <documentation>Search the book descriptions for a certain word. The boolean parameter will be used to make the search case insensitive. Returns an array of books that match the search.</documentation>      <input message="tns:SearchBookDescriptionsSoapRequest"/>      <output message="tns:SearchBookDescriptionsSoapResponse"/>    </operation>  </portType>  <binding name="ArendsoogBooksServiceSoapBinding" type="tns:ArendsoogBooksServiceSoapType">    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>    <operation name="BooktitleByISBN">      <soap:operation soapAction="" style="document"/>      <input>        <soap:body use="literal"/>      </input>      <output>        <soap:body use="literal"/>      </output>    </operation>    <operation name="Booktitles">      <soap:operation soapAction="" style="document"/>      <input>        <soap:body use="literal"/>      </input>      <output>        <soap:body use="literal"/>      </output>    </operation>    <operation name="BookTitlesGroupedByAuthor">      <soap:operation soapAction="" style="document"/>      <input>        <soap:body use="literal"/>      </input>      <output>        <soap:body use="literal"/>      </output>    </operation>    <operation name="BookDescription">      <soap:operation soapAction="" style="document"/>      <input>        <soap:body use="literal"/>      </input>      <output>        <soap:body use="literal"/>      </output>    </operation>    <operation name="BooksInfo">      <soap:operation soapAction="" style="document"/>      <input>        <soap:body use="literal"/>      </input>      <output>        <soap:body use="literal"/>      </output>    </operation>    <operation name="AuthorsList">      <soap:operation soapAction="" style="document"/>      <input>        <soap:body use="literal"/>      </input>      <output>        <soap:body use="literal"/>      </output>    </operation>    <operation name="BookTitlesByAuthor">      <soap:operation soapAction="" style="document"/>      <input>        <soap:body use="literal"/>      </input>      <output>        <soap:body use="literal"/>      </output>    </operation>    <operation name="SearchBookDescriptions">      <soap:operation soapAction="" style="document"/>      <input>        <soap:body use="literal"/>      </input>      <output>        <soap:body use="literal"/>      </output>    </operation>  </binding>  <service name="ArendsoogBooksService">    <documentation>This webservice is created with Visual DataFlex Web. It contains information about the a Dutch book series called Arendsoog. The 64 books were published between 1934 and 1995. The books are mainly written in Dutch, the titles and detail information will be in Dutch.</documentation>    <port name="ArendsoogBooksServiceSoap" binding="tns:ArendsoogBooksServiceSoapBinding">      <soap:address location="http://webservices.oorsprong.org/websamples.arendsoog/ArendsoogbooksService.wso"/>    </port>  </service></definitions>
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.oorsprong.org/" name="ArendsoogBooksService"
+	targetNamespace="http://www.oorsprong.org/">
+	<types>
+		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.oorsprong.org/">
+			<xs:complexType name="tBookTitlesByAuthor">
+				<xs:sequence>
+					<xs:element name="sAuthorName" type="xs:string" />
+					<xs:element name="sTitles" type="tns:ArrayOfString" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="tBooksInfo">
+				<xs:sequence>
+					<xs:element name="iBookNumber" type="xs:int" />
+					<xs:element name="sTitle" type="xs:string" />
+					<xs:element name="sDescription" type="xs:string" />
+					<xs:element name="sISBN" type="xs:string" />
+					<xs:element name="sDrawingsBy" type="xs:string" />
+					<xs:element name="sCoverBy" type="xs:string" />
+					<xs:element name="sAuthorName" type="xs:string" />
+					<xs:element name="sCoverPhotoPath" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="ArrayOfString">
+				<xs:sequence>
+					<xs:element name="string" type="xs:string" minOccurs="0" maxOccurs="unbounded" nillable="true" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="ArrayOftBookTitlesByAuthor">
+				<xs:sequence>
+					<xs:element name="tBookTitlesByAuthor" type="tns:tBookTitlesByAuthor" minOccurs="0" maxOccurs="unbounded"
+						nillable="true" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="ArrayOftBooksInfo">
+				<xs:sequence>
+					<xs:element name="tBooksInfo" type="tns:tBooksInfo" minOccurs="0" maxOccurs="unbounded" nillable="true" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="BooktitleByISBN">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="sISBN" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BooktitleByISBNResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="BooktitleByISBNResult" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Booktitles">
+				<xs:complexType>
+					<xs:sequence />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BooktitlesResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="BooktitlesResult" type="tns:ArrayOfString" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BookTitlesGroupedByAuthor">
+				<xs:complexType>
+					<xs:sequence />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BookTitlesGroupedByAuthorResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="BookTitlesGroupedByAuthorResult" type="tns:ArrayOftBookTitlesByAuthor" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BookDescription">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="iBookNumber" type="xs:int" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BookDescriptionResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="BookDescriptionResult" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BooksInfo">
+				<xs:complexType>
+					<xs:sequence />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BooksInfoResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="BooksInfoResult" type="tns:ArrayOftBooksInfo" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AuthorsList">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="sType" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AuthorsListResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AuthorsListResult" type="tns:ArrayOfString" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BookTitlesByAuthor">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="sName" type="xs:string" />
+						<xs:element name="eType" type="xs:int" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BookTitlesByAuthorResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="BookTitlesByAuthorResult" type="tns:ArrayOfString" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SearchBookDescriptions">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="sWord" type="xs:string" />
+						<xs:element name="bCaseInSensitive" type="xs:boolean" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SearchBookDescriptionsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SearchBookDescriptionsResult" type="tns:ArrayOftBooksInfo" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</types>
+	<message name="BooktitleByISBNSoapRequest">
+		<part name="parameters" element="tns:BooktitleByISBN" />
+	</message>
+	<message name="BooktitleByISBNSoapResponse">
+		<part name="parameters" element="tns:BooktitleByISBNResponse" />
+	</message>
+	<message name="BooktitlesSoapRequest">
+		<part name="parameters" element="tns:Booktitles" />
+	</message>
+	<message name="BooktitlesSoapResponse">
+		<part name="parameters" element="tns:BooktitlesResponse" />
+	</message>
+	<message name="BookTitlesGroupedByAuthorSoapRequest">
+		<part name="parameters" element="tns:BookTitlesGroupedByAuthor" />
+	</message>
+	<message name="BookTitlesGroupedByAuthorSoapResponse">
+		<part name="parameters" element="tns:BookTitlesGroupedByAuthorResponse" />
+	</message>
+	<message name="BookDescriptionSoapRequest">
+		<part name="parameters" element="tns:BookDescription" />
+	</message>
+	<message name="BookDescriptionSoapResponse">
+		<part name="parameters" element="tns:BookDescriptionResponse" />
+	</message>
+	<message name="BooksInfoSoapRequest">
+		<part name="parameters" element="tns:BooksInfo" />
+	</message>
+	<message name="BooksInfoSoapResponse">
+		<part name="parameters" element="tns:BooksInfoResponse" />
+	</message>
+	<message name="AuthorsListSoapRequest">
+		<part name="parameters" element="tns:AuthorsList" />
+	</message>
+	<message name="AuthorsListSoapResponse">
+		<part name="parameters" element="tns:AuthorsListResponse" />
+	</message>
+	<message name="BookTitlesByAuthorSoapRequest">
+		<part name="parameters" element="tns:BookTitlesByAuthor" />
+	</message>
+	<message name="BookTitlesByAuthorSoapResponse">
+		<part name="parameters" element="tns:BookTitlesByAuthorResponse" />
+	</message>
+	<message name="SearchBookDescriptionsSoapRequest">
+		<part name="parameters" element="tns:SearchBookDescriptions" />
+	</message>
+	<message name="SearchBookDescriptionsSoapResponse">
+		<part name="parameters" element="tns:SearchBookDescriptionsResponse" />
+	</message>
+	<portType name="ArendsoogBooksServiceSoapType">
+		<operation name="BooktitleByISBN">
+			<documentation>Returns the title of a book based on the ISBN Number, if found in the serie.</documentation>
+			<input message="tns:BooktitleByISBNSoapRequest" />
+			<output message="tns:BooktitleByISBNSoapResponse" />
+		</operation>
+		<operation name="Booktitles">
+			<documentation>Returns an array of all booktitles.</documentation>
+			<input message="tns:BooktitlesSoapRequest" />
+			<output message="tns:BooktitlesSoapResponse" />
+		</operation>
+		<operation name="BookTitlesGroupedByAuthor">
+			<documentation>Returns an array of booktitles grouped by author</documentation>
+			<input message="tns:BookTitlesGroupedByAuthorSoapRequest" />
+			<output message="tns:BookTitlesGroupedByAuthorSoapResponse" />
+		</operation>
+		<operation name="BookDescription">
+			<documentation>Returns the description for a given book</documentation>
+			<input message="tns:BookDescriptionSoapRequest" />
+			<output message="tns:BookDescriptionSoapResponse" />
+		</operation>
+		<operation name="BooksInfo">
+			<documentation>Returns an array of bookinformation</documentation>
+			<input message="tns:BooksInfoSoapRequest" />
+			<output message="tns:BooksInfoSoapResponse" />
+		</operation>
+		<operation name="AuthorsList">
+			<documentation>List of authors for the passed type. Type can be 'T', 'S' or nothing (for complete list)
+			</documentation>
+			<input message="tns:AuthorsListSoapRequest" />
+			<output message="tns:AuthorsListSoapResponse" />
+		</operation>
+		<operation name="BookTitlesByAuthor">
+			<documentation>Get a list of book titles for the passed author. The authorname must be one of the existing names, use
+				AuthorsList to get the correct names. The type parameter indicates whether you want to select on writer (0),
+				illustrations author (1) or cover drawings author (2).</documentation>
+			<input message="tns:BookTitlesByAuthorSoapRequest" />
+			<output message="tns:BookTitlesByAuthorSoapResponse" />
+		</operation>
+		<operation name="SearchBookDescriptions">
+			<documentation>Search the book descriptions for a certain word. The boolean parameter will be used to make the search
+				case insensitive. Returns an array of books that match the search.</documentation>
+			<input message="tns:SearchBookDescriptionsSoapRequest" />
+			<output message="tns:SearchBookDescriptionsSoapResponse" />
+		</operation>
+	</portType>
+	<binding name="ArendsoogBooksServiceSoapBinding" type="tns:ArendsoogBooksServiceSoapType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="BooktitleByISBN">
+			<soap:operation soapAction="" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="Booktitles">
+			<soap:operation soapAction="" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="BookTitlesGroupedByAuthor">
+			<soap:operation soapAction="" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="BookDescription">
+			<soap:operation soapAction="" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="BooksInfo">
+			<soap:operation soapAction="" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="AuthorsList">
+			<soap:operation soapAction="" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="BookTitlesByAuthor">
+			<soap:operation soapAction="" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="SearchBookDescriptions">
+			<soap:operation soapAction="" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="ArendsoogBooksService">
+		<documentation>This webservice is created with Visual DataFlex Web. It contains information about the a Dutch book
+			series called Arendsoog. The 64 books were published between 1934 and 1995. The books are mainly written in Dutch,
+			the titles and detail information will be in Dutch.</documentation>
+		<port name="ArendsoogBooksServiceSoap" binding="tns:ArendsoogBooksServiceSoapBinding">
+			<soap:address location="http://webservices.oorsprong.org/websamples.arendsoog/ArendsoogbooksService.wso" />
+		</port>
+	</service>
+</definitions>

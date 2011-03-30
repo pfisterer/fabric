@@ -1,1 +1,75 @@
-<?xml version="1.0" encoding="ISO-8859-1"?><definitions name="BaseService" targetNamespace="http://webservices" xmlns:tns="http://webservices" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/">  <types>    <xsd:schema elementFormDefault="qualified" targetNamespace="http://webservices">          <xsd:element name="InputType">        <xsd:complexType>          <xsd:sequence>            <xsd:element name="Cash_Pct" type="xsd:double" minOccurs="0" maxOccurs="1" />            <xsd:element name="Bonds_Pct" type="xsd:double" minOccurs="0" maxOccurs="1" />            <xsd:element name="Large_Cap_Pct" type="xsd:double" minOccurs="0" maxOccurs="1" />            <xsd:element name="Small_Cap_Pct" type="xsd:double" minOccurs="0" maxOccurs="1" />            <xsd:element name="International_Pct" type="xsd:double" minOccurs="0" maxOccurs="1" />            <xsd:element name="Years_to_Hold_Investment" type="xsd:double" minOccurs="0" maxOccurs="1" />            <xsd:element name="Current_Inflation" type="xsd:double" minOccurs="0" maxOccurs="1" />            <xsd:element name="Inflation_Average" type="xsd:double" minOccurs="0" maxOccurs="1" />            <xsd:element name="Inflation_Std_Dev" type="xsd:double" minOccurs="0" maxOccurs="1" />            <xsd:element name="Inflation_Autocorrelation" type="xsd:double" minOccurs="0" maxOccurs="1" />          </xsd:sequence>        </xsd:complexType>      </xsd:element>      <xsd:element name="OutputType">        <xsd:complexType>          <xsd:sequence>            <xsd:element name="OutputData" type="tns:OutputData" />          </xsd:sequence>        </xsd:complexType>      </xsd:element>      <xsd:complexType name="OutputData">        <xsd:sequence>          <xsd:element name="Total_Return" type="xsd:double" maxOccurs="1" />        </xsd:sequence>      </xsd:complexType>    </xsd:schema>  </types>  <message name="InputMessage">    <part name="parameters" element="tns:InputType" />  </message>  <message name="OutputMessage">    <part name="parameters" element="tns:OutputType" />  </message>  <portType name="ServicePortType">    <operation name="Portfolio%20Simulation">      <input message="tns:InputMessage" />      <output message="tns:OutputMessage" />    </operation>  </portType>  <binding name="ServiceBinding" type="tns:ServicePortType">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <operation name="Portfolio%20Simulation">      <soap:operation soapAction="" />      <input>        <soap:body use="literal" />      </input>      <output>        <soap:body use="literal" />      </output>    </operation>  </binding>  <service name="Portfolio%20Simulation">    <documentation>Overview: Portfolio SimulationThis model uses Monte Carlo simulation to calculate the range of returns that is expected for a portfolio of investments. The investment portfolio is broken down into five asset classes (cash, bonds, small cap stocks, large cap stocks, and international stocks).  The table named Returns contains the average real (net of inflation) returns and standard deviation of real returns for each asset class.  The table Cormat contains a correlation matrix specifying the rank correlation between returns in each asset class. The input tables contain real return parameters.  The nominal return, standard deviation of return and correlation factors are all slightly higher than shown in these tables because all nominal returns are a function of Inflation. Inflation is modeled using autocorrelation.  That is, the inflation in any year is correlated with the inflation in the previous year.  The inflation parameters used in this model represent historical inflation over the period 1950 - 2000.</documentation>    <port name="ServicePort" binding="tns:ServiceBinding">      <soap:address location="http://wiki.vanguardsw.com/bin/ws.dsb?soap/Finance/Investing/Portfolio%2520Simulation" />    </port>  </service></definitions>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions name="BaseService" targetNamespace="http://webservices" xmlns:tns="http://webservices"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<types>
+		<xsd:schema elementFormDefault="qualified" targetNamespace="http://webservices">
+			<xsd:element name="InputType">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Cash_Pct" type="xsd:double" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="Bonds_Pct" type="xsd:double" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="Large_Cap_Pct" type="xsd:double" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="Small_Cap_Pct" type="xsd:double" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="International_Pct" type="xsd:double" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="Years_to_Hold_Investment" type="xsd:double" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="Current_Inflation" type="xsd:double" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="Inflation_Average" type="xsd:double" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="Inflation_Std_Dev" type="xsd:double" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="Inflation_Autocorrelation" type="xsd:double" minOccurs="0" maxOccurs="1" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="OutputType">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="OutputData" type="tns:OutputData" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:complexType name="OutputData">
+				<xsd:sequence>
+					<xsd:element name="Total_Return" type="xsd:double" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:schema>
+	</types>
+	<message name="InputMessage">
+		<part name="parameters" element="tns:InputType" />
+	</message>
+	<message name="OutputMessage">
+		<part name="parameters" element="tns:OutputType" />
+	</message>
+	<portType name="ServicePortType">
+		<operation name="Portfolio%20Simulation">
+			<input message="tns:InputMessage" />
+			<output message="tns:OutputMessage" />
+		</operation>
+	</portType>
+	<binding name="ServiceBinding" type="tns:ServicePortType">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="Portfolio%20Simulation">
+			<soap:operation soapAction="" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="Portfolio%20Simulation">
+		<documentation>Overview: Portfolio SimulationThis model uses Monte Carlo simulation to calculate the range of returns
+			that is expected for a portfolio of investments. The investment portfolio is broken down into five asset classes
+			(cash, bonds, small cap stocks, large cap stocks, and international stocks). The table named Returns contains the
+			average real (net of inflation) returns and standard deviation of real returns for each asset class. The table Cormat
+			contains a correlation matrix specifying the rank correlation between returns in each asset class. The input tables
+			contain real return parameters. The nominal return, standard deviation of return and correlation factors are all
+			slightly higher than shown in these tables because all nominal returns are a function of Inflation. Inflation is
+			modeled using autocorrelation. That is, the inflation in any year is correlated with the inflation in the previous
+			year. The inflation parameters used in this model represent historical inflation over the period 1950 - 2000.
+		</documentation>
+		<port name="ServicePort" binding="tns:ServiceBinding">
+			<soap:address location="http://wiki.vanguardsw.com/bin/ws.dsb?soap/Finance/Investing/Portfolio%2520Simulation" />
+		</port>
+	</service>
+</definitions>
