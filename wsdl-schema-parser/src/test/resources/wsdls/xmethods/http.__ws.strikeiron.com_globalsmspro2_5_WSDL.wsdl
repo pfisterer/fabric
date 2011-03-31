@@ -1,1 +1,367 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.strikeiron.com" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.strikeiron.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.strikeiron.com">      <s:element name="SendMessage">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ToNumber" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="FromNumber" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="FromName" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="MessageText" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendMessageResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SendMessageResult" type="tns:SMSTextMessageTargetStatus" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="SMSTextMessageTargetStatus">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="ToNumber" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="TrackingTag" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="MessageStatus" type="tns:MessageStatus" />        </s:sequence>      </s:complexType>      <s:complexType name="MessageStatus">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="StatusCode" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="StatusText" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="StatusExtra" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="ResponseInfo" type="tns:ResponseInfo" />      <s:complexType name="ResponseInfo">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="ResponseCode" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Response" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="SendMessagesBulk">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ToNumbers" type="tns:ArrayOfString" />            <s:element minOccurs="0" maxOccurs="1" name="FromNumber" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="FromName" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="MessageText" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfString">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="SendMessagesBulkResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SendMessagesBulkResult" type="tns:ArrayOfSMSTextMessageTargetStatus" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfSMSTextMessageTargetStatus">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="SMSTextMessageTargetStatus" nillable="true" type="tns:SMSTextMessageTargetStatus" />        </s:sequence>      </s:complexType>      <s:element name="TrackMessage">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="TrackingTag" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="TrackMessageResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="TrackMessageResult" type="tns:SMSTextMessageTargetStatus" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="TrackMessagesBulk">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="TrackingTags" type="tns:ArrayOfString" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="TrackMessagesBulkResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="TrackMessagesBulkResult" type="tns:ArrayOfSMSTextMessageTargetStatus" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetSupportedCarriers">        <s:complexType />      </s:element>      <s:element name="GetSupportedCarriersResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetSupportedCarriersResult" type="tns:ArrayOfCarrier" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfCarrier">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Carrier" nillable="true" type="tns:Carrier" />        </s:sequence>      </s:complexType>      <s:complexType name="Carrier">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="CarrierID" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="CarrierName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="MaxTextLength" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="NetworkStandard" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="GetCountryCodes">        <s:complexType />      </s:element>      <s:element name="GetCountryCodesResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetCountryCodesResult" type="tns:ArrayOfCountryCode" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfCountryCode">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="CountryCode" nillable="true" type="tns:CountryCode" />        </s:sequence>      </s:complexType>      <s:complexType name="CountryCode">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />        </s:sequence>      </s:complexType>    </s:schema>    <xs:schema xmlns:tns1="http://ws.strikeiron.com" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://ws.strikeiron.com" xmlns:xs="http://www.w3.org/2001/XMLSchema">      <xs:element name="LicenseInfo" type="tns1:LicenseInfo" />      <xs:complexType name="LicenseInfo">        <xs:sequence>          <xs:element minOccurs="0" name="UnregisteredUser" type="tns1:UnregisteredUser" />          <xs:element minOccurs="0" name="RegisteredUser" type="tns1:RegisteredUser" />        </xs:sequence>      </xs:complexType>      <xs:complexType name="UnregisteredUser">        <xs:sequence>          <xs:element minOccurs="0" name="EmailAddress" type="xs:string" />        </xs:sequence>      </xs:complexType>      <xs:complexType name="RegisteredUser">        <xs:sequence>          <xs:element minOccurs="0" name="UserID" type="xs:string" />          <xs:element minOccurs="0" name="Password" type="xs:string" />        </xs:sequence>      </xs:complexType>      <xs:element name="SubscriptionInfo" type="tns1:SubscriptionInfo" />      <xs:complexType name="SubscriptionInfo">        <xs:sequence>          <xs:element name="LicenseStatusCode" type="xs:int" />          <xs:element minOccurs="0" name="LicenseStatus" type="xs:string" />          <xs:element name="LicenseActionCode" type="xs:int" />          <xs:element minOccurs="0" name="LicenseAction" type="xs:string" />          <xs:element name="RemainingHits" type="xs:int" />          <xs:element name="Amount" type="xs:decimal" />        </xs:sequence>      </xs:complexType>      <xs:element name="GetRemainingHits">        <xs:complexType />      </xs:element>      <xs:element name="GetRemainingHitsResponse">        <xs:complexType />      </xs:element>    </xs:schema>  </wsdl:types>  <wsdl:message name="SendMessageSoapIn">    <wsdl:part name="parameters" element="tns:SendMessage" />  </wsdl:message>  <wsdl:message name="SendMessageSoapOut">    <wsdl:part name="parameters" element="tns:SendMessageResponse" />  </wsdl:message>  <wsdl:message name="SendMessageResponseInfo">    <wsdl:part name="ResponseInfo" element="tns:ResponseInfo" />  </wsdl:message>  <wsdl:message name="SendMessagesBulkSoapIn">    <wsdl:part name="parameters" element="tns:SendMessagesBulk" />  </wsdl:message>  <wsdl:message name="SendMessagesBulkSoapOut">    <wsdl:part name="parameters" element="tns:SendMessagesBulkResponse" />  </wsdl:message>  <wsdl:message name="SendMessagesBulkResponseInfo">    <wsdl:part name="ResponseInfo" element="tns:ResponseInfo" />  </wsdl:message>  <wsdl:message name="TrackMessageSoapIn">    <wsdl:part name="parameters" element="tns:TrackMessage" />  </wsdl:message>  <wsdl:message name="TrackMessageSoapOut">    <wsdl:part name="parameters" element="tns:TrackMessageResponse" />  </wsdl:message>  <wsdl:message name="TrackMessageResponseInfo">    <wsdl:part name="ResponseInfo" element="tns:ResponseInfo" />  </wsdl:message>  <wsdl:message name="TrackMessagesBulkSoapIn">    <wsdl:part name="parameters" element="tns:TrackMessagesBulk" />  </wsdl:message>  <wsdl:message name="TrackMessagesBulkSoapOut">    <wsdl:part name="parameters" element="tns:TrackMessagesBulkResponse" />  </wsdl:message>  <wsdl:message name="TrackMessagesBulkResponseInfo">    <wsdl:part name="ResponseInfo" element="tns:ResponseInfo" />  </wsdl:message>  <wsdl:message name="GetSupportedCarriersSoapIn">    <wsdl:part name="parameters" element="tns:GetSupportedCarriers" />  </wsdl:message>  <wsdl:message name="GetSupportedCarriersSoapOut">    <wsdl:part name="parameters" element="tns:GetSupportedCarriersResponse" />  </wsdl:message>  <wsdl:message name="GetCountryCodesSoapIn">    <wsdl:part name="parameters" element="tns:GetCountryCodes" />  </wsdl:message>  <wsdl:message name="GetCountryCodesSoapOut">    <wsdl:part name="parameters" element="tns:GetCountryCodesResponse" />  </wsdl:message>  <wsdl:message name="GetRemainingHitsSoapIn">    <wsdl:part name="parameters" xmlns:q1="http://ws.strikeiron.com" element="q1:GetRemainingHits" />  </wsdl:message>  <wsdl:message name="GetRemainingHitsSoapOut">    <wsdl:part name="parameters" xmlns:q2="http://ws.strikeiron.com" element="q2:GetRemainingHitsResponse" />  </wsdl:message>  <wsdl:message name="LicenseInfoMessage">    <wsdl:part name="LicenseInfo" xmlns:q3="http://ws.strikeiron.com" element="q3:LicenseInfo" />  </wsdl:message>  <wsdl:message name="SubscriptionInfoMessage">    <wsdl:part name="SubscriptionInfo" xmlns:q4="http://ws.strikeiron.com" element="q4:SubscriptionInfo" />  </wsdl:message>  <wsdl:portType name="SMSTextMessagingSoap">    <wsdl:operation name="SendMessage">      <wsdl:input message="tns:SendMessageSoapIn" />      <wsdl:output message="tns:SendMessageSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendMessagesBulk">      <wsdl:input message="tns:SendMessagesBulkSoapIn" />      <wsdl:output message="tns:SendMessagesBulkSoapOut" />    </wsdl:operation>    <wsdl:operation name="TrackMessage">      <wsdl:input message="tns:TrackMessageSoapIn" />      <wsdl:output message="tns:TrackMessageSoapOut" />    </wsdl:operation>    <wsdl:operation name="TrackMessagesBulk">      <wsdl:input message="tns:TrackMessagesBulkSoapIn" />      <wsdl:output message="tns:TrackMessagesBulkSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetSupportedCarriers">      <wsdl:input message="tns:GetSupportedCarriersSoapIn" />      <wsdl:output message="tns:GetSupportedCarriersSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetCountryCodes">      <wsdl:input message="tns:GetCountryCodesSoapIn" />      <wsdl:output message="tns:GetCountryCodesSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetRemainingHits">      <wsdl:input message="tns:GetRemainingHitsSoapIn" />      <wsdl:output message="tns:GetRemainingHitsSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="SMSTextMessagingSoap" type="tns:SMSTextMessagingSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="SendMessage">      <soap:operation soapAction="http://www.strikeiron.com/SendMessage" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SendMessageResponseInfo" part="ResponseInfo" use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMessagesBulk">      <soap:operation soapAction="http://www.strikeiron.com/SendMessagesBulk" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SendMessagesBulkResponseInfo" part="ResponseInfo" use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="TrackMessage">      <soap:operation soapAction="http://www.strikeiron.com/TrackMessage" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:TrackMessageResponseInfo" part="ResponseInfo" use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="TrackMessagesBulk">      <soap:operation soapAction="http://www.strikeiron.com/TrackMessagesBulk" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:TrackMessagesBulkResponseInfo" part="ResponseInfo" use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSupportedCarriers">      <soap:operation soapAction="http://www.strikeiron.com/GetSupportedCarriers" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetCountryCodes">      <soap:operation soapAction="http://www.strikeiron.com/GetCountryCodes" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetRemainingHits">      <soap:operation soapAction="http://ws.strikeiron.com/StrikeIron/globalsmspro2_5/SMSTextMessaging/GetRemainingHits" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="SMSTextMessaging">    <wsdl:port name="SMSTextMessagingSoap" binding="tns:SMSTextMessagingSoap">      <soap:address location="http://ws.strikeiron.com/StrikeIron/globalsmspro2_5/SMSTextMessaging" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.strikeiron.com"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.strikeiron.com"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.strikeiron.com">
+			<s:element name="SendMessage">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ToNumber" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="FromNumber" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="FromName" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="MessageText" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendMessageResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SendMessageResult" type="tns:SMSTextMessageTargetStatus" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="SMSTextMessageTargetStatus">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="ToNumber" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="TrackingTag" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="MessageStatus" type="tns:MessageStatus" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="MessageStatus">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="StatusCode" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="StatusText" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="StatusExtra" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="ResponseInfo" type="tns:ResponseInfo" />
+			<s:complexType name="ResponseInfo">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="ResponseCode" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Response" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="SendMessagesBulk">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ToNumbers" type="tns:ArrayOfString" />
+						<s:element minOccurs="0" maxOccurs="1" name="FromNumber" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="FromName" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="MessageText" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfString">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="SendMessagesBulkResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SendMessagesBulkResult" type="tns:ArrayOfSMSTextMessageTargetStatus" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfSMSTextMessageTargetStatus">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="SMSTextMessageTargetStatus" nillable="true"
+						type="tns:SMSTextMessageTargetStatus" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="TrackMessage">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="TrackingTag" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="TrackMessageResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="TrackMessageResult" type="tns:SMSTextMessageTargetStatus" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="TrackMessagesBulk">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="TrackingTags" type="tns:ArrayOfString" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="TrackMessagesBulkResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="TrackMessagesBulkResult" type="tns:ArrayOfSMSTextMessageTargetStatus" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetSupportedCarriers">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetSupportedCarriersResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetSupportedCarriersResult" type="tns:ArrayOfCarrier" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfCarrier">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Carrier" nillable="true" type="tns:Carrier" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Carrier">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="CarrierID" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="CarrierName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="MaxTextLength" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="NetworkStandard" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetCountryCodes">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetCountryCodesResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetCountryCodesResult" type="tns:ArrayOfCountryCode" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfCountryCode">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="CountryCode" nillable="true" type="tns:CountryCode" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="CountryCode">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+		</s:schema>
+		<xs:schema xmlns:tns1="http://ws.strikeiron.com" attributeFormDefault="unqualified" elementFormDefault="qualified"
+			targetNamespace="http://ws.strikeiron.com" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:element name="LicenseInfo" type="tns1:LicenseInfo" />
+			<xs:complexType name="LicenseInfo">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="UnregisteredUser" type="tns1:UnregisteredUser" />
+					<xs:element minOccurs="0" name="RegisteredUser" type="tns1:RegisteredUser" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="UnregisteredUser">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="EmailAddress" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="RegisteredUser">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="UserID" type="xs:string" />
+					<xs:element minOccurs="0" name="Password" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="SubscriptionInfo" type="tns1:SubscriptionInfo" />
+			<xs:complexType name="SubscriptionInfo">
+				<xs:sequence>
+					<xs:element name="LicenseStatusCode" type="xs:int" />
+					<xs:element minOccurs="0" name="LicenseStatus" type="xs:string" />
+					<xs:element name="LicenseActionCode" type="xs:int" />
+					<xs:element minOccurs="0" name="LicenseAction" type="xs:string" />
+					<xs:element name="RemainingHits" type="xs:int" />
+					<xs:element name="Amount" type="xs:decimal" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="GetRemainingHits">
+				<xs:complexType />
+			</xs:element>
+			<xs:element name="GetRemainingHitsResponse">
+				<xs:complexType />
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="SendMessageSoapIn">
+		<wsdl:part name="parameters" element="tns:SendMessage" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageSoapOut">
+		<wsdl:part name="parameters" element="tns:SendMessageResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageResponseInfo">
+		<wsdl:part name="ResponseInfo" element="tns:ResponseInfo" />
+	</wsdl:message>
+	<wsdl:message name="SendMessagesBulkSoapIn">
+		<wsdl:part name="parameters" element="tns:SendMessagesBulk" />
+	</wsdl:message>
+	<wsdl:message name="SendMessagesBulkSoapOut">
+		<wsdl:part name="parameters" element="tns:SendMessagesBulkResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendMessagesBulkResponseInfo">
+		<wsdl:part name="ResponseInfo" element="tns:ResponseInfo" />
+	</wsdl:message>
+	<wsdl:message name="TrackMessageSoapIn">
+		<wsdl:part name="parameters" element="tns:TrackMessage" />
+	</wsdl:message>
+	<wsdl:message name="TrackMessageSoapOut">
+		<wsdl:part name="parameters" element="tns:TrackMessageResponse" />
+	</wsdl:message>
+	<wsdl:message name="TrackMessageResponseInfo">
+		<wsdl:part name="ResponseInfo" element="tns:ResponseInfo" />
+	</wsdl:message>
+	<wsdl:message name="TrackMessagesBulkSoapIn">
+		<wsdl:part name="parameters" element="tns:TrackMessagesBulk" />
+	</wsdl:message>
+	<wsdl:message name="TrackMessagesBulkSoapOut">
+		<wsdl:part name="parameters" element="tns:TrackMessagesBulkResponse" />
+	</wsdl:message>
+	<wsdl:message name="TrackMessagesBulkResponseInfo">
+		<wsdl:part name="ResponseInfo" element="tns:ResponseInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetSupportedCarriersSoapIn">
+		<wsdl:part name="parameters" element="tns:GetSupportedCarriers" />
+	</wsdl:message>
+	<wsdl:message name="GetSupportedCarriersSoapOut">
+		<wsdl:part name="parameters" element="tns:GetSupportedCarriersResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetCountryCodesSoapIn">
+		<wsdl:part name="parameters" element="tns:GetCountryCodes" />
+	</wsdl:message>
+	<wsdl:message name="GetCountryCodesSoapOut">
+		<wsdl:part name="parameters" element="tns:GetCountryCodesResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetRemainingHitsSoapIn">
+		<wsdl:part name="parameters" xmlns:q1="http://ws.strikeiron.com" element="q1:GetRemainingHits" />
+	</wsdl:message>
+	<wsdl:message name="GetRemainingHitsSoapOut">
+		<wsdl:part name="parameters" xmlns:q2="http://ws.strikeiron.com" element="q2:GetRemainingHitsResponse" />
+	</wsdl:message>
+	<wsdl:message name="LicenseInfoMessage">
+		<wsdl:part name="LicenseInfo" xmlns:q3="http://ws.strikeiron.com" element="q3:LicenseInfo" />
+	</wsdl:message>
+	<wsdl:message name="SubscriptionInfoMessage">
+		<wsdl:part name="SubscriptionInfo" xmlns:q4="http://ws.strikeiron.com" element="q4:SubscriptionInfo" />
+	</wsdl:message>
+	<wsdl:portType name="SMSTextMessagingSoap">
+		<wsdl:operation name="SendMessage">
+			<wsdl:input message="tns:SendMessageSoapIn" />
+			<wsdl:output message="tns:SendMessageSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendMessagesBulk">
+			<wsdl:input message="tns:SendMessagesBulkSoapIn" />
+			<wsdl:output message="tns:SendMessagesBulkSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="TrackMessage">
+			<wsdl:input message="tns:TrackMessageSoapIn" />
+			<wsdl:output message="tns:TrackMessageSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="TrackMessagesBulk">
+			<wsdl:input message="tns:TrackMessagesBulkSoapIn" />
+			<wsdl:output message="tns:TrackMessagesBulkSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSupportedCarriers">
+			<wsdl:input message="tns:GetSupportedCarriersSoapIn" />
+			<wsdl:output message="tns:GetSupportedCarriersSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetCountryCodes">
+			<wsdl:input message="tns:GetCountryCodesSoapIn" />
+			<wsdl:output message="tns:GetCountryCodesSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetRemainingHits">
+			<wsdl:input message="tns:GetRemainingHitsSoapIn" />
+			<wsdl:output message="tns:GetRemainingHitsSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="SMSTextMessagingSoap" type="tns:SMSTextMessagingSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="SendMessage">
+			<soap:operation soapAction="http://www.strikeiron.com/SendMessage" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SendMessageResponseInfo" part="ResponseInfo" use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMessagesBulk">
+			<soap:operation soapAction="http://www.strikeiron.com/SendMessagesBulk" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SendMessagesBulkResponseInfo" part="ResponseInfo" use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="TrackMessage">
+			<soap:operation soapAction="http://www.strikeiron.com/TrackMessage" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:TrackMessageResponseInfo" part="ResponseInfo" use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="TrackMessagesBulk">
+			<soap:operation soapAction="http://www.strikeiron.com/TrackMessagesBulk" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:TrackMessagesBulkResponseInfo" part="ResponseInfo" use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSupportedCarriers">
+			<soap:operation soapAction="http://www.strikeiron.com/GetSupportedCarriers" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetCountryCodes">
+			<soap:operation soapAction="http://www.strikeiron.com/GetCountryCodes" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetRemainingHits">
+			<soap:operation soapAction="http://ws.strikeiron.com/StrikeIron/globalsmspro2_5/SMSTextMessaging/GetRemainingHits" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="SMSTextMessaging">
+		<wsdl:port name="SMSTextMessagingSoap" binding="tns:SMSTextMessagingSoap">
+			<soap:address location="http://ws.strikeiron.com/StrikeIron/globalsmspro2_5/SMSTextMessaging" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

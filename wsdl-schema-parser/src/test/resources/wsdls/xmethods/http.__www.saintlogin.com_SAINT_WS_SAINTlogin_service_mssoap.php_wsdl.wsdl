@@ -1,1 +1,115 @@
-<?xml version="1.0"?><definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:si="http://soapinterop.org/xsd" xmlns:tns="http://www.saintlogin.com" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://www.saintlogin.com"><types><xsd:schema targetNamespace="http://www.saintlogin.com/SAINT_WS"><xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" /><xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" /><xsd:complexType name="SaintPhone"><xsd:all><xsd:element ref="phoneid"/><xsd:element ref="imageurl"/></xsd:all></xsd:complexType></xsd:schema></types><message name="GetPhoneID_UrlRequest"><part name="user_ip" type="xsd:string" /><part name="host_service" type="xsd:string" /><part name="host_password" type="xsd:string" /></message><message name="GetPhoneID_UrlResponse"><part name="return" type="xsd:string" /></message><message name="GetPhoneNumberRequest"><part name="phoneid" type="xsd:string" /></message><message name="GetPhoneNumberResponse"><part name="return" type="xsd:string" /></message><message name="WaitForCallRequest"><part name="phoneid" type="xsd:string" /><part name="user_ip" type="xsd:string" /></message><message name="WaitForCallResponse"><part name="return" type="xsd:string" /></message><message name="WaitOnListRequest"><part name="wait_list_id" type="xsd:string" /></message><message name="WaitOnListResponse"><part name="return" type="xsd:string" /></message><portType name="SAINTloginPortType"><operation name="GetPhoneID_Url"><documentation> </documentation><input message="tns:GetPhoneID_UrlRequest"/><output message="tns:GetPhoneID_UrlResponse"/></operation><operation name="GetPhoneNumber"><documentation> </documentation><input message="tns:GetPhoneNumberRequest"/><output message="tns:GetPhoneNumberResponse"/></operation><operation name="WaitForCall"><documentation> </documentation><input message="tns:WaitForCallRequest"/><output message="tns:WaitForCallResponse"/></operation><operation name="WaitOnList"><documentation> </documentation><input message="tns:WaitOnListRequest"/><output message="tns:WaitOnListResponse"/></operation></portType><binding name="SAINTloginBinding" type="tns:SAINTloginPortType"><soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/><operation name="GetPhoneID_Url"><soap:operation soapAction="http://www.saintlogin.com/SAINT_WS/SAINTlogin_service_mssoap.php" style="rpc"/><input><soap:body use="encoded" namespace="http://soapinterop.org/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="http://soapinterop.org/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="GetPhoneNumber"><soap:operation soapAction="http://www.saintlogin.com/SAINT_WS/SAINTlogin_service_mssoap.php" style="rpc"/><input><soap:body use="encoded" namespace="http://soapinterop.org/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="http://soapinterop.org/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="WaitForCall"><soap:operation soapAction="http://www.saintlogin.com/SAINT_WS/SAINTlogin_service_mssoap.php" style="rpc"/><input><soap:body use="encoded" namespace="http://soapinterop.org/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="http://soapinterop.org/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="WaitOnList"><soap:operation soapAction="http://www.saintlogin.com/SAINT_WS/SAINTlogin_service_mssoap.php" style="rpc"/><input><soap:body use="encoded" namespace="http://soapinterop.org/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="http://soapinterop.org/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation></binding><service name="SAINTlogin"><port name="SAINTloginPort" binding="tns:SAINTloginBinding"><soap:address location="http://www.saintlogin.com/SAINT_WS/SAINTlogin_service_mssoap.php"/></port></service></definitions>
+<?xml version="1.0"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:si="http://soapinterop.org/xsd" xmlns:tns="http://www.saintlogin.com" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://www.saintlogin.com">
+	<types>
+		<xsd:schema targetNamespace="http://www.saintlogin.com/SAINT_WS">
+			<xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+			<xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+			<xsd:complexType name="SaintPhone">
+				<xsd:all>
+					<xsd:element ref="phoneid" />
+					<xsd:element ref="imageurl" />
+				</xsd:all>
+			</xsd:complexType>
+		</xsd:schema>
+	</types>
+	<message name="GetPhoneID_UrlRequest">
+		<part name="user_ip" type="xsd:string" />
+		<part name="host_service" type="xsd:string" />
+		<part name="host_password" type="xsd:string" />
+	</message>
+	<message name="GetPhoneID_UrlResponse">
+		<part name="return" type="xsd:string" />
+	</message>
+	<message name="GetPhoneNumberRequest">
+		<part name="phoneid" type="xsd:string" />
+	</message>
+	<message name="GetPhoneNumberResponse">
+		<part name="return" type="xsd:string" />
+	</message>
+	<message name="WaitForCallRequest">
+		<part name="phoneid" type="xsd:string" />
+		<part name="user_ip" type="xsd:string" />
+	</message>
+	<message name="WaitForCallResponse">
+		<part name="return" type="xsd:string" />
+	</message>
+	<message name="WaitOnListRequest">
+		<part name="wait_list_id" type="xsd:string" />
+	</message>
+	<message name="WaitOnListResponse">
+		<part name="return" type="xsd:string" />
+	</message>
+	<portType name="SAINTloginPortType">
+		<operation name="GetPhoneID_Url">
+			<documentation>
+			</documentation>
+			<input message="tns:GetPhoneID_UrlRequest" />
+			<output message="tns:GetPhoneID_UrlResponse" />
+		</operation>
+		<operation name="GetPhoneNumber">
+			<documentation>
+			</documentation>
+			<input message="tns:GetPhoneNumberRequest" />
+			<output message="tns:GetPhoneNumberResponse" />
+		</operation>
+		<operation name="WaitForCall">
+			<documentation>
+			</documentation>
+			<input message="tns:WaitForCallRequest" />
+			<output message="tns:WaitForCallResponse" />
+		</operation>
+		<operation name="WaitOnList">
+			<documentation>
+			</documentation>
+			<input message="tns:WaitOnListRequest" />
+			<output message="tns:WaitOnListResponse" />
+		</operation>
+	</portType>
+	<binding name="SAINTloginBinding" type="tns:SAINTloginPortType">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="GetPhoneID_Url">
+			<soap:operation soapAction="http://www.saintlogin.com/SAINT_WS/SAINTlogin_service_mssoap.php" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="http://soapinterop.org/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://soapinterop.org/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="GetPhoneNumber">
+			<soap:operation soapAction="http://www.saintlogin.com/SAINT_WS/SAINTlogin_service_mssoap.php" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="http://soapinterop.org/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://soapinterop.org/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="WaitForCall">
+			<soap:operation soapAction="http://www.saintlogin.com/SAINT_WS/SAINTlogin_service_mssoap.php" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="http://soapinterop.org/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://soapinterop.org/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="WaitOnList">
+			<soap:operation soapAction="http://www.saintlogin.com/SAINT_WS/SAINTlogin_service_mssoap.php" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="http://soapinterop.org/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://soapinterop.org/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+	</binding>
+	<service name="SAINTlogin">
+		<port name="SAINTloginPort" binding="tns:SAINTloginBinding">
+			<soap:address location="http://www.saintlogin.com/SAINT_WS/SAINTlogin_service_mssoap.php" />
+		</port>
+	</service>
+</definitions>

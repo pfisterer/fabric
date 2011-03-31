@@ -1,1 +1,379 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.serviceobjects.com/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://www.serviceobjects.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.serviceobjects.com/">      <s:element name="GetAddressPlus">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetAddressPlusResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetAddressPlusResult" type="tns:AddressPlus" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="AddressPlus">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Error" type="tns:Err" />          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="BarcodeDigits" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CarrierRoute" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CongressCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountyCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountyName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Fragment" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentHouse" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentPMBNumber" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentPMBPrefix" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentPostDir" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentPreDir" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentStreet" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentSuffix" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentUnit" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DPV" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DPVDesc" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DPVNotes" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DPVNotesDesc" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Corrections" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CorrectionsDesc" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Latitude" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Longitude" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Tract" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Block" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="AreaCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CityAbbreviation" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CityType" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountyFIPS" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="StateFIPS" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="TimeZone" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DayLightSavings" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="MSA" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="MD" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CBSA" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PMSA" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DMA" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ZipLatitude" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ZipLongitude" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="MedianIncome2000" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="MedianIncome2005" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="AreaHouseholdIncome" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountyHouseholdIncome" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="StateHouseholdIncome" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GeocodeLevel" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GeocodeLevelDescription" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="Err">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Desc" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="GetAddressPlusNoCensus">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetAddressPlusNoCensusResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetAddressPlusNoCensusResult" type="tns:AddressPlus" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetAddressPlusWithDPV">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetAddressPlusWithDPVResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetAddressPlusWithDPVResult" type="tns:AddressPlus" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="AddressPlus" nillable="true" type="tns:AddressPlus" />    </s:schema>  </wsdl:types>  <wsdl:message name="GetAddressPlusSoapIn">    <wsdl:part name="parameters" element="tns:GetAddressPlus" />  </wsdl:message>  <wsdl:message name="GetAddressPlusSoapOut">    <wsdl:part name="parameters" element="tns:GetAddressPlusResponse" />  </wsdl:message>  <wsdl:message name="GetAddressPlusNoCensusSoapIn">    <wsdl:part name="parameters" element="tns:GetAddressPlusNoCensus" />  </wsdl:message>  <wsdl:message name="GetAddressPlusNoCensusSoapOut">    <wsdl:part name="parameters" element="tns:GetAddressPlusNoCensusResponse" />  </wsdl:message>  <wsdl:message name="GetAddressPlusWithDPVSoapIn">    <wsdl:part name="parameters" element="tns:GetAddressPlusWithDPV" />  </wsdl:message>  <wsdl:message name="GetAddressPlusWithDPVSoapOut">    <wsdl:part name="parameters" element="tns:GetAddressPlusWithDPVResponse" />  </wsdl:message>  <wsdl:message name="GetAddressPlusHttpGetIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="Address2" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetAddressPlusHttpGetOut">    <wsdl:part name="Body" element="tns:AddressPlus" />  </wsdl:message>  <wsdl:message name="GetAddressPlusNoCensusHttpGetIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="Address2" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetAddressPlusNoCensusHttpGetOut">    <wsdl:part name="Body" element="tns:AddressPlus" />  </wsdl:message>  <wsdl:message name="GetAddressPlusWithDPVHttpGetIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="Address2" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetAddressPlusWithDPVHttpGetOut">    <wsdl:part name="Body" element="tns:AddressPlus" />  </wsdl:message>  <wsdl:message name="GetAddressPlusHttpPostIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="Address2" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetAddressPlusHttpPostOut">    <wsdl:part name="Body" element="tns:AddressPlus" />  </wsdl:message>  <wsdl:message name="GetAddressPlusNoCensusHttpPostIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="Address2" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetAddressPlusNoCensusHttpPostOut">    <wsdl:part name="Body" element="tns:AddressPlus" />  </wsdl:message>  <wsdl:message name="GetAddressPlusWithDPVHttpPostIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="Address2" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetAddressPlusWithDPVHttpPostOut">    <wsdl:part name="Body" element="tns:AddressPlus" />  </wsdl:message>  <wsdl:portType name="DOTSAddressPlusSoap">    <wsdl:operation name="GetAddressPlus">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns extensive address information for a given US postal address.</documentation>      <wsdl:input message="tns:GetAddressPlusSoapIn" />      <wsdl:output message="tns:GetAddressPlusSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetAddressPlusNoCensus">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns only corrected address information and geocoding data for a given US postal address.</documentation>      <wsdl:input message="tns:GetAddressPlusNoCensusSoapIn" />      <wsdl:output message="tns:GetAddressPlusNoCensusSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetAddressPlusWithDPV">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns extensive address information including DPV for a given US postal address.</documentation>      <wsdl:input message="tns:GetAddressPlusWithDPVSoapIn" />      <wsdl:output message="tns:GetAddressPlusWithDPVSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="DOTSAddressPlusHttpGet">    <wsdl:operation name="GetAddressPlus">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns extensive address information for a given US postal address.</documentation>      <wsdl:input message="tns:GetAddressPlusHttpGetIn" />      <wsdl:output message="tns:GetAddressPlusHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetAddressPlusNoCensus">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns only corrected address information and geocoding data for a given US postal address.</documentation>      <wsdl:input message="tns:GetAddressPlusNoCensusHttpGetIn" />      <wsdl:output message="tns:GetAddressPlusNoCensusHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetAddressPlusWithDPV">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns extensive address information including DPV for a given US postal address.</documentation>      <wsdl:input message="tns:GetAddressPlusWithDPVHttpGetIn" />      <wsdl:output message="tns:GetAddressPlusWithDPVHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="DOTSAddressPlusHttpPost">    <wsdl:operation name="GetAddressPlus">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns extensive address information for a given US postal address.</documentation>      <wsdl:input message="tns:GetAddressPlusHttpPostIn" />      <wsdl:output message="tns:GetAddressPlusHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetAddressPlusNoCensus">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns only corrected address information and geocoding data for a given US postal address.</documentation>      <wsdl:input message="tns:GetAddressPlusNoCensusHttpPostIn" />      <wsdl:output message="tns:GetAddressPlusNoCensusHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetAddressPlusWithDPV">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns extensive address information including DPV for a given US postal address.</documentation>      <wsdl:input message="tns:GetAddressPlusWithDPVHttpPostIn" />      <wsdl:output message="tns:GetAddressPlusWithDPVHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="DOTSAddressPlusSoap" type="tns:DOTSAddressPlusSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <wsdl:operation name="GetAddressPlus">      <soap:operation soapAction="http://www.serviceobjects.com/GetAddressPlus" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAddressPlusNoCensus">      <soap:operation soapAction="http://www.serviceobjects.com/GetAddressPlusNoCensus" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAddressPlusWithDPV">      <soap:operation soapAction="http://www.serviceobjects.com/GetAddressPlusWithDPV" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="DOTSAddressPlusHttpGet" type="tns:DOTSAddressPlusHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetAddressPlus">      <http:operation location="/GetAddressPlus" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAddressPlusNoCensus">      <http:operation location="/GetAddressPlusNoCensus" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAddressPlusWithDPV">      <http:operation location="/GetAddressPlusWithDPV" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="DOTSAddressPlusHttpPost" type="tns:DOTSAddressPlusHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetAddressPlus">      <http:operation location="/GetAddressPlus" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAddressPlusNoCensus">      <http:operation location="/GetAddressPlusNoCensus" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAddressPlusWithDPV">      <http:operation location="/GetAddressPlusWithDPV" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="DOTSAddressPlus">    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">For more information on our web services, visit us at &lt;a href='http://www.serviceobjects.com/products/default.asp' target='new'&gt;our website&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;&lt;a href='http://www.serviceobjects.com' target='new'&gt;&lt;img src='http://www.serviceobjects.com/images/so_logo_2_inside.gif' border='0'/&gt;&lt;/a&gt;</documentation>    <wsdl:port name="DOTSAddressPlusSoap" binding="tns:DOTSAddressPlusSoap">      <soap:address location="http://ws2.serviceobjects.net/ap/AddressPlus.asmx" />    </wsdl:port>    <wsdl:port name="DOTSAddressPlusHttpGet" binding="tns:DOTSAddressPlusHttpGet">      <http:address location="http://ws2.serviceobjects.net/ap/AddressPlus.asmx" />    </wsdl:port>    <wsdl:port name="DOTSAddressPlusHttpPost" binding="tns:DOTSAddressPlusHttpPost">      <http:address location="http://ws2.serviceobjects.net/ap/AddressPlus.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.serviceobjects.com/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	targetNamespace="http://www.serviceobjects.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.serviceobjects.com/">
+			<s:element name="GetAddressPlus">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetAddressPlusResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetAddressPlusResult" type="tns:AddressPlus" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="AddressPlus">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Error" type="tns:Err" />
+					<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="BarcodeDigits" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CarrierRoute" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CongressCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountyCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountyName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Fragment" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentHouse" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentPMBNumber" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentPMBPrefix" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentPostDir" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentPreDir" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentStreet" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentSuffix" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentUnit" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DPV" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DPVDesc" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DPVNotes" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DPVNotesDesc" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Corrections" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CorrectionsDesc" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Latitude" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Longitude" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Tract" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Block" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="AreaCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CityAbbreviation" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CityType" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountyFIPS" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="StateFIPS" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="TimeZone" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DayLightSavings" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="MSA" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="MD" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CBSA" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PMSA" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DMA" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ZipLatitude" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ZipLongitude" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="MedianIncome2000" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="MedianIncome2005" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="AreaHouseholdIncome" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountyHouseholdIncome" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="StateHouseholdIncome" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GeocodeLevel" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GeocodeLevelDescription" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Err">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Desc" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetAddressPlusNoCensus">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetAddressPlusNoCensusResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetAddressPlusNoCensusResult" type="tns:AddressPlus" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetAddressPlusWithDPV">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetAddressPlusWithDPVResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetAddressPlusWithDPVResult" type="tns:AddressPlus" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="AddressPlus" nillable="true" type="tns:AddressPlus" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetAddressPlusSoapIn">
+		<wsdl:part name="parameters" element="tns:GetAddressPlus" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusSoapOut">
+		<wsdl:part name="parameters" element="tns:GetAddressPlusResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusNoCensusSoapIn">
+		<wsdl:part name="parameters" element="tns:GetAddressPlusNoCensus" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusNoCensusSoapOut">
+		<wsdl:part name="parameters" element="tns:GetAddressPlusNoCensusResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusWithDPVSoapIn">
+		<wsdl:part name="parameters" element="tns:GetAddressPlusWithDPV" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusWithDPVSoapOut">
+		<wsdl:part name="parameters" element="tns:GetAddressPlusWithDPVResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusHttpGetIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="Address2" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusHttpGetOut">
+		<wsdl:part name="Body" element="tns:AddressPlus" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusNoCensusHttpGetIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="Address2" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusNoCensusHttpGetOut">
+		<wsdl:part name="Body" element="tns:AddressPlus" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusWithDPVHttpGetIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="Address2" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusWithDPVHttpGetOut">
+		<wsdl:part name="Body" element="tns:AddressPlus" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusHttpPostIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="Address2" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusHttpPostOut">
+		<wsdl:part name="Body" element="tns:AddressPlus" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusNoCensusHttpPostIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="Address2" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusNoCensusHttpPostOut">
+		<wsdl:part name="Body" element="tns:AddressPlus" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusWithDPVHttpPostIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="Address2" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAddressPlusWithDPVHttpPostOut">
+		<wsdl:part name="Body" element="tns:AddressPlus" />
+	</wsdl:message>
+	<wsdl:portType name="DOTSAddressPlusSoap">
+		<wsdl:operation name="GetAddressPlus">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns extensive address information for a given US postal address.
+			</documentation>
+			<wsdl:input message="tns:GetAddressPlusSoapIn" />
+			<wsdl:output message="tns:GetAddressPlusSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAddressPlusNoCensus">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns only corrected address information and geocoding data for a given US
+				postal address.</documentation>
+			<wsdl:input message="tns:GetAddressPlusNoCensusSoapIn" />
+			<wsdl:output message="tns:GetAddressPlusNoCensusSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAddressPlusWithDPV">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns extensive address information including DPV for a given US postal address.
+			</documentation>
+			<wsdl:input message="tns:GetAddressPlusWithDPVSoapIn" />
+			<wsdl:output message="tns:GetAddressPlusWithDPVSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DOTSAddressPlusHttpGet">
+		<wsdl:operation name="GetAddressPlus">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns extensive address information for a given US postal address.
+			</documentation>
+			<wsdl:input message="tns:GetAddressPlusHttpGetIn" />
+			<wsdl:output message="tns:GetAddressPlusHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAddressPlusNoCensus">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns only corrected address information and geocoding data for a given US
+				postal address.</documentation>
+			<wsdl:input message="tns:GetAddressPlusNoCensusHttpGetIn" />
+			<wsdl:output message="tns:GetAddressPlusNoCensusHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAddressPlusWithDPV">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns extensive address information including DPV for a given US postal address.
+			</documentation>
+			<wsdl:input message="tns:GetAddressPlusWithDPVHttpGetIn" />
+			<wsdl:output message="tns:GetAddressPlusWithDPVHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DOTSAddressPlusHttpPost">
+		<wsdl:operation name="GetAddressPlus">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns extensive address information for a given US postal address.
+			</documentation>
+			<wsdl:input message="tns:GetAddressPlusHttpPostIn" />
+			<wsdl:output message="tns:GetAddressPlusHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAddressPlusNoCensus">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns only corrected address information and geocoding data for a given US
+				postal address.</documentation>
+			<wsdl:input message="tns:GetAddressPlusNoCensusHttpPostIn" />
+			<wsdl:output message="tns:GetAddressPlusNoCensusHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAddressPlusWithDPV">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns extensive address information including DPV for a given US postal address.
+			</documentation>
+			<wsdl:input message="tns:GetAddressPlusWithDPVHttpPostIn" />
+			<wsdl:output message="tns:GetAddressPlusWithDPVHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="DOTSAddressPlusSoap" type="tns:DOTSAddressPlusSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<wsdl:operation name="GetAddressPlus">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetAddressPlus" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAddressPlusNoCensus">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetAddressPlusNoCensus" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAddressPlusWithDPV">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetAddressPlusWithDPV" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="DOTSAddressPlusHttpGet" type="tns:DOTSAddressPlusHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetAddressPlus">
+			<http:operation location="/GetAddressPlus" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAddressPlusNoCensus">
+			<http:operation location="/GetAddressPlusNoCensus" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAddressPlusWithDPV">
+			<http:operation location="/GetAddressPlusWithDPV" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="DOTSAddressPlusHttpPost" type="tns:DOTSAddressPlusHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetAddressPlus">
+			<http:operation location="/GetAddressPlus" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAddressPlusNoCensus">
+			<http:operation location="/GetAddressPlusNoCensus" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAddressPlusWithDPV">
+			<http:operation location="/GetAddressPlusWithDPV" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="DOTSAddressPlus">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">For more information on our web services, visit us at &lt;a
+			href='http://www.serviceobjects.com/products/default.asp' target='new'&gt;our
+			website&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;&lt;a href='http://www.serviceobjects.com' target='new'&gt;&lt;img
+			src='http://www.serviceobjects.com/images/so_logo_2_inside.gif' border='0'/&gt;&lt;/a&gt;</documentation>
+		<wsdl:port name="DOTSAddressPlusSoap" binding="tns:DOTSAddressPlusSoap">
+			<soap:address location="http://ws2.serviceobjects.net/ap/AddressPlus.asmx" />
+		</wsdl:port>
+		<wsdl:port name="DOTSAddressPlusHttpGet" binding="tns:DOTSAddressPlusHttpGet">
+			<http:address location="http://ws2.serviceobjects.net/ap/AddressPlus.asmx" />
+		</wsdl:port>
+		<wsdl:port name="DOTSAddressPlusHttpPost" binding="tns:DOTSAddressPlusHttpPost">
+			<http:address location="http://ws2.serviceobjects.net/ap/AddressPlus.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

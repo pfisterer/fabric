@@ -1,1 +1,511 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.siprod.net/webservices/XEMail/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.siprod.net/webservices/XEMail/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.siprod.net/webservices/XEMail/">      <s:element name="ListPop3EMails">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Port" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Ssl" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ListPop3EMailsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ListPop3EMailsResult" type="tns:ArrayOfEMailsListElement" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfEMailsListElement">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="EMailsListElement" nillable="true" type="tns:EMailsListElement" />        </s:sequence>      </s:complexType>      <s:complexType name="EMailsListElement">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Number" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="Bytes" type="s:long" />          <s:element minOccurs="1" maxOccurs="1" name="Retrieved" type="s:boolean" />        </s:sequence>      </s:complexType>      <s:element name="GetAllPop3EMailsHeaders">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Port" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Ssl" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetAllPop3EMailsHeadersResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetAllPop3EMailsHeadersResult" type="tns:ArrayOfEMailMessage" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfEMailMessage">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="EMailMessage" nillable="true" type="tns:EMailMessage" />        </s:sequence>      </s:complexType>      <s:complexType name="EMailMessage">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="CC" type="tns:ArrayOfEMailAddress" />          <s:element minOccurs="0" maxOccurs="1" name="From" type="tns:EMailAddress" />          <s:element minOccurs="0" maxOccurs="1" name="Header" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Body" type="tns:EMailBodyAlternateView" />          <s:element minOccurs="0" maxOccurs="1" name="Priority" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ReplyTo" type="tns:EMailAddress" />          <s:element minOccurs="0" maxOccurs="1" name="Sender" type="tns:EMailAddress" />          <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="To" type="tns:ArrayOfEMailAddress" />          <s:element minOccurs="0" maxOccurs="1" name="ContentClasses" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="MIMEVersion" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ContentType" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ContentTransferEncoding" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="OtherHeaders" type="tns:OtherHeadersCollection" />          <s:element minOccurs="0" maxOccurs="1" name="Views" type="tns:ArrayOfEMailBodyAlternateView" />          <s:element minOccurs="0" maxOccurs="1" name="Attachments" type="tns:ArrayOfEMailAttachment" />          <s:element minOccurs="0" maxOccurs="1" name="SubjectEncoding" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="BodyEncoding" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Number" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="Bytes" type="s:long" />          <s:element minOccurs="1" maxOccurs="1" name="Retrieved" type="s:boolean" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfEMailAddress">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="EMailAddress" nillable="true" type="tns:EMailAddress" />        </s:sequence>      </s:complexType>      <s:complexType name="EMailAddress">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="DisplayName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="EMailBodyAlternateView">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="ContentType" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ContentTransferEncoding" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Charset" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ContentStream" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="BaseUri" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="LinkedResources" type="tns:ArrayOfString" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfString">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="OtherHeadersCollection">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Collection" type="tns:ArrayOfString" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfEMailBodyAlternateView">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="EMailBodyAlternateView" nillable="true" type="tns:EMailBodyAlternateView" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfEMailAttachment">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="EMailAttachment" nillable="true" type="tns:EMailAttachment" />        </s:sequence>      </s:complexType>      <s:complexType name="EMailAttachment">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ContentTransferEncoding" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ContentDescription" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ContentType" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ContentDisposition" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FileName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ContentStream" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="NameEncoding" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="GetAllPop3EMailsHeadersDS">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Port" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Ssl" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetAllPop3EMailsHeadersDSResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetAllPop3EMailsHeadersDSResult">              <s:complexType>                <s:sequence>                  <s:element ref="s:schema" />                  <s:any />                </s:sequence>              </s:complexType>            </s:element>          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetAllPop3EMailsHeadersHtml">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Port" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Ssl" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetAllPop3EMailsHeadersHtmlResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetAllPop3EMailsHeadersHtmlResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="RetrievePop3EMail">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Port" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Ssl" type="s:boolean" />            <s:element minOccurs="1" maxOccurs="1" name="MessageNumber" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="RetrievePop3EMailResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="RetrievePop3EMailResult" type="tns:EMailMessage" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="RetrievePop3RawEMailStream">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Port" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Ssl" type="s:boolean" />            <s:element minOccurs="1" maxOccurs="1" name="MessageNumber" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="RetrievePop3RawEMailStreamResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="RetrievePop3RawEMailStreamResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeletePop3EMail">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Port" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Ssl" type="s:boolean" />            <s:element minOccurs="1" maxOccurs="1" name="MessageNumber" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeletePop3EMailResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="DeletePop3EMailResult" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendSmtpEMail">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Port" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Ssl" type="s:boolean" />            <s:element minOccurs="0" maxOccurs="1" name="Message" type="tns:EMailMessage" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendSmtpEMailResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="SendSmtpEMailResult" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>    </s:schema>  </wsdl:types>  <wsdl:message name="ListPop3EMailsSoapIn">    <wsdl:part name="parameters" element="tns:ListPop3EMails" />  </wsdl:message>  <wsdl:message name="ListPop3EMailsSoapOut">    <wsdl:part name="parameters" element="tns:ListPop3EMailsResponse" />  </wsdl:message>  <wsdl:message name="GetAllPop3EMailsHeadersSoapIn">    <wsdl:part name="parameters" element="tns:GetAllPop3EMailsHeaders" />  </wsdl:message>  <wsdl:message name="GetAllPop3EMailsHeadersSoapOut">    <wsdl:part name="parameters" element="tns:GetAllPop3EMailsHeadersResponse" />  </wsdl:message>  <wsdl:message name="GetAllPop3EMailsHeadersDSSoapIn">    <wsdl:part name="parameters" element="tns:GetAllPop3EMailsHeadersDS" />  </wsdl:message>  <wsdl:message name="GetAllPop3EMailsHeadersDSSoapOut">    <wsdl:part name="parameters" element="tns:GetAllPop3EMailsHeadersDSResponse" />  </wsdl:message>  <wsdl:message name="GetAllPop3EMailsHeadersHtmlSoapIn">    <wsdl:part name="parameters" element="tns:GetAllPop3EMailsHeadersHtml" />  </wsdl:message>  <wsdl:message name="GetAllPop3EMailsHeadersHtmlSoapOut">    <wsdl:part name="parameters" element="tns:GetAllPop3EMailsHeadersHtmlResponse" />  </wsdl:message>  <wsdl:message name="RetrievePop3EMailSoapIn">    <wsdl:part name="parameters" element="tns:RetrievePop3EMail" />  </wsdl:message>  <wsdl:message name="RetrievePop3EMailSoapOut">    <wsdl:part name="parameters" element="tns:RetrievePop3EMailResponse" />  </wsdl:message>  <wsdl:message name="RetrievePop3RawEMailStreamSoapIn">    <wsdl:part name="parameters" element="tns:RetrievePop3RawEMailStream" />  </wsdl:message>  <wsdl:message name="RetrievePop3RawEMailStreamSoapOut">    <wsdl:part name="parameters" element="tns:RetrievePop3RawEMailStreamResponse" />  </wsdl:message>  <wsdl:message name="DeletePop3EMailSoapIn">    <wsdl:part name="parameters" element="tns:DeletePop3EMail" />  </wsdl:message>  <wsdl:message name="DeletePop3EMailSoapOut">    <wsdl:part name="parameters" element="tns:DeletePop3EMailResponse" />  </wsdl:message>  <wsdl:message name="SendSmtpEMailSoapIn">    <wsdl:part name="parameters" element="tns:SendSmtpEMail" />  </wsdl:message>  <wsdl:message name="SendSmtpEMailSoapOut">    <wsdl:part name="parameters" element="tns:SendSmtpEMailResponse" />  </wsdl:message>  <wsdl:portType name="ServiceSoap">    <wsdl:operation name="ListPop3EMails">      <wsdl:input message="tns:ListPop3EMailsSoapIn" />      <wsdl:output message="tns:ListPop3EMailsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetAllPop3EMailsHeaders">      <wsdl:input message="tns:GetAllPop3EMailsHeadersSoapIn" />      <wsdl:output message="tns:GetAllPop3EMailsHeadersSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetAllPop3EMailsHeadersDS">      <wsdl:input message="tns:GetAllPop3EMailsHeadersDSSoapIn" />      <wsdl:output message="tns:GetAllPop3EMailsHeadersDSSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetAllPop3EMailsHeadersHtml">      <wsdl:input message="tns:GetAllPop3EMailsHeadersHtmlSoapIn" />      <wsdl:output message="tns:GetAllPop3EMailsHeadersHtmlSoapOut" />    </wsdl:operation>    <wsdl:operation name="RetrievePop3EMail">      <wsdl:input message="tns:RetrievePop3EMailSoapIn" />      <wsdl:output message="tns:RetrievePop3EMailSoapOut" />    </wsdl:operation>    <wsdl:operation name="RetrievePop3RawEMailStream">      <wsdl:input message="tns:RetrievePop3RawEMailStreamSoapIn" />      <wsdl:output message="tns:RetrievePop3RawEMailStreamSoapOut" />    </wsdl:operation>    <wsdl:operation name="DeletePop3EMail">      <wsdl:input message="tns:DeletePop3EMailSoapIn" />      <wsdl:output message="tns:DeletePop3EMailSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendSmtpEMail">      <wsdl:input message="tns:SendSmtpEMailSoapIn" />      <wsdl:output message="tns:SendSmtpEMailSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="ServiceSoap" type="tns:ServiceSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="ListPop3EMails">      <soap:operation soapAction="http://www.siprod.net/webservices/XEMail/ListPop3EMails" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAllPop3EMailsHeaders">      <soap:operation soapAction="http://www.siprod.net/webservices/XEMail/GetAllPop3EMailsHeaders" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAllPop3EMailsHeadersDS">      <soap:operation soapAction="http://www.siprod.net/webservices/XEMail/GetAllPop3EMailsHeadersDS" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAllPop3EMailsHeadersHtml">      <soap:operation soapAction="http://www.siprod.net/webservices/XEMail/GetAllPop3EMailsHeadersHtml" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="RetrievePop3EMail">      <soap:operation soapAction="http://www.siprod.net/webservices/XEMail/RetrievePop3EMail" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="RetrievePop3RawEMailStream">      <soap:operation soapAction="http://www.siprod.net/webservices/XEMail/RetrievePop3RawEMailStream" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeletePop3EMail">      <soap:operation soapAction="http://www.siprod.net/webservices/XEMail/DeletePop3EMail" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendSmtpEMail">      <soap:operation soapAction="http://www.siprod.net/webservices/XEMail/SendSmtpEMail" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="ServiceSoap12" type="tns:ServiceSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="ListPop3EMails">      <soap12:operation soapAction="http://www.siprod.net/webservices/XEMail/ListPop3EMails" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAllPop3EMailsHeaders">      <soap12:operation soapAction="http://www.siprod.net/webservices/XEMail/GetAllPop3EMailsHeaders" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAllPop3EMailsHeadersDS">      <soap12:operation soapAction="http://www.siprod.net/webservices/XEMail/GetAllPop3EMailsHeadersDS" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAllPop3EMailsHeadersHtml">      <soap12:operation soapAction="http://www.siprod.net/webservices/XEMail/GetAllPop3EMailsHeadersHtml" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="RetrievePop3EMail">      <soap12:operation soapAction="http://www.siprod.net/webservices/XEMail/RetrievePop3EMail" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="RetrievePop3RawEMailStream">      <soap12:operation soapAction="http://www.siprod.net/webservices/XEMail/RetrievePop3RawEMailStream" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeletePop3EMail">      <soap12:operation soapAction="http://www.siprod.net/webservices/XEMail/DeletePop3EMail" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendSmtpEMail">      <soap12:operation soapAction="http://www.siprod.net/webservices/XEMail/SendSmtpEMail" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="Service">    <wsdl:port name="ServiceSoap" binding="tns:ServiceSoap">      <soap:address location="http://www.siprod.net/webservices/xemail/xemailwebservice.asmx" />    </wsdl:port>    <wsdl:port name="ServiceSoap12" binding="tns:ServiceSoap12">      <soap12:address location="http://www.siprod.net/webservices/xemail/xemailwebservice.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.siprod.net/webservices/XEMail/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.siprod.net/webservices/XEMail/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.siprod.net/webservices/XEMail/">
+			<s:element name="ListPop3EMails">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Port" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Ssl" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ListPop3EMailsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ListPop3EMailsResult" type="tns:ArrayOfEMailsListElement" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfEMailsListElement">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="EMailsListElement" nillable="true" type="tns:EMailsListElement" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="EMailsListElement">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Number" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="Bytes" type="s:long" />
+					<s:element minOccurs="1" maxOccurs="1" name="Retrieved" type="s:boolean" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetAllPop3EMailsHeaders">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Port" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Ssl" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetAllPop3EMailsHeadersResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetAllPop3EMailsHeadersResult" type="tns:ArrayOfEMailMessage" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfEMailMessage">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="EMailMessage" nillable="true" type="tns:EMailMessage" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="EMailMessage">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="CC" type="tns:ArrayOfEMailAddress" />
+					<s:element minOccurs="0" maxOccurs="1" name="From" type="tns:EMailAddress" />
+					<s:element minOccurs="0" maxOccurs="1" name="Header" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Body" type="tns:EMailBodyAlternateView" />
+					<s:element minOccurs="0" maxOccurs="1" name="Priority" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ReplyTo" type="tns:EMailAddress" />
+					<s:element minOccurs="0" maxOccurs="1" name="Sender" type="tns:EMailAddress" />
+					<s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="To" type="tns:ArrayOfEMailAddress" />
+					<s:element minOccurs="0" maxOccurs="1" name="ContentClasses" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="MIMEVersion" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ContentType" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ContentTransferEncoding" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="OtherHeaders" type="tns:OtherHeadersCollection" />
+					<s:element minOccurs="0" maxOccurs="1" name="Views" type="tns:ArrayOfEMailBodyAlternateView" />
+					<s:element minOccurs="0" maxOccurs="1" name="Attachments" type="tns:ArrayOfEMailAttachment" />
+					<s:element minOccurs="0" maxOccurs="1" name="SubjectEncoding" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="BodyEncoding" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Number" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="Bytes" type="s:long" />
+					<s:element minOccurs="1" maxOccurs="1" name="Retrieved" type="s:boolean" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfEMailAddress">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="EMailAddress" nillable="true" type="tns:EMailAddress" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="EMailAddress">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="DisplayName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="EMailBodyAlternateView">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="ContentType" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ContentTransferEncoding" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Charset" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ContentStream" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="BaseUri" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="LinkedResources" type="tns:ArrayOfString" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfString">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="OtherHeadersCollection">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Collection" type="tns:ArrayOfString" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfEMailBodyAlternateView">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="EMailBodyAlternateView" nillable="true"
+						type="tns:EMailBodyAlternateView" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfEMailAttachment">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="EMailAttachment" nillable="true" type="tns:EMailAttachment" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="EMailAttachment">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ContentTransferEncoding" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ContentDescription" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ContentType" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ContentDisposition" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FileName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ContentStream" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="NameEncoding" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetAllPop3EMailsHeadersDS">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Port" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Ssl" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetAllPop3EMailsHeadersDSResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetAllPop3EMailsHeadersDSResult">
+							<s:complexType>
+								<s:sequence>
+									<s:element ref="s:schema" />
+									<s:any />
+								</s:sequence>
+							</s:complexType>
+						</s:element>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetAllPop3EMailsHeadersHtml">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Port" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Ssl" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetAllPop3EMailsHeadersHtmlResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetAllPop3EMailsHeadersHtmlResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="RetrievePop3EMail">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Port" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Ssl" type="s:boolean" />
+						<s:element minOccurs="1" maxOccurs="1" name="MessageNumber" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="RetrievePop3EMailResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="RetrievePop3EMailResult" type="tns:EMailMessage" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="RetrievePop3RawEMailStream">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Port" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Ssl" type="s:boolean" />
+						<s:element minOccurs="1" maxOccurs="1" name="MessageNumber" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="RetrievePop3RawEMailStreamResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="RetrievePop3RawEMailStreamResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeletePop3EMail">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Port" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Ssl" type="s:boolean" />
+						<s:element minOccurs="1" maxOccurs="1" name="MessageNumber" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeletePop3EMailResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="DeletePop3EMailResult" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendSmtpEMail">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Port" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Ssl" type="s:boolean" />
+						<s:element minOccurs="0" maxOccurs="1" name="Message" type="tns:EMailMessage" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendSmtpEMailResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="SendSmtpEMailResult" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="ListPop3EMailsSoapIn">
+		<wsdl:part name="parameters" element="tns:ListPop3EMails" />
+	</wsdl:message>
+	<wsdl:message name="ListPop3EMailsSoapOut">
+		<wsdl:part name="parameters" element="tns:ListPop3EMailsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetAllPop3EMailsHeadersSoapIn">
+		<wsdl:part name="parameters" element="tns:GetAllPop3EMailsHeaders" />
+	</wsdl:message>
+	<wsdl:message name="GetAllPop3EMailsHeadersSoapOut">
+		<wsdl:part name="parameters" element="tns:GetAllPop3EMailsHeadersResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetAllPop3EMailsHeadersDSSoapIn">
+		<wsdl:part name="parameters" element="tns:GetAllPop3EMailsHeadersDS" />
+	</wsdl:message>
+	<wsdl:message name="GetAllPop3EMailsHeadersDSSoapOut">
+		<wsdl:part name="parameters" element="tns:GetAllPop3EMailsHeadersDSResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetAllPop3EMailsHeadersHtmlSoapIn">
+		<wsdl:part name="parameters" element="tns:GetAllPop3EMailsHeadersHtml" />
+	</wsdl:message>
+	<wsdl:message name="GetAllPop3EMailsHeadersHtmlSoapOut">
+		<wsdl:part name="parameters" element="tns:GetAllPop3EMailsHeadersHtmlResponse" />
+	</wsdl:message>
+	<wsdl:message name="RetrievePop3EMailSoapIn">
+		<wsdl:part name="parameters" element="tns:RetrievePop3EMail" />
+	</wsdl:message>
+	<wsdl:message name="RetrievePop3EMailSoapOut">
+		<wsdl:part name="parameters" element="tns:RetrievePop3EMailResponse" />
+	</wsdl:message>
+	<wsdl:message name="RetrievePop3RawEMailStreamSoapIn">
+		<wsdl:part name="parameters" element="tns:RetrievePop3RawEMailStream" />
+	</wsdl:message>
+	<wsdl:message name="RetrievePop3RawEMailStreamSoapOut">
+		<wsdl:part name="parameters" element="tns:RetrievePop3RawEMailStreamResponse" />
+	</wsdl:message>
+	<wsdl:message name="DeletePop3EMailSoapIn">
+		<wsdl:part name="parameters" element="tns:DeletePop3EMail" />
+	</wsdl:message>
+	<wsdl:message name="DeletePop3EMailSoapOut">
+		<wsdl:part name="parameters" element="tns:DeletePop3EMailResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendSmtpEMailSoapIn">
+		<wsdl:part name="parameters" element="tns:SendSmtpEMail" />
+	</wsdl:message>
+	<wsdl:message name="SendSmtpEMailSoapOut">
+		<wsdl:part name="parameters" element="tns:SendSmtpEMailResponse" />
+	</wsdl:message>
+	<wsdl:portType name="ServiceSoap">
+		<wsdl:operation name="ListPop3EMails">
+			<wsdl:input message="tns:ListPop3EMailsSoapIn" />
+			<wsdl:output message="tns:ListPop3EMailsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAllPop3EMailsHeaders">
+			<wsdl:input message="tns:GetAllPop3EMailsHeadersSoapIn" />
+			<wsdl:output message="tns:GetAllPop3EMailsHeadersSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAllPop3EMailsHeadersDS">
+			<wsdl:input message="tns:GetAllPop3EMailsHeadersDSSoapIn" />
+			<wsdl:output message="tns:GetAllPop3EMailsHeadersDSSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAllPop3EMailsHeadersHtml">
+			<wsdl:input message="tns:GetAllPop3EMailsHeadersHtmlSoapIn" />
+			<wsdl:output message="tns:GetAllPop3EMailsHeadersHtmlSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="RetrievePop3EMail">
+			<wsdl:input message="tns:RetrievePop3EMailSoapIn" />
+			<wsdl:output message="tns:RetrievePop3EMailSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="RetrievePop3RawEMailStream">
+			<wsdl:input message="tns:RetrievePop3RawEMailStreamSoapIn" />
+			<wsdl:output message="tns:RetrievePop3RawEMailStreamSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeletePop3EMail">
+			<wsdl:input message="tns:DeletePop3EMailSoapIn" />
+			<wsdl:output message="tns:DeletePop3EMailSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendSmtpEMail">
+			<wsdl:input message="tns:SendSmtpEMailSoapIn" />
+			<wsdl:output message="tns:SendSmtpEMailSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="ServiceSoap" type="tns:ServiceSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="ListPop3EMails">
+			<soap:operation soapAction="http://www.siprod.net/webservices/XEMail/ListPop3EMails" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAllPop3EMailsHeaders">
+			<soap:operation soapAction="http://www.siprod.net/webservices/XEMail/GetAllPop3EMailsHeaders" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAllPop3EMailsHeadersDS">
+			<soap:operation soapAction="http://www.siprod.net/webservices/XEMail/GetAllPop3EMailsHeadersDS" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAllPop3EMailsHeadersHtml">
+			<soap:operation soapAction="http://www.siprod.net/webservices/XEMail/GetAllPop3EMailsHeadersHtml"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="RetrievePop3EMail">
+			<soap:operation soapAction="http://www.siprod.net/webservices/XEMail/RetrievePop3EMail" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="RetrievePop3RawEMailStream">
+			<soap:operation soapAction="http://www.siprod.net/webservices/XEMail/RetrievePop3RawEMailStream"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeletePop3EMail">
+			<soap:operation soapAction="http://www.siprod.net/webservices/XEMail/DeletePop3EMail" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendSmtpEMail">
+			<soap:operation soapAction="http://www.siprod.net/webservices/XEMail/SendSmtpEMail" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="ServiceSoap12" type="tns:ServiceSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="ListPop3EMails">
+			<soap12:operation soapAction="http://www.siprod.net/webservices/XEMail/ListPop3EMails" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAllPop3EMailsHeaders">
+			<soap12:operation soapAction="http://www.siprod.net/webservices/XEMail/GetAllPop3EMailsHeaders"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAllPop3EMailsHeadersDS">
+			<soap12:operation soapAction="http://www.siprod.net/webservices/XEMail/GetAllPop3EMailsHeadersDS"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAllPop3EMailsHeadersHtml">
+			<soap12:operation soapAction="http://www.siprod.net/webservices/XEMail/GetAllPop3EMailsHeadersHtml"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="RetrievePop3EMail">
+			<soap12:operation soapAction="http://www.siprod.net/webservices/XEMail/RetrievePop3EMail" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="RetrievePop3RawEMailStream">
+			<soap12:operation soapAction="http://www.siprod.net/webservices/XEMail/RetrievePop3RawEMailStream"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeletePop3EMail">
+			<soap12:operation soapAction="http://www.siprod.net/webservices/XEMail/DeletePop3EMail" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendSmtpEMail">
+			<soap12:operation soapAction="http://www.siprod.net/webservices/XEMail/SendSmtpEMail" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="Service">
+		<wsdl:port name="ServiceSoap" binding="tns:ServiceSoap">
+			<soap:address location="http://www.siprod.net/webservices/xemail/xemailwebservice.asmx" />
+		</wsdl:port>
+		<wsdl:port name="ServiceSoap12" binding="tns:ServiceSoap12">
+			<soap12:address location="http://www.siprod.net/webservices/xemail/xemailwebservice.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

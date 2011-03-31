@@ -101,6 +101,13 @@
 				<version>2.4.0</version>
 			</dependency>
 
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.8.1</version>
+				<scope>test</scope>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
@@ -146,15 +153,15 @@
 				<artifactId>maven-license-plugin</artifactId>
 				<configuration>
 					<header>src/etc/license-header.txt</header>
-					
+
 					<strictCheck>true</strictCheck>
-					
+
 					<excludes>
-                    	<exclude>**/resources/wsdls/**</exclude>
+						<exclude>**/resources/wsdls/**</exclude>
 						<exclude>.git/**</exclude>
 						<exclude>.gitignore</exclude>
 						<exclude>README</exclude>
-                	</excludes>
+					</excludes>
 
 				</configuration>
 			</plugin>

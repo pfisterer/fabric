@@ -1,1 +1,435 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link type="text/css" rel="stylesheet" href="e-naxos.css"><meta name="description" content="e-naxos Auditing, training, development, Components, Softwares .NET"><meta name="keywords" content="e-naxos, C#, .NET, dotnet, Microsoft, WPF, Silverlight, Eyrolles, training, development, audit, consulting, subcontracting, papers"><meta name="dc.keywords" content="e-naxos, C#, .NET, dotnet, Microsoft, WPF, Silverlight, Eyrolles, training, development, audit, consulting, subcontracting, papers"><meta name="subject" content="E-NAXOS C# / Delphi training - development - Components - Softwares"><meta name="Classification" content="E-NAXOS C# / Delphi training - development - Components - Softwares"><meta name="author" content="olivier dahan"><meta name="copyright" content="©2006 olivier dahan - e-naxos"><meta name="revisit-after" content="30 days"><meta name="identifier-url" content="http://www.e-naxos.com"><meta name="reply-to" content="http://cerbermail.com/?UH4eKKwzAS"><meta name="publisher" content="e-naxos"><meta name="date-creation-ddmmyyyy" content="27052009"><meta name="Robots" content="all"><meta name="Rating" content="General"><meta name="VW96.OBJECT TYPE" content="Document"><meta name="Category" content="Document"><meta name="Page-topic" content="Document"><meta name="Generator" content="Visual Web Developer 2005"><meta name="organization" content="e-naxos"><meta name="contact" content="http://cerbermail.com/?UH4eKKwzAS"><meta name="contactName" content="olivier dahan"><meta name="contactOrganization" content="e-naxos"><meta name="contactZip" content="Paris-Royan"><meta name="location" content="France, FRANCE"><meta name="expires" content="never"><meta name="date-revision-ddmmyyyy" content="27052009"><meta name="Distribution" content="Global"><meta name="Audience" content="General"><title>E-NAXOS C# / Delphi training - development - Components - Softwares</title><META http-equiv="Content-Language" CONTENT="en"><LINK REL="SHORTCUT ICON" HREF="http://www.e-naxos.com/enaxos.ico"><META http-equiv="Content-type" CONTENT="text/html;charset=iso-8859-1"><META http-equiv="Content-Script-Type" CONTENT="text/javascript"><META http-equiv="Content-Style-Type" CONTENT="text/css"></head><body>    <noscript>        you have javascript disabled please go to... <a href="nojs.htm">nojs.htm</a><br />        Vous avez déconnecté javascript dans votre browser, allez à... <a href="nojs.htm">nojs.htm</a>    </noscript>    <form name="aspnetForm" method="post" action="index.aspx?404%3bhttp%3a%2f%2fwww.e-naxos.com%3a80%2fscripts%2fenwscp.dll%2fwsdl%2fIODCODESPOSTAUX" id="aspnetForm"><input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJODYwMDU4Mjg5D2QWAmYPZBYCAgMPZBYQAgMPZBYKAgEPDxYEHgtOYXZpZ2F0ZVVybAUKSW5kZXguYXNweB4EVGV4dAUESG9tZWRkAgMPDxYEHwAFDVByb2R1Y3RzLmFzcHgfAQUIUHJvZHVjdHNkZAIFDw8WBB8ABQ1TZXJ2aWNlcy5hc3B4HwEFCFRyYWluaW5nZGQCBw8PFgQfAAURUHVibGljYXRpb25zLmFzcHgfAQUMUHVibGljYXRpb25zZGQCCQ8PFgQfAAUMQ29udGFjdC5hc3B4HwEFB0NvbnRhY3RkZAIJD2QWAgIBDxYCHwEFQ0UtTkFYT1MgQyMgLyBEZWxwaGkgdHJhaW5pbmcgLSBkZXZlbG9wbWVudCAtIENvbXBvbmVudHMgLSBTb2Z0d2FyZXNkAgsPFgIfAQWuEw0KPHVsIGNsYXNzPSJNTWVudSI+DQogIDxsaT48YSBjbGFzcz0iTU1MaW5rIiBocmVmPSJwcm9kdWN0cy5hc3B4Ij5Qcm9kdWN0czwvYT48L2xpPg0KICA8dWwgY2xhc3M9IlNNZW51Ij4NCiAgICA8bGk+PGEgY2xhc3M9Ik1NTGluayIgID5NayBRdWVyeSBCdWlsZGVyPC9hPjwvbGk+DQoJPHVsIGNsYXNzPSJTTWVudSI+DQoJPGxpPjxhIGNsYXNzPSJTTUxpbmsiIGhyZWY9Im1rcWIuYXNweCIgPkludHJvZHVjdGlvbjwvYT48L2xpPg0KCTxsaT48YSBjbGFzcz0iU01MaW5rIiBocmVmPSJta3FicXVpY2t0b3VyLmFzcHgiID5RdWljayB0b3VyPC9hPjwvbGk+DQoJPGxpPjxhIGNsYXNzPSJTTUxpbmsiIGhyZWY9ImRubE1hbmFnZXIuYXNweD9HUk9VUD01JkZJTEVJRD0xNSIgPkRlbW88L2E+PC9saT4NCgk8bGk+PGEgY2xhc3M9IlNNTGluayIgaHJlZj0ibWtxYnByaWNpbmcuYXNweCIgPlByaWNpbmc8L2E+PC9saT4NCgk8L3VsPg0KICAgIDxsaT48YSBjbGFzcz0iTU1MaW5rIiA+RGF0YUdlbjwvYT48L2xpPg0KICAgIDx1bCBjbGFzcz0iU01lbnUiPg0KICAgIDxsaT48YSBjbGFzcz0iU01MaW5rIiBocmVmPSJkYXRhZ2VuLmFzcHgiPkludHJvZHVjdGlvbjwvYT48L2xpPg0KCTxsaT48YSBjbGFzcz0iU01MaW5rIiBocmVmPSJER3F1aWNrdG91ci5hc3B4IiA+UXVpY2sgdG91cjwvYT48L2xpPg0KCTxsaT48YSBjbGFzcz0iU01MaW5rIiBocmVmPSJkbmxNYW5hZ2VyLmFzcHg/R1JPVVA9NSZGSUxFSUQ9MTIiID5EZW1vPC9hPjwvbGk+DQoJPGxpPjxhIGNsYXNzPSJTTUxpbmsiIGhyZWY9ImRncHJpY2luZy5hc3B4IiA+UHJpY2luZzwvYT48L2xpPiANCgk8L3VsPg0KICAgIDxsaT48YSBjbGFzcz0iTU1MaW5rIiA+RU4gRXhwb3J0IGZvciAuTkVUPC9hPjwvbGk+DQoJICAgIDx1bCBjbGFzcz0iU01lbnUiPg0KICAgIDxsaT48YSBjbGFzcz0iU01MaW5rIiBocmVmPSJlbmV4cG9ydC5hc3B4Ij5JbnRyb2R1Y3Rpb248L2E+PC9saT4NCgk8bGk+PGEgY2xhc3M9IlNNTGluayIgaHJlZj0iZW5leHBvcnRxdWlja3RvdXIuYXNweCIgPlF1aWNrIHRvdXI8L2E+PC9saT4NCgk8bGk+PGEgY2xhc3M9IlNNTGluayIgaHJlZj0iZG5sTWFuYWdlci5hc3B4P0dST1VQPTE2IiA+RnJlZSBwcmUtcmVsZWFzZTwvYT48L2xpPg0KCTxsaT48YSBjbGFzcz0iU01MaW5rIiBocmVmPSJlbmV4cG9ydHByaWNpbmcuYXNweCIgPlByaWNpbmc8L2E+PC9saT4gDQoJPC91bD4NCg0KICA8L3VsPg0KICA8bGk+PGEgY2xhc3M9Ik1NTGluayIgaHJlZj0idHJhaW5pbmcuYXNweCI+Lk5FVC93aW4zMiBUcmFpbmluZzwvYT48L2xpPg0KICA8dWwgY2xhc3M9IlNNZW51Ij4NCiAgPC91bD4NCiAgPGxpPjxhIGNsYXNzPSJNTUxpbmsiIGhyZWY9InNlcnZpY2VzLmFzcHgiPlNlcnZpY2VzPC9hPg0KICA8dWwgY2xhc3M9IlNNZW51Ij4NCiAgICA8bGk+PGEgY2xhc3M9IlNNTGluayIgaHJlZj0iZGV2ZWxvcG1lbnQuYXNweCI+RGV2ZWxvcG1lbnQ8L2E+PC9saT4NCiAgICA8bGk+PGEgY2xhc3M9IlNNTGluayIgaHJlZj0iYXVkaXQuYXNweCI+Q29uc3VsdGluZzwvYT48L2xpPg0KICAgIDxsaT48YSBjbGFzcz0iU01MaW5rIiBocmVmPSJtaWdyYXRpb24uYXNweCI+Lk5ldCBtaWdyYXRpb24gaGVscCBwbGFuPC9hPjwvbGk+DQogICAgPGxpPjxhIGNsYXNzPSJTTUxpbmsiIGhyZWY9InN1YmNvbnRyYWN0aW5nLmFzcHgiPlN1YmNvbnRyYWN0aW5nPC9hPjwvbGk+DQogIDwvdWw+DQogIDwvbGk+DQogIDxsaT48YSBjbGFzcz0iTU1MaW5rIiBocmVmPSJwdWJsaWNhdGlvbnMuYXNweCI+UHVibGljYXRpb25zPC9hPg0KICA8dWwgY2xhc3M9IlNNZW51Ij4NCiAgICA8bGk+PGEgY2xhc3M9IlNNTGluayIgaHJlZj0iYm9va3MuYXNweCI+Qm9va3M8L2E+PC9saT4NCiAgICA8bGk+PGEgY2xhc3M9IlNNTGluayIgaHJlZj0iY29uZmVyZW5jZXMuYXNweCI+Q29uZmVyZW5jZXM8L2E+PC9saT4NCiAgICA8bGk+PGEgY2xhc3M9IlNNTGluayIgaHJlZj0icGFwZXJzLmFzcHgiPlBhcGVyczwvYT48L2xpPg0KICAgIDxsaT48YSBjbGFzcz0iU01MaW5rIiB0YXJnZXQ9X2JsYW5rIGhyZWY9Imh0dHA6Ly9ibG9nLmRldmVsb3BwZXouY29tLz9ibG9nPTUwIj5CbG9nPC9hPjwvbGk+DQogIDwvdWw+DQogIDwvbGk+DQogIDxsaT48YSBjbGFzcz0iTU1MaW5rIiBocmVmPSJ2b3RlLmFzcHgiPlBvbGwgb2YgdGhlIG1vbnRoPC9hPjwvbGk+DQogIDxsaT48YSBjbGFzcz0iTU1MaW5rIiBocmVmPSJmcmVlc29mdHMuYXNweCI+RnJlZSBzb2Z0d2FyZXM8L2E+PC9saT4NCiAgPGxpPjxhIGNsYXNzPSJNTUxpbmsiIGhyZWY9ImRubE1hbmFnZXIuYXNweCI+RG93bmxvYWQ8L2E+PC9saT4NCiAgPGxpPjxhIGNsYXNzPSJNTUxpbmsiIGhyZWY9ImNvbnRhY3QuYXNweCI+Q29udGFjdDwvYT48L2xpPg0KICA8bGk+PGEgY2xhc3M9Ik1NTGluayIgaHJlZj0iY29tcGFueS5hc3B4Ij5UaGUgY29tcGFueTwvYT48L2xpPg0KIA0KPC91bD4NCmQCDQ9kFgICAQ8WAh4HVmlzaWJsZWhkAg8PZBYCAgEPFgIfAQWwKg0KPHRhYmxlIHdpZHRoPSIxMDAlIiBib3JkZXI9IjAiIGNlbGxzcGFjaW5nPSIwIiBjZWxscGFkZGluZz0iMCI+DQogIDx0cj4NCiAgICA8dGQgd2lkdGg9IjIwJSI+PGltZyBjbGFzcz0iVGl0bGUiIHNyYz0iaW1hZ2VzL0VOVlMuanBnIiB3aWR0aD0iMTg5IiBoZWlnaHQ9IjE4OSI+PC90ZD4NCiAgICA8dGQgd2lkdGg9IjMlIj4mbmJzcDs8L3RkPg0KICAgIDx0ZCB3aWR0aD0iNzclIj48c3Ryb25nPkUtTmF4b3MgOiBiZWNhdXNlIGRlc2lnbmluZyBzb2Z0d2FyZSBpcyBub3QganVzdCBhIA0KICAgICAgbWVjaGFuaWNhbCBwcm9jZXNzLi4uIDwvc3Ryb25nPjwvdGQ+DQogIDwvdHI+DQo8L3RhYmxlPg0KPGgyPldoYXQgeW91IHdpbGwgZmluZCBoZXJlPC9oMj4NCjxwPk91ciBzaXRlIGlzIHNlcGFyYXRlZCBpbiB0d28gcGFydHMuIFRoZSBGcmVuY2ggb25lIGlzIGludHJvZHVjaW5nIGFsbCBvdXIgYWN0aXZpdGllcyANCiAgc3VjaCBhcyB0cmFpbmluZywgc29mdHdhcmUgZGV2ZWxvcG1lbnQgb3IgcGFwZXJzIGFuZCBib29rcyB3ZSB3cm90ZS4gVGhlIEVuZ2xpc2ggDQogIHBhcnQgaXMgbW9yZSBkZWRpY2F0ZWQgdG8gb3VyIGludGVybmF0aW9uYWwgYWN0aXZpdGllcyBzdWNoIGFzIEMjIG9yIERlbHBoaSANCiAgY29tcG9uZW50cyBhbmQgY29kZSBsaWJyYXJpZXMuIE9mIGNvdXJzZSB5b3UncmUgd2VsY29tZSBvbiBib3RoIHBhcnRzLCBidXQgaWYgDQogIHlvdSBjYW4ndCByZWFkIEZyZW5jaCB0aGUgRnJlbmNoIHBhcnQgd2lsbCBub3QgYmUgdmVyeSBpbnRlcmVzdGluZy4uLjwvcD4NCjxoMj5GZWJydWFyeSAyMDA5PC9oMj4NCjxwPkJhc2VkIHVwb24gc3RhdGlzdGljcyBhYm91dCBvdXIgdmlzaXRvcnMgb24gdGhpcyBzaXRlIGFuZCBvdXIgb3RoZXIgYXBwbGljYXRpb25zIA0KICAoYmxvZywgc2FtcGxlcywgZG93bmxvYWQuLi4pLCB3ZSBoYXZlIG1pZ3JhdGVkIGZyb20gYSBkYXRhY2VudGVyIGJhc2VkIGluIHRoZSANCiAgVVNBICh3ZXN0IGNvYXN0KSB0byBhIG5ldyBkYXRhY2VudGVyIGluIFVLLiBFdXJvcGVhbiB2aXNpdG9ycyB3aWxsIGJlbmVmaXQgdGhpcyANCiAgY2hhbmdlIChiZXR0ZXIgcGluZywgYmV0dGVyIGV4cGVyaWVuY2UpLiBPZiBjb3Vyc2UsIHdlIGFwb2xvZ2l6ZSBmb3Igb3VyIFVTQSANCiAgdmlzaXRvcnMgd2hvIG1heSBleHBlcmllbmNlIHNsb3dlciBhY2Nlc3MgdGltZS4gT2YgY291cnNlIHdlJ3JlIHZlcnkgaW50ZXJlc3RlZCANCiAgaW4geW91ciBmZWVkYmFjayBhbmQgd2lsbCB0cnkgdG8gYWRkcmVzcyBhbnkgcHJvYmxlbSBvbiBvdXIgYmVzdCwgc28gZmVlbCBmcmVlIA0KICB0byB1c2UgdGhlIENvbnRhY3QgcGFnZSAhPC9wPg0KPGgyPkphbnVhcnkgMjAwOTwvaDI+DQo8cD5JZiB5b3UncmUgc3BlYWtpbmcgRnJlbmNoIHlvdSBjYW4gdGVzdCB0aGUgU2lsdmVybGlnaHQgMiBzYW1wbGUgYXBwbGljYXRpb24gDQogIHdlIGhhdmUganVzdCBwdWJsaXNoZWQgJnF1b3Q7PGEgY2xhc3M9IkNMaW5rIiBocmVmPSJodHRwOi8vd3d3LmUtbmF4b3MuY29tL3N2Y3AvU1ZDUFRlc3RQYWdlLmh0bWwiPnRoZSANCiAgRnJlbmNoIFppcCBDb2RlczwvYT4mcXVvdDsuPC9wPg0KPGgyPkF1Z3VzdCAyMDA4PC9oMj4NCjxoMz5TbWFydGVyIER1cGxpY2F0ZSBGaWxlIEZpbmRlcjwvaDM+DQo8cD5UaGlzIGZhbnRhc3RpYyBGUkVFIHRvb2xzIHdpbGwgaGVscCB5b3UgZmluZGluZyBkdXBsaWNhdGUgZmlsZXMgb24geW91ciBkaXNrcy4gDQogIE9uZS1zY3JlZW4gc2ltcGxlIHVzZXIgaW50ZXJmYWNlIHdpdGggc21hcnQgb3B0aW9ucyB0byBsb2NhdGUgZmlsZXMgYnkgdGhlaXIgDQogIG5hbWUsIHNpemUgYW5kIHR5cGUsIHNvdW5kZXgsIE1ldGFwaG9uZSwgZG91YmxlIE1ldGFwaG9uZSwgRGFpdGNoIE1va3RvZmYsIG9yIA0KICBieSBNRDUgaGFzaCBrZXkuIE1vdmUsIGRlbGV0ZSBvciBsaXN0IGR1cGxpY2F0ZSBmaWxlcyBpbmEgZmV3IGNsaWNrcy4gQSBtdXN0IA0KICBoYXZlICEgTW9yZSBpbmZvcm1hdGlvbiBvbiB0aGUgPGEgaHJlZj0iZnJlZXNvZnRzLmFzcHgiIGNsYXNzPSJDTGluayI+ZnJlZSB0b29sIA0KICBwYWdlPC9hPi4gPC9wPg0KPGgyPkp1bHkgMjAwODwvaDI+DQo8aDM+TWV0ZW8gVG9vbHM8L2gzPg0KPHA+V2UgcmVsZWFzZWQgYSBzZXQgb2YgZnJlZSB0b29scyB0byBoZWxwIHJlcGFpciBhbmQgbWVyZ2UgJnF1b3Q7aGlzdG9yeS5kYXQmcXVvdDsgDQogIGZpbGVzIG9mIHRoZSBMYWNyb3NzZSBXUzIzMDAgc2VyaWUuIDxhIGhyZWY9ImZyZWVzb2Z0cy5hc3B4IiBjbGFzcz0iQ0xpbmsiPkxvb2sgYXQgdGhlIGZyZWUgc29mdHdhcmUgcGFnZTwvYT4uPC9wPg0KPGgzPlBhcGVyczwvaDM+DQo8cD5Eb24ndCBtaXNzIG91ciBuZXcgcGFwZXJzIGFib3V0IEMjIDMuMCBzeW50YXggYW5kIGEgYmlnIHNpZ2h0IG9mIExJTlEgKGZyZW5jaCANCiAgdmVyc2lvbiBvbmx5IGF0IHRoaXMgdGltZSkuPC9wPg0KPGgyPk5vdmVtYmVyIDIwMDcgOiBSZXR1cm4gZnJvbSBFdXJvcGVhbiBUZWNoRWQgaW4gQmFyY2Vsb25hPC9oMj4NCjxwPkFzIGFubm91bmNlZCwgd2UndmUgYmVlbiBwYXJ0IG9mIHRoaXMgZ3JlYXQgTWljcm9zb2Z0IGV2ZW50IGluIEJhcmNlbG9uYSBmaXJzdCANCiAgd2VlayBvZiBub3ZlbWJlci48YnI+DQogIFdlIHNhdyBhIGxvdCBvZiB1bnZhbHVhYmxlIHNlc3Npb25zIGFuZCBtZXQgYSBsb3Qgb2YgcGxlYXNhbnQgcGVvcGxlLiBPZiBjb3Vyc2UsIA0KICB3ZSBub3cgbmVlZCB0byBzb3J0IG91dCBhbGwgdGhlIGluZm9ybWF0aW9uIHdlIGNvbGxlY3RlZCAhPC9wPg0KPHA+VGhvc2Ugd2hvJ3JlIHNwZWFraW5nIEZyZW5jaCBoYXMgYmVlbiBhYmxlIHRvIGZvbGxvdyBvdXIgam91cm5leSBkYXkgYnkgYmF5IA0KICBpbiBvdXIgYmxvZywgPGEgY2xhc3M9IkNMaW5rIiBocmVmPSJodHRwOi8vd3d3LmUtbmF4b3MuY29tL0Jsb2ciIHRhcmdldD0iX2JsYW5rIj5Eb3QuQmxvZzwvYT4uIA0KICBOb3csIG9uIHRoZSBzYW1lIGJsb2cgeW91J2xsIGZpbmQgcmVndWxhcnkgc29tZSBzaG9ydCBwYXBlcnMgYWJvdXQgYWxsIHNlc3Npb25zIA0KICB3ZSBsb3ZlZCBhbmQgYWxsIG5ldyBleGl0aW5nIE1pY3Jvc29mdCB0ZWNobm9sb2dpZXMuIFNvIHN0YXkgdHVuZWQgYW5kIHJlbWVtYmVyIA0KICB0aGlzIGFkZHJlc3MgJnF1b3Q7PGEgY2xhc3M9IkNMaW5rIiBocmVmPSJodHRwOi8vd3d3LmUtbmF4b3MuY29tL0Jsb2ciIHRhcmdldD0iX2JsYW5rIj5Eb3QuQmxvZzwvYT4mcXVvdDsgDQogICEgPC9wPg0KPGgyPk5ld3M8L2gyPg0KPGgzPkZyZWUgLk5FVCBkYXRhIGV4cG9ydCBETEwgITwvaDM+DQo8cD5SQyAxLjAgb2YgRU4uRVhQT1JUIGlzIGZyZWVseSBkb3dubG9hZGFibGUuIEVsZXZlbiBleHBvcnQgZW5naW5lcyBhdmFpbGFibGUhIA0KICA8YnI+DQogIEFjY2VzIDxhIGhyZWY9ImVuZXhwb3J0LmFzcHgiIGNsYXNzPSJDTGluayI+RU4uRVhQT1JUPC9hPiBwYWdlIHRvIGdldCBtb3JlIGluZm9ybWF0aW9uLjwvcD4NCjxoMz5DYXB0Y2hhPC9oMz4NCjxwPkFzIG91ciBDb250YWN0IHBhZ2UgaGFzIGJlZW4gc3BhbW1lZCB3ZSBoYXZlIGFkZGVkIGEgQ2FwdGNoYS4gU28gZG9uJ3QgZm9yZ2V0IA0KICB0byBpbnB1dCB0aGUgQ2FwdGNoYSBjb250cm9sIGNvZGUgdG8gdmFsaWRhdGUgYW55IHJlcXVlc3Qgc2VudCB1c2luZyB0aGlzIHBhZ2UuLi48L3A+DQo8aDM+TmV3IGZyZWUgdG9vbDwvaDM+DQo8cD5XZSBhZGRlZCBhIG5ldyBmcmVlIHRvb2wgJnF1b3Q7V2luVHJ4Mkh0bWwmcXVvdDssIGFuIGVuaGFuY2VkIFdpbmRvd3MgRm9ybXMgDQogIHZlcnNpb24gb2Ygb3JpZ2luYWwgJnF1b3Q7VHJ4Mkh0bWwmcXVvdDsgZnJvbSBSaWRvLiBUaGlzIHRvb2wgZ2VuZXJhdGUgYW4gSHRtbCANCiAgcmVwb3J0IGZyb20gYSAmcXVvdDsudHJ4JnF1b3Q7IGZpbGUgKFRlc3QgcnVucyByZXN1bHRzIGZpbGUgZnJvbSBWU1RTIC0gVmlzdWFsIA0KICBTdHVkaW8gVGVhbSBTeXN0ZW0pLiBTb3VyY2UgY29kZSBpbmNsdWRlZC4gTW9yZSBpbmZvcm1hdGlvbiBvbiB0aGUgPGEgaHJlZj0iZnJlZXNvZnRzLmFzcHgiIGNsYXNzPSJDTGluayI+ZnJlZSANCiAgdG9vbCBwYWdlPC9hPi4gPC9wPg0KPGgzPlRoZSBmdXR1cmUgb2YgRGF0YUdlbiByZXZlYWxlZDwvaDM+DQo8cD4gWW91IGNhbiByZWFkIHNvbWUgaW1wb3J0YW50IGluZm9ybWF0aW9uIGFib3V0IHRoZSBmdXR1cmUgb2YgdGhpcyBwcm9kdWN0IG9uIA0KICB0aGUgPGEgaHJlZj0iZGF0YWdlbi5hc3B4IiBjbGFzcz0iQ0xpbmsiPkRhdGFHZW48L2E+IHBhZ2UuIDwvcD4NCjxoMz5BamF4IHJvY2tzICE8L2gzPg0KPHA+IFNpbmNlIDI0dGggb2YgbWFyY2ggb3VyIHNpdGUgaXMgbm93IHBvd2VyZWQgYnkgTWljcm9zb2Z0IEFqYXggYW5kIHRoZSBBamF4IA0KICBUb29sa2l0LiA8YnI+DQogIENvbnRhY3QgYW5kIERvd25sb2FkIHBhZ2VzIGFyZSB0aGUgcGxhY2VzIHdoZXJlIGNoYW5nZXMgd2lsbCBiZSBtb3JlIHZpc2libGUgDQogIHNpbmNlIGEgbG90IG9mIG90aGVyIHBhZ2VzIGFyZSBkaXNwbGF5aW5nIGluZm9ybWF0aW9uIG1vcmUgdGhhbiBlc3RhYmxpc2hpbmcgDQogIGEgY29tcGxleCBkaWFsb2cgd2l0aCB0aGUgZW5kIHVzZXIuIDxicj4NCiAgRm9yIG1vcmUgaW5mb3JtYXRpb24gOiA8YSBocmVmPSJodHRwOi8vYWpheC5hc3AubmV0LyIgdGFyZ2V0PSJfYmxhbmsiIGNsYXNzPSJDTGluayI+TWljcm9zb2Z0IA0KICBBamF4IHNpdGU8L2E+Ljxicj4NCjwvcD4NCjxoMz4gMi0yMDA3IERhdGFHZW4gMi4xIHJlbGVhc2VkLjwvaDM+DQo8cD4gVmVyc2lvbiAyLjEgb2Ygb3VyIGdyZWF0IFRlc3QgRGF0YSBHZW5lcmF0b3IgRGF0YUdlbiBoYXMgYmVlbiByZWxlYXNlZCAhPGJyPg0KICBZb3UgY2FuIGRvd25sb2FkIHRoZSBuZXcgRGVtbyBhbmQgZGlzY292ZXIgYWxsIHRoZSBuZXcgZmVhdHVyZXMuIFRoaXMgVGVzdCBEYXRhIA0KICBHZW5lcmF0b3IgaXMgcmVhbGx5IGZhbnN0YXRpYywganVzdCBnaXZlIGl0IHRyeSBhbmQgeW91J2xsIGxvdmUgaXQgITxicj4NCjwvcD4NCjxoMz5EZWxwaGkgMjAwNiBzdXBwb3J0IGZvciBNSyBRdWVyeSBCdWlsZGVyPC9oMz4NCjxwPjIwMDYgSnVuZSAyMHJoOiBNS1FCIFZlcnNpb24gMy4wMyBpcyByZWxlYXNlZCwgaXQgaGFzIGJlZW4gdGVzdGVkIGZvciBEZWxwaGkgDQogIDIwMDYgd2luMzIuIFlvdSBjYW4gYWNjZXNzIDxhIGhyZWY9Im1rcWIuYXNweCIgY2xhc3M9IkNMaW5rIj5NS1FCPC9hPiBwYWdlIHRvIA0KICBnZXQgbW9yZSBkZXRhaWxzIGFib3V0IHRoZSBwcm9kdWN0LjwvcD4NCjxoMj4mbmJzcDs8L2gyPg0KPHA+PHN0cm9uZz5GZWVsIGZyZWUgdG8gY29udGFjdCB1cyB1c2luZyB0aGUgPGEgY2xhc3M9IkNMaW5rIiBocmVmPSJjb250YWN0LmFzcHgiPkNvbnRhY3Q8L2E+IA0KICBwYWdlLjwvc3Ryb25nPjwvcD4NCmQCEQ8PFgIfAQUJSG9tZSBwYWdlZGQCEw8PFgIeB1Rvb2xUaXAFJkNvbm5lY3RlZCB1c2VyLiBDbGljayAiTG9naW4iIHRvIHVubG9nZGQCFQ8PFgQfAQUTVXNlciBhdXRoZW50aWNhdGlvbh8DBR1Mb2dpbiB0byBhY2Nlc3MgcHJpdmF0ZSBhcmVhc2RkGAEFHl9fQ29udHJvbHNSZXF1aXJlUG9zdEJhY2tLZXlfXxYCBRJjdGwwMCRpbWdCdG5GcmVuY2gFE2N0bDAwJGltZ0J0bkVuZ2xpc2g=" /><script src="/ScriptResource.axd?d=5SQLQ6NyeKVRXJiaQzvwvdT0NVxlM0C0zFt2b7UC9-H8ixoDYq1O_7HZJty-e0d0-0GIS96qDxOtEfbBYukFMrZZeDPM-5wAKbZHAgUu8l41&amp;t=633480424593702626" type="text/javascript"></script><input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWAwLS29vEBAK2mqz8BAKcjIe7CQ==" />                <div>            <table align="center" border="0" cellpadding="0" cellspacing="0" width="800">                <tr>                    <td colspan="2" style="height: 74px">                        <table height="62" cellspacing="0" cellpadding="0" width="800" background="images/CadreHaut.png" border="0">    <tr>      <td valign="top"><table cellspacing="0" cellpadding="0" width="100%" border="0">    <tr>	  <td width="152"></td>      <td width="648">                <table cellspacing="0" cellpadding="0" width="100%" border="0">                    <tr>                      <td align="center" width="129">                        <a id="ctl00_TopMenu_hyperLink1" class="TopLink" href="Index.aspx" style="display:inline-block;">Home</a></td>                      <td align="center" width="129">                        <a id="ctl00_TopMenu_hyperLink2" class="TopLink" href="Products.aspx" style="display:inline-block;">Products</a></td>                      <td align="center" width="129">                        <a id="ctl00_TopMenu_hyperLink3" class="TopLink" href="Services.aspx" style="display:inline-block;">Training</a></td>                      <td align="center" width="129">                        <a id="ctl00_TopMenu_hyperLink4" class="TopLink" href="Publications.aspx" style="display:inline-block;">Publications</a></td>                      <td align="center" width="132">                        <a id="ctl00_TopMenu_hyperLink5" class="TopLink" href="Contact.aspx" style="display:inline-block;">Contact</a></td>                    </tr>                </table></td>    </tr>    <tr>      <td></td>      <td></td>    </tr>    <tr>      <td></td>      <td></td>    </tr></table></td>    </tr></table>                    </td>                </tr>                <tr>                    <td width="152">                    </td>                    <td width="648" style="text-align: right">                    </td>                </tr>                <tr>                    <td align="center" height="20" style="height: 22px" valign="top">                        &nbsp;<input type="image" name="ctl00$imgBtnFrench" id="ctl00_imgBtnFrench" title="Site en français" src="images/flag_france.png" alt="Français" align="middle" border="0" />                        &nbsp;&nbsp;                        <input type="image" name="ctl00$imgBtnEnglish" id="ctl00_imgBtnEnglish" title="View site in English" src="images/flag_usa.png" alt="English" align="middle" border="0" /></td>                    <td style="height: 22px">                        <table border="0" cellpadding="0" cellspacing="0" width="100%">                            <tr>                                <td width="65">                                </td>                                <td class="Title" height="22" valign="top">                                        E-NAXOS C# / Delphi training - development - Components - Softwares                                </td>                            </tr>                        </table>                    </td>                </tr>                <tr>                    <td>                    </td>                    <td height="20">                    </td>                </tr>                <tr>                    <td valign="top">                        <table border="0" cellpadding="0" cellspacing="0" width="152">                            <tr>                                <td>                                    <img border="0" height="13" hspace="0" src="images/MenuHaut.png" width="152" alt=""/></td>                            </tr>                            <tr>                                <td class="Menu">                                    <ul class="MMenu">  <li><a class="MMLink" href="products.aspx">Products</a></li>  <ul class="SMenu">    <li><a class="MMLink"  >Mk Query Builder</a></li>	<ul class="SMenu">	<li><a class="SMLink" href="mkqb.aspx" >Introduction</a></li>	<li><a class="SMLink" href="mkqbquicktour.aspx" >Quick tour</a></li>	<li><a class="SMLink" href="dnlManager.aspx?GROUP=5&FILEID=15" >Demo</a></li>	<li><a class="SMLink" href="mkqbpricing.aspx" >Pricing</a></li>	</ul>    <li><a class="MMLink" >DataGen</a></li>    <ul class="SMenu">    <li><a class="SMLink" href="datagen.aspx">Introduction</a></li>	<li><a class="SMLink" href="DGquicktour.aspx" >Quick tour</a></li>	<li><a class="SMLink" href="dnlManager.aspx?GROUP=5&FILEID=12" >Demo</a></li>	<li><a class="SMLink" href="dgpricing.aspx" >Pricing</a></li> 	</ul>    <li><a class="MMLink" >EN Export for .NET</a></li>	    <ul class="SMenu">    <li><a class="SMLink" href="enexport.aspx">Introduction</a></li>	<li><a class="SMLink" href="enexportquicktour.aspx" >Quick tour</a></li>	<li><a class="SMLink" href="dnlManager.aspx?GROUP=16" >Free pre-release</a></li>	<li><a class="SMLink" href="enexportpricing.aspx" >Pricing</a></li> 	</ul>  </ul>  <li><a class="MMLink" href="training.aspx">.NET/win32 Training</a></li>  <ul class="SMenu">  </ul>  <li><a class="MMLink" href="services.aspx">Services</a>  <ul class="SMenu">    <li><a class="SMLink" href="development.aspx">Development</a></li>    <li><a class="SMLink" href="audit.aspx">Consulting</a></li>    <li><a class="SMLink" href="migration.aspx">.Net migration help plan</a></li>    <li><a class="SMLink" href="subcontracting.aspx">Subcontracting</a></li>  </ul>  </li>  <li><a class="MMLink" href="publications.aspx">Publications</a>  <ul class="SMenu">    <li><a class="SMLink" href="books.aspx">Books</a></li>    <li><a class="SMLink" href="conferences.aspx">Conferences</a></li>    <li><a class="SMLink" href="papers.aspx">Papers</a></li>    <li><a class="SMLink" target=_blank href="http://blog.developpez.com/?blog=50">Blog</a></li>  </ul>  </li>  <li><a class="MMLink" href="vote.aspx">Poll of the month</a></li>  <li><a class="MMLink" href="freesofts.aspx">Free softwares</a></li>  <li><a class="MMLink" href="dnlManager.aspx">Download</a></li>  <li><a class="MMLink" href="contact.aspx">Contact</a></li>  <li><a class="MMLink" href="company.aspx">The company</a></li> </ul></td>                            </tr>                            <tr>                                <td>                                    <img border="0" height="13" hspace="0" src="images/MenuBas.png" width="152" alt="" /></td>                            </tr>                        </table>                        <br />                        <br />                                            </td>                    <td valign="top">                        <table border="0" cellpadding="0" cellspacing="0" width="100%">                            <tr>                                <td width="65">                                </td>                                <td class="Contents" valign="top">                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">  <tr>    <td width="20%"><img class="Title" src="images/ENVS.jpg" width="189" height="189"></td>    <td width="3%">&nbsp;</td>    <td width="77%"><strong>E-Naxos : because designing software is not just a       mechanical process... </strong></td>  </tr></table><h2>What you will find here</h2><p>Our site is separated in two parts. The French one is introducing all our activities   such as training, software development or papers and books we wrote. The English   part is more dedicated to our international activities such as C# or Delphi   components and code libraries. Of course you're welcome on both parts, but if   you can't read French the French part will not be very interesting...</p><h2>February 2009</h2><p>Based upon statistics about our visitors on this site and our other applications   (blog, samples, download...), we have migrated from a datacenter based in the   USA (west coast) to a new datacenter in UK. European visitors will benefit this   change (better ping, better experience). Of course, we apologize for our USA   visitors who may experience slower access time. Of course we're very interested   in your feedback and will try to address any problem on our best, so feel free   to use the Contact page !</p><h2>January 2009</h2><p>If you're speaking French you can test the Silverlight 2 sample application   we have just published &quot;<a class="CLink" href="http://www.e-naxos.com/svcp/SVCPTestPage.html">the   French Zip Codes</a>&quot;.</p><h2>August 2008</h2><h3>Smarter Duplicate File Finder</h3><p>This fantastic FREE tools will help you finding duplicate files on your disks.   One-screen simple user interface with smart options to locate files by their   name, size and type, soundex, Metaphone, double Metaphone, Daitch Moktoff, or   by MD5 hash key. Move, delete or list duplicate files ina few clicks. A must   have ! More information on the <a href="freesofts.aspx" class="CLink">free tool   page</a>. </p><h2>July 2008</h2><h3>Meteo Tools</h3><p>We released a set of free tools to help repair and merge &quot;history.dat&quot;   files of the Lacrosse WS2300 serie. <a href="freesofts.aspx" class="CLink">Look at the free software page</a>.</p><h3>Papers</h3><p>Don't miss our new papers about C# 3.0 syntax and a big sight of LINQ (french   version only at this time).</p><h2>November 2007 : Return from European TechEd in Barcelona</h2><p>As announced, we've been part of this great Microsoft event in Barcelona first   week of november.<br>  We saw a lot of unvaluable sessions and met a lot of pleasant people. Of course,   we now need to sort out all the information we collected !</p><p>Those who're speaking French has been able to follow our journey day by bay   in our blog, <a class="CLink" href="http://www.e-naxos.com/Blog" target="_blank">Dot.Blog</a>.   Now, on the same blog you'll find regulary some short papers about all sessions   we loved and all new exiting Microsoft technologies. So stay tuned and remember   this address &quot;<a class="CLink" href="http://www.e-naxos.com/Blog" target="_blank">Dot.Blog</a>&quot;   ! </p><h2>News</h2><h3>Free .NET data export DLL !</h3><p>RC 1.0 of EN.EXPORT is freely downloadable. Eleven export engines available!   <br>  Acces <a href="enexport.aspx" class="CLink">EN.EXPORT</a> page to get more information.</p><h3>Captcha</h3><p>As our Contact page has been spammed we have added a Captcha. So don't forget   to input the Captcha control code to validate any request sent using this page...</p><h3>New free tool</h3><p>We added a new free tool &quot;WinTrx2Html&quot;, an enhanced Windows Forms   version of original &quot;Trx2Html&quot; from Rido. This tool generate an Html   report from a &quot;.trx&quot; file (Test runs results file from VSTS - Visual   Studio Team System). Source code included. More information on the <a href="freesofts.aspx" class="CLink">free   tool page</a>. </p><h3>The future of DataGen revealed</h3><p> You can read some important information about the future of this product on   the <a href="datagen.aspx" class="CLink">DataGen</a> page. </p><h3>Ajax rocks !</h3><p> Since 24th of march our site is now powered by Microsoft Ajax and the Ajax   Toolkit. <br>  Contact and Download pages are the places where changes will be more visible   since a lot of other pages are displaying information more than establishing   a complex dialog with the end user. <br>  For more information : <a href="http://ajax.asp.net/" target="_blank" class="CLink">Microsoft   Ajax site</a>.<br></p><h3> 2-2007 DataGen 2.1 released.</h3><p> Version 2.1 of our great Test Data Generator DataGen has been released !<br>  You can download the new Demo and discover all the new features. This Test Data   Generator is really fanstatic, just give it try and you'll love it !<br></p><h3>Delphi 2006 support for MK Query Builder</h3><p>2006 June 20rh: MKQB Version 3.03 is released, it has been tested for Delphi   2006 win32. You can access <a href="mkqb.aspx" class="CLink">MKQB</a> page to   get more details about the product.</p><h2>&nbsp;</h2><p><strong>Feel free to contact us using the <a class="CLink" href="contact.aspx">Contact</a>   page.</strong></p>                                </td>                            </tr>                        </table>                    </td>                </tr>                <tr>                    <td style="height: 20px">                    </td>                    <td style="height: 20px">                    </td>                </tr>                <tr>                    <td>                    </td>                    <td class="BottomCell" valign="bottom">                        <table border="0" cellpadding="0" cellspacing="0" width="100%">                            <tr>                                <td style="height: 19px; width: 33%;">                                    <a id="ctl00_HomePageLink" class="SiteMapLink" href="index.aspx">Home page</a></td>                                <td align="center" class="UserName" style="width: 33%; height: 19px">                                    </td>                                <td align="right" style="height: 19px; width: 33%;">                                    <a id="ctl00_LoginLink" title="Login to access private areas" class="SiteMapLink" href="Login.aspx">User authentication</a></td>                            </tr>                        </table>                    </td>                </tr>            </table>        </div>    <script type="text/javascript">//<![CDATA[Sys.Application.initialize();//]]></script></form><script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script><script type="text/javascript">_uacct = "UA-2776157-2";urchinTracker();</script></body></html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<link type="text/css" rel="stylesheet" href="e-naxos.css">
+			<meta name="description" content="e-naxos Auditing, training, development, Components, Softwares .NET">
+				<meta name="keywords"
+					content="e-naxos, C#, .NET, dotnet, Microsoft, WPF, Silverlight, Eyrolles, training, development, audit, consulting, subcontracting, papers">
+					<meta name="dc.keywords"
+						content="e-naxos, C#, .NET, dotnet, Microsoft, WPF, Silverlight, Eyrolles, training, development, audit, consulting, subcontracting, papers">
+						<meta name="subject" content="E-NAXOS C# / Delphi training - development - Components - Softwares">
+							<meta name="Classification" content="E-NAXOS C# / Delphi training - development - Components - Softwares">
+								<meta name="author" content="olivier dahan">
+									<meta name="copyright" content="©2006 olivier dahan - e-naxos">
+										<meta name="revisit-after" content="30 days">
+											<meta name="identifier-url" content="http://www.e-naxos.com">
+												<meta name="reply-to" content="http://cerbermail.com/?UH4eKKwzAS">
+													<meta name="publisher" content="e-naxos">
+														<meta name="date-creation-ddmmyyyy" content="27052009">
+															<meta name="Robots" content="all">
+																<meta name="Rating" content="General">
+																	<meta name="VW96.OBJECT TYPE" content="Document">
+																		<meta name="Category" content="Document">
+																			<meta name="Page-topic" content="Document">
+																				<meta name="Generator" content="Visual Web Developer 2005">
+																					<meta name="organization" content="e-naxos">
+																						<meta name="contact" content="http://cerbermail.com/?UH4eKKwzAS">
+																							<meta name="contactName" content="olivier dahan">
+																								<meta name="contactOrganization" content="e-naxos">
+																									<meta name="contactZip" content="Paris-Royan">
+																										<meta name="location" content="France, FRANCE">
+																											<meta name="expires" content="never">
+																												<meta name="date-revision-ddmmyyyy" content="27052009">
+																													<meta name="Distribution" content="Global">
+																														<meta name="Audience" content="General">
+																															<title>E-NAXOS C# / Delphi training - development - Components - Softwares</title>
+																															<META http-equiv="Content-Language" CONTENT="en">
+																																<LINK REL="SHORTCUT ICON" HREF="http://www.e-naxos.com/enaxos.ico">
+																																	<META http-equiv="Content-type" CONTENT="text/html;charset=iso-8859-1">
+																																		<META http-equiv="Content-Script-Type" CONTENT="text/javascript">
+																																			<META http-equiv="Content-Style-Type" CONTENT="text/css">
+	</head>
+	<body>
+		<noscript>
+			you have javascript disabled please go to...
+			<a href="nojs.htm">nojs.htm</a>
+			<br />
+			Vous avez déconnecté javascript dans votre browser, allez à...
+			<a href="nojs.htm">nojs.htm</a>
+		</noscript>
+		<form name="aspnetForm" method="post"
+			action="index.aspx?404%3bhttp%3a%2f%2fwww.e-naxos.com%3a80%2fscripts%2fenwscp.dll%2fwsdl%2fIODCODESPOSTAUX" id="aspnetForm">
+			<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE"
+				value="/wEPDwUJODYwMDU4Mjg5D2QWAmYPZBYCAgMPZBYQAgMPZBYKAgEPDxYEHgtOYXZpZ2F0ZVVybAUKSW5kZXguYXNweB4EVGV4dAUESG9tZWRkAgMPDxYEHwAFDVByb2R1Y3RzLmFzcHgfAQUIUHJvZHVjdHNkZAIFDw8WBB8ABQ1TZXJ2aWNlcy5hc3B4HwEFCFRyYWluaW5nZGQCBw8PFgQfAAURUHVibGljYXRpb25zLmFzcHgfAQUMUHVibGljYXRpb25zZGQCCQ8PFgQfAAUMQ29udGFjdC5hc3B4HwEFB0NvbnRhY3RkZAIJD2QWAgIBDxYCHwEFQ0UtTkFYT1MgQyMgLyBEZWxwaGkgdHJhaW5pbmcgLSBkZXZlbG9wbWVudCAtIENvbXBvbmVudHMgLSBTb2Z0d2FyZXNkAgsPFgIfAQWuEw0KPHVsIGNsYXNzPSJNTWVudSI+DQogIDxsaT48YSBjbGFzcz0iTU1MaW5rIiBocmVmPSJwcm9kdWN0cy5hc3B4Ij5Qcm9kdWN0czwvYT48L2xpPg0KICA8dWwgY2xhc3M9IlNNZW51Ij4NCiAgICA8bGk+PGEgY2xhc3M9Ik1NTGluayIgID5NayBRdWVyeSBCdWlsZGVyPC9hPjwvbGk+DQoJPHVsIGNsYXNzPSJTTWVudSI+DQoJPGxpPjxhIGNsYXNzPSJTTUxpbmsiIGhyZWY9Im1rcWIuYXNweCIgPkludHJvZHVjdGlvbjwvYT48L2xpPg0KCTxsaT48YSBjbGFzcz0iU01MaW5rIiBocmVmPSJta3FicXVpY2t0b3VyLmFzcHgiID5RdWljayB0b3VyPC9hPjwvbGk+DQoJPGxpPjxhIGNsYXNzPSJTTUxpbmsiIGhyZWY9ImRubE1hbmFnZXIuYXNweD9HUk9VUD01JkZJTEVJRD0xNSIgPkRlbW88L2E+PC9saT4NCgk8bGk+PGEgY2xhc3M9IlNNTGluayIgaHJlZj0ibWtxYnByaWNpbmcuYXNweCIgPlByaWNpbmc8L2E+PC9saT4NCgk8L3VsPg0KICAgIDxsaT48YSBjbGFzcz0iTU1MaW5rIiA+RGF0YUdlbjwvYT48L2xpPg0KICAgIDx1bCBjbGFzcz0iU01lbnUiPg0KICAgIDxsaT48YSBjbGFzcz0iU01MaW5rIiBocmVmPSJkYXRhZ2VuLmFzcHgiPkludHJvZHVjdGlvbjwvYT48L2xpPg0KCTxsaT48YSBjbGFzcz0iU01MaW5rIiBocmVmPSJER3F1aWNrdG91ci5hc3B4IiA+UXVpY2sgdG91cjwvYT48L2xpPg0KCTxsaT48YSBjbGFzcz0iU01MaW5rIiBocmVmPSJkbmxNYW5hZ2VyLmFzcHg/R1JPVVA9NSZGSUxFSUQ9MTIiID5EZW1vPC9hPjwvbGk+DQoJPGxpPjxhIGNsYXNzPSJTTUxpbmsiIGhyZWY9ImRncHJpY2luZy5hc3B4IiA+UHJpY2luZzwvYT48L2xpPiANCgk8L3VsPg0KICAgIDxsaT48YSBjbGFzcz0iTU1MaW5rIiA+RU4gRXhwb3J0IGZvciAuTkVUPC9hPjwvbGk+DQoJICAgIDx1bCBjbGFzcz0iU01lbnUiPg0KICAgIDxsaT48YSBjbGFzcz0iU01MaW5rIiBocmVmPSJlbmV4cG9ydC5hc3B4Ij5JbnRyb2R1Y3Rpb248L2E+PC9saT4NCgk8bGk+PGEgY2xhc3M9IlNNTGluayIgaHJlZj0iZW5leHBvcnRxdWlja3RvdXIuYXNweCIgPlF1aWNrIHRvdXI8L2E+PC9saT4NCgk8bGk+PGEgY2xhc3M9IlNNTGluayIgaHJlZj0iZG5sTWFuYWdlci5hc3B4P0dST1VQPTE2IiA+RnJlZSBwcmUtcmVsZWFzZTwvYT48L2xpPg0KCTxsaT48YSBjbGFzcz0iU01MaW5rIiBocmVmPSJlbmV4cG9ydHByaWNpbmcuYXNweCIgPlByaWNpbmc8L2E+PC9saT4gDQoJPC91bD4NCg0KICA8L3VsPg0KICA8bGk+PGEgY2xhc3M9Ik1NTGluayIgaHJlZj0idHJhaW5pbmcuYXNweCI+Lk5FVC93aW4zMiBUcmFpbmluZzwvYT48L2xpPg0KICA8dWwgY2xhc3M9IlNNZW51Ij4NCiAgPC91bD4NCiAgPGxpPjxhIGNsYXNzPSJNTUxpbmsiIGhyZWY9InNlcnZpY2VzLmFzcHgiPlNlcnZpY2VzPC9hPg0KICA8dWwgY2xhc3M9IlNNZW51Ij4NCiAgICA8bGk+PGEgY2xhc3M9IlNNTGluayIgaHJlZj0iZGV2ZWxvcG1lbnQuYXNweCI+RGV2ZWxvcG1lbnQ8L2E+PC9saT4NCiAgICA8bGk+PGEgY2xhc3M9IlNNTGluayIgaHJlZj0iYXVkaXQuYXNweCI+Q29uc3VsdGluZzwvYT48L2xpPg0KICAgIDxsaT48YSBjbGFzcz0iU01MaW5rIiBocmVmPSJtaWdyYXRpb24uYXNweCI+Lk5ldCBtaWdyYXRpb24gaGVscCBwbGFuPC9hPjwvbGk+DQogICAgPGxpPjxhIGNsYXNzPSJTTUxpbmsiIGhyZWY9InN1YmNvbnRyYWN0aW5nLmFzcHgiPlN1YmNvbnRyYWN0aW5nPC9hPjwvbGk+DQogIDwvdWw+DQogIDwvbGk+DQogIDxsaT48YSBjbGFzcz0iTU1MaW5rIiBocmVmPSJwdWJsaWNhdGlvbnMuYXNweCI+UHVibGljYXRpb25zPC9hPg0KICA8dWwgY2xhc3M9IlNNZW51Ij4NCiAgICA8bGk+PGEgY2xhc3M9IlNNTGluayIgaHJlZj0iYm9va3MuYXNweCI+Qm9va3M8L2E+PC9saT4NCiAgICA8bGk+PGEgY2xhc3M9IlNNTGluayIgaHJlZj0iY29uZmVyZW5jZXMuYXNweCI+Q29uZmVyZW5jZXM8L2E+PC9saT4NCiAgICA8bGk+PGEgY2xhc3M9IlNNTGluayIgaHJlZj0icGFwZXJzLmFzcHgiPlBhcGVyczwvYT48L2xpPg0KICAgIDxsaT48YSBjbGFzcz0iU01MaW5rIiB0YXJnZXQ9X2JsYW5rIGhyZWY9Imh0dHA6Ly9ibG9nLmRldmVsb3BwZXouY29tLz9ibG9nPTUwIj5CbG9nPC9hPjwvbGk+DQogIDwvdWw+DQogIDwvbGk+DQogIDxsaT48YSBjbGFzcz0iTU1MaW5rIiBocmVmPSJ2b3RlLmFzcHgiPlBvbGwgb2YgdGhlIG1vbnRoPC9hPjwvbGk+DQogIDxsaT48YSBjbGFzcz0iTU1MaW5rIiBocmVmPSJmcmVlc29mdHMuYXNweCI+RnJlZSBzb2Z0d2FyZXM8L2E+PC9saT4NCiAgPGxpPjxhIGNsYXNzPSJNTUxpbmsiIGhyZWY9ImRubE1hbmFnZXIuYXNweCI+RG93bmxvYWQ8L2E+PC9saT4NCiAgPGxpPjxhIGNsYXNzPSJNTUxpbmsiIGhyZWY9ImNvbnRhY3QuYXNweCI+Q29udGFjdDwvYT48L2xpPg0KICA8bGk+PGEgY2xhc3M9Ik1NTGluayIgaHJlZj0iY29tcGFueS5hc3B4Ij5UaGUgY29tcGFueTwvYT48L2xpPg0KIA0KPC91bD4NCmQCDQ9kFgICAQ8WAh4HVmlzaWJsZWhkAg8PZBYCAgEPFgIfAQWwKg0KPHRhYmxlIHdpZHRoPSIxMDAlIiBib3JkZXI9IjAiIGNlbGxzcGFjaW5nPSIwIiBjZWxscGFkZGluZz0iMCI+DQogIDx0cj4NCiAgICA8dGQgd2lkdGg9IjIwJSI+PGltZyBjbGFzcz0iVGl0bGUiIHNyYz0iaW1hZ2VzL0VOVlMuanBnIiB3aWR0aD0iMTg5IiBoZWlnaHQ9IjE4OSI+PC90ZD4NCiAgICA8dGQgd2lkdGg9IjMlIj4mbmJzcDs8L3RkPg0KICAgIDx0ZCB3aWR0aD0iNzclIj48c3Ryb25nPkUtTmF4b3MgOiBiZWNhdXNlIGRlc2lnbmluZyBzb2Z0d2FyZSBpcyBub3QganVzdCBhIA0KICAgICAgbWVjaGFuaWNhbCBwcm9jZXNzLi4uIDwvc3Ryb25nPjwvdGQ+DQogIDwvdHI+DQo8L3RhYmxlPg0KPGgyPldoYXQgeW91IHdpbGwgZmluZCBoZXJlPC9oMj4NCjxwPk91ciBzaXRlIGlzIHNlcGFyYXRlZCBpbiB0d28gcGFydHMuIFRoZSBGcmVuY2ggb25lIGlzIGludHJvZHVjaW5nIGFsbCBvdXIgYWN0aXZpdGllcyANCiAgc3VjaCBhcyB0cmFpbmluZywgc29mdHdhcmUgZGV2ZWxvcG1lbnQgb3IgcGFwZXJzIGFuZCBib29rcyB3ZSB3cm90ZS4gVGhlIEVuZ2xpc2ggDQogIHBhcnQgaXMgbW9yZSBkZWRpY2F0ZWQgdG8gb3VyIGludGVybmF0aW9uYWwgYWN0aXZpdGllcyBzdWNoIGFzIEMjIG9yIERlbHBoaSANCiAgY29tcG9uZW50cyBhbmQgY29kZSBsaWJyYXJpZXMuIE9mIGNvdXJzZSB5b3UncmUgd2VsY29tZSBvbiBib3RoIHBhcnRzLCBidXQgaWYgDQogIHlvdSBjYW4ndCByZWFkIEZyZW5jaCB0aGUgRnJlbmNoIHBhcnQgd2lsbCBub3QgYmUgdmVyeSBpbnRlcmVzdGluZy4uLjwvcD4NCjxoMj5GZWJydWFyeSAyMDA5PC9oMj4NCjxwPkJhc2VkIHVwb24gc3RhdGlzdGljcyBhYm91dCBvdXIgdmlzaXRvcnMgb24gdGhpcyBzaXRlIGFuZCBvdXIgb3RoZXIgYXBwbGljYXRpb25zIA0KICAoYmxvZywgc2FtcGxlcywgZG93bmxvYWQuLi4pLCB3ZSBoYXZlIG1pZ3JhdGVkIGZyb20gYSBkYXRhY2VudGVyIGJhc2VkIGluIHRoZSANCiAgVVNBICh3ZXN0IGNvYXN0KSB0byBhIG5ldyBkYXRhY2VudGVyIGluIFVLLiBFdXJvcGVhbiB2aXNpdG9ycyB3aWxsIGJlbmVmaXQgdGhpcyANCiAgY2hhbmdlIChiZXR0ZXIgcGluZywgYmV0dGVyIGV4cGVyaWVuY2UpLiBPZiBjb3Vyc2UsIHdlIGFwb2xvZ2l6ZSBmb3Igb3VyIFVTQSANCiAgdmlzaXRvcnMgd2hvIG1heSBleHBlcmllbmNlIHNsb3dlciBhY2Nlc3MgdGltZS4gT2YgY291cnNlIHdlJ3JlIHZlcnkgaW50ZXJlc3RlZCANCiAgaW4geW91ciBmZWVkYmFjayBhbmQgd2lsbCB0cnkgdG8gYWRkcmVzcyBhbnkgcHJvYmxlbSBvbiBvdXIgYmVzdCwgc28gZmVlbCBmcmVlIA0KICB0byB1c2UgdGhlIENvbnRhY3QgcGFnZSAhPC9wPg0KPGgyPkphbnVhcnkgMjAwOTwvaDI+DQo8cD5JZiB5b3UncmUgc3BlYWtpbmcgRnJlbmNoIHlvdSBjYW4gdGVzdCB0aGUgU2lsdmVybGlnaHQgMiBzYW1wbGUgYXBwbGljYXRpb24gDQogIHdlIGhhdmUganVzdCBwdWJsaXNoZWQgJnF1b3Q7PGEgY2xhc3M9IkNMaW5rIiBocmVmPSJodHRwOi8vd3d3LmUtbmF4b3MuY29tL3N2Y3AvU1ZDUFRlc3RQYWdlLmh0bWwiPnRoZSANCiAgRnJlbmNoIFppcCBDb2RlczwvYT4mcXVvdDsuPC9wPg0KPGgyPkF1Z3VzdCAyMDA4PC9oMj4NCjxoMz5TbWFydGVyIER1cGxpY2F0ZSBGaWxlIEZpbmRlcjwvaDM+DQo8cD5UaGlzIGZhbnRhc3RpYyBGUkVFIHRvb2xzIHdpbGwgaGVscCB5b3UgZmluZGluZyBkdXBsaWNhdGUgZmlsZXMgb24geW91ciBkaXNrcy4gDQogIE9uZS1zY3JlZW4gc2ltcGxlIHVzZXIgaW50ZXJmYWNlIHdpdGggc21hcnQgb3B0aW9ucyB0byBsb2NhdGUgZmlsZXMgYnkgdGhlaXIgDQogIG5hbWUsIHNpemUgYW5kIHR5cGUsIHNvdW5kZXgsIE1ldGFwaG9uZSwgZG91YmxlIE1ldGFwaG9uZSwgRGFpdGNoIE1va3RvZmYsIG9yIA0KICBieSBNRDUgaGFzaCBrZXkuIE1vdmUsIGRlbGV0ZSBvciBsaXN0IGR1cGxpY2F0ZSBmaWxlcyBpbmEgZmV3IGNsaWNrcy4gQSBtdXN0IA0KICBoYXZlICEgTW9yZSBpbmZvcm1hdGlvbiBvbiB0aGUgPGEgaHJlZj0iZnJlZXNvZnRzLmFzcHgiIGNsYXNzPSJDTGluayI+ZnJlZSB0b29sIA0KICBwYWdlPC9hPi4gPC9wPg0KPGgyPkp1bHkgMjAwODwvaDI+DQo8aDM+TWV0ZW8gVG9vbHM8L2gzPg0KPHA+V2UgcmVsZWFzZWQgYSBzZXQgb2YgZnJlZSB0b29scyB0byBoZWxwIHJlcGFpciBhbmQgbWVyZ2UgJnF1b3Q7aGlzdG9yeS5kYXQmcXVvdDsgDQogIGZpbGVzIG9mIHRoZSBMYWNyb3NzZSBXUzIzMDAgc2VyaWUuIDxhIGhyZWY9ImZyZWVzb2Z0cy5hc3B4IiBjbGFzcz0iQ0xpbmsiPkxvb2sgYXQgdGhlIGZyZWUgc29mdHdhcmUgcGFnZTwvYT4uPC9wPg0KPGgzPlBhcGVyczwvaDM+DQo8cD5Eb24ndCBtaXNzIG91ciBuZXcgcGFwZXJzIGFib3V0IEMjIDMuMCBzeW50YXggYW5kIGEgYmlnIHNpZ2h0IG9mIExJTlEgKGZyZW5jaCANCiAgdmVyc2lvbiBvbmx5IGF0IHRoaXMgdGltZSkuPC9wPg0KPGgyPk5vdmVtYmVyIDIwMDcgOiBSZXR1cm4gZnJvbSBFdXJvcGVhbiBUZWNoRWQgaW4gQmFyY2Vsb25hPC9oMj4NCjxwPkFzIGFubm91bmNlZCwgd2UndmUgYmVlbiBwYXJ0IG9mIHRoaXMgZ3JlYXQgTWljcm9zb2Z0IGV2ZW50IGluIEJhcmNlbG9uYSBmaXJzdCANCiAgd2VlayBvZiBub3ZlbWJlci48YnI+DQogIFdlIHNhdyBhIGxvdCBvZiB1bnZhbHVhYmxlIHNlc3Npb25zIGFuZCBtZXQgYSBsb3Qgb2YgcGxlYXNhbnQgcGVvcGxlLiBPZiBjb3Vyc2UsIA0KICB3ZSBub3cgbmVlZCB0byBzb3J0IG91dCBhbGwgdGhlIGluZm9ybWF0aW9uIHdlIGNvbGxlY3RlZCAhPC9wPg0KPHA+VGhvc2Ugd2hvJ3JlIHNwZWFraW5nIEZyZW5jaCBoYXMgYmVlbiBhYmxlIHRvIGZvbGxvdyBvdXIgam91cm5leSBkYXkgYnkgYmF5IA0KICBpbiBvdXIgYmxvZywgPGEgY2xhc3M9IkNMaW5rIiBocmVmPSJodHRwOi8vd3d3LmUtbmF4b3MuY29tL0Jsb2ciIHRhcmdldD0iX2JsYW5rIj5Eb3QuQmxvZzwvYT4uIA0KICBOb3csIG9uIHRoZSBzYW1lIGJsb2cgeW91J2xsIGZpbmQgcmVndWxhcnkgc29tZSBzaG9ydCBwYXBlcnMgYWJvdXQgYWxsIHNlc3Npb25zIA0KICB3ZSBsb3ZlZCBhbmQgYWxsIG5ldyBleGl0aW5nIE1pY3Jvc29mdCB0ZWNobm9sb2dpZXMuIFNvIHN0YXkgdHVuZWQgYW5kIHJlbWVtYmVyIA0KICB0aGlzIGFkZHJlc3MgJnF1b3Q7PGEgY2xhc3M9IkNMaW5rIiBocmVmPSJodHRwOi8vd3d3LmUtbmF4b3MuY29tL0Jsb2ciIHRhcmdldD0iX2JsYW5rIj5Eb3QuQmxvZzwvYT4mcXVvdDsgDQogICEgPC9wPg0KPGgyPk5ld3M8L2gyPg0KPGgzPkZyZWUgLk5FVCBkYXRhIGV4cG9ydCBETEwgITwvaDM+DQo8cD5SQyAxLjAgb2YgRU4uRVhQT1JUIGlzIGZyZWVseSBkb3dubG9hZGFibGUuIEVsZXZlbiBleHBvcnQgZW5naW5lcyBhdmFpbGFibGUhIA0KICA8YnI+DQogIEFjY2VzIDxhIGhyZWY9ImVuZXhwb3J0LmFzcHgiIGNsYXNzPSJDTGluayI+RU4uRVhQT1JUPC9hPiBwYWdlIHRvIGdldCBtb3JlIGluZm9ybWF0aW9uLjwvcD4NCjxoMz5DYXB0Y2hhPC9oMz4NCjxwPkFzIG91ciBDb250YWN0IHBhZ2UgaGFzIGJlZW4gc3BhbW1lZCB3ZSBoYXZlIGFkZGVkIGEgQ2FwdGNoYS4gU28gZG9uJ3QgZm9yZ2V0IA0KICB0byBpbnB1dCB0aGUgQ2FwdGNoYSBjb250cm9sIGNvZGUgdG8gdmFsaWRhdGUgYW55IHJlcXVlc3Qgc2VudCB1c2luZyB0aGlzIHBhZ2UuLi48L3A+DQo8aDM+TmV3IGZyZWUgdG9vbDwvaDM+DQo8cD5XZSBhZGRlZCBhIG5ldyBmcmVlIHRvb2wgJnF1b3Q7V2luVHJ4Mkh0bWwmcXVvdDssIGFuIGVuaGFuY2VkIFdpbmRvd3MgRm9ybXMgDQogIHZlcnNpb24gb2Ygb3JpZ2luYWwgJnF1b3Q7VHJ4Mkh0bWwmcXVvdDsgZnJvbSBSaWRvLiBUaGlzIHRvb2wgZ2VuZXJhdGUgYW4gSHRtbCANCiAgcmVwb3J0IGZyb20gYSAmcXVvdDsudHJ4JnF1b3Q7IGZpbGUgKFRlc3QgcnVucyByZXN1bHRzIGZpbGUgZnJvbSBWU1RTIC0gVmlzdWFsIA0KICBTdHVkaW8gVGVhbSBTeXN0ZW0pLiBTb3VyY2UgY29kZSBpbmNsdWRlZC4gTW9yZSBpbmZvcm1hdGlvbiBvbiB0aGUgPGEgaHJlZj0iZnJlZXNvZnRzLmFzcHgiIGNsYXNzPSJDTGluayI+ZnJlZSANCiAgdG9vbCBwYWdlPC9hPi4gPC9wPg0KPGgzPlRoZSBmdXR1cmUgb2YgRGF0YUdlbiByZXZlYWxlZDwvaDM+DQo8cD4gWW91IGNhbiByZWFkIHNvbWUgaW1wb3J0YW50IGluZm9ybWF0aW9uIGFib3V0IHRoZSBmdXR1cmUgb2YgdGhpcyBwcm9kdWN0IG9uIA0KICB0aGUgPGEgaHJlZj0iZGF0YWdlbi5hc3B4IiBjbGFzcz0iQ0xpbmsiPkRhdGFHZW48L2E+IHBhZ2UuIDwvcD4NCjxoMz5BamF4IHJvY2tzICE8L2gzPg0KPHA+IFNpbmNlIDI0dGggb2YgbWFyY2ggb3VyIHNpdGUgaXMgbm93IHBvd2VyZWQgYnkgTWljcm9zb2Z0IEFqYXggYW5kIHRoZSBBamF4IA0KICBUb29sa2l0LiA8YnI+DQogIENvbnRhY3QgYW5kIERvd25sb2FkIHBhZ2VzIGFyZSB0aGUgcGxhY2VzIHdoZXJlIGNoYW5nZXMgd2lsbCBiZSBtb3JlIHZpc2libGUgDQogIHNpbmNlIGEgbG90IG9mIG90aGVyIHBhZ2VzIGFyZSBkaXNwbGF5aW5nIGluZm9ybWF0aW9uIG1vcmUgdGhhbiBlc3RhYmxpc2hpbmcgDQogIGEgY29tcGxleCBkaWFsb2cgd2l0aCB0aGUgZW5kIHVzZXIuIDxicj4NCiAgRm9yIG1vcmUgaW5mb3JtYXRpb24gOiA8YSBocmVmPSJodHRwOi8vYWpheC5hc3AubmV0LyIgdGFyZ2V0PSJfYmxhbmsiIGNsYXNzPSJDTGluayI+TWljcm9zb2Z0IA0KICBBamF4IHNpdGU8L2E+Ljxicj4NCjwvcD4NCjxoMz4gMi0yMDA3IERhdGFHZW4gMi4xIHJlbGVhc2VkLjwvaDM+DQo8cD4gVmVyc2lvbiAyLjEgb2Ygb3VyIGdyZWF0IFRlc3QgRGF0YSBHZW5lcmF0b3IgRGF0YUdlbiBoYXMgYmVlbiByZWxlYXNlZCAhPGJyPg0KICBZb3UgY2FuIGRvd25sb2FkIHRoZSBuZXcgRGVtbyBhbmQgZGlzY292ZXIgYWxsIHRoZSBuZXcgZmVhdHVyZXMuIFRoaXMgVGVzdCBEYXRhIA0KICBHZW5lcmF0b3IgaXMgcmVhbGx5IGZhbnN0YXRpYywganVzdCBnaXZlIGl0IHRyeSBhbmQgeW91J2xsIGxvdmUgaXQgITxicj4NCjwvcD4NCjxoMz5EZWxwaGkgMjAwNiBzdXBwb3J0IGZvciBNSyBRdWVyeSBCdWlsZGVyPC9oMz4NCjxwPjIwMDYgSnVuZSAyMHJoOiBNS1FCIFZlcnNpb24gMy4wMyBpcyByZWxlYXNlZCwgaXQgaGFzIGJlZW4gdGVzdGVkIGZvciBEZWxwaGkgDQogIDIwMDYgd2luMzIuIFlvdSBjYW4gYWNjZXNzIDxhIGhyZWY9Im1rcWIuYXNweCIgY2xhc3M9IkNMaW5rIj5NS1FCPC9hPiBwYWdlIHRvIA0KICBnZXQgbW9yZSBkZXRhaWxzIGFib3V0IHRoZSBwcm9kdWN0LjwvcD4NCjxoMj4mbmJzcDs8L2gyPg0KPHA+PHN0cm9uZz5GZWVsIGZyZWUgdG8gY29udGFjdCB1cyB1c2luZyB0aGUgPGEgY2xhc3M9IkNMaW5rIiBocmVmPSJjb250YWN0LmFzcHgiPkNvbnRhY3Q8L2E+IA0KICBwYWdlLjwvc3Ryb25nPjwvcD4NCmQCEQ8PFgIfAQUJSG9tZSBwYWdlZGQCEw8PFgIeB1Rvb2xUaXAFJkNvbm5lY3RlZCB1c2VyLiBDbGljayAiTG9naW4iIHRvIHVubG9nZGQCFQ8PFgQfAQUTVXNlciBhdXRoZW50aWNhdGlvbh8DBR1Mb2dpbiB0byBhY2Nlc3MgcHJpdmF0ZSBhcmVhc2RkGAEFHl9fQ29udHJvbHNSZXF1aXJlUG9zdEJhY2tLZXlfXxYCBRJjdGwwMCRpbWdCdG5GcmVuY2gFE2N0bDAwJGltZ0J0bkVuZ2xpc2g=" />
+			<script
+				src="/ScriptResource.axd?d=5SQLQ6NyeKVRXJiaQzvwvdT0NVxlM0C0zFt2b7UC9-H8ixoDYq1O_7HZJty-e0d0-0GIS96qDxOtEfbBYukFMrZZeDPM-5wAKbZHAgUu8l41&amp;t=633480424593702626"
+				type="text/javascript"></script>
+			<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWAwLS29vEBAK2mqz8BAKcjIe7CQ==" />
+			<div>
+				<table align="center" border="0" cellpadding="0" cellspacing="0" width="800">
+					<tr>
+						<td colspan="2" style="height: 74px">
+							<table height="62" cellspacing="0" cellpadding="0" width="800" background="images/CadreHaut.png" border="0">
+								<tr>
+									<td valign="top">
+										<table cellspacing="0" cellpadding="0" width="100%" border="0">
+											<tr>
+												<td width="152"></td>
+												<td width="648">
+													<table cellspacing="0" cellpadding="0" width="100%" border="0">
+														<tr>
+															<td align="center" width="129">
+																<a id="ctl00_TopMenu_hyperLink1" class="TopLink" href="Index.aspx" style="display:inline-block;">Home</a>
+															</td>
+															<td align="center" width="129">
+																<a id="ctl00_TopMenu_hyperLink2" class="TopLink" href="Products.aspx" style="display:inline-block;">Products</a>
+															</td>
+															<td align="center" width="129">
+																<a id="ctl00_TopMenu_hyperLink3" class="TopLink" href="Services.aspx" style="display:inline-block;">Training</a>
+															</td>
+															<td align="center" width="129">
+																<a id="ctl00_TopMenu_hyperLink4" class="TopLink" href="Publications.aspx" style="display:inline-block;">Publications</a>
+															</td>
+															<td align="center" width="132">
+																<a id="ctl00_TopMenu_hyperLink5" class="TopLink" href="Contact.aspx" style="display:inline-block;">Contact</a>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td></td>
+												<td></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td width="152">
+						</td>
+						<td width="648" style="text-align: right">
+						</td>
+					</tr>
+					<tr>
+						<td align="center" height="20" style="height: 22px" valign="top">
+							&nbsp;
+							<input type="image" name="ctl00$imgBtnFrench" id="ctl00_imgBtnFrench" title="Site en français" src="images/flag_france.png"
+								alt="Français" align="middle" border="0" />
+							&nbsp;&nbsp;
+							<input type="image" name="ctl00$imgBtnEnglish" id="ctl00_imgBtnEnglish" title="View site in English" src="images/flag_usa.png"
+								alt="English" align="middle" border="0" />
+						</td>
+						<td style="height: 22px">
+							<table border="0" cellpadding="0" cellspacing="0" width="100%">
+								<tr>
+									<td width="65">
+									</td>
+									<td class="Title" height="22" valign="top"> E-NAXOS C# / Delphi training - development - Components - Softwares
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td>
+						</td>
+						<td height="20">
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<table border="0" cellpadding="0" cellspacing="0" width="152">
+								<tr>
+									<td>
+										<img border="0" height="13" hspace="0" src="images/MenuHaut.png" width="152" alt="" />
+									</td>
+								</tr>
+								<tr>
+									<td class="Menu">
+										<ul class="MMenu">
+											<li>
+												<a class="MMLink" href="products.aspx">Products</a>
+											</li>
+											<ul class="SMenu">
+												<li>
+													<a class="MMLink">Mk Query Builder</a>
+												</li>
+												<ul class="SMenu">
+													<li>
+														<a class="SMLink" href="mkqb.aspx">Introduction</a>
+													</li>
+													<li>
+														<a class="SMLink" href="mkqbquicktour.aspx">Quick tour</a>
+													</li>
+													<li>
+														<a class="SMLink" href="dnlManager.aspx?GROUP=5&FILEID=15">Demo</a>
+													</li>
+													<li>
+														<a class="SMLink" href="mkqbpricing.aspx">Pricing</a>
+													</li>
+												</ul>
+												<li>
+													<a class="MMLink">DataGen</a>
+												</li>
+												<ul class="SMenu">
+													<li>
+														<a class="SMLink" href="datagen.aspx">Introduction</a>
+													</li>
+													<li>
+														<a class="SMLink" href="DGquicktour.aspx">Quick tour</a>
+													</li>
+													<li>
+														<a class="SMLink" href="dnlManager.aspx?GROUP=5&FILEID=12">Demo</a>
+													</li>
+													<li>
+														<a class="SMLink" href="dgpricing.aspx">Pricing</a>
+													</li>
+												</ul>
+												<li>
+													<a class="MMLink">EN Export for .NET</a>
+												</li>
+												<ul class="SMenu">
+													<li>
+														<a class="SMLink" href="enexport.aspx">Introduction</a>
+													</li>
+													<li>
+														<a class="SMLink" href="enexportquicktour.aspx">Quick tour</a>
+													</li>
+													<li>
+														<a class="SMLink" href="dnlManager.aspx?GROUP=16">Free pre-release</a>
+													</li>
+													<li>
+														<a class="SMLink" href="enexportpricing.aspx">Pricing</a>
+													</li>
+												</ul>
+											</ul>
+											<li>
+												<a class="MMLink" href="training.aspx">.NET/win32 Training</a>
+											</li>
+											<ul class="SMenu">
+											</ul>
+											<li>
+												<a class="MMLink" href="services.aspx">Services</a>
+												<ul class="SMenu">
+													<li>
+														<a class="SMLink" href="development.aspx">Development</a>
+													</li>
+													<li>
+														<a class="SMLink" href="audit.aspx">Consulting</a>
+													</li>
+													<li>
+														<a class="SMLink" href="migration.aspx">.Net migration help plan</a>
+													</li>
+													<li>
+														<a class="SMLink" href="subcontracting.aspx">Subcontracting</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="MMLink" href="publications.aspx">Publications</a>
+												<ul class="SMenu">
+													<li>
+														<a class="SMLink" href="books.aspx">Books</a>
+													</li>
+													<li>
+														<a class="SMLink" href="conferences.aspx">Conferences</a>
+													</li>
+													<li>
+														<a class="SMLink" href="papers.aspx">Papers</a>
+													</li>
+													<li>
+														<a class="SMLink" target=_blank href="http://blog.developpez.com/?blog=50">Blog</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="MMLink" href="vote.aspx">Poll of the month</a>
+											</li>
+											<li>
+												<a class="MMLink" href="freesofts.aspx">Free softwares</a>
+											</li>
+											<li>
+												<a class="MMLink" href="dnlManager.aspx">Download</a>
+											</li>
+											<li>
+												<a class="MMLink" href="contact.aspx">Contact</a>
+											</li>
+											<li>
+												<a class="MMLink" href="company.aspx">The company</a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<img border="0" height="13" hspace="0" src="images/MenuBas.png" width="152" alt="" />
+									</td>
+								</tr>
+							</table>
+							<br />
+							<br />
+						</td>
+						<td valign="top">
+							<table border="0" cellpadding="0" cellspacing="0" width="100%">
+								<tr>
+									<td width="65">
+									</td>
+									<td class="Contents" valign="top">
+										<table width="100%" border="0" cellspacing="0" cellpadding="0">
+											<tr>
+												<td width="20%">
+													<img class="Title" src="images/ENVS.jpg" width="189" height="189">
+												</td>
+												<td width="3%">&nbsp;</td>
+												<td width="77%">
+													<strong>E-Naxos : because designing software is not just a mechanical process... </strong>
+												</td>
+											</tr>
+										</table>
+										<h2>What you will find here</h2>
+										<p>Our site is separated in two parts. The French one is introducing all our activities such as training,
+											software development or papers and books we wrote. The English part is more dedicated to our international
+											activities such as C# or Delphi components and code libraries. Of course you're welcome on both parts, but if
+											you can't read French the French part will not be very interesting...</p>
+										<h2>February 2009</h2>
+										<p>Based upon statistics about our visitors on this site and our other applications (blog, samples,
+											download...), we have migrated from a datacenter based in the USA (west coast) to a new datacenter in UK.
+											European visitors will benefit this change (better ping, better experience). Of course, we apologize for our
+											USA visitors who may experience slower access time. Of course we're very interested in your feedback and will
+											try to address any problem on our best, so feel free to use the Contact page !</p>
+										<h2>January 2009</h2>
+										<p>If
+											you're speaking French you can test the Silverlight 2 sample application we have just published &quot;
+											<a class="CLink" href="http://www.e-naxos.com/svcp/SVCPTestPage.html">the French Zip Codes</a>
+											&quot;.
+										</p>
+										<h2>August 2008</h2>
+										<h3>Smarter Duplicate File Finder</h3>
+										<p>
+											This fantastic FREE tools will help you finding duplicate files on your disks. One-screen simple user
+											interface with smart options to locate files by their name, size and type, soundex, Metaphone, double
+											Metaphone, Daitch Moktoff, or by MD5 hash key. Move, delete or list duplicate files ina few clicks. A must
+											have ! More information on the
+											<a href="freesofts.aspx" class="CLink">free tool page</a>
+											.
+										</p>
+										<h2>July 2008</h2>
+										<h3>Meteo Tools</h3>
+										<p>We
+											released a set of free tools to help repair and merge &quot;history.dat&quot; files of the Lacrosse WS2300
+											serie.
+											<a href="freesofts.aspx" class="CLink">Look at the free software page</a>
+											.
+										</p>
+										<h3>Papers</h3>
+										<p>Don't miss our new papers about C# 3.0 syntax and a big sight of LINQ (french version only at this time).
+										</p>
+										<h2>November 2007 : Return from European TechEd in Barcelona</h2>
+										<p>
+											As announced, we've been part of this great Microsoft event in Barcelona first week of november.
+											<br> We saw a lot of unvaluable sessions and met a lot of pleasant people. Of course, we now need to sort out
+												all the information we collected !
+										</p>
+										<p>
+											Those who're speaking French has been able to follow our journey day by bay in our blog,
+											<a class="CLink" href="http://www.e-naxos.com/Blog" target="_blank">Dot.Blog</a>.
+											Now, on the same blog you'll find regulary some short papers about all sessions we loved and all new exiting
+											Microsoft technologies. So stay tuned and remember this address &quot;
+											<a class="CLink" href="http://www.e-naxos.com/Blog" target="_blank">Dot.Blog</a>
+											&quot; !
+										</p>
+										<h2>News</h2>
+										<h3>Free .NET data export DLL !</h3>
+										<p>
+											RC 1.0 of EN.EXPORT is freely downloadable. Eleven export engines available!
+											<br>
+												Acces
+												<a href="enexport.aspx" class="CLink">EN.EXPORT</a>
+												page to get more information.
+										</p>
+										<h3>Captcha</h3>
+										<p>As our Contact page has been spammed we have added a Captcha. So don't forget to input the Captcha control
+											code to validate any request sent using this page...</p>
+										<h3>New free tool</h3>
+										<p>We
+											added a new free tool &quot;WinTrx2Html&quot;, an enhanced Windows Forms version of original
+											&quot;Trx2Html&quot; from Rido. This tool generate an Html report from a &quot;.trx&quot; file (Test runs
+											results file from VSTS - Visual Studio Team System). Source code included. More information on the
+											<a href="freesofts.aspx" class="CLink">free tool page</a>
+											.
+										</p>
+										<h3>The future of DataGen revealed</h3>
+										<p>
+											You can read some important information about the future of this product on the
+											<a href="datagen.aspx" class="CLink">DataGen</a>
+											page.
+										</p>
+										<h3>Ajax rocks !</h3>
+										<p>
+											Since 24th of march our site is now powered by Microsoft Ajax and the Ajax Toolkit.
+											<br>
+												Contact and Download pages are the places where changes will be more visible since a lot of other pages are
+												displaying information more than establishing a complex dialog with the end user.
+												<br>
+													For more information :
+													<a href="http://ajax.asp.net/" target="_blank" class="CLink">Microsoft Ajax site</a>
+													.
+													<br>
+										</p>
+										<h3> 2-2007 DataGen 2.1 released.</h3>
+										<p>
+											Version 2.1 of our great Test Data Generator DataGen has been released !
+											<br>
+												You can download the new Demo and discover all the new features. This Test Data Generator is really
+												fanstatic, just give it try and you'll love it !
+												<br>
+										</p>
+										<h3>Delphi 2006 support for MK Query Builder</h3>
+										<p>
+											2006 June 20rh: MKQB Version 3.03 is released, it has been tested for Delphi 2006 win32. You can access
+											<a href="mkqb.aspx" class="CLink">MKQB</a>
+											page to get more details about the product.
+										</p>
+										<h2>&nbsp;</h2>
+										<p>
+											<strong>
+												Feel free to contact us using the
+												<a class="CLink" href="contact.aspx">Contact</a>
+												page.
+											</strong>
+										</p>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td style="height: 20px">
+						</td>
+						<td style="height: 20px">
+						</td>
+					</tr>
+					<tr>
+						<td>
+						</td>
+						<td class="BottomCell" valign="bottom">
+							<table border="0" cellpadding="0" cellspacing="0" width="100%">
+								<tr>
+									<td style="height: 19px; width: 33%;">
+										<a id="ctl00_HomePageLink" class="SiteMapLink" href="index.aspx">Home page</a>
+									</td>
+									<td align="center" class="UserName" style="width: 33%; height: 19px">
+									</td>
+									<td align="right" style="height: 19px; width: 33%;">
+										<a id="ctl00_LoginLink" title="Login to access private areas" class="SiteMapLink" href="Login.aspx">User authentication
+										</a>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<script type="text/javascript">//<![CDATA[Sys.Application.initialize();//]]></script>
+		</form>
+		<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+		<script type="text/javascript">_uacct = "UA-2776157-2";urchinTracker();</script>
+	</body>
+</html>

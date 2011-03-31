@@ -1,1 +1,194 @@
-<?xml version="1.0" encoding="utf-8"?><definitions xmlns:s0="http://www.strikeiron.com/webservices/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:s1="http://www.strikeiron.com/webservices/AbstractTypes" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.strikeiron.com/webservices/" xmlns="http://schemas.xmlsoap.org/wsdl/">  <types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.strikeiron.com/webservices/">      <s:element name="GetRemainingHits">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="license_key" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetRemainingHitsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetRemainingHitsResult" type="s0:RemainingHitsData" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="RemainingHitsData">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="LicenseStatus" type="s0:LicenseStatus" />          <s:element minOccurs="0" maxOccurs="1" name="ResponseStatus" type="s0:ResponseStatus" />        </s:sequence>      </s:complexType>      <s:complexType name="LicenseStatus">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="status_string" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="status_code" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="remaining" type="s:int" />        </s:sequence>      </s:complexType>      <s:complexType name="ResponseStatus">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="response_code" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="response_string" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="GenerateSampleData">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="generation_rule" type="s0:ArrayOfField" />            <s:element minOccurs="0" maxOccurs="1" name="license_key" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfField">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Field" type="s0:Field" />        </s:sequence>      </s:complexType>      <s:simpleType name="Field">        <s:restriction base="s:string">          <s:enumeration value="first_name" />          <s:enumeration value="last_name" />          <s:enumeration value="full_name" />          <s:enumeration value="street_number" />          <s:enumeration value="street_name" />          <s:enumeration value="full_address" />          <s:enumeration value="city_name" />          <s:enumeration value="state_name" />          <s:enumeration value="zip_code" />          <s:enumeration value="phone_number" />          <s:enumeration value="website" />          <s:enumeration value="email" />          <s:enumeration value="credit_card" />          <s:enumeration value="expiration_date" />          <s:enumeration value="amount" />          <s:enumeration value="random10" />          <s:enumeration value="random100" />          <s:enumeration value="random1000" />          <s:enumeration value="random10000" />          <s:enumeration value="character" />          <s:enumeration value="ssn" />          <s:enumeration value="mm_dd_yy" />          <s:enumeration value="mm_dd_yyyy" />          <s:enumeration value="empty" />        </s:restriction>      </s:simpleType>      <s:element name="GenerateSampleDataResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GenerateSampleDataResult" type="s0:GenerateData" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="GenerateData">        <s:complexContent mixed="false">          <s:extension base="s0:WSDataAbstract">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="data_generation" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="LicenseStatus" type="s0:LicenseStatus" />              <s:element minOccurs="0" maxOccurs="1" name="ResponseStatus" type="s0:ResponseStatus" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="WSDataAbstract" abstract="true" />      <s:element name="RemainingHitsData" nillable="true" type="s0:RemainingHitsData" />      <s:element name="GenerateData" nillable="true" type="s0:GenerateData" />    </s:schema>    <s:schema targetNamespace="http://www.strikeiron.com/webservices/AbstractTypes">      <s:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />      <s:complexType name="StringArray">        <s:complexContent mixed="false">          <s:restriction base="soapenc:Array">            <s:sequence>              <s:element minOccurs="0" maxOccurs="unbounded" name="String" type="s:string" />            </s:sequence>          </s:restriction>        </s:complexContent>      </s:complexType>    </s:schema>  </types>  <message name="GetRemainingHitsSoapIn">    <part name="parameters" element="s0:GetRemainingHits" />  </message>  <message name="GetRemainingHitsSoapOut">    <part name="parameters" element="s0:GetRemainingHitsResponse" />  </message>  <message name="GenerateSampleDataSoapIn">    <part name="parameters" element="s0:GenerateSampleData" />  </message>  <message name="GenerateSampleDataSoapOut">    <part name="parameters" element="s0:GenerateSampleDataResponse" />  </message>  <message name="GetRemainingHitsHttpGetIn">    <part name="license_key" type="s:string" />  </message>  <message name="GetRemainingHitsHttpGetOut">    <part name="Body" element="s0:GetRemainingHitsResponse" />  </message>  <message name="GenerateSampleDataHttpGetIn">    <part name="generation_rule" type="s1:StringArray" />    <part name="license_key" type="s:string" />  </message>  <message name="GenerateSampleDataHttpGetOut">    <part name="Body" element="s0:GenerateSampleDataResponse" />  </message>  <message name="GetRemainingHitsHttpPostIn">    <part name="license_key" type="s:string" />  </message>  <message name="GetRemainingHitsHttpPostOut">    <part name="Body" element="s0:GetRemainingHitsResponse" />  </message>  <message name="GenerateSampleDataHttpPostIn">    <part name="generation_rule" type="s1:StringArray" />    <part name="license_key" type="s:string" />  </message>  <message name="GenerateSampleDataHttpPostOut">    <part name="Body" element="s0:GenerateSampleDataResponse" />  </message>  <portType name="DataGenerationSoap">    <operation name="GetRemainingHits">      <documentation>Get remaining hits of current month</documentation>      <input message="s0:GetRemainingHitsSoapIn" />      <output message="s0:GetRemainingHitsSoapOut" />    </operation>    <operation name="GenerateSampleData">      <documentation>Generate data according to the specified rule</documentation>      <input message="s0:GenerateSampleDataSoapIn" />      <output message="s0:GenerateSampleDataSoapOut" />    </operation>  </portType>  <binding name="DataGenerationSoap" type="s0:DataGenerationSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <operation name="GetRemainingHits">      <soap:operation soapAction="http://www.strikeiron.com/webservices/GetRemainingHits" style="document" />      <input>        <soap:body use="literal" />      </input>      <output>        <soap:body use="literal" />      </output>    </operation>    <operation name="GenerateSampleData">      <soap:operation soapAction="http://www.strikeiron.com/webservices/GenerateSampleData" style="document" />      <input>        <soap:body use="literal" />      </input>      <output>        <soap:body use="literal" />      </output>    </operation>  </binding>  <service name="DataGeneration">    <port name="DataGenerationSoap" binding="s0:DataGenerationSoap">      <soap:address location="http://ws.strikeiron.com/StrikeIron/DataGeneration" />    </port>  </service></definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:s0="http://www.strikeiron.com/webservices/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:s1="http://www.strikeiron.com/webservices/AbstractTypes"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.strikeiron.com/webservices/"
+	xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.strikeiron.com/webservices/">
+			<s:element name="GetRemainingHits">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="license_key" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetRemainingHitsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetRemainingHitsResult" type="s0:RemainingHitsData" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="RemainingHitsData">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="LicenseStatus" type="s0:LicenseStatus" />
+					<s:element minOccurs="0" maxOccurs="1" name="ResponseStatus" type="s0:ResponseStatus" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="LicenseStatus">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="status_string" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="status_code" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="remaining" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ResponseStatus">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="response_code" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="response_string" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GenerateSampleData">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="generation_rule" type="s0:ArrayOfField" />
+						<s:element minOccurs="0" maxOccurs="1" name="license_key" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfField">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Field" type="s0:Field" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="Field">
+				<s:restriction base="s:string">
+					<s:enumeration value="first_name" />
+					<s:enumeration value="last_name" />
+					<s:enumeration value="full_name" />
+					<s:enumeration value="street_number" />
+					<s:enumeration value="street_name" />
+					<s:enumeration value="full_address" />
+					<s:enumeration value="city_name" />
+					<s:enumeration value="state_name" />
+					<s:enumeration value="zip_code" />
+					<s:enumeration value="phone_number" />
+					<s:enumeration value="website" />
+					<s:enumeration value="email" />
+					<s:enumeration value="credit_card" />
+					<s:enumeration value="expiration_date" />
+					<s:enumeration value="amount" />
+					<s:enumeration value="random10" />
+					<s:enumeration value="random100" />
+					<s:enumeration value="random1000" />
+					<s:enumeration value="random10000" />
+					<s:enumeration value="character" />
+					<s:enumeration value="ssn" />
+					<s:enumeration value="mm_dd_yy" />
+					<s:enumeration value="mm_dd_yyyy" />
+					<s:enumeration value="empty" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GenerateSampleDataResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GenerateSampleDataResult" type="s0:GenerateData" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="GenerateData">
+				<s:complexContent mixed="false">
+					<s:extension base="s0:WSDataAbstract">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="data_generation" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="LicenseStatus" type="s0:LicenseStatus" />
+							<s:element minOccurs="0" maxOccurs="1" name="ResponseStatus" type="s0:ResponseStatus" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="WSDataAbstract" abstract="true" />
+			<s:element name="RemainingHitsData" nillable="true" type="s0:RemainingHitsData" />
+			<s:element name="GenerateData" nillable="true" type="s0:GenerateData" />
+		</s:schema>
+		<s:schema targetNamespace="http://www.strikeiron.com/webservices/AbstractTypes">
+			<s:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+			<s:complexType name="StringArray">
+				<s:complexContent mixed="false">
+					<s:restriction base="soapenc:Array">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="unbounded" name="String" type="s:string" />
+						</s:sequence>
+					</s:restriction>
+				</s:complexContent>
+			</s:complexType>
+		</s:schema>
+	</types>
+	<message name="GetRemainingHitsSoapIn">
+		<part name="parameters" element="s0:GetRemainingHits" />
+	</message>
+	<message name="GetRemainingHitsSoapOut">
+		<part name="parameters" element="s0:GetRemainingHitsResponse" />
+	</message>
+	<message name="GenerateSampleDataSoapIn">
+		<part name="parameters" element="s0:GenerateSampleData" />
+	</message>
+	<message name="GenerateSampleDataSoapOut">
+		<part name="parameters" element="s0:GenerateSampleDataResponse" />
+	</message>
+	<message name="GetRemainingHitsHttpGetIn">
+		<part name="license_key" type="s:string" />
+	</message>
+	<message name="GetRemainingHitsHttpGetOut">
+		<part name="Body" element="s0:GetRemainingHitsResponse" />
+	</message>
+	<message name="GenerateSampleDataHttpGetIn">
+		<part name="generation_rule" type="s1:StringArray" />
+		<part name="license_key" type="s:string" />
+	</message>
+	<message name="GenerateSampleDataHttpGetOut">
+		<part name="Body" element="s0:GenerateSampleDataResponse" />
+	</message>
+	<message name="GetRemainingHitsHttpPostIn">
+		<part name="license_key" type="s:string" />
+	</message>
+	<message name="GetRemainingHitsHttpPostOut">
+		<part name="Body" element="s0:GetRemainingHitsResponse" />
+	</message>
+	<message name="GenerateSampleDataHttpPostIn">
+		<part name="generation_rule" type="s1:StringArray" />
+		<part name="license_key" type="s:string" />
+	</message>
+	<message name="GenerateSampleDataHttpPostOut">
+		<part name="Body" element="s0:GenerateSampleDataResponse" />
+	</message>
+	<portType name="DataGenerationSoap">
+		<operation name="GetRemainingHits">
+			<documentation>Get remaining hits of current month</documentation>
+			<input message="s0:GetRemainingHitsSoapIn" />
+			<output message="s0:GetRemainingHitsSoapOut" />
+		</operation>
+		<operation name="GenerateSampleData">
+			<documentation>Generate data according to the specified rule</documentation>
+			<input message="s0:GenerateSampleDataSoapIn" />
+			<output message="s0:GenerateSampleDataSoapOut" />
+		</operation>
+	</portType>
+	<binding name="DataGenerationSoap" type="s0:DataGenerationSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="GetRemainingHits">
+			<soap:operation soapAction="http://www.strikeiron.com/webservices/GetRemainingHits" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="GenerateSampleData">
+			<soap:operation soapAction="http://www.strikeiron.com/webservices/GenerateSampleData" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="DataGeneration">
+		<port name="DataGenerationSoap" binding="s0:DataGenerationSoap">
+			<soap:address location="http://ws.strikeiron.com/StrikeIron/DataGeneration" />
+		</port>
+	</service>
+</definitions>

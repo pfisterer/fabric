@@ -1,1 +1,106 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xmllogic.com" xmlns:s1="http://www.webservicecentral.com" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.xmllogic.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.xmllogic.com">      <s:import namespace="http://www.webservicecentral.com" />      <s:element name="FindDuplicateRequest" type="tns:FindDuplicateRequest" />      <s:complexType name="FindDuplicateRequest">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Template" type="tns:FindDuplicateTemplate" />          <s:element minOccurs="0" maxOccurs="1" name="FindDuplicate" type="tns:FindDuplicate" />        </s:sequence>        <s:attribute name="LicenseKey" type="s:string" />      </s:complexType>      <s:complexType name="FindDuplicateTemplate">        <s:attribute name="DBPlatform" type="s:string" />        <s:attribute name="DBVersion" type="s:string" />      </s:complexType>      <s:complexType name="FindDuplicate">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="TableName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="WhereClause" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="KeyField" type="tns:KeyField" />          <s:element minOccurs="1" maxOccurs="1" name="MatchScore" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="SearchFields" type="tns:ArrayOfSearchField" />        </s:sequence>      </s:complexType>      <s:complexType name="KeyField">        <s:attribute name="Name" type="s:string" />        <s:attribute name="DataType" type="s:string" />      </s:complexType>      <s:complexType name="ArrayOfSearchField">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="SearchField" nillable="true" type="tns:SearchField" />        </s:sequence>      </s:complexType>      <s:complexType name="SearchField">        <s:attribute name="Name" type="s:string" />        <s:attribute name="Value" type="s:string" />        <s:attribute default="false" name="CountSpace" type="s:boolean" />        <s:attribute name="IgnoreChars" type="s:string" />      </s:complexType>      <s:element name="FindDuplicateResponse" type="s1:XML2SQLResponse" />    </s:schema>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.webservicecentral.com">      <s:complexType name="XML2SQLResponse">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="XSQL" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Error" type="s1:XML2SQLResponseError" />        </s:sequence>      </s:complexType>      <s:complexType name="XML2SQLResponseError">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Code" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />        </s:sequence>      </s:complexType>    </s:schema>  </wsdl:types>  <wsdl:message name="FindDuplicateSoapIn">    <wsdl:part name="DuplicateRequest" element="tns:FindDuplicateRequest" />  </wsdl:message>  <wsdl:message name="FindDuplicateSoapOut">    <wsdl:part name="FindDuplicateResult" element="tns:FindDuplicateResponse" />  </wsdl:message>  <wsdl:portType name="XILOUtilityInterface">    <wsdl:operation name="FindDuplicate">      <wsdl:input message="tns:FindDuplicateSoapIn" />      <wsdl:output message="tns:FindDuplicateSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="XILOUtilityInterface" type="tns:XILOUtilityInterface">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="FindDuplicate">      <soap:operation soapAction="" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XILOUtilityInterface1" type="tns:XILOUtilityInterface">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="FindDuplicate">      <soap12:operation soapAction="" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="XILOUtility">    <wsdl:port name="XILOUtilityInterface" binding="tns:XILOUtilityInterface">      <soap:address location="https://www.webservicecentral.com/webservices/XILOServices/XILOUtility.asmx" />    </wsdl:port>    <wsdl:port name="XILOUtilityInterface1" binding="tns:XILOUtilityInterface1">      <soap12:address location="https://www.webservicecentral.com/webservices/XILOServices/XILOUtility.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xmllogic.com"
+	xmlns:s1="http://www.webservicecentral.com" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.xmllogic.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.xmllogic.com">
+			<s:import namespace="http://www.webservicecentral.com" />
+			<s:element name="FindDuplicateRequest" type="tns:FindDuplicateRequest" />
+			<s:complexType name="FindDuplicateRequest">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Template" type="tns:FindDuplicateTemplate" />
+					<s:element minOccurs="0" maxOccurs="1" name="FindDuplicate" type="tns:FindDuplicate" />
+				</s:sequence>
+				<s:attribute name="LicenseKey" type="s:string" />
+			</s:complexType>
+			<s:complexType name="FindDuplicateTemplate">
+				<s:attribute name="DBPlatform" type="s:string" />
+				<s:attribute name="DBVersion" type="s:string" />
+			</s:complexType>
+			<s:complexType name="FindDuplicate">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="TableName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="WhereClause" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="KeyField" type="tns:KeyField" />
+					<s:element minOccurs="1" maxOccurs="1" name="MatchScore" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="SearchFields" type="tns:ArrayOfSearchField" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="KeyField">
+				<s:attribute name="Name" type="s:string" />
+				<s:attribute name="DataType" type="s:string" />
+			</s:complexType>
+			<s:complexType name="ArrayOfSearchField">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="SearchField" nillable="true" type="tns:SearchField" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="SearchField">
+				<s:attribute name="Name" type="s:string" />
+				<s:attribute name="Value" type="s:string" />
+				<s:attribute default="false" name="CountSpace" type="s:boolean" />
+				<s:attribute name="IgnoreChars" type="s:string" />
+			</s:complexType>
+			<s:element name="FindDuplicateResponse" type="s1:XML2SQLResponse" />
+		</s:schema>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.webservicecentral.com">
+			<s:complexType name="XML2SQLResponse">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="XSQL" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="s1:XML2SQLResponseError" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="XML2SQLResponseError">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Code" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="FindDuplicateSoapIn">
+		<wsdl:part name="DuplicateRequest" element="tns:FindDuplicateRequest" />
+	</wsdl:message>
+	<wsdl:message name="FindDuplicateSoapOut">
+		<wsdl:part name="FindDuplicateResult" element="tns:FindDuplicateResponse" />
+	</wsdl:message>
+	<wsdl:portType name="XILOUtilityInterface">
+		<wsdl:operation name="FindDuplicate">
+			<wsdl:input message="tns:FindDuplicateSoapIn" />
+			<wsdl:output message="tns:FindDuplicateSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="XILOUtilityInterface" type="tns:XILOUtilityInterface">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="FindDuplicate">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XILOUtilityInterface1" type="tns:XILOUtilityInterface">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="FindDuplicate">
+			<soap12:operation soapAction="" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="XILOUtility">
+		<wsdl:port name="XILOUtilityInterface" binding="tns:XILOUtilityInterface">
+			<soap:address location="https://www.webservicecentral.com/webservices/XILOServices/XILOUtility.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XILOUtilityInterface1" binding="tns:XILOUtilityInterface1">
+			<soap12:address location="https://www.webservicecentral.com/webservices/XILOServices/XILOUtility.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

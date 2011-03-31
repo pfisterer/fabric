@@ -1,1 +1,241 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.quisque.com/fr/chasses/blasons/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.quisque.com/fr/chasses/blasons/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search engine in french town heraldic database v1.0.4&lt;BR&gt;&lt;A HREF='http://www.quisque.com'&gt;http://www.quisque.com&lt;/A&gt;&lt;BR&gt;</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.quisque.com/fr/chasses/blasons/">      <s:element name="Search">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="byname" type="s:boolean" />            <s:element minOccurs="0" maxOccurs="1" name="cp" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="bycp" type="s:boolean" />            <s:element minOccurs="0" maxOccurs="1" name="ci" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="byci" type="s:boolean" />            <s:element minOccurs="0" maxOccurs="1" name="dept" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="bydept" type="s:boolean" />            <s:element minOccurs="0" maxOccurs="1" name="region" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="byregion" type="s:boolean" />            <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="bydescription" type="s:boolean" />            <s:element minOccurs="0" maxOccurs="1" name="info" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="byinfo" type="s:boolean" />            <s:element minOccurs="1" maxOccurs="1" name="limit" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SearchResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SearchResult" type="tns:ArrayOfCSearchInfo" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfCSearchInfo">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="CSearchInfo" nillable="true" type="tns:CSearchInfo" />        </s:sequence>      </s:complexType>      <s:complexType name="CSearchInfo">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="region_name" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="dept_name" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="dept_num" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="town_name" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="town_ci" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="town_cp" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="town_id" type="s:int" />        </s:sequence>      </s:complexType>      <s:element name="SearchImage">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="limit" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SearchImageResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SearchImageResult" type="tns:ArrayOfCSearchPertinence" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfCSearchPertinence">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="CSearchPertinence" nillable="true" type="tns:CSearchPertinence" />        </s:sequence>      </s:complexType>      <s:complexType name="CSearchPertinence">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="pertinence" type="s:double" />          <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="type" type="s:int" />        </s:sequence>      </s:complexType>      <s:element name="SearchImageStream">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="img" type="s:base64Binary" />            <s:element minOccurs="1" maxOccurs="1" name="limit" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SearchImageStreamResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SearchImageStreamResult" type="tns:ArrayOfCSearchPertinence" />          </s:sequence>        </s:complexType>      </s:element>    </s:schema>  </wsdl:types>  <wsdl:message name="SearchSoapIn">    <wsdl:part name="parameters" element="tns:Search" />  </wsdl:message>  <wsdl:message name="SearchSoapOut">    <wsdl:part name="parameters" element="tns:SearchResponse" />  </wsdl:message>  <wsdl:message name="SearchImageSoapIn">    <wsdl:part name="parameters" element="tns:SearchImage" />  </wsdl:message>  <wsdl:message name="SearchImageSoapOut">    <wsdl:part name="parameters" element="tns:SearchImageResponse" />  </wsdl:message>  <wsdl:message name="SearchImageStreamSoapIn">    <wsdl:part name="parameters" element="tns:SearchImageStream" />  </wsdl:message>  <wsdl:message name="SearchImageStreamSoapOut">    <wsdl:part name="parameters" element="tns:SearchImageStreamResponse" />  </wsdl:message>  <wsdl:portType name="CSearchSoap">    <wsdl:operation name="Search">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Searches in french town heraldic database.&lt;BR&gt;Parameters description:&lt;BR&gt;&lt;UL&gt;&lt;LI&gt;&lt;B&gt;string cp&lt;/B&gt; : postal code. Can contain wildcards (% and _)&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;bool bycp&lt;/B&gt; : true means search by postal code. Otherwise cp is ignored&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string ci&lt;/B&gt; : insee code. Can contain wildcards (% and _)&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;bool byci&lt;/B&gt; : true means search by insee code. Otherwise ci is ignored&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string dept&lt;/B&gt; : department (country). Can contain wildcards (% and _)&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;bool bydept&lt;/B&gt; : true means search by dept. Otherwise dept is ignored&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string region&lt;/B&gt; : region. Can contain wildcards (% and _)&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;bool byregion&lt;/B&gt; : true means search by region. Otherwise region is ignored&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string description&lt;/B&gt; : arms's description. Can contain wildcards (% and _)&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;bool bydescription&lt;/B&gt; : true means search by description. Otherwise description is ignored&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string info&lt;/B&gt; : arms's explanation. Can contain wildcards (% and _)&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;bool byinfo&lt;/B&gt; : true means search by info. Otherwise info is ignored&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int limit&lt;/B&gt; : maximum of returned results (30)&lt;/LI&gt;&lt;/UL&gt;&lt;BR&gt;Function returns CSearchInfo[] :&lt;UL&gt;&lt;LI&gt;&lt;B&gt;string region_name&lt;/B&gt; : name of region&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string dept_name&lt;/B&gt; : name of department&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int dept_num&lt;/B&gt; : number of department&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string town_name&lt;/B&gt; : name of town&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int town_ci&lt;/B&gt; : insee of town&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int town_cp&lt;/B&gt; : postal code of town&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int town_id&lt;/B&gt; : database's id of town&lt;/LI&gt;&lt;/UL&gt;</wsdl:documentation>      <wsdl:input message="tns:SearchSoapIn" />      <wsdl:output message="tns:SearchSoapOut" />    </wsdl:operation>    <wsdl:operation name="SearchImage">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search arms by image comparison.&lt;BR&gt;Parameters description :&lt;BR&gt;&lt;UL&gt;&lt;LI&gt;&lt;B&gt;string url&lt;/B&gt; : url of arms to compare&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int limit&lt;/B&gt; : maximum of returned results (30)&lt;/LI&gt;&lt;/UL&gt;&lt;BR&gt;Function returns CSearchPertinence[] :&lt;UL&gt;&lt;LI&gt;&lt;B&gt;double pertinence&lt;/B&gt; : distance between image to compare and this arms. 0 means identical.&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string url&lt;/B&gt; : url of arms&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int id&lt;/B&gt; : database's id&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string name&lt;/B&gt; : name of town, region or department&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int type&lt;/B&gt; : 1 means region, 2 means department, 3 means town&lt;/LI&gt;&lt;/UL&gt;</wsdl:documentation>      <wsdl:input message="tns:SearchImageSoapIn" />      <wsdl:output message="tns:SearchImageSoapOut" />    </wsdl:operation>    <wsdl:operation name="SearchImageStream">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search arms by image comparison.&lt;BR&gt;Parameters description :&lt;BR&gt;&lt;UL&gt;&lt;LI&gt;&lt;B&gt;byte[] img&lt;/B&gt; : image's stream of arms to compare&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int limit&lt;/B&gt; : maximum of returned results (30)&lt;/LI&gt;&lt;/UL&gt;&lt;BR&gt;Function returns CSearchPertinence[] :&lt;UL&gt;&lt;LI&gt;&lt;B&gt;double pertinence&lt;/B&gt; : distance between image to compare and this arms. 0 means identical.&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string url&lt;/B&gt; : url of arms&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int id&lt;/B&gt; : database's id&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string name&lt;/B&gt; : name of town, region or department&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int type&lt;/B&gt; : 1 means region, 2 means department, 3 means town&lt;/LI&gt;&lt;/UL&gt;</wsdl:documentation>      <wsdl:input message="tns:SearchImageStreamSoapIn" />      <wsdl:output message="tns:SearchImageStreamSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="CSearchSoap" type="tns:CSearchSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="Search">      <soap:operation soapAction="http://www.quisque.com/fr/chasses/blasons/Search" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchImage">      <soap:operation soapAction="http://www.quisque.com/fr/chasses/blasons/SearchImage" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchImageStream">      <soap:operation soapAction="http://www.quisque.com/fr/chasses/blasons/SearchImageStream" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="CSearchSoap12" type="tns:CSearchSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="Search">      <soap12:operation soapAction="http://www.quisque.com/fr/chasses/blasons/Search" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchImage">      <soap12:operation soapAction="http://www.quisque.com/fr/chasses/blasons/SearchImage" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchImageStream">      <soap12:operation soapAction="http://www.quisque.com/fr/chasses/blasons/SearchImageStream" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="CSearch">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search engine in french town heraldic database v1.0.4&lt;BR&gt;&lt;A HREF='http://www.quisque.com'&gt;http://www.quisque.com&lt;/A&gt;&lt;BR&gt;</wsdl:documentation>    <wsdl:port name="CSearchSoap" binding="tns:CSearchSoap">      <soap:address location="http://www.quisque.com/fr/chasses/blasons/search.asmx" />    </wsdl:port>    <wsdl:port name="CSearchSoap12" binding="tns:CSearchSoap12">      <soap12:address location="http://www.quisque.com/fr/chasses/blasons/search.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.quisque.com/fr/chasses/blasons/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.quisque.com/fr/chasses/blasons/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search engine in french town heraldic database v1.0.4&lt;BR&gt;&lt;A
+		HREF='http://www.quisque.com'&gt;http://www.quisque.com&lt;/A&gt;&lt;BR&gt;</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.quisque.com/fr/chasses/blasons/">
+			<s:element name="Search">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="byname" type="s:boolean" />
+						<s:element minOccurs="0" maxOccurs="1" name="cp" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="bycp" type="s:boolean" />
+						<s:element minOccurs="0" maxOccurs="1" name="ci" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="byci" type="s:boolean" />
+						<s:element minOccurs="0" maxOccurs="1" name="dept" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="bydept" type="s:boolean" />
+						<s:element minOccurs="0" maxOccurs="1" name="region" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="byregion" type="s:boolean" />
+						<s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="bydescription" type="s:boolean" />
+						<s:element minOccurs="0" maxOccurs="1" name="info" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="byinfo" type="s:boolean" />
+						<s:element minOccurs="1" maxOccurs="1" name="limit" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SearchResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SearchResult" type="tns:ArrayOfCSearchInfo" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfCSearchInfo">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="CSearchInfo" nillable="true" type="tns:CSearchInfo" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="CSearchInfo">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="region_name" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="dept_name" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="dept_num" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="town_name" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="town_ci" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="town_cp" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="town_id" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="SearchImage">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="limit" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SearchImageResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SearchImageResult" type="tns:ArrayOfCSearchPertinence" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfCSearchPertinence">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="CSearchPertinence" nillable="true" type="tns:CSearchPertinence" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="CSearchPertinence">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="pertinence" type="s:double" />
+					<s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="type" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="SearchImageStream">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="img" type="s:base64Binary" />
+						<s:element minOccurs="1" maxOccurs="1" name="limit" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SearchImageStreamResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SearchImageStreamResult" type="tns:ArrayOfCSearchPertinence" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="SearchSoapIn">
+		<wsdl:part name="parameters" element="tns:Search" />
+	</wsdl:message>
+	<wsdl:message name="SearchSoapOut">
+		<wsdl:part name="parameters" element="tns:SearchResponse" />
+	</wsdl:message>
+	<wsdl:message name="SearchImageSoapIn">
+		<wsdl:part name="parameters" element="tns:SearchImage" />
+	</wsdl:message>
+	<wsdl:message name="SearchImageSoapOut">
+		<wsdl:part name="parameters" element="tns:SearchImageResponse" />
+	</wsdl:message>
+	<wsdl:message name="SearchImageStreamSoapIn">
+		<wsdl:part name="parameters" element="tns:SearchImageStream" />
+	</wsdl:message>
+	<wsdl:message name="SearchImageStreamSoapOut">
+		<wsdl:part name="parameters" element="tns:SearchImageStreamResponse" />
+	</wsdl:message>
+	<wsdl:portType name="CSearchSoap">
+		<wsdl:operation name="Search">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Searches in french town heraldic database.&lt;BR&gt;Parameters
+				description:&lt;BR&gt;&lt;UL&gt;&lt;LI&gt;&lt;B&gt;string cp&lt;/B&gt; : postal code. Can contain wildcards (% and
+				_)&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;bool bycp&lt;/B&gt; : true means search by postal code. Otherwise cp is
+				ignored&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string ci&lt;/B&gt; : insee code. Can contain wildcards (% and
+				_)&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;bool byci&lt;/B&gt; : true means search by insee code. Otherwise ci is
+				ignored&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string dept&lt;/B&gt; : department (country). Can contain wildcards (% and
+				_)&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;bool bydept&lt;/B&gt; : true means search by dept. Otherwise dept is
+				ignored&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string region&lt;/B&gt; : region. Can contain wildcards (% and
+				_)&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;bool byregion&lt;/B&gt; : true means search by region. Otherwise region is
+				ignored&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string description&lt;/B&gt; : arms's description. Can contain wildcards (% and
+				_)&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;bool bydescription&lt;/B&gt; : true means search by description. Otherwise
+				description is ignored&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string info&lt;/B&gt; : arms's explanation. Can contain
+				wildcards (% and _)&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;bool byinfo&lt;/B&gt; : true means search by info. Otherwise info
+				is ignored&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int limit&lt;/B&gt; : maximum of returned results
+				(30)&lt;/LI&gt;&lt;/UL&gt;&lt;BR&gt;Function returns CSearchInfo[] :&lt;UL&gt;&lt;LI&gt;&lt;B&gt;string
+				region_name&lt;/B&gt; : name of region&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string dept_name&lt;/B&gt; : name of
+				department&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int dept_num&lt;/B&gt; : number of
+				department&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string town_name&lt;/B&gt; : name of town&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int
+				town_ci&lt;/B&gt; : insee of town&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int town_cp&lt;/B&gt; : postal code of
+				town&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int town_id&lt;/B&gt; : database's id of town&lt;/LI&gt;&lt;/UL&gt;
+			</wsdl:documentation>
+			<wsdl:input message="tns:SearchSoapIn" />
+			<wsdl:output message="tns:SearchSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchImage">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search arms by image comparison.&lt;BR&gt;Parameters description
+				:&lt;BR&gt;&lt;UL&gt;&lt;LI&gt;&lt;B&gt;string url&lt;/B&gt; : url of arms to
+				compare&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int limit&lt;/B&gt; : maximum of returned results
+				(30)&lt;/LI&gt;&lt;/UL&gt;&lt;BR&gt;Function returns CSearchPertinence[] :&lt;UL&gt;&lt;LI&gt;&lt;B&gt;double
+				pertinence&lt;/B&gt; : distance between image to compare and this arms. 0 means
+				identical.&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string url&lt;/B&gt; : url of arms&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int
+				id&lt;/B&gt; : database's id&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string name&lt;/B&gt; : name of town, region or
+				department&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int type&lt;/B&gt; : 1 means region, 2 means department, 3 means
+				town&lt;/LI&gt;&lt;/UL&gt;</wsdl:documentation>
+			<wsdl:input message="tns:SearchImageSoapIn" />
+			<wsdl:output message="tns:SearchImageSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchImageStream">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search arms by image comparison.&lt;BR&gt;Parameters description
+				:&lt;BR&gt;&lt;UL&gt;&lt;LI&gt;&lt;B&gt;byte[] img&lt;/B&gt; : image's stream of arms to
+				compare&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int limit&lt;/B&gt; : maximum of returned results
+				(30)&lt;/LI&gt;&lt;/UL&gt;&lt;BR&gt;Function returns CSearchPertinence[] :&lt;UL&gt;&lt;LI&gt;&lt;B&gt;double
+				pertinence&lt;/B&gt; : distance between image to compare and this arms. 0 means
+				identical.&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string url&lt;/B&gt; : url of arms&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int
+				id&lt;/B&gt; : database's id&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;string name&lt;/B&gt; : name of town, region or
+				department&lt;/LI&gt;&lt;LI&gt;&lt;B&gt;int type&lt;/B&gt; : 1 means region, 2 means department, 3 means
+				town&lt;/LI&gt;&lt;/UL&gt;</wsdl:documentation>
+			<wsdl:input message="tns:SearchImageStreamSoapIn" />
+			<wsdl:output message="tns:SearchImageStreamSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="CSearchSoap" type="tns:CSearchSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="Search">
+			<soap:operation soapAction="http://www.quisque.com/fr/chasses/blasons/Search" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchImage">
+			<soap:operation soapAction="http://www.quisque.com/fr/chasses/blasons/SearchImage" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchImageStream">
+			<soap:operation soapAction="http://www.quisque.com/fr/chasses/blasons/SearchImageStream" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="CSearchSoap12" type="tns:CSearchSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="Search">
+			<soap12:operation soapAction="http://www.quisque.com/fr/chasses/blasons/Search" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchImage">
+			<soap12:operation soapAction="http://www.quisque.com/fr/chasses/blasons/SearchImage" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchImageStream">
+			<soap12:operation soapAction="http://www.quisque.com/fr/chasses/blasons/SearchImageStream" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="CSearch">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search engine in french town heraldic database v1.0.4&lt;BR&gt;&lt;A
+			HREF='http://www.quisque.com'&gt;http://www.quisque.com&lt;/A&gt;&lt;BR&gt;</wsdl:documentation>
+		<wsdl:port name="CSearchSoap" binding="tns:CSearchSoap">
+			<soap:address location="http://www.quisque.com/fr/chasses/blasons/search.asmx" />
+		</wsdl:port>
+		<wsdl:port name="CSearchSoap12" binding="tns:CSearchSoap12">
+			<soap12:address location="http://www.quisque.com/fr/chasses/blasons/search.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

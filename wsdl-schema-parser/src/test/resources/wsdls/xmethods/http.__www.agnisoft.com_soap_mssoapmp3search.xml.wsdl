@@ -1,1 +1,52 @@
-<?xml version="1.0"?><definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ISoapFindMP3service" targetNamespace="http://www.borland.com/soapServices/" xmlns:tns="http://www.borland.com/soapServices/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns1="urn:RegMp3Class" xmlns:ns2="urn:WSDLSoap" xmlns:ns3="urn:Types">  <types>    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:RegMp3Class">  <xs:complexType name="TMP3Results">    <!--xs:complexContent>      <xs:restriction base="soapenc:Array">        <xs:sequence/>        <xs:attribute ref="soapenc:arrayType" n1:arrayType="ns1:TMP3Result[]" xmlns:n1="http://schemas.xmlsoap.org/wsdl/"/-->      <element name="Dimension1" type="ns1:TMP3Result" maxOccurs="unbounded" />      <!--/xs:restriction>    </xs:complexContent-->  </xs:complexType>  <xs:complexType name="TMP3Result">    <xs:sequence>      <xs:element name="URL" type="xs:string"/>      <xs:element name="FileName" type="xs:string"/>      <xs:element name="Size" type="xs:string"/>      <xs:element name="Speed" type="xs:string"/>    </xs:sequence>  </xs:complexType></xs:schema>  </types>  <message name="SearchMP3Request">    <part name="SearchString" type="xs:string"/>    <part name="NumResults" type="xs:int"/>  </message>  <message name="SearchMP3Response">    <part name="return" type="ns1:TMP3Results"/>  </message>  <portType name="ISoapFindMP3">    <operation name="SearchMP3">      <input message="tns:SearchMP3Request"/>      <output message="tns:SearchMP3Response"/>    </operation>  </portType>  <binding name="ISoapFindMP3binding" type="tns:ISoapFindMP3">    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>    <operation name="SearchMP3">      <soap:operation soapAction="urn:SoapFindMP3Intf-ISoapFindMP3#SearchMP3"/>      <input>        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:SoapFindMP3Intf-ISoapFindMP3"/>      </input>      <output>        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:SoapFindMP3Intf-ISoapFindMP3"/>      </output>    </operation>  </binding>  <service name="ISoapFindMP3service">    <port name="ISoapFindMP3Port" binding="tns:ISoapFindMP3binding">      <!--soap:address location="http://localhost:1024/soapwatest.mp3searchtest/soap/ISoapFindMP3"/-->        <soap:address location="http://www.agnisoft.com/cgi-bin/soapmp3search.exe/soap/ISoapFindMP3" />    </port>  </service></definitions>
+<?xml version="1.0"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ISoapFindMP3service"
+	targetNamespace="http://www.borland.com/soapServices/" xmlns:tns="http://www.borland.com/soapServices/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns1="urn:RegMp3Class" xmlns:ns2="urn:WSDLSoap"
+	xmlns:ns3="urn:Types">
+	<types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:RegMp3Class">
+			<xs:complexType name="TMP3Results">    <!--xs:complexContent> <xs:restriction base="soapenc:Array"> <xs:sequence/> <xs:attribute ref="soapenc:arrayType" n1:arrayType="ns1:TMP3Result[]" 
+					xmlns:n1="http://schemas.xmlsoap.org/wsdl/"/ -->
+				<element name="Dimension1" type="ns1:TMP3Result" maxOccurs="unbounded" />      <!--/xs:restriction> </xs:complexContent -->
+			</xs:complexType>
+			<xs:complexType name="TMP3Result">
+				<xs:sequence>
+					<xs:element name="URL" type="xs:string" />
+					<xs:element name="FileName" type="xs:string" />
+					<xs:element name="Size" type="xs:string" />
+					<xs:element name="Speed" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+	</types>
+	<message name="SearchMP3Request">
+		<part name="SearchString" type="xs:string" />
+		<part name="NumResults" type="xs:int" />
+	</message>
+	<message name="SearchMP3Response">
+		<part name="return" type="ns1:TMP3Results" />
+	</message>
+	<portType name="ISoapFindMP3">
+		<operation name="SearchMP3">
+			<input message="tns:SearchMP3Request" />
+			<output message="tns:SearchMP3Response" />
+		</operation>
+	</portType>
+	<binding name="ISoapFindMP3binding" type="tns:ISoapFindMP3">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="SearchMP3">
+			<soap:operation soapAction="urn:SoapFindMP3Intf-ISoapFindMP3#SearchMP3" />
+			<input>
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:SoapFindMP3Intf-ISoapFindMP3" />
+			</input>
+			<output>
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:SoapFindMP3Intf-ISoapFindMP3" />
+			</output>
+		</operation>
+	</binding>
+	<service name="ISoapFindMP3service">
+		<port name="ISoapFindMP3Port" binding="tns:ISoapFindMP3binding">      <!--soap:address location="http://localhost:1024/soapwatest.mp3searchtest/soap/ISoapFindMP3"/ -->
+			<soap:address location="http://www.agnisoft.com/cgi-bin/soapmp3search.exe/soap/ISoapFindMP3" />
+		</port>
+	</service>
+</definitions>

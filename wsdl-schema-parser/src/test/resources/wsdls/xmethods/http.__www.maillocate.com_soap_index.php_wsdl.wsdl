@@ -1,1 +1,196 @@
-<?xml version="1.0" encoding="ISO-8859-1"?><definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="${HTTP}${SITE}/soap/mlns" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:cc="${HTTP}${SITE}/soap/mlns" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="${HTTP}${SITE}/soap/mlns"><types><xsd:schema targetNamespace="${HTTP}${SITE}/soap/mlns"> <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" /> <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" /> <xsd:complexType name="ArrayOfstring">  <xsd:complexContent>   <xsd:restriction base="SOAP-ENC:Array">    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="string[]"/>   </xsd:restriction>  </xsd:complexContent> </xsd:complexType> <xsd:complexType name="NVP">  <xsd:all>   <xsd:element name="name" type="xsd:string"/>   <xsd:element name="value" type="xsd:string"/>  </xsd:all> </xsd:complexType> <xsd:complexType name="ArrayOfNVP">  <xsd:complexContent>   <xsd:restriction base="SOAP-ENC:Array">    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:NVP[]"/>   </xsd:restriction>  </xsd:complexContent> </xsd:complexType> <xsd:complexType name="LookupResult">  <xsd:all>   <xsd:element name="query" type="xsd:string"/>   <xsd:element name="result" type="xsd:string"/>  </xsd:all> </xsd:complexType> <xsd:complexType name="ArrayOfLookupResult">  <xsd:complexContent>   <xsd:restriction base="SOAP-ENC:Array">    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:LookupResult[]"/>   </xsd:restriction>  </xsd:complexContent> </xsd:complexType> <xsd:complexType name="SearchResult">  <xsd:all>   <xsd:element name="search_result" type="tns:ArrayOfLookupResult"/>   <xsd:element name="report" type="tns:ArrayOfNVP"/>  </xsd:all> </xsd:complexType> <xsd:complexType name="AddAddressPairResult">  <xsd:all>   <xsd:element name="action" type="xsd:string"/>   <xsd:element name="details" type="xsd:string"/>   <xsd:element name="link" type="xsd:string"/>  </xsd:all> </xsd:complexType></xsd:schema></types><message name="address_searchRequest"><part name="id" type="xsd:int" /><part name="v1" type="xsd:int" /><part name="v2" type="xsd:int" /><part name="encoding" type="xsd:string" /><part name="emails" type="tns:ArrayOfstring" /></message><message name="address_searchResponse"><part name="return" type="tns:ArrayOfLookupResult" /></message><message name="address_search_asRequest"><part name="id" type="xsd:int" /><part name="v1" type="xsd:int" /><part name="v2" type="xsd:int" /><part name="encoding" type="xsd:string" /><part name="emails" type="tns:ArrayOfstring" /><part name="search_as" type="xsd:string" /></message><message name="address_search_asResponse"><part name="return" type="tns:ArrayOfLookupResult" /></message><message name="addr_searchRequest"><part name="key" type="xsd:string" /><part name="encoding" type="xsd:string" /><part name="emails" type="tns:ArrayOfstring" /><part name="client" type="xsd:string" /></message><message name="addr_searchResponse"><part name="return" type="tns:SearchResult" /></message><message name="account_quotaRequest"><part name="key" type="xsd:string" /></message><message name="account_quotaResponse"><part name="return" type="xsd:int" /></message><message name="key_accountRequest"><part name="key" type="xsd:string" /></message><message name="key_accountResponse"><part name="return" type="tns:ArrayOfNVP" /></message><message name="add_addr_pairRequest"><part name="key" type="xsd:string" /><part name="current" type="xsd:string" /><part name="old" type="xsd:string" /></message><message name="add_addr_pairResponse"><part name="return" type="tns:AddAddressPairResult" /></message><portType name="ContactCleanPortType"><operation name="address_search"><input message="tns:address_searchRequest"/><output message="tns:address_searchResponse"/></operation><operation name="address_search_as"><input message="tns:address_search_asRequest"/><output message="tns:address_search_asResponse"/></operation><operation name="addr_search"><input message="tns:addr_searchRequest"/><output message="tns:addr_searchResponse"/></operation><operation name="account_quota"><input message="tns:account_quotaRequest"/><output message="tns:account_quotaResponse"/></operation><operation name="key_account"><input message="tns:key_accountRequest"/><output message="tns:key_accountResponse"/></operation><operation name="add_addr_pair"><input message="tns:add_addr_pairRequest"/><output message="tns:add_addr_pairResponse"/></operation></portType><binding name="ContactCleanBinding" type="tns:ContactCleanPortType"><soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/><operation name="address_search"><soap:operation soapAction="http://www.contactclean.com/soap/index.php/address_search" style="rpc"/><input><soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="address_search_as"><soap:operation soapAction="http://www.contactclean.com/soap/index.php/address_search_as" style="rpc"/><input><soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="addr_search"><soap:operation soapAction="http://www.contactclean.com/soap/index.php/addr_search" style="rpc"/><input><soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="account_quota"><soap:operation soapAction="http://www.contactclean.com/soap/index.php/account_quota" style="rpc"/><input><soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="key_account"><soap:operation soapAction="http://www.contactclean.com/soap/index.php/key_account" style="rpc"/><input><soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="add_addr_pair"><soap:operation soapAction="http://www.contactclean.com/soap/index.php/add_addr_pair" style="rpc"/><input><soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation></binding><service name="ContactClean"><port name="ContactCleanPort" binding="tns:ContactCleanBinding"><soap:address location="https://www.contactclean.com/soap/index.php"/></port></service></definitions>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:tns="${HTTP}${SITE}/soap/mlns" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:cc="${HTTP}${SITE}/soap/mlns" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="${HTTP}${SITE}/soap/mlns">
+	<types>
+		<xsd:schema targetNamespace="${HTTP}${SITE}/soap/mlns">
+			<xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+			<xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+			<xsd:complexType name="ArrayOfstring">
+				<xsd:complexContent>
+					<xsd:restriction base="SOAP-ENC:Array">
+						<xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="string[]" />
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="NVP">
+				<xsd:all>
+					<xsd:element name="name" type="xsd:string" />
+					<xsd:element name="value" type="xsd:string" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="ArrayOfNVP">
+				<xsd:complexContent>
+					<xsd:restriction base="SOAP-ENC:Array">
+						<xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:NVP[]" />
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="LookupResult">
+				<xsd:all>
+					<xsd:element name="query" type="xsd:string" />
+					<xsd:element name="result" type="xsd:string" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="ArrayOfLookupResult">
+				<xsd:complexContent>
+					<xsd:restriction base="SOAP-ENC:Array">
+						<xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:LookupResult[]" />
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="SearchResult">
+				<xsd:all>
+					<xsd:element name="search_result" type="tns:ArrayOfLookupResult" />
+					<xsd:element name="report" type="tns:ArrayOfNVP" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="AddAddressPairResult">
+				<xsd:all>
+					<xsd:element name="action" type="xsd:string" />
+					<xsd:element name="details" type="xsd:string" />
+					<xsd:element name="link" type="xsd:string" />
+				</xsd:all>
+			</xsd:complexType>
+		</xsd:schema>
+	</types>
+	<message name="address_searchRequest">
+		<part name="id" type="xsd:int" />
+		<part name="v1" type="xsd:int" />
+		<part name="v2" type="xsd:int" />
+		<part name="encoding" type="xsd:string" />
+		<part name="emails" type="tns:ArrayOfstring" />
+	</message>
+	<message name="address_searchResponse">
+		<part name="return" type="tns:ArrayOfLookupResult" />
+	</message>
+	<message name="address_search_asRequest">
+		<part name="id" type="xsd:int" />
+		<part name="v1" type="xsd:int" />
+		<part name="v2" type="xsd:int" />
+		<part name="encoding" type="xsd:string" />
+		<part name="emails" type="tns:ArrayOfstring" />
+		<part name="search_as" type="xsd:string" />
+	</message>
+	<message name="address_search_asResponse">
+		<part name="return" type="tns:ArrayOfLookupResult" />
+	</message>
+	<message name="addr_searchRequest">
+		<part name="key" type="xsd:string" />
+		<part name="encoding" type="xsd:string" />
+		<part name="emails" type="tns:ArrayOfstring" />
+		<part name="client" type="xsd:string" />
+	</message>
+	<message name="addr_searchResponse">
+		<part name="return" type="tns:SearchResult" />
+	</message>
+	<message name="account_quotaRequest">
+		<part name="key" type="xsd:string" />
+	</message>
+	<message name="account_quotaResponse">
+		<part name="return" type="xsd:int" />
+	</message>
+	<message name="key_accountRequest">
+		<part name="key" type="xsd:string" />
+	</message>
+	<message name="key_accountResponse">
+		<part name="return" type="tns:ArrayOfNVP" />
+	</message>
+	<message name="add_addr_pairRequest">
+		<part name="key" type="xsd:string" />
+		<part name="current" type="xsd:string" />
+		<part name="old" type="xsd:string" />
+	</message>
+	<message name="add_addr_pairResponse">
+		<part name="return" type="tns:AddAddressPairResult" />
+	</message>
+	<portType name="ContactCleanPortType">
+		<operation name="address_search">
+			<input message="tns:address_searchRequest" />
+			<output message="tns:address_searchResponse" />
+		</operation>
+		<operation name="address_search_as">
+			<input message="tns:address_search_asRequest" />
+			<output message="tns:address_search_asResponse" />
+		</operation>
+		<operation name="addr_search">
+			<input message="tns:addr_searchRequest" />
+			<output message="tns:addr_searchResponse" />
+		</operation>
+		<operation name="account_quota">
+			<input message="tns:account_quotaRequest" />
+			<output message="tns:account_quotaResponse" />
+		</operation>
+		<operation name="key_account">
+			<input message="tns:key_accountRequest" />
+			<output message="tns:key_accountResponse" />
+		</operation>
+		<operation name="add_addr_pair">
+			<input message="tns:add_addr_pairRequest" />
+			<output message="tns:add_addr_pairResponse" />
+		</operation>
+	</portType>
+	<binding name="ContactCleanBinding" type="tns:ContactCleanPortType">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="address_search">
+			<soap:operation soapAction="http://www.contactclean.com/soap/index.php/address_search" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="address_search_as">
+			<soap:operation soapAction="http://www.contactclean.com/soap/index.php/address_search_as" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="addr_search">
+			<soap:operation soapAction="http://www.contactclean.com/soap/index.php/addr_search" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="account_quota">
+			<soap:operation soapAction="http://www.contactclean.com/soap/index.php/account_quota" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="key_account">
+			<soap:operation soapAction="http://www.contactclean.com/soap/index.php/key_account" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="add_addr_pair">
+			<soap:operation soapAction="http://www.contactclean.com/soap/index.php/add_addr_pair" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="${HTTP}${SITE}/soap/mlns" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+	</binding>
+	<service name="ContactClean">
+		<port name="ContactCleanPort" binding="tns:ContactCleanBinding">
+			<soap:address location="https://www.contactclean.com/soap/index.php" />
+		</port>
+	</service>
+</definitions>

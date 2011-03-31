@@ -1,1 +1,1058 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.imcomponents.com" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.imcomponents.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.imcomponents.com">      <s:element name="GetVersion">        <s:complexType />      </s:element>      <s:element name="GetVersionResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetVersionResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SignUpTrialAccount">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="userId" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SignUpTrialAccountResponse">        <s:complexType />      </s:element>      <s:element name="Login">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="userId" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="LoginResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="LoginResult" type="tns:SessionInfo" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="SessionInfo">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="SessionId" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="UserId" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="LoginTime" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ClientIP" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="Logout">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="LogoutResponse">        <s:complexType />      </s:element>      <s:element name="LoginIM">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />            <s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="LoginIMResponse">        <s:complexType />      </s:element>      <s:element name="LogoutIM">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />            <s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="LogoutIMResponse">        <s:complexType />      </s:element>      <s:element name="SendMessage">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />            <s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="toAccount" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendMessageResponse">        <s:complexType />      </s:element>      <s:element name="SendOfflineMessage">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />            <s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="toAccount" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendOfflineMessageResponse">        <s:complexType />      </s:element>      <s:element name="AddGroup">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />            <s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="group" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="AddGroupResponse">        <s:complexType />      </s:element>      <s:element name="DeleteGroup">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />            <s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="group" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeleteGroupResponse">        <s:complexType />      </s:element>      <s:element name="RenameGroup">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />            <s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="groupId" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="newGroupName" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="RenameGroupResponse">        <s:complexType />      </s:element>      <s:element name="AddBuddy">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />            <s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="buddy" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="AddBuddyResponse">        <s:complexType />      </s:element>      <s:element name="DeleteBuddy">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />            <s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="buddy" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeleteBuddyResponse">        <s:complexType />      </s:element>      <s:element name="BlockBuddy">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />            <s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="buddy" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="BlockBuddyResponse">        <s:complexType />      </s:element>      <s:element name="UnblockBuddy">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />            <s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="buddy" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="UnblockBuddyResponse">        <s:complexType />      </s:element>      <s:element name="ShakeBuddy">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />            <s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="buddy" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ShakeBuddyResponse">        <s:complexType />      </s:element>      <s:element name="KeepSessionAlive">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="KeepSessionAliveResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="KeepSessionAliveResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ChangeStatus">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />            <s:element minOccurs="0" maxOccurs="1" name="IMType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="IMAccount" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Status" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ChangeStatusResponse">        <s:complexType />      </s:element>      <s:element name="ChangeNickname">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />            <s:element minOccurs="0" maxOccurs="1" name="IMType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="IMAccount" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Nickname" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ChangeNicknameResponse">        <s:complexType />      </s:element>      <s:element name="ChangePersonalMessage">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />            <s:element minOccurs="0" maxOccurs="1" name="IMType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="IMAccount" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PersonalMessage" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ChangePersonalMessageResponse">        <s:complexType />      </s:element>      <s:element name="SetDisplayPicture">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />            <s:element minOccurs="0" maxOccurs="1" name="IMType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="IMAccount" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="DisplayPictureBase64" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SetDisplayPictureResponse">        <s:complexType />      </s:element>      <s:element name="ListIM">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ListIMResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ListIMResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="string" nillable="true" type="s:string" />      <s:element name="SessionInfo" nillable="true" type="tns:SessionInfo" />    </s:schema>  </wsdl:types>  <wsdl:message name="GetVersionSoapIn">    <wsdl:part name="parameters" element="tns:GetVersion" />  </wsdl:message>  <wsdl:message name="GetVersionSoapOut">    <wsdl:part name="parameters" element="tns:GetVersionResponse" />  </wsdl:message>  <wsdl:message name="SignUpTrialAccountSoapIn">    <wsdl:part name="parameters" element="tns:SignUpTrialAccount" />  </wsdl:message>  <wsdl:message name="SignUpTrialAccountSoapOut">    <wsdl:part name="parameters" element="tns:SignUpTrialAccountResponse" />  </wsdl:message>  <wsdl:message name="LoginSoapIn">    <wsdl:part name="parameters" element="tns:Login" />  </wsdl:message>  <wsdl:message name="LoginSoapOut">    <wsdl:part name="parameters" element="tns:LoginResponse" />  </wsdl:message>  <wsdl:message name="LogoutSoapIn">    <wsdl:part name="parameters" element="tns:Logout" />  </wsdl:message>  <wsdl:message name="LogoutSoapOut">    <wsdl:part name="parameters" element="tns:LogoutResponse" />  </wsdl:message>  <wsdl:message name="LoginIMSoapIn">    <wsdl:part name="parameters" element="tns:LoginIM" />  </wsdl:message>  <wsdl:message name="LoginIMSoapOut">    <wsdl:part name="parameters" element="tns:LoginIMResponse" />  </wsdl:message>  <wsdl:message name="LogoutIMSoapIn">    <wsdl:part name="parameters" element="tns:LogoutIM" />  </wsdl:message>  <wsdl:message name="LogoutIMSoapOut">    <wsdl:part name="parameters" element="tns:LogoutIMResponse" />  </wsdl:message>  <wsdl:message name="SendMessageSoapIn">    <wsdl:part name="parameters" element="tns:SendMessage" />  </wsdl:message>  <wsdl:message name="SendMessageSoapOut">    <wsdl:part name="parameters" element="tns:SendMessageResponse" />  </wsdl:message>  <wsdl:message name="SendOfflineMessageSoapIn">    <wsdl:part name="parameters" element="tns:SendOfflineMessage" />  </wsdl:message>  <wsdl:message name="SendOfflineMessageSoapOut">    <wsdl:part name="parameters" element="tns:SendOfflineMessageResponse" />  </wsdl:message>  <wsdl:message name="AddGroupSoapIn">    <wsdl:part name="parameters" element="tns:AddGroup" />  </wsdl:message>  <wsdl:message name="AddGroupSoapOut">    <wsdl:part name="parameters" element="tns:AddGroupResponse" />  </wsdl:message>  <wsdl:message name="DeleteGroupSoapIn">    <wsdl:part name="parameters" element="tns:DeleteGroup" />  </wsdl:message>  <wsdl:message name="DeleteGroupSoapOut">    <wsdl:part name="parameters" element="tns:DeleteGroupResponse" />  </wsdl:message>  <wsdl:message name="RenameGroupSoapIn">    <wsdl:part name="parameters" element="tns:RenameGroup" />  </wsdl:message>  <wsdl:message name="RenameGroupSoapOut">    <wsdl:part name="parameters" element="tns:RenameGroupResponse" />  </wsdl:message>  <wsdl:message name="AddBuddySoapIn">    <wsdl:part name="parameters" element="tns:AddBuddy" />  </wsdl:message>  <wsdl:message name="AddBuddySoapOut">    <wsdl:part name="parameters" element="tns:AddBuddyResponse" />  </wsdl:message>  <wsdl:message name="DeleteBuddySoapIn">    <wsdl:part name="parameters" element="tns:DeleteBuddy" />  </wsdl:message>  <wsdl:message name="DeleteBuddySoapOut">    <wsdl:part name="parameters" element="tns:DeleteBuddyResponse" />  </wsdl:message>  <wsdl:message name="BlockBuddySoapIn">    <wsdl:part name="parameters" element="tns:BlockBuddy" />  </wsdl:message>  <wsdl:message name="BlockBuddySoapOut">    <wsdl:part name="parameters" element="tns:BlockBuddyResponse" />  </wsdl:message>  <wsdl:message name="UnblockBuddySoapIn">    <wsdl:part name="parameters" element="tns:UnblockBuddy" />  </wsdl:message>  <wsdl:message name="UnblockBuddySoapOut">    <wsdl:part name="parameters" element="tns:UnblockBuddyResponse" />  </wsdl:message>  <wsdl:message name="ShakeBuddySoapIn">    <wsdl:part name="parameters" element="tns:ShakeBuddy" />  </wsdl:message>  <wsdl:message name="ShakeBuddySoapOut">    <wsdl:part name="parameters" element="tns:ShakeBuddyResponse" />  </wsdl:message>  <wsdl:message name="KeepSessionAliveSoapIn">    <wsdl:part name="parameters" element="tns:KeepSessionAlive" />  </wsdl:message>  <wsdl:message name="KeepSessionAliveSoapOut">    <wsdl:part name="parameters" element="tns:KeepSessionAliveResponse" />  </wsdl:message>  <wsdl:message name="ChangeStatusSoapIn">    <wsdl:part name="parameters" element="tns:ChangeStatus" />  </wsdl:message>  <wsdl:message name="ChangeStatusSoapOut">    <wsdl:part name="parameters" element="tns:ChangeStatusResponse" />  </wsdl:message>  <wsdl:message name="ChangeNicknameSoapIn">    <wsdl:part name="parameters" element="tns:ChangeNickname" />  </wsdl:message>  <wsdl:message name="ChangeNicknameSoapOut">    <wsdl:part name="parameters" element="tns:ChangeNicknameResponse" />  </wsdl:message>  <wsdl:message name="ChangePersonalMessageSoapIn">    <wsdl:part name="parameters" element="tns:ChangePersonalMessage" />  </wsdl:message>  <wsdl:message name="ChangePersonalMessageSoapOut">    <wsdl:part name="parameters" element="tns:ChangePersonalMessageResponse" />  </wsdl:message>  <wsdl:message name="SetDisplayPictureSoapIn">    <wsdl:part name="parameters" element="tns:SetDisplayPicture" />  </wsdl:message>  <wsdl:message name="SetDisplayPictureSoapOut">    <wsdl:part name="parameters" element="tns:SetDisplayPictureResponse" />  </wsdl:message>  <wsdl:message name="ListIMSoapIn">    <wsdl:part name="parameters" element="tns:ListIM" />  </wsdl:message>  <wsdl:message name="ListIMSoapOut">    <wsdl:part name="parameters" element="tns:ListIMResponse" />  </wsdl:message>  <wsdl:message name="GetVersionHttpGetIn" />  <wsdl:message name="GetVersionHttpGetOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:message name="SignUpTrialAccountHttpGetIn">    <wsdl:part name="userId" type="s:string" />    <wsdl:part name="password" type="s:string" />  </wsdl:message>  <wsdl:message name="SignUpTrialAccountHttpGetOut" />  <wsdl:message name="LoginHttpGetIn">    <wsdl:part name="userId" type="s:string" />    <wsdl:part name="password" type="s:string" />  </wsdl:message>  <wsdl:message name="LoginHttpGetOut">    <wsdl:part name="Body" element="tns:SessionInfo" />  </wsdl:message>  <wsdl:message name="GetVersionHttpPostIn" />  <wsdl:message name="GetVersionHttpPostOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:message name="SignUpTrialAccountHttpPostIn">    <wsdl:part name="userId" type="s:string" />    <wsdl:part name="password" type="s:string" />  </wsdl:message>  <wsdl:message name="SignUpTrialAccountHttpPostOut" />  <wsdl:message name="LoginHttpPostIn">    <wsdl:part name="userId" type="s:string" />    <wsdl:part name="password" type="s:string" />  </wsdl:message>  <wsdl:message name="LoginHttpPostOut">    <wsdl:part name="Body" element="tns:SessionInfo" />  </wsdl:message>  <wsdl:portType name="IMServiceSoap">    <wsdl:operation name="GetVersion">      <wsdl:input message="tns:GetVersionSoapIn" />      <wsdl:output message="tns:GetVersionSoapOut" />    </wsdl:operation>    <wsdl:operation name="SignUpTrialAccount">      <wsdl:input message="tns:SignUpTrialAccountSoapIn" />      <wsdl:output message="tns:SignUpTrialAccountSoapOut" />    </wsdl:operation>    <wsdl:operation name="Login">      <wsdl:input message="tns:LoginSoapIn" />      <wsdl:output message="tns:LoginSoapOut" />    </wsdl:operation>    <wsdl:operation name="Logout">      <wsdl:input message="tns:LogoutSoapIn" />      <wsdl:output message="tns:LogoutSoapOut" />    </wsdl:operation>    <wsdl:operation name="LoginIM">      <wsdl:input message="tns:LoginIMSoapIn" />      <wsdl:output message="tns:LoginIMSoapOut" />    </wsdl:operation>    <wsdl:operation name="LogoutIM">      <wsdl:input message="tns:LogoutIMSoapIn" />      <wsdl:output message="tns:LogoutIMSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendMessage">      <wsdl:input message="tns:SendMessageSoapIn" />      <wsdl:output message="tns:SendMessageSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendOfflineMessage">      <wsdl:input message="tns:SendOfflineMessageSoapIn" />      <wsdl:output message="tns:SendOfflineMessageSoapOut" />    </wsdl:operation>    <wsdl:operation name="AddGroup">      <wsdl:input message="tns:AddGroupSoapIn" />      <wsdl:output message="tns:AddGroupSoapOut" />    </wsdl:operation>    <wsdl:operation name="DeleteGroup">      <wsdl:input message="tns:DeleteGroupSoapIn" />      <wsdl:output message="tns:DeleteGroupSoapOut" />    </wsdl:operation>    <wsdl:operation name="RenameGroup">      <wsdl:input message="tns:RenameGroupSoapIn" />      <wsdl:output message="tns:RenameGroupSoapOut" />    </wsdl:operation>    <wsdl:operation name="AddBuddy">      <wsdl:input message="tns:AddBuddySoapIn" />      <wsdl:output message="tns:AddBuddySoapOut" />    </wsdl:operation>    <wsdl:operation name="DeleteBuddy">      <wsdl:input message="tns:DeleteBuddySoapIn" />      <wsdl:output message="tns:DeleteBuddySoapOut" />    </wsdl:operation>    <wsdl:operation name="BlockBuddy">      <wsdl:input message="tns:BlockBuddySoapIn" />      <wsdl:output message="tns:BlockBuddySoapOut" />    </wsdl:operation>    <wsdl:operation name="UnblockBuddy">      <wsdl:input message="tns:UnblockBuddySoapIn" />      <wsdl:output message="tns:UnblockBuddySoapOut" />    </wsdl:operation>    <wsdl:operation name="ShakeBuddy">      <wsdl:input message="tns:ShakeBuddySoapIn" />      <wsdl:output message="tns:ShakeBuddySoapOut" />    </wsdl:operation>    <wsdl:operation name="KeepSessionAlive">      <wsdl:input message="tns:KeepSessionAliveSoapIn" />      <wsdl:output message="tns:KeepSessionAliveSoapOut" />    </wsdl:operation>    <wsdl:operation name="ChangeStatus">      <wsdl:input message="tns:ChangeStatusSoapIn" />      <wsdl:output message="tns:ChangeStatusSoapOut" />    </wsdl:operation>    <wsdl:operation name="ChangeNickname">      <wsdl:input message="tns:ChangeNicknameSoapIn" />      <wsdl:output message="tns:ChangeNicknameSoapOut" />    </wsdl:operation>    <wsdl:operation name="ChangePersonalMessage">      <wsdl:input message="tns:ChangePersonalMessageSoapIn" />      <wsdl:output message="tns:ChangePersonalMessageSoapOut" />    </wsdl:operation>    <wsdl:operation name="SetDisplayPicture">      <wsdl:input message="tns:SetDisplayPictureSoapIn" />      <wsdl:output message="tns:SetDisplayPictureSoapOut" />    </wsdl:operation>    <wsdl:operation name="ListIM">      <wsdl:input message="tns:ListIMSoapIn" />      <wsdl:output message="tns:ListIMSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="IMServiceHttpGet">    <wsdl:operation name="GetVersion">      <wsdl:input message="tns:GetVersionHttpGetIn" />      <wsdl:output message="tns:GetVersionHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="SignUpTrialAccount">      <wsdl:input message="tns:SignUpTrialAccountHttpGetIn" />      <wsdl:output message="tns:SignUpTrialAccountHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="Login">      <wsdl:input message="tns:LoginHttpGetIn" />      <wsdl:output message="tns:LoginHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="IMServiceHttpPost">    <wsdl:operation name="GetVersion">      <wsdl:input message="tns:GetVersionHttpPostIn" />      <wsdl:output message="tns:GetVersionHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="SignUpTrialAccount">      <wsdl:input message="tns:SignUpTrialAccountHttpPostIn" />      <wsdl:output message="tns:SignUpTrialAccountHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="Login">      <wsdl:input message="tns:LoginHttpPostIn" />      <wsdl:output message="tns:LoginHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="IMServiceSoap" type="tns:IMServiceSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetVersion">      <soap:operation soapAction="http://www.imcomponents.com/GetVersion" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SignUpTrialAccount">      <soap:operation soapAction="http://www.imcomponents.com/SignUpTrialAccount" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Login">      <soap:operation soapAction="http://www.imcomponents.com/Login" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Logout">      <soap:operation soapAction="http://www.imcomponents.com/Logout" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="LoginIM">      <soap:operation soapAction="http://www.imcomponents.com/LoginIM" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="LogoutIM">      <soap:operation soapAction="http://www.imcomponents.com/LogoutIM" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMessage">      <soap:operation soapAction="http://www.imcomponents.com/SendMessage" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendOfflineMessage">      <soap:operation soapAction="http://www.imcomponents.com/SendOfflineMessage" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddGroup">      <soap:operation soapAction="http://www.imcomponents.com/AddGroup" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteGroup">      <soap:operation soapAction="http://www.imcomponents.com/DeleteGroup" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="RenameGroup">      <soap:operation soapAction="http://www.imcomponents.com/RenameGroup" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddBuddy">      <soap:operation soapAction="http://www.imcomponents.com/AddBuddy" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteBuddy">      <soap:operation soapAction="http://www.imcomponents.com/DeleteBuddy" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="BlockBuddy">      <soap:operation soapAction="http://www.imcomponents.com/BlockBuddy" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="UnblockBuddy">      <soap:operation soapAction="http://www.imcomponents.com/UnblockBuddy" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ShakeBuddy">      <soap:operation soapAction="http://www.imcomponents.com/ShakeBuddy" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="KeepSessionAlive">      <soap:operation soapAction="http://www.imcomponents.com/KeepSessionAlive" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ChangeStatus">      <soap:operation soapAction="http://www.imcomponents.com/ChangeStatus" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ChangeNickname">      <soap:operation soapAction="http://www.imcomponents.com/ChangeNickname" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ChangePersonalMessage">      <soap:operation soapAction="http://www.imcomponents.com/ChangePersonalMessage" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SetDisplayPicture">      <soap:operation soapAction="http://www.imcomponents.com/SetDisplayPicture" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListIM">      <soap:operation soapAction="http://www.imcomponents.com/ListIM" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="IMServiceSoap12" type="tns:IMServiceSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetVersion">      <soap12:operation soapAction="http://www.imcomponents.com/GetVersion" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SignUpTrialAccount">      <soap12:operation soapAction="http://www.imcomponents.com/SignUpTrialAccount" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Login">      <soap12:operation soapAction="http://www.imcomponents.com/Login" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Logout">      <soap12:operation soapAction="http://www.imcomponents.com/Logout" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="LoginIM">      <soap12:operation soapAction="http://www.imcomponents.com/LoginIM" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="LogoutIM">      <soap12:operation soapAction="http://www.imcomponents.com/LogoutIM" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMessage">      <soap12:operation soapAction="http://www.imcomponents.com/SendMessage" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendOfflineMessage">      <soap12:operation soapAction="http://www.imcomponents.com/SendOfflineMessage" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddGroup">      <soap12:operation soapAction="http://www.imcomponents.com/AddGroup" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteGroup">      <soap12:operation soapAction="http://www.imcomponents.com/DeleteGroup" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="RenameGroup">      <soap12:operation soapAction="http://www.imcomponents.com/RenameGroup" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddBuddy">      <soap12:operation soapAction="http://www.imcomponents.com/AddBuddy" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteBuddy">      <soap12:operation soapAction="http://www.imcomponents.com/DeleteBuddy" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="BlockBuddy">      <soap12:operation soapAction="http://www.imcomponents.com/BlockBuddy" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="UnblockBuddy">      <soap12:operation soapAction="http://www.imcomponents.com/UnblockBuddy" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ShakeBuddy">      <soap12:operation soapAction="http://www.imcomponents.com/ShakeBuddy" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="KeepSessionAlive">      <soap12:operation soapAction="http://www.imcomponents.com/KeepSessionAlive" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ChangeStatus">      <soap12:operation soapAction="http://www.imcomponents.com/ChangeStatus" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ChangeNickname">      <soap12:operation soapAction="http://www.imcomponents.com/ChangeNickname" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ChangePersonalMessage">      <soap12:operation soapAction="http://www.imcomponents.com/ChangePersonalMessage" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SetDisplayPicture">      <soap12:operation soapAction="http://www.imcomponents.com/SetDisplayPicture" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListIM">      <soap12:operation soapAction="http://www.imcomponents.com/ListIM" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="IMServiceHttpGet" type="tns:IMServiceHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetVersion">      <http:operation location="/GetVersion" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SignUpTrialAccount">      <http:operation location="/SignUpTrialAccount" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output />    </wsdl:operation>    <wsdl:operation name="Login">      <http:operation location="/Login" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="IMServiceHttpPost" type="tns:IMServiceHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetVersion">      <http:operation location="/GetVersion" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SignUpTrialAccount">      <http:operation location="/SignUpTrialAccount" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output />    </wsdl:operation>    <wsdl:operation name="Login">      <http:operation location="/Login" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="IMService">    <wsdl:port name="IMServiceSoap" binding="tns:IMServiceSoap">      <soap:address location="http://www.imcomponents.com/imsoap/BSIMService.asmx" />    </wsdl:port>    <wsdl:port name="IMServiceSoap12" binding="tns:IMServiceSoap12">      <soap12:address location="http://www.imcomponents.com/imsoap/BSIMService.asmx" />    </wsdl:port>    <wsdl:port name="IMServiceHttpGet" binding="tns:IMServiceHttpGet">      <http:address location="http://www.imcomponents.com/imsoap/BSIMService.asmx" />    </wsdl:port>    <wsdl:port name="IMServiceHttpPost" binding="tns:IMServiceHttpPost">      <http:address location="http://www.imcomponents.com/imsoap/BSIMService.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.imcomponents.com"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.imcomponents.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.imcomponents.com">
+			<s:element name="GetVersion">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetVersionResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetVersionResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SignUpTrialAccount">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="userId" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SignUpTrialAccountResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="Login">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="userId" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="LoginResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="LoginResult" type="tns:SessionInfo" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="SessionInfo">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="SessionId" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="UserId" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="LoginTime" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ClientIP" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="Logout">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="LogoutResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="LoginIM">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+						<s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="LoginIMResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="LogoutIM">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+						<s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="LogoutIMResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="SendMessage">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+						<s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="toAccount" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendMessageResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="SendOfflineMessage">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+						<s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="toAccount" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendOfflineMessageResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="AddGroup">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+						<s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="group" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="AddGroupResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="DeleteGroup">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+						<s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="group" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeleteGroupResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="RenameGroup">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+						<s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="groupId" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="newGroupName" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="RenameGroupResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="AddBuddy">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+						<s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="buddy" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="AddBuddyResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="DeleteBuddy">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+						<s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="buddy" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeleteBuddyResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="BlockBuddy">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+						<s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="buddy" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="BlockBuddyResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="UnblockBuddy">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+						<s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="buddy" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="UnblockBuddyResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="ShakeBuddy">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+						<s:element minOccurs="0" maxOccurs="1" name="imType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="buddy" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ShakeBuddyResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="KeepSessionAlive">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="KeepSessionAliveResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="KeepSessionAliveResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ChangeStatus">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+						<s:element minOccurs="0" maxOccurs="1" name="IMType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="IMAccount" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Status" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ChangeStatusResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="ChangeNickname">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+						<s:element minOccurs="0" maxOccurs="1" name="IMType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="IMAccount" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Nickname" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ChangeNicknameResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="ChangePersonalMessage">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+						<s:element minOccurs="0" maxOccurs="1" name="IMType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="IMAccount" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PersonalMessage" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ChangePersonalMessageResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="SetDisplayPicture">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+						<s:element minOccurs="0" maxOccurs="1" name="IMType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="IMAccount" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="DisplayPictureBase64" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SetDisplayPictureResponse">
+				<s:complexType />
+			</s:element>
+			<s:element name="ListIM">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="session" type="tns:SessionInfo" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ListIMResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ListIMResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="string" nillable="true" type="s:string" />
+			<s:element name="SessionInfo" nillable="true" type="tns:SessionInfo" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetVersionSoapIn">
+		<wsdl:part name="parameters" element="tns:GetVersion" />
+	</wsdl:message>
+	<wsdl:message name="GetVersionSoapOut">
+		<wsdl:part name="parameters" element="tns:GetVersionResponse" />
+	</wsdl:message>
+	<wsdl:message name="SignUpTrialAccountSoapIn">
+		<wsdl:part name="parameters" element="tns:SignUpTrialAccount" />
+	</wsdl:message>
+	<wsdl:message name="SignUpTrialAccountSoapOut">
+		<wsdl:part name="parameters" element="tns:SignUpTrialAccountResponse" />
+	</wsdl:message>
+	<wsdl:message name="LoginSoapIn">
+		<wsdl:part name="parameters" element="tns:Login" />
+	</wsdl:message>
+	<wsdl:message name="LoginSoapOut">
+		<wsdl:part name="parameters" element="tns:LoginResponse" />
+	</wsdl:message>
+	<wsdl:message name="LogoutSoapIn">
+		<wsdl:part name="parameters" element="tns:Logout" />
+	</wsdl:message>
+	<wsdl:message name="LogoutSoapOut">
+		<wsdl:part name="parameters" element="tns:LogoutResponse" />
+	</wsdl:message>
+	<wsdl:message name="LoginIMSoapIn">
+		<wsdl:part name="parameters" element="tns:LoginIM" />
+	</wsdl:message>
+	<wsdl:message name="LoginIMSoapOut">
+		<wsdl:part name="parameters" element="tns:LoginIMResponse" />
+	</wsdl:message>
+	<wsdl:message name="LogoutIMSoapIn">
+		<wsdl:part name="parameters" element="tns:LogoutIM" />
+	</wsdl:message>
+	<wsdl:message name="LogoutIMSoapOut">
+		<wsdl:part name="parameters" element="tns:LogoutIMResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageSoapIn">
+		<wsdl:part name="parameters" element="tns:SendMessage" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageSoapOut">
+		<wsdl:part name="parameters" element="tns:SendMessageResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendOfflineMessageSoapIn">
+		<wsdl:part name="parameters" element="tns:SendOfflineMessage" />
+	</wsdl:message>
+	<wsdl:message name="SendOfflineMessageSoapOut">
+		<wsdl:part name="parameters" element="tns:SendOfflineMessageResponse" />
+	</wsdl:message>
+	<wsdl:message name="AddGroupSoapIn">
+		<wsdl:part name="parameters" element="tns:AddGroup" />
+	</wsdl:message>
+	<wsdl:message name="AddGroupSoapOut">
+		<wsdl:part name="parameters" element="tns:AddGroupResponse" />
+	</wsdl:message>
+	<wsdl:message name="DeleteGroupSoapIn">
+		<wsdl:part name="parameters" element="tns:DeleteGroup" />
+	</wsdl:message>
+	<wsdl:message name="DeleteGroupSoapOut">
+		<wsdl:part name="parameters" element="tns:DeleteGroupResponse" />
+	</wsdl:message>
+	<wsdl:message name="RenameGroupSoapIn">
+		<wsdl:part name="parameters" element="tns:RenameGroup" />
+	</wsdl:message>
+	<wsdl:message name="RenameGroupSoapOut">
+		<wsdl:part name="parameters" element="tns:RenameGroupResponse" />
+	</wsdl:message>
+	<wsdl:message name="AddBuddySoapIn">
+		<wsdl:part name="parameters" element="tns:AddBuddy" />
+	</wsdl:message>
+	<wsdl:message name="AddBuddySoapOut">
+		<wsdl:part name="parameters" element="tns:AddBuddyResponse" />
+	</wsdl:message>
+	<wsdl:message name="DeleteBuddySoapIn">
+		<wsdl:part name="parameters" element="tns:DeleteBuddy" />
+	</wsdl:message>
+	<wsdl:message name="DeleteBuddySoapOut">
+		<wsdl:part name="parameters" element="tns:DeleteBuddyResponse" />
+	</wsdl:message>
+	<wsdl:message name="BlockBuddySoapIn">
+		<wsdl:part name="parameters" element="tns:BlockBuddy" />
+	</wsdl:message>
+	<wsdl:message name="BlockBuddySoapOut">
+		<wsdl:part name="parameters" element="tns:BlockBuddyResponse" />
+	</wsdl:message>
+	<wsdl:message name="UnblockBuddySoapIn">
+		<wsdl:part name="parameters" element="tns:UnblockBuddy" />
+	</wsdl:message>
+	<wsdl:message name="UnblockBuddySoapOut">
+		<wsdl:part name="parameters" element="tns:UnblockBuddyResponse" />
+	</wsdl:message>
+	<wsdl:message name="ShakeBuddySoapIn">
+		<wsdl:part name="parameters" element="tns:ShakeBuddy" />
+	</wsdl:message>
+	<wsdl:message name="ShakeBuddySoapOut">
+		<wsdl:part name="parameters" element="tns:ShakeBuddyResponse" />
+	</wsdl:message>
+	<wsdl:message name="KeepSessionAliveSoapIn">
+		<wsdl:part name="parameters" element="tns:KeepSessionAlive" />
+	</wsdl:message>
+	<wsdl:message name="KeepSessionAliveSoapOut">
+		<wsdl:part name="parameters" element="tns:KeepSessionAliveResponse" />
+	</wsdl:message>
+	<wsdl:message name="ChangeStatusSoapIn">
+		<wsdl:part name="parameters" element="tns:ChangeStatus" />
+	</wsdl:message>
+	<wsdl:message name="ChangeStatusSoapOut">
+		<wsdl:part name="parameters" element="tns:ChangeStatusResponse" />
+	</wsdl:message>
+	<wsdl:message name="ChangeNicknameSoapIn">
+		<wsdl:part name="parameters" element="tns:ChangeNickname" />
+	</wsdl:message>
+	<wsdl:message name="ChangeNicknameSoapOut">
+		<wsdl:part name="parameters" element="tns:ChangeNicknameResponse" />
+	</wsdl:message>
+	<wsdl:message name="ChangePersonalMessageSoapIn">
+		<wsdl:part name="parameters" element="tns:ChangePersonalMessage" />
+	</wsdl:message>
+	<wsdl:message name="ChangePersonalMessageSoapOut">
+		<wsdl:part name="parameters" element="tns:ChangePersonalMessageResponse" />
+	</wsdl:message>
+	<wsdl:message name="SetDisplayPictureSoapIn">
+		<wsdl:part name="parameters" element="tns:SetDisplayPicture" />
+	</wsdl:message>
+	<wsdl:message name="SetDisplayPictureSoapOut">
+		<wsdl:part name="parameters" element="tns:SetDisplayPictureResponse" />
+	</wsdl:message>
+	<wsdl:message name="ListIMSoapIn">
+		<wsdl:part name="parameters" element="tns:ListIM" />
+	</wsdl:message>
+	<wsdl:message name="ListIMSoapOut">
+		<wsdl:part name="parameters" element="tns:ListIMResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetVersionHttpGetIn" />
+	<wsdl:message name="GetVersionHttpGetOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:message name="SignUpTrialAccountHttpGetIn">
+		<wsdl:part name="userId" type="s:string" />
+		<wsdl:part name="password" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SignUpTrialAccountHttpGetOut" />
+	<wsdl:message name="LoginHttpGetIn">
+		<wsdl:part name="userId" type="s:string" />
+		<wsdl:part name="password" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="LoginHttpGetOut">
+		<wsdl:part name="Body" element="tns:SessionInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetVersionHttpPostIn" />
+	<wsdl:message name="GetVersionHttpPostOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:message name="SignUpTrialAccountHttpPostIn">
+		<wsdl:part name="userId" type="s:string" />
+		<wsdl:part name="password" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SignUpTrialAccountHttpPostOut" />
+	<wsdl:message name="LoginHttpPostIn">
+		<wsdl:part name="userId" type="s:string" />
+		<wsdl:part name="password" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="LoginHttpPostOut">
+		<wsdl:part name="Body" element="tns:SessionInfo" />
+	</wsdl:message>
+	<wsdl:portType name="IMServiceSoap">
+		<wsdl:operation name="GetVersion">
+			<wsdl:input message="tns:GetVersionSoapIn" />
+			<wsdl:output message="tns:GetVersionSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SignUpTrialAccount">
+			<wsdl:input message="tns:SignUpTrialAccountSoapIn" />
+			<wsdl:output message="tns:SignUpTrialAccountSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Login">
+			<wsdl:input message="tns:LoginSoapIn" />
+			<wsdl:output message="tns:LoginSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Logout">
+			<wsdl:input message="tns:LogoutSoapIn" />
+			<wsdl:output message="tns:LogoutSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="LoginIM">
+			<wsdl:input message="tns:LoginIMSoapIn" />
+			<wsdl:output message="tns:LoginIMSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="LogoutIM">
+			<wsdl:input message="tns:LogoutIMSoapIn" />
+			<wsdl:output message="tns:LogoutIMSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendMessage">
+			<wsdl:input message="tns:SendMessageSoapIn" />
+			<wsdl:output message="tns:SendMessageSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendOfflineMessage">
+			<wsdl:input message="tns:SendOfflineMessageSoapIn" />
+			<wsdl:output message="tns:SendOfflineMessageSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddGroup">
+			<wsdl:input message="tns:AddGroupSoapIn" />
+			<wsdl:output message="tns:AddGroupSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteGroup">
+			<wsdl:input message="tns:DeleteGroupSoapIn" />
+			<wsdl:output message="tns:DeleteGroupSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="RenameGroup">
+			<wsdl:input message="tns:RenameGroupSoapIn" />
+			<wsdl:output message="tns:RenameGroupSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddBuddy">
+			<wsdl:input message="tns:AddBuddySoapIn" />
+			<wsdl:output message="tns:AddBuddySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteBuddy">
+			<wsdl:input message="tns:DeleteBuddySoapIn" />
+			<wsdl:output message="tns:DeleteBuddySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="BlockBuddy">
+			<wsdl:input message="tns:BlockBuddySoapIn" />
+			<wsdl:output message="tns:BlockBuddySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="UnblockBuddy">
+			<wsdl:input message="tns:UnblockBuddySoapIn" />
+			<wsdl:output message="tns:UnblockBuddySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ShakeBuddy">
+			<wsdl:input message="tns:ShakeBuddySoapIn" />
+			<wsdl:output message="tns:ShakeBuddySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="KeepSessionAlive">
+			<wsdl:input message="tns:KeepSessionAliveSoapIn" />
+			<wsdl:output message="tns:KeepSessionAliveSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ChangeStatus">
+			<wsdl:input message="tns:ChangeStatusSoapIn" />
+			<wsdl:output message="tns:ChangeStatusSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ChangeNickname">
+			<wsdl:input message="tns:ChangeNicknameSoapIn" />
+			<wsdl:output message="tns:ChangeNicknameSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ChangePersonalMessage">
+			<wsdl:input message="tns:ChangePersonalMessageSoapIn" />
+			<wsdl:output message="tns:ChangePersonalMessageSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SetDisplayPicture">
+			<wsdl:input message="tns:SetDisplayPictureSoapIn" />
+			<wsdl:output message="tns:SetDisplayPictureSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ListIM">
+			<wsdl:input message="tns:ListIMSoapIn" />
+			<wsdl:output message="tns:ListIMSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="IMServiceHttpGet">
+		<wsdl:operation name="GetVersion">
+			<wsdl:input message="tns:GetVersionHttpGetIn" />
+			<wsdl:output message="tns:GetVersionHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SignUpTrialAccount">
+			<wsdl:input message="tns:SignUpTrialAccountHttpGetIn" />
+			<wsdl:output message="tns:SignUpTrialAccountHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Login">
+			<wsdl:input message="tns:LoginHttpGetIn" />
+			<wsdl:output message="tns:LoginHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="IMServiceHttpPost">
+		<wsdl:operation name="GetVersion">
+			<wsdl:input message="tns:GetVersionHttpPostIn" />
+			<wsdl:output message="tns:GetVersionHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SignUpTrialAccount">
+			<wsdl:input message="tns:SignUpTrialAccountHttpPostIn" />
+			<wsdl:output message="tns:SignUpTrialAccountHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Login">
+			<wsdl:input message="tns:LoginHttpPostIn" />
+			<wsdl:output message="tns:LoginHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="IMServiceSoap" type="tns:IMServiceSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetVersion">
+			<soap:operation soapAction="http://www.imcomponents.com/GetVersion" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SignUpTrialAccount">
+			<soap:operation soapAction="http://www.imcomponents.com/SignUpTrialAccount" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Login">
+			<soap:operation soapAction="http://www.imcomponents.com/Login" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Logout">
+			<soap:operation soapAction="http://www.imcomponents.com/Logout" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="LoginIM">
+			<soap:operation soapAction="http://www.imcomponents.com/LoginIM" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="LogoutIM">
+			<soap:operation soapAction="http://www.imcomponents.com/LogoutIM" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMessage">
+			<soap:operation soapAction="http://www.imcomponents.com/SendMessage" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendOfflineMessage">
+			<soap:operation soapAction="http://www.imcomponents.com/SendOfflineMessage" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddGroup">
+			<soap:operation soapAction="http://www.imcomponents.com/AddGroup" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteGroup">
+			<soap:operation soapAction="http://www.imcomponents.com/DeleteGroup" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="RenameGroup">
+			<soap:operation soapAction="http://www.imcomponents.com/RenameGroup" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddBuddy">
+			<soap:operation soapAction="http://www.imcomponents.com/AddBuddy" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteBuddy">
+			<soap:operation soapAction="http://www.imcomponents.com/DeleteBuddy" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="BlockBuddy">
+			<soap:operation soapAction="http://www.imcomponents.com/BlockBuddy" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UnblockBuddy">
+			<soap:operation soapAction="http://www.imcomponents.com/UnblockBuddy" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ShakeBuddy">
+			<soap:operation soapAction="http://www.imcomponents.com/ShakeBuddy" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="KeepSessionAlive">
+			<soap:operation soapAction="http://www.imcomponents.com/KeepSessionAlive" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ChangeStatus">
+			<soap:operation soapAction="http://www.imcomponents.com/ChangeStatus" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ChangeNickname">
+			<soap:operation soapAction="http://www.imcomponents.com/ChangeNickname" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ChangePersonalMessage">
+			<soap:operation soapAction="http://www.imcomponents.com/ChangePersonalMessage" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SetDisplayPicture">
+			<soap:operation soapAction="http://www.imcomponents.com/SetDisplayPicture" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListIM">
+			<soap:operation soapAction="http://www.imcomponents.com/ListIM" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="IMServiceSoap12" type="tns:IMServiceSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetVersion">
+			<soap12:operation soapAction="http://www.imcomponents.com/GetVersion" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SignUpTrialAccount">
+			<soap12:operation soapAction="http://www.imcomponents.com/SignUpTrialAccount" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Login">
+			<soap12:operation soapAction="http://www.imcomponents.com/Login" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Logout">
+			<soap12:operation soapAction="http://www.imcomponents.com/Logout" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="LoginIM">
+			<soap12:operation soapAction="http://www.imcomponents.com/LoginIM" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="LogoutIM">
+			<soap12:operation soapAction="http://www.imcomponents.com/LogoutIM" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMessage">
+			<soap12:operation soapAction="http://www.imcomponents.com/SendMessage" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendOfflineMessage">
+			<soap12:operation soapAction="http://www.imcomponents.com/SendOfflineMessage" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddGroup">
+			<soap12:operation soapAction="http://www.imcomponents.com/AddGroup" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteGroup">
+			<soap12:operation soapAction="http://www.imcomponents.com/DeleteGroup" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="RenameGroup">
+			<soap12:operation soapAction="http://www.imcomponents.com/RenameGroup" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddBuddy">
+			<soap12:operation soapAction="http://www.imcomponents.com/AddBuddy" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteBuddy">
+			<soap12:operation soapAction="http://www.imcomponents.com/DeleteBuddy" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="BlockBuddy">
+			<soap12:operation soapAction="http://www.imcomponents.com/BlockBuddy" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UnblockBuddy">
+			<soap12:operation soapAction="http://www.imcomponents.com/UnblockBuddy" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ShakeBuddy">
+			<soap12:operation soapAction="http://www.imcomponents.com/ShakeBuddy" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="KeepSessionAlive">
+			<soap12:operation soapAction="http://www.imcomponents.com/KeepSessionAlive" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ChangeStatus">
+			<soap12:operation soapAction="http://www.imcomponents.com/ChangeStatus" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ChangeNickname">
+			<soap12:operation soapAction="http://www.imcomponents.com/ChangeNickname" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ChangePersonalMessage">
+			<soap12:operation soapAction="http://www.imcomponents.com/ChangePersonalMessage" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SetDisplayPicture">
+			<soap12:operation soapAction="http://www.imcomponents.com/SetDisplayPicture" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListIM">
+			<soap12:operation soapAction="http://www.imcomponents.com/ListIM" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="IMServiceHttpGet" type="tns:IMServiceHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetVersion">
+			<http:operation location="/GetVersion" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SignUpTrialAccount">
+			<http:operation location="/SignUpTrialAccount" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output />
+		</wsdl:operation>
+		<wsdl:operation name="Login">
+			<http:operation location="/Login" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="IMServiceHttpPost" type="tns:IMServiceHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetVersion">
+			<http:operation location="/GetVersion" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SignUpTrialAccount">
+			<http:operation location="/SignUpTrialAccount" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output />
+		</wsdl:operation>
+		<wsdl:operation name="Login">
+			<http:operation location="/Login" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="IMService">
+		<wsdl:port name="IMServiceSoap" binding="tns:IMServiceSoap">
+			<soap:address location="http://www.imcomponents.com/imsoap/BSIMService.asmx" />
+		</wsdl:port>
+		<wsdl:port name="IMServiceSoap12" binding="tns:IMServiceSoap12">
+			<soap12:address location="http://www.imcomponents.com/imsoap/BSIMService.asmx" />
+		</wsdl:port>
+		<wsdl:port name="IMServiceHttpGet" binding="tns:IMServiceHttpGet">
+			<http:address location="http://www.imcomponents.com/imsoap/BSIMService.asmx" />
+		</wsdl:port>
+		<wsdl:port name="IMServiceHttpPost" binding="tns:IMServiceHttpPost">
+			<http:address location="http://www.imcomponents.com/imsoap/BSIMService.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,1 +1,49 @@
-<?xml version="1.0"?><!-- WSDL description Flash-db's Site Inspector. --><definitions name="urn:SiteInspect"             targetNamespace="urn:SiteInspect"             xmlns:typens="urn:SiteInspect"             xmlns:xsd="http://www.w3.org/2001/XMLSchema"             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"             xmlns="http://schemas.xmlsoap.org/wsdl/">  <!-- Results expected.. -->  <types>    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema"                 targetNamespace="urn:SiteInspect">                  <xsd:complexType name="SiteInspectResult">        <xsd:all>          <xsd:element name="serverTime"		  type="xsd:string"/>          <xsd:element name="serverSpecs"  		  type="xsd:string"/>          <xsd:element name="extraInfo"           type="xsd:string"/>        </xsd:all>      </xsd:complexType>    </xsd:schema>  </types>   <!-- Messages for site Inspector - doSiteInspect. -->  <message name="doSiteInspect">    <part name="username"       type="xsd:string"/>    <part name="password"       type="xsd:string"/>    <part name="siteURL"        type="xsd:string"/>  </message>  <message name="doSiteInspectResponse">    <part name="return"         type="typens:SiteInspectResult"/>             </message>  <!-- Port for Site Inspect -->  <portType name="SiteInspectPort">    <operation name="doSiteInspect">      <input message="typens:doSiteInspect"/>      <output message="typens:doSiteInspectResponse"/>    </operation>  </portType>  <!-- Binding for Site Inspector -->  <binding name="SiteInspectBinding" type="typens:SiteInspectPort">    <soap:binding style="rpc"                  transport="http://schemas.xmlsoap.org/soap/http"/>    <operation name="doSiteInspect">      <soap:operation soapAction="urn:SiteInspectAction"/>      <input>        <soap:body use="encoded"                   namespace="urn:SiteInspect"                   encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>      </input>      <output>        <soap:body use="encoded"                   namespace="urn:SiteInspect"                   encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>      </output>    </operation>  </binding>  <!-- Endpoint for Site Inspector -->  <service name="SiteInspectService">  <documentation>The Site Inspector service checks a site for the type of server, what the server is running, and the server time.</documentation>    <port name="SiteInspectPort" binding="typens:SiteInspectBinding">      <soap:address location="http://www.flash-db.com/services/ws/siteInspect.php"/>    </port>  </service></definitions>
+<?xml version="1.0"?><!-- WSDL description Flash-db's Site Inspector. -->
+<definitions name="urn:SiteInspect" targetNamespace="urn:SiteInspect" xmlns:typens="urn:SiteInspect"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/">  <!-- Results expected.. -->
+	<types>
+		<xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:SiteInspect">
+			<xsd:complexType name="SiteInspectResult">
+				<xsd:all>
+					<xsd:element name="serverTime" type="xsd:string" />
+					<xsd:element name="serverSpecs" type="xsd:string" />
+					<xsd:element name="extraInfo" type="xsd:string" />
+				</xsd:all>
+			</xsd:complexType>
+		</xsd:schema>
+	</types>   <!-- Messages for site Inspector - doSiteInspect. -->
+	<message name="doSiteInspect">
+		<part name="username" type="xsd:string" />
+		<part name="password" type="xsd:string" />
+		<part name="siteURL" type="xsd:string" />
+	</message>
+	<message name="doSiteInspectResponse">
+		<part name="return" type="typens:SiteInspectResult" />
+	</message>  <!-- Port for Site Inspect -->
+	<portType name="SiteInspectPort">
+		<operation name="doSiteInspect">
+			<input message="typens:doSiteInspect" />
+			<output message="typens:doSiteInspectResponse" />
+		</operation>
+	</portType>  <!-- Binding for Site Inspector -->
+	<binding name="SiteInspectBinding" type="typens:SiteInspectPort">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="doSiteInspect">
+			<soap:operation soapAction="urn:SiteInspectAction" />
+			<input>
+				<soap:body use="encoded" namespace="urn:SiteInspect" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:SiteInspect" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+	</binding>  <!-- Endpoint for Site Inspector -->
+	<service name="SiteInspectService">
+		<documentation>The Site Inspector service checks a site for the type of server, what the server is running, and the
+			server time.</documentation>
+		<port name="SiteInspectPort" binding="typens:SiteInspectBinding">
+			<soap:address location="http://www.flash-db.com/services/ws/siteInspect.php" />
+		</port>
+	</service>
+</definitions>

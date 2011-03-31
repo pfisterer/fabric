@@ -1,1 +1,955 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">On-demand economic outlook.</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">      <s:element name="GetTodaysOutlook">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="OutlookTypes">        <s:list>          <s:simpleType>            <s:restriction base="s:string">              <s:enumeration value="None" />              <s:enumeration value="MarketReflections" />              <s:enumeration value="MarketFocus" />              <s:enumeration value="WhosSpeaking" />              <s:enumeration value="FYIAlerts" />              <s:enumeration value="MarketReflectionsAndMarketFocus" />              <s:enumeration value="MarketReflectionsAndWhosSpeaking" />              <s:enumeration value="MarketReflectionsAndFYIAlerts" />              <s:enumeration value="MarketFocusAndWhosSpeaking" />              <s:enumeration value="MarketFocusAndFYIAlerts" />              <s:enumeration value="WhosSpeakingAndFYIAlerts" />              <s:enumeration value="MarketReflectionsAndMarketFocusAndWhosSpeaking" />              <s:enumeration value="MarketReflectionsAndMarketFocusAndFYIAlerts" />              <s:enumeration value="MarketReflectionsAndWhosSpeakingAndFYIAlerts" />              <s:enumeration value="MarketFocusAndWhosSpeakingAndFYIAlerts" />              <s:enumeration value="All" />            </s:restriction>          </s:simpleType>        </s:list>      </s:simpleType>      <s:element name="GetTodaysOutlookResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTodaysOutlookResult" type="tns:ArrayOfOutlook" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfOutlook">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Outlook" nillable="true" type="tns:Outlook" />        </s:sequence>      </s:complexType>      <s:complexType name="Outlook">        <s:complexContent mixed="false">          <s:extension base="tns:AbstractEconodayObject">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="EventID" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />              <s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Time" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Content" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Author" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="AbstractEconodayObject" abstract="true">        <s:complexContent mixed="false">          <s:extension base="tns:Common" />        </s:complexContent>      </s:complexType>      <s:complexType name="Common">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />        </s:sequence>      </s:complexType>      <s:simpleType name="OutcomeTypes">        <s:restriction base="s:string">          <s:enumeration value="Success" />          <s:enumeration value="SystemError" />          <s:enumeration value="RequestError" />          <s:enumeration value="RegistrationError" />        </s:restriction>      </s:simpleType>      <s:element name="Header" type="tns:Header" />      <s:complexType name="Header">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />        </s:sequence>        <s:anyAttribute />      </s:complexType>      <s:element name="GetTomorrowsOutlook">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTomorrowsOutlookResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTomorrowsOutlookResult" type="tns:ArrayOfOutlook" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetYesterdaysOutlook">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetYesterdaysOutlookResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetYesterdaysOutlookResult" type="tns:ArrayOfOutlook" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetOutlookForDate">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />            <s:element minOccurs="0" maxOccurs="1" name="ForDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetOutlookForDateResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetOutlookForDateResult" type="tns:ArrayOfOutlook" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetOutlookForWeek">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />            <s:element minOccurs="0" maxOccurs="1" name="ForDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetOutlookForWeekResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetOutlookForWeekResult" type="tns:ArrayOfOutlook" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetOutlookForMonth">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />            <s:element minOccurs="0" maxOccurs="1" name="ForDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetOutlookForMonthResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetOutlookForMonthResult" type="tns:ArrayOfOutlook" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetOutlookForRange">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetOutlookForRangeResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetOutlookForRangeResult" type="tns:ArrayOfOutlook" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetOutlookForRangeLengthBackward">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="NumberOfDays" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetOutlookForRangeLengthBackwardResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetOutlookForRangeLengthBackwardResult" type="tns:ArrayOfOutlook" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetOutlookForRangeLengthForward">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="NumberOfDays" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetOutlookForRangeLengthForwardResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetOutlookForRangeLengthForwardResult" type="tns:ArrayOfOutlook" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ArrayOfOutlook" nillable="true" type="tns:ArrayOfOutlook" />    </s:schema>  </wsdl:types>  <wsdl:message name="GetTodaysOutlookSoapIn">    <wsdl:part name="parameters" element="tns:GetTodaysOutlook" />  </wsdl:message>  <wsdl:message name="GetTodaysOutlookSoapOut">    <wsdl:part name="parameters" element="tns:GetTodaysOutlookResponse" />  </wsdl:message>  <wsdl:message name="GetTodaysOutlookHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetTomorrowsOutlookSoapIn">    <wsdl:part name="parameters" element="tns:GetTomorrowsOutlook" />  </wsdl:message>  <wsdl:message name="GetTomorrowsOutlookSoapOut">    <wsdl:part name="parameters" element="tns:GetTomorrowsOutlookResponse" />  </wsdl:message>  <wsdl:message name="GetTomorrowsOutlookHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetYesterdaysOutlookSoapIn">    <wsdl:part name="parameters" element="tns:GetYesterdaysOutlook" />  </wsdl:message>  <wsdl:message name="GetYesterdaysOutlookSoapOut">    <wsdl:part name="parameters" element="tns:GetYesterdaysOutlookResponse" />  </wsdl:message>  <wsdl:message name="GetYesterdaysOutlookHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetOutlookForDateSoapIn">    <wsdl:part name="parameters" element="tns:GetOutlookForDate" />  </wsdl:message>  <wsdl:message name="GetOutlookForDateSoapOut">    <wsdl:part name="parameters" element="tns:GetOutlookForDateResponse" />  </wsdl:message>  <wsdl:message name="GetOutlookForDateHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetOutlookForWeekSoapIn">    <wsdl:part name="parameters" element="tns:GetOutlookForWeek" />  </wsdl:message>  <wsdl:message name="GetOutlookForWeekSoapOut">    <wsdl:part name="parameters" element="tns:GetOutlookForWeekResponse" />  </wsdl:message>  <wsdl:message name="GetOutlookForWeekHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetOutlookForMonthSoapIn">    <wsdl:part name="parameters" element="tns:GetOutlookForMonth" />  </wsdl:message>  <wsdl:message name="GetOutlookForMonthSoapOut">    <wsdl:part name="parameters" element="tns:GetOutlookForMonthResponse" />  </wsdl:message>  <wsdl:message name="GetOutlookForMonthHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeSoapIn">    <wsdl:part name="parameters" element="tns:GetOutlookForRange" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeSoapOut">    <wsdl:part name="parameters" element="tns:GetOutlookForRangeResponse" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeLengthBackwardSoapIn">    <wsdl:part name="parameters" element="tns:GetOutlookForRangeLengthBackward" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeLengthBackwardSoapOut">    <wsdl:part name="parameters" element="tns:GetOutlookForRangeLengthBackwardResponse" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeLengthBackwardHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeLengthForwardSoapIn">    <wsdl:part name="parameters" element="tns:GetOutlookForRangeLengthForward" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeLengthForwardSoapOut">    <wsdl:part name="parameters" element="tns:GetOutlookForRangeLengthForwardResponse" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeLengthForwardHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetTodaysOutlookHttpGetIn">    <wsdl:part name="OutlookType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTodaysOutlookHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetTomorrowsOutlookHttpGetIn">    <wsdl:part name="OutlookType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTomorrowsOutlookHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetYesterdaysOutlookHttpGetIn">    <wsdl:part name="OutlookType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetYesterdaysOutlookHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetOutlookForDateHttpGetIn">    <wsdl:part name="OutlookType" type="s:string" />    <wsdl:part name="ForDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetOutlookForDateHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetOutlookForWeekHttpGetIn">    <wsdl:part name="OutlookType" type="s:string" />    <wsdl:part name="ForDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetOutlookForWeekHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetOutlookForMonthHttpGetIn">    <wsdl:part name="OutlookType" type="s:string" />    <wsdl:part name="ForDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetOutlookForMonthHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeHttpGetIn">    <wsdl:part name="OutlookType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeLengthBackwardHttpGetIn">    <wsdl:part name="OutlookType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="NumberOfDays" type="s:string" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeLengthBackwardHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeLengthForwardHttpGetIn">    <wsdl:part name="OutlookType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="NumberOfDays" type="s:string" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeLengthForwardHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetTodaysOutlookHttpPostIn">    <wsdl:part name="OutlookType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTodaysOutlookHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetTomorrowsOutlookHttpPostIn">    <wsdl:part name="OutlookType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTomorrowsOutlookHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetYesterdaysOutlookHttpPostIn">    <wsdl:part name="OutlookType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetYesterdaysOutlookHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetOutlookForDateHttpPostIn">    <wsdl:part name="OutlookType" type="s:string" />    <wsdl:part name="ForDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetOutlookForDateHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetOutlookForWeekHttpPostIn">    <wsdl:part name="OutlookType" type="s:string" />    <wsdl:part name="ForDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetOutlookForWeekHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetOutlookForMonthHttpPostIn">    <wsdl:part name="OutlookType" type="s:string" />    <wsdl:part name="ForDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetOutlookForMonthHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeHttpPostIn">    <wsdl:part name="OutlookType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeLengthBackwardHttpPostIn">    <wsdl:part name="OutlookType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="NumberOfDays" type="s:string" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeLengthBackwardHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeLengthForwardHttpPostIn">    <wsdl:part name="OutlookType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="NumberOfDays" type="s:string" />  </wsdl:message>  <wsdl:message name="GetOutlookForRangeLengthForwardHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfOutlook" />  </wsdl:message>  <wsdl:portType name="XigniteOutlookSoap">    <wsdl:operation name="GetTodaysOutlook">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for today.</wsdl:documentation>      <wsdl:input message="tns:GetTodaysOutlookSoapIn" />      <wsdl:output message="tns:GetTodaysOutlookSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetTomorrowsOutlook">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for tomorrow.</wsdl:documentation>      <wsdl:input message="tns:GetTomorrowsOutlookSoapIn" />      <wsdl:output message="tns:GetTomorrowsOutlookSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetYesterdaysOutlook">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get yesterday's outlook.</wsdl:documentation>      <wsdl:input message="tns:GetYesterdaysOutlookSoapIn" />      <wsdl:output message="tns:GetYesterdaysOutlookSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForDate">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for a specific date.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForDateSoapIn" />      <wsdl:output message="tns:GetOutlookForDateSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForWeek">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified week. Weeks run Monday through Sunday.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForWeekSoapIn" />      <wsdl:output message="tns:GetOutlookForWeekSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForMonth">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified month.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForMonthSoapIn" />      <wsdl:output message="tns:GetOutlookForMonthSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForRange">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForRangeSoapIn" />      <wsdl:output message="tns:GetOutlookForRangeSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForRangeLengthBackward">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForRangeLengthBackwardSoapIn" />      <wsdl:output message="tns:GetOutlookForRangeLengthBackwardSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForRangeLengthForward">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForRangeLengthForwardSoapIn" />      <wsdl:output message="tns:GetOutlookForRangeLengthForwardSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteOutlookHttpGet">    <wsdl:operation name="GetTodaysOutlook">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for today.</wsdl:documentation>      <wsdl:input message="tns:GetTodaysOutlookHttpGetIn" />      <wsdl:output message="tns:GetTodaysOutlookHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetTomorrowsOutlook">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for tomorrow.</wsdl:documentation>      <wsdl:input message="tns:GetTomorrowsOutlookHttpGetIn" />      <wsdl:output message="tns:GetTomorrowsOutlookHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetYesterdaysOutlook">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get yesterday's outlook.</wsdl:documentation>      <wsdl:input message="tns:GetYesterdaysOutlookHttpGetIn" />      <wsdl:output message="tns:GetYesterdaysOutlookHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForDate">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for a specific date.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForDateHttpGetIn" />      <wsdl:output message="tns:GetOutlookForDateHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForWeek">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified week. Weeks run Monday through Sunday.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForWeekHttpGetIn" />      <wsdl:output message="tns:GetOutlookForWeekHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForMonth">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified month.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForMonthHttpGetIn" />      <wsdl:output message="tns:GetOutlookForMonthHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForRange">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForRangeHttpGetIn" />      <wsdl:output message="tns:GetOutlookForRangeHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForRangeLengthBackward">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForRangeLengthBackwardHttpGetIn" />      <wsdl:output message="tns:GetOutlookForRangeLengthBackwardHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForRangeLengthForward">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForRangeLengthForwardHttpGetIn" />      <wsdl:output message="tns:GetOutlookForRangeLengthForwardHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteOutlookHttpPost">    <wsdl:operation name="GetTodaysOutlook">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for today.</wsdl:documentation>      <wsdl:input message="tns:GetTodaysOutlookHttpPostIn" />      <wsdl:output message="tns:GetTodaysOutlookHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetTomorrowsOutlook">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for tomorrow.</wsdl:documentation>      <wsdl:input message="tns:GetTomorrowsOutlookHttpPostIn" />      <wsdl:output message="tns:GetTomorrowsOutlookHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetYesterdaysOutlook">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get yesterday's outlook.</wsdl:documentation>      <wsdl:input message="tns:GetYesterdaysOutlookHttpPostIn" />      <wsdl:output message="tns:GetYesterdaysOutlookHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForDate">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for a specific date.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForDateHttpPostIn" />      <wsdl:output message="tns:GetOutlookForDateHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForWeek">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified week. Weeks run Monday through Sunday.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForWeekHttpPostIn" />      <wsdl:output message="tns:GetOutlookForWeekHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForMonth">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified month.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForMonthHttpPostIn" />      <wsdl:output message="tns:GetOutlookForMonthHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForRange">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForRangeHttpPostIn" />      <wsdl:output message="tns:GetOutlookForRangeHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForRangeLengthBackward">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForRangeLengthBackwardHttpPostIn" />      <wsdl:output message="tns:GetOutlookForRangeLengthBackwardHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetOutlookForRangeLengthForward">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.</wsdl:documentation>      <wsdl:input message="tns:GetOutlookForRangeLengthForwardHttpPostIn" />      <wsdl:output message="tns:GetOutlookForRangeLengthForwardHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="XigniteOutlookSoap" type="tns:XigniteOutlookSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetTodaysOutlook">      <soap:operation soapAction="http://www.xignite.com/services/GetTodaysOutlook" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetTodaysOutlookHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTomorrowsOutlook">      <soap:operation soapAction="http://www.xignite.com/services/GetTomorrowsOutlook" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetTomorrowsOutlookHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetYesterdaysOutlook">      <soap:operation soapAction="http://www.xignite.com/services/GetYesterdaysOutlook" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetYesterdaysOutlookHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForDate">      <soap:operation soapAction="http://www.xignite.com/services/GetOutlookForDate" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetOutlookForDateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForWeek">      <soap:operation soapAction="http://www.xignite.com/services/GetOutlookForWeek" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetOutlookForWeekHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForMonth">      <soap:operation soapAction="http://www.xignite.com/services/GetOutlookForMonth" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetOutlookForMonthHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForRange">      <soap:operation soapAction="http://www.xignite.com/services/GetOutlookForRange" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetOutlookForRangeHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForRangeLengthBackward">      <soap:operation soapAction="http://www.xignite.com/services/GetOutlookForRangeLengthBackward" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetOutlookForRangeLengthBackwardHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForRangeLengthForward">      <soap:operation soapAction="http://www.xignite.com/services/GetOutlookForRangeLengthForward" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetOutlookForRangeLengthForwardHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteOutlookSoap12" type="tns:XigniteOutlookSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetTodaysOutlook">      <soap12:operation soapAction="http://www.xignite.com/services/GetTodaysOutlook" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetTodaysOutlookHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTomorrowsOutlook">      <soap12:operation soapAction="http://www.xignite.com/services/GetTomorrowsOutlook" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetTomorrowsOutlookHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetYesterdaysOutlook">      <soap12:operation soapAction="http://www.xignite.com/services/GetYesterdaysOutlook" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetYesterdaysOutlookHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForDate">      <soap12:operation soapAction="http://www.xignite.com/services/GetOutlookForDate" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetOutlookForDateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForWeek">      <soap12:operation soapAction="http://www.xignite.com/services/GetOutlookForWeek" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetOutlookForWeekHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForMonth">      <soap12:operation soapAction="http://www.xignite.com/services/GetOutlookForMonth" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetOutlookForMonthHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForRange">      <soap12:operation soapAction="http://www.xignite.com/services/GetOutlookForRange" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetOutlookForRangeHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForRangeLengthBackward">      <soap12:operation soapAction="http://www.xignite.com/services/GetOutlookForRangeLengthBackward" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetOutlookForRangeLengthBackwardHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForRangeLengthForward">      <soap12:operation soapAction="http://www.xignite.com/services/GetOutlookForRangeLengthForward" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetOutlookForRangeLengthForwardHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteOutlookHttpGet" type="tns:XigniteOutlookHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetTodaysOutlook">      <http:operation location="/GetTodaysOutlook" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTomorrowsOutlook">      <http:operation location="/GetTomorrowsOutlook" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetYesterdaysOutlook">      <http:operation location="/GetYesterdaysOutlook" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForDate">      <http:operation location="/GetOutlookForDate" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForWeek">      <http:operation location="/GetOutlookForWeek" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForMonth">      <http:operation location="/GetOutlookForMonth" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForRange">      <http:operation location="/GetOutlookForRange" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForRangeLengthBackward">      <http:operation location="/GetOutlookForRangeLengthBackward" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForRangeLengthForward">      <http:operation location="/GetOutlookForRangeLengthForward" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteOutlookHttpPost" type="tns:XigniteOutlookHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetTodaysOutlook">      <http:operation location="/GetTodaysOutlook" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTomorrowsOutlook">      <http:operation location="/GetTomorrowsOutlook" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetYesterdaysOutlook">      <http:operation location="/GetYesterdaysOutlook" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForDate">      <http:operation location="/GetOutlookForDate" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForWeek">      <http:operation location="/GetOutlookForWeek" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForMonth">      <http:operation location="/GetOutlookForMonth" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForRange">      <http:operation location="/GetOutlookForRange" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForRangeLengthBackward">      <http:operation location="/GetOutlookForRangeLengthBackward" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetOutlookForRangeLengthForward">      <http:operation location="/GetOutlookForRangeLengthForward" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="XigniteOutlook">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">On-demand economic outlook.</wsdl:documentation>    <wsdl:port name="XigniteOutlookSoap" binding="tns:XigniteOutlookSoap">      <soap:address location="http://www.xignite.com/xOutlook.asmx" />    </wsdl:port>    <wsdl:port name="XigniteOutlookSoap12" binding="tns:XigniteOutlookSoap12">      <soap12:address location="http://www.xignite.com/xOutlook.asmx" />    </wsdl:port>    <wsdl:port name="XigniteOutlookHttpGet" binding="tns:XigniteOutlookHttpGet">      <http:address location="http://www.xignite.com/xOutlook.asmx" />    </wsdl:port>    <wsdl:port name="XigniteOutlookHttpPost" binding="tns:XigniteOutlookHttpPost">      <http:address location="http://www.xignite.com/xOutlook.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">On-demand economic outlook.</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">
+			<s:element name="GetTodaysOutlook">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="OutlookTypes">
+				<s:list>
+					<s:simpleType>
+						<s:restriction base="s:string">
+							<s:enumeration value="None" />
+							<s:enumeration value="MarketReflections" />
+							<s:enumeration value="MarketFocus" />
+							<s:enumeration value="WhosSpeaking" />
+							<s:enumeration value="FYIAlerts" />
+							<s:enumeration value="MarketReflectionsAndMarketFocus" />
+							<s:enumeration value="MarketReflectionsAndWhosSpeaking" />
+							<s:enumeration value="MarketReflectionsAndFYIAlerts" />
+							<s:enumeration value="MarketFocusAndWhosSpeaking" />
+							<s:enumeration value="MarketFocusAndFYIAlerts" />
+							<s:enumeration value="WhosSpeakingAndFYIAlerts" />
+							<s:enumeration value="MarketReflectionsAndMarketFocusAndWhosSpeaking" />
+							<s:enumeration value="MarketReflectionsAndMarketFocusAndFYIAlerts" />
+							<s:enumeration value="MarketReflectionsAndWhosSpeakingAndFYIAlerts" />
+							<s:enumeration value="MarketFocusAndWhosSpeakingAndFYIAlerts" />
+							<s:enumeration value="All" />
+						</s:restriction>
+					</s:simpleType>
+				</s:list>
+			</s:simpleType>
+			<s:element name="GetTodaysOutlookResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTodaysOutlookResult" type="tns:ArrayOfOutlook" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfOutlook">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Outlook" nillable="true" type="tns:Outlook" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Outlook">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:AbstractEconodayObject">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="EventID" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />
+							<s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Time" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Content" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Author" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="AbstractEconodayObject" abstract="true">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common" />
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="Common">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="OutcomeTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Success" />
+					<s:enumeration value="SystemError" />
+					<s:enumeration value="RequestError" />
+					<s:enumeration value="RegistrationError" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="Header" type="tns:Header" />
+			<s:complexType name="Header">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />
+				</s:sequence>
+				<s:anyAttribute />
+			</s:complexType>
+			<s:element name="GetTomorrowsOutlook">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTomorrowsOutlookResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTomorrowsOutlookResult" type="tns:ArrayOfOutlook" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetYesterdaysOutlook">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetYesterdaysOutlookResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetYesterdaysOutlookResult" type="tns:ArrayOfOutlook" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetOutlookForDate">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="ForDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetOutlookForDateResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetOutlookForDateResult" type="tns:ArrayOfOutlook" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetOutlookForWeek">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="ForDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetOutlookForWeekResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetOutlookForWeekResult" type="tns:ArrayOfOutlook" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetOutlookForMonth">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="ForDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetOutlookForMonthResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetOutlookForMonthResult" type="tns:ArrayOfOutlook" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetOutlookForRange">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetOutlookForRangeResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetOutlookForRangeResult" type="tns:ArrayOfOutlook" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetOutlookForRangeLengthBackward">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="NumberOfDays" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetOutlookForRangeLengthBackwardResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetOutlookForRangeLengthBackwardResult" type="tns:ArrayOfOutlook" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetOutlookForRangeLengthForward">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="OutlookType" type="tns:OutlookTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="NumberOfDays" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetOutlookForRangeLengthForwardResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetOutlookForRangeLengthForwardResult" type="tns:ArrayOfOutlook" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ArrayOfOutlook" nillable="true" type="tns:ArrayOfOutlook" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetTodaysOutlookSoapIn">
+		<wsdl:part name="parameters" element="tns:GetTodaysOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetTodaysOutlookSoapOut">
+		<wsdl:part name="parameters" element="tns:GetTodaysOutlookResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTodaysOutlookHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetTomorrowsOutlookSoapIn">
+		<wsdl:part name="parameters" element="tns:GetTomorrowsOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetTomorrowsOutlookSoapOut">
+		<wsdl:part name="parameters" element="tns:GetTomorrowsOutlookResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTomorrowsOutlookHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetYesterdaysOutlookSoapIn">
+		<wsdl:part name="parameters" element="tns:GetYesterdaysOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetYesterdaysOutlookSoapOut">
+		<wsdl:part name="parameters" element="tns:GetYesterdaysOutlookResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetYesterdaysOutlookHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForDateSoapIn">
+		<wsdl:part name="parameters" element="tns:GetOutlookForDate" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForDateSoapOut">
+		<wsdl:part name="parameters" element="tns:GetOutlookForDateResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForDateHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForWeekSoapIn">
+		<wsdl:part name="parameters" element="tns:GetOutlookForWeek" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForWeekSoapOut">
+		<wsdl:part name="parameters" element="tns:GetOutlookForWeekResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForWeekHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForMonthSoapIn">
+		<wsdl:part name="parameters" element="tns:GetOutlookForMonth" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForMonthSoapOut">
+		<wsdl:part name="parameters" element="tns:GetOutlookForMonthResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForMonthHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeSoapIn">
+		<wsdl:part name="parameters" element="tns:GetOutlookForRange" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeSoapOut">
+		<wsdl:part name="parameters" element="tns:GetOutlookForRangeResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeLengthBackwardSoapIn">
+		<wsdl:part name="parameters" element="tns:GetOutlookForRangeLengthBackward" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeLengthBackwardSoapOut">
+		<wsdl:part name="parameters" element="tns:GetOutlookForRangeLengthBackwardResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeLengthBackwardHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeLengthForwardSoapIn">
+		<wsdl:part name="parameters" element="tns:GetOutlookForRangeLengthForward" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeLengthForwardSoapOut">
+		<wsdl:part name="parameters" element="tns:GetOutlookForRangeLengthForwardResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeLengthForwardHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetTodaysOutlookHttpGetIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTodaysOutlookHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetTomorrowsOutlookHttpGetIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTomorrowsOutlookHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetYesterdaysOutlookHttpGetIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetYesterdaysOutlookHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForDateHttpGetIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+		<wsdl:part name="ForDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForDateHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForWeekHttpGetIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+		<wsdl:part name="ForDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForWeekHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForMonthHttpGetIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+		<wsdl:part name="ForDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForMonthHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeHttpGetIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeLengthBackwardHttpGetIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="NumberOfDays" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeLengthBackwardHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeLengthForwardHttpGetIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="NumberOfDays" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeLengthForwardHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetTodaysOutlookHttpPostIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTodaysOutlookHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetTomorrowsOutlookHttpPostIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTomorrowsOutlookHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetYesterdaysOutlookHttpPostIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetYesterdaysOutlookHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForDateHttpPostIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+		<wsdl:part name="ForDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForDateHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForWeekHttpPostIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+		<wsdl:part name="ForDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForWeekHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForMonthHttpPostIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+		<wsdl:part name="ForDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForMonthHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeHttpPostIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeLengthBackwardHttpPostIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="NumberOfDays" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeLengthBackwardHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeLengthForwardHttpPostIn">
+		<wsdl:part name="OutlookType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="NumberOfDays" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetOutlookForRangeLengthForwardHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfOutlook" />
+	</wsdl:message>
+	<wsdl:portType name="XigniteOutlookSoap">
+		<wsdl:operation name="GetTodaysOutlook">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for today.</wsdl:documentation>
+			<wsdl:input message="tns:GetTodaysOutlookSoapIn" />
+			<wsdl:output message="tns:GetTodaysOutlookSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTomorrowsOutlook">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for tomorrow.</wsdl:documentation>
+			<wsdl:input message="tns:GetTomorrowsOutlookSoapIn" />
+			<wsdl:output message="tns:GetTomorrowsOutlookSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetYesterdaysOutlook">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get yesterday's outlook.</wsdl:documentation>
+			<wsdl:input message="tns:GetYesterdaysOutlookSoapIn" />
+			<wsdl:output message="tns:GetYesterdaysOutlookSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForDate">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for a specific date.</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForDateSoapIn" />
+			<wsdl:output message="tns:GetOutlookForDateSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForWeek">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified week. Weeks run
+				Monday through Sunday.</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForWeekSoapIn" />
+			<wsdl:output message="tns:GetOutlookForWeekSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForMonth">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified month.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForMonthSoapIn" />
+			<wsdl:output message="tns:GetOutlookForMonthSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRange">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForRangeSoapIn" />
+			<wsdl:output message="tns:GetOutlookForRangeSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRangeLengthBackward">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForRangeLengthBackwardSoapIn" />
+			<wsdl:output message="tns:GetOutlookForRangeLengthBackwardSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRangeLengthForward">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForRangeLengthForwardSoapIn" />
+			<wsdl:output message="tns:GetOutlookForRangeLengthForwardSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteOutlookHttpGet">
+		<wsdl:operation name="GetTodaysOutlook">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for today.</wsdl:documentation>
+			<wsdl:input message="tns:GetTodaysOutlookHttpGetIn" />
+			<wsdl:output message="tns:GetTodaysOutlookHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTomorrowsOutlook">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for tomorrow.</wsdl:documentation>
+			<wsdl:input message="tns:GetTomorrowsOutlookHttpGetIn" />
+			<wsdl:output message="tns:GetTomorrowsOutlookHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetYesterdaysOutlook">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get yesterday's outlook.</wsdl:documentation>
+			<wsdl:input message="tns:GetYesterdaysOutlookHttpGetIn" />
+			<wsdl:output message="tns:GetYesterdaysOutlookHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForDate">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for a specific date.</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForDateHttpGetIn" />
+			<wsdl:output message="tns:GetOutlookForDateHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForWeek">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified week. Weeks run
+				Monday through Sunday.</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForWeekHttpGetIn" />
+			<wsdl:output message="tns:GetOutlookForWeekHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForMonth">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified month.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForMonthHttpGetIn" />
+			<wsdl:output message="tns:GetOutlookForMonthHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRange">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForRangeHttpGetIn" />
+			<wsdl:output message="tns:GetOutlookForRangeHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRangeLengthBackward">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForRangeLengthBackwardHttpGetIn" />
+			<wsdl:output message="tns:GetOutlookForRangeLengthBackwardHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRangeLengthForward">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForRangeLengthForwardHttpGetIn" />
+			<wsdl:output message="tns:GetOutlookForRangeLengthForwardHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteOutlookHttpPost">
+		<wsdl:operation name="GetTodaysOutlook">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for today.</wsdl:documentation>
+			<wsdl:input message="tns:GetTodaysOutlookHttpPostIn" />
+			<wsdl:output message="tns:GetTodaysOutlookHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTomorrowsOutlook">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for tomorrow.</wsdl:documentation>
+			<wsdl:input message="tns:GetTomorrowsOutlookHttpPostIn" />
+			<wsdl:output message="tns:GetTomorrowsOutlookHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetYesterdaysOutlook">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get yesterday's outlook.</wsdl:documentation>
+			<wsdl:input message="tns:GetYesterdaysOutlookHttpPostIn" />
+			<wsdl:output message="tns:GetYesterdaysOutlookHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForDate">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for a specific date.</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForDateHttpPostIn" />
+			<wsdl:output message="tns:GetOutlookForDateHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForWeek">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified week. Weeks run
+				Monday through Sunday.</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForWeekHttpPostIn" />
+			<wsdl:output message="tns:GetOutlookForWeekHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForMonth">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified month.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForMonthHttpPostIn" />
+			<wsdl:output message="tns:GetOutlookForMonthHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRange">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForRangeHttpPostIn" />
+			<wsdl:output message="tns:GetOutlookForRangeHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRangeLengthBackward">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForRangeLengthBackwardHttpPostIn" />
+			<wsdl:output message="tns:GetOutlookForRangeLengthBackwardHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRangeLengthForward">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the outlook for each day in the specified range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetOutlookForRangeLengthForwardHttpPostIn" />
+			<wsdl:output message="tns:GetOutlookForRangeLengthForwardHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="XigniteOutlookSoap" type="tns:XigniteOutlookSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetTodaysOutlook">
+			<soap:operation soapAction="http://www.xignite.com/services/GetTodaysOutlook" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetTodaysOutlookHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTomorrowsOutlook">
+			<soap:operation soapAction="http://www.xignite.com/services/GetTomorrowsOutlook" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetTomorrowsOutlookHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetYesterdaysOutlook">
+			<soap:operation soapAction="http://www.xignite.com/services/GetYesterdaysOutlook" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetYesterdaysOutlookHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForDate">
+			<soap:operation soapAction="http://www.xignite.com/services/GetOutlookForDate" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetOutlookForDateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForWeek">
+			<soap:operation soapAction="http://www.xignite.com/services/GetOutlookForWeek" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetOutlookForWeekHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForMonth">
+			<soap:operation soapAction="http://www.xignite.com/services/GetOutlookForMonth" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetOutlookForMonthHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRange">
+			<soap:operation soapAction="http://www.xignite.com/services/GetOutlookForRange" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetOutlookForRangeHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRangeLengthBackward">
+			<soap:operation soapAction="http://www.xignite.com/services/GetOutlookForRangeLengthBackward" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetOutlookForRangeLengthBackwardHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRangeLengthForward">
+			<soap:operation soapAction="http://www.xignite.com/services/GetOutlookForRangeLengthForward" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetOutlookForRangeLengthForwardHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteOutlookSoap12" type="tns:XigniteOutlookSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetTodaysOutlook">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetTodaysOutlook" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetTodaysOutlookHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTomorrowsOutlook">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetTomorrowsOutlook" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetTomorrowsOutlookHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetYesterdaysOutlook">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetYesterdaysOutlook" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetYesterdaysOutlookHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForDate">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetOutlookForDate" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetOutlookForDateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForWeek">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetOutlookForWeek" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetOutlookForWeekHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForMonth">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetOutlookForMonth" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetOutlookForMonthHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRange">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetOutlookForRange" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetOutlookForRangeHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRangeLengthBackward">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetOutlookForRangeLengthBackward"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetOutlookForRangeLengthBackwardHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRangeLengthForward">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetOutlookForRangeLengthForward"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetOutlookForRangeLengthForwardHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteOutlookHttpGet" type="tns:XigniteOutlookHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetTodaysOutlook">
+			<http:operation location="/GetTodaysOutlook" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTomorrowsOutlook">
+			<http:operation location="/GetTomorrowsOutlook" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetYesterdaysOutlook">
+			<http:operation location="/GetYesterdaysOutlook" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForDate">
+			<http:operation location="/GetOutlookForDate" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForWeek">
+			<http:operation location="/GetOutlookForWeek" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForMonth">
+			<http:operation location="/GetOutlookForMonth" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRange">
+			<http:operation location="/GetOutlookForRange" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRangeLengthBackward">
+			<http:operation location="/GetOutlookForRangeLengthBackward" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRangeLengthForward">
+			<http:operation location="/GetOutlookForRangeLengthForward" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteOutlookHttpPost" type="tns:XigniteOutlookHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetTodaysOutlook">
+			<http:operation location="/GetTodaysOutlook" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTomorrowsOutlook">
+			<http:operation location="/GetTomorrowsOutlook" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetYesterdaysOutlook">
+			<http:operation location="/GetYesterdaysOutlook" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForDate">
+			<http:operation location="/GetOutlookForDate" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForWeek">
+			<http:operation location="/GetOutlookForWeek" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForMonth">
+			<http:operation location="/GetOutlookForMonth" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRange">
+			<http:operation location="/GetOutlookForRange" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRangeLengthBackward">
+			<http:operation location="/GetOutlookForRangeLengthBackward" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOutlookForRangeLengthForward">
+			<http:operation location="/GetOutlookForRangeLengthForward" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="XigniteOutlook">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">On-demand economic outlook.</wsdl:documentation>
+		<wsdl:port name="XigniteOutlookSoap" binding="tns:XigniteOutlookSoap">
+			<soap:address location="http://www.xignite.com/xOutlook.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteOutlookSoap12" binding="tns:XigniteOutlookSoap12">
+			<soap12:address location="http://www.xignite.com/xOutlook.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteOutlookHttpGet" binding="tns:XigniteOutlookHttpGet">
+			<http:address location="http://www.xignite.com/xOutlook.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteOutlookHttpPost" binding="tns:XigniteOutlookHttpPost">
+			<http:address location="http://www.xignite.com/xOutlook.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

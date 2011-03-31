@@ -1,1 +1,137 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://barnaland.is/dev/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://barnaland.is/dev/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://barnaland.is/dev/">      <s:element name="Search">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="text" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SearchResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SearchResult" type="tns:ArrayOfPerson" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfPerson">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Person" nillable="true" type="tns:Person" />        </s:sequence>      </s:complexType>      <s:complexType name="Person">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ZipCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Kt" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="ArrayOfPerson" nillable="true" type="tns:ArrayOfPerson" />    </s:schema>  </wsdl:types>  <wsdl:message name="SearchSoapIn">    <wsdl:part name="parameters" element="tns:Search" />  </wsdl:message>  <wsdl:message name="SearchSoapOut">    <wsdl:part name="parameters" element="tns:SearchResponse" />  </wsdl:message>  <wsdl:message name="SearchHttpGetIn">    <wsdl:part name="text" type="s:string" />  </wsdl:message>  <wsdl:message name="SearchHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfPerson" />  </wsdl:message>  <wsdl:message name="SearchHttpPostIn">    <wsdl:part name="text" type="s:string" />  </wsdl:message>  <wsdl:message name="SearchHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfPerson" />  </wsdl:message>  <wsdl:portType name="PersonLookupSoap">    <wsdl:operation name="Search">      <wsdl:input message="tns:SearchSoapIn" />      <wsdl:output message="tns:SearchSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="PersonLookupHttpGet">    <wsdl:operation name="Search">      <wsdl:input message="tns:SearchHttpGetIn" />      <wsdl:output message="tns:SearchHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="PersonLookupHttpPost">    <wsdl:operation name="Search">      <wsdl:input message="tns:SearchHttpPostIn" />      <wsdl:output message="tns:SearchHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="PersonLookupSoap" type="tns:PersonLookupSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="Search">      <soap:operation soapAction="http://barnaland.is/dev/Search" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="PersonLookupSoap12" type="tns:PersonLookupSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="Search">      <soap12:operation soapAction="http://barnaland.is/dev/Search" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="PersonLookupHttpGet" type="tns:PersonLookupHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="Search">      <http:operation location="/Search" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="PersonLookupHttpPost" type="tns:PersonLookupHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="Search">      <http:operation location="/Search" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="PersonLookup">    <wsdl:port name="PersonLookupSoap" binding="tns:PersonLookupSoap">      <soap:address location="http://www.barnaland.is/dev/personlookup.asmx" />    </wsdl:port>    <wsdl:port name="PersonLookupSoap12" binding="tns:PersonLookupSoap12">      <soap12:address location="http://www.barnaland.is/dev/personlookup.asmx" />    </wsdl:port>    <wsdl:port name="PersonLookupHttpGet" binding="tns:PersonLookupHttpGet">      <http:address location="http://www.barnaland.is/dev/personlookup.asmx" />    </wsdl:port>    <wsdl:port name="PersonLookupHttpPost" binding="tns:PersonLookupHttpPost">      <http:address location="http://www.barnaland.is/dev/personlookup.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://barnaland.is/dev/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://barnaland.is/dev/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://barnaland.is/dev/">
+			<s:element name="Search">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="text" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SearchResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SearchResult" type="tns:ArrayOfPerson" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfPerson">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Person" nillable="true" type="tns:Person" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Person">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ZipCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Kt" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="ArrayOfPerson" nillable="true" type="tns:ArrayOfPerson" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="SearchSoapIn">
+		<wsdl:part name="parameters" element="tns:Search" />
+	</wsdl:message>
+	<wsdl:message name="SearchSoapOut">
+		<wsdl:part name="parameters" element="tns:SearchResponse" />
+	</wsdl:message>
+	<wsdl:message name="SearchHttpGetIn">
+		<wsdl:part name="text" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SearchHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfPerson" />
+	</wsdl:message>
+	<wsdl:message name="SearchHttpPostIn">
+		<wsdl:part name="text" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SearchHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfPerson" />
+	</wsdl:message>
+	<wsdl:portType name="PersonLookupSoap">
+		<wsdl:operation name="Search">
+			<wsdl:input message="tns:SearchSoapIn" />
+			<wsdl:output message="tns:SearchSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="PersonLookupHttpGet">
+		<wsdl:operation name="Search">
+			<wsdl:input message="tns:SearchHttpGetIn" />
+			<wsdl:output message="tns:SearchHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="PersonLookupHttpPost">
+		<wsdl:operation name="Search">
+			<wsdl:input message="tns:SearchHttpPostIn" />
+			<wsdl:output message="tns:SearchHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="PersonLookupSoap" type="tns:PersonLookupSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="Search">
+			<soap:operation soapAction="http://barnaland.is/dev/Search" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="PersonLookupSoap12" type="tns:PersonLookupSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="Search">
+			<soap12:operation soapAction="http://barnaland.is/dev/Search" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="PersonLookupHttpGet" type="tns:PersonLookupHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="Search">
+			<http:operation location="/Search" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="PersonLookupHttpPost" type="tns:PersonLookupHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="Search">
+			<http:operation location="/Search" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="PersonLookup">
+		<wsdl:port name="PersonLookupSoap" binding="tns:PersonLookupSoap">
+			<soap:address location="http://www.barnaland.is/dev/personlookup.asmx" />
+		</wsdl:port>
+		<wsdl:port name="PersonLookupSoap12" binding="tns:PersonLookupSoap12">
+			<soap12:address location="http://www.barnaland.is/dev/personlookup.asmx" />
+		</wsdl:port>
+		<wsdl:port name="PersonLookupHttpGet" binding="tns:PersonLookupHttpGet">
+			<http:address location="http://www.barnaland.is/dev/personlookup.asmx" />
+		</wsdl:port>
+		<wsdl:port name="PersonLookupHttpPost" binding="tns:PersonLookupHttpPost">
+			<http:address location="http://www.barnaland.is/dev/personlookup.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

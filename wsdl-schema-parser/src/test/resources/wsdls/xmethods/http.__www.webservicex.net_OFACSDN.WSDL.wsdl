@@ -1,1 +1,100 @@
-<?xml version="1.0" encoding="utf-8"?><!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Walter (WebserviceX.NET) --><wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.webservicex.net/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://www.webservicex.net/">	<wsdl:types>		<s:schema elementFormDefault="qualified" targetNamespace="http://www.webservicex.net/">			<s:element name="IsSDNAndBlockedPersons">				<s:complexType>					<s:sequence>						<s:element minOccurs="0" maxOccurs="1" name="Names" type="s:string"/>					</s:sequence>				</s:complexType>			</s:element>			<s:element name="IsSDNAndBlockedPersonsResponse">				<s:complexType>					<s:sequence>						<s:element minOccurs="1" maxOccurs="1" name="IsSDNAndBlockedPersonsResult" type="s:boolean"/>						<s:element minOccurs="1" maxOccurs="1" name="SDNLists" type="tns:SDNList"/>					</s:sequence>				</s:complexType>			</s:element>			<s:complexType name="SDNList">				<s:sequence>					<s:element minOccurs="1" maxOccurs="1" name="TotalRecords" type="s:int"/>					<s:element minOccurs="0" maxOccurs="1" name="SDNLists" type="tns:ArrayOfSDN"/>				</s:sequence>			</s:complexType>			<s:complexType name="ArrayOfSDN">				<s:sequence>					<s:element minOccurs="0" maxOccurs="unbounded" name="SDN" type="tns:SDN"/>				</s:sequence>			</s:complexType>			<s:complexType name="SDN">				<s:sequence>					<s:element minOccurs="0" maxOccurs="1" name="UniqueRecord" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="NameOfSDN" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="TypeOfSDN" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="SanctionsProgramName" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="TitleOfAnIndividual" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="VesselCallSign" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="VesselType" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="VesselTonnage" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="GrossRegisteredTonnage" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="VesselFlag" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="VesselOwner" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="RemarksOnSDN" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="StreetAddress" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="RemarksOnAddress" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="TypeOfAlternateIdentity" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="AlternateIdentityName" type="s:string"/>					<s:element minOccurs="0" maxOccurs="1" name="RemarksOnAlternative" type="s:string"/>				</s:sequence>			</s:complexType>		</s:schema>	</wsdl:types>	<wsdl:message name="IsSDNAndBlockedPersonsSoapIn">		<wsdl:part name="parameters" element="tns:IsSDNAndBlockedPersons"/>	</wsdl:message>	<wsdl:message name="IsSDNAndBlockedPersonsSoapOut">		<wsdl:part name="parameters" element="tns:IsSDNAndBlockedPersonsResponse"/>	</wsdl:message>	<wsdl:portType name="OFACSDNSoap">		<wsdl:operation name="IsSDNAndBlockedPersons">			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This web services was created to aid banks in meeting the requirements of the US Treasury Department's Office of Foreign Asset Control (OFAC). OFAC restricts transactions with specific countries, organizations and individuals.</documentation>			<wsdl:input message="tns:IsSDNAndBlockedPersonsSoapIn"/>			<wsdl:output message="tns:IsSDNAndBlockedPersonsSoapOut"/>		</wsdl:operation>	</wsdl:portType>	<wsdl:binding name="OFACSDNSoap" type="tns:OFACSDNSoap">		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>		<wsdl:operation name="IsSDNAndBlockedPersons">			<soap:operation soapAction="http://www.webservicex.net/IsSDNAndBlockedPersons" style="document"/>			<wsdl:input>				<soap:body use="literal"/>			</wsdl:input>			<wsdl:output>				<soap:body use="literal"/>			</wsdl:output>		</wsdl:operation>	</wsdl:binding>	<wsdl:service name="OFACSDN">		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This web services was created to aid banks in meeting the requirements of the US Treasury Department's Office of Foreign Asset Control (OFAC). OFAC restricts transactions with specific countries, organizations and individuals.	The Office of Foreign Assets Control ('OFAC') of the US Department of the Treasury administers and enforces economic and trade sanctions based on US foreign policy and national security goals against targeted foreign countries, terrorists, international narcotics traffickers, and those engaged in activities related to the proliferation of weapons of mass destruction. OFAC acts under Presidential wartime and national emergency powers, as well as authority granted by specific legislation, to impose controls on transactions and freeze foreign assets under US jurisdiction. Many of the sanctions are based on United Nations and other international mandates, are multilateral in scope, and involve close cooperation with allied governments.</documentation>		<wsdl:port name="OFACSDNSoap" binding="tns:OFACSDNSoap">			<soap:address location="http://www.webservicex.net/OFACSDN.asmx"/>		</wsdl:port>	</wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?><!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Walter (WebserviceX.NET) -->
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.webservicex.net/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://www.webservicex.net/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.webservicex.net/">
+			<s:element name="IsSDNAndBlockedPersons">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Names" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="IsSDNAndBlockedPersonsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="IsSDNAndBlockedPersonsResult" type="s:boolean" />
+						<s:element minOccurs="1" maxOccurs="1" name="SDNLists" type="tns:SDNList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="SDNList">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="TotalRecords" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="SDNLists" type="tns:ArrayOfSDN" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfSDN">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="SDN" type="tns:SDN" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="SDN">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="UniqueRecord" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="NameOfSDN" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="TypeOfSDN" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="SanctionsProgramName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="TitleOfAnIndividual" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="VesselCallSign" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="VesselType" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="VesselTonnage" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GrossRegisteredTonnage" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="VesselFlag" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="VesselOwner" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="RemarksOnSDN" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="StreetAddress" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="RemarksOnAddress" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="TypeOfAlternateIdentity" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="AlternateIdentityName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="RemarksOnAlternative" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="IsSDNAndBlockedPersonsSoapIn">
+		<wsdl:part name="parameters" element="tns:IsSDNAndBlockedPersons" />
+	</wsdl:message>
+	<wsdl:message name="IsSDNAndBlockedPersonsSoapOut">
+		<wsdl:part name="parameters" element="tns:IsSDNAndBlockedPersonsResponse" />
+	</wsdl:message>
+	<wsdl:portType name="OFACSDNSoap">
+		<wsdl:operation name="IsSDNAndBlockedPersons">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This web services was created to aid banks in meeting the requirements of the US
+				Treasury Department's Office of Foreign Asset Control (OFAC). OFAC restricts transactions with specific countries,
+				organizations and individuals.</documentation>
+			<wsdl:input message="tns:IsSDNAndBlockedPersonsSoapIn" />
+			<wsdl:output message="tns:IsSDNAndBlockedPersonsSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="OFACSDNSoap" type="tns:OFACSDNSoap">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="IsSDNAndBlockedPersons">
+			<soap:operation soapAction="http://www.webservicex.net/IsSDNAndBlockedPersons" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="OFACSDN">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">This web services was created to aid banks in meeting the requirements of the US
+			Treasury Department's Office of Foreign Asset Control (OFAC). OFAC restricts transactions with specific countries,
+			organizations and individuals. The Office of Foreign Assets Control ('OFAC') of the US Department of the Treasury
+			administers and enforces economic and trade sanctions based on US foreign policy and national security goals against
+			targeted foreign countries, terrorists, international narcotics traffickers, and those engaged in activities related
+			to the proliferation of weapons of mass destruction. OFAC acts under Presidential wartime and national emergency
+			powers, as well as authority granted by specific legislation, to impose controls on transactions and freeze foreign
+			assets under US jurisdiction. Many of the sanctions are based on United Nations and other international mandates, are
+			multilateral in scope, and involve close cooperation with allied governments.</documentation>
+		<wsdl:port name="OFACSDNSoap" binding="tns:OFACSDNSoap">
+			<soap:address location="http://www.webservicex.net/OFACSDN.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

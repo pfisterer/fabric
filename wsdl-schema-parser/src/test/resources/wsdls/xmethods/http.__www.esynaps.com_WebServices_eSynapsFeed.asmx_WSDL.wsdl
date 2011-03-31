@@ -1,1 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">      <s:element name="WhatsNew">        <s:complexType />      </s:element>      <s:element name="WhatsNewResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="WhatsNewResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>    </s:schema>  </wsdl:types>  <wsdl:message name="WhatsNewSoapIn">    <wsdl:part name="parameters" element="tns:WhatsNew" />  </wsdl:message>  <wsdl:message name="WhatsNewSoapOut">    <wsdl:part name="parameters" element="tns:WhatsNewResponse" />  </wsdl:message>  <wsdl:portType name="eSynapsFeedSoap">    <wsdl:operation name="WhatsNew">      <wsdl:input message="tns:WhatsNewSoapIn" />      <wsdl:output message="tns:WhatsNewSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="eSynapsFeedSoap" type="tns:eSynapsFeedSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <wsdl:operation name="WhatsNew">      <soap:operation soapAction="http://tempuri.org/WhatsNew" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="eSynapsFeed">    <wsdl:port name="eSynapsFeedSoap" binding="tns:eSynapsFeedSoap">      <soap:address location="http://www.esynaps.com/WebServices/eSynapsFeed.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+			<s:element name="WhatsNew">
+				<s:complexType />
+			</s:element>
+			<s:element name="WhatsNewResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="WhatsNewResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="WhatsNewSoapIn">
+		<wsdl:part name="parameters" element="tns:WhatsNew" />
+	</wsdl:message>
+	<wsdl:message name="WhatsNewSoapOut">
+		<wsdl:part name="parameters" element="tns:WhatsNewResponse" />
+	</wsdl:message>
+	<wsdl:portType name="eSynapsFeedSoap">
+		<wsdl:operation name="WhatsNew">
+			<wsdl:input message="tns:WhatsNewSoapIn" />
+			<wsdl:output message="tns:WhatsNewSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="eSynapsFeedSoap" type="tns:eSynapsFeedSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<wsdl:operation name="WhatsNew">
+			<soap:operation soapAction="http://tempuri.org/WhatsNew" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="eSynapsFeed">
+		<wsdl:port name="eSynapsFeedSoap" binding="tns:eSynapsFeedSoap">
+			<soap:address location="http://www.esynaps.com/WebServices/eSynapsFeed.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

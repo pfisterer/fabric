@@ -1,1 +1,508 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.serviceobjects.com/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://www.serviceobjects.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.serviceobjects.com/">      <s:element name="GetPhoneInfo">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetPhoneInfoResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetPhoneInfoResult" type="tns:PhoneInfo" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="PhoneInfo">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Providers" type="tns:Providers" />          <s:element minOccurs="0" maxOccurs="1" name="Contacts" type="tns:Contacts" />          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />        </s:sequence>      </s:complexType>      <s:complexType name="Providers">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Provider" type="tns:Provider" />          <s:element minOccurs="0" maxOccurs="1" name="myProviders" type="tns:ArrayOfAnyType" />        </s:sequence>      </s:complexType>      <s:complexType name="Provider">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="LineType" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfAnyType">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="anyType" nillable="true" />        </s:sequence>      </s:complexType>      <s:complexType name="Contacts">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Contact" type="tns:Contact" />        </s:sequence>      </s:complexType>      <s:complexType name="Contact">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="Err">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Desc" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="GetPhoneInfoLastFirst">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetPhoneInfoLastFirstResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetPhoneInfoLastFirstResult" type="tns:PhoneInfo" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetExchangeInfo">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetExchangeInfoResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetExchangeInfoResult" type="tns:PhoneInfo" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetContactInfo">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetContactInfoResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetContactInfoResult" type="tns:PhoneInfo" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetPhoneInfo_V2">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="PhoneInfo_V2">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Providers" type="tns:Providers_V2" />          <s:element minOccurs="0" maxOccurs="1" name="Contacts" type="tns:Contacts" />          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />        </s:sequence>      </s:complexType>      <s:complexType name="Providers_V2">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Provider" type="tns:Provider_V2" />          <s:element minOccurs="0" maxOccurs="1" name="myProviders" type="tns:ArrayOfAnyType" />        </s:sequence>      </s:complexType>      <s:complexType name="Provider_V2">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="LineType" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Latitude" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Longitude" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Quality" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="GetPhoneInfo_V2Response">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetPhoneInfo_V2Result" type="tns:PhoneInfo_V2" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="PhoneInfo" nillable="true" type="tns:PhoneInfo" />      <s:element name="PhoneInfo_V2" nillable="true" type="tns:PhoneInfo_V2" />    </s:schema>  </wsdl:types>  <wsdl:message name="GetPhoneInfoSoapIn">    <wsdl:part name="parameters" element="tns:GetPhoneInfo" />  </wsdl:message>  <wsdl:message name="GetPhoneInfoSoapOut">    <wsdl:part name="parameters" element="tns:GetPhoneInfoResponse" />  </wsdl:message>  <wsdl:message name="GetPhoneInfoLastFirstSoapIn">    <wsdl:part name="parameters" element="tns:GetPhoneInfoLastFirst" />  </wsdl:message>  <wsdl:message name="GetPhoneInfoLastFirstSoapOut">    <wsdl:part name="parameters" element="tns:GetPhoneInfoLastFirstResponse" />  </wsdl:message>  <wsdl:message name="GetExchangeInfoSoapIn">    <wsdl:part name="parameters" element="tns:GetExchangeInfo" />  </wsdl:message>  <wsdl:message name="GetExchangeInfoSoapOut">    <wsdl:part name="parameters" element="tns:GetExchangeInfoResponse" />  </wsdl:message>  <wsdl:message name="GetContactInfoSoapIn">    <wsdl:part name="parameters" element="tns:GetContactInfo" />  </wsdl:message>  <wsdl:message name="GetContactInfoSoapOut">    <wsdl:part name="parameters" element="tns:GetContactInfoResponse" />  </wsdl:message>  <wsdl:message name="GetPhoneInfo_V2SoapIn">    <wsdl:part name="parameters" element="tns:GetPhoneInfo_V2" />  </wsdl:message>  <wsdl:message name="GetPhoneInfo_V2SoapOut">    <wsdl:part name="parameters" element="tns:GetPhoneInfo_V2Response" />  </wsdl:message>  <wsdl:message name="GetPhoneInfoHttpGetIn">    <wsdl:part name="PhoneNumber" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPhoneInfoHttpGetOut">    <wsdl:part name="Body" element="tns:PhoneInfo" />  </wsdl:message>  <wsdl:message name="GetPhoneInfoLastFirstHttpGetIn">    <wsdl:part name="PhoneNumber" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPhoneInfoLastFirstHttpGetOut">    <wsdl:part name="Body" element="tns:PhoneInfo" />  </wsdl:message>  <wsdl:message name="GetExchangeInfoHttpGetIn">    <wsdl:part name="PhoneNumber" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetExchangeInfoHttpGetOut">    <wsdl:part name="Body" element="tns:PhoneInfo" />  </wsdl:message>  <wsdl:message name="GetContactInfoHttpGetIn">    <wsdl:part name="PhoneNumber" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetContactInfoHttpGetOut">    <wsdl:part name="Body" element="tns:PhoneInfo" />  </wsdl:message>  <wsdl:message name="GetPhoneInfo_V2HttpGetIn">    <wsdl:part name="PhoneNumber" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPhoneInfo_V2HttpGetOut">    <wsdl:part name="Body" element="tns:PhoneInfo_V2" />  </wsdl:message>  <wsdl:message name="GetPhoneInfoHttpPostIn">    <wsdl:part name="PhoneNumber" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPhoneInfoHttpPostOut">    <wsdl:part name="Body" element="tns:PhoneInfo" />  </wsdl:message>  <wsdl:message name="GetPhoneInfoLastFirstHttpPostIn">    <wsdl:part name="PhoneNumber" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPhoneInfoLastFirstHttpPostOut">    <wsdl:part name="Body" element="tns:PhoneInfo" />  </wsdl:message>  <wsdl:message name="GetExchangeInfoHttpPostIn">    <wsdl:part name="PhoneNumber" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetExchangeInfoHttpPostOut">    <wsdl:part name="Body" element="tns:PhoneInfo" />  </wsdl:message>  <wsdl:message name="GetContactInfoHttpPostIn">    <wsdl:part name="PhoneNumber" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetContactInfoHttpPostOut">    <wsdl:part name="Body" element="tns:PhoneInfo" />  </wsdl:message>  <wsdl:message name="GetPhoneInfo_V2HttpPostIn">    <wsdl:part name="PhoneNumber" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPhoneInfo_V2HttpPostOut">    <wsdl:part name="Body" element="tns:PhoneInfo_V2" />  </wsdl:message>  <wsdl:portType name="DOTSGeoPhoneSoap">    <wsdl:operation name="GetPhoneInfo">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number.</documentation>      <wsdl:input message="tns:GetPhoneInfoSoapIn" />      <wsdl:output message="tns:GetPhoneInfoSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetPhoneInfoLastFirst">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number.  This service returns residential contact names in the format: Lastname, Firstname.</documentation>      <wsdl:input message="tns:GetPhoneInfoLastFirstSoapIn" />      <wsdl:output message="tns:GetPhoneInfoLastFirstSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetExchangeInfo">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the geographic location and carrier of any phone number in the US.</documentation>      <wsdl:input message="tns:GetExchangeInfoSoapIn" />      <wsdl:output message="tns:GetExchangeInfoSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetContactInfo">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the business or person registered to phone number in the US.</documentation>      <wsdl:input message="tns:GetContactInfoSoapIn" />      <wsdl:output message="tns:GetContactInfoSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetPhoneInfo_V2">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number.</documentation>      <wsdl:input message="tns:GetPhoneInfo_V2SoapIn" />      <wsdl:output message="tns:GetPhoneInfo_V2SoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="DOTSGeoPhoneHttpGet">    <wsdl:operation name="GetPhoneInfo">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number.</documentation>      <wsdl:input message="tns:GetPhoneInfoHttpGetIn" />      <wsdl:output message="tns:GetPhoneInfoHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetPhoneInfoLastFirst">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number.  This service returns residential contact names in the format: Lastname, Firstname.</documentation>      <wsdl:input message="tns:GetPhoneInfoLastFirstHttpGetIn" />      <wsdl:output message="tns:GetPhoneInfoLastFirstHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetExchangeInfo">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the geographic location and carrier of any phone number in the US.</documentation>      <wsdl:input message="tns:GetExchangeInfoHttpGetIn" />      <wsdl:output message="tns:GetExchangeInfoHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetContactInfo">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the business or person registered to phone number in the US.</documentation>      <wsdl:input message="tns:GetContactInfoHttpGetIn" />      <wsdl:output message="tns:GetContactInfoHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetPhoneInfo_V2">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number.</documentation>      <wsdl:input message="tns:GetPhoneInfo_V2HttpGetIn" />      <wsdl:output message="tns:GetPhoneInfo_V2HttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="DOTSGeoPhoneHttpPost">    <wsdl:operation name="GetPhoneInfo">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number.</documentation>      <wsdl:input message="tns:GetPhoneInfoHttpPostIn" />      <wsdl:output message="tns:GetPhoneInfoHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetPhoneInfoLastFirst">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number.  This service returns residential contact names in the format: Lastname, Firstname.</documentation>      <wsdl:input message="tns:GetPhoneInfoLastFirstHttpPostIn" />      <wsdl:output message="tns:GetPhoneInfoLastFirstHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetExchangeInfo">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the geographic location and carrier of any phone number in the US.</documentation>      <wsdl:input message="tns:GetExchangeInfoHttpPostIn" />      <wsdl:output message="tns:GetExchangeInfoHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetContactInfo">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the business or person registered to phone number in the US.</documentation>      <wsdl:input message="tns:GetContactInfoHttpPostIn" />      <wsdl:output message="tns:GetContactInfoHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetPhoneInfo_V2">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number.</documentation>      <wsdl:input message="tns:GetPhoneInfo_V2HttpPostIn" />      <wsdl:output message="tns:GetPhoneInfo_V2HttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="DOTSGeoPhoneSoap" type="tns:DOTSGeoPhoneSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <wsdl:operation name="GetPhoneInfo">      <soap:operation soapAction="http://www.serviceobjects.com/GetPhoneInfo" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPhoneInfoLastFirst">      <soap:operation soapAction="http://www.serviceobjects.com/GetPhoneInfoLastFirst" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchangeInfo">      <soap:operation soapAction="http://www.serviceobjects.com/GetExchangeInfo" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetContactInfo">      <soap:operation soapAction="http://www.serviceobjects.com/GetContactInfo" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPhoneInfo_V2">      <soap:operation soapAction="http://www.serviceobjects.com/GetPhoneInfo_V2" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="DOTSGeoPhoneHttpGet" type="tns:DOTSGeoPhoneHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetPhoneInfo">      <http:operation location="/GetPhoneInfo" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPhoneInfoLastFirst">      <http:operation location="/GetPhoneInfoLastFirst" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchangeInfo">      <http:operation location="/GetExchangeInfo" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetContactInfo">      <http:operation location="/GetContactInfo" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPhoneInfo_V2">      <http:operation location="/GetPhoneInfo_V2" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="DOTSGeoPhoneHttpPost" type="tns:DOTSGeoPhoneHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetPhoneInfo">      <http:operation location="/GetPhoneInfo" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPhoneInfoLastFirst">      <http:operation location="/GetPhoneInfoLastFirst" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchangeInfo">      <http:operation location="/GetExchangeInfo" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetContactInfo">      <http:operation location="/GetContactInfo" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPhoneInfo_V2">      <http:operation location="/GetPhoneInfo_V2" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="DOTSGeoPhone">    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">For more information on our web services, visit us at &lt;a href='http://www.serviceobjects.com/products/default.asp' target='new'&gt;our website&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;&lt;a href='http://www.serviceobjects.com' target='new'&gt;&lt;img src='http://www.serviceobjects.com/images/so_logo_2_inside.gif' border='0'/&gt;&lt;/a&gt;</documentation>    <wsdl:port name="DOTSGeoPhoneSoap" binding="tns:DOTSGeoPhoneSoap">      <soap:address location="http://ws2.serviceobjects.net/gp/GeoPhone.asmx" />    </wsdl:port>    <wsdl:port name="DOTSGeoPhoneHttpGet" binding="tns:DOTSGeoPhoneHttpGet">      <http:address location="http://ws2.serviceobjects.net/gp/GeoPhone.asmx" />    </wsdl:port>    <wsdl:port name="DOTSGeoPhoneHttpPost" binding="tns:DOTSGeoPhoneHttpPost">      <http:address location="http://ws2.serviceobjects.net/gp/GeoPhone.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.serviceobjects.com/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	targetNamespace="http://www.serviceobjects.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.serviceobjects.com/">
+			<s:element name="GetPhoneInfo">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetPhoneInfoResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetPhoneInfoResult" type="tns:PhoneInfo" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="PhoneInfo">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Providers" type="tns:Providers" />
+					<s:element minOccurs="0" maxOccurs="1" name="Contacts" type="tns:Contacts" />
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Providers">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Provider" type="tns:Provider" />
+					<s:element minOccurs="0" maxOccurs="1" name="myProviders" type="tns:ArrayOfAnyType" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Provider">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="LineType" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfAnyType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="anyType" nillable="true" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Contacts">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Contact" type="tns:Contact" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Contact">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Err">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Desc" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetPhoneInfoLastFirst">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetPhoneInfoLastFirstResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetPhoneInfoLastFirstResult" type="tns:PhoneInfo" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetExchangeInfo">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetExchangeInfoResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetExchangeInfoResult" type="tns:PhoneInfo" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetContactInfo">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetContactInfoResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetContactInfoResult" type="tns:PhoneInfo" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetPhoneInfo_V2">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="PhoneInfo_V2">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Providers" type="tns:Providers_V2" />
+					<s:element minOccurs="0" maxOccurs="1" name="Contacts" type="tns:Contacts" />
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Providers_V2">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Provider" type="tns:Provider_V2" />
+					<s:element minOccurs="0" maxOccurs="1" name="myProviders" type="tns:ArrayOfAnyType" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Provider_V2">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="LineType" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Latitude" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Longitude" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Quality" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetPhoneInfo_V2Response">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetPhoneInfo_V2Result" type="tns:PhoneInfo_V2" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="PhoneInfo" nillable="true" type="tns:PhoneInfo" />
+			<s:element name="PhoneInfo_V2" nillable="true" type="tns:PhoneInfo_V2" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetPhoneInfoSoapIn">
+		<wsdl:part name="parameters" element="tns:GetPhoneInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfoSoapOut">
+		<wsdl:part name="parameters" element="tns:GetPhoneInfoResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfoLastFirstSoapIn">
+		<wsdl:part name="parameters" element="tns:GetPhoneInfoLastFirst" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfoLastFirstSoapOut">
+		<wsdl:part name="parameters" element="tns:GetPhoneInfoLastFirstResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeInfoSoapIn">
+		<wsdl:part name="parameters" element="tns:GetExchangeInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeInfoSoapOut">
+		<wsdl:part name="parameters" element="tns:GetExchangeInfoResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetContactInfoSoapIn">
+		<wsdl:part name="parameters" element="tns:GetContactInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetContactInfoSoapOut">
+		<wsdl:part name="parameters" element="tns:GetContactInfoResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfo_V2SoapIn">
+		<wsdl:part name="parameters" element="tns:GetPhoneInfo_V2" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfo_V2SoapOut">
+		<wsdl:part name="parameters" element="tns:GetPhoneInfo_V2Response" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfoHttpGetIn">
+		<wsdl:part name="PhoneNumber" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfoHttpGetOut">
+		<wsdl:part name="Body" element="tns:PhoneInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfoLastFirstHttpGetIn">
+		<wsdl:part name="PhoneNumber" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfoLastFirstHttpGetOut">
+		<wsdl:part name="Body" element="tns:PhoneInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeInfoHttpGetIn">
+		<wsdl:part name="PhoneNumber" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeInfoHttpGetOut">
+		<wsdl:part name="Body" element="tns:PhoneInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetContactInfoHttpGetIn">
+		<wsdl:part name="PhoneNumber" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetContactInfoHttpGetOut">
+		<wsdl:part name="Body" element="tns:PhoneInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfo_V2HttpGetIn">
+		<wsdl:part name="PhoneNumber" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfo_V2HttpGetOut">
+		<wsdl:part name="Body" element="tns:PhoneInfo_V2" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfoHttpPostIn">
+		<wsdl:part name="PhoneNumber" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfoHttpPostOut">
+		<wsdl:part name="Body" element="tns:PhoneInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfoLastFirstHttpPostIn">
+		<wsdl:part name="PhoneNumber" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfoLastFirstHttpPostOut">
+		<wsdl:part name="Body" element="tns:PhoneInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeInfoHttpPostIn">
+		<wsdl:part name="PhoneNumber" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeInfoHttpPostOut">
+		<wsdl:part name="Body" element="tns:PhoneInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetContactInfoHttpPostIn">
+		<wsdl:part name="PhoneNumber" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetContactInfoHttpPostOut">
+		<wsdl:part name="Body" element="tns:PhoneInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfo_V2HttpPostIn">
+		<wsdl:part name="PhoneNumber" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneInfo_V2HttpPostOut">
+		<wsdl:part name="Body" element="tns:PhoneInfo_V2" />
+	</wsdl:message>
+	<wsdl:portType name="DOTSGeoPhoneSoap">
+		<wsdl:operation name="GetPhoneInfo">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number.</documentation>
+			<wsdl:input message="tns:GetPhoneInfoSoapIn" />
+			<wsdl:output message="tns:GetPhoneInfoSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPhoneInfoLastFirst">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number. This service returns
+				residential contact names in the format: Lastname, Firstname.</documentation>
+			<wsdl:input message="tns:GetPhoneInfoLastFirstSoapIn" />
+			<wsdl:output message="tns:GetPhoneInfoLastFirstSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeInfo">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the geographic location and carrier of any phone number in the US.
+			</documentation>
+			<wsdl:input message="tns:GetExchangeInfoSoapIn" />
+			<wsdl:output message="tns:GetExchangeInfoSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetContactInfo">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the business or person registered to phone number in the US.
+			</documentation>
+			<wsdl:input message="tns:GetContactInfoSoapIn" />
+			<wsdl:output message="tns:GetContactInfoSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPhoneInfo_V2">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number.</documentation>
+			<wsdl:input message="tns:GetPhoneInfo_V2SoapIn" />
+			<wsdl:output message="tns:GetPhoneInfo_V2SoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DOTSGeoPhoneHttpGet">
+		<wsdl:operation name="GetPhoneInfo">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number.</documentation>
+			<wsdl:input message="tns:GetPhoneInfoHttpGetIn" />
+			<wsdl:output message="tns:GetPhoneInfoHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPhoneInfoLastFirst">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number. This service returns
+				residential contact names in the format: Lastname, Firstname.</documentation>
+			<wsdl:input message="tns:GetPhoneInfoLastFirstHttpGetIn" />
+			<wsdl:output message="tns:GetPhoneInfoLastFirstHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeInfo">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the geographic location and carrier of any phone number in the US.
+			</documentation>
+			<wsdl:input message="tns:GetExchangeInfoHttpGetIn" />
+			<wsdl:output message="tns:GetExchangeInfoHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetContactInfo">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the business or person registered to phone number in the US.
+			</documentation>
+			<wsdl:input message="tns:GetContactInfoHttpGetIn" />
+			<wsdl:output message="tns:GetContactInfoHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPhoneInfo_V2">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number.</documentation>
+			<wsdl:input message="tns:GetPhoneInfo_V2HttpGetIn" />
+			<wsdl:output message="tns:GetPhoneInfo_V2HttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DOTSGeoPhoneHttpPost">
+		<wsdl:operation name="GetPhoneInfo">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number.</documentation>
+			<wsdl:input message="tns:GetPhoneInfoHttpPostIn" />
+			<wsdl:output message="tns:GetPhoneInfoHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPhoneInfoLastFirst">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number. This service returns
+				residential contact names in the format: Lastname, Firstname.</documentation>
+			<wsdl:input message="tns:GetPhoneInfoLastFirstHttpPostIn" />
+			<wsdl:output message="tns:GetPhoneInfoLastFirstHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeInfo">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the geographic location and carrier of any phone number in the US.
+			</documentation>
+			<wsdl:input message="tns:GetExchangeInfoHttpPostIn" />
+			<wsdl:output message="tns:GetExchangeInfoHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetContactInfo">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the business or person registered to phone number in the US.
+			</documentation>
+			<wsdl:input message="tns:GetContactInfoHttpPostIn" />
+			<wsdl:output message="tns:GetContactInfoHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPhoneInfo_V2">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns reverse lookup information on a given phone number.</documentation>
+			<wsdl:input message="tns:GetPhoneInfo_V2HttpPostIn" />
+			<wsdl:output message="tns:GetPhoneInfo_V2HttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="DOTSGeoPhoneSoap" type="tns:DOTSGeoPhoneSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<wsdl:operation name="GetPhoneInfo">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetPhoneInfo" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPhoneInfoLastFirst">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetPhoneInfoLastFirst" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeInfo">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetExchangeInfo" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetContactInfo">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetContactInfo" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPhoneInfo_V2">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetPhoneInfo_V2" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="DOTSGeoPhoneHttpGet" type="tns:DOTSGeoPhoneHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetPhoneInfo">
+			<http:operation location="/GetPhoneInfo" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPhoneInfoLastFirst">
+			<http:operation location="/GetPhoneInfoLastFirst" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeInfo">
+			<http:operation location="/GetExchangeInfo" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetContactInfo">
+			<http:operation location="/GetContactInfo" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPhoneInfo_V2">
+			<http:operation location="/GetPhoneInfo_V2" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="DOTSGeoPhoneHttpPost" type="tns:DOTSGeoPhoneHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetPhoneInfo">
+			<http:operation location="/GetPhoneInfo" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPhoneInfoLastFirst">
+			<http:operation location="/GetPhoneInfoLastFirst" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeInfo">
+			<http:operation location="/GetExchangeInfo" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetContactInfo">
+			<http:operation location="/GetContactInfo" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPhoneInfo_V2">
+			<http:operation location="/GetPhoneInfo_V2" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="DOTSGeoPhone">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">For more information on our web services, visit us at &lt;a
+			href='http://www.serviceobjects.com/products/default.asp' target='new'&gt;our
+			website&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;&lt;a href='http://www.serviceobjects.com' target='new'&gt;&lt;img
+			src='http://www.serviceobjects.com/images/so_logo_2_inside.gif' border='0'/&gt;&lt;/a&gt;</documentation>
+		<wsdl:port name="DOTSGeoPhoneSoap" binding="tns:DOTSGeoPhoneSoap">
+			<soap:address location="http://ws2.serviceobjects.net/gp/GeoPhone.asmx" />
+		</wsdl:port>
+		<wsdl:port name="DOTSGeoPhoneHttpGet" binding="tns:DOTSGeoPhoneHttpGet">
+			<http:address location="http://ws2.serviceobjects.net/gp/GeoPhone.asmx" />
+		</wsdl:port>
+		<wsdl:port name="DOTSGeoPhoneHttpPost" binding="tns:DOTSGeoPhoneHttpPost">
+			<http:address location="http://ws2.serviceobjects.net/gp/GeoPhone.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -37,6 +37,8 @@ import org.apache.xmlbeans.impl.xb.xsdschema.TopLevelElement;
 import org.apache.xmlbeans.impl.xb.xsdschema.TopLevelSimpleType;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Preconditions;
+
 public class FSchema {
 	/** */
 	private final org.slf4j.Logger log = LoggerFactory.getLogger(FSchema.class);
@@ -178,6 +180,15 @@ public class FSchema {
 			File enclosingSchemaLocation = new File(enclosingSchemaLocationUrl.toURL().getFile()).getParentFile();
 
 			String importLocation = importElement.getSchemaLocation();
+			
+			if (importLocation== null)
+			{
+			    log.debug("No import location supplied, trying to use the namespace URI {}", importElement.getNamespace());
+			    importLocation = importElement.getNamespace();
+			}
+			
+			Preconditions.checkNotNull(importLocation, "Import location must not be null");
+			
 			URI importLocationURI = new URI(importLocation);
 			
 			if( "file".equals(importLocationURI.getScheme()))

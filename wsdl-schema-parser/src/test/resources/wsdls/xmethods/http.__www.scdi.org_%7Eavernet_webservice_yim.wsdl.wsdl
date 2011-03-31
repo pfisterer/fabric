@@ -1,1 +1,32 @@
-<?xml version="1.0"?><definitions name="YIM Service"        targetNamespace="http://www.scdi.org/"        xmlns:tns="http://www.scdi.org/"        xmlns:xsd="http://www.w3.org/2001/XMLSchema"        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"        xmlns="http://schemas.xmlsoap.org/wsdl/">     <message name="null"/>    <message name="message">        <part name="to" type="xsd:string"/>        <part name="body" type="xsd:string"/>    </message>    <portType name="avernetPortType">        <operation name="sendYIM">            <input message="tns:message"/>            <output message="tns:null"/>        </operation>    </portType>    <binding name="avernetBinding" type="tns:avernetPortType">        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>        <operation name="sendYIM">            <soap:operation soapAction=""/>            <input>                <soap:body use="encoded" namespace="urn:avernet"                        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>            </input>            <output>                <soap:body use="encoded" namespace="urn:avernet"                        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>            </output>        </operation>    </binding>    <service name="avernetService">        <port name="avernetPort" binding="tns:avernetBinding">            <soap:address location="http://www.scdi.org/~avernet/webservice/"/>        </port>    </service></definitions>
+<?xml version="1.0"?>
+<definitions name="YIM Service" targetNamespace="http://www.scdi.org/" xmlns:tns="http://www.scdi.org/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<message name="null" />
+	<message name="message">
+		<part name="to" type="xsd:string" />
+		<part name="body" type="xsd:string" />
+	</message>
+	<portType name="avernetPortType">
+		<operation name="sendYIM">
+			<input message="tns:message" />
+			<output message="tns:null" />
+		</operation>
+	</portType>
+	<binding name="avernetBinding" type="tns:avernetPortType">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="sendYIM">
+			<soap:operation soapAction="" />
+			<input>
+				<soap:body use="encoded" namespace="urn:avernet" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:avernet" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+	</binding>
+	<service name="avernetService">
+		<port name="avernetPort" binding="tns:avernetBinding">
+			<soap:address location="http://www.scdi.org/~avernet/webservice/" />
+		</port>
+	</service>
+</definitions>

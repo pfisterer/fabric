@@ -1,1 +1,33 @@
-<?xml version='1.0' encoding='UTF-8' ?> <definitions  name ='Calendar'   targetNamespace = 'http://www.stgregorioschurchdc.org/Calendar'	 xmlns:tns='http://www.stgregorioschurchdc.org/Calendar' 	 xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' 	 xmlns:xsd='http://www.w3.org/2001/XMLSchema' 	 xmlns='http://schemas.xmlsoap.org/wsdl/'>   <message name='EasterDate'>    <part name='year' type='xsd:short'/>  </message>  <message name='EasterDateResponse'>	<part name='date' type='xsd:string'/>  </message>  <portType name='EasterDateSoapPort'>    <operation name='easter_date' parameterOrder='year'>      <input message='tns:EasterDate' />      <output message='tns:EasterDateResponse' />    </operation>  </portType>  <binding name='EasterDateSoapBinding' type='tns:EasterDateSoapPort' >    <soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http' />    <operation name='easter_date' >      <soap:operation soapAction='http://www.stgregorioschurchdc.org/Calendar#easter_date' />      <input>        <soap:body use='encoded' namespace='http://www.stgregorioschurchdc.org/Calendar'		  encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />      </input>      <output>        <soap:body use='encoded' namespace='http://www.stgregorioschurchdc.org/Calendar'		  encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />      </output>    </operation>  </binding>  <service name='Calendar' >    <port name='EasterDateSoapPort' binding='tns:EasterDateSoapBinding' >      <soap:address location='http://www.stgregorioschurchdc.org/cgi/websvccal.cgi' />    </port>  </service></definitions>
+<?xml version='1.0' encoding='UTF-8' ?>
+<definitions name='Calendar' targetNamespace='http://www.stgregorioschurchdc.org/Calendar' xmlns:tns='http://www.stgregorioschurchdc.org/Calendar'
+	xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns='http://schemas.xmlsoap.org/wsdl/'>
+	<message name='EasterDate'>
+		<part name='year' type='xsd:short' />
+	</message>
+	<message name='EasterDateResponse'>
+		<part name='date' type='xsd:string' />
+	</message>
+	<portType name='EasterDateSoapPort'>
+		<operation name='easter_date' parameterOrder='year'>
+			<input message='tns:EasterDate' />
+			<output message='tns:EasterDateResponse' />
+		</operation>
+	</portType>
+	<binding name='EasterDateSoapBinding' type='tns:EasterDateSoapPort'>
+		<soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http' />
+		<operation name='easter_date'>
+			<soap:operation soapAction='http://www.stgregorioschurchdc.org/Calendar#easter_date' />
+			<input>
+				<soap:body use='encoded' namespace='http://www.stgregorioschurchdc.org/Calendar' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
+			</input>
+			<output>
+				<soap:body use='encoded' namespace='http://www.stgregorioschurchdc.org/Calendar' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
+			</output>
+		</operation>
+	</binding>
+	<service name='Calendar'>
+		<port name='EasterDateSoapPort' binding='tns:EasterDateSoapBinding'>
+			<soap:address location='http://www.stgregorioschurchdc.org/cgi/websvccal.cgi' />
+		</port>
+	</service>
+</definitions>

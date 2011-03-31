@@ -1,1 +1,216 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:si="http://www.strikeiron.com" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.strikeiron.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.strikeiron.com">      <s:element name="GetTaxRateUS">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="zip_code" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTaxRateUSResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTaxRateUSResult" type="si:TaxRateUSAData" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="TaxRateUSAData">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="zip_code" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="county_name" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="city_name" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="state_sales_tax" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="state_use_tax" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="county_sales_tax" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="county_use_tax" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="city_sales_tax" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="city_use_tax" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="total_sales_tax" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="total_use_tax" type="s:double" />          <s:element minOccurs="0" maxOccurs="1" name="tax_shipping_alone" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="tax_shipping_handling" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="ResponseInfo" type="si:ResponseInfo" />      <s:complexType name="ResponseInfo">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="ResponseCode" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Response" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="GetTaxRateCanada">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="province" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTaxRateCanadaResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTaxRateCanadaResult" type="si:TaxRateCanadaData" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="TaxRateCanadaData">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="abbreviation" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="province" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="GST" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="PST" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="total" type="s:double" />          <s:element minOccurs="0" maxOccurs="1" name="tax_shipping_handling" type="s:string" />        </s:sequence>      </s:complexType>    </s:schema>    <xs:schema xmlns:tns1="http://ws.strikeiron.com" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://ws.strikeiron.com" xmlns:xs="http://www.w3.org/2001/XMLSchema">      <xs:element name="LicenseInfo" type="tns1:LicenseInfo" />      <xs:complexType name="LicenseInfo">        <xs:sequence>          <xs:element minOccurs="0" name="UnregisteredUser" type="tns1:UnregisteredUser" />          <xs:element minOccurs="0" name="RegisteredUser" type="tns1:RegisteredUser" />        </xs:sequence>      </xs:complexType>      <xs:complexType name="UnregisteredUser">        <xs:sequence>          <xs:element minOccurs="0" name="EmailAddress" type="xs:string" />        </xs:sequence>      </xs:complexType>      <xs:complexType name="RegisteredUser">        <xs:sequence>          <xs:element minOccurs="0" name="UserID" type="xs:string" />          <xs:element minOccurs="0" name="Password" type="xs:string" />        </xs:sequence>      </xs:complexType>      <xs:element name="SubscriptionInfo" type="tns1:SubscriptionInfo" />      <xs:complexType name="SubscriptionInfo">        <xs:sequence>          <xs:element name="LicenseStatusCode" type="xs:int" />          <xs:element minOccurs="0" name="LicenseStatus" type="xs:string" />          <xs:element name="LicenseActionCode" type="xs:int" />          <xs:element minOccurs="0" name="LicenseAction" type="xs:string" />          <xs:element name="RemainingHits" type="xs:int" />          <xs:element name="Amount" type="xs:decimal" />        </xs:sequence>      </xs:complexType>      <xs:element name="GetRemainingHits">        <xs:complexType />      </xs:element>      <xs:element name="GetRemainingHitsResponse">        <xs:complexType />      </xs:element>    </xs:schema>  </wsdl:types>  <wsdl:message name="GetTaxRateUSSoapIn">    <wsdl:part name="parameters" element="si:GetTaxRateUS" />  </wsdl:message>  <wsdl:message name="GetTaxRateUSSoapOut">    <wsdl:part name="parameters" element="si:GetTaxRateUSResponse" />  </wsdl:message>  <wsdl:message name="GetTaxRateUSResponseInfo">    <wsdl:part name="ResponseInfo" element="si:ResponseInfo" />  </wsdl:message>  <wsdl:message name="GetTaxRateCanadaSoapIn">    <wsdl:part name="parameters" element="si:GetTaxRateCanada" />  </wsdl:message>  <wsdl:message name="GetTaxRateCanadaSoapOut">    <wsdl:part name="parameters" element="si:GetTaxRateCanadaResponse" />  </wsdl:message>  <wsdl:message name="GetTaxRateCanadaResponseInfo">    <wsdl:part name="ResponseInfo" element="si:ResponseInfo" />  </wsdl:message>  <wsdl:message name="GetRemainingHitsSoapIn">    <wsdl:part name="parameters" xmlns:q1="http://ws.strikeiron.com" element="q1:GetRemainingHits" />  </wsdl:message>  <wsdl:message name="GetRemainingHitsSoapOut">    <wsdl:part name="parameters" xmlns:q2="http://ws.strikeiron.com" element="q2:GetRemainingHitsResponse" />  </wsdl:message>  <wsdl:message name="LicenseInfoMessage">    <wsdl:part name="LicenseInfo" xmlns:q3="http://ws.strikeiron.com" element="q3:LicenseInfo" />  </wsdl:message>  <wsdl:message name="SubscriptionInfoMessage">    <wsdl:part name="SubscriptionInfo" xmlns:q4="http://ws.strikeiron.com" element="q4:SubscriptionInfo" />  </wsdl:message>  <wsdl:portType name="TaxDataBasicSoap">    <wsdl:operation name="GetTaxRateUS">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get tax rate of a zipcode in US</documentation>      <wsdl:input message="si:GetTaxRateUSSoapIn" />      <wsdl:output message="si:GetTaxRateUSSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetTaxRateCanada">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get tax rate of a province in Canada</documentation>      <wsdl:input message="si:GetTaxRateCanadaSoapIn" />      <wsdl:output message="si:GetTaxRateCanadaSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetRemainingHits">      <wsdl:input message="si:GetRemainingHitsSoapIn" />      <wsdl:output message="si:GetRemainingHitsSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="TaxDataBasicSoap" type="si:TaxDataBasicSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetTaxRateUS">      <soap:operation soapAction="http://www.strikeiron.com/GetTaxRateUS" style="document" />      <wsdl:input>        <soap:body use="literal" />        <tns:validation xmlns:tns="http://www.strikeiron.com">          <tns:assertions>            <tns:assertion>              <tns:expression>string-length(//tns:zip_code) &gt; 0</tns:expression>              <tns:description>Zip code is required</tns:description>            </tns:assertion>          </tns:assertions>        </tns:validation>        <soap:header message="si:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="si:GetTaxRateUSResponseInfo" part="ResponseInfo" use="literal" />        <soap:header message="si:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTaxRateCanada">      <soap:operation soapAction="http://www.strikeiron.com/GetTaxRateCanada" style="document" />      <wsdl:input>        <soap:body use="literal" />        <tns:validation xmlns:tns="http://www.strikeiron.com">          <tns:assertions>            <tns:assertion>              <tns:expression>string-length(//tns:province) &gt; 0</tns:expression>              <tns:description>Province is required</tns:description>            </tns:assertion>          </tns:assertions>        </tns:validation>        <soap:header message="si:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="si:GetTaxRateCanadaResponseInfo" part="ResponseInfo" use="literal" />        <soap:header message="si:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetRemainingHits">      <soap:operation soapAction="http://ws.strikeiron.com/StrikeIron/TaxDataBasic4/TaxDataBasic/GetRemainingHits" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="si:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="si:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="TaxDataBasic">    <wsdl:port name="TaxDataBasicSoap" binding="si:TaxDataBasicSoap">      <soap:address location="http://ws.strikeiron.com/StrikeIron/TaxDataBasic4/TaxDataBasic" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:si="http://www.strikeiron.com"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.strikeiron.com"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.strikeiron.com">
+			<s:element name="GetTaxRateUS">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="zip_code" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTaxRateUSResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTaxRateUSResult" type="si:TaxRateUSAData" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="TaxRateUSAData">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="zip_code" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="county_name" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="city_name" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="state_sales_tax" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="state_use_tax" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="county_sales_tax" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="county_use_tax" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="city_sales_tax" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="city_use_tax" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="total_sales_tax" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="total_use_tax" type="s:double" />
+					<s:element minOccurs="0" maxOccurs="1" name="tax_shipping_alone" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="tax_shipping_handling" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="ResponseInfo" type="si:ResponseInfo" />
+			<s:complexType name="ResponseInfo">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="ResponseCode" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Response" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetTaxRateCanada">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="province" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTaxRateCanadaResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTaxRateCanadaResult" type="si:TaxRateCanadaData" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="TaxRateCanadaData">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="abbreviation" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="province" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="GST" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="PST" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="total" type="s:double" />
+					<s:element minOccurs="0" maxOccurs="1" name="tax_shipping_handling" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+		</s:schema>
+		<xs:schema xmlns:tns1="http://ws.strikeiron.com" attributeFormDefault="unqualified" elementFormDefault="qualified"
+			targetNamespace="http://ws.strikeiron.com" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:element name="LicenseInfo" type="tns1:LicenseInfo" />
+			<xs:complexType name="LicenseInfo">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="UnregisteredUser" type="tns1:UnregisteredUser" />
+					<xs:element minOccurs="0" name="RegisteredUser" type="tns1:RegisteredUser" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="UnregisteredUser">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="EmailAddress" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="RegisteredUser">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="UserID" type="xs:string" />
+					<xs:element minOccurs="0" name="Password" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="SubscriptionInfo" type="tns1:SubscriptionInfo" />
+			<xs:complexType name="SubscriptionInfo">
+				<xs:sequence>
+					<xs:element name="LicenseStatusCode" type="xs:int" />
+					<xs:element minOccurs="0" name="LicenseStatus" type="xs:string" />
+					<xs:element name="LicenseActionCode" type="xs:int" />
+					<xs:element minOccurs="0" name="LicenseAction" type="xs:string" />
+					<xs:element name="RemainingHits" type="xs:int" />
+					<xs:element name="Amount" type="xs:decimal" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="GetRemainingHits">
+				<xs:complexType />
+			</xs:element>
+			<xs:element name="GetRemainingHitsResponse">
+				<xs:complexType />
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="GetTaxRateUSSoapIn">
+		<wsdl:part name="parameters" element="si:GetTaxRateUS" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxRateUSSoapOut">
+		<wsdl:part name="parameters" element="si:GetTaxRateUSResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxRateUSResponseInfo">
+		<wsdl:part name="ResponseInfo" element="si:ResponseInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxRateCanadaSoapIn">
+		<wsdl:part name="parameters" element="si:GetTaxRateCanada" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxRateCanadaSoapOut">
+		<wsdl:part name="parameters" element="si:GetTaxRateCanadaResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxRateCanadaResponseInfo">
+		<wsdl:part name="ResponseInfo" element="si:ResponseInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetRemainingHitsSoapIn">
+		<wsdl:part name="parameters" xmlns:q1="http://ws.strikeiron.com" element="q1:GetRemainingHits" />
+	</wsdl:message>
+	<wsdl:message name="GetRemainingHitsSoapOut">
+		<wsdl:part name="parameters" xmlns:q2="http://ws.strikeiron.com" element="q2:GetRemainingHitsResponse" />
+	</wsdl:message>
+	<wsdl:message name="LicenseInfoMessage">
+		<wsdl:part name="LicenseInfo" xmlns:q3="http://ws.strikeiron.com" element="q3:LicenseInfo" />
+	</wsdl:message>
+	<wsdl:message name="SubscriptionInfoMessage">
+		<wsdl:part name="SubscriptionInfo" xmlns:q4="http://ws.strikeiron.com" element="q4:SubscriptionInfo" />
+	</wsdl:message>
+	<wsdl:portType name="TaxDataBasicSoap">
+		<wsdl:operation name="GetTaxRateUS">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get tax rate of a zipcode in US</documentation>
+			<wsdl:input message="si:GetTaxRateUSSoapIn" />
+			<wsdl:output message="si:GetTaxRateUSSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxRateCanada">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get tax rate of a province in Canada</documentation>
+			<wsdl:input message="si:GetTaxRateCanadaSoapIn" />
+			<wsdl:output message="si:GetTaxRateCanadaSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetRemainingHits">
+			<wsdl:input message="si:GetRemainingHitsSoapIn" />
+			<wsdl:output message="si:GetRemainingHitsSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="TaxDataBasicSoap" type="si:TaxDataBasicSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetTaxRateUS">
+			<soap:operation soapAction="http://www.strikeiron.com/GetTaxRateUS" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<tns:validation xmlns:tns="http://www.strikeiron.com">
+					<tns:assertions>
+						<tns:assertion>
+							<tns:expression>string-length(//tns:zip_code) &gt; 0</tns:expression>
+							<tns:description>Zip code is required</tns:description>
+						</tns:assertion>
+					</tns:assertions>
+				</tns:validation>
+				<soap:header message="si:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="si:GetTaxRateUSResponseInfo" part="ResponseInfo" use="literal" />
+				<soap:header message="si:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxRateCanada">
+			<soap:operation soapAction="http://www.strikeiron.com/GetTaxRateCanada" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<tns:validation xmlns:tns="http://www.strikeiron.com">
+					<tns:assertions>
+						<tns:assertion>
+							<tns:expression>string-length(//tns:province) &gt; 0</tns:expression>
+							<tns:description>Province is required</tns:description>
+						</tns:assertion>
+					</tns:assertions>
+				</tns:validation>
+				<soap:header message="si:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="si:GetTaxRateCanadaResponseInfo" part="ResponseInfo" use="literal" />
+				<soap:header message="si:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetRemainingHits">
+			<soap:operation soapAction="http://ws.strikeiron.com/StrikeIron/TaxDataBasic4/TaxDataBasic/GetRemainingHits" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="si:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="si:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="TaxDataBasic">
+		<wsdl:port name="TaxDataBasicSoap" binding="si:TaxDataBasicSoap">
+			<soap:address location="http://ws.strikeiron.com/StrikeIron/TaxDataBasic4/TaxDataBasic" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

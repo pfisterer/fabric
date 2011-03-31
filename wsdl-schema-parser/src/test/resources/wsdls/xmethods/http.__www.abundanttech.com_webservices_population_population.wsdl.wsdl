@@ -1,1 +1,249 @@
-<?xml version="1.0" encoding="utf-8"?><definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="http://www.abundanttech.com/WebServices/Population" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://www.abundanttech.com/WebServices/Population" xmlns="http://schemas.xmlsoap.org/wsdl/">  <types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.AbundantTech.com/WebServices/Population">      <s:element name="getWorldPopulation">        <s:complexType />      </s:element>      <s:element name="getWorldPopulationResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="getWorldPopulationResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="getPopulation">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strCountry" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="Population">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Pop" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="getPopulationResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="getPopulationResult" type="s0:Population" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="getCountries">        <s:complexType />      </s:element>      <s:complexType name="ArrayOfString">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="getCountriesResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="getCountriesResult" type="s0:ArrayOfString" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="anyType" nillable="true" />      <s:element name="Population" nillable="true" type="s0:Population" />      <s:element name="ArrayOfString" nillable="true" type="s0:ArrayOfString" />    </s:schema>  </types>  <message name="getWorldPopulationSoapIn">    <part name="parameters" element="s0:getWorldPopulation" />  </message>  <message name="getWorldPopulationSoapOut">    <part name="parameters" element="s0:getWorldPopulationResponse" />  </message>  <message name="getPopulationSoapIn">    <part name="parameters" element="s0:getPopulation" />  </message>  <message name="getPopulationSoapOut">    <part name="parameters" element="s0:getPopulationResponse" />  </message>  <message name="getCountriesSoapIn">    <part name="parameters" element="s0:getCountries" />  </message>  <message name="getCountriesSoapOut">    <part name="parameters" element="s0:getCountriesResponse" />  </message>  <message name="getWorldPopulationHttpGetIn" />  <message name="getWorldPopulationHttpGetOut">    <part name="Body" element="s0:anyType" />  </message>  <message name="getPopulationHttpGetIn">    <part name="strCountry" type="s:string" />  </message>  <message name="getPopulationHttpGetOut">    <part name="Body" element="s0:Population" />  </message>  <message name="getCountriesHttpGetIn" />  <message name="getCountriesHttpGetOut">    <part name="Body" element="s0:ArrayOfString" />  </message>  <message name="getWorldPopulationHttpPostIn" />  <message name="getWorldPopulationHttpPostOut">    <part name="Body" element="s0:anyType" />  </message>  <message name="getPopulationHttpPostIn">    <part name="strCountry" type="s:string" />  </message>  <message name="getPopulationHttpPostOut">    <part name="Body" element="s0:Population" />  </message>  <message name="getCountriesHttpPostIn" />  <message name="getCountriesHttpPostOut">    <part name="Body" element="s0:ArrayOfString" />  </message>  <portType name="PopulationWSSoap">    <operation name="getWorldPopulation">      <input message="s0:getWorldPopulationSoapIn" />      <output message="s0:getWorldPopulationSoapOut" />    </operation>    <operation name="getPopulation">      <input message="s0:getPopulationSoapIn" />      <output message="s0:getPopulationSoapOut" />    </operation>    <operation name="getCountries">      <input message="s0:getCountriesSoapIn" />      <output message="s0:getCountriesSoapOut" />    </operation>  </portType>  <portType name="PopulationWSHttpGet">    <operation name="getWorldPopulation">      <input message="s0:getWorldPopulationHttpGetIn" />      <output message="s0:getWorldPopulationHttpGetOut" />    </operation>    <operation name="getPopulation">      <input message="s0:getPopulationHttpGetIn" />      <output message="s0:getPopulationHttpGetOut" />    </operation>    <operation name="getCountries">      <input message="s0:getCountriesHttpGetIn" />      <output message="s0:getCountriesHttpGetOut" />    </operation>  </portType>  <portType name="PopulationWSHttpPost">    <operation name="getWorldPopulation">      <input message="s0:getWorldPopulationHttpPostIn" />      <output message="s0:getWorldPopulationHttpPostOut" />    </operation>    <operation name="getPopulation">      <input message="s0:getPopulationHttpPostIn" />      <output message="s0:getPopulationHttpPostOut" />    </operation>    <operation name="getCountries">      <input message="s0:getCountriesHttpPostIn" />      <output message="s0:getCountriesHttpPostOut" />    </operation>  </portType>  <binding name="PopulationWSSoap" type="s0:PopulationWSSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <operation name="getWorldPopulation">      <soap:operation soapAction="http://www.AbundantTech.com/WebServices/Population/getWorldPopulation" style="document" />      <input>        <soap:body use="literal" />      </input>      <output>        <soap:body use="literal" />      </output>    </operation>    <operation name="getPopulation">      <soap:operation soapAction="http://www.AbundantTech.com/WebServices/Population/getPopulation" style="document" />      <input>        <soap:body use="literal" />      </input>      <output>        <soap:body use="literal" />      </output>    </operation>    <operation name="getCountries">      <soap:operation soapAction="http://www.AbundantTech.com/WebServices/Population/getCountries" style="document" />      <input>        <soap:body use="literal" />      </input>      <output>        <soap:body use="literal" />      </output>    </operation>  </binding>  <binding name="PopulationWSHttpGet" type="s0:PopulationWSHttpGet">    <http:binding verb="GET" />    <operation name="getWorldPopulation">      <http:operation location="/getWorldPopulation" />      <input>        <http:urlEncoded />      </input>      <output>        <mime:mimeXml part="Body" />      </output>    </operation>    <operation name="getPopulation">      <http:operation location="/getPopulation" />      <input>        <http:urlEncoded />      </input>      <output>        <mime:mimeXml part="Body" />      </output>    </operation>    <operation name="getCountries">      <http:operation location="/getCountries" />      <input>        <http:urlEncoded />      </input>      <output>        <mime:mimeXml part="Body" />      </output>    </operation>  </binding>  <binding name="PopulationWSHttpPost" type="s0:PopulationWSHttpPost">    <http:binding verb="POST" />    <operation name="getWorldPopulation">      <http:operation location="/getWorldPopulation" />      <input>        <mime:content type="application/x-www-form-urlencoded" />      </input>      <output>        <mime:mimeXml part="Body" />      </output>    </operation>    <operation name="getPopulation">      <http:operation location="/getPopulation" />      <input>        <mime:content type="application/x-www-form-urlencoded" />      </input>      <output>        <mime:mimeXml part="Body" />      </output>    </operation>    <operation name="getCountries">      <http:operation location="/getCountries" />      <input>        <mime:content type="application/x-www-form-urlencoded" />      </input>      <output>        <mime:mimeXml part="Body" />      </output>    </operation>  </binding>  <service name="PopulationWS">    <port name="PopulationWSSoap" binding="s0:PopulationWSSoap">      <soap:address location="http://www.AbundantTech.com/WebServices/Population/population.asmx" />    </port>    <port name="PopulationWSHttpGet" binding="s0:PopulationWSHttpGet">      <http:address location="http://www.AbundantTech.com/WebServices/Population/population.asmx" />    </port>    <port name="PopulationWSHttpPost" binding="s0:PopulationWSHttpPost">      <http:address location="http://www.AbundantTech.com/WebServices/Population/population.asmx" />    </port>  </service></definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="http://www.abundanttech.com/WebServices/Population" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	targetNamespace="http://www.abundanttech.com/WebServices/Population" xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.AbundantTech.com/WebServices/Population">
+			<s:element name="getWorldPopulation">
+				<s:complexType />
+			</s:element>
+			<s:element name="getWorldPopulationResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="getWorldPopulationResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="getPopulation">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strCountry" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="Population">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Pop" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="getPopulationResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="getPopulationResult" type="s0:Population" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="getCountries">
+				<s:complexType />
+			</s:element>
+			<s:complexType name="ArrayOfString">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="getCountriesResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="getCountriesResult" type="s0:ArrayOfString" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="anyType" nillable="true" />
+			<s:element name="Population" nillable="true" type="s0:Population" />
+			<s:element name="ArrayOfString" nillable="true" type="s0:ArrayOfString" />
+		</s:schema>
+	</types>
+	<message name="getWorldPopulationSoapIn">
+		<part name="parameters" element="s0:getWorldPopulation" />
+	</message>
+	<message name="getWorldPopulationSoapOut">
+		<part name="parameters" element="s0:getWorldPopulationResponse" />
+	</message>
+	<message name="getPopulationSoapIn">
+		<part name="parameters" element="s0:getPopulation" />
+	</message>
+	<message name="getPopulationSoapOut">
+		<part name="parameters" element="s0:getPopulationResponse" />
+	</message>
+	<message name="getCountriesSoapIn">
+		<part name="parameters" element="s0:getCountries" />
+	</message>
+	<message name="getCountriesSoapOut">
+		<part name="parameters" element="s0:getCountriesResponse" />
+	</message>
+	<message name="getWorldPopulationHttpGetIn" />
+	<message name="getWorldPopulationHttpGetOut">
+		<part name="Body" element="s0:anyType" />
+	</message>
+	<message name="getPopulationHttpGetIn">
+		<part name="strCountry" type="s:string" />
+	</message>
+	<message name="getPopulationHttpGetOut">
+		<part name="Body" element="s0:Population" />
+	</message>
+	<message name="getCountriesHttpGetIn" />
+	<message name="getCountriesHttpGetOut">
+		<part name="Body" element="s0:ArrayOfString" />
+	</message>
+	<message name="getWorldPopulationHttpPostIn" />
+	<message name="getWorldPopulationHttpPostOut">
+		<part name="Body" element="s0:anyType" />
+	</message>
+	<message name="getPopulationHttpPostIn">
+		<part name="strCountry" type="s:string" />
+	</message>
+	<message name="getPopulationHttpPostOut">
+		<part name="Body" element="s0:Population" />
+	</message>
+	<message name="getCountriesHttpPostIn" />
+	<message name="getCountriesHttpPostOut">
+		<part name="Body" element="s0:ArrayOfString" />
+	</message>
+	<portType name="PopulationWSSoap">
+		<operation name="getWorldPopulation">
+			<input message="s0:getWorldPopulationSoapIn" />
+			<output message="s0:getWorldPopulationSoapOut" />
+		</operation>
+		<operation name="getPopulation">
+			<input message="s0:getPopulationSoapIn" />
+			<output message="s0:getPopulationSoapOut" />
+		</operation>
+		<operation name="getCountries">
+			<input message="s0:getCountriesSoapIn" />
+			<output message="s0:getCountriesSoapOut" />
+		</operation>
+	</portType>
+	<portType name="PopulationWSHttpGet">
+		<operation name="getWorldPopulation">
+			<input message="s0:getWorldPopulationHttpGetIn" />
+			<output message="s0:getWorldPopulationHttpGetOut" />
+		</operation>
+		<operation name="getPopulation">
+			<input message="s0:getPopulationHttpGetIn" />
+			<output message="s0:getPopulationHttpGetOut" />
+		</operation>
+		<operation name="getCountries">
+			<input message="s0:getCountriesHttpGetIn" />
+			<output message="s0:getCountriesHttpGetOut" />
+		</operation>
+	</portType>
+	<portType name="PopulationWSHttpPost">
+		<operation name="getWorldPopulation">
+			<input message="s0:getWorldPopulationHttpPostIn" />
+			<output message="s0:getWorldPopulationHttpPostOut" />
+		</operation>
+		<operation name="getPopulation">
+			<input message="s0:getPopulationHttpPostIn" />
+			<output message="s0:getPopulationHttpPostOut" />
+		</operation>
+		<operation name="getCountries">
+			<input message="s0:getCountriesHttpPostIn" />
+			<output message="s0:getCountriesHttpPostOut" />
+		</operation>
+	</portType>
+	<binding name="PopulationWSSoap" type="s0:PopulationWSSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<operation name="getWorldPopulation">
+			<soap:operation soapAction="http://www.AbundantTech.com/WebServices/Population/getWorldPopulation"
+				style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="getPopulation">
+			<soap:operation soapAction="http://www.AbundantTech.com/WebServices/Population/getPopulation" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="getCountries">
+			<soap:operation soapAction="http://www.AbundantTech.com/WebServices/Population/getCountries" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<binding name="PopulationWSHttpGet" type="s0:PopulationWSHttpGet">
+		<http:binding verb="GET" />
+		<operation name="getWorldPopulation">
+			<http:operation location="/getWorldPopulation" />
+			<input>
+				<http:urlEncoded />
+			</input>
+			<output>
+				<mime:mimeXml part="Body" />
+			</output>
+		</operation>
+		<operation name="getPopulation">
+			<http:operation location="/getPopulation" />
+			<input>
+				<http:urlEncoded />
+			</input>
+			<output>
+				<mime:mimeXml part="Body" />
+			</output>
+		</operation>
+		<operation name="getCountries">
+			<http:operation location="/getCountries" />
+			<input>
+				<http:urlEncoded />
+			</input>
+			<output>
+				<mime:mimeXml part="Body" />
+			</output>
+		</operation>
+	</binding>
+	<binding name="PopulationWSHttpPost" type="s0:PopulationWSHttpPost">
+		<http:binding verb="POST" />
+		<operation name="getWorldPopulation">
+			<http:operation location="/getWorldPopulation" />
+			<input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</input>
+			<output>
+				<mime:mimeXml part="Body" />
+			</output>
+		</operation>
+		<operation name="getPopulation">
+			<http:operation location="/getPopulation" />
+			<input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</input>
+			<output>
+				<mime:mimeXml part="Body" />
+			</output>
+		</operation>
+		<operation name="getCountries">
+			<http:operation location="/getCountries" />
+			<input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</input>
+			<output>
+				<mime:mimeXml part="Body" />
+			</output>
+		</operation>
+	</binding>
+	<service name="PopulationWS">
+		<port name="PopulationWSSoap" binding="s0:PopulationWSSoap">
+			<soap:address location="http://www.AbundantTech.com/WebServices/Population/population.asmx" />
+		</port>
+		<port name="PopulationWSHttpGet" binding="s0:PopulationWSHttpGet">
+			<http:address location="http://www.AbundantTech.com/WebServices/Population/population.asmx" />
+		</port>
+		<port name="PopulationWSHttpPost" binding="s0:PopulationWSHttpPost">
+			<http:address location="http://www.AbundantTech.com/WebServices/Population/population.asmx" />
+		</port>
+	</service>
+</definitions>

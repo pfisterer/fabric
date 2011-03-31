@@ -1,1 +1,179 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.webservicex.net" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.webservicex.net" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.webservicex.net">      <s:element name="Translate">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="LanguageMode" type="tns:Language" />            <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="Language">        <s:restriction base="s:string">          <s:enumeration value="EnglishTOChinese" />          <s:enumeration value="EnglishTOFrench" />          <s:enumeration value="EnglishTOGerman" />          <s:enumeration value="EnglishTOItalian" />          <s:enumeration value="EnglishTOJapanese" />          <s:enumeration value="EnglishTOKorean" />          <s:enumeration value="EnglishTOPortuguese" />          <s:enumeration value="EnglishTOSpanish" />          <s:enumeration value="ChineseTOEnglish" />          <s:enumeration value="FrenchTOEnglish" />          <s:enumeration value="FrenchTOGerman" />          <s:enumeration value="GermanTOEnglish" />          <s:enumeration value="GermanTOFrench" />          <s:enumeration value="ItalianTOEnglish" />          <s:enumeration value="JapaneseTOEnglish" />          <s:enumeration value="KoreanTOEnglish" />          <s:enumeration value="PortugueseTOEnglish" />          <s:enumeration value="RussianTOEnglish" />          <s:enumeration value="SpanishTOEnglish" />          <s:enumeration value="SpanishToFrench" />          <s:enumeration value="PortugueseToFrench" />          <s:enumeration value="ItalianToFrench" />          <s:enumeration value="GreekToFrench" />          <s:enumeration value="GermanToFrench" />          <s:enumeration value="FrenchToGreek" />          <s:enumeration value="FrenchToItalian" />          <s:enumeration value="FrenchToPortuguese" />          <s:enumeration value="FrenchToDutch" />          <s:enumeration value="FrenchToSpanish" />          <s:enumeration value="EnglishToRussian" />          <s:enumeration value="EnglishToDutch" />          <s:enumeration value="DutchToEnglish" />          <s:enumeration value="DutchToFrench" />          <s:enumeration value="GreekToEnglish" />        </s:restriction>      </s:simpleType>      <s:element name="TranslateResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="TranslateResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="string" nillable="true" type="s:string" />    </s:schema>  </wsdl:types>  <wsdl:message name="TranslateSoapIn">    <wsdl:part name="parameters" element="tns:Translate" />  </wsdl:message>  <wsdl:message name="TranslateSoapOut">    <wsdl:part name="parameters" element="tns:TranslateResponse" />  </wsdl:message>  <wsdl:message name="TranslateHttpGetIn">    <wsdl:part name="LanguageMode" type="s:string" />    <wsdl:part name="Text" type="s:string" />  </wsdl:message>  <wsdl:message name="TranslateHttpGetOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:message name="TranslateHttpPostIn">    <wsdl:part name="LanguageMode" type="s:string" />    <wsdl:part name="Text" type="s:string" />  </wsdl:message>  <wsdl:message name="TranslateHttpPostOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:portType name="TranslateServiceSoap">    <wsdl:operation name="Translate">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Convert text from one lanaguage to another language .Supported languages are English to Chinese,English to French,English to German,English to Italian,English to Japanese,English to Korean,English to Portuguese,English to Spanish,Chinese to English,French to English,French to German,German to English,German to French,Italian to English,Japanese to English,Korean to English,Portuguese to English,Russian to English,Spanish to English.</wsdl:documentation>      <wsdl:input message="tns:TranslateSoapIn" />      <wsdl:output message="tns:TranslateSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="TranslateServiceHttpGet">    <wsdl:operation name="Translate">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Convert text from one lanaguage to another language .Supported languages are English to Chinese,English to French,English to German,English to Italian,English to Japanese,English to Korean,English to Portuguese,English to Spanish,Chinese to English,French to English,French to German,German to English,German to French,Italian to English,Japanese to English,Korean to English,Portuguese to English,Russian to English,Spanish to English.</wsdl:documentation>      <wsdl:input message="tns:TranslateHttpGetIn" />      <wsdl:output message="tns:TranslateHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="TranslateServiceHttpPost">    <wsdl:operation name="Translate">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Convert text from one lanaguage to another language .Supported languages are English to Chinese,English to French,English to German,English to Italian,English to Japanese,English to Korean,English to Portuguese,English to Spanish,Chinese to English,French to English,French to German,German to English,German to French,Italian to English,Japanese to English,Korean to English,Portuguese to English,Russian to English,Spanish to English.</wsdl:documentation>      <wsdl:input message="tns:TranslateHttpPostIn" />      <wsdl:output message="tns:TranslateHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="TranslateServiceSoap" type="tns:TranslateServiceSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="Translate">      <soap:operation soapAction="http://www.webservicex.net/Translate" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="TranslateServiceSoap12" type="tns:TranslateServiceSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="Translate">      <soap12:operation soapAction="http://www.webservicex.net/Translate" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="TranslateServiceHttpGet" type="tns:TranslateServiceHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="Translate">      <http:operation location="/Translate" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="TranslateServiceHttpPost" type="tns:TranslateServiceHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="Translate">      <http:operation location="/Translate" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="TranslateService">    <wsdl:port name="TranslateServiceSoap" binding="tns:TranslateServiceSoap">      <soap:address location="http://www.webservicex.com/TranslateService.asmx" />    </wsdl:port>    <wsdl:port name="TranslateServiceSoap12" binding="tns:TranslateServiceSoap12">      <soap12:address location="http://www.webservicex.com/TranslateService.asmx" />    </wsdl:port>    <wsdl:port name="TranslateServiceHttpGet" binding="tns:TranslateServiceHttpGet">      <http:address location="http://www.webservicex.com/TranslateService.asmx" />    </wsdl:port>    <wsdl:port name="TranslateServiceHttpPost" binding="tns:TranslateServiceHttpPost">      <http:address location="http://www.webservicex.com/TranslateService.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.webservicex.net"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.webservicex.net" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.webservicex.net">
+			<s:element name="Translate">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="LanguageMode" type="tns:Language" />
+						<s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="Language">
+				<s:restriction base="s:string">
+					<s:enumeration value="EnglishTOChinese" />
+					<s:enumeration value="EnglishTOFrench" />
+					<s:enumeration value="EnglishTOGerman" />
+					<s:enumeration value="EnglishTOItalian" />
+					<s:enumeration value="EnglishTOJapanese" />
+					<s:enumeration value="EnglishTOKorean" />
+					<s:enumeration value="EnglishTOPortuguese" />
+					<s:enumeration value="EnglishTOSpanish" />
+					<s:enumeration value="ChineseTOEnglish" />
+					<s:enumeration value="FrenchTOEnglish" />
+					<s:enumeration value="FrenchTOGerman" />
+					<s:enumeration value="GermanTOEnglish" />
+					<s:enumeration value="GermanTOFrench" />
+					<s:enumeration value="ItalianTOEnglish" />
+					<s:enumeration value="JapaneseTOEnglish" />
+					<s:enumeration value="KoreanTOEnglish" />
+					<s:enumeration value="PortugueseTOEnglish" />
+					<s:enumeration value="RussianTOEnglish" />
+					<s:enumeration value="SpanishTOEnglish" />
+					<s:enumeration value="SpanishToFrench" />
+					<s:enumeration value="PortugueseToFrench" />
+					<s:enumeration value="ItalianToFrench" />
+					<s:enumeration value="GreekToFrench" />
+					<s:enumeration value="GermanToFrench" />
+					<s:enumeration value="FrenchToGreek" />
+					<s:enumeration value="FrenchToItalian" />
+					<s:enumeration value="FrenchToPortuguese" />
+					<s:enumeration value="FrenchToDutch" />
+					<s:enumeration value="FrenchToSpanish" />
+					<s:enumeration value="EnglishToRussian" />
+					<s:enumeration value="EnglishToDutch" />
+					<s:enumeration value="DutchToEnglish" />
+					<s:enumeration value="DutchToFrench" />
+					<s:enumeration value="GreekToEnglish" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="TranslateResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="TranslateResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="string" nillable="true" type="s:string" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="TranslateSoapIn">
+		<wsdl:part name="parameters" element="tns:Translate" />
+	</wsdl:message>
+	<wsdl:message name="TranslateSoapOut">
+		<wsdl:part name="parameters" element="tns:TranslateResponse" />
+	</wsdl:message>
+	<wsdl:message name="TranslateHttpGetIn">
+		<wsdl:part name="LanguageMode" type="s:string" />
+		<wsdl:part name="Text" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="TranslateHttpGetOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:message name="TranslateHttpPostIn">
+		<wsdl:part name="LanguageMode" type="s:string" />
+		<wsdl:part name="Text" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="TranslateHttpPostOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:portType name="TranslateServiceSoap">
+		<wsdl:operation name="Translate">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Convert text from one lanaguage to another language .Supported
+				languages are English to Chinese,English to French,English to German,English to Italian,English to Japanese,English
+				to Korean,English to Portuguese,English to Spanish,Chinese to English,French to English,French to German,German to
+				English,German to French,Italian to English,Japanese to English,Korean to English,Portuguese to English,Russian to
+				English,Spanish to English.</wsdl:documentation>
+			<wsdl:input message="tns:TranslateSoapIn" />
+			<wsdl:output message="tns:TranslateSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="TranslateServiceHttpGet">
+		<wsdl:operation name="Translate">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Convert text from one lanaguage to another language .Supported
+				languages are English to Chinese,English to French,English to German,English to Italian,English to Japanese,English
+				to Korean,English to Portuguese,English to Spanish,Chinese to English,French to English,French to German,German to
+				English,German to French,Italian to English,Japanese to English,Korean to English,Portuguese to English,Russian to
+				English,Spanish to English.</wsdl:documentation>
+			<wsdl:input message="tns:TranslateHttpGetIn" />
+			<wsdl:output message="tns:TranslateHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="TranslateServiceHttpPost">
+		<wsdl:operation name="Translate">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Convert text from one lanaguage to another language .Supported
+				languages are English to Chinese,English to French,English to German,English to Italian,English to Japanese,English
+				to Korean,English to Portuguese,English to Spanish,Chinese to English,French to English,French to German,German to
+				English,German to French,Italian to English,Japanese to English,Korean to English,Portuguese to English,Russian to
+				English,Spanish to English.</wsdl:documentation>
+			<wsdl:input message="tns:TranslateHttpPostIn" />
+			<wsdl:output message="tns:TranslateHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="TranslateServiceSoap" type="tns:TranslateServiceSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="Translate">
+			<soap:operation soapAction="http://www.webservicex.net/Translate" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="TranslateServiceSoap12" type="tns:TranslateServiceSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="Translate">
+			<soap12:operation soapAction="http://www.webservicex.net/Translate" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="TranslateServiceHttpGet" type="tns:TranslateServiceHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="Translate">
+			<http:operation location="/Translate" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="TranslateServiceHttpPost" type="tns:TranslateServiceHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="Translate">
+			<http:operation location="/Translate" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="TranslateService">
+		<wsdl:port name="TranslateServiceSoap" binding="tns:TranslateServiceSoap">
+			<soap:address location="http://www.webservicex.com/TranslateService.asmx" />
+		</wsdl:port>
+		<wsdl:port name="TranslateServiceSoap12" binding="tns:TranslateServiceSoap12">
+			<soap12:address location="http://www.webservicex.com/TranslateService.asmx" />
+		</wsdl:port>
+		<wsdl:port name="TranslateServiceHttpGet" binding="tns:TranslateServiceHttpGet">
+			<http:address location="http://www.webservicex.com/TranslateService.asmx" />
+		</wsdl:port>
+		<wsdl:port name="TranslateServiceHttpPost" binding="tns:TranslateServiceHttpPost">
+			<http:address location="http://www.webservicex.com/TranslateService.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

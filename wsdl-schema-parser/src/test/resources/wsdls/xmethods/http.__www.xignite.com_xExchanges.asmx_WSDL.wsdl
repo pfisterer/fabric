@@ -1,1 +1,1400 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Provide information about securities exchanges around the world.</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">      <s:element name="GetExchangeDayCount">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetExchangeDayCountResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetExchangeDayCountResult" type="tns:DayCount" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="DayCount">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="Common">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />        </s:sequence>      </s:complexType>      <s:simpleType name="OutcomeTypes">        <s:restriction base="s:string">          <s:enumeration value="Success" />          <s:enumeration value="SystemError" />          <s:enumeration value="RequestError" />          <s:enumeration value="RegistrationError" />        </s:restriction>      </s:simpleType>      <s:element name="Header" type="tns:Header" />      <s:complexType name="Header">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />        </s:sequence>        <s:anyAttribute />      </s:complexType>      <s:element name="IsExchangeOpen">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="IsExchangeOpenResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="IsExchangeOpenResult" type="tns:BooleanResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="BooleanResult">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="Value" type="s:boolean" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="AreExchangesOpen">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Exchanges" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="AreExchangesOpenResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="AreExchangesOpenResult" type="tns:ArrayOfExchangeStatus" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfExchangeStatus">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="ExchangeStatus" nillable="true" type="tns:ExchangeStatus" />        </s:sequence>      </s:complexType>      <s:complexType name="ExchangeStatus">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="Open" type="s:boolean" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="IsExchangeOpenOnDate">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="OnDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="IsExchangeOpenOnDateResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="IsExchangeOpenOnDateResult" type="tns:ExchangeSchedule" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ExchangeSchedule">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="Open" type="s:boolean" />              <s:element minOccurs="0" maxOccurs="1" name="OpenTime" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="CloseTime" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="GetSettlementDate">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TradeDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetSettlementDateResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetSettlementDateResult" type="tns:SettlementSchedule" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="SettlementSchedule">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="TradeDate" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="SettlementDate" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="GetNextExchangeDate">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ForDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetNextExchangeDateResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetNextExchangeDateResult" type="tns:ExchangeDate" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ExchangeDate">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="GetPriorExchangeDate">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ForDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetPriorExchangeDateResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetPriorExchangeDateResult" type="tns:ExchangeDate" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="IsExchangeHoliday">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ForDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="IsExchangeHolidayResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="IsExchangeHolidayResult" type="tns:ExchangeHoliday" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ExchangeHoliday">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="FullHoliday" type="s:boolean" />              <s:element minOccurs="0" maxOccurs="1" name="EarlyClose" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="ListHolidays">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="ForYear" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ListHolidaysResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ListHolidaysResult" type="tns:ArrayOfExchangeHoliday" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfExchangeHoliday">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="ExchangeHoliday" nillable="true" type="tns:ExchangeHoliday" />        </s:sequence>      </s:complexType>      <s:element name="GetExchangeTime">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetExchangeTimeResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetExchangeTimeResult" type="tns:StringResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="StringResult">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="GetExchangeDate">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetExchangeDateResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetExchangeDateResult" type="tns:StringResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetExchangeDay">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetExchangeDayResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetExchangeDayResult" type="tns:StringResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetExchanges">        <s:complexType />      </s:element>      <s:element name="GetExchangesResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetExchangesResult" type="tns:ArrayOfExchange" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfExchange">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Exchange" nillable="true" type="tns:Exchange" />        </s:sequence>      </s:complexType>      <s:complexType name="Exchange">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="IsValidExchange">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="IsValidExchangeResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="IsValidExchangeResult" type="tns:Exchange" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DayCount" nillable="true" type="tns:DayCount" />      <s:element name="BooleanResult" nillable="true" type="tns:BooleanResult" />      <s:element name="ArrayOfExchangeStatus" nillable="true" type="tns:ArrayOfExchangeStatus" />      <s:element name="ExchangeSchedule" nillable="true" type="tns:ExchangeSchedule" />      <s:element name="SettlementSchedule" nillable="true" type="tns:SettlementSchedule" />      <s:element name="ExchangeDate" nillable="true" type="tns:ExchangeDate" />      <s:element name="ExchangeHoliday" nillable="true" type="tns:ExchangeHoliday" />      <s:element name="ArrayOfExchangeHoliday" nillable="true" type="tns:ArrayOfExchangeHoliday" />      <s:element name="StringResult" nillable="true" type="tns:StringResult" />      <s:element name="ArrayOfExchange" nillable="true" type="tns:ArrayOfExchange" />      <s:element name="Exchange" nillable="true" type="tns:Exchange" />    </s:schema>  </wsdl:types>  <wsdl:message name="GetExchangeDayCountSoapIn">    <wsdl:part name="parameters" element="tns:GetExchangeDayCount" />  </wsdl:message>  <wsdl:message name="GetExchangeDayCountSoapOut">    <wsdl:part name="parameters" element="tns:GetExchangeDayCountResponse" />  </wsdl:message>  <wsdl:message name="GetExchangeDayCountHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="IsExchangeOpenSoapIn">    <wsdl:part name="parameters" element="tns:IsExchangeOpen" />  </wsdl:message>  <wsdl:message name="IsExchangeOpenSoapOut">    <wsdl:part name="parameters" element="tns:IsExchangeOpenResponse" />  </wsdl:message>  <wsdl:message name="IsExchangeOpenHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="AreExchangesOpenSoapIn">    <wsdl:part name="parameters" element="tns:AreExchangesOpen" />  </wsdl:message>  <wsdl:message name="AreExchangesOpenSoapOut">    <wsdl:part name="parameters" element="tns:AreExchangesOpenResponse" />  </wsdl:message>  <wsdl:message name="AreExchangesOpenHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="IsExchangeOpenOnDateSoapIn">    <wsdl:part name="parameters" element="tns:IsExchangeOpenOnDate" />  </wsdl:message>  <wsdl:message name="IsExchangeOpenOnDateSoapOut">    <wsdl:part name="parameters" element="tns:IsExchangeOpenOnDateResponse" />  </wsdl:message>  <wsdl:message name="IsExchangeOpenOnDateHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetSettlementDateSoapIn">    <wsdl:part name="parameters" element="tns:GetSettlementDate" />  </wsdl:message>  <wsdl:message name="GetSettlementDateSoapOut">    <wsdl:part name="parameters" element="tns:GetSettlementDateResponse" />  </wsdl:message>  <wsdl:message name="GetSettlementDateHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetNextExchangeDateSoapIn">    <wsdl:part name="parameters" element="tns:GetNextExchangeDate" />  </wsdl:message>  <wsdl:message name="GetNextExchangeDateSoapOut">    <wsdl:part name="parameters" element="tns:GetNextExchangeDateResponse" />  </wsdl:message>  <wsdl:message name="GetNextExchangeDateHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetPriorExchangeDateSoapIn">    <wsdl:part name="parameters" element="tns:GetPriorExchangeDate" />  </wsdl:message>  <wsdl:message name="GetPriorExchangeDateSoapOut">    <wsdl:part name="parameters" element="tns:GetPriorExchangeDateResponse" />  </wsdl:message>  <wsdl:message name="GetPriorExchangeDateHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="IsExchangeHolidaySoapIn">    <wsdl:part name="parameters" element="tns:IsExchangeHoliday" />  </wsdl:message>  <wsdl:message name="IsExchangeHolidaySoapOut">    <wsdl:part name="parameters" element="tns:IsExchangeHolidayResponse" />  </wsdl:message>  <wsdl:message name="IsExchangeHolidayHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="ListHolidaysSoapIn">    <wsdl:part name="parameters" element="tns:ListHolidays" />  </wsdl:message>  <wsdl:message name="ListHolidaysSoapOut">    <wsdl:part name="parameters" element="tns:ListHolidaysResponse" />  </wsdl:message>  <wsdl:message name="ListHolidaysHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetExchangeTimeSoapIn">    <wsdl:part name="parameters" element="tns:GetExchangeTime" />  </wsdl:message>  <wsdl:message name="GetExchangeTimeSoapOut">    <wsdl:part name="parameters" element="tns:GetExchangeTimeResponse" />  </wsdl:message>  <wsdl:message name="GetExchangeTimeHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetExchangeDateSoapIn">    <wsdl:part name="parameters" element="tns:GetExchangeDate" />  </wsdl:message>  <wsdl:message name="GetExchangeDateSoapOut">    <wsdl:part name="parameters" element="tns:GetExchangeDateResponse" />  </wsdl:message>  <wsdl:message name="GetExchangeDateHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetExchangeDaySoapIn">    <wsdl:part name="parameters" element="tns:GetExchangeDay" />  </wsdl:message>  <wsdl:message name="GetExchangeDaySoapOut">    <wsdl:part name="parameters" element="tns:GetExchangeDayResponse" />  </wsdl:message>  <wsdl:message name="GetExchangeDayHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetExchangesSoapIn">    <wsdl:part name="parameters" element="tns:GetExchanges" />  </wsdl:message>  <wsdl:message name="GetExchangesSoapOut">    <wsdl:part name="parameters" element="tns:GetExchangesResponse" />  </wsdl:message>  <wsdl:message name="GetExchangesHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="IsValidExchangeSoapIn">    <wsdl:part name="parameters" element="tns:IsValidExchange" />  </wsdl:message>  <wsdl:message name="IsValidExchangeSoapOut">    <wsdl:part name="parameters" element="tns:IsValidExchangeResponse" />  </wsdl:message>  <wsdl:message name="IsValidExchangeHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetExchangeDayCountHttpGetIn">    <wsdl:part name="Exchange" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetExchangeDayCountHttpGetOut">    <wsdl:part name="Body" element="tns:DayCount" />  </wsdl:message>  <wsdl:message name="IsExchangeOpenHttpGetIn">    <wsdl:part name="Exchange" type="s:string" />  </wsdl:message>  <wsdl:message name="IsExchangeOpenHttpGetOut">    <wsdl:part name="Body" element="tns:BooleanResult" />  </wsdl:message>  <wsdl:message name="AreExchangesOpenHttpGetIn">    <wsdl:part name="Exchanges" type="s:string" />  </wsdl:message>  <wsdl:message name="AreExchangesOpenHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfExchangeStatus" />  </wsdl:message>  <wsdl:message name="IsExchangeOpenOnDateHttpGetIn">    <wsdl:part name="Exchange" type="s:string" />    <wsdl:part name="OnDate" type="s:string" />  </wsdl:message>  <wsdl:message name="IsExchangeOpenOnDateHttpGetOut">    <wsdl:part name="Body" element="tns:ExchangeSchedule" />  </wsdl:message>  <wsdl:message name="GetSettlementDateHttpGetIn">    <wsdl:part name="Exchange" type="s:string" />    <wsdl:part name="TradeDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetSettlementDateHttpGetOut">    <wsdl:part name="Body" element="tns:SettlementSchedule" />  </wsdl:message>  <wsdl:message name="GetNextExchangeDateHttpGetIn">    <wsdl:part name="Exchange" type="s:string" />    <wsdl:part name="ForDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetNextExchangeDateHttpGetOut">    <wsdl:part name="Body" element="tns:ExchangeDate" />  </wsdl:message>  <wsdl:message name="GetPriorExchangeDateHttpGetIn">    <wsdl:part name="Exchange" type="s:string" />    <wsdl:part name="ForDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPriorExchangeDateHttpGetOut">    <wsdl:part name="Body" element="tns:ExchangeDate" />  </wsdl:message>  <wsdl:message name="IsExchangeHolidayHttpGetIn">    <wsdl:part name="Exchange" type="s:string" />    <wsdl:part name="ForDate" type="s:string" />  </wsdl:message>  <wsdl:message name="IsExchangeHolidayHttpGetOut">    <wsdl:part name="Body" element="tns:ExchangeHoliday" />  </wsdl:message>  <wsdl:message name="ListHolidaysHttpGetIn">    <wsdl:part name="Exchange" type="s:string" />    <wsdl:part name="ForYear" type="s:string" />  </wsdl:message>  <wsdl:message name="ListHolidaysHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfExchangeHoliday" />  </wsdl:message>  <wsdl:message name="GetExchangeTimeHttpGetIn">    <wsdl:part name="Exchange" type="s:string" />  </wsdl:message>  <wsdl:message name="GetExchangeTimeHttpGetOut">    <wsdl:part name="Body" element="tns:StringResult" />  </wsdl:message>  <wsdl:message name="GetExchangeDateHttpGetIn">    <wsdl:part name="Exchange" type="s:string" />  </wsdl:message>  <wsdl:message name="GetExchangeDateHttpGetOut">    <wsdl:part name="Body" element="tns:StringResult" />  </wsdl:message>  <wsdl:message name="GetExchangeDayHttpGetIn">    <wsdl:part name="Exchange" type="s:string" />  </wsdl:message>  <wsdl:message name="GetExchangeDayHttpGetOut">    <wsdl:part name="Body" element="tns:StringResult" />  </wsdl:message>  <wsdl:message name="GetExchangesHttpGetIn" />  <wsdl:message name="GetExchangesHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfExchange" />  </wsdl:message>  <wsdl:message name="IsValidExchangeHttpGetIn">    <wsdl:part name="Exchange" type="s:string" />  </wsdl:message>  <wsdl:message name="IsValidExchangeHttpGetOut">    <wsdl:part name="Body" element="tns:Exchange" />  </wsdl:message>  <wsdl:message name="GetExchangeDayCountHttpPostIn">    <wsdl:part name="Exchange" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetExchangeDayCountHttpPostOut">    <wsdl:part name="Body" element="tns:DayCount" />  </wsdl:message>  <wsdl:message name="IsExchangeOpenHttpPostIn">    <wsdl:part name="Exchange" type="s:string" />  </wsdl:message>  <wsdl:message name="IsExchangeOpenHttpPostOut">    <wsdl:part name="Body" element="tns:BooleanResult" />  </wsdl:message>  <wsdl:message name="AreExchangesOpenHttpPostIn">    <wsdl:part name="Exchanges" type="s:string" />  </wsdl:message>  <wsdl:message name="AreExchangesOpenHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfExchangeStatus" />  </wsdl:message>  <wsdl:message name="IsExchangeOpenOnDateHttpPostIn">    <wsdl:part name="Exchange" type="s:string" />    <wsdl:part name="OnDate" type="s:string" />  </wsdl:message>  <wsdl:message name="IsExchangeOpenOnDateHttpPostOut">    <wsdl:part name="Body" element="tns:ExchangeSchedule" />  </wsdl:message>  <wsdl:message name="GetSettlementDateHttpPostIn">    <wsdl:part name="Exchange" type="s:string" />    <wsdl:part name="TradeDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetSettlementDateHttpPostOut">    <wsdl:part name="Body" element="tns:SettlementSchedule" />  </wsdl:message>  <wsdl:message name="GetNextExchangeDateHttpPostIn">    <wsdl:part name="Exchange" type="s:string" />    <wsdl:part name="ForDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetNextExchangeDateHttpPostOut">    <wsdl:part name="Body" element="tns:ExchangeDate" />  </wsdl:message>  <wsdl:message name="GetPriorExchangeDateHttpPostIn">    <wsdl:part name="Exchange" type="s:string" />    <wsdl:part name="ForDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPriorExchangeDateHttpPostOut">    <wsdl:part name="Body" element="tns:ExchangeDate" />  </wsdl:message>  <wsdl:message name="IsExchangeHolidayHttpPostIn">    <wsdl:part name="Exchange" type="s:string" />    <wsdl:part name="ForDate" type="s:string" />  </wsdl:message>  <wsdl:message name="IsExchangeHolidayHttpPostOut">    <wsdl:part name="Body" element="tns:ExchangeHoliday" />  </wsdl:message>  <wsdl:message name="ListHolidaysHttpPostIn">    <wsdl:part name="Exchange" type="s:string" />    <wsdl:part name="ForYear" type="s:string" />  </wsdl:message>  <wsdl:message name="ListHolidaysHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfExchangeHoliday" />  </wsdl:message>  <wsdl:message name="GetExchangeTimeHttpPostIn">    <wsdl:part name="Exchange" type="s:string" />  </wsdl:message>  <wsdl:message name="GetExchangeTimeHttpPostOut">    <wsdl:part name="Body" element="tns:StringResult" />  </wsdl:message>  <wsdl:message name="GetExchangeDateHttpPostIn">    <wsdl:part name="Exchange" type="s:string" />  </wsdl:message>  <wsdl:message name="GetExchangeDateHttpPostOut">    <wsdl:part name="Body" element="tns:StringResult" />  </wsdl:message>  <wsdl:message name="GetExchangeDayHttpPostIn">    <wsdl:part name="Exchange" type="s:string" />  </wsdl:message>  <wsdl:message name="GetExchangeDayHttpPostOut">    <wsdl:part name="Body" element="tns:StringResult" />  </wsdl:message>  <wsdl:message name="GetExchangesHttpPostIn" />  <wsdl:message name="GetExchangesHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfExchange" />  </wsdl:message>  <wsdl:message name="IsValidExchangeHttpPostIn">    <wsdl:part name="Exchange" type="s:string" />  </wsdl:message>  <wsdl:message name="IsValidExchangeHttpPostOut">    <wsdl:part name="Body" element="tns:Exchange" />  </wsdl:message>  <wsdl:portType name="XigniteExchangesSoap">    <wsdl:operation name="GetExchangeDayCount">      <wsdl:input message="tns:GetExchangeDayCountSoapIn" />      <wsdl:output message="tns:GetExchangeDayCountSoapOut" />    </wsdl:operation>    <wsdl:operation name="IsExchangeOpen">      <wsdl:input message="tns:IsExchangeOpenSoapIn" />      <wsdl:output message="tns:IsExchangeOpenSoapOut" />    </wsdl:operation>    <wsdl:operation name="AreExchangesOpen">      <wsdl:input message="tns:AreExchangesOpenSoapIn" />      <wsdl:output message="tns:AreExchangesOpenSoapOut" />    </wsdl:operation>    <wsdl:operation name="IsExchangeOpenOnDate">      <wsdl:input message="tns:IsExchangeOpenOnDateSoapIn" />      <wsdl:output message="tns:IsExchangeOpenOnDateSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetSettlementDate">      <wsdl:input message="tns:GetSettlementDateSoapIn" />      <wsdl:output message="tns:GetSettlementDateSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetNextExchangeDate">      <wsdl:input message="tns:GetNextExchangeDateSoapIn" />      <wsdl:output message="tns:GetNextExchangeDateSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetPriorExchangeDate">      <wsdl:input message="tns:GetPriorExchangeDateSoapIn" />      <wsdl:output message="tns:GetPriorExchangeDateSoapOut" />    </wsdl:operation>    <wsdl:operation name="IsExchangeHoliday">      <wsdl:input message="tns:IsExchangeHolidaySoapIn" />      <wsdl:output message="tns:IsExchangeHolidaySoapOut" />    </wsdl:operation>    <wsdl:operation name="ListHolidays">      <wsdl:input message="tns:ListHolidaysSoapIn" />      <wsdl:output message="tns:ListHolidaysSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetExchangeTime">      <wsdl:input message="tns:GetExchangeTimeSoapIn" />      <wsdl:output message="tns:GetExchangeTimeSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetExchangeDate">      <wsdl:input message="tns:GetExchangeDateSoapIn" />      <wsdl:output message="tns:GetExchangeDateSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetExchangeDay">      <wsdl:input message="tns:GetExchangeDaySoapIn" />      <wsdl:output message="tns:GetExchangeDaySoapOut" />    </wsdl:operation>    <wsdl:operation name="GetExchanges">      <wsdl:input message="tns:GetExchangesSoapIn" />      <wsdl:output message="tns:GetExchangesSoapOut" />    </wsdl:operation>    <wsdl:operation name="IsValidExchange">      <wsdl:input message="tns:IsValidExchangeSoapIn" />      <wsdl:output message="tns:IsValidExchangeSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteExchangesHttpGet">    <wsdl:operation name="GetExchangeDayCount">      <wsdl:input message="tns:GetExchangeDayCountHttpGetIn" />      <wsdl:output message="tns:GetExchangeDayCountHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="IsExchangeOpen">      <wsdl:input message="tns:IsExchangeOpenHttpGetIn" />      <wsdl:output message="tns:IsExchangeOpenHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="AreExchangesOpen">      <wsdl:input message="tns:AreExchangesOpenHttpGetIn" />      <wsdl:output message="tns:AreExchangesOpenHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="IsExchangeOpenOnDate">      <wsdl:input message="tns:IsExchangeOpenOnDateHttpGetIn" />      <wsdl:output message="tns:IsExchangeOpenOnDateHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetSettlementDate">      <wsdl:input message="tns:GetSettlementDateHttpGetIn" />      <wsdl:output message="tns:GetSettlementDateHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetNextExchangeDate">      <wsdl:input message="tns:GetNextExchangeDateHttpGetIn" />      <wsdl:output message="tns:GetNextExchangeDateHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetPriorExchangeDate">      <wsdl:input message="tns:GetPriorExchangeDateHttpGetIn" />      <wsdl:output message="tns:GetPriorExchangeDateHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="IsExchangeHoliday">      <wsdl:input message="tns:IsExchangeHolidayHttpGetIn" />      <wsdl:output message="tns:IsExchangeHolidayHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ListHolidays">      <wsdl:input message="tns:ListHolidaysHttpGetIn" />      <wsdl:output message="tns:ListHolidaysHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetExchangeTime">      <wsdl:input message="tns:GetExchangeTimeHttpGetIn" />      <wsdl:output message="tns:GetExchangeTimeHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetExchangeDate">      <wsdl:input message="tns:GetExchangeDateHttpGetIn" />      <wsdl:output message="tns:GetExchangeDateHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetExchangeDay">      <wsdl:input message="tns:GetExchangeDayHttpGetIn" />      <wsdl:output message="tns:GetExchangeDayHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetExchanges">      <wsdl:input message="tns:GetExchangesHttpGetIn" />      <wsdl:output message="tns:GetExchangesHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="IsValidExchange">      <wsdl:input message="tns:IsValidExchangeHttpGetIn" />      <wsdl:output message="tns:IsValidExchangeHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteExchangesHttpPost">    <wsdl:operation name="GetExchangeDayCount">      <wsdl:input message="tns:GetExchangeDayCountHttpPostIn" />      <wsdl:output message="tns:GetExchangeDayCountHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="IsExchangeOpen">      <wsdl:input message="tns:IsExchangeOpenHttpPostIn" />      <wsdl:output message="tns:IsExchangeOpenHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="AreExchangesOpen">      <wsdl:input message="tns:AreExchangesOpenHttpPostIn" />      <wsdl:output message="tns:AreExchangesOpenHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="IsExchangeOpenOnDate">      <wsdl:input message="tns:IsExchangeOpenOnDateHttpPostIn" />      <wsdl:output message="tns:IsExchangeOpenOnDateHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetSettlementDate">      <wsdl:input message="tns:GetSettlementDateHttpPostIn" />      <wsdl:output message="tns:GetSettlementDateHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetNextExchangeDate">      <wsdl:input message="tns:GetNextExchangeDateHttpPostIn" />      <wsdl:output message="tns:GetNextExchangeDateHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetPriorExchangeDate">      <wsdl:input message="tns:GetPriorExchangeDateHttpPostIn" />      <wsdl:output message="tns:GetPriorExchangeDateHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="IsExchangeHoliday">      <wsdl:input message="tns:IsExchangeHolidayHttpPostIn" />      <wsdl:output message="tns:IsExchangeHolidayHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ListHolidays">      <wsdl:input message="tns:ListHolidaysHttpPostIn" />      <wsdl:output message="tns:ListHolidaysHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetExchangeTime">      <wsdl:input message="tns:GetExchangeTimeHttpPostIn" />      <wsdl:output message="tns:GetExchangeTimeHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetExchangeDate">      <wsdl:input message="tns:GetExchangeDateHttpPostIn" />      <wsdl:output message="tns:GetExchangeDateHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetExchangeDay">      <wsdl:input message="tns:GetExchangeDayHttpPostIn" />      <wsdl:output message="tns:GetExchangeDayHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetExchanges">      <wsdl:input message="tns:GetExchangesHttpPostIn" />      <wsdl:output message="tns:GetExchangesHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="IsValidExchange">      <wsdl:input message="tns:IsValidExchangeHttpPostIn" />      <wsdl:output message="tns:IsValidExchangeHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="XigniteExchangesSoap" type="tns:XigniteExchangesSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetExchangeDayCount">      <soap:operation soapAction="http://www.xignite.com/services/GetExchangeDayCount" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetExchangeDayCountHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsExchangeOpen">      <soap:operation soapAction="http://www.xignite.com/services/IsExchangeOpen" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:IsExchangeOpenHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AreExchangesOpen">      <soap:operation soapAction="http://www.xignite.com/services/AreExchangesOpen" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:AreExchangesOpenHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsExchangeOpenOnDate">      <soap:operation soapAction="http://www.xignite.com/services/IsExchangeOpenOnDate" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:IsExchangeOpenOnDateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSettlementDate">      <soap:operation soapAction="http://www.xignite.com/services/GetSettlementDate" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetSettlementDateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetNextExchangeDate">      <soap:operation soapAction="http://www.xignite.com/services/GetNextExchangeDate" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetNextExchangeDateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPriorExchangeDate">      <soap:operation soapAction="http://www.xignite.com/services/GetPriorExchangeDate" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetPriorExchangeDateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsExchangeHoliday">      <soap:operation soapAction="http://www.xignite.com/services/IsExchangeHoliday" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:IsExchangeHolidayHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListHolidays">      <soap:operation soapAction="http://www.xignite.com/services/ListHolidays" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:ListHolidaysHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchangeTime">      <soap:operation soapAction="http://www.xignite.com/services/GetExchangeTime" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetExchangeTimeHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchangeDate">      <soap:operation soapAction="http://www.xignite.com/services/GetExchangeDate" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetExchangeDateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchangeDay">      <soap:operation soapAction="http://www.xignite.com/services/GetExchangeDay" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetExchangeDayHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchanges">      <soap:operation soapAction="http://www.xignite.com/services/GetExchanges" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetExchangesHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsValidExchange">      <soap:operation soapAction="http://www.xignite.com/services/IsValidExchange" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:IsValidExchangeHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteExchangesSoap12" type="tns:XigniteExchangesSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetExchangeDayCount">      <soap12:operation soapAction="http://www.xignite.com/services/GetExchangeDayCount" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetExchangeDayCountHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsExchangeOpen">      <soap12:operation soapAction="http://www.xignite.com/services/IsExchangeOpen" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:IsExchangeOpenHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AreExchangesOpen">      <soap12:operation soapAction="http://www.xignite.com/services/AreExchangesOpen" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:AreExchangesOpenHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsExchangeOpenOnDate">      <soap12:operation soapAction="http://www.xignite.com/services/IsExchangeOpenOnDate" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:IsExchangeOpenOnDateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSettlementDate">      <soap12:operation soapAction="http://www.xignite.com/services/GetSettlementDate" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetSettlementDateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetNextExchangeDate">      <soap12:operation soapAction="http://www.xignite.com/services/GetNextExchangeDate" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetNextExchangeDateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPriorExchangeDate">      <soap12:operation soapAction="http://www.xignite.com/services/GetPriorExchangeDate" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetPriorExchangeDateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsExchangeHoliday">      <soap12:operation soapAction="http://www.xignite.com/services/IsExchangeHoliday" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:IsExchangeHolidayHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListHolidays">      <soap12:operation soapAction="http://www.xignite.com/services/ListHolidays" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:ListHolidaysHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchangeTime">      <soap12:operation soapAction="http://www.xignite.com/services/GetExchangeTime" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetExchangeTimeHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchangeDate">      <soap12:operation soapAction="http://www.xignite.com/services/GetExchangeDate" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetExchangeDateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchangeDay">      <soap12:operation soapAction="http://www.xignite.com/services/GetExchangeDay" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetExchangeDayHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchanges">      <soap12:operation soapAction="http://www.xignite.com/services/GetExchanges" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetExchangesHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsValidExchange">      <soap12:operation soapAction="http://www.xignite.com/services/IsValidExchange" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:IsValidExchangeHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteExchangesHttpGet" type="tns:XigniteExchangesHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetExchangeDayCount">      <http:operation location="/GetExchangeDayCount" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsExchangeOpen">      <http:operation location="/IsExchangeOpen" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AreExchangesOpen">      <http:operation location="/AreExchangesOpen" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsExchangeOpenOnDate">      <http:operation location="/IsExchangeOpenOnDate" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSettlementDate">      <http:operation location="/GetSettlementDate" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetNextExchangeDate">      <http:operation location="/GetNextExchangeDate" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPriorExchangeDate">      <http:operation location="/GetPriorExchangeDate" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsExchangeHoliday">      <http:operation location="/IsExchangeHoliday" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListHolidays">      <http:operation location="/ListHolidays" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchangeTime">      <http:operation location="/GetExchangeTime" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchangeDate">      <http:operation location="/GetExchangeDate" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchangeDay">      <http:operation location="/GetExchangeDay" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchanges">      <http:operation location="/GetExchanges" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsValidExchange">      <http:operation location="/IsValidExchange" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteExchangesHttpPost" type="tns:XigniteExchangesHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetExchangeDayCount">      <http:operation location="/GetExchangeDayCount" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsExchangeOpen">      <http:operation location="/IsExchangeOpen" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AreExchangesOpen">      <http:operation location="/AreExchangesOpen" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsExchangeOpenOnDate">      <http:operation location="/IsExchangeOpenOnDate" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetSettlementDate">      <http:operation location="/GetSettlementDate" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetNextExchangeDate">      <http:operation location="/GetNextExchangeDate" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPriorExchangeDate">      <http:operation location="/GetPriorExchangeDate" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsExchangeHoliday">      <http:operation location="/IsExchangeHoliday" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListHolidays">      <http:operation location="/ListHolidays" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchangeTime">      <http:operation location="/GetExchangeTime" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchangeDate">      <http:operation location="/GetExchangeDate" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchangeDay">      <http:operation location="/GetExchangeDay" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetExchanges">      <http:operation location="/GetExchanges" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsValidExchange">      <http:operation location="/IsValidExchange" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="XigniteExchanges">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Provide information about securities exchanges around the world.</wsdl:documentation>    <wsdl:port name="XigniteExchangesSoap" binding="tns:XigniteExchangesSoap">      <soap:address location="http://www.xignite.com/xExchanges.asmx" />    </wsdl:port>    <wsdl:port name="XigniteExchangesSoap12" binding="tns:XigniteExchangesSoap12">      <soap12:address location="http://www.xignite.com/xExchanges.asmx" />    </wsdl:port>    <wsdl:port name="XigniteExchangesHttpGet" binding="tns:XigniteExchangesHttpGet">      <http:address location="http://www.xignite.com/xExchanges.asmx" />    </wsdl:port>    <wsdl:port name="XigniteExchangesHttpPost" binding="tns:XigniteExchangesHttpPost">      <http:address location="http://www.xignite.com/xExchanges.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Provide information about securities exchanges around the world.
+	</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">
+			<s:element name="GetExchangeDayCount">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetExchangeDayCountResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetExchangeDayCountResult" type="tns:DayCount" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="DayCount">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="Common">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="OutcomeTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Success" />
+					<s:enumeration value="SystemError" />
+					<s:enumeration value="RequestError" />
+					<s:enumeration value="RegistrationError" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="Header" type="tns:Header" />
+			<s:complexType name="Header">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />
+				</s:sequence>
+				<s:anyAttribute />
+			</s:complexType>
+			<s:element name="IsExchangeOpen">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="IsExchangeOpenResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="IsExchangeOpenResult" type="tns:BooleanResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="BooleanResult">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="Value" type="s:boolean" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="AreExchangesOpen">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Exchanges" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="AreExchangesOpenResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="AreExchangesOpenResult" type="tns:ArrayOfExchangeStatus" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfExchangeStatus">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="ExchangeStatus" nillable="true" type="tns:ExchangeStatus" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ExchangeStatus">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="Open" type="s:boolean" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="IsExchangeOpenOnDate">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="OnDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="IsExchangeOpenOnDateResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="IsExchangeOpenOnDateResult" type="tns:ExchangeSchedule" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ExchangeSchedule">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="Open" type="s:boolean" />
+							<s:element minOccurs="0" maxOccurs="1" name="OpenTime" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="CloseTime" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="GetSettlementDate">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TradeDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetSettlementDateResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetSettlementDateResult" type="tns:SettlementSchedule" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="SettlementSchedule">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="TradeDate" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="SettlementDate" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="GetNextExchangeDate">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ForDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetNextExchangeDateResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetNextExchangeDateResult" type="tns:ExchangeDate" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ExchangeDate">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="GetPriorExchangeDate">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ForDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetPriorExchangeDateResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetPriorExchangeDateResult" type="tns:ExchangeDate" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="IsExchangeHoliday">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ForDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="IsExchangeHolidayResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="IsExchangeHolidayResult" type="tns:ExchangeHoliday" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ExchangeHoliday">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="FullHoliday" type="s:boolean" />
+							<s:element minOccurs="0" maxOccurs="1" name="EarlyClose" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="ListHolidays">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="ForYear" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ListHolidaysResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ListHolidaysResult" type="tns:ArrayOfExchangeHoliday" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfExchangeHoliday">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="ExchangeHoliday" nillable="true" type="tns:ExchangeHoliday" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetExchangeTime">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetExchangeTimeResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetExchangeTimeResult" type="tns:StringResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="StringResult">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="GetExchangeDate">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetExchangeDateResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetExchangeDateResult" type="tns:StringResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetExchangeDay">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetExchangeDayResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetExchangeDayResult" type="tns:StringResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetExchanges">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetExchangesResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetExchangesResult" type="tns:ArrayOfExchange" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfExchange">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Exchange" nillable="true" type="tns:Exchange" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Exchange">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="IsValidExchange">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="IsValidExchangeResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="IsValidExchangeResult" type="tns:Exchange" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DayCount" nillable="true" type="tns:DayCount" />
+			<s:element name="BooleanResult" nillable="true" type="tns:BooleanResult" />
+			<s:element name="ArrayOfExchangeStatus" nillable="true" type="tns:ArrayOfExchangeStatus" />
+			<s:element name="ExchangeSchedule" nillable="true" type="tns:ExchangeSchedule" />
+			<s:element name="SettlementSchedule" nillable="true" type="tns:SettlementSchedule" />
+			<s:element name="ExchangeDate" nillable="true" type="tns:ExchangeDate" />
+			<s:element name="ExchangeHoliday" nillable="true" type="tns:ExchangeHoliday" />
+			<s:element name="ArrayOfExchangeHoliday" nillable="true" type="tns:ArrayOfExchangeHoliday" />
+			<s:element name="StringResult" nillable="true" type="tns:StringResult" />
+			<s:element name="ArrayOfExchange" nillable="true" type="tns:ArrayOfExchange" />
+			<s:element name="Exchange" nillable="true" type="tns:Exchange" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetExchangeDayCountSoapIn">
+		<wsdl:part name="parameters" element="tns:GetExchangeDayCount" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDayCountSoapOut">
+		<wsdl:part name="parameters" element="tns:GetExchangeDayCountResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDayCountHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeOpenSoapIn">
+		<wsdl:part name="parameters" element="tns:IsExchangeOpen" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeOpenSoapOut">
+		<wsdl:part name="parameters" element="tns:IsExchangeOpenResponse" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeOpenHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="AreExchangesOpenSoapIn">
+		<wsdl:part name="parameters" element="tns:AreExchangesOpen" />
+	</wsdl:message>
+	<wsdl:message name="AreExchangesOpenSoapOut">
+		<wsdl:part name="parameters" element="tns:AreExchangesOpenResponse" />
+	</wsdl:message>
+	<wsdl:message name="AreExchangesOpenHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeOpenOnDateSoapIn">
+		<wsdl:part name="parameters" element="tns:IsExchangeOpenOnDate" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeOpenOnDateSoapOut">
+		<wsdl:part name="parameters" element="tns:IsExchangeOpenOnDateResponse" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeOpenOnDateHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetSettlementDateSoapIn">
+		<wsdl:part name="parameters" element="tns:GetSettlementDate" />
+	</wsdl:message>
+	<wsdl:message name="GetSettlementDateSoapOut">
+		<wsdl:part name="parameters" element="tns:GetSettlementDateResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetSettlementDateHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetNextExchangeDateSoapIn">
+		<wsdl:part name="parameters" element="tns:GetNextExchangeDate" />
+	</wsdl:message>
+	<wsdl:message name="GetNextExchangeDateSoapOut">
+		<wsdl:part name="parameters" element="tns:GetNextExchangeDateResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetNextExchangeDateHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetPriorExchangeDateSoapIn">
+		<wsdl:part name="parameters" element="tns:GetPriorExchangeDate" />
+	</wsdl:message>
+	<wsdl:message name="GetPriorExchangeDateSoapOut">
+		<wsdl:part name="parameters" element="tns:GetPriorExchangeDateResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetPriorExchangeDateHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeHolidaySoapIn">
+		<wsdl:part name="parameters" element="tns:IsExchangeHoliday" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeHolidaySoapOut">
+		<wsdl:part name="parameters" element="tns:IsExchangeHolidayResponse" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeHolidayHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="ListHolidaysSoapIn">
+		<wsdl:part name="parameters" element="tns:ListHolidays" />
+	</wsdl:message>
+	<wsdl:message name="ListHolidaysSoapOut">
+		<wsdl:part name="parameters" element="tns:ListHolidaysResponse" />
+	</wsdl:message>
+	<wsdl:message name="ListHolidaysHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeTimeSoapIn">
+		<wsdl:part name="parameters" element="tns:GetExchangeTime" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeTimeSoapOut">
+		<wsdl:part name="parameters" element="tns:GetExchangeTimeResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeTimeHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDateSoapIn">
+		<wsdl:part name="parameters" element="tns:GetExchangeDate" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDateSoapOut">
+		<wsdl:part name="parameters" element="tns:GetExchangeDateResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDateHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDaySoapIn">
+		<wsdl:part name="parameters" element="tns:GetExchangeDay" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDaySoapOut">
+		<wsdl:part name="parameters" element="tns:GetExchangeDayResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDayHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangesSoapIn">
+		<wsdl:part name="parameters" element="tns:GetExchanges" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangesSoapOut">
+		<wsdl:part name="parameters" element="tns:GetExchangesResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangesHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="IsValidExchangeSoapIn">
+		<wsdl:part name="parameters" element="tns:IsValidExchange" />
+	</wsdl:message>
+	<wsdl:message name="IsValidExchangeSoapOut">
+		<wsdl:part name="parameters" element="tns:IsValidExchangeResponse" />
+	</wsdl:message>
+	<wsdl:message name="IsValidExchangeHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDayCountHttpGetIn">
+		<wsdl:part name="Exchange" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDayCountHttpGetOut">
+		<wsdl:part name="Body" element="tns:DayCount" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeOpenHttpGetIn">
+		<wsdl:part name="Exchange" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeOpenHttpGetOut">
+		<wsdl:part name="Body" element="tns:BooleanResult" />
+	</wsdl:message>
+	<wsdl:message name="AreExchangesOpenHttpGetIn">
+		<wsdl:part name="Exchanges" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="AreExchangesOpenHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfExchangeStatus" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeOpenOnDateHttpGetIn">
+		<wsdl:part name="Exchange" type="s:string" />
+		<wsdl:part name="OnDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeOpenOnDateHttpGetOut">
+		<wsdl:part name="Body" element="tns:ExchangeSchedule" />
+	</wsdl:message>
+	<wsdl:message name="GetSettlementDateHttpGetIn">
+		<wsdl:part name="Exchange" type="s:string" />
+		<wsdl:part name="TradeDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetSettlementDateHttpGetOut">
+		<wsdl:part name="Body" element="tns:SettlementSchedule" />
+	</wsdl:message>
+	<wsdl:message name="GetNextExchangeDateHttpGetIn">
+		<wsdl:part name="Exchange" type="s:string" />
+		<wsdl:part name="ForDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetNextExchangeDateHttpGetOut">
+		<wsdl:part name="Body" element="tns:ExchangeDate" />
+	</wsdl:message>
+	<wsdl:message name="GetPriorExchangeDateHttpGetIn">
+		<wsdl:part name="Exchange" type="s:string" />
+		<wsdl:part name="ForDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPriorExchangeDateHttpGetOut">
+		<wsdl:part name="Body" element="tns:ExchangeDate" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeHolidayHttpGetIn">
+		<wsdl:part name="Exchange" type="s:string" />
+		<wsdl:part name="ForDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeHolidayHttpGetOut">
+		<wsdl:part name="Body" element="tns:ExchangeHoliday" />
+	</wsdl:message>
+	<wsdl:message name="ListHolidaysHttpGetIn">
+		<wsdl:part name="Exchange" type="s:string" />
+		<wsdl:part name="ForYear" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ListHolidaysHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfExchangeHoliday" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeTimeHttpGetIn">
+		<wsdl:part name="Exchange" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeTimeHttpGetOut">
+		<wsdl:part name="Body" element="tns:StringResult" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDateHttpGetIn">
+		<wsdl:part name="Exchange" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDateHttpGetOut">
+		<wsdl:part name="Body" element="tns:StringResult" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDayHttpGetIn">
+		<wsdl:part name="Exchange" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDayHttpGetOut">
+		<wsdl:part name="Body" element="tns:StringResult" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangesHttpGetIn" />
+	<wsdl:message name="GetExchangesHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfExchange" />
+	</wsdl:message>
+	<wsdl:message name="IsValidExchangeHttpGetIn">
+		<wsdl:part name="Exchange" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="IsValidExchangeHttpGetOut">
+		<wsdl:part name="Body" element="tns:Exchange" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDayCountHttpPostIn">
+		<wsdl:part name="Exchange" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDayCountHttpPostOut">
+		<wsdl:part name="Body" element="tns:DayCount" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeOpenHttpPostIn">
+		<wsdl:part name="Exchange" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeOpenHttpPostOut">
+		<wsdl:part name="Body" element="tns:BooleanResult" />
+	</wsdl:message>
+	<wsdl:message name="AreExchangesOpenHttpPostIn">
+		<wsdl:part name="Exchanges" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="AreExchangesOpenHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfExchangeStatus" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeOpenOnDateHttpPostIn">
+		<wsdl:part name="Exchange" type="s:string" />
+		<wsdl:part name="OnDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeOpenOnDateHttpPostOut">
+		<wsdl:part name="Body" element="tns:ExchangeSchedule" />
+	</wsdl:message>
+	<wsdl:message name="GetSettlementDateHttpPostIn">
+		<wsdl:part name="Exchange" type="s:string" />
+		<wsdl:part name="TradeDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetSettlementDateHttpPostOut">
+		<wsdl:part name="Body" element="tns:SettlementSchedule" />
+	</wsdl:message>
+	<wsdl:message name="GetNextExchangeDateHttpPostIn">
+		<wsdl:part name="Exchange" type="s:string" />
+		<wsdl:part name="ForDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetNextExchangeDateHttpPostOut">
+		<wsdl:part name="Body" element="tns:ExchangeDate" />
+	</wsdl:message>
+	<wsdl:message name="GetPriorExchangeDateHttpPostIn">
+		<wsdl:part name="Exchange" type="s:string" />
+		<wsdl:part name="ForDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPriorExchangeDateHttpPostOut">
+		<wsdl:part name="Body" element="tns:ExchangeDate" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeHolidayHttpPostIn">
+		<wsdl:part name="Exchange" type="s:string" />
+		<wsdl:part name="ForDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="IsExchangeHolidayHttpPostOut">
+		<wsdl:part name="Body" element="tns:ExchangeHoliday" />
+	</wsdl:message>
+	<wsdl:message name="ListHolidaysHttpPostIn">
+		<wsdl:part name="Exchange" type="s:string" />
+		<wsdl:part name="ForYear" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ListHolidaysHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfExchangeHoliday" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeTimeHttpPostIn">
+		<wsdl:part name="Exchange" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeTimeHttpPostOut">
+		<wsdl:part name="Body" element="tns:StringResult" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDateHttpPostIn">
+		<wsdl:part name="Exchange" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDateHttpPostOut">
+		<wsdl:part name="Body" element="tns:StringResult" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDayHttpPostIn">
+		<wsdl:part name="Exchange" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangeDayHttpPostOut">
+		<wsdl:part name="Body" element="tns:StringResult" />
+	</wsdl:message>
+	<wsdl:message name="GetExchangesHttpPostIn" />
+	<wsdl:message name="GetExchangesHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfExchange" />
+	</wsdl:message>
+	<wsdl:message name="IsValidExchangeHttpPostIn">
+		<wsdl:part name="Exchange" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="IsValidExchangeHttpPostOut">
+		<wsdl:part name="Body" element="tns:Exchange" />
+	</wsdl:message>
+	<wsdl:portType name="XigniteExchangesSoap">
+		<wsdl:operation name="GetExchangeDayCount">
+			<wsdl:input message="tns:GetExchangeDayCountSoapIn" />
+			<wsdl:output message="tns:GetExchangeDayCountSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeOpen">
+			<wsdl:input message="tns:IsExchangeOpenSoapIn" />
+			<wsdl:output message="tns:IsExchangeOpenSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AreExchangesOpen">
+			<wsdl:input message="tns:AreExchangesOpenSoapIn" />
+			<wsdl:output message="tns:AreExchangesOpenSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeOpenOnDate">
+			<wsdl:input message="tns:IsExchangeOpenOnDateSoapIn" />
+			<wsdl:output message="tns:IsExchangeOpenOnDateSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSettlementDate">
+			<wsdl:input message="tns:GetSettlementDateSoapIn" />
+			<wsdl:output message="tns:GetSettlementDateSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetNextExchangeDate">
+			<wsdl:input message="tns:GetNextExchangeDateSoapIn" />
+			<wsdl:output message="tns:GetNextExchangeDateSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPriorExchangeDate">
+			<wsdl:input message="tns:GetPriorExchangeDateSoapIn" />
+			<wsdl:output message="tns:GetPriorExchangeDateSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeHoliday">
+			<wsdl:input message="tns:IsExchangeHolidaySoapIn" />
+			<wsdl:output message="tns:IsExchangeHolidaySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ListHolidays">
+			<wsdl:input message="tns:ListHolidaysSoapIn" />
+			<wsdl:output message="tns:ListHolidaysSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeTime">
+			<wsdl:input message="tns:GetExchangeTimeSoapIn" />
+			<wsdl:output message="tns:GetExchangeTimeSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeDate">
+			<wsdl:input message="tns:GetExchangeDateSoapIn" />
+			<wsdl:output message="tns:GetExchangeDateSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeDay">
+			<wsdl:input message="tns:GetExchangeDaySoapIn" />
+			<wsdl:output message="tns:GetExchangeDaySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExchanges">
+			<wsdl:input message="tns:GetExchangesSoapIn" />
+			<wsdl:output message="tns:GetExchangesSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsValidExchange">
+			<wsdl:input message="tns:IsValidExchangeSoapIn" />
+			<wsdl:output message="tns:IsValidExchangeSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteExchangesHttpGet">
+		<wsdl:operation name="GetExchangeDayCount">
+			<wsdl:input message="tns:GetExchangeDayCountHttpGetIn" />
+			<wsdl:output message="tns:GetExchangeDayCountHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeOpen">
+			<wsdl:input message="tns:IsExchangeOpenHttpGetIn" />
+			<wsdl:output message="tns:IsExchangeOpenHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AreExchangesOpen">
+			<wsdl:input message="tns:AreExchangesOpenHttpGetIn" />
+			<wsdl:output message="tns:AreExchangesOpenHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeOpenOnDate">
+			<wsdl:input message="tns:IsExchangeOpenOnDateHttpGetIn" />
+			<wsdl:output message="tns:IsExchangeOpenOnDateHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSettlementDate">
+			<wsdl:input message="tns:GetSettlementDateHttpGetIn" />
+			<wsdl:output message="tns:GetSettlementDateHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetNextExchangeDate">
+			<wsdl:input message="tns:GetNextExchangeDateHttpGetIn" />
+			<wsdl:output message="tns:GetNextExchangeDateHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPriorExchangeDate">
+			<wsdl:input message="tns:GetPriorExchangeDateHttpGetIn" />
+			<wsdl:output message="tns:GetPriorExchangeDateHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeHoliday">
+			<wsdl:input message="tns:IsExchangeHolidayHttpGetIn" />
+			<wsdl:output message="tns:IsExchangeHolidayHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ListHolidays">
+			<wsdl:input message="tns:ListHolidaysHttpGetIn" />
+			<wsdl:output message="tns:ListHolidaysHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeTime">
+			<wsdl:input message="tns:GetExchangeTimeHttpGetIn" />
+			<wsdl:output message="tns:GetExchangeTimeHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeDate">
+			<wsdl:input message="tns:GetExchangeDateHttpGetIn" />
+			<wsdl:output message="tns:GetExchangeDateHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeDay">
+			<wsdl:input message="tns:GetExchangeDayHttpGetIn" />
+			<wsdl:output message="tns:GetExchangeDayHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExchanges">
+			<wsdl:input message="tns:GetExchangesHttpGetIn" />
+			<wsdl:output message="tns:GetExchangesHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsValidExchange">
+			<wsdl:input message="tns:IsValidExchangeHttpGetIn" />
+			<wsdl:output message="tns:IsValidExchangeHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteExchangesHttpPost">
+		<wsdl:operation name="GetExchangeDayCount">
+			<wsdl:input message="tns:GetExchangeDayCountHttpPostIn" />
+			<wsdl:output message="tns:GetExchangeDayCountHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeOpen">
+			<wsdl:input message="tns:IsExchangeOpenHttpPostIn" />
+			<wsdl:output message="tns:IsExchangeOpenHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AreExchangesOpen">
+			<wsdl:input message="tns:AreExchangesOpenHttpPostIn" />
+			<wsdl:output message="tns:AreExchangesOpenHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeOpenOnDate">
+			<wsdl:input message="tns:IsExchangeOpenOnDateHttpPostIn" />
+			<wsdl:output message="tns:IsExchangeOpenOnDateHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSettlementDate">
+			<wsdl:input message="tns:GetSettlementDateHttpPostIn" />
+			<wsdl:output message="tns:GetSettlementDateHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetNextExchangeDate">
+			<wsdl:input message="tns:GetNextExchangeDateHttpPostIn" />
+			<wsdl:output message="tns:GetNextExchangeDateHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPriorExchangeDate">
+			<wsdl:input message="tns:GetPriorExchangeDateHttpPostIn" />
+			<wsdl:output message="tns:GetPriorExchangeDateHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeHoliday">
+			<wsdl:input message="tns:IsExchangeHolidayHttpPostIn" />
+			<wsdl:output message="tns:IsExchangeHolidayHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ListHolidays">
+			<wsdl:input message="tns:ListHolidaysHttpPostIn" />
+			<wsdl:output message="tns:ListHolidaysHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeTime">
+			<wsdl:input message="tns:GetExchangeTimeHttpPostIn" />
+			<wsdl:output message="tns:GetExchangeTimeHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeDate">
+			<wsdl:input message="tns:GetExchangeDateHttpPostIn" />
+			<wsdl:output message="tns:GetExchangeDateHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeDay">
+			<wsdl:input message="tns:GetExchangeDayHttpPostIn" />
+			<wsdl:output message="tns:GetExchangeDayHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExchanges">
+			<wsdl:input message="tns:GetExchangesHttpPostIn" />
+			<wsdl:output message="tns:GetExchangesHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsValidExchange">
+			<wsdl:input message="tns:IsValidExchangeHttpPostIn" />
+			<wsdl:output message="tns:IsValidExchangeHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="XigniteExchangesSoap" type="tns:XigniteExchangesSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetExchangeDayCount">
+			<soap:operation soapAction="http://www.xignite.com/services/GetExchangeDayCount" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetExchangeDayCountHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeOpen">
+			<soap:operation soapAction="http://www.xignite.com/services/IsExchangeOpen" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:IsExchangeOpenHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AreExchangesOpen">
+			<soap:operation soapAction="http://www.xignite.com/services/AreExchangesOpen" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:AreExchangesOpenHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeOpenOnDate">
+			<soap:operation soapAction="http://www.xignite.com/services/IsExchangeOpenOnDate" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:IsExchangeOpenOnDateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSettlementDate">
+			<soap:operation soapAction="http://www.xignite.com/services/GetSettlementDate" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetSettlementDateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetNextExchangeDate">
+			<soap:operation soapAction="http://www.xignite.com/services/GetNextExchangeDate" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetNextExchangeDateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPriorExchangeDate">
+			<soap:operation soapAction="http://www.xignite.com/services/GetPriorExchangeDate" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetPriorExchangeDateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeHoliday">
+			<soap:operation soapAction="http://www.xignite.com/services/IsExchangeHoliday" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:IsExchangeHolidayHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListHolidays">
+			<soap:operation soapAction="http://www.xignite.com/services/ListHolidays" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:ListHolidaysHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeTime">
+			<soap:operation soapAction="http://www.xignite.com/services/GetExchangeTime" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetExchangeTimeHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeDate">
+			<soap:operation soapAction="http://www.xignite.com/services/GetExchangeDate" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetExchangeDateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeDay">
+			<soap:operation soapAction="http://www.xignite.com/services/GetExchangeDay" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetExchangeDayHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchanges">
+			<soap:operation soapAction="http://www.xignite.com/services/GetExchanges" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetExchangesHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsValidExchange">
+			<soap:operation soapAction="http://www.xignite.com/services/IsValidExchange" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:IsValidExchangeHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteExchangesSoap12" type="tns:XigniteExchangesSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetExchangeDayCount">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetExchangeDayCount" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetExchangeDayCountHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeOpen">
+			<soap12:operation soapAction="http://www.xignite.com/services/IsExchangeOpen" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:IsExchangeOpenHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AreExchangesOpen">
+			<soap12:operation soapAction="http://www.xignite.com/services/AreExchangesOpen" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:AreExchangesOpenHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeOpenOnDate">
+			<soap12:operation soapAction="http://www.xignite.com/services/IsExchangeOpenOnDate" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:IsExchangeOpenOnDateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSettlementDate">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetSettlementDate" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetSettlementDateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetNextExchangeDate">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetNextExchangeDate" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetNextExchangeDateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPriorExchangeDate">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetPriorExchangeDate" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetPriorExchangeDateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeHoliday">
+			<soap12:operation soapAction="http://www.xignite.com/services/IsExchangeHoliday" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:IsExchangeHolidayHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListHolidays">
+			<soap12:operation soapAction="http://www.xignite.com/services/ListHolidays" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:ListHolidaysHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeTime">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetExchangeTime" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetExchangeTimeHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeDate">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetExchangeDate" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetExchangeDateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeDay">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetExchangeDay" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetExchangeDayHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchanges">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetExchanges" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetExchangesHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsValidExchange">
+			<soap12:operation soapAction="http://www.xignite.com/services/IsValidExchange" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:IsValidExchangeHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteExchangesHttpGet" type="tns:XigniteExchangesHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetExchangeDayCount">
+			<http:operation location="/GetExchangeDayCount" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeOpen">
+			<http:operation location="/IsExchangeOpen" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AreExchangesOpen">
+			<http:operation location="/AreExchangesOpen" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeOpenOnDate">
+			<http:operation location="/IsExchangeOpenOnDate" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSettlementDate">
+			<http:operation location="/GetSettlementDate" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetNextExchangeDate">
+			<http:operation location="/GetNextExchangeDate" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPriorExchangeDate">
+			<http:operation location="/GetPriorExchangeDate" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeHoliday">
+			<http:operation location="/IsExchangeHoliday" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListHolidays">
+			<http:operation location="/ListHolidays" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeTime">
+			<http:operation location="/GetExchangeTime" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeDate">
+			<http:operation location="/GetExchangeDate" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeDay">
+			<http:operation location="/GetExchangeDay" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchanges">
+			<http:operation location="/GetExchanges" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsValidExchange">
+			<http:operation location="/IsValidExchange" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteExchangesHttpPost" type="tns:XigniteExchangesHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetExchangeDayCount">
+			<http:operation location="/GetExchangeDayCount" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeOpen">
+			<http:operation location="/IsExchangeOpen" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AreExchangesOpen">
+			<http:operation location="/AreExchangesOpen" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeOpenOnDate">
+			<http:operation location="/IsExchangeOpenOnDate" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSettlementDate">
+			<http:operation location="/GetSettlementDate" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetNextExchangeDate">
+			<http:operation location="/GetNextExchangeDate" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPriorExchangeDate">
+			<http:operation location="/GetPriorExchangeDate" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsExchangeHoliday">
+			<http:operation location="/IsExchangeHoliday" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListHolidays">
+			<http:operation location="/ListHolidays" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeTime">
+			<http:operation location="/GetExchangeTime" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeDate">
+			<http:operation location="/GetExchangeDate" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchangeDay">
+			<http:operation location="/GetExchangeDay" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExchanges">
+			<http:operation location="/GetExchanges" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsValidExchange">
+			<http:operation location="/IsValidExchange" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="XigniteExchanges">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Provide information about securities exchanges around the world.
+		</wsdl:documentation>
+		<wsdl:port name="XigniteExchangesSoap" binding="tns:XigniteExchangesSoap">
+			<soap:address location="http://www.xignite.com/xExchanges.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteExchangesSoap12" binding="tns:XigniteExchangesSoap12">
+			<soap12:address location="http://www.xignite.com/xExchanges.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteExchangesHttpGet" binding="tns:XigniteExchangesHttpGet">
+			<http:address location="http://www.xignite.com/xExchanges.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteExchangesHttpPost" binding="tns:XigniteExchangesHttpPost">
+			<http:address location="http://www.xignite.com/xExchanges.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

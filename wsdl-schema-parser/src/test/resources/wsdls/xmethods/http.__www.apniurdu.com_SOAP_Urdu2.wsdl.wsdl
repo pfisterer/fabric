@@ -1,1 +1,92 @@
-<?xml version="1.0" encoding="UTF-8"?><definitions name="UrduSOAP"	targetNamespace="http://apniurdu.com/SOAP/Urdu2.wsdl"	xmlns:tns="http://apniurdu.com/SOAP/Urdu2.wsdl"	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"	xmlns:xsd="http://www.w3.org/2001/XMLSchema"	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"	xmlns="http://schemas.xmlsoap.org/wsdl/">	<message name="GetWordsResponse">		<part name="Result" type="xsd:int"/>	</message>	<message name="GetWordsRequest">		<part name="symbol" type="xsd:string"/>	</message>	<message name="TranslateResponse">		<part name="Result" type="xsd:string"/>	</message>	<message name="TranslateRequest">		<part name="symbol" type="xsd:string"/>	</message>	<message name="GetMappingResponse">		<part name="Result" type="xsd:string"/>	</message>	<message name="GetMappingRequest">		<part name="symbol" type="xsd:string"/>	</message>	<message name="GetUnicodeResponse">		<part name="Result" type="xsd:string"/>	</message>	<message name="GetUnicodeRequest">		<part name="symbol" type="xsd:string"/>	</message>	<portType name="ApniUrduPortType">		<operation name="GetWords" parameterOrder="symbol">			<input message="tns:GetWordsRequest"/>			<output message="tns:GetWordsResponse"/>		</operation>		<operation name="Translate" parameterOrder="symbol">			<input message="tns:TranslateRequest"/>			<output message="tns:TranslateResponse"/>		</operation>		<operation name="GetUnicode" parameterOrder="symbol">			<input message="tns:GetUnicodeRequest"/>			<output message="tns:GetUnicodeResponse"/>		</operation>		<operation name="GetMapping" parameterOrder="symbol">			<input message="tns:GetMappingRequest"/>			<output message="tns:GetMappingResponse"/>		</operation>	</portType>	<binding name="ApniUrduBinding" type="tns:ApniUrduPortType">		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>		<operation name="GetWords">			<soap:operation soapAction="urn:UrduSOAP#GetWords"/>				<input><soap:body use="encoded" namespace="urn:UrduSOAP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>				<output><soap:body use="encoded" namespace="urn:UrduSOAP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>		</operation>		<operation name="Translate">			<soap:operation soapAction="urn:UrduSOAP#Translate"/>				<input><soap:body use="encoded" namespace="urn:UrduSOAP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>				<output><soap:body use="encoded" namespace="urn:UrduSOAP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>		</operation>		<operation name="GetUnicode">			<soap:operation soapAction="urn:UrduSOAP#GetUnicode"/>				<input><soap:body use="encoded" namespace="urn:UrduSOAP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>				<output><soap:body use="encoded" namespace="urn:UrduSOAP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>		</operation>		<operation name="GetMapping">			<soap:operation soapAction="urn:UrduSOAP#GetMapping"/>				<input><soap:body use="encoded" namespace="urn:UrduSOAP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>				<output><soap:body use="encoded" namespace="urn:UrduSOAP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>		</operation>	</binding>		<service name="ApniUrdu">		<documentation>ApniUrdu.com Translation Service</documentation>		<port name="ApniUrduPort" binding="tns:ApniUrduBinding">			<soap:address location="http://apniurdu.com/SOAP/SOAP.pl"/>		</port>	</service></definitions>
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="UrduSOAP" targetNamespace="http://apniurdu.com/SOAP/Urdu2.wsdl" xmlns:tns="http://apniurdu.com/SOAP/Urdu2.wsdl"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<message name="GetWordsResponse">
+		<part name="Result" type="xsd:int" />
+	</message>
+	<message name="GetWordsRequest">
+		<part name="symbol" type="xsd:string" />
+	</message>
+	<message name="TranslateResponse">
+		<part name="Result" type="xsd:string" />
+	</message>
+	<message name="TranslateRequest">
+		<part name="symbol" type="xsd:string" />
+	</message>
+	<message name="GetMappingResponse">
+		<part name="Result" type="xsd:string" />
+	</message>
+	<message name="GetMappingRequest">
+		<part name="symbol" type="xsd:string" />
+	</message>
+	<message name="GetUnicodeResponse">
+		<part name="Result" type="xsd:string" />
+	</message>
+	<message name="GetUnicodeRequest">
+		<part name="symbol" type="xsd:string" />
+	</message>
+	<portType name="ApniUrduPortType">
+		<operation name="GetWords" parameterOrder="symbol">
+			<input message="tns:GetWordsRequest" />
+			<output message="tns:GetWordsResponse" />
+		</operation>
+		<operation name="Translate" parameterOrder="symbol">
+			<input message="tns:TranslateRequest" />
+			<output message="tns:TranslateResponse" />
+		</operation>
+		<operation name="GetUnicode" parameterOrder="symbol">
+			<input message="tns:GetUnicodeRequest" />
+			<output message="tns:GetUnicodeResponse" />
+		</operation>
+		<operation name="GetMapping" parameterOrder="symbol">
+			<input message="tns:GetMappingRequest" />
+			<output message="tns:GetMappingResponse" />
+		</operation>
+	</portType>
+	<binding name="ApniUrduBinding" type="tns:ApniUrduPortType">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="GetWords">
+			<soap:operation soapAction="urn:UrduSOAP#GetWords" />
+			<input>
+				<soap:body use="encoded" namespace="urn:UrduSOAP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:UrduSOAP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="Translate">
+			<soap:operation soapAction="urn:UrduSOAP#Translate" />
+			<input>
+				<soap:body use="encoded" namespace="urn:UrduSOAP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:UrduSOAP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="GetUnicode">
+			<soap:operation soapAction="urn:UrduSOAP#GetUnicode" />
+			<input>
+				<soap:body use="encoded" namespace="urn:UrduSOAP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:UrduSOAP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="GetMapping">
+			<soap:operation soapAction="urn:UrduSOAP#GetMapping" />
+			<input>
+				<soap:body use="encoded" namespace="urn:UrduSOAP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:UrduSOAP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+	</binding>
+	<service name="ApniUrdu">
+		<documentation>ApniUrdu.com Translation Service</documentation>
+		<port name="ApniUrduPort" binding="tns:ApniUrduBinding">
+			<soap:address location="http://apniurdu.com/SOAP/SOAP.pl" />
+		</port>
+	</service>
+</definitions>

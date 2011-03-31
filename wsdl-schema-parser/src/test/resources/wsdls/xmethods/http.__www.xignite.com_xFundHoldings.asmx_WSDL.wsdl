@@ -1,1 +1,947 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">this web service provides information about mutual funds holdings.</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">      <s:element name="LookupFund">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="LookupFundResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="LookupFundResult" type="tns:ArrayOfFund" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfFund">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Fund" nillable="true" type="tns:Fund" />        </s:sequence>      </s:complexType>      <s:complexType name="Fund">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />              <s:element minOccurs="0" maxOccurs="1" name="AsOfDate" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="Common">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />        </s:sequence>      </s:complexType>      <s:simpleType name="OutcomeTypes">        <s:restriction base="s:string">          <s:enumeration value="Success" />          <s:enumeration value="SystemError" />          <s:enumeration value="RequestError" />          <s:enumeration value="RegistrationError" />        </s:restriction>      </s:simpleType>      <s:complexType name="Security">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="CIK" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Cusip" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ISIN" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Valoren" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Market" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="CategoryOrIndustry" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="Header" type="tns:Header" />      <s:complexType name="Header">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />        </s:sequence>        <s:anyAttribute />      </s:complexType>      <s:element name="ListFunds">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="StartSymbol" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndSymbol" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ListFundsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ListFundsResult" type="tns:ArrayOfFund" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestHoldings">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="IdentifierTypes">        <s:restriction base="s:string">          <s:enumeration value="Symbol" />          <s:enumeration value="CIK" />          <s:enumeration value="CUSIP" />          <s:enumeration value="ISIN" />          <s:enumeration value="Valoren" />          <s:enumeration value="SEDOL" />        </s:restriction>      </s:simpleType>      <s:element name="GetLatestHoldingsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetLatestHoldingsResult" type="tns:FundHoldings" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="FundHoldings">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Fund" type="tns:Fund" />              <s:element minOccurs="0" maxOccurs="1" name="Filing" type="tns:ShortFiling" />              <s:element minOccurs="0" maxOccurs="1" name="Holdings" type="tns:ArrayOfHolding" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="ShortFiling">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="CIK" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="Amendment" type="s:boolean" />              <s:element minOccurs="0" maxOccurs="1" name="TextFileUrl" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="HtmlFileUrl" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="AlternateHtmlFileUrl" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="FilingId" type="s:int" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="ArrayOfHolding">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Holding" nillable="true" type="tns:Holding" />        </s:sequence>      </s:complexType>      <s:complexType name="Holding">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />          <s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="Shares" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="Change" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="PercentOfFund" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="YTDReturn" type="s:double" />        </s:sequence>      </s:complexType>      <s:element name="GetIncreasedHoldings">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIncreasedHoldingsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetIncreasedHoldingsResult" type="tns:FundHoldings" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTopHoldings">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="1" maxOccurs="1" name="TopType" type="tns:TopTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="TopTypes">        <s:restriction base="s:string">          <s:enumeration value="Top5" />          <s:enumeration value="Top10" />          <s:enumeration value="Top20" />        </s:restriction>      </s:simpleType>      <s:element name="GetTopHoldingsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTopHoldingsResult" type="tns:FundHoldings" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestHolders">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestHoldersResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetLatestHoldersResult" type="tns:SecurityHolders" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="SecurityHolders">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />              <s:element minOccurs="0" maxOccurs="1" name="Holders" type="tns:ArrayOfHolder" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="ArrayOfHolder">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Holder" nillable="true" type="tns:Holder" />        </s:sequence>      </s:complexType>      <s:complexType name="Holder">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Fund" type="tns:Fund" />          <s:element minOccurs="0" maxOccurs="1" name="AsOfDate" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="Shares" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="Change" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="PercentofShares" type="s:double" />        </s:sequence>      </s:complexType>      <s:element name="GetIncreasedHolders">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIncreasedHoldersResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetIncreasedHoldersResult" type="tns:SecurityHolders" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTopHolders">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="1" maxOccurs="1" name="TopType" type="tns:TopTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTopHoldersResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTopHoldersResult" type="tns:SecurityHolders" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ArrayOfFund" nillable="true" type="tns:ArrayOfFund" />      <s:element name="FundHoldings" nillable="true" type="tns:FundHoldings" />      <s:element name="SecurityHolders" nillable="true" type="tns:SecurityHolders" />    </s:schema>  </wsdl:types>  <wsdl:message name="LookupFundSoapIn">    <wsdl:part name="parameters" element="tns:LookupFund" />  </wsdl:message>  <wsdl:message name="LookupFundSoapOut">    <wsdl:part name="parameters" element="tns:LookupFundResponse" />  </wsdl:message>  <wsdl:message name="LookupFundHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="ListFundsSoapIn">    <wsdl:part name="parameters" element="tns:ListFunds" />  </wsdl:message>  <wsdl:message name="ListFundsSoapOut">    <wsdl:part name="parameters" element="tns:ListFundsResponse" />  </wsdl:message>  <wsdl:message name="ListFundsHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetLatestHoldingsSoapIn">    <wsdl:part name="parameters" element="tns:GetLatestHoldings" />  </wsdl:message>  <wsdl:message name="GetLatestHoldingsSoapOut">    <wsdl:part name="parameters" element="tns:GetLatestHoldingsResponse" />  </wsdl:message>  <wsdl:message name="GetLatestHoldingsHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetIncreasedHoldingsSoapIn">    <wsdl:part name="parameters" element="tns:GetIncreasedHoldings" />  </wsdl:message>  <wsdl:message name="GetIncreasedHoldingsSoapOut">    <wsdl:part name="parameters" element="tns:GetIncreasedHoldingsResponse" />  </wsdl:message>  <wsdl:message name="GetIncreasedHoldingsHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetTopHoldingsSoapIn">    <wsdl:part name="parameters" element="tns:GetTopHoldings" />  </wsdl:message>  <wsdl:message name="GetTopHoldingsSoapOut">    <wsdl:part name="parameters" element="tns:GetTopHoldingsResponse" />  </wsdl:message>  <wsdl:message name="GetTopHoldingsHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetLatestHoldersSoapIn">    <wsdl:part name="parameters" element="tns:GetLatestHolders" />  </wsdl:message>  <wsdl:message name="GetLatestHoldersSoapOut">    <wsdl:part name="parameters" element="tns:GetLatestHoldersResponse" />  </wsdl:message>  <wsdl:message name="GetLatestHoldersHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetIncreasedHoldersSoapIn">    <wsdl:part name="parameters" element="tns:GetIncreasedHolders" />  </wsdl:message>  <wsdl:message name="GetIncreasedHoldersSoapOut">    <wsdl:part name="parameters" element="tns:GetIncreasedHoldersResponse" />  </wsdl:message>  <wsdl:message name="GetIncreasedHoldersHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetTopHoldersSoapIn">    <wsdl:part name="parameters" element="tns:GetTopHolders" />  </wsdl:message>  <wsdl:message name="GetTopHoldersSoapOut">    <wsdl:part name="parameters" element="tns:GetTopHoldersResponse" />  </wsdl:message>  <wsdl:message name="GetTopHoldersHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="LookupFundHttpGetIn">    <wsdl:part name="Name" type="s:string" />  </wsdl:message>  <wsdl:message name="LookupFundHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfFund" />  </wsdl:message>  <wsdl:message name="ListFundsHttpGetIn">    <wsdl:part name="StartSymbol" type="s:string" />    <wsdl:part name="EndSymbol" type="s:string" />  </wsdl:message>  <wsdl:message name="ListFundsHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfFund" />  </wsdl:message>  <wsdl:message name="GetLatestHoldingsHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="GetLatestHoldingsHttpGetOut">    <wsdl:part name="Body" element="tns:FundHoldings" />  </wsdl:message>  <wsdl:message name="GetIncreasedHoldingsHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="GetIncreasedHoldingsHttpGetOut">    <wsdl:part name="Body" element="tns:FundHoldings" />  </wsdl:message>  <wsdl:message name="GetTopHoldingsHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="TopType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTopHoldingsHttpGetOut">    <wsdl:part name="Body" element="tns:FundHoldings" />  </wsdl:message>  <wsdl:message name="GetLatestHoldersHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="GetLatestHoldersHttpGetOut">    <wsdl:part name="Body" element="tns:SecurityHolders" />  </wsdl:message>  <wsdl:message name="GetIncreasedHoldersHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="GetIncreasedHoldersHttpGetOut">    <wsdl:part name="Body" element="tns:SecurityHolders" />  </wsdl:message>  <wsdl:message name="GetTopHoldersHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="TopType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTopHoldersHttpGetOut">    <wsdl:part name="Body" element="tns:SecurityHolders" />  </wsdl:message>  <wsdl:message name="LookupFundHttpPostIn">    <wsdl:part name="Name" type="s:string" />  </wsdl:message>  <wsdl:message name="LookupFundHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfFund" />  </wsdl:message>  <wsdl:message name="ListFundsHttpPostIn">    <wsdl:part name="StartSymbol" type="s:string" />    <wsdl:part name="EndSymbol" type="s:string" />  </wsdl:message>  <wsdl:message name="ListFundsHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfFund" />  </wsdl:message>  <wsdl:message name="GetLatestHoldingsHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="GetLatestHoldingsHttpPostOut">    <wsdl:part name="Body" element="tns:FundHoldings" />  </wsdl:message>  <wsdl:message name="GetIncreasedHoldingsHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="GetIncreasedHoldingsHttpPostOut">    <wsdl:part name="Body" element="tns:FundHoldings" />  </wsdl:message>  <wsdl:message name="GetTopHoldingsHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="TopType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTopHoldingsHttpPostOut">    <wsdl:part name="Body" element="tns:FundHoldings" />  </wsdl:message>  <wsdl:message name="GetLatestHoldersHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="GetLatestHoldersHttpPostOut">    <wsdl:part name="Body" element="tns:SecurityHolders" />  </wsdl:message>  <wsdl:message name="GetIncreasedHoldersHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="GetIncreasedHoldersHttpPostOut">    <wsdl:part name="Body" element="tns:SecurityHolders" />  </wsdl:message>  <wsdl:message name="GetTopHoldersHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="TopType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTopHoldersHttpPostOut">    <wsdl:part name="Body" element="tns:SecurityHolders" />  </wsdl:message>  <wsdl:portType name="XigniteFundHoldingsSoap">    <wsdl:operation name="LookupFund">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lookup a fund by name.</wsdl:documentation>      <wsdl:input message="tns:LookupFundSoapIn" />      <wsdl:output message="tns:LookupFundSoapOut" />    </wsdl:operation>    <wsdl:operation name="ListFunds">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lists all funds by symbol.</wsdl:documentation>      <wsdl:input message="tns:ListFundsSoapIn" />      <wsdl:output message="tns:ListFundsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestHoldings">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest holding information for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetLatestHoldingsSoapIn" />      <wsdl:output message="tns:GetLatestHoldingsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetIncreasedHoldings">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns holdings by order of increasing position.</wsdl:documentation>      <wsdl:input message="tns:GetIncreasedHoldingsSoapIn" />      <wsdl:output message="tns:GetIncreasedHoldingsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetTopHoldings">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest top holding information for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetTopHoldingsSoapIn" />      <wsdl:output message="tns:GetTopHoldingsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestHolders">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest holder information for a security.</wsdl:documentation>      <wsdl:input message="tns:GetLatestHoldersSoapIn" />      <wsdl:output message="tns:GetLatestHoldersSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetIncreasedHolders">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns holders by order of increasing position.</wsdl:documentation>      <wsdl:input message="tns:GetIncreasedHoldersSoapIn" />      <wsdl:output message="tns:GetIncreasedHoldersSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetTopHolders">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest top holder information for a security.</wsdl:documentation>      <wsdl:input message="tns:GetTopHoldersSoapIn" />      <wsdl:output message="tns:GetTopHoldersSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteFundHoldingsHttpGet">    <wsdl:operation name="LookupFund">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lookup a fund by name.</wsdl:documentation>      <wsdl:input message="tns:LookupFundHttpGetIn" />      <wsdl:output message="tns:LookupFundHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ListFunds">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lists all funds by symbol.</wsdl:documentation>      <wsdl:input message="tns:ListFundsHttpGetIn" />      <wsdl:output message="tns:ListFundsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestHoldings">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest holding information for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetLatestHoldingsHttpGetIn" />      <wsdl:output message="tns:GetLatestHoldingsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetIncreasedHoldings">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns holdings by order of increasing position.</wsdl:documentation>      <wsdl:input message="tns:GetIncreasedHoldingsHttpGetIn" />      <wsdl:output message="tns:GetIncreasedHoldingsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetTopHoldings">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest top holding information for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetTopHoldingsHttpGetIn" />      <wsdl:output message="tns:GetTopHoldingsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestHolders">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest holder information for a security.</wsdl:documentation>      <wsdl:input message="tns:GetLatestHoldersHttpGetIn" />      <wsdl:output message="tns:GetLatestHoldersHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetIncreasedHolders">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns holders by order of increasing position.</wsdl:documentation>      <wsdl:input message="tns:GetIncreasedHoldersHttpGetIn" />      <wsdl:output message="tns:GetIncreasedHoldersHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetTopHolders">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest top holder information for a security.</wsdl:documentation>      <wsdl:input message="tns:GetTopHoldersHttpGetIn" />      <wsdl:output message="tns:GetTopHoldersHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteFundHoldingsHttpPost">    <wsdl:operation name="LookupFund">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lookup a fund by name.</wsdl:documentation>      <wsdl:input message="tns:LookupFundHttpPostIn" />      <wsdl:output message="tns:LookupFundHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ListFunds">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lists all funds by symbol.</wsdl:documentation>      <wsdl:input message="tns:ListFundsHttpPostIn" />      <wsdl:output message="tns:ListFundsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestHoldings">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest holding information for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetLatestHoldingsHttpPostIn" />      <wsdl:output message="tns:GetLatestHoldingsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetIncreasedHoldings">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns holdings by order of increasing position.</wsdl:documentation>      <wsdl:input message="tns:GetIncreasedHoldingsHttpPostIn" />      <wsdl:output message="tns:GetIncreasedHoldingsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetTopHoldings">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest top holding information for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetTopHoldingsHttpPostIn" />      <wsdl:output message="tns:GetTopHoldingsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestHolders">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest holder information for a security.</wsdl:documentation>      <wsdl:input message="tns:GetLatestHoldersHttpPostIn" />      <wsdl:output message="tns:GetLatestHoldersHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetIncreasedHolders">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns holders by order of increasing position.</wsdl:documentation>      <wsdl:input message="tns:GetIncreasedHoldersHttpPostIn" />      <wsdl:output message="tns:GetIncreasedHoldersHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetTopHolders">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest top holder information for a security.</wsdl:documentation>      <wsdl:input message="tns:GetTopHoldersHttpPostIn" />      <wsdl:output message="tns:GetTopHoldersHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="XigniteFundHoldingsSoap" type="tns:XigniteFundHoldingsSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="LookupFund">      <soap:operation soapAction="http://www.xignite.com/services/LookupFund" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LookupFundHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListFunds">      <soap:operation soapAction="http://www.xignite.com/services/ListFunds" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:ListFundsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestHoldings">      <soap:operation soapAction="http://www.xignite.com/services/GetLatestHoldings" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetLatestHoldingsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIncreasedHoldings">      <soap:operation soapAction="http://www.xignite.com/services/GetIncreasedHoldings" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetIncreasedHoldingsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopHoldings">      <soap:operation soapAction="http://www.xignite.com/services/GetTopHoldings" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetTopHoldingsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestHolders">      <soap:operation soapAction="http://www.xignite.com/services/GetLatestHolders" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetLatestHoldersHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIncreasedHolders">      <soap:operation soapAction="http://www.xignite.com/services/GetIncreasedHolders" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetIncreasedHoldersHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopHolders">      <soap:operation soapAction="http://www.xignite.com/services/GetTopHolders" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetTopHoldersHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteFundHoldingsSoap12" type="tns:XigniteFundHoldingsSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="LookupFund">      <soap12:operation soapAction="http://www.xignite.com/services/LookupFund" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:LookupFundHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListFunds">      <soap12:operation soapAction="http://www.xignite.com/services/ListFunds" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:ListFundsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestHoldings">      <soap12:operation soapAction="http://www.xignite.com/services/GetLatestHoldings" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetLatestHoldingsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIncreasedHoldings">      <soap12:operation soapAction="http://www.xignite.com/services/GetIncreasedHoldings" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetIncreasedHoldingsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopHoldings">      <soap12:operation soapAction="http://www.xignite.com/services/GetTopHoldings" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetTopHoldingsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestHolders">      <soap12:operation soapAction="http://www.xignite.com/services/GetLatestHolders" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetLatestHoldersHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIncreasedHolders">      <soap12:operation soapAction="http://www.xignite.com/services/GetIncreasedHolders" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetIncreasedHoldersHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopHolders">      <soap12:operation soapAction="http://www.xignite.com/services/GetTopHolders" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetTopHoldersHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteFundHoldingsHttpGet" type="tns:XigniteFundHoldingsHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="LookupFund">      <http:operation location="/LookupFund" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListFunds">      <http:operation location="/ListFunds" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestHoldings">      <http:operation location="/GetLatestHoldings" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIncreasedHoldings">      <http:operation location="/GetIncreasedHoldings" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopHoldings">      <http:operation location="/GetTopHoldings" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestHolders">      <http:operation location="/GetLatestHolders" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIncreasedHolders">      <http:operation location="/GetIncreasedHolders" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopHolders">      <http:operation location="/GetTopHolders" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteFundHoldingsHttpPost" type="tns:XigniteFundHoldingsHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="LookupFund">      <http:operation location="/LookupFund" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListFunds">      <http:operation location="/ListFunds" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestHoldings">      <http:operation location="/GetLatestHoldings" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIncreasedHoldings">      <http:operation location="/GetIncreasedHoldings" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopHoldings">      <http:operation location="/GetTopHoldings" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestHolders">      <http:operation location="/GetLatestHolders" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIncreasedHolders">      <http:operation location="/GetIncreasedHolders" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopHolders">      <http:operation location="/GetTopHolders" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="XigniteFundHoldings">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">this web service provides information about mutual funds holdings.</wsdl:documentation>    <wsdl:port name="XigniteFundHoldingsSoap" binding="tns:XigniteFundHoldingsSoap">      <soap:address location="http://www.xignite.com/xFundHoldings.asmx" />    </wsdl:port>    <wsdl:port name="XigniteFundHoldingsSoap12" binding="tns:XigniteFundHoldingsSoap12">      <soap12:address location="http://www.xignite.com/xFundHoldings.asmx" />    </wsdl:port>    <wsdl:port name="XigniteFundHoldingsHttpGet" binding="tns:XigniteFundHoldingsHttpGet">      <http:address location="http://www.xignite.com/xFundHoldings.asmx" />    </wsdl:port>    <wsdl:port name="XigniteFundHoldingsHttpPost" binding="tns:XigniteFundHoldingsHttpPost">      <http:address location="http://www.xignite.com/xFundHoldings.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">this web service provides information about mutual funds holdings.
+	</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">
+			<s:element name="LookupFund">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="LookupFundResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="LookupFundResult" type="tns:ArrayOfFund" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfFund">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Fund" nillable="true" type="tns:Fund" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Fund">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />
+							<s:element minOccurs="0" maxOccurs="1" name="AsOfDate" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="Common">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="OutcomeTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Success" />
+					<s:enumeration value="SystemError" />
+					<s:enumeration value="RequestError" />
+					<s:enumeration value="RegistrationError" />
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="Security">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="CIK" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Cusip" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ISIN" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Valoren" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Market" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="CategoryOrIndustry" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="Header" type="tns:Header" />
+			<s:complexType name="Header">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />
+				</s:sequence>
+				<s:anyAttribute />
+			</s:complexType>
+			<s:element name="ListFunds">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="StartSymbol" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndSymbol" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ListFundsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ListFundsResult" type="tns:ArrayOfFund" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestHoldings">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="IdentifierTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Symbol" />
+					<s:enumeration value="CIK" />
+					<s:enumeration value="CUSIP" />
+					<s:enumeration value="ISIN" />
+					<s:enumeration value="Valoren" />
+					<s:enumeration value="SEDOL" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetLatestHoldingsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetLatestHoldingsResult" type="tns:FundHoldings" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="FundHoldings">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Fund" type="tns:Fund" />
+							<s:element minOccurs="0" maxOccurs="1" name="Filing" type="tns:ShortFiling" />
+							<s:element minOccurs="0" maxOccurs="1" name="Holdings" type="tns:ArrayOfHolding" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="ShortFiling">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="CIK" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="Amendment" type="s:boolean" />
+							<s:element minOccurs="0" maxOccurs="1" name="TextFileUrl" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="HtmlFileUrl" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="AlternateHtmlFileUrl" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="FilingId" type="s:int" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="ArrayOfHolding">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Holding" nillable="true" type="tns:Holding" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Holding">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />
+					<s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="Shares" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="Change" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="PercentOfFund" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="YTDReturn" type="s:double" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetIncreasedHoldings">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIncreasedHoldingsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetIncreasedHoldingsResult" type="tns:FundHoldings" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTopHoldings">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="TopType" type="tns:TopTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="TopTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Top5" />
+					<s:enumeration value="Top10" />
+					<s:enumeration value="Top20" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetTopHoldingsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTopHoldingsResult" type="tns:FundHoldings" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestHolders">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestHoldersResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetLatestHoldersResult" type="tns:SecurityHolders" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="SecurityHolders">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />
+							<s:element minOccurs="0" maxOccurs="1" name="Holders" type="tns:ArrayOfHolder" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="ArrayOfHolder">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Holder" nillable="true" type="tns:Holder" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Holder">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Fund" type="tns:Fund" />
+					<s:element minOccurs="0" maxOccurs="1" name="AsOfDate" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="Shares" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="Change" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="PercentofShares" type="s:double" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetIncreasedHolders">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIncreasedHoldersResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetIncreasedHoldersResult" type="tns:SecurityHolders" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTopHolders">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="TopType" type="tns:TopTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTopHoldersResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTopHoldersResult" type="tns:SecurityHolders" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ArrayOfFund" nillable="true" type="tns:ArrayOfFund" />
+			<s:element name="FundHoldings" nillable="true" type="tns:FundHoldings" />
+			<s:element name="SecurityHolders" nillable="true" type="tns:SecurityHolders" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="LookupFundSoapIn">
+		<wsdl:part name="parameters" element="tns:LookupFund" />
+	</wsdl:message>
+	<wsdl:message name="LookupFundSoapOut">
+		<wsdl:part name="parameters" element="tns:LookupFundResponse" />
+	</wsdl:message>
+	<wsdl:message name="LookupFundHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="ListFundsSoapIn">
+		<wsdl:part name="parameters" element="tns:ListFunds" />
+	</wsdl:message>
+	<wsdl:message name="ListFundsSoapOut">
+		<wsdl:part name="parameters" element="tns:ListFundsResponse" />
+	</wsdl:message>
+	<wsdl:message name="ListFundsHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestHoldingsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetLatestHoldings" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestHoldingsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetLatestHoldingsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestHoldingsHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetIncreasedHoldingsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetIncreasedHoldings" />
+	</wsdl:message>
+	<wsdl:message name="GetIncreasedHoldingsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetIncreasedHoldingsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetIncreasedHoldingsHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetTopHoldingsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetTopHoldings" />
+	</wsdl:message>
+	<wsdl:message name="GetTopHoldingsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetTopHoldingsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTopHoldingsHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestHoldersSoapIn">
+		<wsdl:part name="parameters" element="tns:GetLatestHolders" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestHoldersSoapOut">
+		<wsdl:part name="parameters" element="tns:GetLatestHoldersResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestHoldersHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetIncreasedHoldersSoapIn">
+		<wsdl:part name="parameters" element="tns:GetIncreasedHolders" />
+	</wsdl:message>
+	<wsdl:message name="GetIncreasedHoldersSoapOut">
+		<wsdl:part name="parameters" element="tns:GetIncreasedHoldersResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetIncreasedHoldersHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetTopHoldersSoapIn">
+		<wsdl:part name="parameters" element="tns:GetTopHolders" />
+	</wsdl:message>
+	<wsdl:message name="GetTopHoldersSoapOut">
+		<wsdl:part name="parameters" element="tns:GetTopHoldersResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTopHoldersHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="LookupFundHttpGetIn">
+		<wsdl:part name="Name" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="LookupFundHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfFund" />
+	</wsdl:message>
+	<wsdl:message name="ListFundsHttpGetIn">
+		<wsdl:part name="StartSymbol" type="s:string" />
+		<wsdl:part name="EndSymbol" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ListFundsHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfFund" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestHoldingsHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestHoldingsHttpGetOut">
+		<wsdl:part name="Body" element="tns:FundHoldings" />
+	</wsdl:message>
+	<wsdl:message name="GetIncreasedHoldingsHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetIncreasedHoldingsHttpGetOut">
+		<wsdl:part name="Body" element="tns:FundHoldings" />
+	</wsdl:message>
+	<wsdl:message name="GetTopHoldingsHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="TopType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTopHoldingsHttpGetOut">
+		<wsdl:part name="Body" element="tns:FundHoldings" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestHoldersHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestHoldersHttpGetOut">
+		<wsdl:part name="Body" element="tns:SecurityHolders" />
+	</wsdl:message>
+	<wsdl:message name="GetIncreasedHoldersHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetIncreasedHoldersHttpGetOut">
+		<wsdl:part name="Body" element="tns:SecurityHolders" />
+	</wsdl:message>
+	<wsdl:message name="GetTopHoldersHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="TopType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTopHoldersHttpGetOut">
+		<wsdl:part name="Body" element="tns:SecurityHolders" />
+	</wsdl:message>
+	<wsdl:message name="LookupFundHttpPostIn">
+		<wsdl:part name="Name" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="LookupFundHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfFund" />
+	</wsdl:message>
+	<wsdl:message name="ListFundsHttpPostIn">
+		<wsdl:part name="StartSymbol" type="s:string" />
+		<wsdl:part name="EndSymbol" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ListFundsHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfFund" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestHoldingsHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestHoldingsHttpPostOut">
+		<wsdl:part name="Body" element="tns:FundHoldings" />
+	</wsdl:message>
+	<wsdl:message name="GetIncreasedHoldingsHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetIncreasedHoldingsHttpPostOut">
+		<wsdl:part name="Body" element="tns:FundHoldings" />
+	</wsdl:message>
+	<wsdl:message name="GetTopHoldingsHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="TopType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTopHoldingsHttpPostOut">
+		<wsdl:part name="Body" element="tns:FundHoldings" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestHoldersHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestHoldersHttpPostOut">
+		<wsdl:part name="Body" element="tns:SecurityHolders" />
+	</wsdl:message>
+	<wsdl:message name="GetIncreasedHoldersHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetIncreasedHoldersHttpPostOut">
+		<wsdl:part name="Body" element="tns:SecurityHolders" />
+	</wsdl:message>
+	<wsdl:message name="GetTopHoldersHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="TopType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTopHoldersHttpPostOut">
+		<wsdl:part name="Body" element="tns:SecurityHolders" />
+	</wsdl:message>
+	<wsdl:portType name="XigniteFundHoldingsSoap">
+		<wsdl:operation name="LookupFund">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lookup a fund by name.</wsdl:documentation>
+			<wsdl:input message="tns:LookupFundSoapIn" />
+			<wsdl:output message="tns:LookupFundSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ListFunds">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lists all funds by symbol.</wsdl:documentation>
+			<wsdl:input message="tns:ListFundsSoapIn" />
+			<wsdl:output message="tns:ListFundsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestHoldings">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest holding information for a fund.</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestHoldingsSoapIn" />
+			<wsdl:output message="tns:GetLatestHoldingsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetIncreasedHoldings">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns holdings by order of increasing position.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetIncreasedHoldingsSoapIn" />
+			<wsdl:output message="tns:GetIncreasedHoldingsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTopHoldings">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest top holding information for a fund.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetTopHoldingsSoapIn" />
+			<wsdl:output message="tns:GetTopHoldingsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestHolders">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest holder information for a security.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestHoldersSoapIn" />
+			<wsdl:output message="tns:GetLatestHoldersSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetIncreasedHolders">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns holders by order of increasing position.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetIncreasedHoldersSoapIn" />
+			<wsdl:output message="tns:GetIncreasedHoldersSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTopHolders">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest top holder information for a security.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetTopHoldersSoapIn" />
+			<wsdl:output message="tns:GetTopHoldersSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteFundHoldingsHttpGet">
+		<wsdl:operation name="LookupFund">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lookup a fund by name.</wsdl:documentation>
+			<wsdl:input message="tns:LookupFundHttpGetIn" />
+			<wsdl:output message="tns:LookupFundHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ListFunds">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lists all funds by symbol.</wsdl:documentation>
+			<wsdl:input message="tns:ListFundsHttpGetIn" />
+			<wsdl:output message="tns:ListFundsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestHoldings">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest holding information for a fund.</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestHoldingsHttpGetIn" />
+			<wsdl:output message="tns:GetLatestHoldingsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetIncreasedHoldings">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns holdings by order of increasing position.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetIncreasedHoldingsHttpGetIn" />
+			<wsdl:output message="tns:GetIncreasedHoldingsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTopHoldings">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest top holding information for a fund.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetTopHoldingsHttpGetIn" />
+			<wsdl:output message="tns:GetTopHoldingsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestHolders">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest holder information for a security.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestHoldersHttpGetIn" />
+			<wsdl:output message="tns:GetLatestHoldersHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetIncreasedHolders">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns holders by order of increasing position.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetIncreasedHoldersHttpGetIn" />
+			<wsdl:output message="tns:GetIncreasedHoldersHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTopHolders">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest top holder information for a security.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetTopHoldersHttpGetIn" />
+			<wsdl:output message="tns:GetTopHoldersHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteFundHoldingsHttpPost">
+		<wsdl:operation name="LookupFund">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lookup a fund by name.</wsdl:documentation>
+			<wsdl:input message="tns:LookupFundHttpPostIn" />
+			<wsdl:output message="tns:LookupFundHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ListFunds">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lists all funds by symbol.</wsdl:documentation>
+			<wsdl:input message="tns:ListFundsHttpPostIn" />
+			<wsdl:output message="tns:ListFundsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestHoldings">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest holding information for a fund.</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestHoldingsHttpPostIn" />
+			<wsdl:output message="tns:GetLatestHoldingsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetIncreasedHoldings">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns holdings by order of increasing position.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetIncreasedHoldingsHttpPostIn" />
+			<wsdl:output message="tns:GetIncreasedHoldingsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTopHoldings">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest top holding information for a fund.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetTopHoldingsHttpPostIn" />
+			<wsdl:output message="tns:GetTopHoldingsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestHolders">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest holder information for a security.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestHoldersHttpPostIn" />
+			<wsdl:output message="tns:GetLatestHoldersHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetIncreasedHolders">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns holders by order of increasing position.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetIncreasedHoldersHttpPostIn" />
+			<wsdl:output message="tns:GetIncreasedHoldersHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTopHolders">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns latest top holder information for a security.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetTopHoldersHttpPostIn" />
+			<wsdl:output message="tns:GetTopHoldersHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="XigniteFundHoldingsSoap" type="tns:XigniteFundHoldingsSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="LookupFund">
+			<soap:operation soapAction="http://www.xignite.com/services/LookupFund" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LookupFundHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListFunds">
+			<soap:operation soapAction="http://www.xignite.com/services/ListFunds" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:ListFundsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestHoldings">
+			<soap:operation soapAction="http://www.xignite.com/services/GetLatestHoldings" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetLatestHoldingsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIncreasedHoldings">
+			<soap:operation soapAction="http://www.xignite.com/services/GetIncreasedHoldings" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetIncreasedHoldingsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopHoldings">
+			<soap:operation soapAction="http://www.xignite.com/services/GetTopHoldings" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetTopHoldingsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestHolders">
+			<soap:operation soapAction="http://www.xignite.com/services/GetLatestHolders" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetLatestHoldersHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIncreasedHolders">
+			<soap:operation soapAction="http://www.xignite.com/services/GetIncreasedHolders" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetIncreasedHoldersHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopHolders">
+			<soap:operation soapAction="http://www.xignite.com/services/GetTopHolders" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetTopHoldersHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteFundHoldingsSoap12" type="tns:XigniteFundHoldingsSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="LookupFund">
+			<soap12:operation soapAction="http://www.xignite.com/services/LookupFund" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:LookupFundHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListFunds">
+			<soap12:operation soapAction="http://www.xignite.com/services/ListFunds" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:ListFundsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestHoldings">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetLatestHoldings" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetLatestHoldingsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIncreasedHoldings">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetIncreasedHoldings" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetIncreasedHoldingsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopHoldings">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetTopHoldings" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetTopHoldingsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestHolders">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetLatestHolders" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetLatestHoldersHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIncreasedHolders">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetIncreasedHolders" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetIncreasedHoldersHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopHolders">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetTopHolders" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetTopHoldersHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteFundHoldingsHttpGet" type="tns:XigniteFundHoldingsHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="LookupFund">
+			<http:operation location="/LookupFund" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListFunds">
+			<http:operation location="/ListFunds" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestHoldings">
+			<http:operation location="/GetLatestHoldings" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIncreasedHoldings">
+			<http:operation location="/GetIncreasedHoldings" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopHoldings">
+			<http:operation location="/GetTopHoldings" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestHolders">
+			<http:operation location="/GetLatestHolders" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIncreasedHolders">
+			<http:operation location="/GetIncreasedHolders" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopHolders">
+			<http:operation location="/GetTopHolders" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteFundHoldingsHttpPost" type="tns:XigniteFundHoldingsHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="LookupFund">
+			<http:operation location="/LookupFund" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListFunds">
+			<http:operation location="/ListFunds" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestHoldings">
+			<http:operation location="/GetLatestHoldings" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIncreasedHoldings">
+			<http:operation location="/GetIncreasedHoldings" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopHoldings">
+			<http:operation location="/GetTopHoldings" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestHolders">
+			<http:operation location="/GetLatestHolders" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIncreasedHolders">
+			<http:operation location="/GetIncreasedHolders" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopHolders">
+			<http:operation location="/GetTopHolders" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="XigniteFundHoldings">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">this web service provides information about mutual funds holdings.
+		</wsdl:documentation>
+		<wsdl:port name="XigniteFundHoldingsSoap" binding="tns:XigniteFundHoldingsSoap">
+			<soap:address location="http://www.xignite.com/xFundHoldings.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteFundHoldingsSoap12" binding="tns:XigniteFundHoldingsSoap12">
+			<soap12:address location="http://www.xignite.com/xFundHoldings.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteFundHoldingsHttpGet" binding="tns:XigniteFundHoldingsHttpGet">
+			<http:address location="http://www.xignite.com/xFundHoldings.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteFundHoldingsHttpPost" binding="tns:XigniteFundHoldingsHttpPost">
+			<http:address location="http://www.xignite.com/xFundHoldings.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

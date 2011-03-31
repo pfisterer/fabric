@@ -1,1 +1,182 @@
-<!---Calcolo del Codice Fiscale in ColdFusionMarkupLanguageData Realizzazione 28 Giugno 2001Convertito in ColdFusionComponent il 17 Agosto 2002------------------------------------------------------Realizzato da: Pinelli Gianluca - g.pinelli@speedlab.it------------------------------------------------------Special Guest: Silvano Esposito - mago delle espressioni regolari e mio continuo confrontoPippo (Giuseppe Amato) - Javascript e supporto programmazione------------------------------------------------------Grazie a Sergio Palumbo per la sua esaustiva guida---><cfcomponent displayName="CodiceFiscale">	<cffunction name="makecod" access="remote" returnType="string" output="true">		<cfargument name="cognome" displayName="*** Cognome della persona a cui si vuole calcolare il CF ***" type="string" required="true">		<cfargument name="nome" displayName="*** Nome della persona a cui si vuole calcolare il CF ***" type="string" required="true">		<cfargument name="sesso" displayName="*** Sesso in formato M (maschio), F (femmina) ***" type="string" required="true">		<cfargument name="provincia" displayName="*** Codice Provincia di nascita (es. NA per la provincia di Napoli) ***" type="string" required="true">		<cfargument name="comune" displayName="*** Nome completo Comune di nascita (es. Napoli) ***" type="string" required="true">		<cfargument name="nascita" displayName="*** Data di nascita con formato anno/mese/giorno (es. 1972/02/18) ***" type="string" required="true"><cfset annox = #Mid(nascita, 1, 4)#><cfset mesex = #Mid(nascita, 6, 2)#><cfset giornox = #Mid(nascita, 9, 2)#><!--- Override di nascita ---><cfset nascita = #CreateDateTime(#annox#, #mesex#, #giornox#, 00, 00, 00)#><!--- ***************** C O G N O M E ***************** ---><cfset sur_name = REreplace(cognome, " |'", "", "ALL")><cfset surname = 0><cfset cognome = ""><cfloop index="x" from="1" to="#LEN(sur_name)#">	<cfset test = #Mid(sur_name, x, 1)#>	<cfif #ReFind("[a|e|i|o|u|A|E|I|O|U|è|é|à|ò|ù|ì]", test)#>		 <cfset surname = surname + 1>	</cfif></cfloop><cfset consonanti = #LEN(sur_name)# - #surname#><cfif #LEN(sur_name)# GTE 3><!--- PRIMO CASO "Il cognome presenta tre o più consonanti ---><cfif consonanti GTE 3> <cfloop index="x" from="1" to="#LEN(sur_name)#">		<cfset test = #Mid(sur_name, x, 1)#>		<cfif #ReFind("[a|e|i|o|u|A|E|I|O|U|è|é|à|ò|ù|ì]", test)# EQ 0>		 <cfset cognome = '#cognome#'&'#Mid(sur_name, x, 1)#'>		 <cfif Len(cognome) EQ 3>		  <cfbreak>		 </cfif>		</cfif>	</cfloop></cfif><!--- Secondo Caso il cognome presenta solo due consonanti ---><cfif consonanti LT 3> <cfloop index="x" from="1" to="#LEN(sur_name)#">		<cfset test = #Mid(sur_name, x, 1)#>		<cfif #ReFind("[a|e|i|o|u|A|E|I|O|U|è|é|à|ò|ù|ì]", test)# EQ 0>		 <cfset cognome = '#cognome#'&'#Mid(sur_name, x, 1)#'>		 <cfif Len(cognome) EQ 3>		  <cfbreak>		 </cfif>		</cfif>	</cfloop>	<cfloop index="x" from="1" to="#LEN(sur_name)#">		<cfset test = #Mid(sur_name, x, 1)#>		<cfif #ReFind("[a|e|i|o|u|A|E|I|O|U|è|é|à|ò|ù|ì]", test)# EQ 1>		 <cfset cognome = '#cognome#'&'#Mid(sur_name, x, 1)#'>		 <cfif Len(cognome) EQ 3>		  <cfbreak>		 </cfif>		</cfif>	</cfloop></cfif><cfelse>	<cfloop index="x" from="1" to="#LEN(sur_name)#">		<cfset test = #Mid(sur_name, x, 1)#>		<cfif #ReFind("[a|e|i|o|u|A|E|I|O|U|è|é|à|ò|ù|ì]", test)# EQ 0>		 <cfset cognome = '#cognome#'&'#Mid(sur_name, x, 1)#'>		 <cfif Len(cognome) EQ 3>		  <cfbreak>		 </cfif>		</cfif>	</cfloop>	<cfloop index="x" from="1" to="#LEN(sur_name)#">		<cfset test = #Mid(sur_name, x, 1)#>		<cfif #ReFind("[a|e|i|o|u|A|E|I|O|U|è|é|à|ò|ù|ì]", test)# EQ 1>		 <cfset cognome = '#cognome#'&'#Mid(sur_name, x, 1)#'>		 <cfif Len(cognome) EQ 3>		  <cfbreak>		 </cfif>		</cfif>	</cfloop>	 <cfif Len(cognome) LT 3>	  <cfloop index="x" from="1" to="3">	   <cfset cognome = '#cognome#'&'X'>	   	<cfif Len(cognome) EQ 3>		  <cfbreak>		 </cfif>	  </cfloop>	 	 </cfif></cfif><!--- ***************** FINE COGNOME ******************** ---><!--- ***************** INIZIO N O M E ***************** ---><cfset name = #REplace(nome, " ", "", "ALL")#><cfset nome_count = 0><cfset nome = ""><cfloop index="x" from="1" to="#LEN(name)#">		<cfset test = #Mid(name, x, 1)#>		<cfif #ReFind("[a|e|i|o|u|A|E|I|O|U|è|é|à|ò|ù|ì]", test)#>		 <cfset nome_count = nome_count + 1>		</cfif>	</cfloop><cfset consonanti = #LEN(name)# - #nome_count#><!--- PRIMO CASO "Il nome presenta quattro o più consonanti --->	<cfif consonanti GTE 4>		<cfloop index="x" from="1" to="#LEN(name)#">		<cfset test = #Mid(name, x, 1)#>		<cfif #ReFind("[a|e|i|o|u|A|E|I|O|U|è|é|à|ò|ù|ì]", test)# EQ 0>		 <cfset nome = '#nome#'&'#Mid(name, x, 1)#'>		 <cfif Len(nome) EQ 4>		  <cfbreak>		 </cfif>		</cfif>	</cfloop>	<cfset nome = #RemoveChars(nome, 2, 1)#>   </cfif>       <!--- Secondo Caso il cognome presenta tre o meno consonanti --->   	<cfif consonanti LTE 3> <cfloop index="x" from="1" to="#LEN(name)#">		<cfset test = #Mid(name, x, 1)#>		<cfif #ReFind("[a|e|i|o|u|A|E|I|O|U|è|é|à|ò|ù|ì]", test)# EQ 0>		 <cfset nome = '#nome#'&'#Mid(name, x, 1)#'>		 <cfif Len(nome) EQ 3>		  <cfbreak>		 </cfif>		</cfif>	</cfloop>	<cfif Len(nome) NEQ 3>	<cfloop index="x" from="1" to="#LEN(name)#">		<cfset test = #Mid(name, x, 1)#>		<cfif #ReFind("[a|e|i|o|u|A|E|I|O|U|è|é|à|ò|ù|ì]", test)# EQ 1>		 <cfset nome = '#nome#'&'#Mid(name, x, 1)#'>		 <cfif Len(nome) EQ 3>		  <cfbreak>		 </cfif>		</cfif>	</cfloop>	</cfif>	<cfif Len(nome) LT 3>	  <cfloop index="x" from="1" to="3">	   <cfset nome = '#nome#'&'X'>	   	<cfif Len(nome) EQ 3>		  <cfbreak>		 </cfif>	  </cfloop>	 </cfif></cfif><!--- ******************* FINE NOME ******************** ---><!--- ******************** CALCOLO DEI CODICI ******************** ---><!--- Calcolo Numero corrispondente all'anno di nascita ---><cfset anno = #RemoveChars(Year(nascita), 1, 2)#><!--- ************************************************** ---><!--- Calcolo Lettera corrispondente al mese di nascita ---><cfset list_month = "A,B,C,D,E,H,L,M,P,R,S,T"><cfset mese = #ListGetAt(list_month, Month(nascita))#><!--- ************************************************** ---><!--- Calcolo Numero corrispondente al giorno di nascita ---><cfif sesso is "M">	<cfset giorno = #Day(nascita)#><cfelse>	<cfset giorno = #Day(nascita)# + 40>	</cfif><!--- ************************************************** ---><!--- ****************************************** ---><!--- * RICERCA IDENTIFICATIVO CODICE COMUNE * ---><CFQUERY NAME="codec" DATASOURCE="pinellus"> Select Codice From comuni Where Comune = '#Ucase(comune)#' AND Provincia = '#Ucase(provincia)#'</CFQUERY><cfset codice = #codec.Codice#><!--- ****************************************** ---><cfset finale = '#Ucase(cognome)#'&'#Ucase(nome)#'&'#anno#'&'#mese#'&'#giorno#'&'#codice#'><!--- *********** INIZIO CALCOLO CARATTERE DI CONTROLLO ************** ---><cfset controllo1 = 0><cfloop index="a" from="1" to="#LEN(finale)#" step="2"> <cfset test = #Mid(finale, a, 1)#> <CFQUERY NAME="disp" DATASOURCE="pinellus"> 	Select *	from dispari	where carattere IN ('#test#') </CFQUERY>  <cfset controllo1 = #controllo1# + #disp.valore#></cfloop><cfset controllo2 = 0><cfloop index="b" from="2" to="#LEN(finale)#" step="2"> <cfset test = #Mid(finale, b, 1)#> <CFQUERY NAME="pari" DATASOURCE="pinellus"> 	Select *	from pari	where carattere IN ('#test#') </CFQUERY>  <cfset controllo2 = #controllo2# + #pari.valore#></cfloop><cfset controllounito = (controllo1 + controllo2) mod 26><CFQUERY NAME="fine" DATASOURCE="pinellus"> 	Select *	from finale	where numero IN ('#controllounito#') </CFQUERY> <!--- ************ FINE CALCOLO CARATTERE DI CONTROLLO ***************** ---><cfset codicefiscale =  '#finale#'&'#fine.lettera#'>		 		<cfreturn codicefiscale>	</cffunction></cfcomponent>
+<!---Calcolo del Codice Fiscale in ColdFusionMarkupLanguageData Realizzazione 28 Giugno 2001Convertito in ColdFusionComponent 
+	il 17 Agosto 2002------------------------------------------------------Realizzato da: Pinelli Gianluca - g.pinelli@speedlab.it------------------------------------------------------Special 
+	Guest: Silvano Esposito - mago delle espressioni regolari e mio continuo confrontoPippo (Giuseppe Amato) - Javascript e supporto 
+	programmazione------------------------------------------------------Grazie a Sergio Palumbo per la sua esaustiva guida- -->
+<cfcomponent displayName="CodiceFiscale">
+	<cffunction name="makecod" access="remote" returnType="string" output="true">
+		<cfargument name="cognome" displayName="*** Cognome della persona a cui si vuole calcolare il CF ***" type="string"
+			required="true">
+			<cfargument name="nome" displayName="*** Nome della persona a cui si vuole calcolare il CF ***" type="string"
+				required="true">
+				<cfargument name="sesso" displayName="*** Sesso in formato M (maschio), F (femmina) ***" type="string"
+					required="true">
+					<cfargument name="provincia" displayName="*** Codice Provincia di nascita (es. NA per la provincia di Napoli) ***"
+						type="string" required="true">
+						<cfargument name="comune" displayName="*** Nome completo Comune di nascita (es. Napoli) ***" type="string"
+							required="true">
+							<cfargument name="nascita" displayName="*** Data di nascita con formato anno/mese/giorno (es. 1972/02/18) ***"
+								type="string" required="true">
+								<cfset annox=#Mid(nascita, 1>
+									<cfset mesex=#Mid(nascita, 6>
+										<cfset giornox=#Mid(nascita, 9><!--- Override di nascita - -->
+											<cfset nascita=#CreateDateTime(#annox#, # mesex # giornox #><!--- ***************** C O G N O M E ***************** 
+													- -->
+												<cfset sur_name=REreplace(cognome, " ALL ">
+													<cfset surname=0>
+														<cfset cognome="">
+															<cfloop index="x" from="1" to="#LEN(sur_name)#">
+																<cfset test=#Mid(sur_name, x ,>
+																	<cfif # ReFind ( a | e | i | o | u | A | E | I | O | U | test )>
+																		<cfset surname=surname +>
+																	</cfif>
+															</cfloop>
+															<cfset consonanti=#LEN(sur_name)# - surname #>
+																<cfif # LEN ( sur_name ) GTE 3><!--- PRIMO CASO "Il cognome presenta tre o piï¿½ consonanti - -->
+																	<cfif consonanti GTE 3>
+																		<cfloop index="x" from="1" to="#LEN(sur_name)#">
+																			<cfset test=#Mid(sur_name, x ,>
+																				<cfif # ReFind ( a | e | i | o | u | A | E | I | O | U | test ) EQ 0>
+																					<cfset cognome='#cognome#' & Mid ( sur_name , x ,>
+																						<cfif Len ( cognome ) EQ 3>
+																							<cfbreak>
+																						</cfif>
+																				</cfif>
+																		</cfloop>
+																	</cfif><!--- Secondo Caso il cognome presenta solo due consonanti - -->
+																	<cfif consonanti LT 3>
+																		<cfloop index="x" from="1" to="#LEN(sur_name)#">
+																			<cfset test=#Mid(sur_name, x ,>
+																				<cfif # ReFind ( a | e | i | o | u | A | E | I | O | U | test ) EQ 0>
+																					<cfset cognome='#cognome#' & Mid ( sur_name , x ,>
+																						<cfif Len ( cognome ) EQ 3>
+																							<cfbreak>
+																						</cfif>
+																				</cfif>
+																		</cfloop>
+																		<cfloop index="x" from="1" to="#LEN(sur_name)#">
+																			<cfset test=#Mid(sur_name, x ,>
+																				<cfif # ReFind ( a | e | i | o | u | A | E | I | O | U | test ) EQ 1>
+																					<cfset cognome='#cognome#' & Mid ( sur_name , x ,>
+																						<cfif Len ( cognome ) EQ 3>
+																							<cfbreak>
+																						</cfif>
+																				</cfif>
+																		</cfloop>
+																	</cfif>
+																	<cfelse>
+																		<cfloop index="x" from="1" to="#LEN(sur_name)#">
+																			<cfset test=#Mid(sur_name, x ,>
+																				<cfif # ReFind ( a | e | i | o | u | A | E | I | O | U | test ) EQ 0>
+																					<cfset cognome='#cognome#' & Mid ( sur_name , x ,>
+																						<cfif Len ( cognome ) EQ 3>
+																							<cfbreak>
+																						</cfif>
+																				</cfif>
+																		</cfloop>
+																		<cfloop index="x" from="1" to="#LEN(sur_name)#">
+																			<cfset test=#Mid(sur_name, x ,>
+																				<cfif # ReFind ( a | e | i | o | u | A | E | I | O | U | test ) EQ 1>
+																					<cfset cognome='#cognome#' & Mid ( sur_name , x ,>
+																						<cfif Len ( cognome ) EQ 3>
+																							<cfbreak>
+																						</cfif>
+																				</cfif>
+																		</cfloop>
+																		<cfif Len ( cognome ) LT 3>
+																			<cfloop index="x" from="1" to="3">
+																				<cfset cognome='#cognome#' & X '>
+																					<cfif Len ( cognome ) EQ 3>
+																						<cfbreak>
+																					</cfif>
+																			</cfloop>
+																		</cfif>
+																</cfif><!--- ***************** FINE COGNOME ******************** - --><!--- ***************** INIZIO N O M E ***************** - -->
+																<cfset name=#REplace(nome, " ALL ">
+																	<cfset nome_count=0>
+																		<cfset nome="">
+																			<cfloop index="x" from="1" to="#LEN(name)#">
+																				<cfset test=#Mid(name, x ,>
+																					<cfif # ReFind ( a | e | i | o | u | A | E | I | O | U | test )>
+																						<cfset nome_count=nome_count +>
+																					</cfif>
+																			</cfloop>
+																			<cfset consonanti=#LEN(name)# - nome_count #><!--- PRIMO CASO "Il nome presenta quattro o piï¿½ consonanti 
+																					- -->
+																				<cfif consonanti GTE 4>
+																					<cfloop index="x" from="1" to="#LEN(name)#">
+																						<cfset test=#Mid(name, x ,>
+																							<cfif # ReFind ( a | e | i | o | u | A | E | I | O | U | test ) EQ 0>
+																								<cfset nome='#nome#' & Mid ( name , x ,>
+																									<cfif Len ( nome ) EQ 4>
+																										<cfbreak>
+																									</cfif>
+																							</cfif>
+																					</cfloop>
+																					<cfset nome=#RemoveChars(nome, 2>
+																				</cfif>       <!--- Secondo Caso il cognome presenta tre o meno consonanti - -->
+																				<cfif consonanti LTE 3>
+																					<cfloop index="x" from="1" to="#LEN(name)#">
+																						<cfset test=#Mid(name, x ,>
+																							<cfif # ReFind ( a | e | i | o | u | A | E | I | O | U | test ) EQ 0>
+																								<cfset nome='#nome#' & Mid ( name , x ,>
+																									<cfif Len ( nome ) EQ 3>
+																										<cfbreak>
+																									</cfif>
+																							</cfif>
+																					</cfloop>
+																					<cfif Len ( nome ) NEQ 3>
+																						<cfloop index="x" from="1" to="#LEN(name)#">
+																							<cfset test=#Mid(name, x ,>
+																								<cfif # ReFind ( a | e | i | o | u | A | E | I | O | U | test ) EQ 1>
+																									<cfset nome='#nome#' & Mid ( name , x ,>
+																										<cfif Len ( nome ) EQ 3>
+																											<cfbreak>
+																										</cfif>
+																								</cfif>
+																						</cfloop>
+																					</cfif>
+																					<cfif Len ( nome ) LT 3>
+																						<cfloop index="x" from="1" to="3">
+																							<cfset nome='#nome#' & X '>
+																								<cfif Len ( nome ) EQ 3>
+																									<cfbreak>
+																								</cfif>
+																						</cfloop>
+																					</cfif>
+																				</cfif><!--- ******************* FINE NOME ******************** - --><!--- ******************** CALCOLO DEI CODICI ******************** - --><!--- Calcolo Numero corrispondente all'anno di nascita - -->
+																				<cfset anno=#RemoveChars(Year(nascita), 1><!--- ************************************************** 
+																						- --><!--- Calcolo Lettera corrispondente al mese di nascita 
+																						- -->
+																					<cfset list_month="A,B,C,D,E,H,L,M,P,R,S,T">
+																						<cfset mese=#ListGetAt(list_month, Month ( nascita )><!--- ************************************************** 
+																								- --><!--- Calcolo Numero corrispondente al giorno 
+																								di nascita - -->
+																							<cfif sesso is " M ">
+																								<cfset giorno=#Day(nascita)#>
+																									<cfelse>
+																										<cfset giorno=#Day(nascita)# +>
+																							</cfif><!--- ************************************************** - --><!--- ****************************************** - --><!--- * RICERCA IDENTIFICATIVO CODICE COMUNE * - -->
+																							<CFQUERY NAME="codec" DATASOURCE="pinellus"> Select Codice From comuni Where Comune =
+																								'#Ucase(comune)#' AND Provincia = '#Ucase(provincia)#'</CFQUERY>
+																							<cfset codice=#codec.Codice#><!--- ****************************************** - -->
+																								<cfset finale='#Ucase(cognome)#' & Ucase ( nome ) anno # mese # giorno # codice #><!--- *********** 
+																										INIZIO CALCOLO CARATTERE DI CONTROLLO ************** - -->
+																									<cfset controllo1=0>
+																										<cfloop index="a" from="1" to="#LEN(finale)#" step="2">
+																											<cfset test=#Mid(finale, a ,>
+																												<CFQUERY NAME="disp" DATASOURCE="pinellus"> Select * from dispari where carattere IN ('#test#') </CFQUERY>
+																												<cfset controllo1=#controllo1# + disp.valore #>
+																										</cfloop>
+																										<cfset controllo2=0>
+																											<cfloop index="b" from="2" to="#LEN(finale)#" step="2">
+																												<cfset test=#Mid(finale, b ,>
+																													<CFQUERY NAME="pari" DATASOURCE="pinellus"> Select * from pari where carattere IN ('#test#') </CFQUERY>
+																													<cfset controllo2=#controllo2# + pari.valore #>
+																											</cfloop>
+																											<cfset controllounito=(controllo1 + controllo2 ) mod 2>
+																												<CFQUERY NAME="fine" DATASOURCE="pinellus"> Select * from finale where numero IN
+																													('#controllounito#') </CFQUERY> <!--- ************ FINE CALCOLO CARATTERE DI CONTROLLO ***************** - -->
+																												<cfset codicefiscale='#finale#' & fine.lettera #>
+																													<cfreturn codicefiscale>
+	</cffunction>
+</cfcomponent>

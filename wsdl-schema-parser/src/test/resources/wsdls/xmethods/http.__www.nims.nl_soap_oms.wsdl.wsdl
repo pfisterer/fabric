@@ -1,1 +1,408 @@
-<?xml version="1.0" encoding="UTF-8"?><definitions name="Online Messenger Service" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="http://tempuri.org/" targetNamespace="http://tempuri.org/wsdl/" xmlns:wsdlns="http://tempuri.org/wsdl/" xmlns:typens="http://tempuri.org/type" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:stk="http://schemas.microsoft.com/soap-toolkit/wsdl-extension" xmlns="http://schemas.xmlsoap.org/wsdl/">	<types>		<schema targetNamespace="http://tempuri.org/type" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" elementFormDefault="qualified" attributeFormDefault="qualified">			<s:complexType name="Userlist">				<s:sequence>					<s:element minOccurs="1" maxOccurs="1" name="OnlineUsers" nillable="true" type="typens:OnlineUser"/>					<s:element minOccurs="1" maxOccurs="1" name="OfflineUsers" nillable="true" type="typens:OfflineUser"/>					<s:element minOccurs="1" maxOccurs="1" name="NewMessage" nillable="false" type="s:boolean"/>				</s:sequence>			</s:complexType>			<s:complexType name="OnlineUser">				<s:sequence>					<s:element minOccurs="0" maxOccurs="unbounded" name="OnlineUser" nillable="true" type="s:string"/>				</s:sequence>			</s:complexType>			<s:complexType name="OfflineUser">				<s:sequence>					<s:element minOccurs="0" maxOccurs="unbounded" name="OfflineUser" nillable="true" type="s:string"/>				</s:sequence>			</s:complexType>			<s:element name="Message">				<s:complexType>					<s:sequence>						<s:element minOccurs="1" maxOccurs="1" name="Sender" nillable="true" type="s:string"/>						<s:element minOccurs="1" maxOccurs="1" name="DateSent" nillable="true" type="s:string"/>						<s:element minOccurs="1" maxOccurs="1" name="Content" nillable="true" type="s:string"/>					</s:sequence>				</s:complexType>			</s:element>		</schema>	</types>	<message name="OMS_LoginIn">		<part name="username" type="xsd:string"/>		<part name="password" type="xsd:string"/>	</message>	<message name="OMS_LoginOut">		<part name="Result" type="xsd:boolean"/>	</message>	<message name="OMS_CreateUserIn">		<part name="firstname" type="xsd:string"/>		<part name="lastname" type="xsd:string"/>		<part name="email" type="xsd:string"/>		<part name="username" type="xsd:string"/>		<part name="password1" type="xsd:string"/>		<part name="password2" type="xsd:string"/>		<part name="country" type="xsd:string"/>		<part name="birthyear" type="xsd:long"/>		<part name="birthmonth" type="xsd:long"/>		<part name="birthday" type="xsd:long"/>	</message>	<message name="OMS_CreateUserOut">		<part name="Result" type="xsd:boolean"/>	</message>	<message name="OMS_EditUserIn">		<part name="username" type="xsd:string"/>		<part name="password" type="xsd:string"/>		<part name="firstname" type="xsd:string"/>		<part name="lastname" type="xsd:string"/>		<part name="email" type="xsd:string"/>		<part name="password1" type="xsd:string"/>		<part name="password2" type="xsd:string"/>		<part name="country" type="xsd:string"/>		<part name="birthyear" type="xsd:long"/>		<part name="birthmonth" type="xsd:long"/>		<part name="birthday" type="xsd:long"/>	</message>	<message name="OMS_EditUserOut">		<part name="Result" type="xsd:boolean"/>	</message>	<message name="OMS_DeleteUserIn">		<part name="username" type="xsd:string"/>		<part name="password" type="xsd:string"/>	</message>	<message name="OMS_DeleteUserOut">		<part name="Result" type="xsd:boolean"/>	</message>	<message name="OMS_GetUserListIn">		<part name="username" type="xsd:string"/>		<part name="password" type="xsd:string"/>	</message>	<message name="OMS_GetUserListOut">		<part name="Result" type="s:Userlist"/>	</message>	<message name="OMS_ReceiveMessageIn">		<part name="username" type="xsd:string"/>		<part name="password" type="xsd:string"/>	</message>	<message name="OMS_ReceiveMessageOut">		<part name="Result" type="s:Message"/>	</message>	<message name="OMS_DeleteMessageIn">		<part name="username" type="xsd:string"/>		<part name="password" type="xsd:string"/>	</message>	<message name="OMS_DeleteMessageOut">		<part name="Result" type="xsd:boolean"/>	</message>	<message name="OMS_PostMessageIn">		<part name="username" type="xsd:string"/>		<part name="password" type="xsd:string"/>		<part name="to" type="xsd:string"/>		<part name="message" type="xsd:string"/>	</message>	<message name="OMS_PostMessageOut">		<part name="Result" type="xsd:boolean"/>	</message>	<message name="OMS_AddOfflineUserIn">		<part name="username" type="xsd:string"/>		<part name="password" type="xsd:string"/>		<part name="offlineUser" type="xsd:string"/>	</message>	<message name="OMS_AddOfflineUserOut">		<part name="Result" type="xsd:boolean"/>	</message>	<message name="OMS_DeleteOfflineUserIn">		<part name="username" type="xsd:string"/>		<part name="password" type="xsd:string"/>		<part name="offlineUser" type="xsd:string"/>	</message>	<message name="OMS_DeleteOfflineUserOut">		<part name="Result" type="xsd:boolean"/>	</message>	<message name="OMS_SimpleResultOut">		<part name="Result" type="xsd:string"/>	</message>	<portType name="OnlineMessengerService">		<operation name="OMS_Login" parameterOrder="username password">			<input message="wsdlns:OMS_LoginIn"/>			<output message="wsdlns:OMS_LoginOut"/>		</operation>		<operation name="OMS_Login_simple" parameterOrder="username password">			<input message="wsdlns:OMS_LoginIn"/>			<output message="wsdlns:OMS_SimpleResultOut"/>		</operation>		<operation name="OMS_CreateUser" parameterOrder="firstname lastname email username password1 password2 country birthyear birthmonth birthday">			<input message="wsdlns:OMS_CreateUserIn"/>			<output message="wsdlns:OMS_CreateUserOut"/>		</operation>		<operation name="OMS_CreateUser_simple" parameterOrder="firstname lastname email username password1 password2 country birthyear birthmonth birthday">			<input message="wsdlns:OMS_CreateUserIn"/>			<output message="wsdlns:OMS_SimpleResultOut"/>		</operation>		<operation name="OMS_EditUser" parameterOrder="username password firstname lastname email password1 password2 country birthyear birthmonth birthday">			<input message="wsdlns:OMS_EditUserIn"/>			<output message="wsdlns:OMS_EditUserOut"/>		</operation>		<operation name="OMS_EditUser_simple" parameterOrder="username password firstname lastname email password1 password2 country birthyear birthmonth birthday">			<input message="wsdlns:OMS_EditUserIn"/>			<output message="wsdlns:OMS_SimpleResultOut"/>		</operation>		<operation name="OMS_DeleteUser" parameterOrder="username password">			<input message="wsdlns:OMS_DeleteUserIn"/>			<output message="wsdlns:OMS_DeleteUserOut"/>		</operation>		<operation name="OMS_DeleteUser_simple" parameterOrder="username password">			<input message="wsdlns:OMS_DeleteUserIn"/>			<output message="wsdlns:OMS_SimpleResultOut"/>		</operation>		<operation name="OMS_GetUserlist" parameterOrder="username password">			<input message="wsdlns:OMS_GetUserListIn"/>			<output message="wsdlns:OMS_GetUserListOut"/>		</operation>		<operation name="OMS_GetUserlist_simple" parameterOrder="username password">			<input message="wsdlns:OMS_GetUserListIn"/>			<output message="wsdlns:OMS_SimpleResultOut"/>		</operation>		<operation name="OMS_ReceiveMessage" parameterOrder="username password">			<input message="wsdlns:OMS_ReceiveMessageIn"/>			<output message="wsdlns:OMS_ReceiveMessageOut"/>		</operation>		<operation name="OMS_ReceiveMessage_simple" parameterOrder="username password">			<input message="wsdlns:OMS_ReceiveMessageIn"/>			<output message="wsdlns:OMS_SimpleResultOut"/>		</operation>		<operation name="OMS_DeleteMessage" parameterOrder="username password">			<input message="wsdlns:OMS_DeleteMessageIn"/>			<output message="wsdlns:OMS_DeleteMessageOut"/>		</operation>		<operation name="OMS_DeleteMessage_simple" parameterOrder="username password">			<input message="wsdlns:OMS_DeleteMessageIn"/>			<output message="wsdlns:OMS_SimpleResultOut"/>		</operation>		<operation name="OMS_PostMessage" parameterOrder="username password to message">			<input message="wsdlns:OMS_PostMessageIn"/>			<output message="wsdlns:OMS_PostMessageOut"/>		</operation>		<operation name="OMS_PostMessage_simple" parameterOrder="username password to message">			<input message="wsdlns:OMS_PostMessageIn"/>			<output message="wsdlns:OMS_SimpleResultOut"/>		</operation>		<operation name="OMS_AddOfflineUser" parameterOrder="username password offlineUser">			<input message="wsdlns:OMS_AddOfflineUserIn"/>			<output message="wsdlns:OMS_AddOfflineUserOut"/>		</operation>		<operation name="OMS_AddOfflineUser_simple" parameterOrder="username password offlineUser">			<input message="wsdlns:OMS_AddOfflineUserIn"/>			<output message="wsdlns:OMS_AddOfflineUserOut"/>		</operation>		<operation name="OMS_DeleteOfflineUser" parameterOrder="username password offlineUser">			<input message="wsdlns:OMS_DeleteOfflineUserIn"/>			<output message="wsdlns:OMS_DeleteOfflineUserOut"/>		</operation>		<operation name="OMS_DeleteOfflineUser_simple" parameterOrder="username password offlineUser">			<input message="wsdlns:OMS_DeleteOfflineUserIn"/>			<output message="wsdlns:OMS_DeleteOfflineUserOut"/>		</operation>	</portType>	<binding name="OnlineMessengerServiceSoap" type="wsdlns:OnlineMessengerService">		<stk:binding preferredEncoding="UTF-8"/>		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>		<operation name="OMS_Login">			<soap:operation soapAction="http://tempuri.org/action/OMS_Login"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_Login_simple">			<soap:operation soapAction="http://tempuri.org/action/OMS_Login_simple"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_CreateUser">			<soap:operation soapAction="http://tempuri.org/action/OMS_CreateUser"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_CreateUser_simple">			<soap:operation soapAction="http://tempuri.org/action/OMS_CreateUser_simple"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_EditUser">			<soap:operation soapAction="http://tempuri.org/action/OMS_EditUser"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_EditUser_simple">			<soap:operation soapAction="http://tempuri.org/action/OMS_EditUser_simple"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_DeleteUser">			<soap:operation soapAction="http://tempuri.org/action/OMS_DeleteUser"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_DeleteUser_simple">			<soap:operation soapAction="http://tempuri.org/action/OMS_DeleteUser_simple"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_GetUserlist">			<soap:operation soapAction="http://tempuri.org/action/OMS_GetUserlist"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_GetUserlist_simple">			<soap:operation soapAction="http://tempuri.org/action/OMS_GetUserlist_simple"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_ReceiveMessage">			<soap:operation soapAction="http://tempuri.org/action/OMS_ReceiveMessage"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_ReceiveMessage_simple">			<soap:operation soapAction="http://tempuri.org/action/OMS_ReceiveMessage_simple"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_DeleteMessage">			<soap:operation soapAction="http://tempuri.org/action/OMS_DeleteMessage"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_DeleteMessage_simple">			<soap:operation soapAction="http://tempuri.org/action/OMS_DeleteMessage_simple"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_PostMessage">			<soap:operation soapAction="http://tempuri.org/action/OMS_PostMessage"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_PostMessage_simple">			<soap:operation soapAction="http://tempuri.org/action/OMS_PostMessage_simple"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_AddOfflineUser">			<soap:operation soapAction="http://tempuri.org/action/OMS_AddOfflineUser"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_AddOfflineUser_simple">			<soap:operation soapAction="http://tempuri.org/action/OMS_AddOfflineUser_simple"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_DeleteOfflineUser">			<soap:operation soapAction="http://tempuri.org/action/OMS_DeleteOfflineUser"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>		<operation name="OMS_DeleteOfflineUser_simple">			<soap:operation soapAction="http://tempuri.org/action/OMS_DeleteOfflineUser_simple"/>			<input>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>	</binding>	<service name="OnlineMessenger">		<documentation>Visit http://www.myoms.net/soap for the latest documentation of all the webservices available at Ni-Frith Media Systems.		</documentation>		<port name="OnlineMessengerServiceSoapPort" binding="wsdlns:OnlineMessengerServiceSoap">			<soap:address location="http://www.myoms.net/cgi-bin/soap_oms.pl"/>		</port>	</service></definitions>
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Online Messenger Service" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="http://tempuri.org/"
+	targetNamespace="http://tempuri.org/wsdl/" xmlns:wsdlns="http://tempuri.org/wsdl/" xmlns:typens="http://tempuri.org/type"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:stk="http://schemas.microsoft.com/soap-toolkit/wsdl-extension"
+	xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<types>
+		<schema targetNamespace="http://tempuri.org/type" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+			xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" elementFormDefault="qualified" attributeFormDefault="qualified">
+			<s:complexType name="Userlist">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="OnlineUsers" nillable="true" type="typens:OnlineUser" />
+					<s:element minOccurs="1" maxOccurs="1" name="OfflineUsers" nillable="true" type="typens:OfflineUser" />
+					<s:element minOccurs="1" maxOccurs="1" name="NewMessage" nillable="false" type="s:boolean" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="OnlineUser">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="OnlineUser" nillable="true" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="OfflineUser">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="OfflineUser" nillable="true" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="Message">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Sender" nillable="true" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="DateSent" nillable="true" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Content" nillable="true" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+		</schema>
+	</types>
+	<message name="OMS_LoginIn">
+		<part name="username" type="xsd:string" />
+		<part name="password" type="xsd:string" />
+	</message>
+	<message name="OMS_LoginOut">
+		<part name="Result" type="xsd:boolean" />
+	</message>
+	<message name="OMS_CreateUserIn">
+		<part name="firstname" type="xsd:string" />
+		<part name="lastname" type="xsd:string" />
+		<part name="email" type="xsd:string" />
+		<part name="username" type="xsd:string" />
+		<part name="password1" type="xsd:string" />
+		<part name="password2" type="xsd:string" />
+		<part name="country" type="xsd:string" />
+		<part name="birthyear" type="xsd:long" />
+		<part name="birthmonth" type="xsd:long" />
+		<part name="birthday" type="xsd:long" />
+	</message>
+	<message name="OMS_CreateUserOut">
+		<part name="Result" type="xsd:boolean" />
+	</message>
+	<message name="OMS_EditUserIn">
+		<part name="username" type="xsd:string" />
+		<part name="password" type="xsd:string" />
+		<part name="firstname" type="xsd:string" />
+		<part name="lastname" type="xsd:string" />
+		<part name="email" type="xsd:string" />
+		<part name="password1" type="xsd:string" />
+		<part name="password2" type="xsd:string" />
+		<part name="country" type="xsd:string" />
+		<part name="birthyear" type="xsd:long" />
+		<part name="birthmonth" type="xsd:long" />
+		<part name="birthday" type="xsd:long" />
+	</message>
+	<message name="OMS_EditUserOut">
+		<part name="Result" type="xsd:boolean" />
+	</message>
+	<message name="OMS_DeleteUserIn">
+		<part name="username" type="xsd:string" />
+		<part name="password" type="xsd:string" />
+	</message>
+	<message name="OMS_DeleteUserOut">
+		<part name="Result" type="xsd:boolean" />
+	</message>
+	<message name="OMS_GetUserListIn">
+		<part name="username" type="xsd:string" />
+		<part name="password" type="xsd:string" />
+	</message>
+	<message name="OMS_GetUserListOut">
+		<part name="Result" type="s:Userlist" />
+	</message>
+	<message name="OMS_ReceiveMessageIn">
+		<part name="username" type="xsd:string" />
+		<part name="password" type="xsd:string" />
+	</message>
+	<message name="OMS_ReceiveMessageOut">
+		<part name="Result" type="s:Message" />
+	</message>
+	<message name="OMS_DeleteMessageIn">
+		<part name="username" type="xsd:string" />
+		<part name="password" type="xsd:string" />
+	</message>
+	<message name="OMS_DeleteMessageOut">
+		<part name="Result" type="xsd:boolean" />
+	</message>
+	<message name="OMS_PostMessageIn">
+		<part name="username" type="xsd:string" />
+		<part name="password" type="xsd:string" />
+		<part name="to" type="xsd:string" />
+		<part name="message" type="xsd:string" />
+	</message>
+	<message name="OMS_PostMessageOut">
+		<part name="Result" type="xsd:boolean" />
+	</message>
+	<message name="OMS_AddOfflineUserIn">
+		<part name="username" type="xsd:string" />
+		<part name="password" type="xsd:string" />
+		<part name="offlineUser" type="xsd:string" />
+	</message>
+	<message name="OMS_AddOfflineUserOut">
+		<part name="Result" type="xsd:boolean" />
+	</message>
+	<message name="OMS_DeleteOfflineUserIn">
+		<part name="username" type="xsd:string" />
+		<part name="password" type="xsd:string" />
+		<part name="offlineUser" type="xsd:string" />
+	</message>
+	<message name="OMS_DeleteOfflineUserOut">
+		<part name="Result" type="xsd:boolean" />
+	</message>
+	<message name="OMS_SimpleResultOut">
+		<part name="Result" type="xsd:string" />
+	</message>
+	<portType name="OnlineMessengerService">
+		<operation name="OMS_Login" parameterOrder="username password">
+			<input message="wsdlns:OMS_LoginIn" />
+			<output message="wsdlns:OMS_LoginOut" />
+		</operation>
+		<operation name="OMS_Login_simple" parameterOrder="username password">
+			<input message="wsdlns:OMS_LoginIn" />
+			<output message="wsdlns:OMS_SimpleResultOut" />
+		</operation>
+		<operation name="OMS_CreateUser"
+			parameterOrder="firstname lastname email username password1 password2 country birthyear birthmonth birthday">
+			<input message="wsdlns:OMS_CreateUserIn" />
+			<output message="wsdlns:OMS_CreateUserOut" />
+		</operation>
+		<operation name="OMS_CreateUser_simple"
+			parameterOrder="firstname lastname email username password1 password2 country birthyear birthmonth birthday">
+			<input message="wsdlns:OMS_CreateUserIn" />
+			<output message="wsdlns:OMS_SimpleResultOut" />
+		</operation>
+		<operation name="OMS_EditUser"
+			parameterOrder="username password firstname lastname email password1 password2 country birthyear birthmonth birthday">
+			<input message="wsdlns:OMS_EditUserIn" />
+			<output message="wsdlns:OMS_EditUserOut" />
+		</operation>
+		<operation name="OMS_EditUser_simple"
+			parameterOrder="username password firstname lastname email password1 password2 country birthyear birthmonth birthday">
+			<input message="wsdlns:OMS_EditUserIn" />
+			<output message="wsdlns:OMS_SimpleResultOut" />
+		</operation>
+		<operation name="OMS_DeleteUser" parameterOrder="username password">
+			<input message="wsdlns:OMS_DeleteUserIn" />
+			<output message="wsdlns:OMS_DeleteUserOut" />
+		</operation>
+		<operation name="OMS_DeleteUser_simple" parameterOrder="username password">
+			<input message="wsdlns:OMS_DeleteUserIn" />
+			<output message="wsdlns:OMS_SimpleResultOut" />
+		</operation>
+		<operation name="OMS_GetUserlist" parameterOrder="username password">
+			<input message="wsdlns:OMS_GetUserListIn" />
+			<output message="wsdlns:OMS_GetUserListOut" />
+		</operation>
+		<operation name="OMS_GetUserlist_simple" parameterOrder="username password">
+			<input message="wsdlns:OMS_GetUserListIn" />
+			<output message="wsdlns:OMS_SimpleResultOut" />
+		</operation>
+		<operation name="OMS_ReceiveMessage" parameterOrder="username password">
+			<input message="wsdlns:OMS_ReceiveMessageIn" />
+			<output message="wsdlns:OMS_ReceiveMessageOut" />
+		</operation>
+		<operation name="OMS_ReceiveMessage_simple" parameterOrder="username password">
+			<input message="wsdlns:OMS_ReceiveMessageIn" />
+			<output message="wsdlns:OMS_SimpleResultOut" />
+		</operation>
+		<operation name="OMS_DeleteMessage" parameterOrder="username password">
+			<input message="wsdlns:OMS_DeleteMessageIn" />
+			<output message="wsdlns:OMS_DeleteMessageOut" />
+		</operation>
+		<operation name="OMS_DeleteMessage_simple" parameterOrder="username password">
+			<input message="wsdlns:OMS_DeleteMessageIn" />
+			<output message="wsdlns:OMS_SimpleResultOut" />
+		</operation>
+		<operation name="OMS_PostMessage" parameterOrder="username password to message">
+			<input message="wsdlns:OMS_PostMessageIn" />
+			<output message="wsdlns:OMS_PostMessageOut" />
+		</operation>
+		<operation name="OMS_PostMessage_simple" parameterOrder="username password to message">
+			<input message="wsdlns:OMS_PostMessageIn" />
+			<output message="wsdlns:OMS_SimpleResultOut" />
+		</operation>
+		<operation name="OMS_AddOfflineUser" parameterOrder="username password offlineUser">
+			<input message="wsdlns:OMS_AddOfflineUserIn" />
+			<output message="wsdlns:OMS_AddOfflineUserOut" />
+		</operation>
+		<operation name="OMS_AddOfflineUser_simple" parameterOrder="username password offlineUser">
+			<input message="wsdlns:OMS_AddOfflineUserIn" />
+			<output message="wsdlns:OMS_AddOfflineUserOut" />
+		</operation>
+		<operation name="OMS_DeleteOfflineUser" parameterOrder="username password offlineUser">
+			<input message="wsdlns:OMS_DeleteOfflineUserIn" />
+			<output message="wsdlns:OMS_DeleteOfflineUserOut" />
+		</operation>
+		<operation name="OMS_DeleteOfflineUser_simple" parameterOrder="username password offlineUser">
+			<input message="wsdlns:OMS_DeleteOfflineUserIn" />
+			<output message="wsdlns:OMS_DeleteOfflineUserOut" />
+		</operation>
+	</portType>
+	<binding name="OnlineMessengerServiceSoap" type="wsdlns:OnlineMessengerService">
+		<stk:binding preferredEncoding="UTF-8" />
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="OMS_Login">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_Login" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_Login_simple">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_Login_simple" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_CreateUser">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_CreateUser" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_CreateUser_simple">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_CreateUser_simple" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_EditUser">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_EditUser" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_EditUser_simple">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_EditUser_simple" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_DeleteUser">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_DeleteUser" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_DeleteUser_simple">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_DeleteUser_simple" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_GetUserlist">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_GetUserlist" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_GetUserlist_simple">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_GetUserlist_simple" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_ReceiveMessage">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_ReceiveMessage" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_ReceiveMessage_simple">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_ReceiveMessage_simple" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_DeleteMessage">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_DeleteMessage" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_DeleteMessage_simple">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_DeleteMessage_simple" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_PostMessage">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_PostMessage" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_PostMessage_simple">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_PostMessage_simple" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_AddOfflineUser">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_AddOfflineUser" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_AddOfflineUser_simple">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_AddOfflineUser_simple" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_DeleteOfflineUser">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_DeleteOfflineUser" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="OMS_DeleteOfflineUser_simple">
+			<soap:operation soapAction="http://tempuri.org/action/OMS_DeleteOfflineUser_simple" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+	</binding>
+	<service name="OnlineMessenger">
+		<documentation>Visit http://www.myoms.net/soap for the latest documentation of all the webservices available at
+			Ni-Frith Media Systems.		</documentation>
+		<port name="OnlineMessengerServiceSoapPort" binding="wsdlns:OnlineMessengerServiceSoap">
+			<soap:address location="http://www.myoms.net/cgi-bin/soap_oms.pl" />
+		</port>
+	</service>
+</definitions>

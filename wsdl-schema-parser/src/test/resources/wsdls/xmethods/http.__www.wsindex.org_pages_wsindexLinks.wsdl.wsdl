@@ -1,1 +1,63 @@
-<?xml version="1.0"?><!-- WSDL description of the WSIndex Web APIs.     The WSIndex Web APIs are in beta release. All interfaces are subject to     change as we refine and extend our APIs. Please see the terms of use     for more information. --><definitions name="urn:WSIndex"             targetNamespace="urn:WSIndex"             xmlns:typens="urn:WSIndex"             xmlns:xsd="http://www.w3.org/2001/XMLSchema"             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"             xmlns="http://schemas.xmlsoap.org/wsdl/">  <!-- Types for search - result elements, directory categories -->  <types>    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema"                 targetNamespace="urn:WSIndex">                  <xsd:complexType name="WSIndexResult">        <xsd:all>          <xsd:element name="resultElements"              type="typens:ResultElementArray"/>          <xsd:element name="copyright"                 type="xsd:string"/>          <xsd:element name="Date"                  type="xsd:string"/>        </xsd:all>      </xsd:complexType>      <xsd:complexType name="ResultElement">        <xsd:all>          <xsd:element name="Description" type="xsd:string"/>          <xsd:element name="URL" type="xsd:string"/>          <xsd:element name="Title" type="xsd:string"/>        </xsd:all>      </xsd:complexType>        <xsd:complexType name="ResultElementArray">        <xsd:complexContent>          <xsd:restriction base="soapenc:Array">             <xsd:attribute ref="soapenc:arrayType" wsdl:arrayType="typens:ResultElement[]"/>          </xsd:restriction>        </xsd:complexContent>      </xsd:complexType>    </xsd:schema>  </types>   <!-- Messages for WSIndex Web APIs - latestest links, search links. -->               <message name="doLinksSearch">    <part name="keywords"              type="xsd:string"/>  </message>  <message name="doLinksSearchResponse">    <part name="return"         type="typens:WSIndexResult"/>             </message>  <!-- Port for WSIndexResult Web APIs, "LinksSearch" "getLatestLinks" -->  <portType name="WSIndexPort"><!--    <operation name="getLatestLinks">	<input message="xsd:string"/>      <output message="typens:doLinksSearchResponse"/>    </operation>-->    <operation name="doLinksSearch">      <input message="typens:doLinksSearch"/>      <output message="typens:doLinksSearchResponse"/>    </operation>  </portType>  <!-- Binding for WSIndex Web APIs - RPC, SOAP over HTTP -->  <binding name="WSIndexBinding" type="typens:WSIndexPort">    <soap:binding style="rpc"                  transport="http://schemas.xmlsoap.org/soap/http"/><!--    <operation name="getLatestLinks">      <soap:operation soapAction="urn:WSIndex#getLatestLinks"/>      <output>        <soap:body use="encoded"                   namespace="urn:WSIndex"                   encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>      </output>    </operation>-->    <operation name="doLinksSearch">      <soap:operation soapAction="urn:WSIndex#doLinksSearch"/>      <input>        <soap:body use="encoded"                   namespace="urn:WSIndex"                   encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>      </input>      <output>        <soap:body use="encoded"                   namespace="urn:WSIndex"                   encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>      </output>    </operation>  </binding>  <!-- Endpoint for WSIndex Web APIs -->  <service name="WSIndexService">    <port name="WSIndexPort" binding="typens:WSIndexBinding">      <soap:address location="http://wsindex.org/cgi-wsindex/soap/wsindex.cgi"/>    </port>  </service></definitions>
+<?xml version="1.0"?><!-- WSDL description of the WSIndex Web APIs. The WSIndex Web APIs are in beta release. All interfaces 
+	are subject to change as we refine and extend our APIs. Please see the terms of use for more information. -->
+<definitions name="urn:WSIndex" targetNamespace="urn:WSIndex" xmlns:typens="urn:WSIndex"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/">  <!-- Types for search - result elements, directory categories -->
+	<types>
+		<xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:WSIndex">
+			<xsd:complexType name="WSIndexResult">
+				<xsd:all>
+					<xsd:element name="resultElements" type="typens:ResultElementArray" />
+					<xsd:element name="copyright" type="xsd:string" />
+					<xsd:element name="Date" type="xsd:string" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="ResultElement">
+				<xsd:all>
+					<xsd:element name="Description" type="xsd:string" />
+					<xsd:element name="URL" type="xsd:string" />
+					<xsd:element name="Title" type="xsd:string" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="ResultElementArray">
+				<xsd:complexContent>
+					<xsd:restriction base="soapenc:Array">
+						<xsd:attribute ref="soapenc:arrayType" wsdl:arrayType="typens:ResultElement[]" />
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
+		</xsd:schema>
+	</types>   <!-- Messages for WSIndex Web APIs - latestest links, search links. -->
+	<message name="doLinksSearch">
+		<part name="keywords" type="xsd:string" />
+	</message>
+	<message name="doLinksSearchResponse">
+		<part name="return" type="typens:WSIndexResult" />
+	</message>  <!-- Port for WSIndexResult Web APIs, "LinksSearch" "getLatestLinks" -->
+	<portType name="WSIndexPort"><!-- <operation name="getLatestLinks"> <input message="xsd:string"/> <output message="typens:doLinksSearchResponse"/> 
+			</operation> -->
+		<operation name="doLinksSearch">
+			<input message="typens:doLinksSearch" />
+			<output message="typens:doLinksSearchResponse" />
+		</operation>
+	</portType>  <!-- Binding for WSIndex Web APIs - RPC, SOAP over HTTP -->
+	<binding name="WSIndexBinding" type="typens:WSIndexPort">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" /><!-- <operation name="getLatestLinks"> 
+			<soap:operation soapAction="urn:WSIndex#getLatestLinks"/> <output> <soap:body use="encoded" namespace="urn:WSIndex" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/> 
+			</output> </operation> -->
+		<operation name="doLinksSearch">
+			<soap:operation soapAction="urn:WSIndex#doLinksSearch" />
+			<input>
+				<soap:body use="encoded" namespace="urn:WSIndex" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:WSIndex" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+	</binding>  <!-- Endpoint for WSIndex Web APIs -->
+	<service name="WSIndexService">
+		<port name="WSIndexPort" binding="typens:WSIndexBinding">
+			<soap:address location="http://wsindex.org/cgi-wsindex/soap/wsindex.cgi" />
+		</port>
+	</service>
+</definitions>

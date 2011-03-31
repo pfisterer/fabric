@@ -1,1 +1,47 @@
-<?xml version="1.0" encoding="UTF-8"?><definitions name="Phone" xmlns:typens="urn:ActionWebService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="urn:ActionWebService" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns="http://schemas.xmlsoap.org/wsdl/">  <types>    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:ActionWebService">      <xsd:complexType name="PhoneSecret">        <xsd:all>          <xsd:element name="message" type="xsd:string"/>          <xsd:element name="result" type="xsd:string"/>          <xsd:element name="secret" type="xsd:string"/>        </xsd:all>      </xsd:complexType>    </xsd:schema>  </types>  <message name="GetSecret">    <part name="key" type="xsd:string"/>    <part name="phone" type="xsd:string"/>    <part name="prompt" type="xsd:string"/>  </message>  <message name="GetSecretResponse">    <part name="return" type="typens:PhoneSecret"/>  </message>  <portType name="PhonePhonePort">    <operation name="GetSecret">      <input message="typens:GetSecret"/>      <output message="typens:GetSecretResponse"/>    </operation>  </portType>  <binding name="PhonePhoneBinding" type="typens:PhonePhonePort">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>    <operation name="GetSecret">      <soap:operation soapAction="/phone/api/GetSecret"/>      <input>        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:ActionWebService" use="encoded"/>      </input>      <output>        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:ActionWebService" use="encoded"/>      </output>    </operation>  </binding>  <service name="PhoneService">    <port name="PhonePhonePort" binding="typens:PhonePhoneBinding">      <soap:address location="http://www.teleauth.com/phone/api"/>    </port>  </service></definitions>
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Phone" xmlns:typens="urn:ActionWebService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="urn:ActionWebService"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<types>
+		<xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:ActionWebService">
+			<xsd:complexType name="PhoneSecret">
+				<xsd:all>
+					<xsd:element name="message" type="xsd:string" />
+					<xsd:element name="result" type="xsd:string" />
+					<xsd:element name="secret" type="xsd:string" />
+				</xsd:all>
+			</xsd:complexType>
+		</xsd:schema>
+	</types>
+	<message name="GetSecret">
+		<part name="key" type="xsd:string" />
+		<part name="phone" type="xsd:string" />
+		<part name="prompt" type="xsd:string" />
+	</message>
+	<message name="GetSecretResponse">
+		<part name="return" type="typens:PhoneSecret" />
+	</message>
+	<portType name="PhonePhonePort">
+		<operation name="GetSecret">
+			<input message="typens:GetSecret" />
+			<output message="typens:GetSecretResponse" />
+		</operation>
+	</portType>
+	<binding name="PhonePhoneBinding" type="typens:PhonePhonePort">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+		<operation name="GetSecret">
+			<soap:operation soapAction="/phone/api/GetSecret" />
+			<input>
+				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:ActionWebService" use="encoded" />
+			</input>
+			<output>
+				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:ActionWebService" use="encoded" />
+			</output>
+		</operation>
+	</binding>
+	<service name="PhoneService">
+		<port name="PhonePhonePort" binding="typens:PhonePhoneBinding">
+			<soap:address location="http://www.teleauth.com/phone/api" />
+		</port>
+	</service>
+</definitions>

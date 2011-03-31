@@ -1,1 +1,601 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.serviceobjects.com/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://www.serviceobjects.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.serviceobjects.com/">      <s:element name="GetTaxInfo">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TaxType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTaxInfoResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTaxInfoResult" type="tns:TaxInfo" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="TaxInfo">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="County" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountyFIPS" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="StateName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="StateAbbreviation" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="TotalTaxRate" type="s:decimal" />          <s:element minOccurs="0" maxOccurs="1" name="TotalTaxExempt" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="StateRate" type="s:decimal" />          <s:element minOccurs="1" maxOccurs="1" name="CityRate" type="s:decimal" />          <s:element minOccurs="1" maxOccurs="1" name="CountyRate" type="s:decimal" />          <s:element minOccurs="1" maxOccurs="1" name="CountyDistrictRate" type="s:decimal" />          <s:element minOccurs="1" maxOccurs="1" name="CityDistrictRate" type="s:decimal" />          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />        </s:sequence>      </s:complexType>      <s:complexType name="Err">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Desc" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="GetTaxInfoByCityCountyState">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="County" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TaxType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTaxInfoByCityCountyStateResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTaxInfoByCityCountyStateResult" type="tns:TaxInfo" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTaxInfoByAddress">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ZipCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TaxType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTaxInfoByAddressResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTaxInfoByAddressResult" type="tns:TaxInfo" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetCanadianTaxInfoByProvince">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Province" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetCanadianTaxInfoByProvinceResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetCanadianTaxInfoByProvinceResult" type="tns:CanadianTaxInfo" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="CanadianTaxInfo">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="ProvinceName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ProvinceAbbreviation" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="GoodsSalesTax" type="s:decimal" />          <s:element minOccurs="1" maxOccurs="1" name="ProvinceSalesTax" type="s:decimal" />          <s:element minOccurs="1" maxOccurs="1" name="HarmonizedSalesTax" type="s:decimal" />          <s:element minOccurs="0" maxOccurs="1" name="ApplyGSTFirst" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />        </s:sequence>      </s:complexType>      <s:element name="GetTaxInfoByZip_V2">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TaxType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTaxInfoByZip_V2Response">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTaxInfoByZip_V2Result" type="tns:TaxInfoMulti" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="TaxInfoMulti">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="TaxInfo" type="tns:TaxInfo" />          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />          <s:element minOccurs="0" maxOccurs="1" name="myTaxInfoMulti" type="tns:ArrayOfAnyType" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfAnyType">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="anyType" nillable="true" />        </s:sequence>      </s:complexType>      <s:element name="GetTaxInfoByCityState">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TaxType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTaxInfoByCityStateResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTaxInfoByCityStateResult" type="tns:TaxInfoMulti" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="TaxInfo" nillable="true" type="tns:TaxInfo" />      <s:element name="CanadianTaxInfo" nillable="true" type="tns:CanadianTaxInfo" />      <s:element name="TaxInfoMulti" nillable="true" type="tns:TaxInfoMulti" />    </s:schema>  </wsdl:types>  <wsdl:message name="GetTaxInfoSoapIn">    <wsdl:part name="parameters" element="tns:GetTaxInfo" />  </wsdl:message>  <wsdl:message name="GetTaxInfoSoapOut">    <wsdl:part name="parameters" element="tns:GetTaxInfoResponse" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByCityCountyStateSoapIn">    <wsdl:part name="parameters" element="tns:GetTaxInfoByCityCountyState" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByCityCountyStateSoapOut">    <wsdl:part name="parameters" element="tns:GetTaxInfoByCityCountyStateResponse" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByAddressSoapIn">    <wsdl:part name="parameters" element="tns:GetTaxInfoByAddress" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByAddressSoapOut">    <wsdl:part name="parameters" element="tns:GetTaxInfoByAddressResponse" />  </wsdl:message>  <wsdl:message name="GetCanadianTaxInfoByProvinceSoapIn">    <wsdl:part name="parameters" element="tns:GetCanadianTaxInfoByProvince" />  </wsdl:message>  <wsdl:message name="GetCanadianTaxInfoByProvinceSoapOut">    <wsdl:part name="parameters" element="tns:GetCanadianTaxInfoByProvinceResponse" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByZip_V2SoapIn">    <wsdl:part name="parameters" element="tns:GetTaxInfoByZip_V2" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByZip_V2SoapOut">    <wsdl:part name="parameters" element="tns:GetTaxInfoByZip_V2Response" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByCityStateSoapIn">    <wsdl:part name="parameters" element="tns:GetTaxInfoByCityState" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByCityStateSoapOut">    <wsdl:part name="parameters" element="tns:GetTaxInfoByCityStateResponse" />  </wsdl:message>  <wsdl:message name="GetTaxInfoHttpGetIn">    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="TaxType" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTaxInfoHttpGetOut">    <wsdl:part name="Body" element="tns:TaxInfo" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByCityCountyStateHttpGetIn">    <wsdl:part name="City" type="s:string" />    <wsdl:part name="County" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="TaxType" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByCityCountyStateHttpGetOut">    <wsdl:part name="Body" element="tns:TaxInfo" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByAddressHttpGetIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="ZipCode" type="s:string" />    <wsdl:part name="TaxType" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByAddressHttpGetOut">    <wsdl:part name="Body" element="tns:TaxInfo" />  </wsdl:message>  <wsdl:message name="GetCanadianTaxInfoByProvinceHttpGetIn">    <wsdl:part name="Province" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetCanadianTaxInfoByProvinceHttpGetOut">    <wsdl:part name="Body" element="tns:CanadianTaxInfo" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByZip_V2HttpGetIn">    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="TaxType" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByZip_V2HttpGetOut">    <wsdl:part name="Body" element="tns:TaxInfoMulti" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByCityStateHttpGetIn">    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="TaxType" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByCityStateHttpGetOut">    <wsdl:part name="Body" element="tns:TaxInfoMulti" />  </wsdl:message>  <wsdl:message name="GetTaxInfoHttpPostIn">    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="TaxType" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTaxInfoHttpPostOut">    <wsdl:part name="Body" element="tns:TaxInfo" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByCityCountyStateHttpPostIn">    <wsdl:part name="City" type="s:string" />    <wsdl:part name="County" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="TaxType" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByCityCountyStateHttpPostOut">    <wsdl:part name="Body" element="tns:TaxInfo" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByAddressHttpPostIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="ZipCode" type="s:string" />    <wsdl:part name="TaxType" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByAddressHttpPostOut">    <wsdl:part name="Body" element="tns:TaxInfo" />  </wsdl:message>  <wsdl:message name="GetCanadianTaxInfoByProvinceHttpPostIn">    <wsdl:part name="Province" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetCanadianTaxInfoByProvinceHttpPostOut">    <wsdl:part name="Body" element="tns:CanadianTaxInfo" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByZip_V2HttpPostIn">    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="TaxType" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByZip_V2HttpPostOut">    <wsdl:part name="Body" element="tns:TaxInfoMulti" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByCityStateHttpPostIn">    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="TaxType" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTaxInfoByCityStateHttpPostOut">    <wsdl:part name="Body" element="tns:TaxInfoMulti" />  </wsdl:message>  <wsdl:portType name="DOTSFastTaxSoap">    <wsdl:operation name="GetTaxInfo">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and 5-digit zip code. Possible tax types are 'Sales' and 'Use'.</documentation>      <wsdl:input message="tns:GetTaxInfoSoapIn" />      <wsdl:output message="tns:GetTaxInfoSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByCityCountyState">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type, city, county, state. Possible tax types are 'Sales' and 'Use'.</documentation>      <wsdl:input message="tns:GetTaxInfoByCityCountyStateSoapIn" />      <wsdl:output message="tns:GetTaxInfoByCityCountyStateSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByAddress">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and street address. Possible tax types are 'Sales' and 'Use'. </documentation>      <wsdl:input message="tns:GetTaxInfoByAddressSoapIn" />      <wsdl:output message="tns:GetTaxInfoByAddressSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetCanadianTaxInfoByProvince">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns Canadian tax information.  By Province only.</documentation>      <wsdl:input message="tns:GetCanadianTaxInfoByProvinceSoapIn" />      <wsdl:output message="tns:GetCanadianTaxInfoByProvinceSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByZip_V2">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and 5-digit zip code. Possible tax types are 'Sales' and 'Use'.</documentation>      <wsdl:input message="tns:GetTaxInfoByZip_V2SoapIn" />      <wsdl:output message="tns:GetTaxInfoByZip_V2SoapOut" />    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByCityState">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and City/State. Possible tax types are 'Sales' and 'Use'.</documentation>      <wsdl:input message="tns:GetTaxInfoByCityStateSoapIn" />      <wsdl:output message="tns:GetTaxInfoByCityStateSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="DOTSFastTaxHttpGet">    <wsdl:operation name="GetTaxInfo">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and 5-digit zip code. Possible tax types are 'Sales' and 'Use'.</documentation>      <wsdl:input message="tns:GetTaxInfoHttpGetIn" />      <wsdl:output message="tns:GetTaxInfoHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByCityCountyState">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type, city, county, state. Possible tax types are 'Sales' and 'Use'.</documentation>      <wsdl:input message="tns:GetTaxInfoByCityCountyStateHttpGetIn" />      <wsdl:output message="tns:GetTaxInfoByCityCountyStateHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByAddress">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and street address. Possible tax types are 'Sales' and 'Use'. </documentation>      <wsdl:input message="tns:GetTaxInfoByAddressHttpGetIn" />      <wsdl:output message="tns:GetTaxInfoByAddressHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetCanadianTaxInfoByProvince">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns Canadian tax information.  By Province only.</documentation>      <wsdl:input message="tns:GetCanadianTaxInfoByProvinceHttpGetIn" />      <wsdl:output message="tns:GetCanadianTaxInfoByProvinceHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByZip_V2">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and 5-digit zip code. Possible tax types are 'Sales' and 'Use'.</documentation>      <wsdl:input message="tns:GetTaxInfoByZip_V2HttpGetIn" />      <wsdl:output message="tns:GetTaxInfoByZip_V2HttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByCityState">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and City/State. Possible tax types are 'Sales' and 'Use'.</documentation>      <wsdl:input message="tns:GetTaxInfoByCityStateHttpGetIn" />      <wsdl:output message="tns:GetTaxInfoByCityStateHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="DOTSFastTaxHttpPost">    <wsdl:operation name="GetTaxInfo">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and 5-digit zip code. Possible tax types are 'Sales' and 'Use'.</documentation>      <wsdl:input message="tns:GetTaxInfoHttpPostIn" />      <wsdl:output message="tns:GetTaxInfoHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByCityCountyState">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type, city, county, state. Possible tax types are 'Sales' and 'Use'.</documentation>      <wsdl:input message="tns:GetTaxInfoByCityCountyStateHttpPostIn" />      <wsdl:output message="tns:GetTaxInfoByCityCountyStateHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByAddress">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and street address. Possible tax types are 'Sales' and 'Use'. </documentation>      <wsdl:input message="tns:GetTaxInfoByAddressHttpPostIn" />      <wsdl:output message="tns:GetTaxInfoByAddressHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetCanadianTaxInfoByProvince">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns Canadian tax information.  By Province only.</documentation>      <wsdl:input message="tns:GetCanadianTaxInfoByProvinceHttpPostIn" />      <wsdl:output message="tns:GetCanadianTaxInfoByProvinceHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByZip_V2">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and 5-digit zip code. Possible tax types are 'Sales' and 'Use'.</documentation>      <wsdl:input message="tns:GetTaxInfoByZip_V2HttpPostIn" />      <wsdl:output message="tns:GetTaxInfoByZip_V2HttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByCityState">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and City/State. Possible tax types are 'Sales' and 'Use'.</documentation>      <wsdl:input message="tns:GetTaxInfoByCityStateHttpPostIn" />      <wsdl:output message="tns:GetTaxInfoByCityStateHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="DOTSFastTaxSoap" type="tns:DOTSFastTaxSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <wsdl:operation name="GetTaxInfo">      <soap:operation soapAction="http://www.serviceobjects.com/GetTaxInfo" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByCityCountyState">      <soap:operation soapAction="http://www.serviceobjects.com/GetTaxInfoByCityCountyState" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByAddress">      <soap:operation soapAction="http://www.serviceobjects.com/GetTaxInfoByAddress" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetCanadianTaxInfoByProvince">      <soap:operation soapAction="http://www.serviceobjects.com/GetCanadianTaxInfoByProvince" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByZip_V2">      <soap:operation soapAction="http://www.serviceobjects.com/GetTaxInfoByZip_V2" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByCityState">      <soap:operation soapAction="http://www.serviceobjects.com/GetTaxInfoByCityState" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="DOTSFastTaxHttpGet" type="tns:DOTSFastTaxHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetTaxInfo">      <http:operation location="/GetTaxInfo" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByCityCountyState">      <http:operation location="/GetTaxInfoByCityCountyState" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByAddress">      <http:operation location="/GetTaxInfoByAddress" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetCanadianTaxInfoByProvince">      <http:operation location="/GetCanadianTaxInfoByProvince" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByZip_V2">      <http:operation location="/GetTaxInfoByZip_V2" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByCityState">      <http:operation location="/GetTaxInfoByCityState" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="DOTSFastTaxHttpPost" type="tns:DOTSFastTaxHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetTaxInfo">      <http:operation location="/GetTaxInfo" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByCityCountyState">      <http:operation location="/GetTaxInfoByCityCountyState" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByAddress">      <http:operation location="/GetTaxInfoByAddress" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetCanadianTaxInfoByProvince">      <http:operation location="/GetCanadianTaxInfoByProvince" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByZip_V2">      <http:operation location="/GetTaxInfoByZip_V2" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTaxInfoByCityState">      <http:operation location="/GetTaxInfoByCityState" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="DOTSFastTax">    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">For more information on our web services, visit us at &lt;a href='http://www.serviceobjects.com/products/default.asp' target='new'&gt;our website&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;&lt;a href='http://www.serviceobjects.com' target='new'&gt;&lt;img src='http://www.serviceobjects.com/images/so_logo_2_inside.gif' border='0'/&gt;&lt;/a&gt;</documentation>    <wsdl:port name="DOTSFastTaxSoap" binding="tns:DOTSFastTaxSoap">      <soap:address location="http://ws2.serviceobjects.net/ft/FastTax.asmx" />    </wsdl:port>    <wsdl:port name="DOTSFastTaxHttpGet" binding="tns:DOTSFastTaxHttpGet">      <http:address location="http://ws2.serviceobjects.net/ft/FastTax.asmx" />    </wsdl:port>    <wsdl:port name="DOTSFastTaxHttpPost" binding="tns:DOTSFastTaxHttpPost">      <http:address location="http://ws2.serviceobjects.net/ft/FastTax.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.serviceobjects.com/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	targetNamespace="http://www.serviceobjects.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.serviceobjects.com/">
+			<s:element name="GetTaxInfo">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TaxType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTaxInfoResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTaxInfoResult" type="tns:TaxInfo" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="TaxInfo">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="County" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountyFIPS" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="StateName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="StateAbbreviation" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="TotalTaxRate" type="s:decimal" />
+					<s:element minOccurs="0" maxOccurs="1" name="TotalTaxExempt" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="StateRate" type="s:decimal" />
+					<s:element minOccurs="1" maxOccurs="1" name="CityRate" type="s:decimal" />
+					<s:element minOccurs="1" maxOccurs="1" name="CountyRate" type="s:decimal" />
+					<s:element minOccurs="1" maxOccurs="1" name="CountyDistrictRate" type="s:decimal" />
+					<s:element minOccurs="1" maxOccurs="1" name="CityDistrictRate" type="s:decimal" />
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Err">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Desc" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetTaxInfoByCityCountyState">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="County" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TaxType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTaxInfoByCityCountyStateResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTaxInfoByCityCountyStateResult" type="tns:TaxInfo" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTaxInfoByAddress">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ZipCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TaxType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTaxInfoByAddressResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTaxInfoByAddressResult" type="tns:TaxInfo" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetCanadianTaxInfoByProvince">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Province" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetCanadianTaxInfoByProvinceResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetCanadianTaxInfoByProvinceResult" type="tns:CanadianTaxInfo" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="CanadianTaxInfo">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="ProvinceName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ProvinceAbbreviation" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="GoodsSalesTax" type="s:decimal" />
+					<s:element minOccurs="1" maxOccurs="1" name="ProvinceSalesTax" type="s:decimal" />
+					<s:element minOccurs="1" maxOccurs="1" name="HarmonizedSalesTax" type="s:decimal" />
+					<s:element minOccurs="0" maxOccurs="1" name="ApplyGSTFirst" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetTaxInfoByZip_V2">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TaxType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTaxInfoByZip_V2Response">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTaxInfoByZip_V2Result" type="tns:TaxInfoMulti" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="TaxInfoMulti">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="TaxInfo" type="tns:TaxInfo" />
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />
+					<s:element minOccurs="0" maxOccurs="1" name="myTaxInfoMulti" type="tns:ArrayOfAnyType" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfAnyType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="anyType" nillable="true" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetTaxInfoByCityState">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TaxType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTaxInfoByCityStateResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTaxInfoByCityStateResult" type="tns:TaxInfoMulti" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="TaxInfo" nillable="true" type="tns:TaxInfo" />
+			<s:element name="CanadianTaxInfo" nillable="true" type="tns:CanadianTaxInfo" />
+			<s:element name="TaxInfoMulti" nillable="true" type="tns:TaxInfoMulti" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetTaxInfoSoapIn">
+		<wsdl:part name="parameters" element="tns:GetTaxInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoSoapOut">
+		<wsdl:part name="parameters" element="tns:GetTaxInfoResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByCityCountyStateSoapIn">
+		<wsdl:part name="parameters" element="tns:GetTaxInfoByCityCountyState" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByCityCountyStateSoapOut">
+		<wsdl:part name="parameters" element="tns:GetTaxInfoByCityCountyStateResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByAddressSoapIn">
+		<wsdl:part name="parameters" element="tns:GetTaxInfoByAddress" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByAddressSoapOut">
+		<wsdl:part name="parameters" element="tns:GetTaxInfoByAddressResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetCanadianTaxInfoByProvinceSoapIn">
+		<wsdl:part name="parameters" element="tns:GetCanadianTaxInfoByProvince" />
+	</wsdl:message>
+	<wsdl:message name="GetCanadianTaxInfoByProvinceSoapOut">
+		<wsdl:part name="parameters" element="tns:GetCanadianTaxInfoByProvinceResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByZip_V2SoapIn">
+		<wsdl:part name="parameters" element="tns:GetTaxInfoByZip_V2" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByZip_V2SoapOut">
+		<wsdl:part name="parameters" element="tns:GetTaxInfoByZip_V2Response" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByCityStateSoapIn">
+		<wsdl:part name="parameters" element="tns:GetTaxInfoByCityState" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByCityStateSoapOut">
+		<wsdl:part name="parameters" element="tns:GetTaxInfoByCityStateResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoHttpGetIn">
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="TaxType" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoHttpGetOut">
+		<wsdl:part name="Body" element="tns:TaxInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByCityCountyStateHttpGetIn">
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="County" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="TaxType" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByCityCountyStateHttpGetOut">
+		<wsdl:part name="Body" element="tns:TaxInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByAddressHttpGetIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="ZipCode" type="s:string" />
+		<wsdl:part name="TaxType" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByAddressHttpGetOut">
+		<wsdl:part name="Body" element="tns:TaxInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetCanadianTaxInfoByProvinceHttpGetIn">
+		<wsdl:part name="Province" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetCanadianTaxInfoByProvinceHttpGetOut">
+		<wsdl:part name="Body" element="tns:CanadianTaxInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByZip_V2HttpGetIn">
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="TaxType" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByZip_V2HttpGetOut">
+		<wsdl:part name="Body" element="tns:TaxInfoMulti" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByCityStateHttpGetIn">
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="TaxType" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByCityStateHttpGetOut">
+		<wsdl:part name="Body" element="tns:TaxInfoMulti" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoHttpPostIn">
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="TaxType" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoHttpPostOut">
+		<wsdl:part name="Body" element="tns:TaxInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByCityCountyStateHttpPostIn">
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="County" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="TaxType" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByCityCountyStateHttpPostOut">
+		<wsdl:part name="Body" element="tns:TaxInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByAddressHttpPostIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="ZipCode" type="s:string" />
+		<wsdl:part name="TaxType" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByAddressHttpPostOut">
+		<wsdl:part name="Body" element="tns:TaxInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetCanadianTaxInfoByProvinceHttpPostIn">
+		<wsdl:part name="Province" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetCanadianTaxInfoByProvinceHttpPostOut">
+		<wsdl:part name="Body" element="tns:CanadianTaxInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByZip_V2HttpPostIn">
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="TaxType" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByZip_V2HttpPostOut">
+		<wsdl:part name="Body" element="tns:TaxInfoMulti" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByCityStateHttpPostIn">
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="TaxType" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTaxInfoByCityStateHttpPostOut">
+		<wsdl:part name="Body" element="tns:TaxInfoMulti" />
+	</wsdl:message>
+	<wsdl:portType name="DOTSFastTaxSoap">
+		<wsdl:operation name="GetTaxInfo">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and 5-digit zip code. Possible tax
+				types are 'Sales' and 'Use'.</documentation>
+			<wsdl:input message="tns:GetTaxInfoSoapIn" />
+			<wsdl:output message="tns:GetTaxInfoSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByCityCountyState">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type, city, county, state. Possible tax
+				types are 'Sales' and 'Use'.</documentation>
+			<wsdl:input message="tns:GetTaxInfoByCityCountyStateSoapIn" />
+			<wsdl:output message="tns:GetTaxInfoByCityCountyStateSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByAddress">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and street address. Possible tax
+				types are 'Sales' and 'Use'. </documentation>
+			<wsdl:input message="tns:GetTaxInfoByAddressSoapIn" />
+			<wsdl:output message="tns:GetTaxInfoByAddressSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetCanadianTaxInfoByProvince">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns Canadian tax information. By Province only.</documentation>
+			<wsdl:input message="tns:GetCanadianTaxInfoByProvinceSoapIn" />
+			<wsdl:output message="tns:GetCanadianTaxInfoByProvinceSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByZip_V2">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and 5-digit zip code. Possible tax
+				types are 'Sales' and 'Use'.</documentation>
+			<wsdl:input message="tns:GetTaxInfoByZip_V2SoapIn" />
+			<wsdl:output message="tns:GetTaxInfoByZip_V2SoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByCityState">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and City/State. Possible tax types
+				are 'Sales' and 'Use'.</documentation>
+			<wsdl:input message="tns:GetTaxInfoByCityStateSoapIn" />
+			<wsdl:output message="tns:GetTaxInfoByCityStateSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DOTSFastTaxHttpGet">
+		<wsdl:operation name="GetTaxInfo">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and 5-digit zip code. Possible tax
+				types are 'Sales' and 'Use'.</documentation>
+			<wsdl:input message="tns:GetTaxInfoHttpGetIn" />
+			<wsdl:output message="tns:GetTaxInfoHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByCityCountyState">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type, city, county, state. Possible tax
+				types are 'Sales' and 'Use'.</documentation>
+			<wsdl:input message="tns:GetTaxInfoByCityCountyStateHttpGetIn" />
+			<wsdl:output message="tns:GetTaxInfoByCityCountyStateHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByAddress">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and street address. Possible tax
+				types are 'Sales' and 'Use'. </documentation>
+			<wsdl:input message="tns:GetTaxInfoByAddressHttpGetIn" />
+			<wsdl:output message="tns:GetTaxInfoByAddressHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetCanadianTaxInfoByProvince">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns Canadian tax information. By Province only.</documentation>
+			<wsdl:input message="tns:GetCanadianTaxInfoByProvinceHttpGetIn" />
+			<wsdl:output message="tns:GetCanadianTaxInfoByProvinceHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByZip_V2">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and 5-digit zip code. Possible tax
+				types are 'Sales' and 'Use'.</documentation>
+			<wsdl:input message="tns:GetTaxInfoByZip_V2HttpGetIn" />
+			<wsdl:output message="tns:GetTaxInfoByZip_V2HttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByCityState">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and City/State. Possible tax types
+				are 'Sales' and 'Use'.</documentation>
+			<wsdl:input message="tns:GetTaxInfoByCityStateHttpGetIn" />
+			<wsdl:output message="tns:GetTaxInfoByCityStateHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DOTSFastTaxHttpPost">
+		<wsdl:operation name="GetTaxInfo">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and 5-digit zip code. Possible tax
+				types are 'Sales' and 'Use'.</documentation>
+			<wsdl:input message="tns:GetTaxInfoHttpPostIn" />
+			<wsdl:output message="tns:GetTaxInfoHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByCityCountyState">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type, city, county, state. Possible tax
+				types are 'Sales' and 'Use'.</documentation>
+			<wsdl:input message="tns:GetTaxInfoByCityCountyStateHttpPostIn" />
+			<wsdl:output message="tns:GetTaxInfoByCityCountyStateHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByAddress">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and street address. Possible tax
+				types are 'Sales' and 'Use'. </documentation>
+			<wsdl:input message="tns:GetTaxInfoByAddressHttpPostIn" />
+			<wsdl:output message="tns:GetTaxInfoByAddressHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetCanadianTaxInfoByProvince">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns Canadian tax information. By Province only.</documentation>
+			<wsdl:input message="tns:GetCanadianTaxInfoByProvinceHttpPostIn" />
+			<wsdl:output message="tns:GetCanadianTaxInfoByProvinceHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByZip_V2">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and 5-digit zip code. Possible tax
+				types are 'Sales' and 'Use'.</documentation>
+			<wsdl:input message="tns:GetTaxInfoByZip_V2HttpPostIn" />
+			<wsdl:output message="tns:GetTaxInfoByZip_V2HttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByCityState">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns tax information for a given tax type and City/State. Possible tax types
+				are 'Sales' and 'Use'.</documentation>
+			<wsdl:input message="tns:GetTaxInfoByCityStateHttpPostIn" />
+			<wsdl:output message="tns:GetTaxInfoByCityStateHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="DOTSFastTaxSoap" type="tns:DOTSFastTaxSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<wsdl:operation name="GetTaxInfo">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetTaxInfo" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByCityCountyState">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetTaxInfoByCityCountyState" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByAddress">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetTaxInfoByAddress" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetCanadianTaxInfoByProvince">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetCanadianTaxInfoByProvince" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByZip_V2">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetTaxInfoByZip_V2" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByCityState">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetTaxInfoByCityState" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="DOTSFastTaxHttpGet" type="tns:DOTSFastTaxHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetTaxInfo">
+			<http:operation location="/GetTaxInfo" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByCityCountyState">
+			<http:operation location="/GetTaxInfoByCityCountyState" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByAddress">
+			<http:operation location="/GetTaxInfoByAddress" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetCanadianTaxInfoByProvince">
+			<http:operation location="/GetCanadianTaxInfoByProvince" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByZip_V2">
+			<http:operation location="/GetTaxInfoByZip_V2" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByCityState">
+			<http:operation location="/GetTaxInfoByCityState" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="DOTSFastTaxHttpPost" type="tns:DOTSFastTaxHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetTaxInfo">
+			<http:operation location="/GetTaxInfo" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByCityCountyState">
+			<http:operation location="/GetTaxInfoByCityCountyState" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByAddress">
+			<http:operation location="/GetTaxInfoByAddress" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetCanadianTaxInfoByProvince">
+			<http:operation location="/GetCanadianTaxInfoByProvince" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByZip_V2">
+			<http:operation location="/GetTaxInfoByZip_V2" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTaxInfoByCityState">
+			<http:operation location="/GetTaxInfoByCityState" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="DOTSFastTax">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">For more information on our web services, visit us at &lt;a
+			href='http://www.serviceobjects.com/products/default.asp' target='new'&gt;our
+			website&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;&lt;a href='http://www.serviceobjects.com' target='new'&gt;&lt;img
+			src='http://www.serviceobjects.com/images/so_logo_2_inside.gif' border='0'/&gt;&lt;/a&gt;</documentation>
+		<wsdl:port name="DOTSFastTaxSoap" binding="tns:DOTSFastTaxSoap">
+			<soap:address location="http://ws2.serviceobjects.net/ft/FastTax.asmx" />
+		</wsdl:port>
+		<wsdl:port name="DOTSFastTaxHttpGet" binding="tns:DOTSFastTaxHttpGet">
+			<http:address location="http://ws2.serviceobjects.net/ft/FastTax.asmx" />
+		</wsdl:port>
+		<wsdl:port name="DOTSFastTaxHttpPost" binding="tns:DOTSFastTaxHttpPost">
+			<http:address location="http://ws2.serviceobjects.net/ft/FastTax.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

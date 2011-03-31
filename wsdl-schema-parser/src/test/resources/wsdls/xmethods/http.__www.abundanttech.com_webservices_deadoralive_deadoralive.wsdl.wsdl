@@ -1,1 +1,351 @@
-<?xml version="1.0" encoding="utf-8"?><definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="http://www.abundanttech.com/webservices/deadoralive" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://www.abundanttech.com/webservices/deadoralive" xmlns="http://schemas.xmlsoap.org/wsdl/">  <types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.abundanttech.com/webservices/deadoralive">      <s:import namespace="http://www.w3.org/2001/XMLSchema" />      <s:element name="getTodaysBirthdays">        <s:complexType />      </s:element>      <s:element name="getTodaysBirthdaysResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="getTodaysBirthdaysResult">              <s:complexType>                <s:sequence>                  <s:element ref="s:schema" />                  <s:any />                </s:sequence>              </s:complexType>            </s:element>          </s:sequence>        </s:complexType>      </s:element>      <s:element name="getDeadOrAlive">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="sFullName" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="getDeadOrAliveResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="getDeadOrAliveResult">              <s:complexType>                <s:sequence>                  <s:element ref="s:schema" />                  <s:any />                </s:sequence>              </s:complexType>            </s:element>          </s:sequence>        </s:complexType>      </s:element>      <s:element name="getBornOn">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="sDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="getBornOnResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="getBornOnResult">              <s:complexType>                <s:sequence>                  <s:element ref="s:schema" />                  <s:any />                </s:sequence>              </s:complexType>            </s:element>          </s:sequence>        </s:complexType>      </s:element>      <s:element name="getDiedOn">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="sDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="getDiedOnResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="getDiedOnResult">              <s:complexType>                <s:sequence>                  <s:element ref="s:schema" />                  <s:any />                </s:sequence>              </s:complexType>            </s:element>          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DataSet" nillable="true">        <s:complexType>          <s:sequence>            <s:element ref="s:schema" />            <s:any />          </s:sequence>        </s:complexType>      </s:element>    </s:schema>  </types>  <message name="getTodaysBirthdaysSoapIn">    <part name="parameters" element="s0:getTodaysBirthdays" />  </message>  <message name="getTodaysBirthdaysSoapOut">    <part name="parameters" element="s0:getTodaysBirthdaysResponse" />  </message>  <message name="getDeadOrAliveSoapIn">    <part name="parameters" element="s0:getDeadOrAlive" />  </message>  <message name="getDeadOrAliveSoapOut">    <part name="parameters" element="s0:getDeadOrAliveResponse" />  </message>  <message name="getBornOnSoapIn">    <part name="parameters" element="s0:getBornOn" />  </message>  <message name="getBornOnSoapOut">    <part name="parameters" element="s0:getBornOnResponse" />  </message>  <message name="getDiedOnSoapIn">    <part name="parameters" element="s0:getDiedOn" />  </message>  <message name="getDiedOnSoapOut">    <part name="parameters" element="s0:getDiedOnResponse" />  </message>  <message name="getTodaysBirthdaysHttpGetIn" />  <message name="getTodaysBirthdaysHttpGetOut">    <part name="Body" element="s0:DataSet" />  </message>  <message name="getDeadOrAliveHttpGetIn">    <part name="sFullName" type="s:string" />  </message>  <message name="getDeadOrAliveHttpGetOut">    <part name="Body" element="s0:DataSet" />  </message>  <message name="getBornOnHttpGetIn">    <part name="sDate" type="s:string" />  </message>  <message name="getBornOnHttpGetOut">    <part name="Body" element="s0:DataSet" />  </message>  <message name="getDiedOnHttpGetIn">    <part name="sDate" type="s:string" />  </message>  <message name="getDiedOnHttpGetOut">    <part name="Body" element="s0:DataSet" />  </message>  <message name="getTodaysBirthdaysHttpPostIn" />  <message name="getTodaysBirthdaysHttpPostOut">    <part name="Body" element="s0:DataSet" />  </message>  <message name="getDeadOrAliveHttpPostIn">    <part name="sFullName" type="s:string" />  </message>  <message name="getDeadOrAliveHttpPostOut">    <part name="Body" element="s0:DataSet" />  </message>  <message name="getBornOnHttpPostIn">    <part name="sDate" type="s:string" />  </message>  <message name="getBornOnHttpPostOut">    <part name="Body" element="s0:DataSet" />  </message>  <message name="getDiedOnHttpPostIn">    <part name="sDate" type="s:string" />  </message>  <message name="getDiedOnHttpPostOut">    <part name="Body" element="s0:DataSet" />  </message>  <portType name="DeadOrAliveSoap">    <operation name="getTodaysBirthdays">      <input message="s0:getTodaysBirthdaysSoapIn" />      <output message="s0:getTodaysBirthdaysSoapOut" />    </operation>    <operation name="getDeadOrAlive">      <input message="s0:getDeadOrAliveSoapIn" />      <output message="s0:getDeadOrAliveSoapOut" />    </operation>    <operation name="getBornOn">      <input message="s0:getBornOnSoapIn" />      <output message="s0:getBornOnSoapOut" />    </operation>    <operation name="getDiedOn">      <input message="s0:getDiedOnSoapIn" />      <output message="s0:getDiedOnSoapOut" />    </operation>  </portType>  <portType name="DeadOrAliveHttpGet">    <operation name="getTodaysBirthdays">      <input message="s0:getTodaysBirthdaysHttpGetIn" />      <output message="s0:getTodaysBirthdaysHttpGetOut" />    </operation>    <operation name="getDeadOrAlive">      <input message="s0:getDeadOrAliveHttpGetIn" />      <output message="s0:getDeadOrAliveHttpGetOut" />    </operation>    <operation name="getBornOn">      <input message="s0:getBornOnHttpGetIn" />      <output message="s0:getBornOnHttpGetOut" />    </operation>    <operation name="getDiedOn">      <input message="s0:getDiedOnHttpGetIn" />      <output message="s0:getDiedOnHttpGetOut" />    </operation>  </portType>  <portType name="DeadOrAliveHttpPost">    <operation name="getTodaysBirthdays">      <input message="s0:getTodaysBirthdaysHttpPostIn" />      <output message="s0:getTodaysBirthdaysHttpPostOut" />    </operation>    <operation name="getDeadOrAlive">      <input message="s0:getDeadOrAliveHttpPostIn" />      <output message="s0:getDeadOrAliveHttpPostOut" />    </operation>    <operation name="getBornOn">      <input message="s0:getBornOnHttpPostIn" />      <output message="s0:getBornOnHttpPostOut" />    </operation>    <operation name="getDiedOn">      <input message="s0:getDiedOnHttpPostIn" />      <output message="s0:getDiedOnHttpPostOut" />    </operation>  </portType>  <binding name="DeadOrAliveSoap" type="s0:DeadOrAliveSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <operation name="getTodaysBirthdays">      <soap:operation soapAction="http://www.abundanttech.com/webservices/deadoralive/getTodaysBirthdays" style="document" />      <input>        <soap:body use="literal" />      </input>      <output>        <soap:body use="literal" />      </output>    </operation>    <operation name="getDeadOrAlive">      <soap:operation soapAction="http://www.abundanttech.com/webservices/deadoralive/getDeadOrAlive" style="document" />      <input>        <soap:body use="literal" />      </input>      <output>        <soap:body use="literal" />      </output>    </operation>    <operation name="getBornOn">      <soap:operation soapAction="http://www.abundanttech.com/webservices/deadoralive/getBornOn" style="document" />      <input>        <soap:body use="literal" />      </input>      <output>        <soap:body use="literal" />      </output>    </operation>    <operation name="getDiedOn">      <soap:operation soapAction="http://www.abundanttech.com/webservices/deadoralive/getDiedOn" style="document" />      <input>        <soap:body use="literal" />      </input>      <output>        <soap:body use="literal" />      </output>    </operation>  </binding>  <binding name="DeadOrAliveHttpGet" type="s0:DeadOrAliveHttpGet">    <http:binding verb="GET" />    <operation name="getTodaysBirthdays">      <http:operation location="/getTodaysBirthdays" />      <input>        <http:urlEncoded />      </input>      <output>        <mime:mimeXml part="Body" />      </output>    </operation>    <operation name="getDeadOrAlive">      <http:operation location="/getDeadOrAlive" />      <input>        <http:urlEncoded />      </input>      <output>        <mime:mimeXml part="Body" />      </output>    </operation>    <operation name="getBornOn">      <http:operation location="/getBornOn" />      <input>        <http:urlEncoded />      </input>      <output>        <mime:mimeXml part="Body" />      </output>    </operation>    <operation name="getDiedOn">      <http:operation location="/getDiedOn" />      <input>        <http:urlEncoded />      </input>      <output>        <mime:mimeXml part="Body" />      </output>    </operation>  </binding>  <binding name="DeadOrAliveHttpPost" type="s0:DeadOrAliveHttpPost">    <http:binding verb="POST" />    <operation name="getTodaysBirthdays">      <http:operation location="/getTodaysBirthdays" />      <input>        <mime:content type="application/x-www-form-urlencoded" />      </input>      <output>        <mime:mimeXml part="Body" />      </output>    </operation>    <operation name="getDeadOrAlive">      <http:operation location="/getDeadOrAlive" />      <input>        <mime:content type="application/x-www-form-urlencoded" />      </input>      <output>        <mime:mimeXml part="Body" />      </output>    </operation>    <operation name="getBornOn">      <http:operation location="/getBornOn" />      <input>        <mime:content type="application/x-www-form-urlencoded" />      </input>      <output>        <mime:mimeXml part="Body" />      </output>    </operation>    <operation name="getDiedOn">      <http:operation location="/getDiedOn" />      <input>        <mime:content type="application/x-www-form-urlencoded" />      </input>      <output>        <mime:mimeXml part="Body" />      </output>    </operation>  </binding>  <service name="DeadOrAlive">    <port name="DeadOrAliveSoap" binding="s0:DeadOrAliveSoap">      <soap:address location="http://www.abundanttech.com/WebServices/DeadOrAlive/DeadOrAlive.asmx" />    </port>    <port name="DeadOrAliveHttpGet" binding="s0:DeadOrAliveHttpGet">      <http:address location="http://www.abundanttech.com/WebServices/DeadOrAlive/DeadOrAlive.asmx" />    </port>    <port name="DeadOrAliveHttpPost" binding="s0:DeadOrAliveHttpPost">      <http:address location="http://www.abundanttech.com/WebServices/DeadOrAlive/DeadOrAlive.asmx" />    </port>  </service></definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="http://www.abundanttech.com/webservices/deadoralive"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://www.abundanttech.com/webservices/deadoralive"
+	xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.abundanttech.com/webservices/deadoralive">
+			<s:import namespace="http://www.w3.org/2001/XMLSchema" />
+			<s:element name="getTodaysBirthdays">
+				<s:complexType />
+			</s:element>
+			<s:element name="getTodaysBirthdaysResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="getTodaysBirthdaysResult">
+							<s:complexType>
+								<s:sequence>
+									<s:element ref="s:schema" />
+									<s:any />
+								</s:sequence>
+							</s:complexType>
+						</s:element>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="getDeadOrAlive">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="sFullName" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="getDeadOrAliveResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="getDeadOrAliveResult">
+							<s:complexType>
+								<s:sequence>
+									<s:element ref="s:schema" />
+									<s:any />
+								</s:sequence>
+							</s:complexType>
+						</s:element>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="getBornOn">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="sDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="getBornOnResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="getBornOnResult">
+							<s:complexType>
+								<s:sequence>
+									<s:element ref="s:schema" />
+									<s:any />
+								</s:sequence>
+							</s:complexType>
+						</s:element>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="getDiedOn">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="sDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="getDiedOnResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="getDiedOnResult">
+							<s:complexType>
+								<s:sequence>
+									<s:element ref="s:schema" />
+									<s:any />
+								</s:sequence>
+							</s:complexType>
+						</s:element>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DataSet" nillable="true">
+				<s:complexType>
+					<s:sequence>
+						<s:element ref="s:schema" />
+						<s:any />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+		</s:schema>
+	</types>
+	<message name="getTodaysBirthdaysSoapIn">
+		<part name="parameters" element="s0:getTodaysBirthdays" />
+	</message>
+	<message name="getTodaysBirthdaysSoapOut">
+		<part name="parameters" element="s0:getTodaysBirthdaysResponse" />
+	</message>
+	<message name="getDeadOrAliveSoapIn">
+		<part name="parameters" element="s0:getDeadOrAlive" />
+	</message>
+	<message name="getDeadOrAliveSoapOut">
+		<part name="parameters" element="s0:getDeadOrAliveResponse" />
+	</message>
+	<message name="getBornOnSoapIn">
+		<part name="parameters" element="s0:getBornOn" />
+	</message>
+	<message name="getBornOnSoapOut">
+		<part name="parameters" element="s0:getBornOnResponse" />
+	</message>
+	<message name="getDiedOnSoapIn">
+		<part name="parameters" element="s0:getDiedOn" />
+	</message>
+	<message name="getDiedOnSoapOut">
+		<part name="parameters" element="s0:getDiedOnResponse" />
+	</message>
+	<message name="getTodaysBirthdaysHttpGetIn" />
+	<message name="getTodaysBirthdaysHttpGetOut">
+		<part name="Body" element="s0:DataSet" />
+	</message>
+	<message name="getDeadOrAliveHttpGetIn">
+		<part name="sFullName" type="s:string" />
+	</message>
+	<message name="getDeadOrAliveHttpGetOut">
+		<part name="Body" element="s0:DataSet" />
+	</message>
+	<message name="getBornOnHttpGetIn">
+		<part name="sDate" type="s:string" />
+	</message>
+	<message name="getBornOnHttpGetOut">
+		<part name="Body" element="s0:DataSet" />
+	</message>
+	<message name="getDiedOnHttpGetIn">
+		<part name="sDate" type="s:string" />
+	</message>
+	<message name="getDiedOnHttpGetOut">
+		<part name="Body" element="s0:DataSet" />
+	</message>
+	<message name="getTodaysBirthdaysHttpPostIn" />
+	<message name="getTodaysBirthdaysHttpPostOut">
+		<part name="Body" element="s0:DataSet" />
+	</message>
+	<message name="getDeadOrAliveHttpPostIn">
+		<part name="sFullName" type="s:string" />
+	</message>
+	<message name="getDeadOrAliveHttpPostOut">
+		<part name="Body" element="s0:DataSet" />
+	</message>
+	<message name="getBornOnHttpPostIn">
+		<part name="sDate" type="s:string" />
+	</message>
+	<message name="getBornOnHttpPostOut">
+		<part name="Body" element="s0:DataSet" />
+	</message>
+	<message name="getDiedOnHttpPostIn">
+		<part name="sDate" type="s:string" />
+	</message>
+	<message name="getDiedOnHttpPostOut">
+		<part name="Body" element="s0:DataSet" />
+	</message>
+	<portType name="DeadOrAliveSoap">
+		<operation name="getTodaysBirthdays">
+			<input message="s0:getTodaysBirthdaysSoapIn" />
+			<output message="s0:getTodaysBirthdaysSoapOut" />
+		</operation>
+		<operation name="getDeadOrAlive">
+			<input message="s0:getDeadOrAliveSoapIn" />
+			<output message="s0:getDeadOrAliveSoapOut" />
+		</operation>
+		<operation name="getBornOn">
+			<input message="s0:getBornOnSoapIn" />
+			<output message="s0:getBornOnSoapOut" />
+		</operation>
+		<operation name="getDiedOn">
+			<input message="s0:getDiedOnSoapIn" />
+			<output message="s0:getDiedOnSoapOut" />
+		</operation>
+	</portType>
+	<portType name="DeadOrAliveHttpGet">
+		<operation name="getTodaysBirthdays">
+			<input message="s0:getTodaysBirthdaysHttpGetIn" />
+			<output message="s0:getTodaysBirthdaysHttpGetOut" />
+		</operation>
+		<operation name="getDeadOrAlive">
+			<input message="s0:getDeadOrAliveHttpGetIn" />
+			<output message="s0:getDeadOrAliveHttpGetOut" />
+		</operation>
+		<operation name="getBornOn">
+			<input message="s0:getBornOnHttpGetIn" />
+			<output message="s0:getBornOnHttpGetOut" />
+		</operation>
+		<operation name="getDiedOn">
+			<input message="s0:getDiedOnHttpGetIn" />
+			<output message="s0:getDiedOnHttpGetOut" />
+		</operation>
+	</portType>
+	<portType name="DeadOrAliveHttpPost">
+		<operation name="getTodaysBirthdays">
+			<input message="s0:getTodaysBirthdaysHttpPostIn" />
+			<output message="s0:getTodaysBirthdaysHttpPostOut" />
+		</operation>
+		<operation name="getDeadOrAlive">
+			<input message="s0:getDeadOrAliveHttpPostIn" />
+			<output message="s0:getDeadOrAliveHttpPostOut" />
+		</operation>
+		<operation name="getBornOn">
+			<input message="s0:getBornOnHttpPostIn" />
+			<output message="s0:getBornOnHttpPostOut" />
+		</operation>
+		<operation name="getDiedOn">
+			<input message="s0:getDiedOnHttpPostIn" />
+			<output message="s0:getDiedOnHttpPostOut" />
+		</operation>
+	</portType>
+	<binding name="DeadOrAliveSoap" type="s0:DeadOrAliveSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<operation name="getTodaysBirthdays">
+			<soap:operation soapAction="http://www.abundanttech.com/webservices/deadoralive/getTodaysBirthdays"
+				style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="getDeadOrAlive">
+			<soap:operation soapAction="http://www.abundanttech.com/webservices/deadoralive/getDeadOrAlive" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="getBornOn">
+			<soap:operation soapAction="http://www.abundanttech.com/webservices/deadoralive/getBornOn" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="getDiedOn">
+			<soap:operation soapAction="http://www.abundanttech.com/webservices/deadoralive/getDiedOn" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<binding name="DeadOrAliveHttpGet" type="s0:DeadOrAliveHttpGet">
+		<http:binding verb="GET" />
+		<operation name="getTodaysBirthdays">
+			<http:operation location="/getTodaysBirthdays" />
+			<input>
+				<http:urlEncoded />
+			</input>
+			<output>
+				<mime:mimeXml part="Body" />
+			</output>
+		</operation>
+		<operation name="getDeadOrAlive">
+			<http:operation location="/getDeadOrAlive" />
+			<input>
+				<http:urlEncoded />
+			</input>
+			<output>
+				<mime:mimeXml part="Body" />
+			</output>
+		</operation>
+		<operation name="getBornOn">
+			<http:operation location="/getBornOn" />
+			<input>
+				<http:urlEncoded />
+			</input>
+			<output>
+				<mime:mimeXml part="Body" />
+			</output>
+		</operation>
+		<operation name="getDiedOn">
+			<http:operation location="/getDiedOn" />
+			<input>
+				<http:urlEncoded />
+			</input>
+			<output>
+				<mime:mimeXml part="Body" />
+			</output>
+		</operation>
+	</binding>
+	<binding name="DeadOrAliveHttpPost" type="s0:DeadOrAliveHttpPost">
+		<http:binding verb="POST" />
+		<operation name="getTodaysBirthdays">
+			<http:operation location="/getTodaysBirthdays" />
+			<input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</input>
+			<output>
+				<mime:mimeXml part="Body" />
+			</output>
+		</operation>
+		<operation name="getDeadOrAlive">
+			<http:operation location="/getDeadOrAlive" />
+			<input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</input>
+			<output>
+				<mime:mimeXml part="Body" />
+			</output>
+		</operation>
+		<operation name="getBornOn">
+			<http:operation location="/getBornOn" />
+			<input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</input>
+			<output>
+				<mime:mimeXml part="Body" />
+			</output>
+		</operation>
+		<operation name="getDiedOn">
+			<http:operation location="/getDiedOn" />
+			<input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</input>
+			<output>
+				<mime:mimeXml part="Body" />
+			</output>
+		</operation>
+	</binding>
+	<service name="DeadOrAlive">
+		<port name="DeadOrAliveSoap" binding="s0:DeadOrAliveSoap">
+			<soap:address location="http://www.abundanttech.com/WebServices/DeadOrAlive/DeadOrAlive.asmx" />
+		</port>
+		<port name="DeadOrAliveHttpGet" binding="s0:DeadOrAliveHttpGet">
+			<http:address location="http://www.abundanttech.com/WebServices/DeadOrAlive/DeadOrAlive.asmx" />
+		</port>
+		<port name="DeadOrAliveHttpPost" binding="s0:DeadOrAliveHttpPost">
+			<http:address location="http://www.abundanttech.com/WebServices/DeadOrAlive/DeadOrAlive.asmx" />
+		</port>
+	</service>
+</definitions>

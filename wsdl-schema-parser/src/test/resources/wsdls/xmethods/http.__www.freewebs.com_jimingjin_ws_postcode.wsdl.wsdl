@@ -1,1 +1,93 @@
-<?xml version="1.0" encoding="utf-8"?><definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="http://tempuri.org/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://tempuri.org/" xmlns="http://schemas.xmlsoap.org/wsdl/">  <types>    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">      <s:import namespace="http://www.w3.org/2001/XMLSchema" />      <s:element name="GetPostCode">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="province" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="city" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetPostCodeResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetPostCodeResult">              <s:complexType>                <s:sequence>                  <s:element ref="s:schema" />                  <s:any />                </s:sequence>              </s:complexType>            </s:element>          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTotalRow">        <s:complexType />      </s:element>      <s:element name="GetTotalRowResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTotalRowResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>    </s:schema>  </types>  <message name="GetPostCodeSoapIn">    <part name="parameters" element="s0:GetPostCode" />  </message>  <message name="GetPostCodeSoapOut">    <part name="parameters" element="s0:GetPostCodeResponse" />  </message>  <message name="GetTotalRowSoapIn">    <part name="parameters" element="s0:GetTotalRow" />  </message>  <message name="GetTotalRowSoapOut">    <part name="parameters" element="s0:GetTotalRowResponse" />  </message>  <portType name="CPostcodeSoap">    <operation name="GetPostCode">      <documentation>Find out the post code.</documentation>      <input message="s0:GetPostCodeSoapIn" />      <output message="s0:GetPostCodeSoapOut" />    </operation>    <operation name="GetTotalRow">      <documentation>Get post code total rows number.</documentation>      <input message="s0:GetTotalRowSoapIn" />      <output message="s0:GetTotalRowSoapOut" />    </operation>  </portType>  <binding name="CPostcodeSoap" type="s0:CPostcodeSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <operation name="GetPostCode">      <soap:operation soapAction="http://tempuri.org/GetPostCode" style="document" />      <input>        <soap:body use="literal" />      </input>      <output>        <soap:body use="literal" />      </output>    </operation>    <operation name="GetTotalRow">      <soap:operation soapAction="http://tempuri.org/GetTotalRow" style="document" />      <input>        <soap:body use="literal" />      </input>      <output>        <soap:body use="literal" />      </output>    </operation>  </binding>  <service name="CPostcode">    <port name="CPostcodeSoap" binding="s0:CPostcodeSoap">      <soap:address location="http://localhost/postcode/CPostcode.asmx" />    </port>  </service></definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="http://tempuri.org/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	targetNamespace="http://tempuri.org/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+			<s:import namespace="http://www.w3.org/2001/XMLSchema" />
+			<s:element name="GetPostCode">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="province" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="city" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetPostCodeResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetPostCodeResult">
+							<s:complexType>
+								<s:sequence>
+									<s:element ref="s:schema" />
+									<s:any />
+								</s:sequence>
+							</s:complexType>
+						</s:element>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTotalRow">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetTotalRowResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTotalRowResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+		</s:schema>
+	</types>
+	<message name="GetPostCodeSoapIn">
+		<part name="parameters" element="s0:GetPostCode" />
+	</message>
+	<message name="GetPostCodeSoapOut">
+		<part name="parameters" element="s0:GetPostCodeResponse" />
+	</message>
+	<message name="GetTotalRowSoapIn">
+		<part name="parameters" element="s0:GetTotalRow" />
+	</message>
+	<message name="GetTotalRowSoapOut">
+		<part name="parameters" element="s0:GetTotalRowResponse" />
+	</message>
+	<portType name="CPostcodeSoap">
+		<operation name="GetPostCode">
+			<documentation>Find out the post code.</documentation>
+			<input message="s0:GetPostCodeSoapIn" />
+			<output message="s0:GetPostCodeSoapOut" />
+		</operation>
+		<operation name="GetTotalRow">
+			<documentation>Get post code total rows number.</documentation>
+			<input message="s0:GetTotalRowSoapIn" />
+			<output message="s0:GetTotalRowSoapOut" />
+		</operation>
+	</portType>
+	<binding name="CPostcodeSoap" type="s0:CPostcodeSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<operation name="GetPostCode">
+			<soap:operation soapAction="http://tempuri.org/GetPostCode" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="GetTotalRow">
+			<soap:operation soapAction="http://tempuri.org/GetTotalRow" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="CPostcode">
+		<port name="CPostcodeSoap" binding="s0:CPostcodeSoap">
+			<soap:address location="http://localhost/postcode/CPostcode.asmx" />
+		</port>
+	</service>
+</definitions>

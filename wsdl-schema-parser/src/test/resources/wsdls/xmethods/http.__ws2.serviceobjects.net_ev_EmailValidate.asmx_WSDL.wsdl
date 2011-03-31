@@ -1,1 +1,482 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.serviceobjects.com/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://www.serviceobjects.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.serviceobjects.com/">      <s:element name="ValidateEmailNoSMTP_V2">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidateEmailNoSMTP_V2Response">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ValidateEmailNoSMTP_V2Result" type="tns:EmailNoSMTP_V2" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="EmailNoSMTP_V2">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />          <s:element minOccurs="0" maxOccurs="1" name="SyntaxCheck" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DNSCheck" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="IsFree" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="IsEstablished" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="IsBogus" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="IsVulgar" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="IsAlias" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="IsCatchAllDomain" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PossibleFirstName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PossibleLastName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Exception" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="Err">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Desc" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="ValidateEmail">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidateEmailResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ValidateEmailResult" type="tns:Email" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="Email">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />          <s:element minOccurs="0" maxOccurs="1" name="SyntaxCheck" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DNSCheck" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="SMTPCheck" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FastSMTP" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="AgeIndex" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ValidityIndex" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="IsFree" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="IsEstablished" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="IsBogus" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="IsVulgar" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="IsAlias" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="IsCatchAllDomain" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PossibleFirstName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PossibleLastName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Exception" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="ValidateEmailNoSMTP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidateEmailNoSMTPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ValidateEmailNoSMTPResult" type="tns:Email" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidateEmailFastSMTP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidateEmailFastSMTPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ValidateEmailFastSMTPResult" type="tns:Email" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidateEmailFullSMTP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidateEmailFullSMTPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ValidateEmailFullSMTPResult" type="tns:Email" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="EmailNoSMTP_V2" nillable="true" type="tns:EmailNoSMTP_V2" />      <s:element name="Email" nillable="true" type="tns:Email" />    </s:schema>  </wsdl:types>  <wsdl:message name="ValidateEmailNoSMTP_V2SoapIn">    <wsdl:part name="parameters" element="tns:ValidateEmailNoSMTP_V2" />  </wsdl:message>  <wsdl:message name="ValidateEmailNoSMTP_V2SoapOut">    <wsdl:part name="parameters" element="tns:ValidateEmailNoSMTP_V2Response" />  </wsdl:message>  <wsdl:message name="ValidateEmailSoapIn">    <wsdl:part name="parameters" element="tns:ValidateEmail" />  </wsdl:message>  <wsdl:message name="ValidateEmailSoapOut">    <wsdl:part name="parameters" element="tns:ValidateEmailResponse" />  </wsdl:message>  <wsdl:message name="ValidateEmailNoSMTPSoapIn">    <wsdl:part name="parameters" element="tns:ValidateEmailNoSMTP" />  </wsdl:message>  <wsdl:message name="ValidateEmailNoSMTPSoapOut">    <wsdl:part name="parameters" element="tns:ValidateEmailNoSMTPResponse" />  </wsdl:message>  <wsdl:message name="ValidateEmailFastSMTPSoapIn">    <wsdl:part name="parameters" element="tns:ValidateEmailFastSMTP" />  </wsdl:message>  <wsdl:message name="ValidateEmailFastSMTPSoapOut">    <wsdl:part name="parameters" element="tns:ValidateEmailFastSMTPResponse" />  </wsdl:message>  <wsdl:message name="ValidateEmailFullSMTPSoapIn">    <wsdl:part name="parameters" element="tns:ValidateEmailFullSMTP" />  </wsdl:message>  <wsdl:message name="ValidateEmailFullSMTPSoapOut">    <wsdl:part name="parameters" element="tns:ValidateEmailFullSMTPResponse" />  </wsdl:message>  <wsdl:message name="ValidateEmailNoSMTP_V2HttpGetIn">    <wsdl:part name="Email" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateEmailNoSMTP_V2HttpGetOut">    <wsdl:part name="Body" element="tns:EmailNoSMTP_V2" />  </wsdl:message>  <wsdl:message name="ValidateEmailHttpGetIn">    <wsdl:part name="Email" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateEmailHttpGetOut">    <wsdl:part name="Body" element="tns:Email" />  </wsdl:message>  <wsdl:message name="ValidateEmailNoSMTPHttpGetIn">    <wsdl:part name="Email" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateEmailNoSMTPHttpGetOut">    <wsdl:part name="Body" element="tns:Email" />  </wsdl:message>  <wsdl:message name="ValidateEmailFastSMTPHttpGetIn">    <wsdl:part name="Email" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateEmailFastSMTPHttpGetOut">    <wsdl:part name="Body" element="tns:Email" />  </wsdl:message>  <wsdl:message name="ValidateEmailFullSMTPHttpGetIn">    <wsdl:part name="Email" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateEmailFullSMTPHttpGetOut">    <wsdl:part name="Body" element="tns:Email" />  </wsdl:message>  <wsdl:message name="ValidateEmailNoSMTP_V2HttpPostIn">    <wsdl:part name="Email" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateEmailNoSMTP_V2HttpPostOut">    <wsdl:part name="Body" element="tns:EmailNoSMTP_V2" />  </wsdl:message>  <wsdl:message name="ValidateEmailHttpPostIn">    <wsdl:part name="Email" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateEmailHttpPostOut">    <wsdl:part name="Body" element="tns:Email" />  </wsdl:message>  <wsdl:message name="ValidateEmailNoSMTPHttpPostIn">    <wsdl:part name="Email" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateEmailNoSMTPHttpPostOut">    <wsdl:part name="Body" element="tns:Email" />  </wsdl:message>  <wsdl:message name="ValidateEmailFastSMTPHttpPostIn">    <wsdl:part name="Email" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateEmailFastSMTPHttpPostOut">    <wsdl:part name="Body" element="tns:Email" />  </wsdl:message>  <wsdl:message name="ValidateEmailFullSMTPHttpPostIn">    <wsdl:part name="Email" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateEmailFullSMTPHttpPostOut">    <wsdl:part name="Body" element="tns:Email" />  </wsdl:message>  <wsdl:portType name="DOTSEmailValidateSoap">    <wsdl:operation name="ValidateEmailNoSMTP_V2">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Version 2. Returns corrected email information for a given email address.</documentation>      <wsdl:input message="tns:ValidateEmailNoSMTP_V2SoapIn" />      <wsdl:output message="tns:ValidateEmailNoSMTP_V2SoapOut" />    </wsdl:operation>    <wsdl:operation name="ValidateEmail">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address.</documentation>      <wsdl:input message="tns:ValidateEmailSoapIn" />      <wsdl:output message="tns:ValidateEmailSoapOut" />    </wsdl:operation>    <wsdl:operation name="ValidateEmailNoSMTP">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, but does not check SMTP validity.</documentation>      <wsdl:input message="tns:ValidateEmailNoSMTPSoapIn" />      <wsdl:output message="tns:ValidateEmailNoSMTPSoapOut" />    </wsdl:operation>    <wsdl:operation name="ValidateEmailFastSMTP">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, without extra metadata.</documentation>      <wsdl:input message="tns:ValidateEmailFastSMTPSoapIn" />      <wsdl:output message="tns:ValidateEmailFastSMTPSoapOut" />    </wsdl:operation>    <wsdl:operation name="ValidateEmailFullSMTP">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, with extra metadata.</documentation>      <wsdl:input message="tns:ValidateEmailFullSMTPSoapIn" />      <wsdl:output message="tns:ValidateEmailFullSMTPSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="DOTSEmailValidateHttpGet">    <wsdl:operation name="ValidateEmailNoSMTP_V2">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Version 2. Returns corrected email information for a given email address.</documentation>      <wsdl:input message="tns:ValidateEmailNoSMTP_V2HttpGetIn" />      <wsdl:output message="tns:ValidateEmailNoSMTP_V2HttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ValidateEmail">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address.</documentation>      <wsdl:input message="tns:ValidateEmailHttpGetIn" />      <wsdl:output message="tns:ValidateEmailHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ValidateEmailNoSMTP">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, but does not check SMTP validity.</documentation>      <wsdl:input message="tns:ValidateEmailNoSMTPHttpGetIn" />      <wsdl:output message="tns:ValidateEmailNoSMTPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ValidateEmailFastSMTP">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, without extra metadata.</documentation>      <wsdl:input message="tns:ValidateEmailFastSMTPHttpGetIn" />      <wsdl:output message="tns:ValidateEmailFastSMTPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ValidateEmailFullSMTP">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, with extra metadata.</documentation>      <wsdl:input message="tns:ValidateEmailFullSMTPHttpGetIn" />      <wsdl:output message="tns:ValidateEmailFullSMTPHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="DOTSEmailValidateHttpPost">    <wsdl:operation name="ValidateEmailNoSMTP_V2">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Version 2. Returns corrected email information for a given email address.</documentation>      <wsdl:input message="tns:ValidateEmailNoSMTP_V2HttpPostIn" />      <wsdl:output message="tns:ValidateEmailNoSMTP_V2HttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ValidateEmail">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address.</documentation>      <wsdl:input message="tns:ValidateEmailHttpPostIn" />      <wsdl:output message="tns:ValidateEmailHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ValidateEmailNoSMTP">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, but does not check SMTP validity.</documentation>      <wsdl:input message="tns:ValidateEmailNoSMTPHttpPostIn" />      <wsdl:output message="tns:ValidateEmailNoSMTPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ValidateEmailFastSMTP">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, without extra metadata.</documentation>      <wsdl:input message="tns:ValidateEmailFastSMTPHttpPostIn" />      <wsdl:output message="tns:ValidateEmailFastSMTPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ValidateEmailFullSMTP">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, with extra metadata.</documentation>      <wsdl:input message="tns:ValidateEmailFullSMTPHttpPostIn" />      <wsdl:output message="tns:ValidateEmailFullSMTPHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="DOTSEmailValidateSoap" type="tns:DOTSEmailValidateSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <wsdl:operation name="ValidateEmailNoSMTP_V2">      <soap:operation soapAction="http://www.serviceobjects.com/ValidateEmailNoSMTP_V2" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateEmail">      <soap:operation soapAction="http://www.serviceobjects.com/ValidateEmail" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateEmailNoSMTP">      <soap:operation soapAction="http://www.serviceobjects.com/ValidateEmailNoSMTP" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateEmailFastSMTP">      <soap:operation soapAction="http://www.serviceobjects.com/ValidateEmailFastSMTP" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateEmailFullSMTP">      <soap:operation soapAction="http://www.serviceobjects.com/ValidateEmailFullSMTP" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="DOTSEmailValidateHttpGet" type="tns:DOTSEmailValidateHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="ValidateEmailNoSMTP_V2">      <http:operation location="/ValidateEmailNoSMTP_V2" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateEmail">      <http:operation location="/ValidateEmail" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateEmailNoSMTP">      <http:operation location="/ValidateEmailNoSMTP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateEmailFastSMTP">      <http:operation location="/ValidateEmailFastSMTP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateEmailFullSMTP">      <http:operation location="/ValidateEmailFullSMTP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="DOTSEmailValidateHttpPost" type="tns:DOTSEmailValidateHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="ValidateEmailNoSMTP_V2">      <http:operation location="/ValidateEmailNoSMTP_V2" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateEmail">      <http:operation location="/ValidateEmail" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateEmailNoSMTP">      <http:operation location="/ValidateEmailNoSMTP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateEmailFastSMTP">      <http:operation location="/ValidateEmailFastSMTP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateEmailFullSMTP">      <http:operation location="/ValidateEmailFullSMTP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="DOTSEmailValidate">    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">For more information on our web services, visit us at &lt;a href='http://www.serviceobjects.com/products/default.asp' target='new'&gt;our website&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;&lt;a href='http://www.serviceobjects.com' target='new'&gt;&lt;img src='http://www.serviceobjects.com/images/so_logo_2_inside.gif' border='0'/&gt;&lt;/a&gt;</documentation>    <wsdl:port name="DOTSEmailValidateSoap" binding="tns:DOTSEmailValidateSoap">      <soap:address location="http://ws2.serviceobjects.net/ev/EmailValidate.asmx" />    </wsdl:port>    <wsdl:port name="DOTSEmailValidateHttpGet" binding="tns:DOTSEmailValidateHttpGet">      <http:address location="http://ws2.serviceobjects.net/ev/EmailValidate.asmx" />    </wsdl:port>    <wsdl:port name="DOTSEmailValidateHttpPost" binding="tns:DOTSEmailValidateHttpPost">      <http:address location="http://ws2.serviceobjects.net/ev/EmailValidate.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.serviceobjects.com/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	targetNamespace="http://www.serviceobjects.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.serviceobjects.com/">
+			<s:element name="ValidateEmailNoSMTP_V2">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidateEmailNoSMTP_V2Response">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ValidateEmailNoSMTP_V2Result" type="tns:EmailNoSMTP_V2" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="EmailNoSMTP_V2">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />
+					<s:element minOccurs="0" maxOccurs="1" name="SyntaxCheck" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DNSCheck" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="IsFree" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="IsEstablished" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="IsBogus" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="IsVulgar" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="IsAlias" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="IsCatchAllDomain" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PossibleFirstName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PossibleLastName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Exception" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Err">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Desc" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="ValidateEmail">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidateEmailResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ValidateEmailResult" type="tns:Email" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="Email">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />
+					<s:element minOccurs="0" maxOccurs="1" name="SyntaxCheck" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DNSCheck" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="SMTPCheck" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FastSMTP" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="AgeIndex" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ValidityIndex" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="IsFree" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="IsEstablished" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="IsBogus" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="IsVulgar" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="IsAlias" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="IsCatchAllDomain" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PossibleFirstName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PossibleLastName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Exception" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="ValidateEmailNoSMTP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidateEmailNoSMTPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ValidateEmailNoSMTPResult" type="tns:Email" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidateEmailFastSMTP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidateEmailFastSMTPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ValidateEmailFastSMTPResult" type="tns:Email" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidateEmailFullSMTP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidateEmailFullSMTPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ValidateEmailFullSMTPResult" type="tns:Email" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="EmailNoSMTP_V2" nillable="true" type="tns:EmailNoSMTP_V2" />
+			<s:element name="Email" nillable="true" type="tns:Email" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="ValidateEmailNoSMTP_V2SoapIn">
+		<wsdl:part name="parameters" element="tns:ValidateEmailNoSMTP_V2" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailNoSMTP_V2SoapOut">
+		<wsdl:part name="parameters" element="tns:ValidateEmailNoSMTP_V2Response" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailSoapIn">
+		<wsdl:part name="parameters" element="tns:ValidateEmail" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailSoapOut">
+		<wsdl:part name="parameters" element="tns:ValidateEmailResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailNoSMTPSoapIn">
+		<wsdl:part name="parameters" element="tns:ValidateEmailNoSMTP" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailNoSMTPSoapOut">
+		<wsdl:part name="parameters" element="tns:ValidateEmailNoSMTPResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailFastSMTPSoapIn">
+		<wsdl:part name="parameters" element="tns:ValidateEmailFastSMTP" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailFastSMTPSoapOut">
+		<wsdl:part name="parameters" element="tns:ValidateEmailFastSMTPResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailFullSMTPSoapIn">
+		<wsdl:part name="parameters" element="tns:ValidateEmailFullSMTP" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailFullSMTPSoapOut">
+		<wsdl:part name="parameters" element="tns:ValidateEmailFullSMTPResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailNoSMTP_V2HttpGetIn">
+		<wsdl:part name="Email" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailNoSMTP_V2HttpGetOut">
+		<wsdl:part name="Body" element="tns:EmailNoSMTP_V2" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailHttpGetIn">
+		<wsdl:part name="Email" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailHttpGetOut">
+		<wsdl:part name="Body" element="tns:Email" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailNoSMTPHttpGetIn">
+		<wsdl:part name="Email" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailNoSMTPHttpGetOut">
+		<wsdl:part name="Body" element="tns:Email" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailFastSMTPHttpGetIn">
+		<wsdl:part name="Email" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailFastSMTPHttpGetOut">
+		<wsdl:part name="Body" element="tns:Email" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailFullSMTPHttpGetIn">
+		<wsdl:part name="Email" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailFullSMTPHttpGetOut">
+		<wsdl:part name="Body" element="tns:Email" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailNoSMTP_V2HttpPostIn">
+		<wsdl:part name="Email" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailNoSMTP_V2HttpPostOut">
+		<wsdl:part name="Body" element="tns:EmailNoSMTP_V2" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailHttpPostIn">
+		<wsdl:part name="Email" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailHttpPostOut">
+		<wsdl:part name="Body" element="tns:Email" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailNoSMTPHttpPostIn">
+		<wsdl:part name="Email" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailNoSMTPHttpPostOut">
+		<wsdl:part name="Body" element="tns:Email" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailFastSMTPHttpPostIn">
+		<wsdl:part name="Email" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailFastSMTPHttpPostOut">
+		<wsdl:part name="Body" element="tns:Email" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailFullSMTPHttpPostIn">
+		<wsdl:part name="Email" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateEmailFullSMTPHttpPostOut">
+		<wsdl:part name="Body" element="tns:Email" />
+	</wsdl:message>
+	<wsdl:portType name="DOTSEmailValidateSoap">
+		<wsdl:operation name="ValidateEmailNoSMTP_V2">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Version 2. Returns corrected email information for a given email address.
+			</documentation>
+			<wsdl:input message="tns:ValidateEmailNoSMTP_V2SoapIn" />
+			<wsdl:output message="tns:ValidateEmailNoSMTP_V2SoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmail">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address.</documentation>
+			<wsdl:input message="tns:ValidateEmailSoapIn" />
+			<wsdl:output message="tns:ValidateEmailSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailNoSMTP">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, but does not check
+				SMTP validity.</documentation>
+			<wsdl:input message="tns:ValidateEmailNoSMTPSoapIn" />
+			<wsdl:output message="tns:ValidateEmailNoSMTPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailFastSMTP">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, without extra
+				metadata.</documentation>
+			<wsdl:input message="tns:ValidateEmailFastSMTPSoapIn" />
+			<wsdl:output message="tns:ValidateEmailFastSMTPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailFullSMTP">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, with extra
+				metadata.</documentation>
+			<wsdl:input message="tns:ValidateEmailFullSMTPSoapIn" />
+			<wsdl:output message="tns:ValidateEmailFullSMTPSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DOTSEmailValidateHttpGet">
+		<wsdl:operation name="ValidateEmailNoSMTP_V2">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Version 2. Returns corrected email information for a given email address.
+			</documentation>
+			<wsdl:input message="tns:ValidateEmailNoSMTP_V2HttpGetIn" />
+			<wsdl:output message="tns:ValidateEmailNoSMTP_V2HttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmail">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address.</documentation>
+			<wsdl:input message="tns:ValidateEmailHttpGetIn" />
+			<wsdl:output message="tns:ValidateEmailHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailNoSMTP">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, but does not check
+				SMTP validity.</documentation>
+			<wsdl:input message="tns:ValidateEmailNoSMTPHttpGetIn" />
+			<wsdl:output message="tns:ValidateEmailNoSMTPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailFastSMTP">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, without extra
+				metadata.</documentation>
+			<wsdl:input message="tns:ValidateEmailFastSMTPHttpGetIn" />
+			<wsdl:output message="tns:ValidateEmailFastSMTPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailFullSMTP">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, with extra
+				metadata.</documentation>
+			<wsdl:input message="tns:ValidateEmailFullSMTPHttpGetIn" />
+			<wsdl:output message="tns:ValidateEmailFullSMTPHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DOTSEmailValidateHttpPost">
+		<wsdl:operation name="ValidateEmailNoSMTP_V2">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Version 2. Returns corrected email information for a given email address.
+			</documentation>
+			<wsdl:input message="tns:ValidateEmailNoSMTP_V2HttpPostIn" />
+			<wsdl:output message="tns:ValidateEmailNoSMTP_V2HttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmail">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address.</documentation>
+			<wsdl:input message="tns:ValidateEmailHttpPostIn" />
+			<wsdl:output message="tns:ValidateEmailHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailNoSMTP">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, but does not check
+				SMTP validity.</documentation>
+			<wsdl:input message="tns:ValidateEmailNoSMTPHttpPostIn" />
+			<wsdl:output message="tns:ValidateEmailNoSMTPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailFastSMTP">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, without extra
+				metadata.</documentation>
+			<wsdl:input message="tns:ValidateEmailFastSMTPHttpPostIn" />
+			<wsdl:output message="tns:ValidateEmailFastSMTPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailFullSMTP">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected email information for a given email address, with extra
+				metadata.</documentation>
+			<wsdl:input message="tns:ValidateEmailFullSMTPHttpPostIn" />
+			<wsdl:output message="tns:ValidateEmailFullSMTPHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="DOTSEmailValidateSoap" type="tns:DOTSEmailValidateSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<wsdl:operation name="ValidateEmailNoSMTP_V2">
+			<soap:operation soapAction="http://www.serviceobjects.com/ValidateEmailNoSMTP_V2" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmail">
+			<soap:operation soapAction="http://www.serviceobjects.com/ValidateEmail" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailNoSMTP">
+			<soap:operation soapAction="http://www.serviceobjects.com/ValidateEmailNoSMTP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailFastSMTP">
+			<soap:operation soapAction="http://www.serviceobjects.com/ValidateEmailFastSMTP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailFullSMTP">
+			<soap:operation soapAction="http://www.serviceobjects.com/ValidateEmailFullSMTP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="DOTSEmailValidateHttpGet" type="tns:DOTSEmailValidateHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="ValidateEmailNoSMTP_V2">
+			<http:operation location="/ValidateEmailNoSMTP_V2" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmail">
+			<http:operation location="/ValidateEmail" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailNoSMTP">
+			<http:operation location="/ValidateEmailNoSMTP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailFastSMTP">
+			<http:operation location="/ValidateEmailFastSMTP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailFullSMTP">
+			<http:operation location="/ValidateEmailFullSMTP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="DOTSEmailValidateHttpPost" type="tns:DOTSEmailValidateHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="ValidateEmailNoSMTP_V2">
+			<http:operation location="/ValidateEmailNoSMTP_V2" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmail">
+			<http:operation location="/ValidateEmail" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailNoSMTP">
+			<http:operation location="/ValidateEmailNoSMTP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailFastSMTP">
+			<http:operation location="/ValidateEmailFastSMTP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateEmailFullSMTP">
+			<http:operation location="/ValidateEmailFullSMTP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="DOTSEmailValidate">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">For more information on our web services, visit us at &lt;a
+			href='http://www.serviceobjects.com/products/default.asp' target='new'&gt;our
+			website&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;&lt;a href='http://www.serviceobjects.com' target='new'&gt;&lt;img
+			src='http://www.serviceobjects.com/images/so_logo_2_inside.gif' border='0'/&gt;&lt;/a&gt;</documentation>
+		<wsdl:port name="DOTSEmailValidateSoap" binding="tns:DOTSEmailValidateSoap">
+			<soap:address location="http://ws2.serviceobjects.net/ev/EmailValidate.asmx" />
+		</wsdl:port>
+		<wsdl:port name="DOTSEmailValidateHttpGet" binding="tns:DOTSEmailValidateHttpGet">
+			<http:address location="http://ws2.serviceobjects.net/ev/EmailValidate.asmx" />
+		</wsdl:port>
+		<wsdl:port name="DOTSEmailValidateHttpPost" binding="tns:DOTSEmailValidateHttpPost">
+			<http:address location="http://ws2.serviceobjects.net/ev/EmailValidate.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

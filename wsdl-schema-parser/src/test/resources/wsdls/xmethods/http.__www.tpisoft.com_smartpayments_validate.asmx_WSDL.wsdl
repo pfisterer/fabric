@@ -1,1 +1,700 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://localhost/SmartPayments/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://localhost/SmartPayments/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Credit Card Validation and Card Type Web Service</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://localhost/SmartPayments/">      <s:element name="GetCardType">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="CardNumber" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetCardTypeResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetCardTypeResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="IsCommercialCard">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="CardNumber" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="IsCommercialCardResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="IsCommercialCardResult" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidCard">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="CardNumber" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ExpDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidCardResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="ValidCardResult" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidCardLength">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="CardNumber" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidCardLengthResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="ValidCardLengthResult" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidExpDate">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ExpDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidExpDateResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="ValidExpDateResult" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidMod10">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="CardNumber" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidMod10Response">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="ValidMod10Result" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetNetworkID">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="CardNumber" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetNetworkIDResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetNetworkIDResult" type="tns:Response" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="Response">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="RespMSG" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Message1" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Message2" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="AuthCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PNRef" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="HostCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="HostURL" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ReceiptURL" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GetAVSResult" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GetAVSResultTXT" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GetStreetMatchTXT" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GetZipMatchTXT" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GetCVResult" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GetCVResultTXT" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GetGetOrigResult" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GetCommercialCard" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="WorkingKey" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="KeyPointer" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="string" nillable="true" type="s:string" />      <s:element name="boolean" type="s:boolean" />      <s:element name="int" type="s:int" />      <s:element name="Response" nillable="true" type="tns:Response" />    </s:schema>  </wsdl:types>  <wsdl:message name="GetCardTypeSoapIn">    <wsdl:part name="parameters" element="tns:GetCardType" />  </wsdl:message>  <wsdl:message name="GetCardTypeSoapOut">    <wsdl:part name="parameters" element="tns:GetCardTypeResponse" />  </wsdl:message>  <wsdl:message name="IsCommercialCardSoapIn">    <wsdl:part name="parameters" element="tns:IsCommercialCard" />  </wsdl:message>  <wsdl:message name="IsCommercialCardSoapOut">    <wsdl:part name="parameters" element="tns:IsCommercialCardResponse" />  </wsdl:message>  <wsdl:message name="ValidCardSoapIn">    <wsdl:part name="parameters" element="tns:ValidCard" />  </wsdl:message>  <wsdl:message name="ValidCardSoapOut">    <wsdl:part name="parameters" element="tns:ValidCardResponse" />  </wsdl:message>  <wsdl:message name="ValidCardLengthSoapIn">    <wsdl:part name="parameters" element="tns:ValidCardLength" />  </wsdl:message>  <wsdl:message name="ValidCardLengthSoapOut">    <wsdl:part name="parameters" element="tns:ValidCardLengthResponse" />  </wsdl:message>  <wsdl:message name="ValidExpDateSoapIn">    <wsdl:part name="parameters" element="tns:ValidExpDate" />  </wsdl:message>  <wsdl:message name="ValidExpDateSoapOut">    <wsdl:part name="parameters" element="tns:ValidExpDateResponse" />  </wsdl:message>  <wsdl:message name="ValidMod10SoapIn">    <wsdl:part name="parameters" element="tns:ValidMod10" />  </wsdl:message>  <wsdl:message name="ValidMod10SoapOut">    <wsdl:part name="parameters" element="tns:ValidMod10Response" />  </wsdl:message>  <wsdl:message name="GetNetworkIDSoapIn">    <wsdl:part name="parameters" element="tns:GetNetworkID" />  </wsdl:message>  <wsdl:message name="GetNetworkIDSoapOut">    <wsdl:part name="parameters" element="tns:GetNetworkIDResponse" />  </wsdl:message>  <wsdl:message name="GetCardTypeHttpGetIn">    <wsdl:part name="CardNumber" type="s:string" />  </wsdl:message>  <wsdl:message name="GetCardTypeHttpGetOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:message name="IsCommercialCardHttpGetIn">    <wsdl:part name="CardNumber" type="s:string" />  </wsdl:message>  <wsdl:message name="IsCommercialCardHttpGetOut">    <wsdl:part name="Body" element="tns:boolean" />  </wsdl:message>  <wsdl:message name="ValidCardHttpGetIn">    <wsdl:part name="CardNumber" type="s:string" />    <wsdl:part name="ExpDate" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidCardHttpGetOut">    <wsdl:part name="Body" element="tns:int" />  </wsdl:message>  <wsdl:message name="ValidCardLengthHttpGetIn">    <wsdl:part name="CardNumber" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidCardLengthHttpGetOut">    <wsdl:part name="Body" element="tns:boolean" />  </wsdl:message>  <wsdl:message name="ValidExpDateHttpGetIn">    <wsdl:part name="ExpDate" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidExpDateHttpGetOut">    <wsdl:part name="Body" element="tns:boolean" />  </wsdl:message>  <wsdl:message name="ValidMod10HttpGetIn">    <wsdl:part name="CardNumber" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidMod10HttpGetOut">    <wsdl:part name="Body" element="tns:boolean" />  </wsdl:message>  <wsdl:message name="GetNetworkIDHttpGetIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="CardNumber" type="s:string" />  </wsdl:message>  <wsdl:message name="GetNetworkIDHttpGetOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:message name="GetCardTypeHttpPostIn">    <wsdl:part name="CardNumber" type="s:string" />  </wsdl:message>  <wsdl:message name="GetCardTypeHttpPostOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:message name="IsCommercialCardHttpPostIn">    <wsdl:part name="CardNumber" type="s:string" />  </wsdl:message>  <wsdl:message name="IsCommercialCardHttpPostOut">    <wsdl:part name="Body" element="tns:boolean" />  </wsdl:message>  <wsdl:message name="ValidCardHttpPostIn">    <wsdl:part name="CardNumber" type="s:string" />    <wsdl:part name="ExpDate" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidCardHttpPostOut">    <wsdl:part name="Body" element="tns:int" />  </wsdl:message>  <wsdl:message name="ValidCardLengthHttpPostIn">    <wsdl:part name="CardNumber" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidCardLengthHttpPostOut">    <wsdl:part name="Body" element="tns:boolean" />  </wsdl:message>  <wsdl:message name="ValidExpDateHttpPostIn">    <wsdl:part name="ExpDate" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidExpDateHttpPostOut">    <wsdl:part name="Body" element="tns:boolean" />  </wsdl:message>  <wsdl:message name="ValidMod10HttpPostIn">    <wsdl:part name="CardNumber" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidMod10HttpPostOut">    <wsdl:part name="Body" element="tns:boolean" />  </wsdl:message>  <wsdl:message name="GetNetworkIDHttpPostIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="CardNumber" type="s:string" />  </wsdl:message>  <wsdl:message name="GetNetworkIDHttpPostOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:portType name="CreditCardValidatorSoap">    <wsdl:operation name="GetCardType">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the card issuer Visa, MasterCard, AMEX, etc., based  on the card number.</wsdl:documentation>      <wsdl:input message="tns:GetCardTypeSoapIn" />      <wsdl:output message="tns:GetCardTypeSoapOut" />    </wsdl:operation>    <wsdl:operation name="IsCommercialCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns (T/F) if the card is a known commercial card (commercial cards require customer code and sales tax amount to receive preferred discount rate pricing.)</wsdl:documentation>      <wsdl:input message="tns:IsCommercialCardSoapIn" />      <wsdl:output message="tns:IsCommercialCardSoapOut" />    </wsdl:operation>    <wsdl:operation name="ValidCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card by checking the card length based on the card type, performs a mod 10 checksum and validates the expiration date. Returns 0 if good, 1001 - no card number, 1002 - no exp date, 1003 - invalid card type, 1004 - invalid card length, 1005 - bad mod 10 check, 1006 - bad expiration date.</wsdl:documentation>      <wsdl:input message="tns:ValidCardSoapIn" />      <wsdl:output message="tns:ValidCardSoapOut" />    </wsdl:operation>    <wsdl:operation name="ValidCardLength">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card length by checking the card length based on the card type, Returns (T/F).</wsdl:documentation>      <wsdl:input message="tns:ValidCardLengthSoapIn" />      <wsdl:output message="tns:ValidCardLengthSoapOut" />    </wsdl:operation>    <wsdl:operation name="ValidExpDate">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the expiration date by making sure it is a valid date and the card has not expired, Returns (T/F).</wsdl:documentation>      <wsdl:input message="tns:ValidExpDateSoapIn" />      <wsdl:output message="tns:ValidExpDateSoapOut" />    </wsdl:operation>    <wsdl:operation name="ValidMod10">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card by performing a mod 10 checksum on the card number, Returns (T/F).</wsdl:documentation>      <wsdl:input message="tns:ValidMod10SoapIn" />      <wsdl:output message="tns:ValidMod10SoapOut" />    </wsdl:operation>    <wsdl:operation name="GetNetworkID">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lookup the Debit Network ID using a Card Number. Network ID is a 3 characters string. If there is a match, the card can likely be used as a Debit Card and processed through the Debit network. Possible Network ID: ACL â¬ Accel, AFN - AFFN, AKO â¬ Alaska Option, C24 â¬ CU24, ILK â¬ Interlink, JEN - Jeanie, MAC â¬ Star Northeast (MAC), MAE â¬ Maestro, NET - NETS, NYC â¬ NYCE, PUL â¬ Pulse, SES â¬ Star Southeast, SHZ â¬ Shazam, STX â¬ Star West, TYM - TYME</wsdl:documentation>      <wsdl:input message="tns:GetNetworkIDSoapIn" />      <wsdl:output message="tns:GetNetworkIDSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="CreditCardValidatorHttpGet">    <wsdl:operation name="GetCardType">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the card issuer Visa, MasterCard, AMEX, etc., based  on the card number.</wsdl:documentation>      <wsdl:input message="tns:GetCardTypeHttpGetIn" />      <wsdl:output message="tns:GetCardTypeHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="IsCommercialCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns (T/F) if the card is a known commercial card (commercial cards require customer code and sales tax amount to receive preferred discount rate pricing.)</wsdl:documentation>      <wsdl:input message="tns:IsCommercialCardHttpGetIn" />      <wsdl:output message="tns:IsCommercialCardHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ValidCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card by checking the card length based on the card type, performs a mod 10 checksum and validates the expiration date. Returns 0 if good, 1001 - no card number, 1002 - no exp date, 1003 - invalid card type, 1004 - invalid card length, 1005 - bad mod 10 check, 1006 - bad expiration date.</wsdl:documentation>      <wsdl:input message="tns:ValidCardHttpGetIn" />      <wsdl:output message="tns:ValidCardHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ValidCardLength">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card length by checking the card length based on the card type, Returns (T/F).</wsdl:documentation>      <wsdl:input message="tns:ValidCardLengthHttpGetIn" />      <wsdl:output message="tns:ValidCardLengthHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ValidExpDate">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the expiration date by making sure it is a valid date and the card has not expired, Returns (T/F).</wsdl:documentation>      <wsdl:input message="tns:ValidExpDateHttpGetIn" />      <wsdl:output message="tns:ValidExpDateHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ValidMod10">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card by performing a mod 10 checksum on the card number, Returns (T/F).</wsdl:documentation>      <wsdl:input message="tns:ValidMod10HttpGetIn" />      <wsdl:output message="tns:ValidMod10HttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetNetworkID">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lookup the Debit Network ID using a Card Number. Network ID is a 3 characters string. If there is a match, the card can likely be used as a Debit Card and processed through the Debit network. Possible Network ID: ACL â¬ Accel, AFN - AFFN, AKO â¬ Alaska Option, C24 â¬ CU24, ILK â¬ Interlink, JEN - Jeanie, MAC â¬ Star Northeast (MAC), MAE â¬ Maestro, NET - NETS, NYC â¬ NYCE, PUL â¬ Pulse, SES â¬ Star Southeast, SHZ â¬ Shazam, STX â¬ Star West, TYM - TYME</wsdl:documentation>      <wsdl:input message="tns:GetNetworkIDHttpGetIn" />      <wsdl:output message="tns:GetNetworkIDHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="CreditCardValidatorHttpPost">    <wsdl:operation name="GetCardType">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the card issuer Visa, MasterCard, AMEX, etc., based  on the card number.</wsdl:documentation>      <wsdl:input message="tns:GetCardTypeHttpPostIn" />      <wsdl:output message="tns:GetCardTypeHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="IsCommercialCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns (T/F) if the card is a known commercial card (commercial cards require customer code and sales tax amount to receive preferred discount rate pricing.)</wsdl:documentation>      <wsdl:input message="tns:IsCommercialCardHttpPostIn" />      <wsdl:output message="tns:IsCommercialCardHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ValidCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card by checking the card length based on the card type, performs a mod 10 checksum and validates the expiration date. Returns 0 if good, 1001 - no card number, 1002 - no exp date, 1003 - invalid card type, 1004 - invalid card length, 1005 - bad mod 10 check, 1006 - bad expiration date.</wsdl:documentation>      <wsdl:input message="tns:ValidCardHttpPostIn" />      <wsdl:output message="tns:ValidCardHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ValidCardLength">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card length by checking the card length based on the card type, Returns (T/F).</wsdl:documentation>      <wsdl:input message="tns:ValidCardLengthHttpPostIn" />      <wsdl:output message="tns:ValidCardLengthHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ValidExpDate">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the expiration date by making sure it is a valid date and the card has not expired, Returns (T/F).</wsdl:documentation>      <wsdl:input message="tns:ValidExpDateHttpPostIn" />      <wsdl:output message="tns:ValidExpDateHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ValidMod10">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card by performing a mod 10 checksum on the card number, Returns (T/F).</wsdl:documentation>      <wsdl:input message="tns:ValidMod10HttpPostIn" />      <wsdl:output message="tns:ValidMod10HttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetNetworkID">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lookup the Debit Network ID using a Card Number. Network ID is a 3 characters string. If there is a match, the card can likely be used as a Debit Card and processed through the Debit network. Possible Network ID: ACL â¬ Accel, AFN - AFFN, AKO â¬ Alaska Option, C24 â¬ CU24, ILK â¬ Interlink, JEN - Jeanie, MAC â¬ Star Northeast (MAC), MAE â¬ Maestro, NET - NETS, NYC â¬ NYCE, PUL â¬ Pulse, SES â¬ Star Southeast, SHZ â¬ Shazam, STX â¬ Star West, TYM - TYME</wsdl:documentation>      <wsdl:input message="tns:GetNetworkIDHttpPostIn" />      <wsdl:output message="tns:GetNetworkIDHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="CreditCardValidatorSoap" type="tns:CreditCardValidatorSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetCardType">      <soap:operation soapAction="http://localhost/SmartPayments/GetCardType" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsCommercialCard">      <soap:operation soapAction="http://localhost/SmartPayments/IsCommercialCard" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidCard">      <soap:operation soapAction="http://localhost/SmartPayments/ValidCard" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidCardLength">      <soap:operation soapAction="http://localhost/SmartPayments/ValidCardLength" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidExpDate">      <soap:operation soapAction="http://localhost/SmartPayments/ValidExpDate" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidMod10">      <soap:operation soapAction="http://localhost/SmartPayments/ValidMod10" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetNetworkID">      <soap:operation soapAction="http://localhost/SmartPayments/GetNetworkID" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="CreditCardValidatorSoap12" type="tns:CreditCardValidatorSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetCardType">      <soap12:operation soapAction="http://localhost/SmartPayments/GetCardType" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsCommercialCard">      <soap12:operation soapAction="http://localhost/SmartPayments/IsCommercialCard" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidCard">      <soap12:operation soapAction="http://localhost/SmartPayments/ValidCard" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidCardLength">      <soap12:operation soapAction="http://localhost/SmartPayments/ValidCardLength" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidExpDate">      <soap12:operation soapAction="http://localhost/SmartPayments/ValidExpDate" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidMod10">      <soap12:operation soapAction="http://localhost/SmartPayments/ValidMod10" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetNetworkID">      <soap12:operation soapAction="http://localhost/SmartPayments/GetNetworkID" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="CreditCardValidatorHttpGet" type="tns:CreditCardValidatorHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetCardType">      <http:operation location="/GetCardType" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsCommercialCard">      <http:operation location="/IsCommercialCard" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidCard">      <http:operation location="/ValidCard" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidCardLength">      <http:operation location="/ValidCardLength" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidExpDate">      <http:operation location="/ValidExpDate" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidMod10">      <http:operation location="/ValidMod10" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetNetworkID">      <http:operation location="/GetNetworkID" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="CreditCardValidatorHttpPost" type="tns:CreditCardValidatorHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetCardType">      <http:operation location="/GetCardType" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="IsCommercialCard">      <http:operation location="/IsCommercialCard" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidCard">      <http:operation location="/ValidCard" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidCardLength">      <http:operation location="/ValidCardLength" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidExpDate">      <http:operation location="/ValidExpDate" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidMod10">      <http:operation location="/ValidMod10" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetNetworkID">      <http:operation location="/GetNetworkID" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="CreditCardValidator">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Credit Card Validation and Card Type Web Service</wsdl:documentation>    <wsdl:port name="CreditCardValidatorSoap" binding="tns:CreditCardValidatorSoap">      <soap:address location="http://www.tpisoft.com/smartpayments/validate.asmx" />    </wsdl:port>    <wsdl:port name="CreditCardValidatorSoap12" binding="tns:CreditCardValidatorSoap12">      <soap12:address location="http://www.tpisoft.com/smartpayments/validate.asmx" />    </wsdl:port>    <wsdl:port name="CreditCardValidatorHttpGet" binding="tns:CreditCardValidatorHttpGet">      <http:address location="http://www.tpisoft.com/smartpayments/validate.asmx" />    </wsdl:port>    <wsdl:port name="CreditCardValidatorHttpPost" binding="tns:CreditCardValidatorHttpPost">      <http:address location="http://www.tpisoft.com/smartpayments/validate.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://localhost/SmartPayments/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://localhost/SmartPayments/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Credit Card Validation and Card Type Web Service</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://localhost/SmartPayments/">
+			<s:element name="GetCardType">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="CardNumber" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetCardTypeResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetCardTypeResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="IsCommercialCard">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="CardNumber" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="IsCommercialCardResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="IsCommercialCardResult" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidCard">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="CardNumber" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ExpDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidCardResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="ValidCardResult" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidCardLength">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="CardNumber" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidCardLengthResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="ValidCardLengthResult" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidExpDate">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ExpDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidExpDateResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="ValidExpDateResult" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidMod10">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="CardNumber" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidMod10Response">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="ValidMod10Result" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetNetworkID">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="CardNumber" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetNetworkIDResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetNetworkIDResult" type="tns:Response" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="Response">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Result" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="RespMSG" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message1" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message2" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="AuthCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PNRef" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="HostCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="HostURL" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ReceiptURL" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GetAVSResult" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GetAVSResultTXT" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GetStreetMatchTXT" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GetZipMatchTXT" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GetCVResult" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GetCVResultTXT" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GetGetOrigResult" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GetCommercialCard" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="WorkingKey" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="KeyPointer" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="string" nillable="true" type="s:string" />
+			<s:element name="boolean" type="s:boolean" />
+			<s:element name="int" type="s:int" />
+			<s:element name="Response" nillable="true" type="tns:Response" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetCardTypeSoapIn">
+		<wsdl:part name="parameters" element="tns:GetCardType" />
+	</wsdl:message>
+	<wsdl:message name="GetCardTypeSoapOut">
+		<wsdl:part name="parameters" element="tns:GetCardTypeResponse" />
+	</wsdl:message>
+	<wsdl:message name="IsCommercialCardSoapIn">
+		<wsdl:part name="parameters" element="tns:IsCommercialCard" />
+	</wsdl:message>
+	<wsdl:message name="IsCommercialCardSoapOut">
+		<wsdl:part name="parameters" element="tns:IsCommercialCardResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidCardSoapIn">
+		<wsdl:part name="parameters" element="tns:ValidCard" />
+	</wsdl:message>
+	<wsdl:message name="ValidCardSoapOut">
+		<wsdl:part name="parameters" element="tns:ValidCardResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidCardLengthSoapIn">
+		<wsdl:part name="parameters" element="tns:ValidCardLength" />
+	</wsdl:message>
+	<wsdl:message name="ValidCardLengthSoapOut">
+		<wsdl:part name="parameters" element="tns:ValidCardLengthResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidExpDateSoapIn">
+		<wsdl:part name="parameters" element="tns:ValidExpDate" />
+	</wsdl:message>
+	<wsdl:message name="ValidExpDateSoapOut">
+		<wsdl:part name="parameters" element="tns:ValidExpDateResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidMod10SoapIn">
+		<wsdl:part name="parameters" element="tns:ValidMod10" />
+	</wsdl:message>
+	<wsdl:message name="ValidMod10SoapOut">
+		<wsdl:part name="parameters" element="tns:ValidMod10Response" />
+	</wsdl:message>
+	<wsdl:message name="GetNetworkIDSoapIn">
+		<wsdl:part name="parameters" element="tns:GetNetworkID" />
+	</wsdl:message>
+	<wsdl:message name="GetNetworkIDSoapOut">
+		<wsdl:part name="parameters" element="tns:GetNetworkIDResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetCardTypeHttpGetIn">
+		<wsdl:part name="CardNumber" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetCardTypeHttpGetOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:message name="IsCommercialCardHttpGetIn">
+		<wsdl:part name="CardNumber" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="IsCommercialCardHttpGetOut">
+		<wsdl:part name="Body" element="tns:boolean" />
+	</wsdl:message>
+	<wsdl:message name="ValidCardHttpGetIn">
+		<wsdl:part name="CardNumber" type="s:string" />
+		<wsdl:part name="ExpDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidCardHttpGetOut">
+		<wsdl:part name="Body" element="tns:int" />
+	</wsdl:message>
+	<wsdl:message name="ValidCardLengthHttpGetIn">
+		<wsdl:part name="CardNumber" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidCardLengthHttpGetOut">
+		<wsdl:part name="Body" element="tns:boolean" />
+	</wsdl:message>
+	<wsdl:message name="ValidExpDateHttpGetIn">
+		<wsdl:part name="ExpDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidExpDateHttpGetOut">
+		<wsdl:part name="Body" element="tns:boolean" />
+	</wsdl:message>
+	<wsdl:message name="ValidMod10HttpGetIn">
+		<wsdl:part name="CardNumber" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidMod10HttpGetOut">
+		<wsdl:part name="Body" element="tns:boolean" />
+	</wsdl:message>
+	<wsdl:message name="GetNetworkIDHttpGetIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="CardNumber" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetNetworkIDHttpGetOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:message name="GetCardTypeHttpPostIn">
+		<wsdl:part name="CardNumber" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetCardTypeHttpPostOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:message name="IsCommercialCardHttpPostIn">
+		<wsdl:part name="CardNumber" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="IsCommercialCardHttpPostOut">
+		<wsdl:part name="Body" element="tns:boolean" />
+	</wsdl:message>
+	<wsdl:message name="ValidCardHttpPostIn">
+		<wsdl:part name="CardNumber" type="s:string" />
+		<wsdl:part name="ExpDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidCardHttpPostOut">
+		<wsdl:part name="Body" element="tns:int" />
+	</wsdl:message>
+	<wsdl:message name="ValidCardLengthHttpPostIn">
+		<wsdl:part name="CardNumber" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidCardLengthHttpPostOut">
+		<wsdl:part name="Body" element="tns:boolean" />
+	</wsdl:message>
+	<wsdl:message name="ValidExpDateHttpPostIn">
+		<wsdl:part name="ExpDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidExpDateHttpPostOut">
+		<wsdl:part name="Body" element="tns:boolean" />
+	</wsdl:message>
+	<wsdl:message name="ValidMod10HttpPostIn">
+		<wsdl:part name="CardNumber" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidMod10HttpPostOut">
+		<wsdl:part name="Body" element="tns:boolean" />
+	</wsdl:message>
+	<wsdl:message name="GetNetworkIDHttpPostIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="CardNumber" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetNetworkIDHttpPostOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:portType name="CreditCardValidatorSoap">
+		<wsdl:operation name="GetCardType">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the card issuer Visa, MasterCard, AMEX, etc., based on the
+				card number.</wsdl:documentation>
+			<wsdl:input message="tns:GetCardTypeSoapIn" />
+			<wsdl:output message="tns:GetCardTypeSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsCommercialCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns (T/F) if the card is a known commercial card (commercial
+				cards require customer code and sales tax amount to receive preferred discount rate pricing.)</wsdl:documentation>
+			<wsdl:input message="tns:IsCommercialCardSoapIn" />
+			<wsdl:output message="tns:IsCommercialCardSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card by checking the card length based on the
+				card type, performs a mod 10 checksum and validates the expiration date. Returns 0 if good, 1001 - no card number,
+				1002 - no exp date, 1003 - invalid card type, 1004 - invalid card length, 1005 - bad mod 10 check, 1006 - bad
+				expiration date.</wsdl:documentation>
+			<wsdl:input message="tns:ValidCardSoapIn" />
+			<wsdl:output message="tns:ValidCardSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidCardLength">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card length by checking the card length based
+				on the card type, Returns (T/F).</wsdl:documentation>
+			<wsdl:input message="tns:ValidCardLengthSoapIn" />
+			<wsdl:output message="tns:ValidCardLengthSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidExpDate">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the expiration date by making sure it is a valid date and
+				the card has not expired, Returns (T/F).</wsdl:documentation>
+			<wsdl:input message="tns:ValidExpDateSoapIn" />
+			<wsdl:output message="tns:ValidExpDateSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidMod10">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card by performing a mod 10 checksum on the
+				card number, Returns (T/F).</wsdl:documentation>
+			<wsdl:input message="tns:ValidMod10SoapIn" />
+			<wsdl:output message="tns:ValidMod10SoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetNetworkID">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lookup the Debit Network ID using a Card Number. Network ID is a 3
+				characters string. If there is a match, the card can likely be used as a Debit Card and processed through the Debit
+				network. Possible Network ID: ACL ï¿½ Accel, AFN - AFFN, AKO ï¿½ Alaska Option, C24 ï¿½ CU24, ILK ï¿½ Interlink, JEN -
+				Jeanie, MAC ï¿½ Star Northeast (MAC), MAE ï¿½ Maestro, NET - NETS, NYC ï¿½ NYCE, PUL ï¿½ Pulse, SES ï¿½ Star Southeast, SHZ ï¿½
+				Shazam, STX ï¿½ Star West, TYM - TYME</wsdl:documentation>
+			<wsdl:input message="tns:GetNetworkIDSoapIn" />
+			<wsdl:output message="tns:GetNetworkIDSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="CreditCardValidatorHttpGet">
+		<wsdl:operation name="GetCardType">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the card issuer Visa, MasterCard, AMEX, etc., based on the
+				card number.</wsdl:documentation>
+			<wsdl:input message="tns:GetCardTypeHttpGetIn" />
+			<wsdl:output message="tns:GetCardTypeHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsCommercialCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns (T/F) if the card is a known commercial card (commercial
+				cards require customer code and sales tax amount to receive preferred discount rate pricing.)</wsdl:documentation>
+			<wsdl:input message="tns:IsCommercialCardHttpGetIn" />
+			<wsdl:output message="tns:IsCommercialCardHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card by checking the card length based on the
+				card type, performs a mod 10 checksum and validates the expiration date. Returns 0 if good, 1001 - no card number,
+				1002 - no exp date, 1003 - invalid card type, 1004 - invalid card length, 1005 - bad mod 10 check, 1006 - bad
+				expiration date.</wsdl:documentation>
+			<wsdl:input message="tns:ValidCardHttpGetIn" />
+			<wsdl:output message="tns:ValidCardHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidCardLength">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card length by checking the card length based
+				on the card type, Returns (T/F).</wsdl:documentation>
+			<wsdl:input message="tns:ValidCardLengthHttpGetIn" />
+			<wsdl:output message="tns:ValidCardLengthHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidExpDate">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the expiration date by making sure it is a valid date and
+				the card has not expired, Returns (T/F).</wsdl:documentation>
+			<wsdl:input message="tns:ValidExpDateHttpGetIn" />
+			<wsdl:output message="tns:ValidExpDateHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidMod10">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card by performing a mod 10 checksum on the
+				card number, Returns (T/F).</wsdl:documentation>
+			<wsdl:input message="tns:ValidMod10HttpGetIn" />
+			<wsdl:output message="tns:ValidMod10HttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetNetworkID">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lookup the Debit Network ID using a Card Number. Network ID is a 3
+				characters string. If there is a match, the card can likely be used as a Debit Card and processed through the Debit
+				network. Possible Network ID: ACL ï¿½ Accel, AFN - AFFN, AKO ï¿½ Alaska Option, C24 ï¿½ CU24, ILK ï¿½ Interlink, JEN -
+				Jeanie, MAC ï¿½ Star Northeast (MAC), MAE ï¿½ Maestro, NET - NETS, NYC ï¿½ NYCE, PUL ï¿½ Pulse, SES ï¿½ Star Southeast, SHZ ï¿½
+				Shazam, STX ï¿½ Star West, TYM - TYME</wsdl:documentation>
+			<wsdl:input message="tns:GetNetworkIDHttpGetIn" />
+			<wsdl:output message="tns:GetNetworkIDHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="CreditCardValidatorHttpPost">
+		<wsdl:operation name="GetCardType">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the card issuer Visa, MasterCard, AMEX, etc., based on the
+				card number.</wsdl:documentation>
+			<wsdl:input message="tns:GetCardTypeHttpPostIn" />
+			<wsdl:output message="tns:GetCardTypeHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="IsCommercialCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns (T/F) if the card is a known commercial card (commercial
+				cards require customer code and sales tax amount to receive preferred discount rate pricing.)</wsdl:documentation>
+			<wsdl:input message="tns:IsCommercialCardHttpPostIn" />
+			<wsdl:output message="tns:IsCommercialCardHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card by checking the card length based on the
+				card type, performs a mod 10 checksum and validates the expiration date. Returns 0 if good, 1001 - no card number,
+				1002 - no exp date, 1003 - invalid card type, 1004 - invalid card length, 1005 - bad mod 10 check, 1006 - bad
+				expiration date.</wsdl:documentation>
+			<wsdl:input message="tns:ValidCardHttpPostIn" />
+			<wsdl:output message="tns:ValidCardHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidCardLength">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card length by checking the card length based
+				on the card type, Returns (T/F).</wsdl:documentation>
+			<wsdl:input message="tns:ValidCardLengthHttpPostIn" />
+			<wsdl:output message="tns:ValidCardLengthHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidExpDate">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the expiration date by making sure it is a valid date and
+				the card has not expired, Returns (T/F).</wsdl:documentation>
+			<wsdl:input message="tns:ValidExpDateHttpPostIn" />
+			<wsdl:output message="tns:ValidExpDateHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidMod10">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validates the credit card by performing a mod 10 checksum on the
+				card number, Returns (T/F).</wsdl:documentation>
+			<wsdl:input message="tns:ValidMod10HttpPostIn" />
+			<wsdl:output message="tns:ValidMod10HttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetNetworkID">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lookup the Debit Network ID using a Card Number. Network ID is a 3
+				characters string. If there is a match, the card can likely be used as a Debit Card and processed through the Debit
+				network. Possible Network ID: ACL ï¿½ Accel, AFN - AFFN, AKO ï¿½ Alaska Option, C24 ï¿½ CU24, ILK ï¿½ Interlink, JEN -
+				Jeanie, MAC ï¿½ Star Northeast (MAC), MAE ï¿½ Maestro, NET - NETS, NYC ï¿½ NYCE, PUL ï¿½ Pulse, SES ï¿½ Star Southeast, SHZ ï¿½
+				Shazam, STX ï¿½ Star West, TYM - TYME</wsdl:documentation>
+			<wsdl:input message="tns:GetNetworkIDHttpPostIn" />
+			<wsdl:output message="tns:GetNetworkIDHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="CreditCardValidatorSoap" type="tns:CreditCardValidatorSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetCardType">
+			<soap:operation soapAction="http://localhost/SmartPayments/GetCardType" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsCommercialCard">
+			<soap:operation soapAction="http://localhost/SmartPayments/IsCommercialCard" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidCard">
+			<soap:operation soapAction="http://localhost/SmartPayments/ValidCard" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidCardLength">
+			<soap:operation soapAction="http://localhost/SmartPayments/ValidCardLength" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidExpDate">
+			<soap:operation soapAction="http://localhost/SmartPayments/ValidExpDate" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidMod10">
+			<soap:operation soapAction="http://localhost/SmartPayments/ValidMod10" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetNetworkID">
+			<soap:operation soapAction="http://localhost/SmartPayments/GetNetworkID" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="CreditCardValidatorSoap12" type="tns:CreditCardValidatorSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetCardType">
+			<soap12:operation soapAction="http://localhost/SmartPayments/GetCardType" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsCommercialCard">
+			<soap12:operation soapAction="http://localhost/SmartPayments/IsCommercialCard" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidCard">
+			<soap12:operation soapAction="http://localhost/SmartPayments/ValidCard" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidCardLength">
+			<soap12:operation soapAction="http://localhost/SmartPayments/ValidCardLength" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidExpDate">
+			<soap12:operation soapAction="http://localhost/SmartPayments/ValidExpDate" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidMod10">
+			<soap12:operation soapAction="http://localhost/SmartPayments/ValidMod10" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetNetworkID">
+			<soap12:operation soapAction="http://localhost/SmartPayments/GetNetworkID" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="CreditCardValidatorHttpGet" type="tns:CreditCardValidatorHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetCardType">
+			<http:operation location="/GetCardType" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsCommercialCard">
+			<http:operation location="/IsCommercialCard" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidCard">
+			<http:operation location="/ValidCard" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidCardLength">
+			<http:operation location="/ValidCardLength" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidExpDate">
+			<http:operation location="/ValidExpDate" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidMod10">
+			<http:operation location="/ValidMod10" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetNetworkID">
+			<http:operation location="/GetNetworkID" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="CreditCardValidatorHttpPost" type="tns:CreditCardValidatorHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetCardType">
+			<http:operation location="/GetCardType" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsCommercialCard">
+			<http:operation location="/IsCommercialCard" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidCard">
+			<http:operation location="/ValidCard" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidCardLength">
+			<http:operation location="/ValidCardLength" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidExpDate">
+			<http:operation location="/ValidExpDate" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidMod10">
+			<http:operation location="/ValidMod10" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetNetworkID">
+			<http:operation location="/GetNetworkID" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="CreditCardValidator">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Credit Card Validation and Card Type Web Service
+		</wsdl:documentation>
+		<wsdl:port name="CreditCardValidatorSoap" binding="tns:CreditCardValidatorSoap">
+			<soap:address location="http://www.tpisoft.com/smartpayments/validate.asmx" />
+		</wsdl:port>
+		<wsdl:port name="CreditCardValidatorSoap12" binding="tns:CreditCardValidatorSoap12">
+			<soap12:address location="http://www.tpisoft.com/smartpayments/validate.asmx" />
+		</wsdl:port>
+		<wsdl:port name="CreditCardValidatorHttpGet" binding="tns:CreditCardValidatorHttpGet">
+			<http:address location="http://www.tpisoft.com/smartpayments/validate.asmx" />
+		</wsdl:port>
+		<wsdl:port name="CreditCardValidatorHttpPost" binding="tns:CreditCardValidatorHttpPost">
+			<http:address location="http://www.tpisoft.com/smartpayments/validate.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

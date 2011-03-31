@@ -1,1 +1,217 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.webserviceX.NET" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.webserviceX.NET" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Australian Postcode ,Location Web service</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.webserviceX.NET">      <s:element name="GetAustralianPostCodeByLocation">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetAustralianPostCodeByLocationResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetAustralianPostCodeByLocationResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetAustralianLocationByPostCode">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="PostCode" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetAustralianLocationByPostCodeResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetAustralianLocationByPostCodeResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="string" nillable="true" type="s:string" />    </s:schema>  </wsdl:types>  <wsdl:message name="GetAustralianPostCodeByLocationSoapIn">    <wsdl:part name="parameters" element="tns:GetAustralianPostCodeByLocation" />  </wsdl:message>  <wsdl:message name="GetAustralianPostCodeByLocationSoapOut">    <wsdl:part name="parameters" element="tns:GetAustralianPostCodeByLocationResponse" />  </wsdl:message>  <wsdl:message name="GetAustralianLocationByPostCodeSoapIn">    <wsdl:part name="parameters" element="tns:GetAustralianLocationByPostCode" />  </wsdl:message>  <wsdl:message name="GetAustralianLocationByPostCodeSoapOut">    <wsdl:part name="parameters" element="tns:GetAustralianLocationByPostCodeResponse" />  </wsdl:message>  <wsdl:message name="GetAustralianPostCodeByLocationHttpGetIn">    <wsdl:part name="Location" type="s:string" />  </wsdl:message>  <wsdl:message name="GetAustralianPostCodeByLocationHttpGetOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:message name="GetAustralianLocationByPostCodeHttpGetIn">    <wsdl:part name="PostCode" type="s:string" />  </wsdl:message>  <wsdl:message name="GetAustralianLocationByPostCodeHttpGetOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:message name="GetAustralianPostCodeByLocationHttpPostIn">    <wsdl:part name="Location" type="s:string" />  </wsdl:message>  <wsdl:message name="GetAustralianPostCodeByLocationHttpPostOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:message name="GetAustralianLocationByPostCodeHttpPostIn">    <wsdl:part name="PostCode" type="s:string" />  </wsdl:message>  <wsdl:message name="GetAustralianLocationByPostCodeHttpPostOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:portType name="AustralianPostCodeSoap">    <wsdl:operation name="GetAustralianPostCodeByLocation">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Australian Postcode by partial / full Location Name</wsdl:documentation>      <wsdl:input message="tns:GetAustralianPostCodeByLocationSoapIn" />      <wsdl:output message="tns:GetAustralianPostCodeByLocationSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetAustralianLocationByPostCode">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Australian Location by partial / full Postcode</wsdl:documentation>      <wsdl:input message="tns:GetAustralianLocationByPostCodeSoapIn" />      <wsdl:output message="tns:GetAustralianLocationByPostCodeSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="AustralianPostCodeHttpGet">    <wsdl:operation name="GetAustralianPostCodeByLocation">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Australian Postcode by partial / full Location Name</wsdl:documentation>      <wsdl:input message="tns:GetAustralianPostCodeByLocationHttpGetIn" />      <wsdl:output message="tns:GetAustralianPostCodeByLocationHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetAustralianLocationByPostCode">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Australian Location by partial / full Postcode</wsdl:documentation>      <wsdl:input message="tns:GetAustralianLocationByPostCodeHttpGetIn" />      <wsdl:output message="tns:GetAustralianLocationByPostCodeHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="AustralianPostCodeHttpPost">    <wsdl:operation name="GetAustralianPostCodeByLocation">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Australian Postcode by partial / full Location Name</wsdl:documentation>      <wsdl:input message="tns:GetAustralianPostCodeByLocationHttpPostIn" />      <wsdl:output message="tns:GetAustralianPostCodeByLocationHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetAustralianLocationByPostCode">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Australian Location by partial / full Postcode</wsdl:documentation>      <wsdl:input message="tns:GetAustralianLocationByPostCodeHttpPostIn" />      <wsdl:output message="tns:GetAustralianLocationByPostCodeHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="AustralianPostCodeSoap" type="tns:AustralianPostCodeSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetAustralianPostCodeByLocation">      <soap:operation soapAction="http://www.webserviceX.NET/GetAustralianPostCodeByLocation" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAustralianLocationByPostCode">      <soap:operation soapAction="http://www.webserviceX.NET/GetAustralianLocationByPostCode" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="AustralianPostCodeSoap12" type="tns:AustralianPostCodeSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetAustralianPostCodeByLocation">      <soap12:operation soapAction="http://www.webserviceX.NET/GetAustralianPostCodeByLocation" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAustralianLocationByPostCode">      <soap12:operation soapAction="http://www.webserviceX.NET/GetAustralianLocationByPostCode" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="AustralianPostCodeHttpGet" type="tns:AustralianPostCodeHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetAustralianPostCodeByLocation">      <http:operation location="/GetAustralianPostCodeByLocation" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAustralianLocationByPostCode">      <http:operation location="/GetAustralianLocationByPostCode" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="AustralianPostCodeHttpPost" type="tns:AustralianPostCodeHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetAustralianPostCodeByLocation">      <http:operation location="/GetAustralianPostCodeByLocation" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAustralianLocationByPostCode">      <http:operation location="/GetAustralianLocationByPostCode" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="AustralianPostCode">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Australian Postcode ,Location Web service</wsdl:documentation>    <wsdl:port name="AustralianPostCodeSoap" binding="tns:AustralianPostCodeSoap">      <soap:address location="http://www.webservicex.com/AustralianPostCode.asmx" />    </wsdl:port>    <wsdl:port name="AustralianPostCodeSoap12" binding="tns:AustralianPostCodeSoap12">      <soap12:address location="http://www.webservicex.com/AustralianPostCode.asmx" />    </wsdl:port>    <wsdl:port name="AustralianPostCodeHttpGet" binding="tns:AustralianPostCodeHttpGet">      <http:address location="http://www.webservicex.com/AustralianPostCode.asmx" />    </wsdl:port>    <wsdl:port name="AustralianPostCodeHttpPost" binding="tns:AustralianPostCodeHttpPost">      <http:address location="http://www.webservicex.com/AustralianPostCode.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.webserviceX.NET"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.webserviceX.NET" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Australian Postcode ,Location Web service</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.webserviceX.NET">
+			<s:element name="GetAustralianPostCodeByLocation">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetAustralianPostCodeByLocationResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetAustralianPostCodeByLocationResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetAustralianLocationByPostCode">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="PostCode" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetAustralianLocationByPostCodeResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetAustralianLocationByPostCodeResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="string" nillable="true" type="s:string" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetAustralianPostCodeByLocationSoapIn">
+		<wsdl:part name="parameters" element="tns:GetAustralianPostCodeByLocation" />
+	</wsdl:message>
+	<wsdl:message name="GetAustralianPostCodeByLocationSoapOut">
+		<wsdl:part name="parameters" element="tns:GetAustralianPostCodeByLocationResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetAustralianLocationByPostCodeSoapIn">
+		<wsdl:part name="parameters" element="tns:GetAustralianLocationByPostCode" />
+	</wsdl:message>
+	<wsdl:message name="GetAustralianLocationByPostCodeSoapOut">
+		<wsdl:part name="parameters" element="tns:GetAustralianLocationByPostCodeResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetAustralianPostCodeByLocationHttpGetIn">
+		<wsdl:part name="Location" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAustralianPostCodeByLocationHttpGetOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAustralianLocationByPostCodeHttpGetIn">
+		<wsdl:part name="PostCode" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAustralianLocationByPostCodeHttpGetOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAustralianPostCodeByLocationHttpPostIn">
+		<wsdl:part name="Location" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAustralianPostCodeByLocationHttpPostOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAustralianLocationByPostCodeHttpPostIn">
+		<wsdl:part name="PostCode" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAustralianLocationByPostCodeHttpPostOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:portType name="AustralianPostCodeSoap">
+		<wsdl:operation name="GetAustralianPostCodeByLocation">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Australian Postcode by partial / full Location Name
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetAustralianPostCodeByLocationSoapIn" />
+			<wsdl:output message="tns:GetAustralianPostCodeByLocationSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAustralianLocationByPostCode">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Australian Location by partial / full Postcode
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetAustralianLocationByPostCodeSoapIn" />
+			<wsdl:output message="tns:GetAustralianLocationByPostCodeSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="AustralianPostCodeHttpGet">
+		<wsdl:operation name="GetAustralianPostCodeByLocation">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Australian Postcode by partial / full Location Name
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetAustralianPostCodeByLocationHttpGetIn" />
+			<wsdl:output message="tns:GetAustralianPostCodeByLocationHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAustralianLocationByPostCode">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Australian Location by partial / full Postcode
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetAustralianLocationByPostCodeHttpGetIn" />
+			<wsdl:output message="tns:GetAustralianLocationByPostCodeHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="AustralianPostCodeHttpPost">
+		<wsdl:operation name="GetAustralianPostCodeByLocation">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Australian Postcode by partial / full Location Name
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetAustralianPostCodeByLocationHttpPostIn" />
+			<wsdl:output message="tns:GetAustralianPostCodeByLocationHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAustralianLocationByPostCode">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Australian Location by partial / full Postcode
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetAustralianLocationByPostCodeHttpPostIn" />
+			<wsdl:output message="tns:GetAustralianLocationByPostCodeHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="AustralianPostCodeSoap" type="tns:AustralianPostCodeSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetAustralianPostCodeByLocation">
+			<soap:operation soapAction="http://www.webserviceX.NET/GetAustralianPostCodeByLocation" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAustralianLocationByPostCode">
+			<soap:operation soapAction="http://www.webserviceX.NET/GetAustralianLocationByPostCode" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="AustralianPostCodeSoap12" type="tns:AustralianPostCodeSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetAustralianPostCodeByLocation">
+			<soap12:operation soapAction="http://www.webserviceX.NET/GetAustralianPostCodeByLocation" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAustralianLocationByPostCode">
+			<soap12:operation soapAction="http://www.webserviceX.NET/GetAustralianLocationByPostCode" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="AustralianPostCodeHttpGet" type="tns:AustralianPostCodeHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetAustralianPostCodeByLocation">
+			<http:operation location="/GetAustralianPostCodeByLocation" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAustralianLocationByPostCode">
+			<http:operation location="/GetAustralianLocationByPostCode" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="AustralianPostCodeHttpPost" type="tns:AustralianPostCodeHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetAustralianPostCodeByLocation">
+			<http:operation location="/GetAustralianPostCodeByLocation" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAustralianLocationByPostCode">
+			<http:operation location="/GetAustralianLocationByPostCode" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="AustralianPostCode">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Australian Postcode ,Location Web service</wsdl:documentation>
+		<wsdl:port name="AustralianPostCodeSoap" binding="tns:AustralianPostCodeSoap">
+			<soap:address location="http://www.webservicex.com/AustralianPostCode.asmx" />
+		</wsdl:port>
+		<wsdl:port name="AustralianPostCodeSoap12" binding="tns:AustralianPostCodeSoap12">
+			<soap12:address location="http://www.webservicex.com/AustralianPostCode.asmx" />
+		</wsdl:port>
+		<wsdl:port name="AustralianPostCodeHttpGet" binding="tns:AustralianPostCodeHttpGet">
+			<http:address location="http://www.webservicex.com/AustralianPostCode.asmx" />
+		</wsdl:port>
+		<wsdl:port name="AustralianPostCodeHttpPost" binding="tns:AustralianPostCodeHttpPost">
+			<http:address location="http://www.webservicex.com/AustralianPostCode.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

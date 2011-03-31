@@ -1,1 +1,68 @@
-<?xml version="1.0"?><!-- WSDL description Flash-db's Company Information Service. --><definitions name="urn:CompanyInfo"             targetNamespace="urn:CompanyInfo"             xmlns:typens="urn:CompanyInfo"             xmlns:xsd="http://www.w3.org/2001/XMLSchema"             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"             xmlns="http://schemas.xmlsoap.org/wsdl/">  <!-- Results expected..-->  <types>    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema"                 targetNamespace="urn:CompanyInfo">                  <xsd:complexType name="CompanyInfoResult">        <xsd:all>          <xsd:element name="symbol"		  		type="xsd:string"/>          <xsd:element name="company"  		  		type="xsd:string"/>          <xsd:element name="lastPrice"           	type="xsd:string"/>          <xsd:element name="tradedDate"		  	type="xsd:string"/>          <xsd:element name="tradedTime"  		  	type="xsd:string"/>          <xsd:element name="change"           		type="xsd:string"/>          <xsd:element name="changePercent"		  	type="xsd:string"/>          <xsd:element name="volume"  		  		type="xsd:string"/>          <xsd:element name="averageVolume"         type="xsd:string"/>                          <xsd:element name="bid"           		type="xsd:string"/>          <xsd:element name="ask"		  			type="xsd:string"/>          <xsd:element name="yesterdayClose"  		type="xsd:string"/>          <xsd:element name="open"         			type="xsd:string"/>          <xsd:element name="yearHigh"           	type="xsd:string"/>          <xsd:element name="yearLow"		  		type="xsd:string"/>          <xsd:element name="dayLow"  				type="xsd:string"/>          <xsd:element name="dayHigh"         		type="xsd:string"/>          <xsd:element name="earnPerShare"		  	type="xsd:string"/>          <xsd:element name="PE"  					type="xsd:string"/>          <xsd:element name="divDate"         		type="xsd:string"/>           <xsd:element name="yeild"		  			type="xsd:string"/>          <xsd:element name="divShare"  			type="xsd:string"/>          <xsd:element name="marketCap"         	type="xsd:string"/>                              </xsd:all>      </xsd:complexType>    </xsd:schema>  </types>   <!-- Messages for CompanyInfo - doCompanyInfo. -->  <message name="doCompanyInfo">    <part name="username"       type="xsd:string"/>    <part name="password"       type="xsd:string"/>    <part name="ticker"         type="xsd:string"/>  </message>  <message name="doCompanyInfoResponse">    <part name="return"         type="typens:CompanyInfoResult"/>             </message>  <portType name="CompanyInfoPort">    <operation name="doCompanyInfo">      <input message="typens:doCompanyInfo"/>      <output message="typens:doCompanyInfoResponse"/>    </operation>  </portType>    <binding name="CompanyInfoBinding" type="typens:CompanyInfoPort">    <soap:binding style="rpc"                  transport="http://schemas.xmlsoap.org/soap/http"/>    <operation name="doCompanyInfo">      <soap:operation soapAction="urn:CompanyInfoAction"/>      <input>        <soap:body use="encoded"                   namespace="urn:CompanyInfo"                   encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>      </input>      <output>        <soap:body use="encoded"                   namespace="urn:CompanyInfo"                   encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>      </output>    </operation>  </binding>  <!-- Endpoint for CompanyInfo -->  <service name="CompanyInfoService">  <documentation>Returns an array of detailed company stock and market information for a given ticker.</documentation>    <port name="CompanyInfoPort" binding="typens:CompanyInfoBinding">      <soap:address location="http://www.flash-db.com/services/ws/companyInfo.php"/>    </port>  </service></definitions>
+<?xml version="1.0"?><!-- WSDL description Flash-db's Company Information Service. -->
+<definitions name="urn:CompanyInfo" targetNamespace="urn:CompanyInfo" xmlns:typens="urn:CompanyInfo"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/">  <!-- Results expected.. -->
+	<types>
+		<xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:CompanyInfo">
+			<xsd:complexType name="CompanyInfoResult">
+				<xsd:all>
+					<xsd:element name="symbol" type="xsd:string" />
+					<xsd:element name="company" type="xsd:string" />
+					<xsd:element name="lastPrice" type="xsd:string" />
+					<xsd:element name="tradedDate" type="xsd:string" />
+					<xsd:element name="tradedTime" type="xsd:string" />
+					<xsd:element name="change" type="xsd:string" />
+					<xsd:element name="changePercent" type="xsd:string" />
+					<xsd:element name="volume" type="xsd:string" />
+					<xsd:element name="averageVolume" type="xsd:string" />
+					<xsd:element name="bid" type="xsd:string" />
+					<xsd:element name="ask" type="xsd:string" />
+					<xsd:element name="yesterdayClose" type="xsd:string" />
+					<xsd:element name="open" type="xsd:string" />
+					<xsd:element name="yearHigh" type="xsd:string" />
+					<xsd:element name="yearLow" type="xsd:string" />
+					<xsd:element name="dayLow" type="xsd:string" />
+					<xsd:element name="dayHigh" type="xsd:string" />
+					<xsd:element name="earnPerShare" type="xsd:string" />
+					<xsd:element name="PE" type="xsd:string" />
+					<xsd:element name="divDate" type="xsd:string" />
+					<xsd:element name="yeild" type="xsd:string" />
+					<xsd:element name="divShare" type="xsd:string" />
+					<xsd:element name="marketCap" type="xsd:string" />
+				</xsd:all>
+			</xsd:complexType>
+		</xsd:schema>
+	</types>   <!-- Messages for CompanyInfo - doCompanyInfo. -->
+	<message name="doCompanyInfo">
+		<part name="username" type="xsd:string" />
+		<part name="password" type="xsd:string" />
+		<part name="ticker" type="xsd:string" />
+	</message>
+	<message name="doCompanyInfoResponse">
+		<part name="return" type="typens:CompanyInfoResult" />
+	</message>
+	<portType name="CompanyInfoPort">
+		<operation name="doCompanyInfo">
+			<input message="typens:doCompanyInfo" />
+			<output message="typens:doCompanyInfoResponse" />
+		</operation>
+	</portType>
+	<binding name="CompanyInfoBinding" type="typens:CompanyInfoPort">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="doCompanyInfo">
+			<soap:operation soapAction="urn:CompanyInfoAction" />
+			<input>
+				<soap:body use="encoded" namespace="urn:CompanyInfo" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:CompanyInfo" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+	</binding>  <!-- Endpoint for CompanyInfo -->
+	<service name="CompanyInfoService">
+		<documentation>Returns an array of detailed company stock and market information for a given ticker.</documentation>
+		<port name="CompanyInfoPort" binding="typens:CompanyInfoBinding">
+			<soap:address location="http://www.flash-db.com/services/ws/companyInfo.php" />
+		</port>
+	</service>
+</definitions>

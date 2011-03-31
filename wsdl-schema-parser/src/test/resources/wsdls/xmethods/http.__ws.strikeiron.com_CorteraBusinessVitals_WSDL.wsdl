@@ -1,1 +1,494 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.strikeiron.com" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.strikeiron.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.strikeiron.com">      <s:element name="BusinessSearch">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Company" type="tns:CompanySearch" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="CompanySearch">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="BusinessSearchResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="BusinessSearchResult" type="tns:BusinessSearchOutput" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="BusinessSearchOutput">        <s:complexContent mixed="false">          <s:extension base="tns:SIWsOutput">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="ServiceResult" type="tns:BusinessSearchResult" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="SIWsOutput">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="ServiceStatus" type="tns:SIWsStatus" />        </s:sequence>      </s:complexType>      <s:complexType name="SIWsStatus">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="StatusNbr" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="StatusDescription" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="BusinessSearchResult">        <s:complexContent mixed="false">          <s:extension base="tns:SIWsResult">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="CandidateBusinesses" type="tns:ArrayOfCandidateBusiness" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="SIWsResult">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfCandidateBusiness">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="CandidateBusiness" nillable="true" type="tns:CandidateBusiness" />        </s:sequence>      </s:complexType>      <s:complexType name="CandidateBusiness">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="LinkID" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="RelevanceScore" type="s:int" />          <s:element minOccurs="1" maxOccurs="1" name="DemographicsIncluded" type="s:boolean" />        </s:sequence>      </s:complexType>      <s:element name="BusinessDemographicsByLinkID">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="LinkID" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="BusinessDemographicsByLinkIDResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="BusinessDemographicsByLinkIDResult" type="tns:BusinessDemographicsOutput" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="BusinessDemographicsOutput">        <s:complexContent mixed="false">          <s:extension base="tns:SIWsOutput">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="ServiceResult" type="tns:BusinessDemographicsResult" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="BusinessDemographicsResult">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="BusinessDemographicsReport" type="tns:BusinessDemographicsReport" />        </s:sequence>      </s:complexType>      <s:complexType name="BusinessDemographicsReport">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="BasicData" type="tns:BasicData" />          <s:element minOccurs="0" maxOccurs="1" name="BusinessDemographics" type="tns:BusinessDemographics" />        </s:sequence>      </s:complexType>      <s:complexType name="BasicData">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="LinkID" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="MatchScore" type="s:int" />        </s:sequence>      </s:complexType>      <s:complexType name="BusinessDemographics">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="BusinessName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="TradeStyle" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Fax" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Url" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ExecutiveName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PrimarySIC" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="SecondarySIC" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PrimarySicDescription" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="SecondarySicDescription" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PrimaryNaicsCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PrimaryNaicsDescription" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="YearStarted" type="s:short" />          <s:element minOccurs="0" maxOccurs="1" name="Ownership" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="LocationType" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="AnnualSales" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="AnnualSalesRange" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Employees" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="EmployeesRange" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="BusinessDemographicsByLinkIDBulk">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="LinkIDBulk" type="tns:ArrayOfString" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfString">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="BusinessDemographicsByLinkIDBulkResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="BusinessDemographicsByLinkIDBulkResult" type="tns:BusinessDemographicsOutputBulk" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="BusinessDemographicsOutputBulk">        <s:complexContent mixed="false">          <s:extension base="tns:SIWsOutput">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="ServiceResult" type="tns:BusinessDemographicsResultBulk" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="BusinessDemographicsResultBulk">        <s:complexContent mixed="false">          <s:extension base="tns:SIWsResult">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="BusinessDemographicsReportBulk" type="tns:ArrayOfBusinessDemographicsReport" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="ArrayOfBusinessDemographicsReport">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="BusinessDemographicsReport" nillable="true" type="tns:BusinessDemographicsReport" />        </s:sequence>      </s:complexType>      <s:element name="BusinessDemographicsByCompany">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Company" type="tns:CompanySearch" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="BusinessDemographicsByCompanyResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="BusinessDemographicsByCompanyResult" type="tns:BusinessDemographicsOutput" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetAllStatuses">        <s:complexType />      </s:element>      <s:element name="GetAllStatusesResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetAllStatusesResult" type="tns:StatusCodeOutput" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="StatusCodeOutput">        <s:complexContent mixed="false">          <s:extension base="tns:SIWsOutput">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="ServiceResult" type="tns:StatusCodeResult" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="StatusCodeResult">        <s:complexContent mixed="false">          <s:extension base="tns:SIWsResult">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Statuses" type="tns:ArrayOfSIWsStatus" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="ArrayOfSIWsStatus">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="SIWsStatus" nillable="true" type="tns:SIWsStatus" />        </s:sequence>      </s:complexType>      <s:element name="GetServiceInfo">        <s:complexType />      </s:element>      <s:element name="GetServiceInfoResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetServiceInfoResult" type="tns:ServiceInfoOutput" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ServiceInfoOutput">        <s:complexContent mixed="false">          <s:extension base="tns:SIWsOutput">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="ServiceResult" type="tns:SIServiceInfoResult" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="SIServiceInfoResult">        <s:complexContent mixed="false">          <s:extension base="tns:SIWsResult">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="ServiceInfo" type="tns:ArrayOfServiceInfoRecord" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="ArrayOfServiceInfoRecord">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="ServiceInfoRecord" nillable="true" type="tns:ServiceInfoRecord" />        </s:sequence>      </s:complexType>      <s:complexType name="ServiceInfoRecord">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="InfoKey" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="InfoValue" type="s:string" />        </s:sequence>      </s:complexType>    </s:schema>    <xs:schema xmlns:tns1="http://ws.strikeiron.com" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://ws.strikeiron.com" xmlns:xs="http://www.w3.org/2001/XMLSchema">      <xs:element name="LicenseInfo" type="tns1:LicenseInfo" />      <xs:complexType name="LicenseInfo">        <xs:sequence>          <xs:element minOccurs="0" name="UnregisteredUser" type="tns1:UnregisteredUser" />          <xs:element minOccurs="0" name="RegisteredUser" type="tns1:RegisteredUser" />        </xs:sequence>      </xs:complexType>      <xs:complexType name="UnregisteredUser">        <xs:sequence>          <xs:element minOccurs="0" name="EmailAddress" type="xs:string" />        </xs:sequence>      </xs:complexType>      <xs:complexType name="RegisteredUser">        <xs:sequence>          <xs:element minOccurs="0" name="UserID" type="xs:string" />          <xs:element minOccurs="0" name="Password" type="xs:string" />        </xs:sequence>      </xs:complexType>      <xs:element name="SubscriptionInfo" type="tns1:SubscriptionInfo" />      <xs:complexType name="SubscriptionInfo">        <xs:sequence>          <xs:element name="LicenseStatusCode" type="xs:int" />          <xs:element minOccurs="0" name="LicenseStatus" type="xs:string" />          <xs:element name="LicenseActionCode" type="xs:int" />          <xs:element minOccurs="0" name="LicenseAction" type="xs:string" />          <xs:element name="RemainingHits" type="xs:int" />          <xs:element name="Amount" type="xs:decimal" />        </xs:sequence>      </xs:complexType>      <xs:element name="GetRemainingHits">        <xs:complexType />      </xs:element>      <xs:element name="GetRemainingHitsResponse">        <xs:complexType />      </xs:element>    </xs:schema>  </wsdl:types>  <wsdl:message name="BusinessSearchSoapIn">    <wsdl:part name="parameters" element="tns:BusinessSearch" />  </wsdl:message>  <wsdl:message name="BusinessSearchSoapOut">    <wsdl:part name="parameters" element="tns:BusinessSearchResponse" />  </wsdl:message>  <wsdl:message name="BusinessDemographicsByLinkIDSoapIn">    <wsdl:part name="parameters" element="tns:BusinessDemographicsByLinkID" />  </wsdl:message>  <wsdl:message name="BusinessDemographicsByLinkIDSoapOut">    <wsdl:part name="parameters" element="tns:BusinessDemographicsByLinkIDResponse" />  </wsdl:message>  <wsdl:message name="BusinessDemographicsByLinkIDBulkSoapIn">    <wsdl:part name="parameters" element="tns:BusinessDemographicsByLinkIDBulk" />  </wsdl:message>  <wsdl:message name="BusinessDemographicsByLinkIDBulkSoapOut">    <wsdl:part name="parameters" element="tns:BusinessDemographicsByLinkIDBulkResponse" />  </wsdl:message>  <wsdl:message name="BusinessDemographicsByCompanySoapIn">    <wsdl:part name="parameters" element="tns:BusinessDemographicsByCompany" />  </wsdl:message>  <wsdl:message name="BusinessDemographicsByCompanySoapOut">    <wsdl:part name="parameters" element="tns:BusinessDemographicsByCompanyResponse" />  </wsdl:message>  <wsdl:message name="GetAllStatusesSoapIn">    <wsdl:part name="parameters" element="tns:GetAllStatuses" />  </wsdl:message>  <wsdl:message name="GetAllStatusesSoapOut">    <wsdl:part name="parameters" element="tns:GetAllStatusesResponse" />  </wsdl:message>  <wsdl:message name="GetServiceInfoSoapIn">    <wsdl:part name="parameters" element="tns:GetServiceInfo" />  </wsdl:message>  <wsdl:message name="GetServiceInfoSoapOut">    <wsdl:part name="parameters" element="tns:GetServiceInfoResponse" />  </wsdl:message>  <wsdl:message name="GetRemainingHitsSoapIn">    <wsdl:part name="parameters" xmlns:q1="http://ws.strikeiron.com" element="q1:GetRemainingHits" />  </wsdl:message>  <wsdl:message name="GetRemainingHitsSoapOut">    <wsdl:part name="parameters" xmlns:q2="http://ws.strikeiron.com" element="q2:GetRemainingHitsResponse" />  </wsdl:message>  <wsdl:message name="LicenseInfoMessage">    <wsdl:part name="LicenseInfo" xmlns:q3="http://ws.strikeiron.com" element="q3:LicenseInfo" />  </wsdl:message>  <wsdl:message name="SubscriptionInfoMessage">    <wsdl:part name="SubscriptionInfo" xmlns:q4="http://ws.strikeiron.com" element="q4:SubscriptionInfo" />  </wsdl:message>  <wsdl:portType name="CorteraBusinessVitalsSoap">    <wsdl:operation name="BusinessSearch">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Gets a list of candidate businesses matching the search criteria</documentation>      <wsdl:input message="tns:BusinessSearchSoapIn" />      <wsdl:output message="tns:BusinessSearchSoapOut" />    </wsdl:operation>    <wsdl:operation name="BusinessDemographicsByLinkID">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Gets business demographics from a Link ID</documentation>      <wsdl:input message="tns:BusinessDemographicsByLinkIDSoapIn" />      <wsdl:output message="tns:BusinessDemographicsByLinkIDSoapOut" />    </wsdl:operation>    <wsdl:operation name="BusinessDemographicsByLinkIDBulk">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Gets business demographics from a bulk of Link IDs</documentation>      <wsdl:input message="tns:BusinessDemographicsByLinkIDBulkSoapIn" />      <wsdl:output message="tns:BusinessDemographicsByLinkIDBulkSoapOut" />    </wsdl:operation>    <wsdl:operation name="BusinessDemographicsByCompany">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Gets business demographics by company</documentation>      <wsdl:input message="tns:BusinessDemographicsByCompanySoapIn" />      <wsdl:output message="tns:BusinessDemographicsByCompanySoapOut" />    </wsdl:operation>    <wsdl:operation name="GetAllStatuses">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get all statuses this service might return</documentation>      <wsdl:input message="tns:GetAllStatusesSoapIn" />      <wsdl:output message="tns:GetAllStatusesSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetServiceInfo">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get information about the web service</documentation>      <wsdl:input message="tns:GetServiceInfoSoapIn" />      <wsdl:output message="tns:GetServiceInfoSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetRemainingHits">      <wsdl:input message="tns:GetRemainingHitsSoapIn" />      <wsdl:output message="tns:GetRemainingHitsSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="CorteraBusinessVitalsSoap" type="tns:CorteraBusinessVitalsSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="BusinessSearch">      <soap:operation soapAction="http://www.strikeiron.com/BusinessSearch" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="BusinessDemographicsByLinkID">      <soap:operation soapAction="http://www.strikeiron.com/BusinessDemographicsByLinkID" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="BusinessDemographicsByLinkIDBulk">      <soap:operation soapAction="http://www.strikeiron.com/BusinessDemographicsByLinkIDBulk" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="BusinessDemographicsByCompany">      <soap:operation soapAction="http://www.strikeiron.com/BusinessDemographicsByCompany" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAllStatuses">      <soap:operation soapAction="http://www.strikeiron.com/GetAllStatuses" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetServiceInfo">      <soap:operation soapAction="http://www.strikeiron.com/GetServiceInfo" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetRemainingHits">      <soap:operation soapAction="http://ws.strikeiron.com/StrikeIron/CorteraBusinessVitals/GetRemainingHits" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="CorteraBusinessVitals">    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">The Cortera Business Vitals Service retrieves business demographics for companies based on a Link ID or a company name.</documentation>    <wsdl:port name="CorteraBusinessVitalsSoap" binding="tns:CorteraBusinessVitalsSoap">      <soap:address location="http://ws.strikeiron.com/StrikeIron/CorteraBusinessVitals" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.strikeiron.com"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.strikeiron.com"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.strikeiron.com">
+			<s:element name="BusinessSearch">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Company" type="tns:CompanySearch" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="CompanySearch">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="BusinessSearchResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="BusinessSearchResult" type="tns:BusinessSearchOutput" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="BusinessSearchOutput">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:SIWsOutput">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="ServiceResult" type="tns:BusinessSearchResult" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="SIWsOutput">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="ServiceStatus" type="tns:SIWsStatus" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="SIWsStatus">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="StatusNbr" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="StatusDescription" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="BusinessSearchResult">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:SIWsResult">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="CandidateBusinesses" type="tns:ArrayOfCandidateBusiness" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="SIWsResult">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfCandidateBusiness">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="CandidateBusiness" nillable="true" type="tns:CandidateBusiness" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="CandidateBusiness">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="LinkID" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="RelevanceScore" type="s:int" />
+					<s:element minOccurs="1" maxOccurs="1" name="DemographicsIncluded" type="s:boolean" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="BusinessDemographicsByLinkID">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="LinkID" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="BusinessDemographicsByLinkIDResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="BusinessDemographicsByLinkIDResult" type="tns:BusinessDemographicsOutput" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="BusinessDemographicsOutput">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:SIWsOutput">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="ServiceResult" type="tns:BusinessDemographicsResult" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="BusinessDemographicsResult">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="BusinessDemographicsReport" type="tns:BusinessDemographicsReport" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="BusinessDemographicsReport">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="BasicData" type="tns:BasicData" />
+					<s:element minOccurs="0" maxOccurs="1" name="BusinessDemographics" type="tns:BusinessDemographics" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="BasicData">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="LinkID" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="MatchScore" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="BusinessDemographics">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="BusinessName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="TradeStyle" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Fax" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Url" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ExecutiveName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PrimarySIC" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="SecondarySIC" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PrimarySicDescription" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="SecondarySicDescription" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PrimaryNaicsCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PrimaryNaicsDescription" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="YearStarted" type="s:short" />
+					<s:element minOccurs="0" maxOccurs="1" name="Ownership" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="LocationType" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="AnnualSales" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="AnnualSalesRange" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Employees" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="EmployeesRange" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="BusinessDemographicsByLinkIDBulk">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="LinkIDBulk" type="tns:ArrayOfString" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfString">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="BusinessDemographicsByLinkIDBulkResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="BusinessDemographicsByLinkIDBulkResult" type="tns:BusinessDemographicsOutputBulk" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="BusinessDemographicsOutputBulk">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:SIWsOutput">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="ServiceResult" type="tns:BusinessDemographicsResultBulk" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="BusinessDemographicsResultBulk">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:SIWsResult">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="BusinessDemographicsReportBulk" type="tns:ArrayOfBusinessDemographicsReport" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="ArrayOfBusinessDemographicsReport">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="BusinessDemographicsReport" nillable="true"
+						type="tns:BusinessDemographicsReport" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="BusinessDemographicsByCompany">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Company" type="tns:CompanySearch" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="BusinessDemographicsByCompanyResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="BusinessDemographicsByCompanyResult" type="tns:BusinessDemographicsOutput" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetAllStatuses">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetAllStatusesResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetAllStatusesResult" type="tns:StatusCodeOutput" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="StatusCodeOutput">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:SIWsOutput">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="ServiceResult" type="tns:StatusCodeResult" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="StatusCodeResult">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:SIWsResult">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Statuses" type="tns:ArrayOfSIWsStatus" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="ArrayOfSIWsStatus">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="SIWsStatus" nillable="true" type="tns:SIWsStatus" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetServiceInfo">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetServiceInfoResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetServiceInfoResult" type="tns:ServiceInfoOutput" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ServiceInfoOutput">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:SIWsOutput">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="ServiceResult" type="tns:SIServiceInfoResult" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="SIServiceInfoResult">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:SIWsResult">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="ServiceInfo" type="tns:ArrayOfServiceInfoRecord" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="ArrayOfServiceInfoRecord">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="ServiceInfoRecord" nillable="true" type="tns:ServiceInfoRecord" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ServiceInfoRecord">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="InfoKey" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="InfoValue" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+		</s:schema>
+		<xs:schema xmlns:tns1="http://ws.strikeiron.com" attributeFormDefault="unqualified" elementFormDefault="qualified"
+			targetNamespace="http://ws.strikeiron.com" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:element name="LicenseInfo" type="tns1:LicenseInfo" />
+			<xs:complexType name="LicenseInfo">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="UnregisteredUser" type="tns1:UnregisteredUser" />
+					<xs:element minOccurs="0" name="RegisteredUser" type="tns1:RegisteredUser" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="UnregisteredUser">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="EmailAddress" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="RegisteredUser">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="UserID" type="xs:string" />
+					<xs:element minOccurs="0" name="Password" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="SubscriptionInfo" type="tns1:SubscriptionInfo" />
+			<xs:complexType name="SubscriptionInfo">
+				<xs:sequence>
+					<xs:element name="LicenseStatusCode" type="xs:int" />
+					<xs:element minOccurs="0" name="LicenseStatus" type="xs:string" />
+					<xs:element name="LicenseActionCode" type="xs:int" />
+					<xs:element minOccurs="0" name="LicenseAction" type="xs:string" />
+					<xs:element name="RemainingHits" type="xs:int" />
+					<xs:element name="Amount" type="xs:decimal" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="GetRemainingHits">
+				<xs:complexType />
+			</xs:element>
+			<xs:element name="GetRemainingHitsResponse">
+				<xs:complexType />
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="BusinessSearchSoapIn">
+		<wsdl:part name="parameters" element="tns:BusinessSearch" />
+	</wsdl:message>
+	<wsdl:message name="BusinessSearchSoapOut">
+		<wsdl:part name="parameters" element="tns:BusinessSearchResponse" />
+	</wsdl:message>
+	<wsdl:message name="BusinessDemographicsByLinkIDSoapIn">
+		<wsdl:part name="parameters" element="tns:BusinessDemographicsByLinkID" />
+	</wsdl:message>
+	<wsdl:message name="BusinessDemographicsByLinkIDSoapOut">
+		<wsdl:part name="parameters" element="tns:BusinessDemographicsByLinkIDResponse" />
+	</wsdl:message>
+	<wsdl:message name="BusinessDemographicsByLinkIDBulkSoapIn">
+		<wsdl:part name="parameters" element="tns:BusinessDemographicsByLinkIDBulk" />
+	</wsdl:message>
+	<wsdl:message name="BusinessDemographicsByLinkIDBulkSoapOut">
+		<wsdl:part name="parameters" element="tns:BusinessDemographicsByLinkIDBulkResponse" />
+	</wsdl:message>
+	<wsdl:message name="BusinessDemographicsByCompanySoapIn">
+		<wsdl:part name="parameters" element="tns:BusinessDemographicsByCompany" />
+	</wsdl:message>
+	<wsdl:message name="BusinessDemographicsByCompanySoapOut">
+		<wsdl:part name="parameters" element="tns:BusinessDemographicsByCompanyResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetAllStatusesSoapIn">
+		<wsdl:part name="parameters" element="tns:GetAllStatuses" />
+	</wsdl:message>
+	<wsdl:message name="GetAllStatusesSoapOut">
+		<wsdl:part name="parameters" element="tns:GetAllStatusesResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetServiceInfoSoapIn">
+		<wsdl:part name="parameters" element="tns:GetServiceInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetServiceInfoSoapOut">
+		<wsdl:part name="parameters" element="tns:GetServiceInfoResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetRemainingHitsSoapIn">
+		<wsdl:part name="parameters" xmlns:q1="http://ws.strikeiron.com" element="q1:GetRemainingHits" />
+	</wsdl:message>
+	<wsdl:message name="GetRemainingHitsSoapOut">
+		<wsdl:part name="parameters" xmlns:q2="http://ws.strikeiron.com" element="q2:GetRemainingHitsResponse" />
+	</wsdl:message>
+	<wsdl:message name="LicenseInfoMessage">
+		<wsdl:part name="LicenseInfo" xmlns:q3="http://ws.strikeiron.com" element="q3:LicenseInfo" />
+	</wsdl:message>
+	<wsdl:message name="SubscriptionInfoMessage">
+		<wsdl:part name="SubscriptionInfo" xmlns:q4="http://ws.strikeiron.com" element="q4:SubscriptionInfo" />
+	</wsdl:message>
+	<wsdl:portType name="CorteraBusinessVitalsSoap">
+		<wsdl:operation name="BusinessSearch">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Gets a list of candidate businesses matching the search criteria</documentation>
+			<wsdl:input message="tns:BusinessSearchSoapIn" />
+			<wsdl:output message="tns:BusinessSearchSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="BusinessDemographicsByLinkID">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Gets business demographics from a Link ID</documentation>
+			<wsdl:input message="tns:BusinessDemographicsByLinkIDSoapIn" />
+			<wsdl:output message="tns:BusinessDemographicsByLinkIDSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="BusinessDemographicsByLinkIDBulk">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Gets business demographics from a bulk of Link IDs</documentation>
+			<wsdl:input message="tns:BusinessDemographicsByLinkIDBulkSoapIn" />
+			<wsdl:output message="tns:BusinessDemographicsByLinkIDBulkSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="BusinessDemographicsByCompany">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Gets business demographics by company</documentation>
+			<wsdl:input message="tns:BusinessDemographicsByCompanySoapIn" />
+			<wsdl:output message="tns:BusinessDemographicsByCompanySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAllStatuses">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get all statuses this service might return</documentation>
+			<wsdl:input message="tns:GetAllStatusesSoapIn" />
+			<wsdl:output message="tns:GetAllStatusesSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetServiceInfo">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get information about the web service</documentation>
+			<wsdl:input message="tns:GetServiceInfoSoapIn" />
+			<wsdl:output message="tns:GetServiceInfoSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetRemainingHits">
+			<wsdl:input message="tns:GetRemainingHitsSoapIn" />
+			<wsdl:output message="tns:GetRemainingHitsSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="CorteraBusinessVitalsSoap" type="tns:CorteraBusinessVitalsSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="BusinessSearch">
+			<soap:operation soapAction="http://www.strikeiron.com/BusinessSearch" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="BusinessDemographicsByLinkID">
+			<soap:operation soapAction="http://www.strikeiron.com/BusinessDemographicsByLinkID" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="BusinessDemographicsByLinkIDBulk">
+			<soap:operation soapAction="http://www.strikeiron.com/BusinessDemographicsByLinkIDBulk" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="BusinessDemographicsByCompany">
+			<soap:operation soapAction="http://www.strikeiron.com/BusinessDemographicsByCompany" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAllStatuses">
+			<soap:operation soapAction="http://www.strikeiron.com/GetAllStatuses" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetServiceInfo">
+			<soap:operation soapAction="http://www.strikeiron.com/GetServiceInfo" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetRemainingHits">
+			<soap:operation soapAction="http://ws.strikeiron.com/StrikeIron/CorteraBusinessVitals/GetRemainingHits" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="CorteraBusinessVitals">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">The Cortera Business Vitals Service retrieves business demographics for companies
+			based on a Link ID or a company name.</documentation>
+		<wsdl:port name="CorteraBusinessVitalsSoap" binding="tns:CorteraBusinessVitalsSoap">
+			<soap:address location="http://ws.strikeiron.com/StrikeIron/CorteraBusinessVitals" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,1 +1,1163 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://TPISoft.com/SmartPayments/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://TPISoft.com/SmartPayments/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SmartPayments - ePayment Web Service</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://TPISoft.com/SmartPayments/">      <s:element name="ProcessCreditCard">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TransType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="CardNum" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ExpDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="MagData" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="NameOnCard" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Amount" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="InvNum" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PNRef" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Street" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="CVNum" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ProcessCreditCardResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ProcessCreditCardResult" type="tns:Response" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="Response">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="RespMSG" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Message1" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Message2" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="AuthCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PNRef" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="HostCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="HostURL" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ReceiptURL" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GetAVSResult" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GetAVSResultTXT" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GetStreetMatchTXT" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GetZipMatchTXT" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GetCVResult" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GetCVResultTXT" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GetGetOrigResult" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GetCommercialCard" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="WorkingKey" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="KeyPointer" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="ProcessDebitCard">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TransType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="CardNum" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ExpDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="MagData" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="NameOnCard" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Amount" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="InvNum" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PNRef" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Pin" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="RegisterNum" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="SureChargeAmt" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="CashBackAmt" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ProcessDebitCardResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ProcessDebitCardResult" type="tns:Response" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ProcessEBTCard">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TransType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="CardNum" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ExpDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="MagData" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="NameOnCard" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Amount" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="InvNum" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PNRef" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Pin" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="RegisterNum" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="SureChargeAmt" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="CashBackAmt" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ProcessEBTCardResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ProcessEBTCardResult" type="tns:Response" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ProcessLoyaltyCard">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TransType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="CardNum" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ExpDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="MagData" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Amount" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="InvNum" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PNRef" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ProcessLoyaltyCardResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ProcessLoyaltyCardResult" type="tns:Response" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ProcessGiftCard">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TransType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="CardNum" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ExpDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="MagData" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Amount" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="InvNum" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PNRef" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ProcessGiftCardResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ProcessGiftCardResult" type="tns:Response" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ProcessCheck">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TransType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="CheckNum" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TransitNum" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="AccountNum" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Amount" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="MICR" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="NameOnCheck" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="DL" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="SS" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="DOB" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="StateCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="CheckType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ProcessCheckResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ProcessCheckResult" type="tns:Response" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetInfo">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TransType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetInfoResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetInfoResult" type="tns:Response" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ProcessSignature">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="SignatureType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="SignatureData" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PNRef" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Result" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="AuthCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ProcessSignatureResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ProcessSignatureResult" type="tns:Response" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Response" nillable="true" type="tns:Response" />    </s:schema>  </wsdl:types>  <wsdl:message name="ProcessCreditCardSoapIn">    <wsdl:part name="parameters" element="tns:ProcessCreditCard" />  </wsdl:message>  <wsdl:message name="ProcessCreditCardSoapOut">    <wsdl:part name="parameters" element="tns:ProcessCreditCardResponse" />  </wsdl:message>  <wsdl:message name="ProcessDebitCardSoapIn">    <wsdl:part name="parameters" element="tns:ProcessDebitCard" />  </wsdl:message>  <wsdl:message name="ProcessDebitCardSoapOut">    <wsdl:part name="parameters" element="tns:ProcessDebitCardResponse" />  </wsdl:message>  <wsdl:message name="ProcessEBTCardSoapIn">    <wsdl:part name="parameters" element="tns:ProcessEBTCard" />  </wsdl:message>  <wsdl:message name="ProcessEBTCardSoapOut">    <wsdl:part name="parameters" element="tns:ProcessEBTCardResponse" />  </wsdl:message>  <wsdl:message name="ProcessLoyaltyCardSoapIn">    <wsdl:part name="parameters" element="tns:ProcessLoyaltyCard" />  </wsdl:message>  <wsdl:message name="ProcessLoyaltyCardSoapOut">    <wsdl:part name="parameters" element="tns:ProcessLoyaltyCardResponse" />  </wsdl:message>  <wsdl:message name="ProcessGiftCardSoapIn">    <wsdl:part name="parameters" element="tns:ProcessGiftCard" />  </wsdl:message>  <wsdl:message name="ProcessGiftCardSoapOut">    <wsdl:part name="parameters" element="tns:ProcessGiftCardResponse" />  </wsdl:message>  <wsdl:message name="ProcessCheckSoapIn">    <wsdl:part name="parameters" element="tns:ProcessCheck" />  </wsdl:message>  <wsdl:message name="ProcessCheckSoapOut">    <wsdl:part name="parameters" element="tns:ProcessCheckResponse" />  </wsdl:message>  <wsdl:message name="GetInfoSoapIn">    <wsdl:part name="parameters" element="tns:GetInfo" />  </wsdl:message>  <wsdl:message name="GetInfoSoapOut">    <wsdl:part name="parameters" element="tns:GetInfoResponse" />  </wsdl:message>  <wsdl:message name="ProcessSignatureSoapIn">    <wsdl:part name="parameters" element="tns:ProcessSignature" />  </wsdl:message>  <wsdl:message name="ProcessSignatureSoapOut">    <wsdl:part name="parameters" element="tns:ProcessSignatureResponse" />  </wsdl:message>  <wsdl:message name="ProcessCreditCardHttpGetIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransType" type="s:string" />    <wsdl:part name="CardNum" type="s:string" />    <wsdl:part name="ExpDate" type="s:string" />    <wsdl:part name="MagData" type="s:string" />    <wsdl:part name="NameOnCard" type="s:string" />    <wsdl:part name="Amount" type="s:string" />    <wsdl:part name="InvNum" type="s:string" />    <wsdl:part name="PNRef" type="s:string" />    <wsdl:part name="Zip" type="s:string" />    <wsdl:part name="Street" type="s:string" />    <wsdl:part name="CVNum" type="s:string" />    <wsdl:part name="ExtData" type="s:string" />  </wsdl:message>  <wsdl:message name="ProcessCreditCardHttpGetOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:message name="ProcessDebitCardHttpGetIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransType" type="s:string" />    <wsdl:part name="CardNum" type="s:string" />    <wsdl:part name="ExpDate" type="s:string" />    <wsdl:part name="MagData" type="s:string" />    <wsdl:part name="NameOnCard" type="s:string" />    <wsdl:part name="Amount" type="s:string" />    <wsdl:part name="InvNum" type="s:string" />    <wsdl:part name="PNRef" type="s:string" />    <wsdl:part name="Pin" type="s:string" />    <wsdl:part name="RegisterNum" type="s:string" />    <wsdl:part name="SureChargeAmt" type="s:string" />    <wsdl:part name="CashBackAmt" type="s:string" />    <wsdl:part name="ExtData" type="s:string" />  </wsdl:message>  <wsdl:message name="ProcessDebitCardHttpGetOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:message name="ProcessEBTCardHttpGetIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransType" type="s:string" />    <wsdl:part name="CardNum" type="s:string" />    <wsdl:part name="ExpDate" type="s:string" />    <wsdl:part name="MagData" type="s:string" />    <wsdl:part name="NameOnCard" type="s:string" />    <wsdl:part name="Amount" type="s:string" />    <wsdl:part name="InvNum" type="s:string" />    <wsdl:part name="PNRef" type="s:string" />    <wsdl:part name="Pin" type="s:string" />    <wsdl:part name="RegisterNum" type="s:string" />    <wsdl:part name="SureChargeAmt" type="s:string" />    <wsdl:part name="CashBackAmt" type="s:string" />    <wsdl:part name="ExtData" type="s:string" />  </wsdl:message>  <wsdl:message name="ProcessEBTCardHttpGetOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:message name="ProcessLoyaltyCardHttpGetIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransType" type="s:string" />    <wsdl:part name="CardNum" type="s:string" />    <wsdl:part name="ExpDate" type="s:string" />    <wsdl:part name="MagData" type="s:string" />    <wsdl:part name="Amount" type="s:string" />    <wsdl:part name="InvNum" type="s:string" />    <wsdl:part name="PNRef" type="s:string" />    <wsdl:part name="ExtData" type="s:string" />  </wsdl:message>  <wsdl:message name="ProcessLoyaltyCardHttpGetOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:message name="ProcessGiftCardHttpGetIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransType" type="s:string" />    <wsdl:part name="CardNum" type="s:string" />    <wsdl:part name="ExpDate" type="s:string" />    <wsdl:part name="MagData" type="s:string" />    <wsdl:part name="Amount" type="s:string" />    <wsdl:part name="InvNum" type="s:string" />    <wsdl:part name="PNRef" type="s:string" />    <wsdl:part name="ExtData" type="s:string" />  </wsdl:message>  <wsdl:message name="ProcessGiftCardHttpGetOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:message name="ProcessCheckHttpGetIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransType" type="s:string" />    <wsdl:part name="CheckNum" type="s:string" />    <wsdl:part name="TransitNum" type="s:string" />    <wsdl:part name="AccountNum" type="s:string" />    <wsdl:part name="Amount" type="s:string" />    <wsdl:part name="MICR" type="s:string" />    <wsdl:part name="NameOnCheck" type="s:string" />    <wsdl:part name="DL" type="s:string" />    <wsdl:part name="SS" type="s:string" />    <wsdl:part name="DOB" type="s:string" />    <wsdl:part name="StateCode" type="s:string" />    <wsdl:part name="CheckType" type="s:string" />    <wsdl:part name="ExtData" type="s:string" />  </wsdl:message>  <wsdl:message name="ProcessCheckHttpGetOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:message name="GetInfoHttpGetIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransType" type="s:string" />    <wsdl:part name="ExtData" type="s:string" />  </wsdl:message>  <wsdl:message name="GetInfoHttpGetOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:message name="ProcessSignatureHttpGetIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="SignatureType" type="s:string" />    <wsdl:part name="SignatureData" type="s:string" />    <wsdl:part name="PNRef" type="s:string" />    <wsdl:part name="Result" type="s:string" />    <wsdl:part name="AuthCode" type="s:string" />    <wsdl:part name="ExtData" type="s:string" />  </wsdl:message>  <wsdl:message name="ProcessSignatureHttpGetOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:message name="ProcessCreditCardHttpPostIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransType" type="s:string" />    <wsdl:part name="CardNum" type="s:string" />    <wsdl:part name="ExpDate" type="s:string" />    <wsdl:part name="MagData" type="s:string" />    <wsdl:part name="NameOnCard" type="s:string" />    <wsdl:part name="Amount" type="s:string" />    <wsdl:part name="InvNum" type="s:string" />    <wsdl:part name="PNRef" type="s:string" />    <wsdl:part name="Zip" type="s:string" />    <wsdl:part name="Street" type="s:string" />    <wsdl:part name="CVNum" type="s:string" />    <wsdl:part name="ExtData" type="s:string" />  </wsdl:message>  <wsdl:message name="ProcessCreditCardHttpPostOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:message name="ProcessDebitCardHttpPostIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransType" type="s:string" />    <wsdl:part name="CardNum" type="s:string" />    <wsdl:part name="ExpDate" type="s:string" />    <wsdl:part name="MagData" type="s:string" />    <wsdl:part name="NameOnCard" type="s:string" />    <wsdl:part name="Amount" type="s:string" />    <wsdl:part name="InvNum" type="s:string" />    <wsdl:part name="PNRef" type="s:string" />    <wsdl:part name="Pin" type="s:string" />    <wsdl:part name="RegisterNum" type="s:string" />    <wsdl:part name="SureChargeAmt" type="s:string" />    <wsdl:part name="CashBackAmt" type="s:string" />    <wsdl:part name="ExtData" type="s:string" />  </wsdl:message>  <wsdl:message name="ProcessDebitCardHttpPostOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:message name="ProcessEBTCardHttpPostIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransType" type="s:string" />    <wsdl:part name="CardNum" type="s:string" />    <wsdl:part name="ExpDate" type="s:string" />    <wsdl:part name="MagData" type="s:string" />    <wsdl:part name="NameOnCard" type="s:string" />    <wsdl:part name="Amount" type="s:string" />    <wsdl:part name="InvNum" type="s:string" />    <wsdl:part name="PNRef" type="s:string" />    <wsdl:part name="Pin" type="s:string" />    <wsdl:part name="RegisterNum" type="s:string" />    <wsdl:part name="SureChargeAmt" type="s:string" />    <wsdl:part name="CashBackAmt" type="s:string" />    <wsdl:part name="ExtData" type="s:string" />  </wsdl:message>  <wsdl:message name="ProcessEBTCardHttpPostOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:message name="ProcessLoyaltyCardHttpPostIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransType" type="s:string" />    <wsdl:part name="CardNum" type="s:string" />    <wsdl:part name="ExpDate" type="s:string" />    <wsdl:part name="MagData" type="s:string" />    <wsdl:part name="Amount" type="s:string" />    <wsdl:part name="InvNum" type="s:string" />    <wsdl:part name="PNRef" type="s:string" />    <wsdl:part name="ExtData" type="s:string" />  </wsdl:message>  <wsdl:message name="ProcessLoyaltyCardHttpPostOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:message name="ProcessGiftCardHttpPostIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransType" type="s:string" />    <wsdl:part name="CardNum" type="s:string" />    <wsdl:part name="ExpDate" type="s:string" />    <wsdl:part name="MagData" type="s:string" />    <wsdl:part name="Amount" type="s:string" />    <wsdl:part name="InvNum" type="s:string" />    <wsdl:part name="PNRef" type="s:string" />    <wsdl:part name="ExtData" type="s:string" />  </wsdl:message>  <wsdl:message name="ProcessGiftCardHttpPostOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:message name="ProcessCheckHttpPostIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransType" type="s:string" />    <wsdl:part name="CheckNum" type="s:string" />    <wsdl:part name="TransitNum" type="s:string" />    <wsdl:part name="AccountNum" type="s:string" />    <wsdl:part name="Amount" type="s:string" />    <wsdl:part name="MICR" type="s:string" />    <wsdl:part name="NameOnCheck" type="s:string" />    <wsdl:part name="DL" type="s:string" />    <wsdl:part name="SS" type="s:string" />    <wsdl:part name="DOB" type="s:string" />    <wsdl:part name="StateCode" type="s:string" />    <wsdl:part name="CheckType" type="s:string" />    <wsdl:part name="ExtData" type="s:string" />  </wsdl:message>  <wsdl:message name="ProcessCheckHttpPostOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:message name="GetInfoHttpPostIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="TransType" type="s:string" />    <wsdl:part name="ExtData" type="s:string" />  </wsdl:message>  <wsdl:message name="GetInfoHttpPostOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:message name="ProcessSignatureHttpPostIn">    <wsdl:part name="UserName" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="SignatureType" type="s:string" />    <wsdl:part name="SignatureData" type="s:string" />    <wsdl:part name="PNRef" type="s:string" />    <wsdl:part name="Result" type="s:string" />    <wsdl:part name="AuthCode" type="s:string" />    <wsdl:part name="ExtData" type="s:string" />  </wsdl:message>  <wsdl:message name="ProcessSignatureHttpPostOut">    <wsdl:part name="Body" element="tns:Response" />  </wsdl:message>  <wsdl:portType name="SmartPaymentsSoap">    <wsdl:operation name="ProcessCreditCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Credit Card Transaction. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Void | Force | Capture | RepeatSale | CaptureAll | Adjustment, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, InvNum - Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, Zip - CardHolder's billing ZipCode used with AVS,  Street - CardHolder's billing Street Address used with AVS,  CVNum - CardHolder's Card Verification Number used with CV Check, ExtData - Extended Data in XML, Valid Values are: CustomerIDAuthCode - Original Authorization Code, EntryMode - CardNum source: Manual | MagneticStripe | ICC | Proximity, CVPresence - CVNum presence: None | NotSubmitted | Submitted | Illegible | NotPresent, CustCode - Customer Code used with Commercial Cards, TipAmt - Tip Amount TaxAmt - Tax Amount used with Commercial Cards, SequenceNum - Sequence Number used with Recurring Transactions, SequenceCount - Sequene Count used with Recurring Transactions, ServerID - Server ID, Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, Force - Force Duplicates T or F, RegisterNum - Register Number, PONum - Purhcase Order Number, City - the City of the CardHolder's billing address, BillPayment - Bill payment indicator T or F, Authentication - Verified by Visa and UCAF programs: &lt;XID&gt; | &lt;CAVV&gt;, Invoice - Purchase Card Level III, Fleet - Fleet card identification data, Items - Item data support for Fuel</wsdl:documentation>      <wsdl:input message="tns:ProcessCreditCardSoapIn" />      <wsdl:output message="tns:ProcessCreditCardSoapOut" />    </wsdl:operation>    <wsdl:operation name="ProcessDebitCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Debit Card Transactions. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Force | Capture |  CaptureAll, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, Pin - Pin Block Returned by Pin-Pad, RegisterNum - Register Number Pin-Pad is Connected, SureChargeAmt - Sure Charge Amount in DDDDD.CC format, CashBackAmt - Cash Back Amount in DDDDD.CC format, ExtData - Extended Data in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, KeySerialNumber - Key Serial Number for DUKPT, Settle - Transaction re-entry: processor specific settlement data</wsdl:documentation>      <wsdl:input message="tns:ProcessDebitCardSoapIn" />      <wsdl:output message="tns:ProcessDebitCardSoapOut" />    </wsdl:operation>    <wsdl:operation name="ProcessEBTCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment EBT Card Transactions. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - FoodStampSale | FoodStampReturn | CashBenefitSale | Capture | CaptureAll, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, Pin - Pin Returned by Pin-Pad, RegisterNum - Register Number Pin-Pad is Connected, SureChargeAmt - Sure Charge Amount in DDDDD.CC format, CashBackAmt - Cash Back Amount in DDDDD.CC format, ExtData - Extended Data in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, KeySerialNumber - Key Serial Number for DUKPT, VoucherNumber - Voucher Serial Number, Settle - Transaction re-entry: processor specific settlement data</wsdl:documentation>      <wsdl:input message="tns:ProcessEBTCardSoapIn" />      <wsdl:output message="tns:ProcessEBTCardSoapOut" />    </wsdl:operation>    <wsdl:operation name="ProcessLoyaltyCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Loyalty Card Transaction. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Activate | Deactivate | Refund | Redeem | Inquire | Reload, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in decimal format, InvNum - Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, ExtData - Extended Data in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, Force - Force Duplicates T or F</wsdl:documentation>      <wsdl:input message="tns:ProcessLoyaltyCardSoapIn" />      <wsdl:output message="tns:ProcessLoyaltyCardSoapOut" />    </wsdl:operation>    <wsdl:operation name="ProcessGiftCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Gift Card Transaction. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Activate | Deactivate | Refund | Redeem | Inquire | Reload, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, InvNum - Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, ExtData - Extended Data in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, Force - Force Duplicates T or F</wsdl:documentation>      <wsdl:input message="tns:ProcessGiftCardSoapIn" />      <wsdl:output message="tns:ProcessGiftCardSoapOut" />    </wsdl:operation>    <wsdl:operation name="ProcessCheck">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Check Transactions. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Force | Void | Capture | CaptureAll, CheckNum - Check Number, TransitNum - Transit NUmber AccountNum - AccountNumber, Amount - Amount in DDDDD.CC format, MICR - MICR, NameOnCheck - NameOnCheck, DL - Drivers License, SS - Social Security, StateCode - State Code of the Driver License, CheckType - CheckType (Personal | Corporate | Government), ExtData - Extended Data in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), PNRef - Reference Number Assigned by the payment gateway, Phone - Phone Number, EMail - E-Mail Address, RawMICR - Check RawMICR Data, InvNum - Invoice Number, TrainingMode - Training Mode T or F, AccountType - Account Type (Saving | Checking), CityOfAccount - City where the bank account is located, BillToStreet - Street address of the billing address, BillToCity - City of the billing address, BillToState - State/Province of the billing address, BillToPostalCode - Zip/Postal Code of the billing address, BillToCountry - Country of the billing address</wsdl:documentation>      <wsdl:input message="tns:ProcessCheckSoapIn" />      <wsdl:output message="tns:ProcessCheckSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetInfo">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retrieves information from the Web Service. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Initialize | Setup | BatchInquiry | StatusCheck,  ExtData - Extended Data in XML, Valid Values are: TrainingMode - Training Mode T or F</wsdl:documentation>      <wsdl:input message="tns:GetInfoSoapIn" />      <wsdl:output message="tns:GetInfoSoapOut" />    </wsdl:operation>    <wsdl:operation name="ProcessSignature">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process Signature Transaction. Valid input values are: UserName &amp; Password - Assigned by the payment gatewaySignatureType - Signature1 for Lipman credit, Signature2 for Lipman Check, Signature3 for AppForge, Signature4 for app other than AppForge, Receipt1 for TIFF fileSignatureData - an array of coordinate in the following format: x1,y1^x2,y2^x3,y3^...xn,yn^~Use 0,65535 as the x,y coordinate for any pen-up event.ExtData - Extended Data in XML, Valid Values are: TrainingMode - Training Mode T or F</wsdl:documentation>      <wsdl:input message="tns:ProcessSignatureSoapIn" />      <wsdl:output message="tns:ProcessSignatureSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="SmartPaymentsHttpGet">    <wsdl:operation name="ProcessCreditCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Credit Card Transaction. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Void | Force | Capture | RepeatSale | CaptureAll | Adjustment, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, InvNum - Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, Zip - CardHolder's billing ZipCode used with AVS,  Street - CardHolder's billing Street Address used with AVS,  CVNum - CardHolder's Card Verification Number used with CV Check, ExtData - Extended Data in XML, Valid Values are: CustomerIDAuthCode - Original Authorization Code, EntryMode - CardNum source: Manual | MagneticStripe | ICC | Proximity, CVPresence - CVNum presence: None | NotSubmitted | Submitted | Illegible | NotPresent, CustCode - Customer Code used with Commercial Cards, TipAmt - Tip Amount TaxAmt - Tax Amount used with Commercial Cards, SequenceNum - Sequence Number used with Recurring Transactions, SequenceCount - Sequene Count used with Recurring Transactions, ServerID - Server ID, Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, Force - Force Duplicates T or F, RegisterNum - Register Number, PONum - Purhcase Order Number, City - the City of the CardHolder's billing address, BillPayment - Bill payment indicator T or F, Authentication - Verified by Visa and UCAF programs: &lt;XID&gt; | &lt;CAVV&gt;, Invoice - Purchase Card Level III, Fleet - Fleet card identification data, Items - Item data support for Fuel</wsdl:documentation>      <wsdl:input message="tns:ProcessCreditCardHttpGetIn" />      <wsdl:output message="tns:ProcessCreditCardHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ProcessDebitCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Debit Card Transactions. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Force | Capture |  CaptureAll, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, Pin - Pin Block Returned by Pin-Pad, RegisterNum - Register Number Pin-Pad is Connected, SureChargeAmt - Sure Charge Amount in DDDDD.CC format, CashBackAmt - Cash Back Amount in DDDDD.CC format, ExtData - Extended Data in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, KeySerialNumber - Key Serial Number for DUKPT, Settle - Transaction re-entry: processor specific settlement data</wsdl:documentation>      <wsdl:input message="tns:ProcessDebitCardHttpGetIn" />      <wsdl:output message="tns:ProcessDebitCardHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ProcessEBTCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment EBT Card Transactions. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - FoodStampSale | FoodStampReturn | CashBenefitSale | Capture | CaptureAll, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, Pin - Pin Returned by Pin-Pad, RegisterNum - Register Number Pin-Pad is Connected, SureChargeAmt - Sure Charge Amount in DDDDD.CC format, CashBackAmt - Cash Back Amount in DDDDD.CC format, ExtData - Extended Data in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, KeySerialNumber - Key Serial Number for DUKPT, VoucherNumber - Voucher Serial Number, Settle - Transaction re-entry: processor specific settlement data</wsdl:documentation>      <wsdl:input message="tns:ProcessEBTCardHttpGetIn" />      <wsdl:output message="tns:ProcessEBTCardHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ProcessLoyaltyCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Loyalty Card Transaction. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Activate | Deactivate | Refund | Redeem | Inquire | Reload, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in decimal format, InvNum - Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, ExtData - Extended Data in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, Force - Force Duplicates T or F</wsdl:documentation>      <wsdl:input message="tns:ProcessLoyaltyCardHttpGetIn" />      <wsdl:output message="tns:ProcessLoyaltyCardHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ProcessGiftCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Gift Card Transaction. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Activate | Deactivate | Refund | Redeem | Inquire | Reload, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, InvNum - Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, ExtData - Extended Data in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, Force - Force Duplicates T or F</wsdl:documentation>      <wsdl:input message="tns:ProcessGiftCardHttpGetIn" />      <wsdl:output message="tns:ProcessGiftCardHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ProcessCheck">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Check Transactions. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Force | Void | Capture | CaptureAll, CheckNum - Check Number, TransitNum - Transit NUmber AccountNum - AccountNumber, Amount - Amount in DDDDD.CC format, MICR - MICR, NameOnCheck - NameOnCheck, DL - Drivers License, SS - Social Security, StateCode - State Code of the Driver License, CheckType - CheckType (Personal | Corporate | Government), ExtData - Extended Data in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), PNRef - Reference Number Assigned by the payment gateway, Phone - Phone Number, EMail - E-Mail Address, RawMICR - Check RawMICR Data, InvNum - Invoice Number, TrainingMode - Training Mode T or F, AccountType - Account Type (Saving | Checking), CityOfAccount - City where the bank account is located, BillToStreet - Street address of the billing address, BillToCity - City of the billing address, BillToState - State/Province of the billing address, BillToPostalCode - Zip/Postal Code of the billing address, BillToCountry - Country of the billing address</wsdl:documentation>      <wsdl:input message="tns:ProcessCheckHttpGetIn" />      <wsdl:output message="tns:ProcessCheckHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetInfo">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retrieves information from the Web Service. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Initialize | Setup | BatchInquiry | StatusCheck,  ExtData - Extended Data in XML, Valid Values are: TrainingMode - Training Mode T or F</wsdl:documentation>      <wsdl:input message="tns:GetInfoHttpGetIn" />      <wsdl:output message="tns:GetInfoHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ProcessSignature">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process Signature Transaction. Valid input values are: UserName &amp; Password - Assigned by the payment gatewaySignatureType - Signature1 for Lipman credit, Signature2 for Lipman Check, Signature3 for AppForge, Signature4 for app other than AppForge, Receipt1 for TIFF fileSignatureData - an array of coordinate in the following format: x1,y1^x2,y2^x3,y3^...xn,yn^~Use 0,65535 as the x,y coordinate for any pen-up event.ExtData - Extended Data in XML, Valid Values are: TrainingMode - Training Mode T or F</wsdl:documentation>      <wsdl:input message="tns:ProcessSignatureHttpGetIn" />      <wsdl:output message="tns:ProcessSignatureHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="SmartPaymentsHttpPost">    <wsdl:operation name="ProcessCreditCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Credit Card Transaction. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Void | Force | Capture | RepeatSale | CaptureAll | Adjustment, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, InvNum - Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, Zip - CardHolder's billing ZipCode used with AVS,  Street - CardHolder's billing Street Address used with AVS,  CVNum - CardHolder's Card Verification Number used with CV Check, ExtData - Extended Data in XML, Valid Values are: CustomerIDAuthCode - Original Authorization Code, EntryMode - CardNum source: Manual | MagneticStripe | ICC | Proximity, CVPresence - CVNum presence: None | NotSubmitted | Submitted | Illegible | NotPresent, CustCode - Customer Code used with Commercial Cards, TipAmt - Tip Amount TaxAmt - Tax Amount used with Commercial Cards, SequenceNum - Sequence Number used with Recurring Transactions, SequenceCount - Sequene Count used with Recurring Transactions, ServerID - Server ID, Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, Force - Force Duplicates T or F, RegisterNum - Register Number, PONum - Purhcase Order Number, City - the City of the CardHolder's billing address, BillPayment - Bill payment indicator T or F, Authentication - Verified by Visa and UCAF programs: &lt;XID&gt; | &lt;CAVV&gt;, Invoice - Purchase Card Level III, Fleet - Fleet card identification data, Items - Item data support for Fuel</wsdl:documentation>      <wsdl:input message="tns:ProcessCreditCardHttpPostIn" />      <wsdl:output message="tns:ProcessCreditCardHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ProcessDebitCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Debit Card Transactions. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Force | Capture |  CaptureAll, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, Pin - Pin Block Returned by Pin-Pad, RegisterNum - Register Number Pin-Pad is Connected, SureChargeAmt - Sure Charge Amount in DDDDD.CC format, CashBackAmt - Cash Back Amount in DDDDD.CC format, ExtData - Extended Data in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, KeySerialNumber - Key Serial Number for DUKPT, Settle - Transaction re-entry: processor specific settlement data</wsdl:documentation>      <wsdl:input message="tns:ProcessDebitCardHttpPostIn" />      <wsdl:output message="tns:ProcessDebitCardHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ProcessEBTCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment EBT Card Transactions. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - FoodStampSale | FoodStampReturn | CashBenefitSale | Capture | CaptureAll, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, Pin - Pin Returned by Pin-Pad, RegisterNum - Register Number Pin-Pad is Connected, SureChargeAmt - Sure Charge Amount in DDDDD.CC format, CashBackAmt - Cash Back Amount in DDDDD.CC format, ExtData - Extended Data in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, KeySerialNumber - Key Serial Number for DUKPT, VoucherNumber - Voucher Serial Number, Settle - Transaction re-entry: processor specific settlement data</wsdl:documentation>      <wsdl:input message="tns:ProcessEBTCardHttpPostIn" />      <wsdl:output message="tns:ProcessEBTCardHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ProcessLoyaltyCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Loyalty Card Transaction. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Activate | Deactivate | Refund | Redeem | Inquire | Reload, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in decimal format, InvNum - Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, ExtData - Extended Data in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, Force - Force Duplicates T or F</wsdl:documentation>      <wsdl:input message="tns:ProcessLoyaltyCardHttpPostIn" />      <wsdl:output message="tns:ProcessLoyaltyCardHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ProcessGiftCard">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Gift Card Transaction. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Activate | Deactivate | Refund | Redeem | Inquire | Reload, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, InvNum - Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, ExtData - Extended Data in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, Force - Force Duplicates T or F</wsdl:documentation>      <wsdl:input message="tns:ProcessGiftCardHttpPostIn" />      <wsdl:output message="tns:ProcessGiftCardHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ProcessCheck">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Check Transactions. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Force | Void | Capture | CaptureAll, CheckNum - Check Number, TransitNum - Transit NUmber AccountNum - AccountNumber, Amount - Amount in DDDDD.CC format, MICR - MICR, NameOnCheck - NameOnCheck, DL - Drivers License, SS - Social Security, StateCode - State Code of the Driver License, CheckType - CheckType (Personal | Corporate | Government), ExtData - Extended Data in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), PNRef - Reference Number Assigned by the payment gateway, Phone - Phone Number, EMail - E-Mail Address, RawMICR - Check RawMICR Data, InvNum - Invoice Number, TrainingMode - Training Mode T or F, AccountType - Account Type (Saving | Checking), CityOfAccount - City where the bank account is located, BillToStreet - Street address of the billing address, BillToCity - City of the billing address, BillToState - State/Province of the billing address, BillToPostalCode - Zip/Postal Code of the billing address, BillToCountry - Country of the billing address</wsdl:documentation>      <wsdl:input message="tns:ProcessCheckHttpPostIn" />      <wsdl:output message="tns:ProcessCheckHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetInfo">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retrieves information from the Web Service. Valid input values are: UserName &amp; Password - Assigned by the payment gateway, TransType - Initialize | Setup | BatchInquiry | StatusCheck,  ExtData - Extended Data in XML, Valid Values are: TrainingMode - Training Mode T or F</wsdl:documentation>      <wsdl:input message="tns:GetInfoHttpPostIn" />      <wsdl:output message="tns:GetInfoHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ProcessSignature">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process Signature Transaction. Valid input values are: UserName &amp; Password - Assigned by the payment gatewaySignatureType - Signature1 for Lipman credit, Signature2 for Lipman Check, Signature3 for AppForge, Signature4 for app other than AppForge, Receipt1 for TIFF fileSignatureData - an array of coordinate in the following format: x1,y1^x2,y2^x3,y3^...xn,yn^~Use 0,65535 as the x,y coordinate for any pen-up event.ExtData - Extended Data in XML, Valid Values are: TrainingMode - Training Mode T or F</wsdl:documentation>      <wsdl:input message="tns:ProcessSignatureHttpPostIn" />      <wsdl:output message="tns:ProcessSignatureHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="SmartPaymentsSoap" type="tns:SmartPaymentsSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="ProcessCreditCard">      <soap:operation soapAction="http://TPISoft.com/SmartPayments/ProcessCreditCard" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessDebitCard">      <soap:operation soapAction="http://TPISoft.com/SmartPayments/ProcessDebitCard" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessEBTCard">      <soap:operation soapAction="http://TPISoft.com/SmartPayments/ProcessEBTCard" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessLoyaltyCard">      <soap:operation soapAction="http://TPISoft.com/SmartPayments/ProcessLoyaltyCard" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessGiftCard">      <soap:operation soapAction="http://TPISoft.com/SmartPayments/ProcessGiftCard" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessCheck">      <soap:operation soapAction="http://TPISoft.com/SmartPayments/ProcessCheck" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetInfo">      <soap:operation soapAction="http://TPISoft.com/SmartPayments/GetInfo" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessSignature">      <soap:operation soapAction="http://TPISoft.com/SmartPayments/ProcessSignature" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="SmartPaymentsSoap12" type="tns:SmartPaymentsSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="ProcessCreditCard">      <soap12:operation soapAction="http://TPISoft.com/SmartPayments/ProcessCreditCard" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessDebitCard">      <soap12:operation soapAction="http://TPISoft.com/SmartPayments/ProcessDebitCard" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessEBTCard">      <soap12:operation soapAction="http://TPISoft.com/SmartPayments/ProcessEBTCard" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessLoyaltyCard">      <soap12:operation soapAction="http://TPISoft.com/SmartPayments/ProcessLoyaltyCard" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessGiftCard">      <soap12:operation soapAction="http://TPISoft.com/SmartPayments/ProcessGiftCard" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessCheck">      <soap12:operation soapAction="http://TPISoft.com/SmartPayments/ProcessCheck" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetInfo">      <soap12:operation soapAction="http://TPISoft.com/SmartPayments/GetInfo" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessSignature">      <soap12:operation soapAction="http://TPISoft.com/SmartPayments/ProcessSignature" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="SmartPaymentsHttpGet" type="tns:SmartPaymentsHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="ProcessCreditCard">      <http:operation location="/ProcessCreditCard" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessDebitCard">      <http:operation location="/ProcessDebitCard" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessEBTCard">      <http:operation location="/ProcessEBTCard" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessLoyaltyCard">      <http:operation location="/ProcessLoyaltyCard" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessGiftCard">      <http:operation location="/ProcessGiftCard" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessCheck">      <http:operation location="/ProcessCheck" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetInfo">      <http:operation location="/GetInfo" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessSignature">      <http:operation location="/ProcessSignature" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="SmartPaymentsHttpPost" type="tns:SmartPaymentsHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="ProcessCreditCard">      <http:operation location="/ProcessCreditCard" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessDebitCard">      <http:operation location="/ProcessDebitCard" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessEBTCard">      <http:operation location="/ProcessEBTCard" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessLoyaltyCard">      <http:operation location="/ProcessLoyaltyCard" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessGiftCard">      <http:operation location="/ProcessGiftCard" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessCheck">      <http:operation location="/ProcessCheck" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetInfo">      <http:operation location="/GetInfo" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ProcessSignature">      <http:operation location="/ProcessSignature" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="SmartPayments">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SmartPayments - ePayment Web Service</wsdl:documentation>    <wsdl:port name="SmartPaymentsSoap" binding="tns:SmartPaymentsSoap">      <soap:address location="http://www.tpisoft.com/smartpayments/transact.asmx" />    </wsdl:port>    <wsdl:port name="SmartPaymentsSoap12" binding="tns:SmartPaymentsSoap12">      <soap12:address location="http://www.tpisoft.com/smartpayments/transact.asmx" />    </wsdl:port>    <wsdl:port name="SmartPaymentsHttpGet" binding="tns:SmartPaymentsHttpGet">      <http:address location="http://www.tpisoft.com/smartpayments/transact.asmx" />    </wsdl:port>    <wsdl:port name="SmartPaymentsHttpPost" binding="tns:SmartPaymentsHttpPost">      <http:address location="http://www.tpisoft.com/smartpayments/transact.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://TPISoft.com/SmartPayments/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://TPISoft.com/SmartPayments/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SmartPayments - ePayment Web Service</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://TPISoft.com/SmartPayments/">
+			<s:element name="ProcessCreditCard">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TransType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="CardNum" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ExpDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="MagData" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="NameOnCard" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Amount" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="InvNum" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PNRef" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Street" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="CVNum" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ProcessCreditCardResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ProcessCreditCardResult" type="tns:Response" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="Response">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Result" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="RespMSG" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message1" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message2" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="AuthCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PNRef" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="HostCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="HostURL" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ReceiptURL" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GetAVSResult" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GetAVSResultTXT" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GetStreetMatchTXT" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GetZipMatchTXT" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GetCVResult" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GetCVResultTXT" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GetGetOrigResult" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GetCommercialCard" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="WorkingKey" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="KeyPointer" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="ProcessDebitCard">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TransType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="CardNum" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ExpDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="MagData" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="NameOnCard" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Amount" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="InvNum" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PNRef" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Pin" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="RegisterNum" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="SureChargeAmt" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="CashBackAmt" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ProcessDebitCardResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ProcessDebitCardResult" type="tns:Response" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ProcessEBTCard">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TransType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="CardNum" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ExpDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="MagData" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="NameOnCard" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Amount" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="InvNum" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PNRef" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Pin" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="RegisterNum" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="SureChargeAmt" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="CashBackAmt" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ProcessEBTCardResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ProcessEBTCardResult" type="tns:Response" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ProcessLoyaltyCard">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TransType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="CardNum" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ExpDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="MagData" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Amount" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="InvNum" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PNRef" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ProcessLoyaltyCardResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ProcessLoyaltyCardResult" type="tns:Response" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ProcessGiftCard">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TransType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="CardNum" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ExpDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="MagData" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Amount" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="InvNum" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PNRef" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ProcessGiftCardResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ProcessGiftCardResult" type="tns:Response" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ProcessCheck">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TransType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="CheckNum" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TransitNum" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="AccountNum" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Amount" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="MICR" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="NameOnCheck" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="DL" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="SS" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="DOB" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="StateCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="CheckType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ProcessCheckResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ProcessCheckResult" type="tns:Response" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetInfo">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TransType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetInfoResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetInfoResult" type="tns:Response" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ProcessSignature">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="SignatureType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="SignatureData" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PNRef" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Result" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="AuthCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ExtData" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ProcessSignatureResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ProcessSignatureResult" type="tns:Response" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Response" nillable="true" type="tns:Response" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="ProcessCreditCardSoapIn">
+		<wsdl:part name="parameters" element="tns:ProcessCreditCard" />
+	</wsdl:message>
+	<wsdl:message name="ProcessCreditCardSoapOut">
+		<wsdl:part name="parameters" element="tns:ProcessCreditCardResponse" />
+	</wsdl:message>
+	<wsdl:message name="ProcessDebitCardSoapIn">
+		<wsdl:part name="parameters" element="tns:ProcessDebitCard" />
+	</wsdl:message>
+	<wsdl:message name="ProcessDebitCardSoapOut">
+		<wsdl:part name="parameters" element="tns:ProcessDebitCardResponse" />
+	</wsdl:message>
+	<wsdl:message name="ProcessEBTCardSoapIn">
+		<wsdl:part name="parameters" element="tns:ProcessEBTCard" />
+	</wsdl:message>
+	<wsdl:message name="ProcessEBTCardSoapOut">
+		<wsdl:part name="parameters" element="tns:ProcessEBTCardResponse" />
+	</wsdl:message>
+	<wsdl:message name="ProcessLoyaltyCardSoapIn">
+		<wsdl:part name="parameters" element="tns:ProcessLoyaltyCard" />
+	</wsdl:message>
+	<wsdl:message name="ProcessLoyaltyCardSoapOut">
+		<wsdl:part name="parameters" element="tns:ProcessLoyaltyCardResponse" />
+	</wsdl:message>
+	<wsdl:message name="ProcessGiftCardSoapIn">
+		<wsdl:part name="parameters" element="tns:ProcessGiftCard" />
+	</wsdl:message>
+	<wsdl:message name="ProcessGiftCardSoapOut">
+		<wsdl:part name="parameters" element="tns:ProcessGiftCardResponse" />
+	</wsdl:message>
+	<wsdl:message name="ProcessCheckSoapIn">
+		<wsdl:part name="parameters" element="tns:ProcessCheck" />
+	</wsdl:message>
+	<wsdl:message name="ProcessCheckSoapOut">
+		<wsdl:part name="parameters" element="tns:ProcessCheckResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetInfoSoapIn">
+		<wsdl:part name="parameters" element="tns:GetInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetInfoSoapOut">
+		<wsdl:part name="parameters" element="tns:GetInfoResponse" />
+	</wsdl:message>
+	<wsdl:message name="ProcessSignatureSoapIn">
+		<wsdl:part name="parameters" element="tns:ProcessSignature" />
+	</wsdl:message>
+	<wsdl:message name="ProcessSignatureSoapOut">
+		<wsdl:part name="parameters" element="tns:ProcessSignatureResponse" />
+	</wsdl:message>
+	<wsdl:message name="ProcessCreditCardHttpGetIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransType" type="s:string" />
+		<wsdl:part name="CardNum" type="s:string" />
+		<wsdl:part name="ExpDate" type="s:string" />
+		<wsdl:part name="MagData" type="s:string" />
+		<wsdl:part name="NameOnCard" type="s:string" />
+		<wsdl:part name="Amount" type="s:string" />
+		<wsdl:part name="InvNum" type="s:string" />
+		<wsdl:part name="PNRef" type="s:string" />
+		<wsdl:part name="Zip" type="s:string" />
+		<wsdl:part name="Street" type="s:string" />
+		<wsdl:part name="CVNum" type="s:string" />
+		<wsdl:part name="ExtData" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ProcessCreditCardHttpGetOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:message name="ProcessDebitCardHttpGetIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransType" type="s:string" />
+		<wsdl:part name="CardNum" type="s:string" />
+		<wsdl:part name="ExpDate" type="s:string" />
+		<wsdl:part name="MagData" type="s:string" />
+		<wsdl:part name="NameOnCard" type="s:string" />
+		<wsdl:part name="Amount" type="s:string" />
+		<wsdl:part name="InvNum" type="s:string" />
+		<wsdl:part name="PNRef" type="s:string" />
+		<wsdl:part name="Pin" type="s:string" />
+		<wsdl:part name="RegisterNum" type="s:string" />
+		<wsdl:part name="SureChargeAmt" type="s:string" />
+		<wsdl:part name="CashBackAmt" type="s:string" />
+		<wsdl:part name="ExtData" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ProcessDebitCardHttpGetOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:message name="ProcessEBTCardHttpGetIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransType" type="s:string" />
+		<wsdl:part name="CardNum" type="s:string" />
+		<wsdl:part name="ExpDate" type="s:string" />
+		<wsdl:part name="MagData" type="s:string" />
+		<wsdl:part name="NameOnCard" type="s:string" />
+		<wsdl:part name="Amount" type="s:string" />
+		<wsdl:part name="InvNum" type="s:string" />
+		<wsdl:part name="PNRef" type="s:string" />
+		<wsdl:part name="Pin" type="s:string" />
+		<wsdl:part name="RegisterNum" type="s:string" />
+		<wsdl:part name="SureChargeAmt" type="s:string" />
+		<wsdl:part name="CashBackAmt" type="s:string" />
+		<wsdl:part name="ExtData" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ProcessEBTCardHttpGetOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:message name="ProcessLoyaltyCardHttpGetIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransType" type="s:string" />
+		<wsdl:part name="CardNum" type="s:string" />
+		<wsdl:part name="ExpDate" type="s:string" />
+		<wsdl:part name="MagData" type="s:string" />
+		<wsdl:part name="Amount" type="s:string" />
+		<wsdl:part name="InvNum" type="s:string" />
+		<wsdl:part name="PNRef" type="s:string" />
+		<wsdl:part name="ExtData" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ProcessLoyaltyCardHttpGetOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:message name="ProcessGiftCardHttpGetIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransType" type="s:string" />
+		<wsdl:part name="CardNum" type="s:string" />
+		<wsdl:part name="ExpDate" type="s:string" />
+		<wsdl:part name="MagData" type="s:string" />
+		<wsdl:part name="Amount" type="s:string" />
+		<wsdl:part name="InvNum" type="s:string" />
+		<wsdl:part name="PNRef" type="s:string" />
+		<wsdl:part name="ExtData" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ProcessGiftCardHttpGetOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:message name="ProcessCheckHttpGetIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransType" type="s:string" />
+		<wsdl:part name="CheckNum" type="s:string" />
+		<wsdl:part name="TransitNum" type="s:string" />
+		<wsdl:part name="AccountNum" type="s:string" />
+		<wsdl:part name="Amount" type="s:string" />
+		<wsdl:part name="MICR" type="s:string" />
+		<wsdl:part name="NameOnCheck" type="s:string" />
+		<wsdl:part name="DL" type="s:string" />
+		<wsdl:part name="SS" type="s:string" />
+		<wsdl:part name="DOB" type="s:string" />
+		<wsdl:part name="StateCode" type="s:string" />
+		<wsdl:part name="CheckType" type="s:string" />
+		<wsdl:part name="ExtData" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ProcessCheckHttpGetOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:message name="GetInfoHttpGetIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransType" type="s:string" />
+		<wsdl:part name="ExtData" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetInfoHttpGetOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:message name="ProcessSignatureHttpGetIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="SignatureType" type="s:string" />
+		<wsdl:part name="SignatureData" type="s:string" />
+		<wsdl:part name="PNRef" type="s:string" />
+		<wsdl:part name="Result" type="s:string" />
+		<wsdl:part name="AuthCode" type="s:string" />
+		<wsdl:part name="ExtData" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ProcessSignatureHttpGetOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:message name="ProcessCreditCardHttpPostIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransType" type="s:string" />
+		<wsdl:part name="CardNum" type="s:string" />
+		<wsdl:part name="ExpDate" type="s:string" />
+		<wsdl:part name="MagData" type="s:string" />
+		<wsdl:part name="NameOnCard" type="s:string" />
+		<wsdl:part name="Amount" type="s:string" />
+		<wsdl:part name="InvNum" type="s:string" />
+		<wsdl:part name="PNRef" type="s:string" />
+		<wsdl:part name="Zip" type="s:string" />
+		<wsdl:part name="Street" type="s:string" />
+		<wsdl:part name="CVNum" type="s:string" />
+		<wsdl:part name="ExtData" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ProcessCreditCardHttpPostOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:message name="ProcessDebitCardHttpPostIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransType" type="s:string" />
+		<wsdl:part name="CardNum" type="s:string" />
+		<wsdl:part name="ExpDate" type="s:string" />
+		<wsdl:part name="MagData" type="s:string" />
+		<wsdl:part name="NameOnCard" type="s:string" />
+		<wsdl:part name="Amount" type="s:string" />
+		<wsdl:part name="InvNum" type="s:string" />
+		<wsdl:part name="PNRef" type="s:string" />
+		<wsdl:part name="Pin" type="s:string" />
+		<wsdl:part name="RegisterNum" type="s:string" />
+		<wsdl:part name="SureChargeAmt" type="s:string" />
+		<wsdl:part name="CashBackAmt" type="s:string" />
+		<wsdl:part name="ExtData" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ProcessDebitCardHttpPostOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:message name="ProcessEBTCardHttpPostIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransType" type="s:string" />
+		<wsdl:part name="CardNum" type="s:string" />
+		<wsdl:part name="ExpDate" type="s:string" />
+		<wsdl:part name="MagData" type="s:string" />
+		<wsdl:part name="NameOnCard" type="s:string" />
+		<wsdl:part name="Amount" type="s:string" />
+		<wsdl:part name="InvNum" type="s:string" />
+		<wsdl:part name="PNRef" type="s:string" />
+		<wsdl:part name="Pin" type="s:string" />
+		<wsdl:part name="RegisterNum" type="s:string" />
+		<wsdl:part name="SureChargeAmt" type="s:string" />
+		<wsdl:part name="CashBackAmt" type="s:string" />
+		<wsdl:part name="ExtData" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ProcessEBTCardHttpPostOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:message name="ProcessLoyaltyCardHttpPostIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransType" type="s:string" />
+		<wsdl:part name="CardNum" type="s:string" />
+		<wsdl:part name="ExpDate" type="s:string" />
+		<wsdl:part name="MagData" type="s:string" />
+		<wsdl:part name="Amount" type="s:string" />
+		<wsdl:part name="InvNum" type="s:string" />
+		<wsdl:part name="PNRef" type="s:string" />
+		<wsdl:part name="ExtData" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ProcessLoyaltyCardHttpPostOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:message name="ProcessGiftCardHttpPostIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransType" type="s:string" />
+		<wsdl:part name="CardNum" type="s:string" />
+		<wsdl:part name="ExpDate" type="s:string" />
+		<wsdl:part name="MagData" type="s:string" />
+		<wsdl:part name="Amount" type="s:string" />
+		<wsdl:part name="InvNum" type="s:string" />
+		<wsdl:part name="PNRef" type="s:string" />
+		<wsdl:part name="ExtData" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ProcessGiftCardHttpPostOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:message name="ProcessCheckHttpPostIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransType" type="s:string" />
+		<wsdl:part name="CheckNum" type="s:string" />
+		<wsdl:part name="TransitNum" type="s:string" />
+		<wsdl:part name="AccountNum" type="s:string" />
+		<wsdl:part name="Amount" type="s:string" />
+		<wsdl:part name="MICR" type="s:string" />
+		<wsdl:part name="NameOnCheck" type="s:string" />
+		<wsdl:part name="DL" type="s:string" />
+		<wsdl:part name="SS" type="s:string" />
+		<wsdl:part name="DOB" type="s:string" />
+		<wsdl:part name="StateCode" type="s:string" />
+		<wsdl:part name="CheckType" type="s:string" />
+		<wsdl:part name="ExtData" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ProcessCheckHttpPostOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:message name="GetInfoHttpPostIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="TransType" type="s:string" />
+		<wsdl:part name="ExtData" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetInfoHttpPostOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:message name="ProcessSignatureHttpPostIn">
+		<wsdl:part name="UserName" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="SignatureType" type="s:string" />
+		<wsdl:part name="SignatureData" type="s:string" />
+		<wsdl:part name="PNRef" type="s:string" />
+		<wsdl:part name="Result" type="s:string" />
+		<wsdl:part name="AuthCode" type="s:string" />
+		<wsdl:part name="ExtData" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ProcessSignatureHttpPostOut">
+		<wsdl:part name="Body" element="tns:Response" />
+	</wsdl:message>
+	<wsdl:portType name="SmartPaymentsSoap">
+		<wsdl:operation name="ProcessCreditCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Credit Card Transaction. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Void | Force | Capture
+				| RepeatSale | CaptureAll | Adjustment, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in
+				MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in
+				DDDDD.CC format, InvNum - Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, Zip -
+				CardHolder's billing ZipCode used with AVS, Street - CardHolder's billing Street Address used with AVS, CVNum -
+				CardHolder's Card Verification Number used with CV Check, ExtData - Extended Data in XML, Valid Values are:
+				CustomerIDAuthCode - Original Authorization Code, EntryMode - CardNum source: Manual | MagneticStripe | ICC |
+				Proximity, CVPresence - CVNum presence: None | NotSubmitted | Submitted | Illegible | NotPresent, CustCode -
+				Customer Code used with Commercial Cards, TipAmt - Tip Amount TaxAmt - Tax Amount used with Commercial Cards,
+				SequenceNum - Sequence Number used with Recurring Transactions, SequenceCount - Sequene Count used with Recurring
+				Transactions, ServerID - Server ID, Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T
+				or F, Force - Force Duplicates T or F, RegisterNum - Register Number, PONum - Purhcase Order Number, City - the City
+				of the CardHolder's billing address, BillPayment - Bill payment indicator T or F, Authentication - Verified by Visa
+				and UCAF programs: &lt;XID&gt; | &lt;CAVV&gt;, Invoice - Purchase Card Level III, Fleet - Fleet card identification
+				data, Items - Item data support for Fuel</wsdl:documentation>
+			<wsdl:input message="tns:ProcessCreditCardSoapIn" />
+			<wsdl:output message="tns:ProcessCreditCardSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessDebitCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Debit Card Transactions. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Force | Capture |
+				CaptureAll, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment
+				Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, Pin - Pin Block
+				Returned by Pin-Pad, RegisterNum - Register Number Pin-Pad is Connected, SureChargeAmt - Sure Charge Amount in
+				DDDDD.CC format, CashBackAmt - Cash Back Amount in DDDDD.CC format, ExtData - Extended Data in XML, Valid Values
+				are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, KeySerialNumber - Key
+				Serial Number for DUKPT, Settle - Transaction re-entry: processor specific settlement data</wsdl:documentation>
+			<wsdl:input message="tns:ProcessDebitCardSoapIn" />
+			<wsdl:output message="tns:ProcessDebitCardSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessEBTCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment EBT Card Transactions. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - FoodStampSale | FoodStampReturn |
+				CashBenefitSale | Capture | CaptureAll, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in
+				MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in
+				DDDDD.CC format, Pin - Pin Returned by Pin-Pad, RegisterNum - Register Number Pin-Pad is Connected, SureChargeAmt -
+				Sure Charge Amount in DDDDD.CC format, CashBackAmt - Cash Back Amount in DDDDD.CC format, ExtData - Extended Data in
+				XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F,
+				KeySerialNumber - Key Serial Number for DUKPT, VoucherNumber - Voucher Serial Number, Settle - Transaction re-entry:
+				processor specific settlement data</wsdl:documentation>
+			<wsdl:input message="tns:ProcessEBTCardSoapIn" />
+			<wsdl:output message="tns:ProcessEBTCardSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessLoyaltyCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Loyalty Card Transaction. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Activate | Deactivate | Refund | Redeem |
+				Inquire | Reload, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData -
+				Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in decimal format, InvNum -
+				Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, ExtData - Extended Data in XML,
+				Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, Force -
+				Force Duplicates T or F</wsdl:documentation>
+			<wsdl:input message="tns:ProcessLoyaltyCardSoapIn" />
+			<wsdl:output message="tns:ProcessLoyaltyCardSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessGiftCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Gift Card Transaction. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Activate | Deactivate | Refund | Redeem |
+				Inquire | Reload, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData -
+				Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, InvNum -
+				Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, ExtData - Extended Data in XML,
+				Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, Force -
+				Force Duplicates T or F</wsdl:documentation>
+			<wsdl:input message="tns:ProcessGiftCardSoapIn" />
+			<wsdl:output message="tns:ProcessGiftCardSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessCheck">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Check Transactions. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Force | Void | Capture
+				| CaptureAll, CheckNum - Check Number, TransitNum - Transit NUmber AccountNum - AccountNumber, Amount - Amount in
+				DDDDD.CC format, MICR - MICR, NameOnCheck - NameOnCheck, DL - Drivers License, SS - Social Security, StateCode -
+				State Code of the Driver License, CheckType - CheckType (Personal | Corporate | Government), ExtData - Extended Data
+				in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), PNRef - Reference Number Assigned by the
+				payment gateway, Phone - Phone Number, EMail - E-Mail Address, RawMICR - Check RawMICR Data, InvNum - Invoice
+				Number, TrainingMode - Training Mode T or F, AccountType - Account Type (Saving | Checking), CityOfAccount - City
+				where the bank account is located, BillToStreet - Street address of the billing address, BillToCity - City of the
+				billing address, BillToState - State/Province of the billing address, BillToPostalCode - Zip/Postal Code of the
+				billing address, BillToCountry - Country of the billing address</wsdl:documentation>
+			<wsdl:input message="tns:ProcessCheckSoapIn" />
+			<wsdl:output message="tns:ProcessCheckSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetInfo">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retrieves information from the Web Service. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Initialize | Setup | BatchInquiry |
+				StatusCheck, ExtData - Extended Data in XML, Valid Values are: TrainingMode - Training Mode T or F
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetInfoSoapIn" />
+			<wsdl:output message="tns:GetInfoSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessSignature">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process Signature Transaction. Valid input values are: UserName
+				&amp; Password - Assigned by the payment gatewaySignatureType - Signature1 for Lipman credit, Signature2 for Lipman
+				Check, Signature3 for AppForge, Signature4 for app other than AppForge, Receipt1 for TIFF fileSignatureData - an
+				array of coordinate in the following format: x1,y1^x2,y2^x3,y3^...xn,yn^~Use 0,65535 as the x,y coordinate for any
+				pen-up event.ExtData - Extended Data in XML, Valid Values are: TrainingMode - Training Mode T or F
+			</wsdl:documentation>
+			<wsdl:input message="tns:ProcessSignatureSoapIn" />
+			<wsdl:output message="tns:ProcessSignatureSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="SmartPaymentsHttpGet">
+		<wsdl:operation name="ProcessCreditCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Credit Card Transaction. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Void | Force | Capture
+				| RepeatSale | CaptureAll | Adjustment, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in
+				MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in
+				DDDDD.CC format, InvNum - Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, Zip -
+				CardHolder's billing ZipCode used with AVS, Street - CardHolder's billing Street Address used with AVS, CVNum -
+				CardHolder's Card Verification Number used with CV Check, ExtData - Extended Data in XML, Valid Values are:
+				CustomerIDAuthCode - Original Authorization Code, EntryMode - CardNum source: Manual | MagneticStripe | ICC |
+				Proximity, CVPresence - CVNum presence: None | NotSubmitted | Submitted | Illegible | NotPresent, CustCode -
+				Customer Code used with Commercial Cards, TipAmt - Tip Amount TaxAmt - Tax Amount used with Commercial Cards,
+				SequenceNum - Sequence Number used with Recurring Transactions, SequenceCount - Sequene Count used with Recurring
+				Transactions, ServerID - Server ID, Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T
+				or F, Force - Force Duplicates T or F, RegisterNum - Register Number, PONum - Purhcase Order Number, City - the City
+				of the CardHolder's billing address, BillPayment - Bill payment indicator T or F, Authentication - Verified by Visa
+				and UCAF programs: &lt;XID&gt; | &lt;CAVV&gt;, Invoice - Purchase Card Level III, Fleet - Fleet card identification
+				data, Items - Item data support for Fuel</wsdl:documentation>
+			<wsdl:input message="tns:ProcessCreditCardHttpGetIn" />
+			<wsdl:output message="tns:ProcessCreditCardHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessDebitCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Debit Card Transactions. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Force | Capture |
+				CaptureAll, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment
+				Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, Pin - Pin Block
+				Returned by Pin-Pad, RegisterNum - Register Number Pin-Pad is Connected, SureChargeAmt - Sure Charge Amount in
+				DDDDD.CC format, CashBackAmt - Cash Back Amount in DDDDD.CC format, ExtData - Extended Data in XML, Valid Values
+				are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, KeySerialNumber - Key
+				Serial Number for DUKPT, Settle - Transaction re-entry: processor specific settlement data</wsdl:documentation>
+			<wsdl:input message="tns:ProcessDebitCardHttpGetIn" />
+			<wsdl:output message="tns:ProcessDebitCardHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessEBTCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment EBT Card Transactions. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - FoodStampSale | FoodStampReturn |
+				CashBenefitSale | Capture | CaptureAll, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in
+				MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in
+				DDDDD.CC format, Pin - Pin Returned by Pin-Pad, RegisterNum - Register Number Pin-Pad is Connected, SureChargeAmt -
+				Sure Charge Amount in DDDDD.CC format, CashBackAmt - Cash Back Amount in DDDDD.CC format, ExtData - Extended Data in
+				XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F,
+				KeySerialNumber - Key Serial Number for DUKPT, VoucherNumber - Voucher Serial Number, Settle - Transaction re-entry:
+				processor specific settlement data</wsdl:documentation>
+			<wsdl:input message="tns:ProcessEBTCardHttpGetIn" />
+			<wsdl:output message="tns:ProcessEBTCardHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessLoyaltyCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Loyalty Card Transaction. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Activate | Deactivate | Refund | Redeem |
+				Inquire | Reload, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData -
+				Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in decimal format, InvNum -
+				Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, ExtData - Extended Data in XML,
+				Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, Force -
+				Force Duplicates T or F</wsdl:documentation>
+			<wsdl:input message="tns:ProcessLoyaltyCardHttpGetIn" />
+			<wsdl:output message="tns:ProcessLoyaltyCardHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessGiftCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Gift Card Transaction. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Activate | Deactivate | Refund | Redeem |
+				Inquire | Reload, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData -
+				Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, InvNum -
+				Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, ExtData - Extended Data in XML,
+				Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, Force -
+				Force Duplicates T or F</wsdl:documentation>
+			<wsdl:input message="tns:ProcessGiftCardHttpGetIn" />
+			<wsdl:output message="tns:ProcessGiftCardHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessCheck">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Check Transactions. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Force | Void | Capture
+				| CaptureAll, CheckNum - Check Number, TransitNum - Transit NUmber AccountNum - AccountNumber, Amount - Amount in
+				DDDDD.CC format, MICR - MICR, NameOnCheck - NameOnCheck, DL - Drivers License, SS - Social Security, StateCode -
+				State Code of the Driver License, CheckType - CheckType (Personal | Corporate | Government), ExtData - Extended Data
+				in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), PNRef - Reference Number Assigned by the
+				payment gateway, Phone - Phone Number, EMail - E-Mail Address, RawMICR - Check RawMICR Data, InvNum - Invoice
+				Number, TrainingMode - Training Mode T or F, AccountType - Account Type (Saving | Checking), CityOfAccount - City
+				where the bank account is located, BillToStreet - Street address of the billing address, BillToCity - City of the
+				billing address, BillToState - State/Province of the billing address, BillToPostalCode - Zip/Postal Code of the
+				billing address, BillToCountry - Country of the billing address</wsdl:documentation>
+			<wsdl:input message="tns:ProcessCheckHttpGetIn" />
+			<wsdl:output message="tns:ProcessCheckHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetInfo">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retrieves information from the Web Service. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Initialize | Setup | BatchInquiry |
+				StatusCheck, ExtData - Extended Data in XML, Valid Values are: TrainingMode - Training Mode T or F
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetInfoHttpGetIn" />
+			<wsdl:output message="tns:GetInfoHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessSignature">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process Signature Transaction. Valid input values are: UserName
+				&amp; Password - Assigned by the payment gatewaySignatureType - Signature1 for Lipman credit, Signature2 for Lipman
+				Check, Signature3 for AppForge, Signature4 for app other than AppForge, Receipt1 for TIFF fileSignatureData - an
+				array of coordinate in the following format: x1,y1^x2,y2^x3,y3^...xn,yn^~Use 0,65535 as the x,y coordinate for any
+				pen-up event.ExtData - Extended Data in XML, Valid Values are: TrainingMode - Training Mode T or F
+			</wsdl:documentation>
+			<wsdl:input message="tns:ProcessSignatureHttpGetIn" />
+			<wsdl:output message="tns:ProcessSignatureHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="SmartPaymentsHttpPost">
+		<wsdl:operation name="ProcessCreditCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Credit Card Transaction. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Void | Force | Capture
+				| RepeatSale | CaptureAll | Adjustment, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in
+				MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in
+				DDDDD.CC format, InvNum - Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, Zip -
+				CardHolder's billing ZipCode used with AVS, Street - CardHolder's billing Street Address used with AVS, CVNum -
+				CardHolder's Card Verification Number used with CV Check, ExtData - Extended Data in XML, Valid Values are:
+				CustomerIDAuthCode - Original Authorization Code, EntryMode - CardNum source: Manual | MagneticStripe | ICC |
+				Proximity, CVPresence - CVNum presence: None | NotSubmitted | Submitted | Illegible | NotPresent, CustCode -
+				Customer Code used with Commercial Cards, TipAmt - Tip Amount TaxAmt - Tax Amount used with Commercial Cards,
+				SequenceNum - Sequence Number used with Recurring Transactions, SequenceCount - Sequene Count used with Recurring
+				Transactions, ServerID - Server ID, Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T
+				or F, Force - Force Duplicates T or F, RegisterNum - Register Number, PONum - Purhcase Order Number, City - the City
+				of the CardHolder's billing address, BillPayment - Bill payment indicator T or F, Authentication - Verified by Visa
+				and UCAF programs: &lt;XID&gt; | &lt;CAVV&gt;, Invoice - Purchase Card Level III, Fleet - Fleet card identification
+				data, Items - Item data support for Fuel</wsdl:documentation>
+			<wsdl:input message="tns:ProcessCreditCardHttpPostIn" />
+			<wsdl:output message="tns:ProcessCreditCardHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessDebitCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Debit Card Transactions. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Force | Capture |
+				CaptureAll, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData - Payment
+				Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, Pin - Pin Block
+				Returned by Pin-Pad, RegisterNum - Register Number Pin-Pad is Connected, SureChargeAmt - Sure Charge Amount in
+				DDDDD.CC format, CashBackAmt - Cash Back Amount in DDDDD.CC format, ExtData - Extended Data in XML, Valid Values
+				are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, KeySerialNumber - Key
+				Serial Number for DUKPT, Settle - Transaction re-entry: processor specific settlement data</wsdl:documentation>
+			<wsdl:input message="tns:ProcessDebitCardHttpPostIn" />
+			<wsdl:output message="tns:ProcessDebitCardHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessEBTCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment EBT Card Transactions. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - FoodStampSale | FoodStampReturn |
+				CashBenefitSale | Capture | CaptureAll, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in
+				MMYY format, MagData - Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in
+				DDDDD.CC format, Pin - Pin Returned by Pin-Pad, RegisterNum - Register Number Pin-Pad is Connected, SureChargeAmt -
+				Sure Charge Amount in DDDDD.CC format, CashBackAmt - Cash Back Amount in DDDDD.CC format, ExtData - Extended Data in
+				XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F,
+				KeySerialNumber - Key Serial Number for DUKPT, VoucherNumber - Voucher Serial Number, Settle - Transaction re-entry:
+				processor specific settlement data</wsdl:documentation>
+			<wsdl:input message="tns:ProcessEBTCardHttpPostIn" />
+			<wsdl:output message="tns:ProcessEBTCardHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessLoyaltyCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Loyalty Card Transaction. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Activate | Deactivate | Refund | Redeem |
+				Inquire | Reload, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData -
+				Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in decimal format, InvNum -
+				Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, ExtData - Extended Data in XML,
+				Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, Force -
+				Force Duplicates T or F</wsdl:documentation>
+			<wsdl:input message="tns:ProcessLoyaltyCardHttpPostIn" />
+			<wsdl:output message="tns:ProcessLoyaltyCardHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessGiftCard">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Gift Card Transaction. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Activate | Deactivate | Refund | Redeem |
+				Inquire | Reload, CardNum - Payment Card Number, ExpDate - Payment Card Expiration Date in MMYY format, MagData -
+				Payment Card Track II Mag-Stripe Data, NameOnCard - Cardholders Name, Amount - Amount in DDDDD.CC format, InvNum -
+				Invoice Tracking Number, PNRef - Reference Number Assigned by the payment gateway, ExtData - Extended Data in XML,
+				Valid Values are: Timeout - Timeout Value in Seconds (default=40), TrainingMode - Training Mode T or F, Force -
+				Force Duplicates T or F</wsdl:documentation>
+			<wsdl:input message="tns:ProcessGiftCardHttpPostIn" />
+			<wsdl:output message="tns:ProcessGiftCardHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessCheck">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process ePayment Check Transactions. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Auth | Sale | Return | Force | Void | Capture
+				| CaptureAll, CheckNum - Check Number, TransitNum - Transit NUmber AccountNum - AccountNumber, Amount - Amount in
+				DDDDD.CC format, MICR - MICR, NameOnCheck - NameOnCheck, DL - Drivers License, SS - Social Security, StateCode -
+				State Code of the Driver License, CheckType - CheckType (Personal | Corporate | Government), ExtData - Extended Data
+				in XML, Valid Values are: Timeout - Timeout Value in Seconds (default=40), PNRef - Reference Number Assigned by the
+				payment gateway, Phone - Phone Number, EMail - E-Mail Address, RawMICR - Check RawMICR Data, InvNum - Invoice
+				Number, TrainingMode - Training Mode T or F, AccountType - Account Type (Saving | Checking), CityOfAccount - City
+				where the bank account is located, BillToStreet - Street address of the billing address, BillToCity - City of the
+				billing address, BillToState - State/Province of the billing address, BillToPostalCode - Zip/Postal Code of the
+				billing address, BillToCountry - Country of the billing address</wsdl:documentation>
+			<wsdl:input message="tns:ProcessCheckHttpPostIn" />
+			<wsdl:output message="tns:ProcessCheckHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetInfo">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retrieves information from the Web Service. Valid input values are:
+				UserName &amp; Password - Assigned by the payment gateway, TransType - Initialize | Setup | BatchInquiry |
+				StatusCheck, ExtData - Extended Data in XML, Valid Values are: TrainingMode - Training Mode T or F
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetInfoHttpPostIn" />
+			<wsdl:output message="tns:GetInfoHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ProcessSignature">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process Signature Transaction. Valid input values are: UserName
+				&amp; Password - Assigned by the payment gatewaySignatureType - Signature1 for Lipman credit, Signature2 for Lipman
+				Check, Signature3 for AppForge, Signature4 for app other than AppForge, Receipt1 for TIFF fileSignatureData - an
+				array of coordinate in the following format: x1,y1^x2,y2^x3,y3^...xn,yn^~Use 0,65535 as the x,y coordinate for any
+				pen-up event.ExtData - Extended Data in XML, Valid Values are: TrainingMode - Training Mode T or F
+			</wsdl:documentation>
+			<wsdl:input message="tns:ProcessSignatureHttpPostIn" />
+			<wsdl:output message="tns:ProcessSignatureHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="SmartPaymentsSoap" type="tns:SmartPaymentsSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="ProcessCreditCard">
+			<soap:operation soapAction="http://TPISoft.com/SmartPayments/ProcessCreditCard" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessDebitCard">
+			<soap:operation soapAction="http://TPISoft.com/SmartPayments/ProcessDebitCard" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessEBTCard">
+			<soap:operation soapAction="http://TPISoft.com/SmartPayments/ProcessEBTCard" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessLoyaltyCard">
+			<soap:operation soapAction="http://TPISoft.com/SmartPayments/ProcessLoyaltyCard" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessGiftCard">
+			<soap:operation soapAction="http://TPISoft.com/SmartPayments/ProcessGiftCard" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessCheck">
+			<soap:operation soapAction="http://TPISoft.com/SmartPayments/ProcessCheck" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetInfo">
+			<soap:operation soapAction="http://TPISoft.com/SmartPayments/GetInfo" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessSignature">
+			<soap:operation soapAction="http://TPISoft.com/SmartPayments/ProcessSignature" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="SmartPaymentsSoap12" type="tns:SmartPaymentsSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="ProcessCreditCard">
+			<soap12:operation soapAction="http://TPISoft.com/SmartPayments/ProcessCreditCard" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessDebitCard">
+			<soap12:operation soapAction="http://TPISoft.com/SmartPayments/ProcessDebitCard" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessEBTCard">
+			<soap12:operation soapAction="http://TPISoft.com/SmartPayments/ProcessEBTCard" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessLoyaltyCard">
+			<soap12:operation soapAction="http://TPISoft.com/SmartPayments/ProcessLoyaltyCard" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessGiftCard">
+			<soap12:operation soapAction="http://TPISoft.com/SmartPayments/ProcessGiftCard" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessCheck">
+			<soap12:operation soapAction="http://TPISoft.com/SmartPayments/ProcessCheck" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetInfo">
+			<soap12:operation soapAction="http://TPISoft.com/SmartPayments/GetInfo" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessSignature">
+			<soap12:operation soapAction="http://TPISoft.com/SmartPayments/ProcessSignature" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="SmartPaymentsHttpGet" type="tns:SmartPaymentsHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="ProcessCreditCard">
+			<http:operation location="/ProcessCreditCard" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessDebitCard">
+			<http:operation location="/ProcessDebitCard" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessEBTCard">
+			<http:operation location="/ProcessEBTCard" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessLoyaltyCard">
+			<http:operation location="/ProcessLoyaltyCard" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessGiftCard">
+			<http:operation location="/ProcessGiftCard" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessCheck">
+			<http:operation location="/ProcessCheck" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetInfo">
+			<http:operation location="/GetInfo" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessSignature">
+			<http:operation location="/ProcessSignature" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="SmartPaymentsHttpPost" type="tns:SmartPaymentsHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="ProcessCreditCard">
+			<http:operation location="/ProcessCreditCard" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessDebitCard">
+			<http:operation location="/ProcessDebitCard" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessEBTCard">
+			<http:operation location="/ProcessEBTCard" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessLoyaltyCard">
+			<http:operation location="/ProcessLoyaltyCard" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessGiftCard">
+			<http:operation location="/ProcessGiftCard" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessCheck">
+			<http:operation location="/ProcessCheck" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetInfo">
+			<http:operation location="/GetInfo" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ProcessSignature">
+			<http:operation location="/ProcessSignature" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="SmartPayments">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SmartPayments - ePayment Web Service</wsdl:documentation>
+		<wsdl:port name="SmartPaymentsSoap" binding="tns:SmartPaymentsSoap">
+			<soap:address location="http://www.tpisoft.com/smartpayments/transact.asmx" />
+		</wsdl:port>
+		<wsdl:port name="SmartPaymentsSoap12" binding="tns:SmartPaymentsSoap12">
+			<soap12:address location="http://www.tpisoft.com/smartpayments/transact.asmx" />
+		</wsdl:port>
+		<wsdl:port name="SmartPaymentsHttpGet" binding="tns:SmartPaymentsHttpGet">
+			<http:address location="http://www.tpisoft.com/smartpayments/transact.asmx" />
+		</wsdl:port>
+		<wsdl:port name="SmartPaymentsHttpPost" binding="tns:SmartPaymentsHttpPost">
+			<http:address location="http://www.tpisoft.com/smartpayments/transact.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

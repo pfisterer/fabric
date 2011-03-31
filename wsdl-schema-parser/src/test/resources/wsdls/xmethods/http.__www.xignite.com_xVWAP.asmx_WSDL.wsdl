@@ -1,1 +1,1647 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Provides delayed and historical Volume-Weighted-Average Price (VWAP) information.</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">      <s:element name="GetHistoricalVWAP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="1" maxOccurs="1" name="HistoricalVWAPType" type="tns:HistoricalVWAPTypes" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="IdentifierTypes">        <s:restriction base="s:string">          <s:enumeration value="Symbol" />          <s:enumeration value="CIK" />          <s:enumeration value="CUSIP" />          <s:enumeration value="ISIN" />          <s:enumeration value="Valoren" />          <s:enumeration value="SEDOL" />        </s:restriction>      </s:simpleType>      <s:simpleType name="HistoricalVWAPTypes">        <s:restriction base="s:string">          <s:enumeration value="Daily" />          <s:enumeration value="Weekly" />          <s:enumeration value="Monthly" />          <s:enumeration value="Period" />        </s:restriction>      </s:simpleType>      <s:element name="GetHistoricalVWAPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHistoricalVWAPResult" type="tns:HistoricalVWAPs" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="HistoricalVWAPs">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />              <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="VWAPType" type="tns:HistoricalVWAPTypes" />              <s:element minOccurs="0" maxOccurs="1" name="VWAPS" type="tns:ArrayOfHistoricalVWAP" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="Common">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />        </s:sequence>      </s:complexType>      <s:simpleType name="OutcomeTypes">        <s:restriction base="s:string">          <s:enumeration value="Success" />          <s:enumeration value="SystemError" />          <s:enumeration value="RequestError" />          <s:enumeration value="RegistrationError" />        </s:restriction>      </s:simpleType>      <s:complexType name="HistoricalVWAP">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="VWAP" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="Volume" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="Change" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="PercentChange" type="s:double" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="Security">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="CIK" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Cusip" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ISIN" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Valoren" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Market" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="CategoryOrIndustry" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="ArrayOfHistoricalVWAP">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="HistoricalVWAP" nillable="true" type="tns:HistoricalVWAP" />        </s:sequence>      </s:complexType>      <s:element name="Header" type="tns:Header" />      <s:complexType name="Header">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />        </s:sequence>        <s:anyAttribute />      </s:complexType>      <s:element name="GetHistoricalDailyVWAP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHistoricalDailyVWAPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHistoricalDailyVWAPResult" type="tns:HistoricalVWAPs" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHistoricalMonthlyVWAP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHistoricalMonthlyVWAPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHistoricalMonthlyVWAPResult" type="tns:HistoricalVWAPs" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHistoricalWeeklyVWAP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHistoricalWeeklyVWAPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHistoricalWeeklyVWAPResult" type="tns:HistoricalVWAPs" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHistoricalPeriodVWAP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHistoricalPeriodVWAPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHistoricalPeriodVWAPResult" type="tns:HistoricalVWAPs" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIntradayVWAP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="0" maxOccurs="1" name="StartTime" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndTime" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIntradayVWAPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetIntradayVWAPResult" type="tns:IntradayVWAP" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="IntradayVWAP">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />              <s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="StartTime" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="EndTime" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="VWAPType" type="tns:IntradayVWAPTypes" />              <s:element minOccurs="1" maxOccurs="1" name="VWAP" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="High" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="Low" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="Average" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="Amount" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="Volume" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="Trades" type="s:int" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:simpleType name="IntradayVWAPTypes">        <s:restriction base="s:string">          <s:enumeration value="RealTime" />          <s:enumeration value="Delayed" />          <s:enumeration value="OneMinute" />          <s:enumeration value="FiveMinute" />          <s:enumeration value="TenMinute" />          <s:enumeration value="ThirtyMinute" />          <s:enumeration value="OneHour" />          <s:enumeration value="Period" />        </s:restriction>      </s:simpleType>      <s:element name="GetCorporateIntradayVWAP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="0" maxOccurs="1" name="StartTime" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndTime" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetCorporateIntradayVWAPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetCorporateIntradayVWAPResult" type="tns:IntradayVWAP" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetCorporateHistoricalVWAP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="0" maxOccurs="1" name="AsOfDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="StartTime" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndTime" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetCorporateHistoricalVWAPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetCorporateHistoricalVWAPResult" type="tns:IntradayVWAP" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetDelayedVWAP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="1" maxOccurs="1" name="IncludeBeforeMarket" type="s:boolean" />            <s:element minOccurs="1" maxOccurs="1" name="IncludeAfterMarket" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetDelayedVWAPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetDelayedVWAPResult" type="tns:IntradayVWAP" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetRealTimeVWAP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="1" maxOccurs="1" name="IncludeBeforeMarket" type="s:boolean" />            <s:element minOccurs="1" maxOccurs="1" name="IncludeAfterMarket" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetRealTimeVWAPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetRealTimeVWAPResult" type="tns:IntradayVWAP" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Get1MinuteVWAP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Get1MinuteVWAPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Get1MinuteVWAPResult" type="tns:IntradayVWAP" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Get5MinuteVWAP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Get5MinuteVWAPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Get5MinuteVWAPResult" type="tns:IntradayVWAP" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Get10MinuteVWAP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Get10MinuteVWAPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Get10MinuteVWAPResult" type="tns:IntradayVWAP" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Get30MinuteVWAP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Get30MinuteVWAPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Get30MinuteVWAPResult" type="tns:IntradayVWAP" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Get60MinuteVWAP">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Get60MinuteVWAPResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Get60MinuteVWAPResult" type="tns:IntradayVWAP" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="HistoricalVWAPs" nillable="true" type="tns:HistoricalVWAPs" />      <s:element name="IntradayVWAP" nillable="true" type="tns:IntradayVWAP" />    </s:schema>  </wsdl:types>  <wsdl:message name="GetHistoricalVWAPSoapIn">    <wsdl:part name="parameters" element="tns:GetHistoricalVWAP" />  </wsdl:message>  <wsdl:message name="GetHistoricalVWAPSoapOut">    <wsdl:part name="parameters" element="tns:GetHistoricalVWAPResponse" />  </wsdl:message>  <wsdl:message name="GetHistoricalVWAPHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetHistoricalDailyVWAPSoapIn">    <wsdl:part name="parameters" element="tns:GetHistoricalDailyVWAP" />  </wsdl:message>  <wsdl:message name="GetHistoricalDailyVWAPSoapOut">    <wsdl:part name="parameters" element="tns:GetHistoricalDailyVWAPResponse" />  </wsdl:message>  <wsdl:message name="GetHistoricalDailyVWAPHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetHistoricalMonthlyVWAPSoapIn">    <wsdl:part name="parameters" element="tns:GetHistoricalMonthlyVWAP" />  </wsdl:message>  <wsdl:message name="GetHistoricalMonthlyVWAPSoapOut">    <wsdl:part name="parameters" element="tns:GetHistoricalMonthlyVWAPResponse" />  </wsdl:message>  <wsdl:message name="GetHistoricalMonthlyVWAPHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetHistoricalWeeklyVWAPSoapIn">    <wsdl:part name="parameters" element="tns:GetHistoricalWeeklyVWAP" />  </wsdl:message>  <wsdl:message name="GetHistoricalWeeklyVWAPSoapOut">    <wsdl:part name="parameters" element="tns:GetHistoricalWeeklyVWAPResponse" />  </wsdl:message>  <wsdl:message name="GetHistoricalWeeklyVWAPHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetHistoricalPeriodVWAPSoapIn">    <wsdl:part name="parameters" element="tns:GetHistoricalPeriodVWAP" />  </wsdl:message>  <wsdl:message name="GetHistoricalPeriodVWAPSoapOut">    <wsdl:part name="parameters" element="tns:GetHistoricalPeriodVWAPResponse" />  </wsdl:message>  <wsdl:message name="GetHistoricalPeriodVWAPHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetIntradayVWAPSoapIn">    <wsdl:part name="parameters" element="tns:GetIntradayVWAP" />  </wsdl:message>  <wsdl:message name="GetIntradayVWAPSoapOut">    <wsdl:part name="parameters" element="tns:GetIntradayVWAPResponse" />  </wsdl:message>  <wsdl:message name="GetIntradayVWAPHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetCorporateIntradayVWAPSoapIn">    <wsdl:part name="parameters" element="tns:GetCorporateIntradayVWAP" />  </wsdl:message>  <wsdl:message name="GetCorporateIntradayVWAPSoapOut">    <wsdl:part name="parameters" element="tns:GetCorporateIntradayVWAPResponse" />  </wsdl:message>  <wsdl:message name="GetCorporateIntradayVWAPHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetCorporateHistoricalVWAPSoapIn">    <wsdl:part name="parameters" element="tns:GetCorporateHistoricalVWAP" />  </wsdl:message>  <wsdl:message name="GetCorporateHistoricalVWAPSoapOut">    <wsdl:part name="parameters" element="tns:GetCorporateHistoricalVWAPResponse" />  </wsdl:message>  <wsdl:message name="GetCorporateHistoricalVWAPHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetDelayedVWAPSoapIn">    <wsdl:part name="parameters" element="tns:GetDelayedVWAP" />  </wsdl:message>  <wsdl:message name="GetDelayedVWAPSoapOut">    <wsdl:part name="parameters" element="tns:GetDelayedVWAPResponse" />  </wsdl:message>  <wsdl:message name="GetDelayedVWAPHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetRealTimeVWAPSoapIn">    <wsdl:part name="parameters" element="tns:GetRealTimeVWAP" />  </wsdl:message>  <wsdl:message name="GetRealTimeVWAPSoapOut">    <wsdl:part name="parameters" element="tns:GetRealTimeVWAPResponse" />  </wsdl:message>  <wsdl:message name="GetRealTimeVWAPHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="Get1MinuteVWAPSoapIn">    <wsdl:part name="parameters" element="tns:Get1MinuteVWAP" />  </wsdl:message>  <wsdl:message name="Get1MinuteVWAPSoapOut">    <wsdl:part name="parameters" element="tns:Get1MinuteVWAPResponse" />  </wsdl:message>  <wsdl:message name="Get1MinuteVWAPHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="Get5MinuteVWAPSoapIn">    <wsdl:part name="parameters" element="tns:Get5MinuteVWAP" />  </wsdl:message>  <wsdl:message name="Get5MinuteVWAPSoapOut">    <wsdl:part name="parameters" element="tns:Get5MinuteVWAPResponse" />  </wsdl:message>  <wsdl:message name="Get5MinuteVWAPHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="Get10MinuteVWAPSoapIn">    <wsdl:part name="parameters" element="tns:Get10MinuteVWAP" />  </wsdl:message>  <wsdl:message name="Get10MinuteVWAPSoapOut">    <wsdl:part name="parameters" element="tns:Get10MinuteVWAPResponse" />  </wsdl:message>  <wsdl:message name="Get10MinuteVWAPHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="Get30MinuteVWAPSoapIn">    <wsdl:part name="parameters" element="tns:Get30MinuteVWAP" />  </wsdl:message>  <wsdl:message name="Get30MinuteVWAPSoapOut">    <wsdl:part name="parameters" element="tns:Get30MinuteVWAPResponse" />  </wsdl:message>  <wsdl:message name="Get30MinuteVWAPHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="Get60MinuteVWAPSoapIn">    <wsdl:part name="parameters" element="tns:Get60MinuteVWAP" />  </wsdl:message>  <wsdl:message name="Get60MinuteVWAPSoapOut">    <wsdl:part name="parameters" element="tns:Get60MinuteVWAPResponse" />  </wsdl:message>  <wsdl:message name="Get60MinuteVWAPHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetHistoricalVWAPHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="HistoricalVWAPType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalVWAPHttpGetOut">    <wsdl:part name="Body" element="tns:HistoricalVWAPs" />  </wsdl:message>  <wsdl:message name="GetHistoricalDailyVWAPHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalDailyVWAPHttpGetOut">    <wsdl:part name="Body" element="tns:HistoricalVWAPs" />  </wsdl:message>  <wsdl:message name="GetHistoricalMonthlyVWAPHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalMonthlyVWAPHttpGetOut">    <wsdl:part name="Body" element="tns:HistoricalVWAPs" />  </wsdl:message>  <wsdl:message name="GetHistoricalWeeklyVWAPHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalWeeklyVWAPHttpGetOut">    <wsdl:part name="Body" element="tns:HistoricalVWAPs" />  </wsdl:message>  <wsdl:message name="GetHistoricalPeriodVWAPHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalPeriodVWAPHttpGetOut">    <wsdl:part name="Body" element="tns:HistoricalVWAPs" />  </wsdl:message>  <wsdl:message name="GetIntradayVWAPHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="StartTime" type="s:string" />    <wsdl:part name="EndTime" type="s:string" />  </wsdl:message>  <wsdl:message name="GetIntradayVWAPHttpGetOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="GetCorporateIntradayVWAPHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="StartTime" type="s:string" />    <wsdl:part name="EndTime" type="s:string" />  </wsdl:message>  <wsdl:message name="GetCorporateIntradayVWAPHttpGetOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="GetCorporateHistoricalVWAPHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="AsOfDate" type="s:string" />    <wsdl:part name="StartTime" type="s:string" />    <wsdl:part name="EndTime" type="s:string" />  </wsdl:message>  <wsdl:message name="GetCorporateHistoricalVWAPHttpGetOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="GetDelayedVWAPHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="IncludeBeforeMarket" type="s:string" />    <wsdl:part name="IncludeAfterMarket" type="s:string" />  </wsdl:message>  <wsdl:message name="GetDelayedVWAPHttpGetOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="GetRealTimeVWAPHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="IncludeBeforeMarket" type="s:string" />    <wsdl:part name="IncludeAfterMarket" type="s:string" />  </wsdl:message>  <wsdl:message name="GetRealTimeVWAPHttpGetOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="Get1MinuteVWAPHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="Get1MinuteVWAPHttpGetOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="Get5MinuteVWAPHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="Get5MinuteVWAPHttpGetOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="Get10MinuteVWAPHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="Get10MinuteVWAPHttpGetOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="Get30MinuteVWAPHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="Get30MinuteVWAPHttpGetOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="Get60MinuteVWAPHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="Get60MinuteVWAPHttpGetOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="GetHistoricalVWAPHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="HistoricalVWAPType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalVWAPHttpPostOut">    <wsdl:part name="Body" element="tns:HistoricalVWAPs" />  </wsdl:message>  <wsdl:message name="GetHistoricalDailyVWAPHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalDailyVWAPHttpPostOut">    <wsdl:part name="Body" element="tns:HistoricalVWAPs" />  </wsdl:message>  <wsdl:message name="GetHistoricalMonthlyVWAPHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalMonthlyVWAPHttpPostOut">    <wsdl:part name="Body" element="tns:HistoricalVWAPs" />  </wsdl:message>  <wsdl:message name="GetHistoricalWeeklyVWAPHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalWeeklyVWAPHttpPostOut">    <wsdl:part name="Body" element="tns:HistoricalVWAPs" />  </wsdl:message>  <wsdl:message name="GetHistoricalPeriodVWAPHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalPeriodVWAPHttpPostOut">    <wsdl:part name="Body" element="tns:HistoricalVWAPs" />  </wsdl:message>  <wsdl:message name="GetIntradayVWAPHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="StartTime" type="s:string" />    <wsdl:part name="EndTime" type="s:string" />  </wsdl:message>  <wsdl:message name="GetIntradayVWAPHttpPostOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="GetCorporateIntradayVWAPHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="StartTime" type="s:string" />    <wsdl:part name="EndTime" type="s:string" />  </wsdl:message>  <wsdl:message name="GetCorporateIntradayVWAPHttpPostOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="GetCorporateHistoricalVWAPHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="AsOfDate" type="s:string" />    <wsdl:part name="StartTime" type="s:string" />    <wsdl:part name="EndTime" type="s:string" />  </wsdl:message>  <wsdl:message name="GetCorporateHistoricalVWAPHttpPostOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="GetDelayedVWAPHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="IncludeBeforeMarket" type="s:string" />    <wsdl:part name="IncludeAfterMarket" type="s:string" />  </wsdl:message>  <wsdl:message name="GetDelayedVWAPHttpPostOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="GetRealTimeVWAPHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="IncludeBeforeMarket" type="s:string" />    <wsdl:part name="IncludeAfterMarket" type="s:string" />  </wsdl:message>  <wsdl:message name="GetRealTimeVWAPHttpPostOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="Get1MinuteVWAPHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="Get1MinuteVWAPHttpPostOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="Get5MinuteVWAPHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="Get5MinuteVWAPHttpPostOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="Get10MinuteVWAPHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="Get10MinuteVWAPHttpPostOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="Get30MinuteVWAPHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="Get30MinuteVWAPHttpPostOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:message name="Get60MinuteVWAPHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="Get60MinuteVWAPHttpPostOut">    <wsdl:part name="Body" element="tns:IntradayVWAP" />  </wsdl:message>  <wsdl:portType name="XigniteVWAPSoap">    <wsdl:operation name="GetHistoricalVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical VWAP information for a date range</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalVWAPSoapIn" />      <wsdl:output message="tns:GetHistoricalVWAPSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalDailyVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical daily VWAP information for a date range</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalDailyVWAPSoapIn" />      <wsdl:output message="tns:GetHistoricalDailyVWAPSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalMonthlyVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical monthly VWAP information for a date range.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalMonthlyVWAPSoapIn" />      <wsdl:output message="tns:GetHistoricalMonthlyVWAPSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalWeeklyVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical weekly VWAP information for a date range.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalWeeklyVWAPSoapIn" />      <wsdl:output message="tns:GetHistoricalWeeklyVWAPSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalPeriodVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical VWAP information for a date range.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalPeriodVWAPSoapIn" />      <wsdl:output message="tns:GetHistoricalPeriodVWAPSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetIntradayVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on the trades performed in a time range.</wsdl:documentation>      <wsdl:input message="tns:GetIntradayVWAPSoapIn" />      <wsdl:output message="tns:GetIntradayVWAPSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetCorporateIntradayVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a corporate intraday VWAP for a security based on the trades performed in a time range.</wsdl:documentation>      <wsdl:input message="tns:GetCorporateIntradayVWAPSoapIn" />      <wsdl:output message="tns:GetCorporateIntradayVWAPSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetCorporateHistoricalVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a corporate intraday VWAP for a security based on the trades performed in a time range.</wsdl:documentation>      <wsdl:input message="tns:GetCorporateHistoricalVWAPSoapIn" />      <wsdl:output message="tns:GetCorporateHistoricalVWAPSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetDelayedVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on all trades for the day up to the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:GetDelayedVWAPSoapIn" />      <wsdl:output message="tns:GetDelayedVWAPSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetRealTimeVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a real-time VWAP for a security based on all INET trades.</wsdl:documentation>      <wsdl:input message="tns:GetRealTimeVWAPSoapIn" />      <wsdl:output message="tns:GetRealTimeVWAPSoapOut" />    </wsdl:operation>    <wsdl:operation name="Get1MinuteVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in the last 1 minute of the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:Get1MinuteVWAPSoapIn" />      <wsdl:output message="tns:Get1MinuteVWAPSoapOut" />    </wsdl:operation>    <wsdl:operation name="Get5MinuteVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in the last 5 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:Get5MinuteVWAPSoapIn" />      <wsdl:output message="tns:Get5MinuteVWAPSoapOut" />    </wsdl:operation>    <wsdl:operation name="Get10MinuteVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in the last 10 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:Get10MinuteVWAPSoapIn" />      <wsdl:output message="tns:Get10MinuteVWAPSoapOut" />    </wsdl:operation>    <wsdl:operation name="Get30MinuteVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in the last 30 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:Get30MinuteVWAPSoapIn" />      <wsdl:output message="tns:Get30MinuteVWAPSoapOut" />    </wsdl:operation>    <wsdl:operation name="Get60MinuteVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in the last hour of the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:Get60MinuteVWAPSoapIn" />      <wsdl:output message="tns:Get60MinuteVWAPSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteVWAPHttpGet">    <wsdl:operation name="GetHistoricalVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical VWAP information for a date range</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalVWAPHttpGetIn" />      <wsdl:output message="tns:GetHistoricalVWAPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalDailyVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical daily VWAP information for a date range</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalDailyVWAPHttpGetIn" />      <wsdl:output message="tns:GetHistoricalDailyVWAPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalMonthlyVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical monthly VWAP information for a date range.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalMonthlyVWAPHttpGetIn" />      <wsdl:output message="tns:GetHistoricalMonthlyVWAPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalWeeklyVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical weekly VWAP information for a date range.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalWeeklyVWAPHttpGetIn" />      <wsdl:output message="tns:GetHistoricalWeeklyVWAPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalPeriodVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical VWAP information for a date range.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalPeriodVWAPHttpGetIn" />      <wsdl:output message="tns:GetHistoricalPeriodVWAPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetIntradayVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on the trades performed in a time range.</wsdl:documentation>      <wsdl:input message="tns:GetIntradayVWAPHttpGetIn" />      <wsdl:output message="tns:GetIntradayVWAPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetCorporateIntradayVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a corporate intraday VWAP for a security based on the trades performed in a time range.</wsdl:documentation>      <wsdl:input message="tns:GetCorporateIntradayVWAPHttpGetIn" />      <wsdl:output message="tns:GetCorporateIntradayVWAPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetCorporateHistoricalVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a corporate intraday VWAP for a security based on the trades performed in a time range.</wsdl:documentation>      <wsdl:input message="tns:GetCorporateHistoricalVWAPHttpGetIn" />      <wsdl:output message="tns:GetCorporateHistoricalVWAPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetDelayedVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on all trades for the day up to the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:GetDelayedVWAPHttpGetIn" />      <wsdl:output message="tns:GetDelayedVWAPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetRealTimeVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a real-time VWAP for a security based on all INET trades.</wsdl:documentation>      <wsdl:input message="tns:GetRealTimeVWAPHttpGetIn" />      <wsdl:output message="tns:GetRealTimeVWAPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="Get1MinuteVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in the last 1 minute of the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:Get1MinuteVWAPHttpGetIn" />      <wsdl:output message="tns:Get1MinuteVWAPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="Get5MinuteVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in the last 5 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:Get5MinuteVWAPHttpGetIn" />      <wsdl:output message="tns:Get5MinuteVWAPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="Get10MinuteVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in the last 10 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:Get10MinuteVWAPHttpGetIn" />      <wsdl:output message="tns:Get10MinuteVWAPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="Get30MinuteVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in the last 30 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:Get30MinuteVWAPHttpGetIn" />      <wsdl:output message="tns:Get30MinuteVWAPHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="Get60MinuteVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in the last hour of the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:Get60MinuteVWAPHttpGetIn" />      <wsdl:output message="tns:Get60MinuteVWAPHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteVWAPHttpPost">    <wsdl:operation name="GetHistoricalVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical VWAP information for a date range</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalVWAPHttpPostIn" />      <wsdl:output message="tns:GetHistoricalVWAPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalDailyVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical daily VWAP information for a date range</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalDailyVWAPHttpPostIn" />      <wsdl:output message="tns:GetHistoricalDailyVWAPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalMonthlyVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical monthly VWAP information for a date range.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalMonthlyVWAPHttpPostIn" />      <wsdl:output message="tns:GetHistoricalMonthlyVWAPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalWeeklyVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical weekly VWAP information for a date range.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalWeeklyVWAPHttpPostIn" />      <wsdl:output message="tns:GetHistoricalWeeklyVWAPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalPeriodVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical VWAP information for a date range.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalPeriodVWAPHttpPostIn" />      <wsdl:output message="tns:GetHistoricalPeriodVWAPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetIntradayVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on the trades performed in a time range.</wsdl:documentation>      <wsdl:input message="tns:GetIntradayVWAPHttpPostIn" />      <wsdl:output message="tns:GetIntradayVWAPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetCorporateIntradayVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a corporate intraday VWAP for a security based on the trades performed in a time range.</wsdl:documentation>      <wsdl:input message="tns:GetCorporateIntradayVWAPHttpPostIn" />      <wsdl:output message="tns:GetCorporateIntradayVWAPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetCorporateHistoricalVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a corporate intraday VWAP for a security based on the trades performed in a time range.</wsdl:documentation>      <wsdl:input message="tns:GetCorporateHistoricalVWAPHttpPostIn" />      <wsdl:output message="tns:GetCorporateHistoricalVWAPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetDelayedVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on all trades for the day up to the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:GetDelayedVWAPHttpPostIn" />      <wsdl:output message="tns:GetDelayedVWAPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetRealTimeVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a real-time VWAP for a security based on all INET trades.</wsdl:documentation>      <wsdl:input message="tns:GetRealTimeVWAPHttpPostIn" />      <wsdl:output message="tns:GetRealTimeVWAPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="Get1MinuteVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in the last 1 minute of the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:Get1MinuteVWAPHttpPostIn" />      <wsdl:output message="tns:Get1MinuteVWAPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="Get5MinuteVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in the last 5 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:Get5MinuteVWAPHttpPostIn" />      <wsdl:output message="tns:Get5MinuteVWAPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="Get10MinuteVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in the last 10 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:Get10MinuteVWAPHttpPostIn" />      <wsdl:output message="tns:Get10MinuteVWAPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="Get30MinuteVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in the last 30 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:Get30MinuteVWAPHttpPostIn" />      <wsdl:output message="tns:Get30MinuteVWAPHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="Get60MinuteVWAP">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in the last hour of the 15/20 minutes delayed quote.</wsdl:documentation>      <wsdl:input message="tns:Get60MinuteVWAPHttpPostIn" />      <wsdl:output message="tns:Get60MinuteVWAPHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="XigniteVWAPSoap" type="tns:XigniteVWAPSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetHistoricalVWAP">      <soap:operation soapAction="http://www.xignite.com/services/GetHistoricalVWAP" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetHistoricalVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalDailyVWAP">      <soap:operation soapAction="http://www.xignite.com/services/GetHistoricalDailyVWAP" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetHistoricalDailyVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalMonthlyVWAP">      <soap:operation soapAction="http://www.xignite.com/services/GetHistoricalMonthlyVWAP" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetHistoricalMonthlyVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalWeeklyVWAP">      <soap:operation soapAction="http://www.xignite.com/services/GetHistoricalWeeklyVWAP" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetHistoricalWeeklyVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalPeriodVWAP">      <soap:operation soapAction="http://www.xignite.com/services/GetHistoricalPeriodVWAP" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetHistoricalPeriodVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIntradayVWAP">      <soap:operation soapAction="http://www.xignite.com/services/GetIntradayVWAP" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetIntradayVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetCorporateIntradayVWAP">      <soap:operation soapAction="http://www.xignite.com/services/GetCorporateIntradayVWAP" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetCorporateIntradayVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetCorporateHistoricalVWAP">      <soap:operation soapAction="http://www.xignite.com/services/GetCorporateHistoricalVWAP" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetCorporateHistoricalVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDelayedVWAP">      <soap:operation soapAction="http://www.xignite.com/services/GetDelayedVWAP" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetDelayedVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetRealTimeVWAP">      <soap:operation soapAction="http://www.xignite.com/services/GetRealTimeVWAP" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetRealTimeVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get1MinuteVWAP">      <soap:operation soapAction="http://www.xignite.com/services/Get1MinuteVWAP" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:Get1MinuteVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get5MinuteVWAP">      <soap:operation soapAction="http://www.xignite.com/services/Get5MinuteVWAP" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:Get5MinuteVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get10MinuteVWAP">      <soap:operation soapAction="http://www.xignite.com/services/Get10MinuteVWAP" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:Get10MinuteVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get30MinuteVWAP">      <soap:operation soapAction="http://www.xignite.com/services/Get30MinuteVWAP" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:Get30MinuteVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get60MinuteVWAP">      <soap:operation soapAction="http://www.xignite.com/services/Get60MinuteVWAP" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:Get60MinuteVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteVWAPSoap12" type="tns:XigniteVWAPSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetHistoricalVWAP">      <soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalVWAP" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetHistoricalVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalDailyVWAP">      <soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalDailyVWAP" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetHistoricalDailyVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalMonthlyVWAP">      <soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalMonthlyVWAP" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetHistoricalMonthlyVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalWeeklyVWAP">      <soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalWeeklyVWAP" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetHistoricalWeeklyVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalPeriodVWAP">      <soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalPeriodVWAP" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetHistoricalPeriodVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIntradayVWAP">      <soap12:operation soapAction="http://www.xignite.com/services/GetIntradayVWAP" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetIntradayVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetCorporateIntradayVWAP">      <soap12:operation soapAction="http://www.xignite.com/services/GetCorporateIntradayVWAP" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetCorporateIntradayVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetCorporateHistoricalVWAP">      <soap12:operation soapAction="http://www.xignite.com/services/GetCorporateHistoricalVWAP" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetCorporateHistoricalVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDelayedVWAP">      <soap12:operation soapAction="http://www.xignite.com/services/GetDelayedVWAP" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetDelayedVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetRealTimeVWAP">      <soap12:operation soapAction="http://www.xignite.com/services/GetRealTimeVWAP" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetRealTimeVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get1MinuteVWAP">      <soap12:operation soapAction="http://www.xignite.com/services/Get1MinuteVWAP" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:Get1MinuteVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get5MinuteVWAP">      <soap12:operation soapAction="http://www.xignite.com/services/Get5MinuteVWAP" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:Get5MinuteVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get10MinuteVWAP">      <soap12:operation soapAction="http://www.xignite.com/services/Get10MinuteVWAP" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:Get10MinuteVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get30MinuteVWAP">      <soap12:operation soapAction="http://www.xignite.com/services/Get30MinuteVWAP" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:Get30MinuteVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get60MinuteVWAP">      <soap12:operation soapAction="http://www.xignite.com/services/Get60MinuteVWAP" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:Get60MinuteVWAPHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteVWAPHttpGet" type="tns:XigniteVWAPHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetHistoricalVWAP">      <http:operation location="/GetHistoricalVWAP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalDailyVWAP">      <http:operation location="/GetHistoricalDailyVWAP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalMonthlyVWAP">      <http:operation location="/GetHistoricalMonthlyVWAP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalWeeklyVWAP">      <http:operation location="/GetHistoricalWeeklyVWAP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalPeriodVWAP">      <http:operation location="/GetHistoricalPeriodVWAP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIntradayVWAP">      <http:operation location="/GetIntradayVWAP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetCorporateIntradayVWAP">      <http:operation location="/GetCorporateIntradayVWAP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetCorporateHistoricalVWAP">      <http:operation location="/GetCorporateHistoricalVWAP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDelayedVWAP">      <http:operation location="/GetDelayedVWAP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetRealTimeVWAP">      <http:operation location="/GetRealTimeVWAP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get1MinuteVWAP">      <http:operation location="/Get1MinuteVWAP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get5MinuteVWAP">      <http:operation location="/Get5MinuteVWAP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get10MinuteVWAP">      <http:operation location="/Get10MinuteVWAP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get30MinuteVWAP">      <http:operation location="/Get30MinuteVWAP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get60MinuteVWAP">      <http:operation location="/Get60MinuteVWAP" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteVWAPHttpPost" type="tns:XigniteVWAPHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetHistoricalVWAP">      <http:operation location="/GetHistoricalVWAP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalDailyVWAP">      <http:operation location="/GetHistoricalDailyVWAP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalMonthlyVWAP">      <http:operation location="/GetHistoricalMonthlyVWAP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalWeeklyVWAP">      <http:operation location="/GetHistoricalWeeklyVWAP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalPeriodVWAP">      <http:operation location="/GetHistoricalPeriodVWAP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIntradayVWAP">      <http:operation location="/GetIntradayVWAP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetCorporateIntradayVWAP">      <http:operation location="/GetCorporateIntradayVWAP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetCorporateHistoricalVWAP">      <http:operation location="/GetCorporateHistoricalVWAP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDelayedVWAP">      <http:operation location="/GetDelayedVWAP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetRealTimeVWAP">      <http:operation location="/GetRealTimeVWAP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get1MinuteVWAP">      <http:operation location="/Get1MinuteVWAP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get5MinuteVWAP">      <http:operation location="/Get5MinuteVWAP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get10MinuteVWAP">      <http:operation location="/Get10MinuteVWAP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get30MinuteVWAP">      <http:operation location="/Get30MinuteVWAP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Get60MinuteVWAP">      <http:operation location="/Get60MinuteVWAP" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="XigniteVWAP">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Provides delayed and historical Volume-Weighted-Average Price (VWAP) information.</wsdl:documentation>    <wsdl:port name="XigniteVWAPSoap" binding="tns:XigniteVWAPSoap">      <soap:address location="http://www.xignite.com/xVWAP.asmx" />    </wsdl:port>    <wsdl:port name="XigniteVWAPSoap12" binding="tns:XigniteVWAPSoap12">      <soap12:address location="http://www.xignite.com/xVWAP.asmx" />    </wsdl:port>    <wsdl:port name="XigniteVWAPHttpGet" binding="tns:XigniteVWAPHttpGet">      <http:address location="http://www.xignite.com/xVWAP.asmx" />    </wsdl:port>    <wsdl:port name="XigniteVWAPHttpPost" binding="tns:XigniteVWAPHttpPost">      <http:address location="http://www.xignite.com/xVWAP.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Provides delayed and historical Volume-Weighted-Average Price (VWAP)
+		information.</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">
+			<s:element name="GetHistoricalVWAP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="HistoricalVWAPType" type="tns:HistoricalVWAPTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="IdentifierTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Symbol" />
+					<s:enumeration value="CIK" />
+					<s:enumeration value="CUSIP" />
+					<s:enumeration value="ISIN" />
+					<s:enumeration value="Valoren" />
+					<s:enumeration value="SEDOL" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="HistoricalVWAPTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Daily" />
+					<s:enumeration value="Weekly" />
+					<s:enumeration value="Monthly" />
+					<s:enumeration value="Period" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetHistoricalVWAPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHistoricalVWAPResult" type="tns:HistoricalVWAPs" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="HistoricalVWAPs">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />
+							<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="VWAPType" type="tns:HistoricalVWAPTypes" />
+							<s:element minOccurs="0" maxOccurs="1" name="VWAPS" type="tns:ArrayOfHistoricalVWAP" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="Common">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="OutcomeTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Success" />
+					<s:enumeration value="SystemError" />
+					<s:enumeration value="RequestError" />
+					<s:enumeration value="RegistrationError" />
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="HistoricalVWAP">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="VWAP" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="Volume" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="Change" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="PercentChange" type="s:double" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="Security">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="CIK" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Cusip" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ISIN" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Valoren" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Market" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="CategoryOrIndustry" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="ArrayOfHistoricalVWAP">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="HistoricalVWAP" nillable="true" type="tns:HistoricalVWAP" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="Header" type="tns:Header" />
+			<s:complexType name="Header">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />
+				</s:sequence>
+				<s:anyAttribute />
+			</s:complexType>
+			<s:element name="GetHistoricalDailyVWAP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHistoricalDailyVWAPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHistoricalDailyVWAPResult" type="tns:HistoricalVWAPs" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHistoricalMonthlyVWAP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHistoricalMonthlyVWAPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHistoricalMonthlyVWAPResult" type="tns:HistoricalVWAPs" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHistoricalWeeklyVWAP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHistoricalWeeklyVWAPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHistoricalWeeklyVWAPResult" type="tns:HistoricalVWAPs" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHistoricalPeriodVWAP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHistoricalPeriodVWAPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHistoricalPeriodVWAPResult" type="tns:HistoricalVWAPs" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIntradayVWAP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartTime" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndTime" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIntradayVWAPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetIntradayVWAPResult" type="tns:IntradayVWAP" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="IntradayVWAP">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />
+							<s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="StartTime" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="EndTime" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="VWAPType" type="tns:IntradayVWAPTypes" />
+							<s:element minOccurs="1" maxOccurs="1" name="VWAP" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="High" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="Low" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="Average" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="Amount" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="Volume" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="Trades" type="s:int" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:simpleType name="IntradayVWAPTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="RealTime" />
+					<s:enumeration value="Delayed" />
+					<s:enumeration value="OneMinute" />
+					<s:enumeration value="FiveMinute" />
+					<s:enumeration value="TenMinute" />
+					<s:enumeration value="ThirtyMinute" />
+					<s:enumeration value="OneHour" />
+					<s:enumeration value="Period" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetCorporateIntradayVWAP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartTime" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndTime" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetCorporateIntradayVWAPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetCorporateIntradayVWAPResult" type="tns:IntradayVWAP" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetCorporateHistoricalVWAP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="AsOfDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartTime" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndTime" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetCorporateHistoricalVWAPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetCorporateHistoricalVWAPResult" type="tns:IntradayVWAP" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetDelayedVWAP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="IncludeBeforeMarket" type="s:boolean" />
+						<s:element minOccurs="1" maxOccurs="1" name="IncludeAfterMarket" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetDelayedVWAPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetDelayedVWAPResult" type="tns:IntradayVWAP" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetRealTimeVWAP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="IncludeBeforeMarket" type="s:boolean" />
+						<s:element minOccurs="1" maxOccurs="1" name="IncludeAfterMarket" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetRealTimeVWAPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetRealTimeVWAPResult" type="tns:IntradayVWAP" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Get1MinuteVWAP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Get1MinuteVWAPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Get1MinuteVWAPResult" type="tns:IntradayVWAP" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Get5MinuteVWAP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Get5MinuteVWAPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Get5MinuteVWAPResult" type="tns:IntradayVWAP" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Get10MinuteVWAP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Get10MinuteVWAPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Get10MinuteVWAPResult" type="tns:IntradayVWAP" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Get30MinuteVWAP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Get30MinuteVWAPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Get30MinuteVWAPResult" type="tns:IntradayVWAP" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Get60MinuteVWAP">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Get60MinuteVWAPResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Get60MinuteVWAPResult" type="tns:IntradayVWAP" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="HistoricalVWAPs" nillable="true" type="tns:HistoricalVWAPs" />
+			<s:element name="IntradayVWAP" nillable="true" type="tns:IntradayVWAP" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetHistoricalVWAPSoapIn">
+		<wsdl:part name="parameters" element="tns:GetHistoricalVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalVWAPSoapOut">
+		<wsdl:part name="parameters" element="tns:GetHistoricalVWAPResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalVWAPHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalDailyVWAPSoapIn">
+		<wsdl:part name="parameters" element="tns:GetHistoricalDailyVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalDailyVWAPSoapOut">
+		<wsdl:part name="parameters" element="tns:GetHistoricalDailyVWAPResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalDailyVWAPHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalMonthlyVWAPSoapIn">
+		<wsdl:part name="parameters" element="tns:GetHistoricalMonthlyVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalMonthlyVWAPSoapOut">
+		<wsdl:part name="parameters" element="tns:GetHistoricalMonthlyVWAPResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalMonthlyVWAPHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalWeeklyVWAPSoapIn">
+		<wsdl:part name="parameters" element="tns:GetHistoricalWeeklyVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalWeeklyVWAPSoapOut">
+		<wsdl:part name="parameters" element="tns:GetHistoricalWeeklyVWAPResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalWeeklyVWAPHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalPeriodVWAPSoapIn">
+		<wsdl:part name="parameters" element="tns:GetHistoricalPeriodVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalPeriodVWAPSoapOut">
+		<wsdl:part name="parameters" element="tns:GetHistoricalPeriodVWAPResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalPeriodVWAPHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetIntradayVWAPSoapIn">
+		<wsdl:part name="parameters" element="tns:GetIntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetIntradayVWAPSoapOut">
+		<wsdl:part name="parameters" element="tns:GetIntradayVWAPResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetIntradayVWAPHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetCorporateIntradayVWAPSoapIn">
+		<wsdl:part name="parameters" element="tns:GetCorporateIntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetCorporateIntradayVWAPSoapOut">
+		<wsdl:part name="parameters" element="tns:GetCorporateIntradayVWAPResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetCorporateIntradayVWAPHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetCorporateHistoricalVWAPSoapIn">
+		<wsdl:part name="parameters" element="tns:GetCorporateHistoricalVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetCorporateHistoricalVWAPSoapOut">
+		<wsdl:part name="parameters" element="tns:GetCorporateHistoricalVWAPResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetCorporateHistoricalVWAPHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetDelayedVWAPSoapIn">
+		<wsdl:part name="parameters" element="tns:GetDelayedVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetDelayedVWAPSoapOut">
+		<wsdl:part name="parameters" element="tns:GetDelayedVWAPResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetDelayedVWAPHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetRealTimeVWAPSoapIn">
+		<wsdl:part name="parameters" element="tns:GetRealTimeVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetRealTimeVWAPSoapOut">
+		<wsdl:part name="parameters" element="tns:GetRealTimeVWAPResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetRealTimeVWAPHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="Get1MinuteVWAPSoapIn">
+		<wsdl:part name="parameters" element="tns:Get1MinuteVWAP" />
+	</wsdl:message>
+	<wsdl:message name="Get1MinuteVWAPSoapOut">
+		<wsdl:part name="parameters" element="tns:Get1MinuteVWAPResponse" />
+	</wsdl:message>
+	<wsdl:message name="Get1MinuteVWAPHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="Get5MinuteVWAPSoapIn">
+		<wsdl:part name="parameters" element="tns:Get5MinuteVWAP" />
+	</wsdl:message>
+	<wsdl:message name="Get5MinuteVWAPSoapOut">
+		<wsdl:part name="parameters" element="tns:Get5MinuteVWAPResponse" />
+	</wsdl:message>
+	<wsdl:message name="Get5MinuteVWAPHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="Get10MinuteVWAPSoapIn">
+		<wsdl:part name="parameters" element="tns:Get10MinuteVWAP" />
+	</wsdl:message>
+	<wsdl:message name="Get10MinuteVWAPSoapOut">
+		<wsdl:part name="parameters" element="tns:Get10MinuteVWAPResponse" />
+	</wsdl:message>
+	<wsdl:message name="Get10MinuteVWAPHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="Get30MinuteVWAPSoapIn">
+		<wsdl:part name="parameters" element="tns:Get30MinuteVWAP" />
+	</wsdl:message>
+	<wsdl:message name="Get30MinuteVWAPSoapOut">
+		<wsdl:part name="parameters" element="tns:Get30MinuteVWAPResponse" />
+	</wsdl:message>
+	<wsdl:message name="Get30MinuteVWAPHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="Get60MinuteVWAPSoapIn">
+		<wsdl:part name="parameters" element="tns:Get60MinuteVWAP" />
+	</wsdl:message>
+	<wsdl:message name="Get60MinuteVWAPSoapOut">
+		<wsdl:part name="parameters" element="tns:Get60MinuteVWAPResponse" />
+	</wsdl:message>
+	<wsdl:message name="Get60MinuteVWAPHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalVWAPHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="HistoricalVWAPType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalVWAPHttpGetOut">
+		<wsdl:part name="Body" element="tns:HistoricalVWAPs" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalDailyVWAPHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalDailyVWAPHttpGetOut">
+		<wsdl:part name="Body" element="tns:HistoricalVWAPs" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalMonthlyVWAPHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalMonthlyVWAPHttpGetOut">
+		<wsdl:part name="Body" element="tns:HistoricalVWAPs" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalWeeklyVWAPHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalWeeklyVWAPHttpGetOut">
+		<wsdl:part name="Body" element="tns:HistoricalVWAPs" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalPeriodVWAPHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalPeriodVWAPHttpGetOut">
+		<wsdl:part name="Body" element="tns:HistoricalVWAPs" />
+	</wsdl:message>
+	<wsdl:message name="GetIntradayVWAPHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="StartTime" type="s:string" />
+		<wsdl:part name="EndTime" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetIntradayVWAPHttpGetOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetCorporateIntradayVWAPHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="StartTime" type="s:string" />
+		<wsdl:part name="EndTime" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetCorporateIntradayVWAPHttpGetOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetCorporateHistoricalVWAPHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="AsOfDate" type="s:string" />
+		<wsdl:part name="StartTime" type="s:string" />
+		<wsdl:part name="EndTime" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetCorporateHistoricalVWAPHttpGetOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetDelayedVWAPHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="IncludeBeforeMarket" type="s:string" />
+		<wsdl:part name="IncludeAfterMarket" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetDelayedVWAPHttpGetOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetRealTimeVWAPHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="IncludeBeforeMarket" type="s:string" />
+		<wsdl:part name="IncludeAfterMarket" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetRealTimeVWAPHttpGetOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="Get1MinuteVWAPHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="Get1MinuteVWAPHttpGetOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="Get5MinuteVWAPHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="Get5MinuteVWAPHttpGetOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="Get10MinuteVWAPHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="Get10MinuteVWAPHttpGetOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="Get30MinuteVWAPHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="Get30MinuteVWAPHttpGetOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="Get60MinuteVWAPHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="Get60MinuteVWAPHttpGetOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalVWAPHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="HistoricalVWAPType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalVWAPHttpPostOut">
+		<wsdl:part name="Body" element="tns:HistoricalVWAPs" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalDailyVWAPHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalDailyVWAPHttpPostOut">
+		<wsdl:part name="Body" element="tns:HistoricalVWAPs" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalMonthlyVWAPHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalMonthlyVWAPHttpPostOut">
+		<wsdl:part name="Body" element="tns:HistoricalVWAPs" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalWeeklyVWAPHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalWeeklyVWAPHttpPostOut">
+		<wsdl:part name="Body" element="tns:HistoricalVWAPs" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalPeriodVWAPHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalPeriodVWAPHttpPostOut">
+		<wsdl:part name="Body" element="tns:HistoricalVWAPs" />
+	</wsdl:message>
+	<wsdl:message name="GetIntradayVWAPHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="StartTime" type="s:string" />
+		<wsdl:part name="EndTime" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetIntradayVWAPHttpPostOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetCorporateIntradayVWAPHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="StartTime" type="s:string" />
+		<wsdl:part name="EndTime" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetCorporateIntradayVWAPHttpPostOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetCorporateHistoricalVWAPHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="AsOfDate" type="s:string" />
+		<wsdl:part name="StartTime" type="s:string" />
+		<wsdl:part name="EndTime" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetCorporateHistoricalVWAPHttpPostOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetDelayedVWAPHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="IncludeBeforeMarket" type="s:string" />
+		<wsdl:part name="IncludeAfterMarket" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetDelayedVWAPHttpPostOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="GetRealTimeVWAPHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="IncludeBeforeMarket" type="s:string" />
+		<wsdl:part name="IncludeAfterMarket" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetRealTimeVWAPHttpPostOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="Get1MinuteVWAPHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="Get1MinuteVWAPHttpPostOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="Get5MinuteVWAPHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="Get5MinuteVWAPHttpPostOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="Get10MinuteVWAPHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="Get10MinuteVWAPHttpPostOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="Get30MinuteVWAPHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="Get30MinuteVWAPHttpPostOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:message name="Get60MinuteVWAPHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="Get60MinuteVWAPHttpPostOut">
+		<wsdl:part name="Body" element="tns:IntradayVWAP" />
+	</wsdl:message>
+	<wsdl:portType name="XigniteVWAPSoap">
+		<wsdl:operation name="GetHistoricalVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical VWAP information for a date range
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalVWAPSoapIn" />
+			<wsdl:output message="tns:GetHistoricalVWAPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalDailyVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical daily VWAP information for a date range
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalDailyVWAPSoapIn" />
+			<wsdl:output message="tns:GetHistoricalDailyVWAPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalMonthlyVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical monthly VWAP information for a date range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalMonthlyVWAPSoapIn" />
+			<wsdl:output message="tns:GetHistoricalMonthlyVWAPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalWeeklyVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical weekly VWAP information for a date range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalWeeklyVWAPSoapIn" />
+			<wsdl:output message="tns:GetHistoricalWeeklyVWAPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalPeriodVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical VWAP information for a date range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalPeriodVWAPSoapIn" />
+			<wsdl:output message="tns:GetHistoricalPeriodVWAPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetIntradayVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on the trades
+				performed in a time range.</wsdl:documentation>
+			<wsdl:input message="tns:GetIntradayVWAPSoapIn" />
+			<wsdl:output message="tns:GetIntradayVWAPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetCorporateIntradayVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a corporate intraday VWAP for a security based on the
+				trades performed in a time range.</wsdl:documentation>
+			<wsdl:input message="tns:GetCorporateIntradayVWAPSoapIn" />
+			<wsdl:output message="tns:GetCorporateIntradayVWAPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetCorporateHistoricalVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a corporate intraday VWAP for a security based on the
+				trades performed in a time range.</wsdl:documentation>
+			<wsdl:input message="tns:GetCorporateHistoricalVWAPSoapIn" />
+			<wsdl:output message="tns:GetCorporateHistoricalVWAPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDelayedVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on all trades for the
+				day up to the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:GetDelayedVWAPSoapIn" />
+			<wsdl:output message="tns:GetDelayedVWAPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetRealTimeVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a real-time VWAP for a security based on all INET trades.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetRealTimeVWAPSoapIn" />
+			<wsdl:output message="tns:GetRealTimeVWAPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Get1MinuteVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in
+				the last 1 minute of the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:Get1MinuteVWAPSoapIn" />
+			<wsdl:output message="tns:Get1MinuteVWAPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Get5MinuteVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in
+				the last 5 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:Get5MinuteVWAPSoapIn" />
+			<wsdl:output message="tns:Get5MinuteVWAPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Get10MinuteVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in
+				the last 10 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:Get10MinuteVWAPSoapIn" />
+			<wsdl:output message="tns:Get10MinuteVWAPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Get30MinuteVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in
+				the last 30 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:Get30MinuteVWAPSoapIn" />
+			<wsdl:output message="tns:Get30MinuteVWAPSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Get60MinuteVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in
+				the last hour of the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:Get60MinuteVWAPSoapIn" />
+			<wsdl:output message="tns:Get60MinuteVWAPSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteVWAPHttpGet">
+		<wsdl:operation name="GetHistoricalVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical VWAP information for a date range
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalVWAPHttpGetIn" />
+			<wsdl:output message="tns:GetHistoricalVWAPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalDailyVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical daily VWAP information for a date range
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalDailyVWAPHttpGetIn" />
+			<wsdl:output message="tns:GetHistoricalDailyVWAPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalMonthlyVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical monthly VWAP information for a date range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalMonthlyVWAPHttpGetIn" />
+			<wsdl:output message="tns:GetHistoricalMonthlyVWAPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalWeeklyVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical weekly VWAP information for a date range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalWeeklyVWAPHttpGetIn" />
+			<wsdl:output message="tns:GetHistoricalWeeklyVWAPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalPeriodVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical VWAP information for a date range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalPeriodVWAPHttpGetIn" />
+			<wsdl:output message="tns:GetHistoricalPeriodVWAPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetIntradayVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on the trades
+				performed in a time range.</wsdl:documentation>
+			<wsdl:input message="tns:GetIntradayVWAPHttpGetIn" />
+			<wsdl:output message="tns:GetIntradayVWAPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetCorporateIntradayVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a corporate intraday VWAP for a security based on the
+				trades performed in a time range.</wsdl:documentation>
+			<wsdl:input message="tns:GetCorporateIntradayVWAPHttpGetIn" />
+			<wsdl:output message="tns:GetCorporateIntradayVWAPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetCorporateHistoricalVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a corporate intraday VWAP for a security based on the
+				trades performed in a time range.</wsdl:documentation>
+			<wsdl:input message="tns:GetCorporateHistoricalVWAPHttpGetIn" />
+			<wsdl:output message="tns:GetCorporateHistoricalVWAPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDelayedVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on all trades for the
+				day up to the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:GetDelayedVWAPHttpGetIn" />
+			<wsdl:output message="tns:GetDelayedVWAPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetRealTimeVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a real-time VWAP for a security based on all INET trades.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetRealTimeVWAPHttpGetIn" />
+			<wsdl:output message="tns:GetRealTimeVWAPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Get1MinuteVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in
+				the last 1 minute of the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:Get1MinuteVWAPHttpGetIn" />
+			<wsdl:output message="tns:Get1MinuteVWAPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Get5MinuteVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in
+				the last 5 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:Get5MinuteVWAPHttpGetIn" />
+			<wsdl:output message="tns:Get5MinuteVWAPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Get10MinuteVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in
+				the last 10 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:Get10MinuteVWAPHttpGetIn" />
+			<wsdl:output message="tns:Get10MinuteVWAPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Get30MinuteVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in
+				the last 30 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:Get30MinuteVWAPHttpGetIn" />
+			<wsdl:output message="tns:Get30MinuteVWAPHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Get60MinuteVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in
+				the last hour of the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:Get60MinuteVWAPHttpGetIn" />
+			<wsdl:output message="tns:Get60MinuteVWAPHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteVWAPHttpPost">
+		<wsdl:operation name="GetHistoricalVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical VWAP information for a date range
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalVWAPHttpPostIn" />
+			<wsdl:output message="tns:GetHistoricalVWAPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalDailyVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical daily VWAP information for a date range
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalDailyVWAPHttpPostIn" />
+			<wsdl:output message="tns:GetHistoricalDailyVWAPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalMonthlyVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical monthly VWAP information for a date range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalMonthlyVWAPHttpPostIn" />
+			<wsdl:output message="tns:GetHistoricalMonthlyVWAPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalWeeklyVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical weekly VWAP information for a date range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalWeeklyVWAPHttpPostIn" />
+			<wsdl:output message="tns:GetHistoricalWeeklyVWAPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalPeriodVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns historical VWAP information for a date range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalPeriodVWAPHttpPostIn" />
+			<wsdl:output message="tns:GetHistoricalPeriodVWAPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetIntradayVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on the trades
+				performed in a time range.</wsdl:documentation>
+			<wsdl:input message="tns:GetIntradayVWAPHttpPostIn" />
+			<wsdl:output message="tns:GetIntradayVWAPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetCorporateIntradayVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a corporate intraday VWAP for a security based on the
+				trades performed in a time range.</wsdl:documentation>
+			<wsdl:input message="tns:GetCorporateIntradayVWAPHttpPostIn" />
+			<wsdl:output message="tns:GetCorporateIntradayVWAPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetCorporateHistoricalVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a corporate intraday VWAP for a security based on the
+				trades performed in a time range.</wsdl:documentation>
+			<wsdl:input message="tns:GetCorporateHistoricalVWAPHttpPostIn" />
+			<wsdl:output message="tns:GetCorporateHistoricalVWAPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDelayedVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on all trades for the
+				day up to the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:GetDelayedVWAPHttpPostIn" />
+			<wsdl:output message="tns:GetDelayedVWAPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetRealTimeVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a real-time VWAP for a security based on all INET trades.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetRealTimeVWAPHttpPostIn" />
+			<wsdl:output message="tns:GetRealTimeVWAPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Get1MinuteVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in
+				the last 1 minute of the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:Get1MinuteVWAPHttpPostIn" />
+			<wsdl:output message="tns:Get1MinuteVWAPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Get5MinuteVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in
+				the last 5 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:Get5MinuteVWAPHttpPostIn" />
+			<wsdl:output message="tns:Get5MinuteVWAPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Get10MinuteVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in
+				the last 10 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:Get10MinuteVWAPHttpPostIn" />
+			<wsdl:output message="tns:Get10MinuteVWAPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Get30MinuteVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in
+				the last 30 minutes of the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:Get30MinuteVWAPHttpPostIn" />
+			<wsdl:output message="tns:Get30MinuteVWAPHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Get60MinuteVWAP">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an intraday VWAP for a security based on trades executed in
+				the last hour of the 15/20 minutes delayed quote.</wsdl:documentation>
+			<wsdl:input message="tns:Get60MinuteVWAPHttpPostIn" />
+			<wsdl:output message="tns:Get60MinuteVWAPHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="XigniteVWAPSoap" type="tns:XigniteVWAPSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetHistoricalVWAP">
+			<soap:operation soapAction="http://www.xignite.com/services/GetHistoricalVWAP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetHistoricalVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalDailyVWAP">
+			<soap:operation soapAction="http://www.xignite.com/services/GetHistoricalDailyVWAP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetHistoricalDailyVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalMonthlyVWAP">
+			<soap:operation soapAction="http://www.xignite.com/services/GetHistoricalMonthlyVWAP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetHistoricalMonthlyVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalWeeklyVWAP">
+			<soap:operation soapAction="http://www.xignite.com/services/GetHistoricalWeeklyVWAP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetHistoricalWeeklyVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalPeriodVWAP">
+			<soap:operation soapAction="http://www.xignite.com/services/GetHistoricalPeriodVWAP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetHistoricalPeriodVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIntradayVWAP">
+			<soap:operation soapAction="http://www.xignite.com/services/GetIntradayVWAP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetIntradayVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetCorporateIntradayVWAP">
+			<soap:operation soapAction="http://www.xignite.com/services/GetCorporateIntradayVWAP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetCorporateIntradayVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetCorporateHistoricalVWAP">
+			<soap:operation soapAction="http://www.xignite.com/services/GetCorporateHistoricalVWAP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetCorporateHistoricalVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDelayedVWAP">
+			<soap:operation soapAction="http://www.xignite.com/services/GetDelayedVWAP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetDelayedVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetRealTimeVWAP">
+			<soap:operation soapAction="http://www.xignite.com/services/GetRealTimeVWAP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetRealTimeVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get1MinuteVWAP">
+			<soap:operation soapAction="http://www.xignite.com/services/Get1MinuteVWAP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:Get1MinuteVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get5MinuteVWAP">
+			<soap:operation soapAction="http://www.xignite.com/services/Get5MinuteVWAP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:Get5MinuteVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get10MinuteVWAP">
+			<soap:operation soapAction="http://www.xignite.com/services/Get10MinuteVWAP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:Get10MinuteVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get30MinuteVWAP">
+			<soap:operation soapAction="http://www.xignite.com/services/Get30MinuteVWAP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:Get30MinuteVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get60MinuteVWAP">
+			<soap:operation soapAction="http://www.xignite.com/services/Get60MinuteVWAP" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:Get60MinuteVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteVWAPSoap12" type="tns:XigniteVWAPSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetHistoricalVWAP">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalVWAP" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetHistoricalVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalDailyVWAP">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalDailyVWAP" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetHistoricalDailyVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalMonthlyVWAP">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalMonthlyVWAP" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetHistoricalMonthlyVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalWeeklyVWAP">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalWeeklyVWAP" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetHistoricalWeeklyVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalPeriodVWAP">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalPeriodVWAP" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetHistoricalPeriodVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIntradayVWAP">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetIntradayVWAP" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetIntradayVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetCorporateIntradayVWAP">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetCorporateIntradayVWAP" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetCorporateIntradayVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetCorporateHistoricalVWAP">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetCorporateHistoricalVWAP" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetCorporateHistoricalVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDelayedVWAP">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetDelayedVWAP" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetDelayedVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetRealTimeVWAP">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetRealTimeVWAP" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetRealTimeVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get1MinuteVWAP">
+			<soap12:operation soapAction="http://www.xignite.com/services/Get1MinuteVWAP" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:Get1MinuteVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get5MinuteVWAP">
+			<soap12:operation soapAction="http://www.xignite.com/services/Get5MinuteVWAP" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:Get5MinuteVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get10MinuteVWAP">
+			<soap12:operation soapAction="http://www.xignite.com/services/Get10MinuteVWAP" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:Get10MinuteVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get30MinuteVWAP">
+			<soap12:operation soapAction="http://www.xignite.com/services/Get30MinuteVWAP" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:Get30MinuteVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get60MinuteVWAP">
+			<soap12:operation soapAction="http://www.xignite.com/services/Get60MinuteVWAP" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:Get60MinuteVWAPHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteVWAPHttpGet" type="tns:XigniteVWAPHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetHistoricalVWAP">
+			<http:operation location="/GetHistoricalVWAP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalDailyVWAP">
+			<http:operation location="/GetHistoricalDailyVWAP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalMonthlyVWAP">
+			<http:operation location="/GetHistoricalMonthlyVWAP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalWeeklyVWAP">
+			<http:operation location="/GetHistoricalWeeklyVWAP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalPeriodVWAP">
+			<http:operation location="/GetHistoricalPeriodVWAP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIntradayVWAP">
+			<http:operation location="/GetIntradayVWAP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetCorporateIntradayVWAP">
+			<http:operation location="/GetCorporateIntradayVWAP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetCorporateHistoricalVWAP">
+			<http:operation location="/GetCorporateHistoricalVWAP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDelayedVWAP">
+			<http:operation location="/GetDelayedVWAP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetRealTimeVWAP">
+			<http:operation location="/GetRealTimeVWAP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get1MinuteVWAP">
+			<http:operation location="/Get1MinuteVWAP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get5MinuteVWAP">
+			<http:operation location="/Get5MinuteVWAP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get10MinuteVWAP">
+			<http:operation location="/Get10MinuteVWAP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get30MinuteVWAP">
+			<http:operation location="/Get30MinuteVWAP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get60MinuteVWAP">
+			<http:operation location="/Get60MinuteVWAP" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteVWAPHttpPost" type="tns:XigniteVWAPHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetHistoricalVWAP">
+			<http:operation location="/GetHistoricalVWAP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalDailyVWAP">
+			<http:operation location="/GetHistoricalDailyVWAP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalMonthlyVWAP">
+			<http:operation location="/GetHistoricalMonthlyVWAP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalWeeklyVWAP">
+			<http:operation location="/GetHistoricalWeeklyVWAP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalPeriodVWAP">
+			<http:operation location="/GetHistoricalPeriodVWAP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIntradayVWAP">
+			<http:operation location="/GetIntradayVWAP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetCorporateIntradayVWAP">
+			<http:operation location="/GetCorporateIntradayVWAP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetCorporateHistoricalVWAP">
+			<http:operation location="/GetCorporateHistoricalVWAP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDelayedVWAP">
+			<http:operation location="/GetDelayedVWAP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetRealTimeVWAP">
+			<http:operation location="/GetRealTimeVWAP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get1MinuteVWAP">
+			<http:operation location="/Get1MinuteVWAP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get5MinuteVWAP">
+			<http:operation location="/Get5MinuteVWAP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get10MinuteVWAP">
+			<http:operation location="/Get10MinuteVWAP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get30MinuteVWAP">
+			<http:operation location="/Get30MinuteVWAP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Get60MinuteVWAP">
+			<http:operation location="/Get60MinuteVWAP" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="XigniteVWAP">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Provides delayed and historical Volume-Weighted-Average Price (VWAP)
+			information.</wsdl:documentation>
+		<wsdl:port name="XigniteVWAPSoap" binding="tns:XigniteVWAPSoap">
+			<soap:address location="http://www.xignite.com/xVWAP.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteVWAPSoap12" binding="tns:XigniteVWAPSoap12">
+			<soap12:address location="http://www.xignite.com/xVWAP.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteVWAPHttpGet" binding="tns:XigniteVWAPHttpGet">
+			<http:address location="http://www.xignite.com/xVWAP.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteVWAPHttpPost" binding="tns:XigniteVWAPHttpPost">
+			<http:address location="http://www.xignite.com/xVWAP.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

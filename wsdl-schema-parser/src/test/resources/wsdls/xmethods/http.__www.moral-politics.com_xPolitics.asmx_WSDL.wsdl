@@ -1,1 +1,2005 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.moral-politics.com/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.moral-politics.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This SOAP/REST web service supports the Moral Politics Test.</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.moral-politics.com/">      <s:element name="MapCountries">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="MapCountriesResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="MapCountriesResult" type="tns:ArrayOfCountry" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfCountry">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Country" nillable="true" type="tns:Country" />        </s:sequence>      </s:complexType>      <s:complexType name="Country">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="IP" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="Common">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />        </s:sequence>      </s:complexType>      <s:simpleType name="OutcomeTypes">        <s:restriction base="s:string">          <s:enumeration value="Success" />          <s:enumeration value="SystemError" />          <s:enumeration value="RequestError" />          <s:enumeration value="RegistrationError" />        </s:restriction>      </s:simpleType>      <s:element name="ListCountries">        <s:complexType />      </s:element>      <s:element name="ListCountriesResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ListCountriesResult" type="tns:ArrayOfCountry" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ListForums">        <s:complexType />      </s:element>      <s:element name="ListForumsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ListForumsResult" type="tns:ArrayOfForum" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfForum">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Forum" nillable="true" type="tns:Forum" />        </s:sequence>      </s:complexType>      <s:complexType name="Forum">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Count" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="GetEmptyChart">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />            <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="Languages">        <s:restriction base="s:string">          <s:enumeration value="USEnglish" />        </s:restriction>      </s:simpleType>      <s:element name="GetEmptyChartResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetEmptyChartResult" type="tns:Chart" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="Chart">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Url" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Help" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="GetHelp2">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />            <s:element minOccurs="0" maxOccurs="1" name="HelpType" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHelp2Response">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHelp2Result" type="tns:Help" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="Help">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="HTML" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="ShowMatrix" type="s:boolean" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="GetHelp">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />            <s:element minOccurs="0" maxOccurs="1" name="HelpType" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHelpResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHelpResult" type="tns:Help" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawMoralDimension">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Dimension" type="tns:MoralDimensions" />            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />            <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="MoralDimensions">        <s:restriction base="s:string">          <s:enumeration value="Moral_Order" />          <s:enumeration value="Moral_Rules" />        </s:restriction>      </s:simpleType>      <s:element name="DrawMoralDimensionResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DrawMoralDimensionResult" type="tns:Chart" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawMoralTrend">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Trend" type="tns:MoralTrends" />            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />            <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="MoralTrends">        <s:restriction base="s:string">          <s:enumeration value="All" />          <s:enumeration value="NonConformance" />          <s:enumeration value="Conformance" />          <s:enumeration value="Interdependence" />          <s:enumeration value="Independence" />        </s:restriction>      </s:simpleType>      <s:element name="DrawMoralTrendResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DrawMoralTrendResult" type="tns:Chart" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawPoliticalSystem">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="System" type="tns:PoliticalSystems" />            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />            <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="PoliticalSystems">        <s:restriction base="s:string">          <s:enumeration value="All" />          <s:enumeration value="Socialism" />          <s:enumeration value="Authoritarianism" />          <s:enumeration value="Conservatism" />          <s:enumeration value="Liberalism" />        </s:restriction>      </s:simpleType>      <s:element name="DrawPoliticalSystemResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DrawPoliticalSystemResult" type="tns:Chart" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawPoliticalVariation">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Variation" type="tns:PoliticalVariations" />            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />            <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="PoliticalVariations">        <s:restriction base="s:string">          <s:enumeration value="All" />          <s:enumeration value="Moral_Socialism" />          <s:enumeration value="Economic_Socialism" />          <s:enumeration value="Moderate_Socialism" />          <s:enumeration value="Extreme_Socialism" />          <s:enumeration value="Moral_Authoritarianism" />          <s:enumeration value="Economic_Authoritarianism" />          <s:enumeration value="Moderate_Authoritarianism" />          <s:enumeration value="Extreme_Authoritarianism" />          <s:enumeration value="Moral_Conservatism" />          <s:enumeration value="Economic_Conservatism" />          <s:enumeration value="Moderate_Conservatism" />          <s:enumeration value="Extreme_Conservatism" />          <s:enumeration value="Moral_Liberalism" />          <s:enumeration value="Economic_Liberalism" />          <s:enumeration value="Moderate_Liberalism" />          <s:enumeration value="Extreme_Liberalism" />        </s:restriction>      </s:simpleType>      <s:element name="DrawPoliticalVariationResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DrawPoliticalVariationResult" type="tns:Chart" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawPoliticalMap">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Map" type="tns:PoliticalMaps" />            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />            <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="PoliticalMaps">        <s:restriction base="s:string">          <s:enumeration value="US_Parties" />          <s:enumeration value="US_Presidents" />          <s:enumeration value="US_2004_Elections" />          <s:enumeration value="US_2008_Elections" />          <s:enumeration value="French_Parties" />          <s:enumeration value="French_Presidents" />          <s:enumeration value="French_2007_Elections" />        </s:restriction>      </s:simpleType>      <s:element name="DrawPoliticalMapResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DrawPoliticalMapResult" type="tns:Chart" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawPoliticalIdeology">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Ideology" type="tns:PoliticalIdeologies" />            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />            <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="PoliticalIdeologies">        <s:restriction base="s:string">          <s:enumeration value="All" />          <s:enumeration value="Libertarian_Socialism" />          <s:enumeration value="Trotskyism" />          <s:enumeration value="International_Communism" />          <s:enumeration value="International_Socialism" />          <s:enumeration value="Environmentalism" />          <s:enumeration value="Social_Democratism" />          <s:enumeration value="Activism" />          <s:enumeration value="Stalinism" />          <s:enumeration value="Fascism" />          <s:enumeration value="National_Communism" />          <s:enumeration value="National_Socialism" />          <s:enumeration value="Social_Republicanism" />          <s:enumeration value="Nationalism" />          <s:enumeration value="Ultra_Capitalism" />          <s:enumeration value="Fundamentalism" />          <s:enumeration value="Capital_Republicanism" />          <s:enumeration value="Conservative_NeoLiberalism" />          <s:enumeration value="PaleoConservatism" />          <s:enumeration value="Ultra_Liberalism" />          <s:enumeration value="Libertarian_Capitalism" />          <s:enumeration value="Capital_Democratism" />          <s:enumeration value="Progressive_NeoLiberalism" />          <s:enumeration value="Progressivism" />        </s:restriction>      </s:simpleType>      <s:element name="DrawPoliticalIdeologyResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DrawPoliticalIdeologyResult" type="tns:Chart" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetQuestions">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Test" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Dimension" type="tns:MoralDimensions" />            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetQuestionsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetQuestionsResult" type="tns:ArrayOfQuestion" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfQuestion">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Question" nillable="true" type="tns:Question" />        </s:sequence>      </s:complexType>      <s:complexType name="Question">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />              <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Help" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Cheat" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Answers" type="tns:ArrayOfAnswer" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="ArrayOfAnswer">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Answer" nillable="true" type="tns:Answer" />        </s:sequence>      </s:complexType>      <s:complexType name="Answer">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Help" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Cheat" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="Respond">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="LicenceKey" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="TestResults" type="tns:ArrayOfResult" />            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />            <s:element minOccurs="0" maxOccurs="1" name="IP" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="FullName" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfResult">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Result" nillable="true" type="tns:Result" />        </s:sequence>      </s:complexType>      <s:complexType name="Result">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="RespondResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="RespondResult" type="tns:PoliticalChart" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="PoliticalChart">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Help" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="xScore" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="yScore" type="s:double" />              <s:element minOccurs="0" maxOccurs="1" name="Chart" type="tns:Chart" />              <s:element minOccurs="0" maxOccurs="1" name="Systems" type="tns:ArrayOfString" />              <s:element minOccurs="0" maxOccurs="1" name="Variations" type="tns:ArrayOfString" />              <s:element minOccurs="0" maxOccurs="1" name="Ideologies" type="tns:ArrayOfString" />              <s:element minOccurs="0" maxOccurs="1" name="Parties" type="tns:ArrayOfString" />              <s:element minOccurs="0" maxOccurs="1" name="Presidents" type="tns:ArrayOfString" />              <s:element minOccurs="0" maxOccurs="1" name="Candidates1" type="tns:ArrayOfString" />              <s:element minOccurs="0" maxOccurs="1" name="Candidates2" type="tns:ArrayOfString" />              <s:element minOccurs="1" maxOccurs="1" name="SavedToDatabase" type="s:boolean" />              <s:element minOccurs="1" maxOccurs="1" name="Total" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="SameIP" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="SameAnswers" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="CloseAnswers" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="AboveX" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="AboveY" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="UnderX" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="UnderY" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="MoreSocialist" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="MoreAuthoritarian" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="MoreConservative" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="MoreLiberal" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="Facebook" type="s:double" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="ArrayOfString">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="DrawUserResults">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />            <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawUserResultsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DrawUserResultsResult" type="tns:PoliticalChart" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawFriendResults">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="FriendNames" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="FriendIDs" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />            <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawFriendResultsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DrawFriendResultsResult" type="tns:PoliticalChart" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawDistribution">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />            <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawDistributionResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DrawDistributionResult" type="tns:Chart" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawDistributionByCountry">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />            <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawDistributionByCountryResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DrawDistributionByCountryResult" type="tns:Chart" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawDistributionByForum">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />            <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Forum" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawDistributionByForumResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DrawDistributionByForumResult" type="tns:Chart" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawDistributionByIdeology">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />            <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawDistributionByIdeologyResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DrawDistributionByIdeologyResult" type="tns:Chart" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ArrayOfCountry" nillable="true" type="tns:ArrayOfCountry" />      <s:element name="ArrayOfForum" nillable="true" type="tns:ArrayOfForum" />      <s:element name="Chart" nillable="true" type="tns:Chart" />      <s:element name="Help" nillable="true" type="tns:Help" />      <s:element name="ArrayOfQuestion" nillable="true" type="tns:ArrayOfQuestion" />      <s:element name="PoliticalChart" nillable="true" type="tns:PoliticalChart" />    </s:schema>  </wsdl:types>  <wsdl:message name="MapCountriesSoapIn">    <wsdl:part name="parameters" element="tns:MapCountries" />  </wsdl:message>  <wsdl:message name="MapCountriesSoapOut">    <wsdl:part name="parameters" element="tns:MapCountriesResponse" />  </wsdl:message>  <wsdl:message name="ListCountriesSoapIn">    <wsdl:part name="parameters" element="tns:ListCountries" />  </wsdl:message>  <wsdl:message name="ListCountriesSoapOut">    <wsdl:part name="parameters" element="tns:ListCountriesResponse" />  </wsdl:message>  <wsdl:message name="ListForumsSoapIn">    <wsdl:part name="parameters" element="tns:ListForums" />  </wsdl:message>  <wsdl:message name="ListForumsSoapOut">    <wsdl:part name="parameters" element="tns:ListForumsResponse" />  </wsdl:message>  <wsdl:message name="GetEmptyChartSoapIn">    <wsdl:part name="parameters" element="tns:GetEmptyChart" />  </wsdl:message>  <wsdl:message name="GetEmptyChartSoapOut">    <wsdl:part name="parameters" element="tns:GetEmptyChartResponse" />  </wsdl:message>  <wsdl:message name="GetHelp2SoapIn">    <wsdl:part name="parameters" element="tns:GetHelp2" />  </wsdl:message>  <wsdl:message name="GetHelp2SoapOut">    <wsdl:part name="parameters" element="tns:GetHelp2Response" />  </wsdl:message>  <wsdl:message name="GetHelpSoapIn">    <wsdl:part name="parameters" element="tns:GetHelp" />  </wsdl:message>  <wsdl:message name="GetHelpSoapOut">    <wsdl:part name="parameters" element="tns:GetHelpResponse" />  </wsdl:message>  <wsdl:message name="DrawMoralDimensionSoapIn">    <wsdl:part name="parameters" element="tns:DrawMoralDimension" />  </wsdl:message>  <wsdl:message name="DrawMoralDimensionSoapOut">    <wsdl:part name="parameters" element="tns:DrawMoralDimensionResponse" />  </wsdl:message>  <wsdl:message name="DrawMoralTrendSoapIn">    <wsdl:part name="parameters" element="tns:DrawMoralTrend" />  </wsdl:message>  <wsdl:message name="DrawMoralTrendSoapOut">    <wsdl:part name="parameters" element="tns:DrawMoralTrendResponse" />  </wsdl:message>  <wsdl:message name="DrawPoliticalSystemSoapIn">    <wsdl:part name="parameters" element="tns:DrawPoliticalSystem" />  </wsdl:message>  <wsdl:message name="DrawPoliticalSystemSoapOut">    <wsdl:part name="parameters" element="tns:DrawPoliticalSystemResponse" />  </wsdl:message>  <wsdl:message name="DrawPoliticalVariationSoapIn">    <wsdl:part name="parameters" element="tns:DrawPoliticalVariation" />  </wsdl:message>  <wsdl:message name="DrawPoliticalVariationSoapOut">    <wsdl:part name="parameters" element="tns:DrawPoliticalVariationResponse" />  </wsdl:message>  <wsdl:message name="DrawPoliticalMapSoapIn">    <wsdl:part name="parameters" element="tns:DrawPoliticalMap" />  </wsdl:message>  <wsdl:message name="DrawPoliticalMapSoapOut">    <wsdl:part name="parameters" element="tns:DrawPoliticalMapResponse" />  </wsdl:message>  <wsdl:message name="DrawPoliticalIdeologySoapIn">    <wsdl:part name="parameters" element="tns:DrawPoliticalIdeology" />  </wsdl:message>  <wsdl:message name="DrawPoliticalIdeologySoapOut">    <wsdl:part name="parameters" element="tns:DrawPoliticalIdeologyResponse" />  </wsdl:message>  <wsdl:message name="GetQuestionsSoapIn">    <wsdl:part name="parameters" element="tns:GetQuestions" />  </wsdl:message>  <wsdl:message name="GetQuestionsSoapOut">    <wsdl:part name="parameters" element="tns:GetQuestionsResponse" />  </wsdl:message>  <wsdl:message name="RespondSoapIn">    <wsdl:part name="parameters" element="tns:Respond" />  </wsdl:message>  <wsdl:message name="RespondSoapOut">    <wsdl:part name="parameters" element="tns:RespondResponse" />  </wsdl:message>  <wsdl:message name="DrawUserResultsSoapIn">    <wsdl:part name="parameters" element="tns:DrawUserResults" />  </wsdl:message>  <wsdl:message name="DrawUserResultsSoapOut">    <wsdl:part name="parameters" element="tns:DrawUserResultsResponse" />  </wsdl:message>  <wsdl:message name="DrawFriendResultsSoapIn">    <wsdl:part name="parameters" element="tns:DrawFriendResults" />  </wsdl:message>  <wsdl:message name="DrawFriendResultsSoapOut">    <wsdl:part name="parameters" element="tns:DrawFriendResultsResponse" />  </wsdl:message>  <wsdl:message name="DrawDistributionSoapIn">    <wsdl:part name="parameters" element="tns:DrawDistribution" />  </wsdl:message>  <wsdl:message name="DrawDistributionSoapOut">    <wsdl:part name="parameters" element="tns:DrawDistributionResponse" />  </wsdl:message>  <wsdl:message name="DrawDistributionByCountrySoapIn">    <wsdl:part name="parameters" element="tns:DrawDistributionByCountry" />  </wsdl:message>  <wsdl:message name="DrawDistributionByCountrySoapOut">    <wsdl:part name="parameters" element="tns:DrawDistributionByCountryResponse" />  </wsdl:message>  <wsdl:message name="DrawDistributionByForumSoapIn">    <wsdl:part name="parameters" element="tns:DrawDistributionByForum" />  </wsdl:message>  <wsdl:message name="DrawDistributionByForumSoapOut">    <wsdl:part name="parameters" element="tns:DrawDistributionByForumResponse" />  </wsdl:message>  <wsdl:message name="DrawDistributionByIdeologySoapIn">    <wsdl:part name="parameters" element="tns:DrawDistributionByIdeology" />  </wsdl:message>  <wsdl:message name="DrawDistributionByIdeologySoapOut">    <wsdl:part name="parameters" element="tns:DrawDistributionByIdeologyResponse" />  </wsdl:message>  <wsdl:message name="MapCountriesHttpGetIn">    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="MapCountriesHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfCountry" />  </wsdl:message>  <wsdl:message name="ListCountriesHttpGetIn" />  <wsdl:message name="ListCountriesHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfCountry" />  </wsdl:message>  <wsdl:message name="ListForumsHttpGetIn" />  <wsdl:message name="ListForumsHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfForum" />  </wsdl:message>  <wsdl:message name="GetEmptyChartHttpGetIn">    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="GetEmptyChartHttpGetOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="GetHelp2HttpGetIn">    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="HelpType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHelp2HttpGetOut">    <wsdl:part name="Body" element="tns:Help" />  </wsdl:message>  <wsdl:message name="GetHelpHttpGetIn">    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="HelpType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHelpHttpGetOut">    <wsdl:part name="Body" element="tns:Help" />  </wsdl:message>  <wsdl:message name="DrawMoralDimensionHttpGetIn">    <wsdl:part name="Dimension" type="s:string" />    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawMoralDimensionHttpGetOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="DrawMoralTrendHttpGetIn">    <wsdl:part name="Trend" type="s:string" />    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawMoralTrendHttpGetOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="DrawPoliticalSystemHttpGetIn">    <wsdl:part name="System" type="s:string" />    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawPoliticalSystemHttpGetOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="DrawPoliticalVariationHttpGetIn">    <wsdl:part name="Variation" type="s:string" />    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawPoliticalVariationHttpGetOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="DrawPoliticalMapHttpGetIn">    <wsdl:part name="Map" type="s:string" />    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawPoliticalMapHttpGetOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="DrawPoliticalIdeologyHttpGetIn">    <wsdl:part name="Ideology" type="s:string" />    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawPoliticalIdeologyHttpGetOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="GetQuestionsHttpGetIn">    <wsdl:part name="Test" type="s:string" />    <wsdl:part name="Dimension" type="s:string" />    <wsdl:part name="Language" type="s:string" />  </wsdl:message>  <wsdl:message name="GetQuestionsHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfQuestion" />  </wsdl:message>  <wsdl:message name="DrawUserResultsHttpGetIn">    <wsdl:part name="Name" type="s:string" />    <wsdl:part name="ID" type="s:string" />    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawUserResultsHttpGetOut">    <wsdl:part name="Body" element="tns:PoliticalChart" />  </wsdl:message>  <wsdl:message name="DrawFriendResultsHttpGetIn">    <wsdl:part name="Name" type="s:string" />    <wsdl:part name="ID" type="s:string" />    <wsdl:part name="FriendNames" type="s:string" />    <wsdl:part name="FriendIDs" type="s:string" />    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawFriendResultsHttpGetOut">    <wsdl:part name="Body" element="tns:PoliticalChart" />  </wsdl:message>  <wsdl:message name="DrawDistributionHttpGetIn">    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawDistributionHttpGetOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="DrawDistributionByCountryHttpGetIn">    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />    <wsdl:part name="Country" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawDistributionByCountryHttpGetOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="DrawDistributionByForumHttpGetIn">    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />    <wsdl:part name="Forum" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawDistributionByForumHttpGetOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="DrawDistributionByIdeologyHttpGetIn">    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawDistributionByIdeologyHttpGetOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="MapCountriesHttpPostIn">    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="MapCountriesHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfCountry" />  </wsdl:message>  <wsdl:message name="ListCountriesHttpPostIn" />  <wsdl:message name="ListCountriesHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfCountry" />  </wsdl:message>  <wsdl:message name="ListForumsHttpPostIn" />  <wsdl:message name="ListForumsHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfForum" />  </wsdl:message>  <wsdl:message name="GetEmptyChartHttpPostIn">    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="GetEmptyChartHttpPostOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="GetHelp2HttpPostIn">    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="HelpType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHelp2HttpPostOut">    <wsdl:part name="Body" element="tns:Help" />  </wsdl:message>  <wsdl:message name="GetHelpHttpPostIn">    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="HelpType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHelpHttpPostOut">    <wsdl:part name="Body" element="tns:Help" />  </wsdl:message>  <wsdl:message name="DrawMoralDimensionHttpPostIn">    <wsdl:part name="Dimension" type="s:string" />    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawMoralDimensionHttpPostOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="DrawMoralTrendHttpPostIn">    <wsdl:part name="Trend" type="s:string" />    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawMoralTrendHttpPostOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="DrawPoliticalSystemHttpPostIn">    <wsdl:part name="System" type="s:string" />    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawPoliticalSystemHttpPostOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="DrawPoliticalVariationHttpPostIn">    <wsdl:part name="Variation" type="s:string" />    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawPoliticalVariationHttpPostOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="DrawPoliticalMapHttpPostIn">    <wsdl:part name="Map" type="s:string" />    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawPoliticalMapHttpPostOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="DrawPoliticalIdeologyHttpPostIn">    <wsdl:part name="Ideology" type="s:string" />    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawPoliticalIdeologyHttpPostOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="GetQuestionsHttpPostIn">    <wsdl:part name="Test" type="s:string" />    <wsdl:part name="Dimension" type="s:string" />    <wsdl:part name="Language" type="s:string" />  </wsdl:message>  <wsdl:message name="GetQuestionsHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfQuestion" />  </wsdl:message>  <wsdl:message name="DrawUserResultsHttpPostIn">    <wsdl:part name="Name" type="s:string" />    <wsdl:part name="ID" type="s:string" />    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawUserResultsHttpPostOut">    <wsdl:part name="Body" element="tns:PoliticalChart" />  </wsdl:message>  <wsdl:message name="DrawFriendResultsHttpPostIn">    <wsdl:part name="Name" type="s:string" />    <wsdl:part name="ID" type="s:string" />    <wsdl:part name="FriendNames" type="s:string" />    <wsdl:part name="FriendIDs" type="s:string" />    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawFriendResultsHttpPostOut">    <wsdl:part name="Body" element="tns:PoliticalChart" />  </wsdl:message>  <wsdl:message name="DrawDistributionHttpPostIn">    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawDistributionHttpPostOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="DrawDistributionByCountryHttpPostIn">    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />    <wsdl:part name="Country" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawDistributionByCountryHttpPostOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="DrawDistributionByForumHttpPostIn">    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />    <wsdl:part name="Forum" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawDistributionByForumHttpPostOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:message name="DrawDistributionByIdeologyHttpPostIn">    <wsdl:part name="Language" type="s:string" />    <wsdl:part name="Size" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawDistributionByIdeologyHttpPostOut">    <wsdl:part name="Body" element="tns:Chart" />  </wsdl:message>  <wsdl:portType name="MoralPoliticsSoap">    <wsdl:operation name="MapCountries">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates IPs of new respondents with a country code.</wsdl:documentation>      <wsdl:input message="tns:MapCountriesSoapIn" />      <wsdl:output message="tns:MapCountriesSoapOut" />    </wsdl:operation>    <wsdl:operation name="ListCountries">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List valid countries for respondents.</wsdl:documentation>      <wsdl:input message="tns:ListCountriesSoapIn" />      <wsdl:output message="tns:ListCountriesSoapOut" />    </wsdl:operation>    <wsdl:operation name="ListForums">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List valid forums.</wsdl:documentation>      <wsdl:input message="tns:ListForumsSoapIn" />      <wsdl:output message="tns:ListForumsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetEmptyChart">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a url to an empty Moral Matrix.</wsdl:documentation>      <wsdl:input message="tns:GetEmptyChartSoapIn" />      <wsdl:output message="tns:GetEmptyChartSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetHelp2">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns help for a specific topic.</wsdl:documentation>      <wsdl:input message="tns:GetHelp2SoapIn" />      <wsdl:output message="tns:GetHelp2SoapOut" />    </wsdl:operation>    <wsdl:operation name="GetHelp">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns help for a specific topic.</wsdl:documentation>      <wsdl:input message="tns:GetHelpSoapIn" />      <wsdl:output message="tns:GetHelpSoapOut" />    </wsdl:operation>    <wsdl:operation name="DrawMoralDimension">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draws a moral dimension.</wsdl:documentation>      <wsdl:input message="tns:DrawMoralDimensionSoapIn" />      <wsdl:output message="tns:DrawMoralDimensionSoapOut" />    </wsdl:operation>    <wsdl:operation name="DrawMoralTrend">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draws a Moral Trend.</wsdl:documentation>      <wsdl:input message="tns:DrawMoralTrendSoapIn" />      <wsdl:output message="tns:DrawMoralTrendSoapOut" />    </wsdl:operation>    <wsdl:operation name="DrawPoliticalSystem">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political System.</wsdl:documentation>      <wsdl:input message="tns:DrawPoliticalSystemSoapIn" />      <wsdl:output message="tns:DrawPoliticalSystemSoapOut" />    </wsdl:operation>    <wsdl:operation name="DrawPoliticalVariation">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Variation.</wsdl:documentation>      <wsdl:input message="tns:DrawPoliticalVariationSoapIn" />      <wsdl:output message="tns:DrawPoliticalVariationSoapOut" />    </wsdl:operation>    <wsdl:operation name="DrawPoliticalMap">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Map.</wsdl:documentation>      <wsdl:input message="tns:DrawPoliticalMapSoapIn" />      <wsdl:output message="tns:DrawPoliticalMapSoapOut" />    </wsdl:operation>    <wsdl:operation name="DrawPoliticalIdeology">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Ideology.</wsdl:documentation>      <wsdl:input message="tns:DrawPoliticalIdeologySoapIn" />      <wsdl:output message="tns:DrawPoliticalIdeologySoapOut" />    </wsdl:operation>    <wsdl:operation name="GetQuestions">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the questions for a chart dimension.</wsdl:documentation>      <wsdl:input message="tns:GetQuestionsSoapIn" />      <wsdl:output message="tns:GetQuestionsSoapOut" />    </wsdl:operation>    <wsdl:operation name="Respond">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the results of a test.</wsdl:documentation>      <wsdl:input message="tns:RespondSoapIn" />      <wsdl:output message="tns:RespondSoapOut" />    </wsdl:operation>    <wsdl:operation name="DrawUserResults">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the results of a test for a user.</wsdl:documentation>      <wsdl:input message="tns:DrawUserResultsSoapIn" />      <wsdl:output message="tns:DrawUserResultsSoapOut" />    </wsdl:operation>    <wsdl:operation name="DrawFriendResults">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the results of a test for a user.</wsdl:documentation>      <wsdl:input message="tns:DrawFriendResultsSoapIn" />      <wsdl:output message="tns:DrawFriendResultsSoapOut" />    </wsdl:operation>    <wsdl:operation name="DrawDistribution">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests.</wsdl:documentation>      <wsdl:input message="tns:DrawDistributionSoapIn" />      <wsdl:output message="tns:DrawDistributionSoapOut" />    </wsdl:operation>    <wsdl:operation name="DrawDistributionByCountry">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by country.</wsdl:documentation>      <wsdl:input message="tns:DrawDistributionByCountrySoapIn" />      <wsdl:output message="tns:DrawDistributionByCountrySoapOut" />    </wsdl:operation>    <wsdl:operation name="DrawDistributionByForum">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by forum.</wsdl:documentation>      <wsdl:input message="tns:DrawDistributionByForumSoapIn" />      <wsdl:output message="tns:DrawDistributionByForumSoapOut" />    </wsdl:operation>    <wsdl:operation name="DrawDistributionByIdeology">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by ideology.</wsdl:documentation>      <wsdl:input message="tns:DrawDistributionByIdeologySoapIn" />      <wsdl:output message="tns:DrawDistributionByIdeologySoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="MoralPoliticsHttpGet">    <wsdl:operation name="MapCountries">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates IPs of new respondents with a country code.</wsdl:documentation>      <wsdl:input message="tns:MapCountriesHttpGetIn" />      <wsdl:output message="tns:MapCountriesHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ListCountries">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List valid countries for respondents.</wsdl:documentation>      <wsdl:input message="tns:ListCountriesHttpGetIn" />      <wsdl:output message="tns:ListCountriesHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ListForums">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List valid forums.</wsdl:documentation>      <wsdl:input message="tns:ListForumsHttpGetIn" />      <wsdl:output message="tns:ListForumsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetEmptyChart">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a url to an empty Moral Matrix.</wsdl:documentation>      <wsdl:input message="tns:GetEmptyChartHttpGetIn" />      <wsdl:output message="tns:GetEmptyChartHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetHelp2">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns help for a specific topic.</wsdl:documentation>      <wsdl:input message="tns:GetHelp2HttpGetIn" />      <wsdl:output message="tns:GetHelp2HttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetHelp">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns help for a specific topic.</wsdl:documentation>      <wsdl:input message="tns:GetHelpHttpGetIn" />      <wsdl:output message="tns:GetHelpHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DrawMoralDimension">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draws a moral dimension.</wsdl:documentation>      <wsdl:input message="tns:DrawMoralDimensionHttpGetIn" />      <wsdl:output message="tns:DrawMoralDimensionHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DrawMoralTrend">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draws a Moral Trend.</wsdl:documentation>      <wsdl:input message="tns:DrawMoralTrendHttpGetIn" />      <wsdl:output message="tns:DrawMoralTrendHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DrawPoliticalSystem">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political System.</wsdl:documentation>      <wsdl:input message="tns:DrawPoliticalSystemHttpGetIn" />      <wsdl:output message="tns:DrawPoliticalSystemHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DrawPoliticalVariation">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Variation.</wsdl:documentation>      <wsdl:input message="tns:DrawPoliticalVariationHttpGetIn" />      <wsdl:output message="tns:DrawPoliticalVariationHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DrawPoliticalMap">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Map.</wsdl:documentation>      <wsdl:input message="tns:DrawPoliticalMapHttpGetIn" />      <wsdl:output message="tns:DrawPoliticalMapHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DrawPoliticalIdeology">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Ideology.</wsdl:documentation>      <wsdl:input message="tns:DrawPoliticalIdeologyHttpGetIn" />      <wsdl:output message="tns:DrawPoliticalIdeologyHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetQuestions">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the questions for a chart dimension.</wsdl:documentation>      <wsdl:input message="tns:GetQuestionsHttpGetIn" />      <wsdl:output message="tns:GetQuestionsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DrawUserResults">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the results of a test for a user.</wsdl:documentation>      <wsdl:input message="tns:DrawUserResultsHttpGetIn" />      <wsdl:output message="tns:DrawUserResultsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DrawFriendResults">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the results of a test for a user.</wsdl:documentation>      <wsdl:input message="tns:DrawFriendResultsHttpGetIn" />      <wsdl:output message="tns:DrawFriendResultsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DrawDistribution">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests.</wsdl:documentation>      <wsdl:input message="tns:DrawDistributionHttpGetIn" />      <wsdl:output message="tns:DrawDistributionHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DrawDistributionByCountry">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by country.</wsdl:documentation>      <wsdl:input message="tns:DrawDistributionByCountryHttpGetIn" />      <wsdl:output message="tns:DrawDistributionByCountryHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DrawDistributionByForum">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by forum.</wsdl:documentation>      <wsdl:input message="tns:DrawDistributionByForumHttpGetIn" />      <wsdl:output message="tns:DrawDistributionByForumHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DrawDistributionByIdeology">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by ideology.</wsdl:documentation>      <wsdl:input message="tns:DrawDistributionByIdeologyHttpGetIn" />      <wsdl:output message="tns:DrawDistributionByIdeologyHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="MoralPoliticsHttpPost">    <wsdl:operation name="MapCountries">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates IPs of new respondents with a country code.</wsdl:documentation>      <wsdl:input message="tns:MapCountriesHttpPostIn" />      <wsdl:output message="tns:MapCountriesHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ListCountries">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List valid countries for respondents.</wsdl:documentation>      <wsdl:input message="tns:ListCountriesHttpPostIn" />      <wsdl:output message="tns:ListCountriesHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ListForums">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List valid forums.</wsdl:documentation>      <wsdl:input message="tns:ListForumsHttpPostIn" />      <wsdl:output message="tns:ListForumsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetEmptyChart">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a url to an empty Moral Matrix.</wsdl:documentation>      <wsdl:input message="tns:GetEmptyChartHttpPostIn" />      <wsdl:output message="tns:GetEmptyChartHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetHelp2">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns help for a specific topic.</wsdl:documentation>      <wsdl:input message="tns:GetHelp2HttpPostIn" />      <wsdl:output message="tns:GetHelp2HttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetHelp">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns help for a specific topic.</wsdl:documentation>      <wsdl:input message="tns:GetHelpHttpPostIn" />      <wsdl:output message="tns:GetHelpHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DrawMoralDimension">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draws a moral dimension.</wsdl:documentation>      <wsdl:input message="tns:DrawMoralDimensionHttpPostIn" />      <wsdl:output message="tns:DrawMoralDimensionHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DrawMoralTrend">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draws a Moral Trend.</wsdl:documentation>      <wsdl:input message="tns:DrawMoralTrendHttpPostIn" />      <wsdl:output message="tns:DrawMoralTrendHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DrawPoliticalSystem">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political System.</wsdl:documentation>      <wsdl:input message="tns:DrawPoliticalSystemHttpPostIn" />      <wsdl:output message="tns:DrawPoliticalSystemHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DrawPoliticalVariation">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Variation.</wsdl:documentation>      <wsdl:input message="tns:DrawPoliticalVariationHttpPostIn" />      <wsdl:output message="tns:DrawPoliticalVariationHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DrawPoliticalMap">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Map.</wsdl:documentation>      <wsdl:input message="tns:DrawPoliticalMapHttpPostIn" />      <wsdl:output message="tns:DrawPoliticalMapHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DrawPoliticalIdeology">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Ideology.</wsdl:documentation>      <wsdl:input message="tns:DrawPoliticalIdeologyHttpPostIn" />      <wsdl:output message="tns:DrawPoliticalIdeologyHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetQuestions">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the questions for a chart dimension.</wsdl:documentation>      <wsdl:input message="tns:GetQuestionsHttpPostIn" />      <wsdl:output message="tns:GetQuestionsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DrawUserResults">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the results of a test for a user.</wsdl:documentation>      <wsdl:input message="tns:DrawUserResultsHttpPostIn" />      <wsdl:output message="tns:DrawUserResultsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DrawFriendResults">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the results of a test for a user.</wsdl:documentation>      <wsdl:input message="tns:DrawFriendResultsHttpPostIn" />      <wsdl:output message="tns:DrawFriendResultsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DrawDistribution">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests.</wsdl:documentation>      <wsdl:input message="tns:DrawDistributionHttpPostIn" />      <wsdl:output message="tns:DrawDistributionHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DrawDistributionByCountry">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by country.</wsdl:documentation>      <wsdl:input message="tns:DrawDistributionByCountryHttpPostIn" />      <wsdl:output message="tns:DrawDistributionByCountryHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DrawDistributionByForum">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by forum.</wsdl:documentation>      <wsdl:input message="tns:DrawDistributionByForumHttpPostIn" />      <wsdl:output message="tns:DrawDistributionByForumHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DrawDistributionByIdeology">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by ideology.</wsdl:documentation>      <wsdl:input message="tns:DrawDistributionByIdeologyHttpPostIn" />      <wsdl:output message="tns:DrawDistributionByIdeologyHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="MoralPoliticsSoap" type="tns:MoralPoliticsSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="MapCountries">      <soap:operation soapAction="http://www.moral-politics.com/MapCountries" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListCountries">      <soap:operation soapAction="http://www.moral-politics.com/ListCountries" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListForums">      <soap:operation soapAction="http://www.moral-politics.com/ListForums" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetEmptyChart">      <soap:operation soapAction="http://www.moral-politics.com/GetEmptyChart" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHelp2">      <soap:operation soapAction="http://www.moral-politics.com/GetHelp2" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHelp">      <soap:operation soapAction="http://www.moral-politics.com/GetHelp" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawMoralDimension">      <soap:operation soapAction="http://www.moral-politics.com/DrawMoralDimension" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawMoralTrend">      <soap:operation soapAction="http://www.moral-politics.com/DrawMoralTrend" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawPoliticalSystem">      <soap:operation soapAction="http://www.moral-politics.com/DrawPoliticalSystem" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawPoliticalVariation">      <soap:operation soapAction="http://www.moral-politics.com/DrawPoliticalVariation" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawPoliticalMap">      <soap:operation soapAction="http://www.moral-politics.com/DrawPoliticalMap" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawPoliticalIdeology">      <soap:operation soapAction="http://www.moral-politics.com/DrawPoliticalIdeology" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetQuestions">      <soap:operation soapAction="http://www.moral-politics.com/GetQuestions" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Respond">      <soap:operation soapAction="http://www.moral-politics.com/Respond" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawUserResults">      <soap:operation soapAction="http://www.moral-politics.com/DrawUserResults" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawFriendResults">      <soap:operation soapAction="http://www.moral-politics.com/DrawFriendResults" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawDistribution">      <soap:operation soapAction="http://www.moral-politics.com/DrawDistribution" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawDistributionByCountry">      <soap:operation soapAction="http://www.moral-politics.com/DrawDistributionByCountry" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawDistributionByForum">      <soap:operation soapAction="http://www.moral-politics.com/DrawDistributionByForum" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawDistributionByIdeology">      <soap:operation soapAction="http://www.moral-politics.com/DrawDistributionByIdeology" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="MoralPoliticsSoap12" type="tns:MoralPoliticsSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="MapCountries">      <soap12:operation soapAction="http://www.moral-politics.com/MapCountries" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListCountries">      <soap12:operation soapAction="http://www.moral-politics.com/ListCountries" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListForums">      <soap12:operation soapAction="http://www.moral-politics.com/ListForums" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetEmptyChart">      <soap12:operation soapAction="http://www.moral-politics.com/GetEmptyChart" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHelp2">      <soap12:operation soapAction="http://www.moral-politics.com/GetHelp2" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHelp">      <soap12:operation soapAction="http://www.moral-politics.com/GetHelp" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawMoralDimension">      <soap12:operation soapAction="http://www.moral-politics.com/DrawMoralDimension" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawMoralTrend">      <soap12:operation soapAction="http://www.moral-politics.com/DrawMoralTrend" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawPoliticalSystem">      <soap12:operation soapAction="http://www.moral-politics.com/DrawPoliticalSystem" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawPoliticalVariation">      <soap12:operation soapAction="http://www.moral-politics.com/DrawPoliticalVariation" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawPoliticalMap">      <soap12:operation soapAction="http://www.moral-politics.com/DrawPoliticalMap" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawPoliticalIdeology">      <soap12:operation soapAction="http://www.moral-politics.com/DrawPoliticalIdeology" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetQuestions">      <soap12:operation soapAction="http://www.moral-politics.com/GetQuestions" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Respond">      <soap12:operation soapAction="http://www.moral-politics.com/Respond" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawUserResults">      <soap12:operation soapAction="http://www.moral-politics.com/DrawUserResults" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawFriendResults">      <soap12:operation soapAction="http://www.moral-politics.com/DrawFriendResults" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawDistribution">      <soap12:operation soapAction="http://www.moral-politics.com/DrawDistribution" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawDistributionByCountry">      <soap12:operation soapAction="http://www.moral-politics.com/DrawDistributionByCountry" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawDistributionByForum">      <soap12:operation soapAction="http://www.moral-politics.com/DrawDistributionByForum" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawDistributionByIdeology">      <soap12:operation soapAction="http://www.moral-politics.com/DrawDistributionByIdeology" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="MoralPoliticsHttpGet" type="tns:MoralPoliticsHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="MapCountries">      <http:operation location="/MapCountries" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListCountries">      <http:operation location="/ListCountries" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListForums">      <http:operation location="/ListForums" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetEmptyChart">      <http:operation location="/GetEmptyChart" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHelp2">      <http:operation location="/GetHelp2" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHelp">      <http:operation location="/GetHelp" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawMoralDimension">      <http:operation location="/DrawMoralDimension" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawMoralTrend">      <http:operation location="/DrawMoralTrend" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawPoliticalSystem">      <http:operation location="/DrawPoliticalSystem" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawPoliticalVariation">      <http:operation location="/DrawPoliticalVariation" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawPoliticalMap">      <http:operation location="/DrawPoliticalMap" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawPoliticalIdeology">      <http:operation location="/DrawPoliticalIdeology" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetQuestions">      <http:operation location="/GetQuestions" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawUserResults">      <http:operation location="/DrawUserResults" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawFriendResults">      <http:operation location="/DrawFriendResults" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawDistribution">      <http:operation location="/DrawDistribution" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawDistributionByCountry">      <http:operation location="/DrawDistributionByCountry" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawDistributionByForum">      <http:operation location="/DrawDistributionByForum" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawDistributionByIdeology">      <http:operation location="/DrawDistributionByIdeology" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="MoralPoliticsHttpPost" type="tns:MoralPoliticsHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="MapCountries">      <http:operation location="/MapCountries" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListCountries">      <http:operation location="/ListCountries" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListForums">      <http:operation location="/ListForums" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetEmptyChart">      <http:operation location="/GetEmptyChart" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHelp2">      <http:operation location="/GetHelp2" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHelp">      <http:operation location="/GetHelp" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawMoralDimension">      <http:operation location="/DrawMoralDimension" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawMoralTrend">      <http:operation location="/DrawMoralTrend" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawPoliticalSystem">      <http:operation location="/DrawPoliticalSystem" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawPoliticalVariation">      <http:operation location="/DrawPoliticalVariation" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawPoliticalMap">      <http:operation location="/DrawPoliticalMap" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawPoliticalIdeology">      <http:operation location="/DrawPoliticalIdeology" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetQuestions">      <http:operation location="/GetQuestions" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawUserResults">      <http:operation location="/DrawUserResults" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawFriendResults">      <http:operation location="/DrawFriendResults" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawDistribution">      <http:operation location="/DrawDistribution" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawDistributionByCountry">      <http:operation location="/DrawDistributionByCountry" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawDistributionByForum">      <http:operation location="/DrawDistributionByForum" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawDistributionByIdeology">      <http:operation location="/DrawDistributionByIdeology" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="MoralPolitics">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This SOAP/REST web service supports the Moral Politics Test.</wsdl:documentation>    <wsdl:port name="MoralPoliticsSoap" binding="tns:MoralPoliticsSoap">      <soap:address location="http://www.moral-politics.com/xPolitics.asmx" />    </wsdl:port>    <wsdl:port name="MoralPoliticsSoap12" binding="tns:MoralPoliticsSoap12">      <soap12:address location="http://www.moral-politics.com/xPolitics.asmx" />    </wsdl:port>    <wsdl:port name="MoralPoliticsHttpGet" binding="tns:MoralPoliticsHttpGet">      <http:address location="http://www.moral-politics.com/xPolitics.asmx" />    </wsdl:port>    <wsdl:port name="MoralPoliticsHttpPost" binding="tns:MoralPoliticsHttpPost">      <http:address location="http://www.moral-politics.com/xPolitics.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.moral-politics.com/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.moral-politics.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This SOAP/REST web service supports the Moral Politics Test.
+	</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.moral-politics.com/">
+			<s:element name="MapCountries">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="MapCountriesResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="MapCountriesResult" type="tns:ArrayOfCountry" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfCountry">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Country" nillable="true" type="tns:Country" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Country">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="IP" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="Common">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="OutcomeTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Success" />
+					<s:enumeration value="SystemError" />
+					<s:enumeration value="RequestError" />
+					<s:enumeration value="RegistrationError" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="ListCountries">
+				<s:complexType />
+			</s:element>
+			<s:element name="ListCountriesResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ListCountriesResult" type="tns:ArrayOfCountry" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ListForums">
+				<s:complexType />
+			</s:element>
+			<s:element name="ListForumsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ListForumsResult" type="tns:ArrayOfForum" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfForum">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Forum" nillable="true" type="tns:Forum" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Forum">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Count" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="GetEmptyChart">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+						<s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="Languages">
+				<s:restriction base="s:string">
+					<s:enumeration value="USEnglish" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetEmptyChartResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetEmptyChartResult" type="tns:Chart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="Chart">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Url" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Help" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="GetHelp2">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+						<s:element minOccurs="0" maxOccurs="1" name="HelpType" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHelp2Response">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHelp2Result" type="tns:Help" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="Help">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="HTML" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="ShowMatrix" type="s:boolean" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="GetHelp">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+						<s:element minOccurs="0" maxOccurs="1" name="HelpType" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHelpResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHelpResult" type="tns:Help" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawMoralDimension">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Dimension" type="tns:MoralDimensions" />
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+						<s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="MoralDimensions">
+				<s:restriction base="s:string">
+					<s:enumeration value="Moral_Order" />
+					<s:enumeration value="Moral_Rules" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="DrawMoralDimensionResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DrawMoralDimensionResult" type="tns:Chart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawMoralTrend">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Trend" type="tns:MoralTrends" />
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+						<s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="MoralTrends">
+				<s:restriction base="s:string">
+					<s:enumeration value="All" />
+					<s:enumeration value="NonConformance" />
+					<s:enumeration value="Conformance" />
+					<s:enumeration value="Interdependence" />
+					<s:enumeration value="Independence" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="DrawMoralTrendResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DrawMoralTrendResult" type="tns:Chart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawPoliticalSystem">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="System" type="tns:PoliticalSystems" />
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+						<s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="PoliticalSystems">
+				<s:restriction base="s:string">
+					<s:enumeration value="All" />
+					<s:enumeration value="Socialism" />
+					<s:enumeration value="Authoritarianism" />
+					<s:enumeration value="Conservatism" />
+					<s:enumeration value="Liberalism" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="DrawPoliticalSystemResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DrawPoliticalSystemResult" type="tns:Chart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawPoliticalVariation">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Variation" type="tns:PoliticalVariations" />
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+						<s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="PoliticalVariations">
+				<s:restriction base="s:string">
+					<s:enumeration value="All" />
+					<s:enumeration value="Moral_Socialism" />
+					<s:enumeration value="Economic_Socialism" />
+					<s:enumeration value="Moderate_Socialism" />
+					<s:enumeration value="Extreme_Socialism" />
+					<s:enumeration value="Moral_Authoritarianism" />
+					<s:enumeration value="Economic_Authoritarianism" />
+					<s:enumeration value="Moderate_Authoritarianism" />
+					<s:enumeration value="Extreme_Authoritarianism" />
+					<s:enumeration value="Moral_Conservatism" />
+					<s:enumeration value="Economic_Conservatism" />
+					<s:enumeration value="Moderate_Conservatism" />
+					<s:enumeration value="Extreme_Conservatism" />
+					<s:enumeration value="Moral_Liberalism" />
+					<s:enumeration value="Economic_Liberalism" />
+					<s:enumeration value="Moderate_Liberalism" />
+					<s:enumeration value="Extreme_Liberalism" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="DrawPoliticalVariationResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DrawPoliticalVariationResult" type="tns:Chart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawPoliticalMap">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Map" type="tns:PoliticalMaps" />
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+						<s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="PoliticalMaps">
+				<s:restriction base="s:string">
+					<s:enumeration value="US_Parties" />
+					<s:enumeration value="US_Presidents" />
+					<s:enumeration value="US_2004_Elections" />
+					<s:enumeration value="US_2008_Elections" />
+					<s:enumeration value="French_Parties" />
+					<s:enumeration value="French_Presidents" />
+					<s:enumeration value="French_2007_Elections" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="DrawPoliticalMapResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DrawPoliticalMapResult" type="tns:Chart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawPoliticalIdeology">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Ideology" type="tns:PoliticalIdeologies" />
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+						<s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="PoliticalIdeologies">
+				<s:restriction base="s:string">
+					<s:enumeration value="All" />
+					<s:enumeration value="Libertarian_Socialism" />
+					<s:enumeration value="Trotskyism" />
+					<s:enumeration value="International_Communism" />
+					<s:enumeration value="International_Socialism" />
+					<s:enumeration value="Environmentalism" />
+					<s:enumeration value="Social_Democratism" />
+					<s:enumeration value="Activism" />
+					<s:enumeration value="Stalinism" />
+					<s:enumeration value="Fascism" />
+					<s:enumeration value="National_Communism" />
+					<s:enumeration value="National_Socialism" />
+					<s:enumeration value="Social_Republicanism" />
+					<s:enumeration value="Nationalism" />
+					<s:enumeration value="Ultra_Capitalism" />
+					<s:enumeration value="Fundamentalism" />
+					<s:enumeration value="Capital_Republicanism" />
+					<s:enumeration value="Conservative_NeoLiberalism" />
+					<s:enumeration value="PaleoConservatism" />
+					<s:enumeration value="Ultra_Liberalism" />
+					<s:enumeration value="Libertarian_Capitalism" />
+					<s:enumeration value="Capital_Democratism" />
+					<s:enumeration value="Progressive_NeoLiberalism" />
+					<s:enumeration value="Progressivism" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="DrawPoliticalIdeologyResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DrawPoliticalIdeologyResult" type="tns:Chart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetQuestions">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Test" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Dimension" type="tns:MoralDimensions" />
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetQuestionsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetQuestionsResult" type="tns:ArrayOfQuestion" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfQuestion">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Question" nillable="true" type="tns:Question" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Question">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+							<s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Help" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Cheat" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Answers" type="tns:ArrayOfAnswer" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="ArrayOfAnswer">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Answer" nillable="true" type="tns:Answer" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Answer">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Help" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Cheat" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="Respond">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="LicenceKey" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="TestResults" type="tns:ArrayOfResult" />
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+						<s:element minOccurs="0" maxOccurs="1" name="IP" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="FullName" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfResult">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Result" nillable="true" type="tns:Result" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Result">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="RespondResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="RespondResult" type="tns:PoliticalChart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="PoliticalChart">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Help" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="xScore" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="yScore" type="s:double" />
+							<s:element minOccurs="0" maxOccurs="1" name="Chart" type="tns:Chart" />
+							<s:element minOccurs="0" maxOccurs="1" name="Systems" type="tns:ArrayOfString" />
+							<s:element minOccurs="0" maxOccurs="1" name="Variations" type="tns:ArrayOfString" />
+							<s:element minOccurs="0" maxOccurs="1" name="Ideologies" type="tns:ArrayOfString" />
+							<s:element minOccurs="0" maxOccurs="1" name="Parties" type="tns:ArrayOfString" />
+							<s:element minOccurs="0" maxOccurs="1" name="Presidents" type="tns:ArrayOfString" />
+							<s:element minOccurs="0" maxOccurs="1" name="Candidates1" type="tns:ArrayOfString" />
+							<s:element minOccurs="0" maxOccurs="1" name="Candidates2" type="tns:ArrayOfString" />
+							<s:element minOccurs="1" maxOccurs="1" name="SavedToDatabase" type="s:boolean" />
+							<s:element minOccurs="1" maxOccurs="1" name="Total" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="SameIP" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="SameAnswers" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="CloseAnswers" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="AboveX" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="AboveY" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="UnderX" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="UnderY" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="MoreSocialist" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="MoreAuthoritarian" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="MoreConservative" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="MoreLiberal" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="Facebook" type="s:double" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="ArrayOfString">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="DrawUserResults">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+						<s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawUserResultsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DrawUserResultsResult" type="tns:PoliticalChart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawFriendResults">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="FriendNames" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="FriendIDs" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+						<s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawFriendResultsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DrawFriendResultsResult" type="tns:PoliticalChart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawDistribution">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+						<s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawDistributionResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DrawDistributionResult" type="tns:Chart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawDistributionByCountry">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+						<s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawDistributionByCountryResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DrawDistributionByCountryResult" type="tns:Chart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawDistributionByForum">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+						<s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Forum" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawDistributionByForumResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DrawDistributionByForumResult" type="tns:Chart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawDistributionByIdeology">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Language" type="tns:Languages" />
+						<s:element minOccurs="1" maxOccurs="1" name="Size" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawDistributionByIdeologyResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DrawDistributionByIdeologyResult" type="tns:Chart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ArrayOfCountry" nillable="true" type="tns:ArrayOfCountry" />
+			<s:element name="ArrayOfForum" nillable="true" type="tns:ArrayOfForum" />
+			<s:element name="Chart" nillable="true" type="tns:Chart" />
+			<s:element name="Help" nillable="true" type="tns:Help" />
+			<s:element name="ArrayOfQuestion" nillable="true" type="tns:ArrayOfQuestion" />
+			<s:element name="PoliticalChart" nillable="true" type="tns:PoliticalChart" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="MapCountriesSoapIn">
+		<wsdl:part name="parameters" element="tns:MapCountries" />
+	</wsdl:message>
+	<wsdl:message name="MapCountriesSoapOut">
+		<wsdl:part name="parameters" element="tns:MapCountriesResponse" />
+	</wsdl:message>
+	<wsdl:message name="ListCountriesSoapIn">
+		<wsdl:part name="parameters" element="tns:ListCountries" />
+	</wsdl:message>
+	<wsdl:message name="ListCountriesSoapOut">
+		<wsdl:part name="parameters" element="tns:ListCountriesResponse" />
+	</wsdl:message>
+	<wsdl:message name="ListForumsSoapIn">
+		<wsdl:part name="parameters" element="tns:ListForums" />
+	</wsdl:message>
+	<wsdl:message name="ListForumsSoapOut">
+		<wsdl:part name="parameters" element="tns:ListForumsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetEmptyChartSoapIn">
+		<wsdl:part name="parameters" element="tns:GetEmptyChart" />
+	</wsdl:message>
+	<wsdl:message name="GetEmptyChartSoapOut">
+		<wsdl:part name="parameters" element="tns:GetEmptyChartResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetHelp2SoapIn">
+		<wsdl:part name="parameters" element="tns:GetHelp2" />
+	</wsdl:message>
+	<wsdl:message name="GetHelp2SoapOut">
+		<wsdl:part name="parameters" element="tns:GetHelp2Response" />
+	</wsdl:message>
+	<wsdl:message name="GetHelpSoapIn">
+		<wsdl:part name="parameters" element="tns:GetHelp" />
+	</wsdl:message>
+	<wsdl:message name="GetHelpSoapOut">
+		<wsdl:part name="parameters" element="tns:GetHelpResponse" />
+	</wsdl:message>
+	<wsdl:message name="DrawMoralDimensionSoapIn">
+		<wsdl:part name="parameters" element="tns:DrawMoralDimension" />
+	</wsdl:message>
+	<wsdl:message name="DrawMoralDimensionSoapOut">
+		<wsdl:part name="parameters" element="tns:DrawMoralDimensionResponse" />
+	</wsdl:message>
+	<wsdl:message name="DrawMoralTrendSoapIn">
+		<wsdl:part name="parameters" element="tns:DrawMoralTrend" />
+	</wsdl:message>
+	<wsdl:message name="DrawMoralTrendSoapOut">
+		<wsdl:part name="parameters" element="tns:DrawMoralTrendResponse" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalSystemSoapIn">
+		<wsdl:part name="parameters" element="tns:DrawPoliticalSystem" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalSystemSoapOut">
+		<wsdl:part name="parameters" element="tns:DrawPoliticalSystemResponse" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalVariationSoapIn">
+		<wsdl:part name="parameters" element="tns:DrawPoliticalVariation" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalVariationSoapOut">
+		<wsdl:part name="parameters" element="tns:DrawPoliticalVariationResponse" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalMapSoapIn">
+		<wsdl:part name="parameters" element="tns:DrawPoliticalMap" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalMapSoapOut">
+		<wsdl:part name="parameters" element="tns:DrawPoliticalMapResponse" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalIdeologySoapIn">
+		<wsdl:part name="parameters" element="tns:DrawPoliticalIdeology" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalIdeologySoapOut">
+		<wsdl:part name="parameters" element="tns:DrawPoliticalIdeologyResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetQuestionsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetQuestions" />
+	</wsdl:message>
+	<wsdl:message name="GetQuestionsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetQuestionsResponse" />
+	</wsdl:message>
+	<wsdl:message name="RespondSoapIn">
+		<wsdl:part name="parameters" element="tns:Respond" />
+	</wsdl:message>
+	<wsdl:message name="RespondSoapOut">
+		<wsdl:part name="parameters" element="tns:RespondResponse" />
+	</wsdl:message>
+	<wsdl:message name="DrawUserResultsSoapIn">
+		<wsdl:part name="parameters" element="tns:DrawUserResults" />
+	</wsdl:message>
+	<wsdl:message name="DrawUserResultsSoapOut">
+		<wsdl:part name="parameters" element="tns:DrawUserResultsResponse" />
+	</wsdl:message>
+	<wsdl:message name="DrawFriendResultsSoapIn">
+		<wsdl:part name="parameters" element="tns:DrawFriendResults" />
+	</wsdl:message>
+	<wsdl:message name="DrawFriendResultsSoapOut">
+		<wsdl:part name="parameters" element="tns:DrawFriendResultsResponse" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionSoapIn">
+		<wsdl:part name="parameters" element="tns:DrawDistribution" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionSoapOut">
+		<wsdl:part name="parameters" element="tns:DrawDistributionResponse" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByCountrySoapIn">
+		<wsdl:part name="parameters" element="tns:DrawDistributionByCountry" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByCountrySoapOut">
+		<wsdl:part name="parameters" element="tns:DrawDistributionByCountryResponse" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByForumSoapIn">
+		<wsdl:part name="parameters" element="tns:DrawDistributionByForum" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByForumSoapOut">
+		<wsdl:part name="parameters" element="tns:DrawDistributionByForumResponse" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByIdeologySoapIn">
+		<wsdl:part name="parameters" element="tns:DrawDistributionByIdeology" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByIdeologySoapOut">
+		<wsdl:part name="parameters" element="tns:DrawDistributionByIdeologyResponse" />
+	</wsdl:message>
+	<wsdl:message name="MapCountriesHttpGetIn">
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="MapCountriesHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfCountry" />
+	</wsdl:message>
+	<wsdl:message name="ListCountriesHttpGetIn" />
+	<wsdl:message name="ListCountriesHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfCountry" />
+	</wsdl:message>
+	<wsdl:message name="ListForumsHttpGetIn" />
+	<wsdl:message name="ListForumsHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfForum" />
+	</wsdl:message>
+	<wsdl:message name="GetEmptyChartHttpGetIn">
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetEmptyChartHttpGetOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="GetHelp2HttpGetIn">
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="HelpType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHelp2HttpGetOut">
+		<wsdl:part name="Body" element="tns:Help" />
+	</wsdl:message>
+	<wsdl:message name="GetHelpHttpGetIn">
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="HelpType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHelpHttpGetOut">
+		<wsdl:part name="Body" element="tns:Help" />
+	</wsdl:message>
+	<wsdl:message name="DrawMoralDimensionHttpGetIn">
+		<wsdl:part name="Dimension" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawMoralDimensionHttpGetOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="DrawMoralTrendHttpGetIn">
+		<wsdl:part name="Trend" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawMoralTrendHttpGetOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalSystemHttpGetIn">
+		<wsdl:part name="System" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalSystemHttpGetOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalVariationHttpGetIn">
+		<wsdl:part name="Variation" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalVariationHttpGetOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalMapHttpGetIn">
+		<wsdl:part name="Map" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalMapHttpGetOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalIdeologyHttpGetIn">
+		<wsdl:part name="Ideology" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalIdeologyHttpGetOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="GetQuestionsHttpGetIn">
+		<wsdl:part name="Test" type="s:string" />
+		<wsdl:part name="Dimension" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetQuestionsHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfQuestion" />
+	</wsdl:message>
+	<wsdl:message name="DrawUserResultsHttpGetIn">
+		<wsdl:part name="Name" type="s:string" />
+		<wsdl:part name="ID" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawUserResultsHttpGetOut">
+		<wsdl:part name="Body" element="tns:PoliticalChart" />
+	</wsdl:message>
+	<wsdl:message name="DrawFriendResultsHttpGetIn">
+		<wsdl:part name="Name" type="s:string" />
+		<wsdl:part name="ID" type="s:string" />
+		<wsdl:part name="FriendNames" type="s:string" />
+		<wsdl:part name="FriendIDs" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawFriendResultsHttpGetOut">
+		<wsdl:part name="Body" element="tns:PoliticalChart" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionHttpGetIn">
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionHttpGetOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByCountryHttpGetIn">
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+		<wsdl:part name="Country" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByCountryHttpGetOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByForumHttpGetIn">
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+		<wsdl:part name="Forum" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByForumHttpGetOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByIdeologyHttpGetIn">
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByIdeologyHttpGetOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="MapCountriesHttpPostIn">
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="MapCountriesHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfCountry" />
+	</wsdl:message>
+	<wsdl:message name="ListCountriesHttpPostIn" />
+	<wsdl:message name="ListCountriesHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfCountry" />
+	</wsdl:message>
+	<wsdl:message name="ListForumsHttpPostIn" />
+	<wsdl:message name="ListForumsHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfForum" />
+	</wsdl:message>
+	<wsdl:message name="GetEmptyChartHttpPostIn">
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetEmptyChartHttpPostOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="GetHelp2HttpPostIn">
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="HelpType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHelp2HttpPostOut">
+		<wsdl:part name="Body" element="tns:Help" />
+	</wsdl:message>
+	<wsdl:message name="GetHelpHttpPostIn">
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="HelpType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHelpHttpPostOut">
+		<wsdl:part name="Body" element="tns:Help" />
+	</wsdl:message>
+	<wsdl:message name="DrawMoralDimensionHttpPostIn">
+		<wsdl:part name="Dimension" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawMoralDimensionHttpPostOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="DrawMoralTrendHttpPostIn">
+		<wsdl:part name="Trend" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawMoralTrendHttpPostOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalSystemHttpPostIn">
+		<wsdl:part name="System" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalSystemHttpPostOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalVariationHttpPostIn">
+		<wsdl:part name="Variation" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalVariationHttpPostOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalMapHttpPostIn">
+		<wsdl:part name="Map" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalMapHttpPostOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalIdeologyHttpPostIn">
+		<wsdl:part name="Ideology" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawPoliticalIdeologyHttpPostOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="GetQuestionsHttpPostIn">
+		<wsdl:part name="Test" type="s:string" />
+		<wsdl:part name="Dimension" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetQuestionsHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfQuestion" />
+	</wsdl:message>
+	<wsdl:message name="DrawUserResultsHttpPostIn">
+		<wsdl:part name="Name" type="s:string" />
+		<wsdl:part name="ID" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawUserResultsHttpPostOut">
+		<wsdl:part name="Body" element="tns:PoliticalChart" />
+	</wsdl:message>
+	<wsdl:message name="DrawFriendResultsHttpPostIn">
+		<wsdl:part name="Name" type="s:string" />
+		<wsdl:part name="ID" type="s:string" />
+		<wsdl:part name="FriendNames" type="s:string" />
+		<wsdl:part name="FriendIDs" type="s:string" />
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawFriendResultsHttpPostOut">
+		<wsdl:part name="Body" element="tns:PoliticalChart" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionHttpPostIn">
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionHttpPostOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByCountryHttpPostIn">
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+		<wsdl:part name="Country" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByCountryHttpPostOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByForumHttpPostIn">
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+		<wsdl:part name="Forum" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByForumHttpPostOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByIdeologyHttpPostIn">
+		<wsdl:part name="Language" type="s:string" />
+		<wsdl:part name="Size" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawDistributionByIdeologyHttpPostOut">
+		<wsdl:part name="Body" element="tns:Chart" />
+	</wsdl:message>
+	<wsdl:portType name="MoralPoliticsSoap">
+		<wsdl:operation name="MapCountries">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates IPs of new respondents with a country code.
+			</wsdl:documentation>
+			<wsdl:input message="tns:MapCountriesSoapIn" />
+			<wsdl:output message="tns:MapCountriesSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ListCountries">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List valid countries for respondents.</wsdl:documentation>
+			<wsdl:input message="tns:ListCountriesSoapIn" />
+			<wsdl:output message="tns:ListCountriesSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ListForums">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List valid forums.</wsdl:documentation>
+			<wsdl:input message="tns:ListForumsSoapIn" />
+			<wsdl:output message="tns:ListForumsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetEmptyChart">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a url to an empty Moral Matrix.</wsdl:documentation>
+			<wsdl:input message="tns:GetEmptyChartSoapIn" />
+			<wsdl:output message="tns:GetEmptyChartSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHelp2">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns help for a specific topic.</wsdl:documentation>
+			<wsdl:input message="tns:GetHelp2SoapIn" />
+			<wsdl:output message="tns:GetHelp2SoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHelp">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns help for a specific topic.</wsdl:documentation>
+			<wsdl:input message="tns:GetHelpSoapIn" />
+			<wsdl:output message="tns:GetHelpSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawMoralDimension">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draws a moral dimension.</wsdl:documentation>
+			<wsdl:input message="tns:DrawMoralDimensionSoapIn" />
+			<wsdl:output message="tns:DrawMoralDimensionSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawMoralTrend">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draws a Moral Trend.</wsdl:documentation>
+			<wsdl:input message="tns:DrawMoralTrendSoapIn" />
+			<wsdl:output message="tns:DrawMoralTrendSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalSystem">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political System.</wsdl:documentation>
+			<wsdl:input message="tns:DrawPoliticalSystemSoapIn" />
+			<wsdl:output message="tns:DrawPoliticalSystemSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalVariation">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Variation.</wsdl:documentation>
+			<wsdl:input message="tns:DrawPoliticalVariationSoapIn" />
+			<wsdl:output message="tns:DrawPoliticalVariationSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalMap">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Map.</wsdl:documentation>
+			<wsdl:input message="tns:DrawPoliticalMapSoapIn" />
+			<wsdl:output message="tns:DrawPoliticalMapSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalIdeology">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Ideology.</wsdl:documentation>
+			<wsdl:input message="tns:DrawPoliticalIdeologySoapIn" />
+			<wsdl:output message="tns:DrawPoliticalIdeologySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetQuestions">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the questions for a chart dimension.</wsdl:documentation>
+			<wsdl:input message="tns:GetQuestionsSoapIn" />
+			<wsdl:output message="tns:GetQuestionsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Respond">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the results of a test.</wsdl:documentation>
+			<wsdl:input message="tns:RespondSoapIn" />
+			<wsdl:output message="tns:RespondSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawUserResults">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the results of a test for a user.</wsdl:documentation>
+			<wsdl:input message="tns:DrawUserResultsSoapIn" />
+			<wsdl:output message="tns:DrawUserResultsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawFriendResults">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the results of a test for a user.</wsdl:documentation>
+			<wsdl:input message="tns:DrawFriendResultsSoapIn" />
+			<wsdl:output message="tns:DrawFriendResultsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistribution">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests.</wsdl:documentation>
+			<wsdl:input message="tns:DrawDistributionSoapIn" />
+			<wsdl:output message="tns:DrawDistributionSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByCountry">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by country.</wsdl:documentation>
+			<wsdl:input message="tns:DrawDistributionByCountrySoapIn" />
+			<wsdl:output message="tns:DrawDistributionByCountrySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByForum">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by forum.</wsdl:documentation>
+			<wsdl:input message="tns:DrawDistributionByForumSoapIn" />
+			<wsdl:output message="tns:DrawDistributionByForumSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByIdeology">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by ideology.
+			</wsdl:documentation>
+			<wsdl:input message="tns:DrawDistributionByIdeologySoapIn" />
+			<wsdl:output message="tns:DrawDistributionByIdeologySoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="MoralPoliticsHttpGet">
+		<wsdl:operation name="MapCountries">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates IPs of new respondents with a country code.
+			</wsdl:documentation>
+			<wsdl:input message="tns:MapCountriesHttpGetIn" />
+			<wsdl:output message="tns:MapCountriesHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ListCountries">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List valid countries for respondents.</wsdl:documentation>
+			<wsdl:input message="tns:ListCountriesHttpGetIn" />
+			<wsdl:output message="tns:ListCountriesHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ListForums">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List valid forums.</wsdl:documentation>
+			<wsdl:input message="tns:ListForumsHttpGetIn" />
+			<wsdl:output message="tns:ListForumsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetEmptyChart">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a url to an empty Moral Matrix.</wsdl:documentation>
+			<wsdl:input message="tns:GetEmptyChartHttpGetIn" />
+			<wsdl:output message="tns:GetEmptyChartHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHelp2">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns help for a specific topic.</wsdl:documentation>
+			<wsdl:input message="tns:GetHelp2HttpGetIn" />
+			<wsdl:output message="tns:GetHelp2HttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHelp">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns help for a specific topic.</wsdl:documentation>
+			<wsdl:input message="tns:GetHelpHttpGetIn" />
+			<wsdl:output message="tns:GetHelpHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawMoralDimension">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draws a moral dimension.</wsdl:documentation>
+			<wsdl:input message="tns:DrawMoralDimensionHttpGetIn" />
+			<wsdl:output message="tns:DrawMoralDimensionHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawMoralTrend">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draws a Moral Trend.</wsdl:documentation>
+			<wsdl:input message="tns:DrawMoralTrendHttpGetIn" />
+			<wsdl:output message="tns:DrawMoralTrendHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalSystem">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political System.</wsdl:documentation>
+			<wsdl:input message="tns:DrawPoliticalSystemHttpGetIn" />
+			<wsdl:output message="tns:DrawPoliticalSystemHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalVariation">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Variation.</wsdl:documentation>
+			<wsdl:input message="tns:DrawPoliticalVariationHttpGetIn" />
+			<wsdl:output message="tns:DrawPoliticalVariationHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalMap">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Map.</wsdl:documentation>
+			<wsdl:input message="tns:DrawPoliticalMapHttpGetIn" />
+			<wsdl:output message="tns:DrawPoliticalMapHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalIdeology">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Ideology.</wsdl:documentation>
+			<wsdl:input message="tns:DrawPoliticalIdeologyHttpGetIn" />
+			<wsdl:output message="tns:DrawPoliticalIdeologyHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetQuestions">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the questions for a chart dimension.</wsdl:documentation>
+			<wsdl:input message="tns:GetQuestionsHttpGetIn" />
+			<wsdl:output message="tns:GetQuestionsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawUserResults">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the results of a test for a user.</wsdl:documentation>
+			<wsdl:input message="tns:DrawUserResultsHttpGetIn" />
+			<wsdl:output message="tns:DrawUserResultsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawFriendResults">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the results of a test for a user.</wsdl:documentation>
+			<wsdl:input message="tns:DrawFriendResultsHttpGetIn" />
+			<wsdl:output message="tns:DrawFriendResultsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistribution">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests.</wsdl:documentation>
+			<wsdl:input message="tns:DrawDistributionHttpGetIn" />
+			<wsdl:output message="tns:DrawDistributionHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByCountry">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by country.</wsdl:documentation>
+			<wsdl:input message="tns:DrawDistributionByCountryHttpGetIn" />
+			<wsdl:output message="tns:DrawDistributionByCountryHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByForum">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by forum.</wsdl:documentation>
+			<wsdl:input message="tns:DrawDistributionByForumHttpGetIn" />
+			<wsdl:output message="tns:DrawDistributionByForumHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByIdeology">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by ideology.
+			</wsdl:documentation>
+			<wsdl:input message="tns:DrawDistributionByIdeologyHttpGetIn" />
+			<wsdl:output message="tns:DrawDistributionByIdeologyHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="MoralPoliticsHttpPost">
+		<wsdl:operation name="MapCountries">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates IPs of new respondents with a country code.
+			</wsdl:documentation>
+			<wsdl:input message="tns:MapCountriesHttpPostIn" />
+			<wsdl:output message="tns:MapCountriesHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ListCountries">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List valid countries for respondents.</wsdl:documentation>
+			<wsdl:input message="tns:ListCountriesHttpPostIn" />
+			<wsdl:output message="tns:ListCountriesHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ListForums">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List valid forums.</wsdl:documentation>
+			<wsdl:input message="tns:ListForumsHttpPostIn" />
+			<wsdl:output message="tns:ListForumsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetEmptyChart">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a url to an empty Moral Matrix.</wsdl:documentation>
+			<wsdl:input message="tns:GetEmptyChartHttpPostIn" />
+			<wsdl:output message="tns:GetEmptyChartHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHelp2">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns help for a specific topic.</wsdl:documentation>
+			<wsdl:input message="tns:GetHelp2HttpPostIn" />
+			<wsdl:output message="tns:GetHelp2HttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHelp">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns help for a specific topic.</wsdl:documentation>
+			<wsdl:input message="tns:GetHelpHttpPostIn" />
+			<wsdl:output message="tns:GetHelpHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawMoralDimension">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draws a moral dimension.</wsdl:documentation>
+			<wsdl:input message="tns:DrawMoralDimensionHttpPostIn" />
+			<wsdl:output message="tns:DrawMoralDimensionHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawMoralTrend">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draws a Moral Trend.</wsdl:documentation>
+			<wsdl:input message="tns:DrawMoralTrendHttpPostIn" />
+			<wsdl:output message="tns:DrawMoralTrendHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalSystem">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political System.</wsdl:documentation>
+			<wsdl:input message="tns:DrawPoliticalSystemHttpPostIn" />
+			<wsdl:output message="tns:DrawPoliticalSystemHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalVariation">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Variation.</wsdl:documentation>
+			<wsdl:input message="tns:DrawPoliticalVariationHttpPostIn" />
+			<wsdl:output message="tns:DrawPoliticalVariationHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalMap">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Map.</wsdl:documentation>
+			<wsdl:input message="tns:DrawPoliticalMapHttpPostIn" />
+			<wsdl:output message="tns:DrawPoliticalMapHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalIdeology">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a Political Ideology.</wsdl:documentation>
+			<wsdl:input message="tns:DrawPoliticalIdeologyHttpPostIn" />
+			<wsdl:output message="tns:DrawPoliticalIdeologyHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetQuestions">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the questions for a chart dimension.</wsdl:documentation>
+			<wsdl:input message="tns:GetQuestionsHttpPostIn" />
+			<wsdl:output message="tns:GetQuestionsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawUserResults">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the results of a test for a user.</wsdl:documentation>
+			<wsdl:input message="tns:DrawUserResultsHttpPostIn" />
+			<wsdl:output message="tns:DrawUserResultsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawFriendResults">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the results of a test for a user.</wsdl:documentation>
+			<wsdl:input message="tns:DrawFriendResultsHttpPostIn" />
+			<wsdl:output message="tns:DrawFriendResultsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistribution">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests.</wsdl:documentation>
+			<wsdl:input message="tns:DrawDistributionHttpPostIn" />
+			<wsdl:output message="tns:DrawDistributionHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByCountry">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by country.</wsdl:documentation>
+			<wsdl:input message="tns:DrawDistributionByCountryHttpPostIn" />
+			<wsdl:output message="tns:DrawDistributionByCountryHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByForum">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by forum.</wsdl:documentation>
+			<wsdl:input message="tns:DrawDistributionByForumHttpPostIn" />
+			<wsdl:output message="tns:DrawDistributionByForumHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByIdeology">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw the distribution of all tests by ideology.
+			</wsdl:documentation>
+			<wsdl:input message="tns:DrawDistributionByIdeologyHttpPostIn" />
+			<wsdl:output message="tns:DrawDistributionByIdeologyHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="MoralPoliticsSoap" type="tns:MoralPoliticsSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="MapCountries">
+			<soap:operation soapAction="http://www.moral-politics.com/MapCountries" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListCountries">
+			<soap:operation soapAction="http://www.moral-politics.com/ListCountries" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListForums">
+			<soap:operation soapAction="http://www.moral-politics.com/ListForums" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetEmptyChart">
+			<soap:operation soapAction="http://www.moral-politics.com/GetEmptyChart" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHelp2">
+			<soap:operation soapAction="http://www.moral-politics.com/GetHelp2" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHelp">
+			<soap:operation soapAction="http://www.moral-politics.com/GetHelp" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawMoralDimension">
+			<soap:operation soapAction="http://www.moral-politics.com/DrawMoralDimension" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawMoralTrend">
+			<soap:operation soapAction="http://www.moral-politics.com/DrawMoralTrend" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalSystem">
+			<soap:operation soapAction="http://www.moral-politics.com/DrawPoliticalSystem" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalVariation">
+			<soap:operation soapAction="http://www.moral-politics.com/DrawPoliticalVariation" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalMap">
+			<soap:operation soapAction="http://www.moral-politics.com/DrawPoliticalMap" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalIdeology">
+			<soap:operation soapAction="http://www.moral-politics.com/DrawPoliticalIdeology" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetQuestions">
+			<soap:operation soapAction="http://www.moral-politics.com/GetQuestions" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Respond">
+			<soap:operation soapAction="http://www.moral-politics.com/Respond" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawUserResults">
+			<soap:operation soapAction="http://www.moral-politics.com/DrawUserResults" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawFriendResults">
+			<soap:operation soapAction="http://www.moral-politics.com/DrawFriendResults" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistribution">
+			<soap:operation soapAction="http://www.moral-politics.com/DrawDistribution" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByCountry">
+			<soap:operation soapAction="http://www.moral-politics.com/DrawDistributionByCountry" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByForum">
+			<soap:operation soapAction="http://www.moral-politics.com/DrawDistributionByForum" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByIdeology">
+			<soap:operation soapAction="http://www.moral-politics.com/DrawDistributionByIdeology" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="MoralPoliticsSoap12" type="tns:MoralPoliticsSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="MapCountries">
+			<soap12:operation soapAction="http://www.moral-politics.com/MapCountries" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListCountries">
+			<soap12:operation soapAction="http://www.moral-politics.com/ListCountries" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListForums">
+			<soap12:operation soapAction="http://www.moral-politics.com/ListForums" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetEmptyChart">
+			<soap12:operation soapAction="http://www.moral-politics.com/GetEmptyChart" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHelp2">
+			<soap12:operation soapAction="http://www.moral-politics.com/GetHelp2" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHelp">
+			<soap12:operation soapAction="http://www.moral-politics.com/GetHelp" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawMoralDimension">
+			<soap12:operation soapAction="http://www.moral-politics.com/DrawMoralDimension" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawMoralTrend">
+			<soap12:operation soapAction="http://www.moral-politics.com/DrawMoralTrend" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalSystem">
+			<soap12:operation soapAction="http://www.moral-politics.com/DrawPoliticalSystem" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalVariation">
+			<soap12:operation soapAction="http://www.moral-politics.com/DrawPoliticalVariation" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalMap">
+			<soap12:operation soapAction="http://www.moral-politics.com/DrawPoliticalMap" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalIdeology">
+			<soap12:operation soapAction="http://www.moral-politics.com/DrawPoliticalIdeology" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetQuestions">
+			<soap12:operation soapAction="http://www.moral-politics.com/GetQuestions" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Respond">
+			<soap12:operation soapAction="http://www.moral-politics.com/Respond" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawUserResults">
+			<soap12:operation soapAction="http://www.moral-politics.com/DrawUserResults" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawFriendResults">
+			<soap12:operation soapAction="http://www.moral-politics.com/DrawFriendResults" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistribution">
+			<soap12:operation soapAction="http://www.moral-politics.com/DrawDistribution" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByCountry">
+			<soap12:operation soapAction="http://www.moral-politics.com/DrawDistributionByCountry" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByForum">
+			<soap12:operation soapAction="http://www.moral-politics.com/DrawDistributionByForum" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByIdeology">
+			<soap12:operation soapAction="http://www.moral-politics.com/DrawDistributionByIdeology" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="MoralPoliticsHttpGet" type="tns:MoralPoliticsHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="MapCountries">
+			<http:operation location="/MapCountries" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListCountries">
+			<http:operation location="/ListCountries" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListForums">
+			<http:operation location="/ListForums" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetEmptyChart">
+			<http:operation location="/GetEmptyChart" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHelp2">
+			<http:operation location="/GetHelp2" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHelp">
+			<http:operation location="/GetHelp" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawMoralDimension">
+			<http:operation location="/DrawMoralDimension" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawMoralTrend">
+			<http:operation location="/DrawMoralTrend" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalSystem">
+			<http:operation location="/DrawPoliticalSystem" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalVariation">
+			<http:operation location="/DrawPoliticalVariation" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalMap">
+			<http:operation location="/DrawPoliticalMap" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalIdeology">
+			<http:operation location="/DrawPoliticalIdeology" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetQuestions">
+			<http:operation location="/GetQuestions" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawUserResults">
+			<http:operation location="/DrawUserResults" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawFriendResults">
+			<http:operation location="/DrawFriendResults" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistribution">
+			<http:operation location="/DrawDistribution" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByCountry">
+			<http:operation location="/DrawDistributionByCountry" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByForum">
+			<http:operation location="/DrawDistributionByForum" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByIdeology">
+			<http:operation location="/DrawDistributionByIdeology" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="MoralPoliticsHttpPost" type="tns:MoralPoliticsHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="MapCountries">
+			<http:operation location="/MapCountries" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListCountries">
+			<http:operation location="/ListCountries" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListForums">
+			<http:operation location="/ListForums" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetEmptyChart">
+			<http:operation location="/GetEmptyChart" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHelp2">
+			<http:operation location="/GetHelp2" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHelp">
+			<http:operation location="/GetHelp" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawMoralDimension">
+			<http:operation location="/DrawMoralDimension" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawMoralTrend">
+			<http:operation location="/DrawMoralTrend" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalSystem">
+			<http:operation location="/DrawPoliticalSystem" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalVariation">
+			<http:operation location="/DrawPoliticalVariation" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalMap">
+			<http:operation location="/DrawPoliticalMap" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawPoliticalIdeology">
+			<http:operation location="/DrawPoliticalIdeology" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetQuestions">
+			<http:operation location="/GetQuestions" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawUserResults">
+			<http:operation location="/DrawUserResults" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawFriendResults">
+			<http:operation location="/DrawFriendResults" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistribution">
+			<http:operation location="/DrawDistribution" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByCountry">
+			<http:operation location="/DrawDistributionByCountry" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByForum">
+			<http:operation location="/DrawDistributionByForum" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawDistributionByIdeology">
+			<http:operation location="/DrawDistributionByIdeology" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="MoralPolitics">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This SOAP/REST web service supports the Moral Politics Test.
+		</wsdl:documentation>
+		<wsdl:port name="MoralPoliticsSoap" binding="tns:MoralPoliticsSoap">
+			<soap:address location="http://www.moral-politics.com/xPolitics.asmx" />
+		</wsdl:port>
+		<wsdl:port name="MoralPoliticsSoap12" binding="tns:MoralPoliticsSoap12">
+			<soap12:address location="http://www.moral-politics.com/xPolitics.asmx" />
+		</wsdl:port>
+		<wsdl:port name="MoralPoliticsHttpGet" binding="tns:MoralPoliticsHttpGet">
+			<http:address location="http://www.moral-politics.com/xPolitics.asmx" />
+		</wsdl:port>
+		<wsdl:port name="MoralPoliticsHttpPost" binding="tns:MoralPoliticsHttpPost">
+			<http:address location="http://www.moral-politics.com/xPolitics.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

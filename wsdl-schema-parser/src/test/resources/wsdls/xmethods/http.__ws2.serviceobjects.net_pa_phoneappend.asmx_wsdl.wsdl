@@ -1,1 +1,262 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.serviceobjects.com/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://www.serviceobjects.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.serviceobjects.com/">      <s:element name="GetPhoneAppend">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetPhoneAppendResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetPhoneAppendResult" type="tns:PhoneInfo" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="PhoneInfo">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Contacts" type="tns:Contacts" />          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />          <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="Contacts">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Contact" type="tns:Contact" />        </s:sequence>      </s:complexType>      <s:complexType name="Contact">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="Err">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Desc" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="GetBusinessPhoneAppend">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="BusinessName" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetBusinessPhoneAppendResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetBusinessPhoneAppendResult" type="tns:PhoneInfo" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="PhoneInfo" nillable="true" type="tns:PhoneInfo" />    </s:schema>  </wsdl:types>  <wsdl:message name="GetPhoneAppendSoapIn">    <wsdl:part name="parameters" element="tns:GetPhoneAppend" />  </wsdl:message>  <wsdl:message name="GetPhoneAppendSoapOut">    <wsdl:part name="parameters" element="tns:GetPhoneAppendResponse" />  </wsdl:message>  <wsdl:message name="GetBusinessPhoneAppendSoapIn">    <wsdl:part name="parameters" element="tns:GetBusinessPhoneAppend" />  </wsdl:message>  <wsdl:message name="GetBusinessPhoneAppendSoapOut">    <wsdl:part name="parameters" element="tns:GetBusinessPhoneAppendResponse" />  </wsdl:message>  <wsdl:message name="GetPhoneAppendHttpGetIn">    <wsdl:part name="FirstName" type="s:string" />    <wsdl:part name="LastName" type="s:string" />    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="Zip" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPhoneAppendHttpGetOut">    <wsdl:part name="Body" element="tns:PhoneInfo" />  </wsdl:message>  <wsdl:message name="GetBusinessPhoneAppendHttpGetIn">    <wsdl:part name="BusinessName" type="s:string" />    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="Zip" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetBusinessPhoneAppendHttpGetOut">    <wsdl:part name="Body" element="tns:PhoneInfo" />  </wsdl:message>  <wsdl:message name="GetPhoneAppendHttpPostIn">    <wsdl:part name="FirstName" type="s:string" />    <wsdl:part name="LastName" type="s:string" />    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="Zip" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPhoneAppendHttpPostOut">    <wsdl:part name="Body" element="tns:PhoneInfo" />  </wsdl:message>  <wsdl:message name="GetBusinessPhoneAppendHttpPostIn">    <wsdl:part name="BusinessName" type="s:string" />    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="Zip" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetBusinessPhoneAppendHttpPostOut">    <wsdl:part name="Body" element="tns:PhoneInfo" />  </wsdl:message>  <wsdl:portType name="DOTSPhoneAppendSoap">    <wsdl:operation name="GetPhoneAppend">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the phone number for a given address and Name. All parameters are optional.</documentation>      <wsdl:input message="tns:GetPhoneAppendSoapIn" />      <wsdl:output message="tns:GetPhoneAppendSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetBusinessPhoneAppend">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the phone number for a business given the name and address. All parameters are optional.</documentation>      <wsdl:input message="tns:GetBusinessPhoneAppendSoapIn" />      <wsdl:output message="tns:GetBusinessPhoneAppendSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="DOTSPhoneAppendHttpGet">    <wsdl:operation name="GetPhoneAppend">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the phone number for a given address and Name. All parameters are optional.</documentation>      <wsdl:input message="tns:GetPhoneAppendHttpGetIn" />      <wsdl:output message="tns:GetPhoneAppendHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetBusinessPhoneAppend">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the phone number for a business given the name and address. All parameters are optional.</documentation>      <wsdl:input message="tns:GetBusinessPhoneAppendHttpGetIn" />      <wsdl:output message="tns:GetBusinessPhoneAppendHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="DOTSPhoneAppendHttpPost">    <wsdl:operation name="GetPhoneAppend">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the phone number for a given address and Name. All parameters are optional.</documentation>      <wsdl:input message="tns:GetPhoneAppendHttpPostIn" />      <wsdl:output message="tns:GetPhoneAppendHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetBusinessPhoneAppend">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the phone number for a business given the name and address. All parameters are optional.</documentation>      <wsdl:input message="tns:GetBusinessPhoneAppendHttpPostIn" />      <wsdl:output message="tns:GetBusinessPhoneAppendHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="DOTSPhoneAppendSoap" type="tns:DOTSPhoneAppendSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <wsdl:operation name="GetPhoneAppend">      <soap:operation soapAction="http://www.serviceobjects.com/GetPhoneAppend" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetBusinessPhoneAppend">      <soap:operation soapAction="http://www.serviceobjects.com/GetBusinessPhoneAppend" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="DOTSPhoneAppendHttpGet" type="tns:DOTSPhoneAppendHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetPhoneAppend">      <http:operation location="/GetPhoneAppend" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetBusinessPhoneAppend">      <http:operation location="/GetBusinessPhoneAppend" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="DOTSPhoneAppendHttpPost" type="tns:DOTSPhoneAppendHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetPhoneAppend">      <http:operation location="/GetPhoneAppend" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetBusinessPhoneAppend">      <http:operation location="/GetBusinessPhoneAppend" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="DOTSPhoneAppend">    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">For more information on our web services, visit us at &lt;a href='http://www.serviceobjects.com/products/default.asp' target='new'&gt;our website&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;&lt;a href='http://www.serviceobjects.com' target='new'&gt;&lt;img src='http://www.serviceobjects.com/images/so_logo_2_inside.gif' border='0'/&gt;&lt;/a&gt;</documentation>    <wsdl:port name="DOTSPhoneAppendSoap" binding="tns:DOTSPhoneAppendSoap">      <soap:address location="http://ws2.serviceobjects.net/pa/phoneappend.asmx" />    </wsdl:port>    <wsdl:port name="DOTSPhoneAppendHttpGet" binding="tns:DOTSPhoneAppendHttpGet">      <http:address location="http://ws2.serviceobjects.net/pa/phoneappend.asmx" />    </wsdl:port>    <wsdl:port name="DOTSPhoneAppendHttpPost" binding="tns:DOTSPhoneAppendHttpPost">      <http:address location="http://ws2.serviceobjects.net/pa/phoneappend.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.serviceobjects.com/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	targetNamespace="http://www.serviceobjects.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.serviceobjects.com/">
+			<s:element name="GetPhoneAppend">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetPhoneAppendResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetPhoneAppendResult" type="tns:PhoneInfo" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="PhoneInfo">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Contacts" type="tns:Contacts" />
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />
+					<s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Contacts">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Contact" type="tns:Contact" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Contact">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Err">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Desc" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetBusinessPhoneAppend">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="BusinessName" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetBusinessPhoneAppendResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetBusinessPhoneAppendResult" type="tns:PhoneInfo" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="PhoneInfo" nillable="true" type="tns:PhoneInfo" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetPhoneAppendSoapIn">
+		<wsdl:part name="parameters" element="tns:GetPhoneAppend" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneAppendSoapOut">
+		<wsdl:part name="parameters" element="tns:GetPhoneAppendResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetBusinessPhoneAppendSoapIn">
+		<wsdl:part name="parameters" element="tns:GetBusinessPhoneAppend" />
+	</wsdl:message>
+	<wsdl:message name="GetBusinessPhoneAppendSoapOut">
+		<wsdl:part name="parameters" element="tns:GetBusinessPhoneAppendResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneAppendHttpGetIn">
+		<wsdl:part name="FirstName" type="s:string" />
+		<wsdl:part name="LastName" type="s:string" />
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="Zip" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneAppendHttpGetOut">
+		<wsdl:part name="Body" element="tns:PhoneInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetBusinessPhoneAppendHttpGetIn">
+		<wsdl:part name="BusinessName" type="s:string" />
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="Zip" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetBusinessPhoneAppendHttpGetOut">
+		<wsdl:part name="Body" element="tns:PhoneInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneAppendHttpPostIn">
+		<wsdl:part name="FirstName" type="s:string" />
+		<wsdl:part name="LastName" type="s:string" />
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="Zip" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPhoneAppendHttpPostOut">
+		<wsdl:part name="Body" element="tns:PhoneInfo" />
+	</wsdl:message>
+	<wsdl:message name="GetBusinessPhoneAppendHttpPostIn">
+		<wsdl:part name="BusinessName" type="s:string" />
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="Zip" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetBusinessPhoneAppendHttpPostOut">
+		<wsdl:part name="Body" element="tns:PhoneInfo" />
+	</wsdl:message>
+	<wsdl:portType name="DOTSPhoneAppendSoap">
+		<wsdl:operation name="GetPhoneAppend">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the phone number for a given address and Name. All parameters are
+				optional.</documentation>
+			<wsdl:input message="tns:GetPhoneAppendSoapIn" />
+			<wsdl:output message="tns:GetPhoneAppendSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetBusinessPhoneAppend">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the phone number for a business given the name and address. All parameters
+				are optional.</documentation>
+			<wsdl:input message="tns:GetBusinessPhoneAppendSoapIn" />
+			<wsdl:output message="tns:GetBusinessPhoneAppendSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DOTSPhoneAppendHttpGet">
+		<wsdl:operation name="GetPhoneAppend">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the phone number for a given address and Name. All parameters are
+				optional.</documentation>
+			<wsdl:input message="tns:GetPhoneAppendHttpGetIn" />
+			<wsdl:output message="tns:GetPhoneAppendHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetBusinessPhoneAppend">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the phone number for a business given the name and address. All parameters
+				are optional.</documentation>
+			<wsdl:input message="tns:GetBusinessPhoneAppendHttpGetIn" />
+			<wsdl:output message="tns:GetBusinessPhoneAppendHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DOTSPhoneAppendHttpPost">
+		<wsdl:operation name="GetPhoneAppend">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the phone number for a given address and Name. All parameters are
+				optional.</documentation>
+			<wsdl:input message="tns:GetPhoneAppendHttpPostIn" />
+			<wsdl:output message="tns:GetPhoneAppendHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetBusinessPhoneAppend">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the phone number for a business given the name and address. All parameters
+				are optional.</documentation>
+			<wsdl:input message="tns:GetBusinessPhoneAppendHttpPostIn" />
+			<wsdl:output message="tns:GetBusinessPhoneAppendHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="DOTSPhoneAppendSoap" type="tns:DOTSPhoneAppendSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<wsdl:operation name="GetPhoneAppend">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetPhoneAppend" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetBusinessPhoneAppend">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetBusinessPhoneAppend" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="DOTSPhoneAppendHttpGet" type="tns:DOTSPhoneAppendHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetPhoneAppend">
+			<http:operation location="/GetPhoneAppend" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetBusinessPhoneAppend">
+			<http:operation location="/GetBusinessPhoneAppend" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="DOTSPhoneAppendHttpPost" type="tns:DOTSPhoneAppendHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetPhoneAppend">
+			<http:operation location="/GetPhoneAppend" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetBusinessPhoneAppend">
+			<http:operation location="/GetBusinessPhoneAppend" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="DOTSPhoneAppend">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">For more information on our web services, visit us at &lt;a
+			href='http://www.serviceobjects.com/products/default.asp' target='new'&gt;our
+			website&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;&lt;a href='http://www.serviceobjects.com' target='new'&gt;&lt;img
+			src='http://www.serviceobjects.com/images/so_logo_2_inside.gif' border='0'/&gt;&lt;/a&gt;</documentation>
+		<wsdl:port name="DOTSPhoneAppendSoap" binding="tns:DOTSPhoneAppendSoap">
+			<soap:address location="http://ws2.serviceobjects.net/pa/phoneappend.asmx" />
+		</wsdl:port>
+		<wsdl:port name="DOTSPhoneAppendHttpGet" binding="tns:DOTSPhoneAppendHttpGet">
+			<http:address location="http://ws2.serviceobjects.net/pa/phoneappend.asmx" />
+		</wsdl:port>
+		<wsdl:port name="DOTSPhoneAppendHttpPost" binding="tns:DOTSPhoneAppendHttpPost">
+			<http:address location="http://ws2.serviceobjects.net/pa/phoneappend.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

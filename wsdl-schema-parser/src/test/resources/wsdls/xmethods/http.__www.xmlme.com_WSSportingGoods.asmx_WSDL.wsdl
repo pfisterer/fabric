@@ -1,1 +1,70 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://xmlme.com/WebServices" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://xmlme.com/WebServices" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://xmlme.com/WebServices">      <s:element name="FindSportingGoods">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Search" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="FindSportingGoodsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="FindSportingGoodsResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>    </s:schema>  </wsdl:types>  <wsdl:message name="FindSportingGoodsSoapIn">    <wsdl:part name="parameters" element="tns:FindSportingGoods" />  </wsdl:message>  <wsdl:message name="FindSportingGoodsSoapOut">    <wsdl:part name="parameters" element="tns:FindSportingGoodsResponse" />  </wsdl:message>  <wsdl:portType name="SportingGoodsFinderSoap">    <wsdl:operation name="FindSportingGoods">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Accepts a search string and returns a URL pointing to the sporting goods search results. See http://www.xmlme.com for a sample client and additional details.</wsdl:documentation>      <wsdl:input message="tns:FindSportingGoodsSoapIn" />      <wsdl:output message="tns:FindSportingGoodsSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="SportingGoodsFinderSoap" type="tns:SportingGoodsFinderSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="FindSportingGoods">      <soap:operation soapAction="http://xmlme.com/WebServices/FindSportingGoods" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="SportingGoodsFinderSoap12" type="tns:SportingGoodsFinderSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="FindSportingGoods">      <soap12:operation soapAction="http://xmlme.com/WebServices/FindSportingGoods" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="SportingGoodsFinder">    <wsdl:port name="SportingGoodsFinderSoap" binding="tns:SportingGoodsFinderSoap">      <soap:address location="http://www.xmlme.com/WSSportingGoods.asmx" />    </wsdl:port>    <wsdl:port name="SportingGoodsFinderSoap12" binding="tns:SportingGoodsFinderSoap12">      <soap12:address location="http://www.xmlme.com/WSSportingGoods.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://xmlme.com/WebServices"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://xmlme.com/WebServices" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://xmlme.com/WebServices">
+			<s:element name="FindSportingGoods">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Search" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="FindSportingGoodsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="FindSportingGoodsResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="FindSportingGoodsSoapIn">
+		<wsdl:part name="parameters" element="tns:FindSportingGoods" />
+	</wsdl:message>
+	<wsdl:message name="FindSportingGoodsSoapOut">
+		<wsdl:part name="parameters" element="tns:FindSportingGoodsResponse" />
+	</wsdl:message>
+	<wsdl:portType name="SportingGoodsFinderSoap">
+		<wsdl:operation name="FindSportingGoods">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Accepts a search string and returns a URL pointing to the sporting
+				goods search results. See http://www.xmlme.com for a sample client and additional details.</wsdl:documentation>
+			<wsdl:input message="tns:FindSportingGoodsSoapIn" />
+			<wsdl:output message="tns:FindSportingGoodsSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="SportingGoodsFinderSoap" type="tns:SportingGoodsFinderSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="FindSportingGoods">
+			<soap:operation soapAction="http://xmlme.com/WebServices/FindSportingGoods" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="SportingGoodsFinderSoap12" type="tns:SportingGoodsFinderSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="FindSportingGoods">
+			<soap12:operation soapAction="http://xmlme.com/WebServices/FindSportingGoods" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="SportingGoodsFinder">
+		<wsdl:port name="SportingGoodsFinderSoap" binding="tns:SportingGoodsFinderSoap">
+			<soap:address location="http://www.xmlme.com/WSSportingGoods.asmx" />
+		</wsdl:port>
+		<wsdl:port name="SportingGoodsFinderSoap12" binding="tns:SportingGoodsFinderSoap12">
+			<soap12:address location="http://www.xmlme.com/WSSportingGoods.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

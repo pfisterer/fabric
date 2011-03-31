@@ -1,1 +1,73 @@
-<?xml version="1.0" encoding="utf-8"?><definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:impl="http://POST-impl" xmlns:intf="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://TRANSACTIONALWEB.COM">	<types>		<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://TRANSACTIONALWEB.COM">			<complexType name="Entry">				<sequence>					<element name="url" type="string" nillable="true"/>					<element name="fname" type="string" nillable="true"/>					<element name="addressline1" type="string" nillable="true"/>					<element name="addressline2" type="string" nillable="true"/>					<element name="addresscity" type="string" nillable="true"/>					<element name="addressstate" type="string" nillable="true"/>					<element name="addresspostalcode" type="string" nillable="true"/>					<element name="addresscountry" type="string" nillable="true"/>					<element name="distance" type="string" nillable="true"/>					<element name="contact" type="string" nillable="true"/>					<element name="phone" type="string" nillable="true"/>					<element name="email" type="string" nillable="true"/>				</sequence>			</complexType>			<element name="Entry" type="intf:Entry" nillable="true"/>			<complexType name="ArrayOfEntry">				<complexContent>					<restriction base="SOAP-ENC:Array">						<attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="intf:Entry[]"/>					</restriction>				</complexContent>			</complexType>			<element name="ArrayOfEntry" type="intf:ArrayOfEntry" nillable="true"/>		</schema>	</types>	<message name="findWithinRadiusResponse">		<part name="noname" type="intf:ArrayOfEntry"/>	</message>	<message name="ski">		<part name="latitude" type="xsd:string">			<documentation>Positive values for North Latitude, Negative values for South			</documentation>		</part>		<part name="longitude" type="xsd:string">			<documentation>Positive values for East Longitude, Negative values for West Longitude			</documentation>		</part>		<part name="radius" type="xsd:string">			<documentation>Units are in US Miles			</documentation>		</part>	</message>	<portType name="QueryInterface">		<operation name="findWithinRadius" parameterOrder="in0 in1">			<input message="intf:ski"/>			<output message="intf:findWithinRadiusResponse"/>		</operation>	</portType>	<binding name="locatorSoapBinding" type="intf:QueryInterface">		<wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>		<operation name="findWithinRadius">			<wsdlsoap:operation soapAction=""/>			<input>				<wsdlsoap:body use="encoded" namespace="http://TRANSACTIONALWEB.COM" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<wsdlsoap:body use="encoded" namespace="http://TRANSACTIONALWEB.COM" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>	</binding>	<service name="QueryInterfaceService">		<port name="LOCATOR" binding="intf:locatorSoapBinding">			<wsdlsoap:address location="http://www.skiwhere.com/soapserver.php"/>		</port>	</service></definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:impl="http://POST-impl" xmlns:intf="http://www.w3.org/2001/XMLSchema"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://TRANSACTIONALWEB.COM">
+	<types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+			xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://TRANSACTIONALWEB.COM">
+			<complexType name="Entry">
+				<sequence>
+					<element name="url" type="string" nillable="true" />
+					<element name="fname" type="string" nillable="true" />
+					<element name="addressline1" type="string" nillable="true" />
+					<element name="addressline2" type="string" nillable="true" />
+					<element name="addresscity" type="string" nillable="true" />
+					<element name="addressstate" type="string" nillable="true" />
+					<element name="addresspostalcode" type="string" nillable="true" />
+					<element name="addresscountry" type="string" nillable="true" />
+					<element name="distance" type="string" nillable="true" />
+					<element name="contact" type="string" nillable="true" />
+					<element name="phone" type="string" nillable="true" />
+					<element name="email" type="string" nillable="true" />
+				</sequence>
+			</complexType>
+			<element name="Entry" type="intf:Entry" nillable="true" />
+			<complexType name="ArrayOfEntry">
+				<complexContent>
+					<restriction base="SOAP-ENC:Array">
+						<attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="intf:Entry[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<element name="ArrayOfEntry" type="intf:ArrayOfEntry" nillable="true" />
+		</schema>
+	</types>
+	<message name="findWithinRadiusResponse">
+		<part name="noname" type="intf:ArrayOfEntry" />
+	</message>
+	<message name="ski">
+		<part name="latitude" type="xsd:string">
+			<documentation>Positive values for North Latitude, Negative values for South			</documentation>
+		</part>
+		<part name="longitude" type="xsd:string">
+			<documentation>Positive values for East Longitude, Negative values for West Longitude			</documentation>
+		</part>
+		<part name="radius" type="xsd:string">
+			<documentation>Units are in US Miles			</documentation>
+		</part>
+	</message>
+	<portType name="QueryInterface">
+		<operation name="findWithinRadius" parameterOrder="in0 in1">
+			<input message="intf:ski" />
+			<output message="intf:findWithinRadiusResponse" />
+		</operation>
+	</portType>
+	<binding name="locatorSoapBinding" type="intf:QueryInterface">
+		<wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="findWithinRadius">
+			<wsdlsoap:operation soapAction="" />
+			<input>
+				<wsdlsoap:body use="encoded" namespace="http://TRANSACTIONALWEB.COM" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<wsdlsoap:body use="encoded" namespace="http://TRANSACTIONALWEB.COM" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+	</binding>
+	<service name="QueryInterfaceService">
+		<port name="LOCATOR" binding="intf:locatorSoapBinding">
+			<wsdlsoap:address location="http://www.skiwhere.com/soapserver.php" />
+		</port>
+	</service>
+</definitions>

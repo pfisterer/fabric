@@ -1,1 +1,1589 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Statistics on US Housing.</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">      <s:element name="GetHousingSales">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Category" type="tns:SalesDataCategories" />            <s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:Regions" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Period" type="tns:Periods" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="SalesDataCategories">        <s:restriction base="s:string">          <s:enumeration value="ExistingHomeSales" />          <s:enumeration value="ExistingHomeSalesNotAdjusted" />          <s:enumeration value="ExistingCondoSales" />          <s:enumeration value="ExistingCondoSalesNotAdjusted" />          <s:enumeration value="ExistingSingleFamilySales" />          <s:enumeration value="ExistingSingleFamilySalesNotAdjusted" />          <s:enumeration value="NewHomeSales" />        </s:restriction>      </s:simpleType>      <s:simpleType name="Regions">        <s:restriction base="s:string">          <s:enumeration value="UnitedStates" />          <s:enumeration value="Northeast" />          <s:enumeration value="Midwest" />          <s:enumeration value="South" />          <s:enumeration value="West" />        </s:restriction>      </s:simpleType>      <s:simpleType name="Periods">        <s:restriction base="s:string">          <s:enumeration value="Year" />          <s:enumeration value="Quarter" />          <s:enumeration value="Month" />        </s:restriction>      </s:simpleType>      <s:element name="GetHousingSalesResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHousingSalesResult" type="tns:ArrayOfHousingStatisticsRecord" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfHousingStatisticsRecord">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="HousingStatisticsRecord" nillable="true" type="tns:HousingStatisticsRecord" />        </s:sequence>      </s:complexType>      <s:complexType name="HousingStatisticsRecord">        <s:complexContent mixed="false">          <s:extension base="tns:AbstractHousingDataObject">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="DataCategory" type="tns:DataCategories" />              <s:element minOccurs="1" maxOccurs="1" name="Region" type="tns:AllAreas" />              <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="Period" type="tns:Periods" />              <s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="AbstractHousingDataObject" abstract="true">        <s:complexContent mixed="false">          <s:extension base="tns:Common" />        </s:complexContent>      </s:complexType>      <s:complexType name="Common">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />        </s:sequence>      </s:complexType>      <s:simpleType name="OutcomeTypes">        <s:restriction base="s:string">          <s:enumeration value="Success" />          <s:enumeration value="SystemError" />          <s:enumeration value="RequestError" />          <s:enumeration value="RegistrationError" />        </s:restriction>      </s:simpleType>      <s:simpleType name="DataCategories">        <s:restriction base="s:string">          <s:enumeration value="Undefined" />          <s:enumeration value="ExistingHomeSales" />          <s:enumeration value="ExistingHomeSalesNotAdjusted" />          <s:enumeration value="ExistingCondoSales" />          <s:enumeration value="ExistingCondoSalesNotAdjusted" />          <s:enumeration value="ExistingSingleFamilySales" />          <s:enumeration value="ExistingSingleFamilySalesNotAdjusted" />          <s:enumeration value="NewHomeSales" />          <s:enumeration value="ExistingHomeMedianPrice" />          <s:enumeration value="ExistingHomeMeanPrice" />          <s:enumeration value="ExistingCondoMedianPrice" />          <s:enumeration value="ExistingCondoMeanPrice" />          <s:enumeration value="ExistingSingleFamilyMedianPrice" />          <s:enumeration value="ExistingSingleFamilyMeanPrice" />          <s:enumeration value="StarterHomeMedianPrice" />          <s:enumeration value="ExistingHomeInventory" />          <s:enumeration value="ExistingCondoInventory" />          <s:enumeration value="ExistingSingleFamilyInventory" />          <s:enumeration value="FirstTimeBuyerAffordability" />          <s:enumeration value="HousingAffordability" />          <s:enumeration value="HousingAffordabilityFRM" />          <s:enumeration value="HousingAffordabilityARM" />          <s:enumeration value="HousingStarts" />          <s:enumeration value="MedianFamilyIncome" />          <s:enumeration value="PendingHomeSalesIndex" />          <s:enumeration value="PendingHomeSalesIndexNotAdjusted" />          <s:enumeration value="MortgageRates" />          <s:enumeration value="MortgageApplications" />        </s:restriction>      </s:simpleType>      <s:simpleType name="AllAreas">        <s:restriction base="s:string">          <s:enumeration value="Undefined" />          <s:enumeration value="UnitedStates" />          <s:enumeration value="Northeast" />          <s:enumeration value="Midwest" />          <s:enumeration value="South" />          <s:enumeration value="West" />          <s:enumeration value="NewEngland" />          <s:enumeration value="MiddleAtlantic" />          <s:enumeration value="EastNorthCentral" />          <s:enumeration value="WestNorthCentral" />          <s:enumeration value="SouthAtlantic" />          <s:enumeration value="EastSouthCentral" />          <s:enumeration value="WestSouthCentral" />          <s:enumeration value="Mountain" />          <s:enumeration value="Pacific" />          <s:enumeration value="Connecticut" />          <s:enumeration value="Alabama" />          <s:enumeration value="Alaska" />          <s:enumeration value="Arizona" />          <s:enumeration value="Arkansas" />          <s:enumeration value="California" />          <s:enumeration value="Colorado" />          <s:enumeration value="Delaware" />          <s:enumeration value="DistrictofColumbia" />          <s:enumeration value="Florida" />          <s:enumeration value="Georgia" />          <s:enumeration value="Hawaii" />          <s:enumeration value="Idaho" />          <s:enumeration value="Illinois" />          <s:enumeration value="Indiana" />          <s:enumeration value="Iowa" />          <s:enumeration value="Kansas" />          <s:enumeration value="Kentucky" />          <s:enumeration value="Louisiana" />          <s:enumeration value="Maine" />          <s:enumeration value="Maryland" />          <s:enumeration value="Massachusetts" />          <s:enumeration value="Michigan" />          <s:enumeration value="Minnesota" />          <s:enumeration value="Mississippi" />          <s:enumeration value="Missouri" />          <s:enumeration value="Montana" />          <s:enumeration value="Nebraska" />          <s:enumeration value="Nevada" />          <s:enumeration value="NewHampshire" />          <s:enumeration value="NewJersey" />          <s:enumeration value="NewMexico" />          <s:enumeration value="NewYork" />          <s:enumeration value="NorthCarolina" />          <s:enumeration value="NorthDakota" />          <s:enumeration value="Ohio" />          <s:enumeration value="Oklahoma" />          <s:enumeration value="Oregon" />          <s:enumeration value="Pennsylvania" />          <s:enumeration value="RhodeIsland" />          <s:enumeration value="SouthCarolina" />          <s:enumeration value="SouthDakota" />          <s:enumeration value="Tennessee" />          <s:enumeration value="Texas" />          <s:enumeration value="Utah" />          <s:enumeration value="Vermont" />          <s:enumeration value="Virginia" />          <s:enumeration value="Washington" />          <s:enumeration value="WestVirginia" />          <s:enumeration value="Wisconsin" />          <s:enumeration value="Wyoming" />          <s:enumeration value="Akron_OH" />          <s:enumeration value="Albany_Schenectady_Troy_NY" />          <s:enumeration value="Albuquerque_NM" />          <s:enumeration value="Allentown_Bethlehem_Easton_PA_NJ" />          <s:enumeration value="Amarillo_TX" />          <s:enumeration value="Anaheim_SantaAna_CA" />          <s:enumeration value="Appleton_WI" />          <s:enumeration value="Atlanta_SandySprings_Marietta_GA" />          <s:enumeration value="AtlanticCity_NJ" />          <s:enumeration value="Austin_RoundRock_TX" />          <s:enumeration value="Baltimore_Towson_MD" />          <s:enumeration value="BarnstableTown_MA" />          <s:enumeration value="BatonRouge_LA" />          <s:enumeration value="Beaumont_PortArthur_TX" />          <s:enumeration value="Binghamton_NY" />          <s:enumeration value="Birmingham_Hoover_AL" />          <s:enumeration value="Bismarck_ND" />          <s:enumeration value="Bloomington_Normal_IL" />          <s:enumeration value="BoiseCity_Nampa_ID" />          <s:enumeration value="Boston_Cambridge_Quincy_MA_NH" />          <s:enumeration value="Boulder_CO" />          <s:enumeration value="Bridgeport_Stamford_Norwalk_CT" />          <s:enumeration value="Buffalo_NiagaraFalls_NY" />          <s:enumeration value="Canton_Massillon_OH" />          <s:enumeration value="CapeCoral_FortMyers_FL" />          <s:enumeration value="CedarRapids_IA" />          <s:enumeration value="Champaign_Urbana_IL" />          <s:enumeration value="Charleston_NorthCharleston_SC" />          <s:enumeration value="Charleston_WV" />          <s:enumeration value="Charlotte_Gastonia_Concord_NC_SC" />          <s:enumeration value="Chattanooga_TN_GA" />          <s:enumeration value="Chicago_Naperville_Joliet_IL" />          <s:enumeration value="Cincinnati_Middletown_OH_KY_IN" />          <s:enumeration value="Cleveland_Elyria_Mentor_OH" />          <s:enumeration value="ColordoSprings_CO" />          <s:enumeration value="Columbia_MO" />          <s:enumeration value="Columbia_SC" />          <s:enumeration value="Columbus_OH" />          <s:enumeration value="CorpusChristi_TX" />          <s:enumeration value="Cumberland_MD_WV" />          <s:enumeration value="Dallas_FortWorth_Arlington_TX" />          <s:enumeration value="Danville_IL" />          <s:enumeration value="Davenport_Moline_RockIsland_IA_IL" />          <s:enumeration value="Dayton_OH" />          <s:enumeration value="Decatur_IL" />          <s:enumeration value="Deltona_DaytonaBeach_OrmondBeach_FL" />          <s:enumeration value="Denver_Aurora_CO" />          <s:enumeration value="DesMoines_IA" />          <s:enumeration value="Detroit_Warren_Livonia_MI" />          <s:enumeration value="Dover_DE" />          <s:enumeration value="Durham_NC" />          <s:enumeration value="Edison_NJ" />          <s:enumeration value="Elmira_NY" />          <s:enumeration value="ElPaso_TX" />          <s:enumeration value="Erie_PA" />          <s:enumeration value="Eugene_Springfield_OR" />          <s:enumeration value="Fargo_ND_MN" />          <s:enumeration value="Farmington_NM" />          <s:enumeration value="Florence_SC" />          <s:enumeration value="FtWayne_IN" />          <s:enumeration value="Gainesville_FL" />          <s:enumeration value="Gary_Hammond_IN" />          <s:enumeration value="GlensFalls_NY" />          <s:enumeration value="GrandRapids_MI" />          <s:enumeration value="GreenBay_WI" />          <s:enumeration value="Greensboro_HighPoint_NC" />          <s:enumeration value="Greenville_SC" />          <s:enumeration value="Gulfport_Biloxi_MS" />          <s:enumeration value="Hagerstown_Martinsburg_MD_WV" />          <s:enumeration value="Hartford_WestHartford_EastHartford_CT" />          <s:enumeration value="Honolulu_HI" />          <s:enumeration value="Houston_Baytown_SugarLand_TX" />          <s:enumeration value="Indianapolis_IN" />          <s:enumeration value="Jackson_MS" />          <s:enumeration value="Jacksonville_FL" />          <s:enumeration value="Kalamazoo_Portage_MI" />          <s:enumeration value="Kankakee_Bradley_IL" />          <s:enumeration value="KansasCity_MO_KS" />          <s:enumeration value="Kennewick_Richland_Pasco_WA" />          <s:enumeration value="Kingston_NY" />          <s:enumeration value="Knoxville_TN" />          <s:enumeration value="Lansing_ELansing_MI" />          <s:enumeration value="LasVegas_Paradise_NV" />          <s:enumeration value="Lexington_Fayette_KY" />          <s:enumeration value="Lincoln_NE" />          <s:enumeration value="LittleRock_NLittleRock_AR" />          <s:enumeration value="LosAngeles_LongBeach_SantaAna_CA" />          <s:enumeration value="Louisville_KY_IN" />          <s:enumeration value="Madison_WI" />          <s:enumeration value="Manchester_Nashua_NH" />          <s:enumeration value="Memphis_TN_MS_AR" />          <s:enumeration value="Miami_FortLauderdale_MiamiBeach_FL" />          <s:enumeration value="Milwaukee_Waukesha_WestAllis_WI" />          <s:enumeration value="Minneapolis_StPaul_Bloomington_MN_WI" />          <s:enumeration value="Mobile_AL" />          <s:enumeration value="Montgomery_AL" />          <s:enumeration value="Nashville_Davidson__Murfreesboro_TN" />          <s:enumeration value="Nassau_Suffolk_NY" />          <s:enumeration value="Newark_Union_NJ_PA" />          <s:enumeration value="NewHaven_Milford_CT" />          <s:enumeration value="NewOrleans_Metairie_Kenner_LA" />          <s:enumeration value="NewYork_NorthernNewJersey_LongIsland_NY_NJ_PA" />          <s:enumeration value="NewYork_Wayne_WhitePlains_NY_NJ" />          <s:enumeration value="Norwich_NewLondon_CT" />          <s:enumeration value="Ocala_FL" />          <s:enumeration value="OklahomaCity_OK" />          <s:enumeration value="Omaha_NE_IA" />          <s:enumeration value="Orlando_FL" />          <s:enumeration value="PalmBay_Melbourne_Titusville_FL" />          <s:enumeration value="Pensacola_FerryPass_Brent_FL" />          <s:enumeration value="Peoria_IL" />          <s:enumeration value="Philadelphia_Camden_Wilmington_PA_NJ_DE_MD" />          <s:enumeration value="Phoenix_Mesa_Scottsdale_AZ" />          <s:enumeration value="Pittsburgh_PA" />          <s:enumeration value="Pittsfield_MA" />          <s:enumeration value="Portland_SouthPortland_Biddeford_ME" />          <s:enumeration value="Portland_Vancouver_Beaverton_OR_WA" />          <s:enumeration value="Providence_NewBedford_FallRiver_RI_MA" />          <s:enumeration value="Raleigh_Cary_NC" />          <s:enumeration value="Reading_PA" />          <s:enumeration value="Reno_Sparks_NV" />          <s:enumeration value="Richmond_VA" />          <s:enumeration value="Riverside_SanBernardino_Ontario_CA" />          <s:enumeration value="Rochester_NY" />          <s:enumeration value="Rockford_IL" />          <s:enumeration value="Sacramento__Arden_Arcade__Roseville_CA" />          <s:enumeration value="Saginaw_SaginawTownshipNorth_MI" />          <s:enumeration value="SaintLouis_MO_IL" />          <s:enumeration value="Salem_OR" />          <s:enumeration value="SaltLakeCity_UT" />          <s:enumeration value="SanAntonio_TX" />          <s:enumeration value="SanDiego_Carlsbad_SanMarcos_CA" />          <s:enumeration value="SanFrancisco_Oakland_Fremont_CA" />          <s:enumeration value="SanJose_Sunnyvale_SantaClara_CA" />          <s:enumeration value="Sarasota_Bradenton_Venice_FL" />          <s:enumeration value="Seattle_Tacoma_Bellevue_WA" />          <s:enumeration value="Shreveport_BossierCity_LA" />          <s:enumeration value="SiouxFalls_SD" />          <s:enumeration value="SouthBend_Mishawaka_IN" />          <s:enumeration value="Spartanburg_SC" />          <s:enumeration value="Spokane_WA" />          <s:enumeration value="Springfield_IL" />          <s:enumeration value="Springfield_MA" />          <s:enumeration value="Springfield_MO" />          <s:enumeration value="Syracuse_NY" />          <s:enumeration value="Tallahassee_FL" />          <s:enumeration value="Tampa_StPetersburg_Clearwater_FL" />          <s:enumeration value="Toledo_OH" />          <s:enumeration value="Topeka_KS" />          <s:enumeration value="Trenton_Ewing_NJ" />          <s:enumeration value="Tucson_AZ" />          <s:enumeration value="Tulsa_OK" />          <s:enumeration value="VirginiaBeach_Norfolk_NewportNews_VA_NC" />          <s:enumeration value="Washington_Arlington_Alexandria_DC_VA_MD_WV" />          <s:enumeration value="Waterloo_CedarFalls_IA" />          <s:enumeration value="Wichita_KS" />          <s:enumeration value="Worcester_MA" />          <s:enumeration value="Yakima_WA" />          <s:enumeration value="Youngstown_Warren_Boardman_OH_PA" />        </s:restriction>      </s:simpleType>      <s:element name="Header" type="tns:Header" />      <s:complexType name="Header">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />        </s:sequence>        <s:anyAttribute />      </s:complexType>      <s:element name="GetHousingSalesByState">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Category" type="tns:StateSalesDataCategories" />            <s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:States" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Period" type="tns:Periods" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="StateSalesDataCategories">        <s:restriction base="s:string">          <s:enumeration value="ExistingHomeSales" />        </s:restriction>      </s:simpleType>      <s:simpleType name="States">        <s:restriction base="s:string">          <s:enumeration value="Connecticut" />          <s:enumeration value="Alabama" />          <s:enumeration value="Alaska" />          <s:enumeration value="Arizona" />          <s:enumeration value="Arkansas" />          <s:enumeration value="California" />          <s:enumeration value="Colorado" />          <s:enumeration value="Delaware" />          <s:enumeration value="DistrictofColumbia" />          <s:enumeration value="Florida" />          <s:enumeration value="Georgia" />          <s:enumeration value="Hawaii" />          <s:enumeration value="Idaho" />          <s:enumeration value="Illinois" />          <s:enumeration value="Indiana" />          <s:enumeration value="Iowa" />          <s:enumeration value="Kansas" />          <s:enumeration value="Kentucky" />          <s:enumeration value="Louisiana" />          <s:enumeration value="Maine" />          <s:enumeration value="Maryland" />          <s:enumeration value="Massachusetts" />          <s:enumeration value="Michigan" />          <s:enumeration value="Minnesota" />          <s:enumeration value="Mississippi" />          <s:enumeration value="Missouri" />          <s:enumeration value="Montana" />          <s:enumeration value="Nebraska" />          <s:enumeration value="Nevada" />          <s:enumeration value="NewHampshire" />          <s:enumeration value="NewJersey" />          <s:enumeration value="NewMexico" />          <s:enumeration value="NewYork" />          <s:enumeration value="NorthCarolina" />          <s:enumeration value="NorthDakota" />          <s:enumeration value="Ohio" />          <s:enumeration value="Oklahoma" />          <s:enumeration value="Oregon" />          <s:enumeration value="Pennsylvania" />          <s:enumeration value="RhodeIsland" />          <s:enumeration value="SouthCarolina" />          <s:enumeration value="SouthDakota" />          <s:enumeration value="Tennessee" />          <s:enumeration value="Texas" />          <s:enumeration value="Utah" />          <s:enumeration value="Vermont" />          <s:enumeration value="Virginia" />          <s:enumeration value="Washington" />          <s:enumeration value="WestVirginia" />          <s:enumeration value="Wisconsin" />          <s:enumeration value="Wyoming" />        </s:restriction>      </s:simpleType>      <s:element name="GetHousingSalesByStateResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHousingSalesByStateResult" type="tns:ArrayOfHousingStatisticsRecord" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHousingPrices">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Category" type="tns:PriceDataCategories" />            <s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:Regions" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Period" type="tns:Periods" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="PriceDataCategories">        <s:restriction base="s:string">          <s:enumeration value="ExistingHomeMedianPrice" />          <s:enumeration value="ExistingHomeMeanPrice" />          <s:enumeration value="ExistingCondoMedianPrice" />          <s:enumeration value="ExistingCondoMeanPrice" />          <s:enumeration value="ExistingSingleFamilyMedianPrice" />          <s:enumeration value="ExistingSingleFamilyMeanPrice" />          <s:enumeration value="StarterHomeMedianPrice" />        </s:restriction>      </s:simpleType>      <s:element name="GetHousingPricesResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHousingPricesResult" type="tns:ArrayOfHousingStatisticsRecord" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHousingPricesByMetroArea">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Category" type="tns:MetroAreaPriceDataCategories" />            <s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:MetropolitanStatisticalAreas" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Period" type="tns:Periods" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="MetroAreaPriceDataCategories">        <s:restriction base="s:string">          <s:enumeration value="ExistingCondoMedianPrice" />          <s:enumeration value="ExistingSingleFamilyMedianPrice" />        </s:restriction>      </s:simpleType>      <s:simpleType name="MetropolitanStatisticalAreas">        <s:restriction base="s:string">          <s:enumeration value="Akron_OH" />          <s:enumeration value="Albany_Schenectady_Troy_NY" />          <s:enumeration value="Albuquerque_NM" />          <s:enumeration value="Allentown_Bethlehem_Easton_PA_NJ" />          <s:enumeration value="Amarillo_TX" />          <s:enumeration value="Anaheim_SantaAna_CA" />          <s:enumeration value="Appleton_WI" />          <s:enumeration value="Atlanta_SandySprings_Marietta_GA" />          <s:enumeration value="AtlanticCity_NJ" />          <s:enumeration value="Austin_RoundRock_TX" />          <s:enumeration value="Baltimore_Towson_MD" />          <s:enumeration value="BarnstableTown_MA" />          <s:enumeration value="BatonRouge_LA" />          <s:enumeration value="Beaumont_PortArthur_TX" />          <s:enumeration value="Binghamton_NY" />          <s:enumeration value="Birmingham_Hoover_AL" />          <s:enumeration value="Bismarck_ND" />          <s:enumeration value="Bloomington_Normal_IL" />          <s:enumeration value="BoiseCity_Nampa_ID" />          <s:enumeration value="Boston_Cambridge_Quincy_MA_NH" />          <s:enumeration value="Boulder_CO" />          <s:enumeration value="Bridgeport_Stamford_Norwalk_CT" />          <s:enumeration value="Buffalo_NiagaraFalls_NY" />          <s:enumeration value="Canton_Massillon_OH" />          <s:enumeration value="CapeCoral_FortMyers_FL" />          <s:enumeration value="CedarRapids_IA" />          <s:enumeration value="Champaign_Urbana_IL" />          <s:enumeration value="Charleston_NorthCharleston_SC" />          <s:enumeration value="Charleston_WV" />          <s:enumeration value="Charlotte_Gastonia_Concord_NC_SC" />          <s:enumeration value="Chattanooga_TN_GA" />          <s:enumeration value="Chicago_Naperville_Joliet_IL" />          <s:enumeration value="Cincinnati_Middletown_OH_KY_IN" />          <s:enumeration value="Cleveland_Elyria_Mentor_OH" />          <s:enumeration value="ColordoSprings_CO" />          <s:enumeration value="Columbia_MO" />          <s:enumeration value="Columbia_SC" />          <s:enumeration value="Columbus_OH" />          <s:enumeration value="CorpusChristi_TX" />          <s:enumeration value="Cumberland_MD_WV" />          <s:enumeration value="Dallas_FortWorth_Arlington_TX" />          <s:enumeration value="Danville_IL" />          <s:enumeration value="Davenport_Moline_RockIsland_IA_IL" />          <s:enumeration value="Dayton_OH" />          <s:enumeration value="Decatur_IL" />          <s:enumeration value="Deltona_DaytonaBeach_OrmondBeach_FL" />          <s:enumeration value="Denver_Aurora_CO" />          <s:enumeration value="DesMoines_IA" />          <s:enumeration value="Detroit_Warren_Livonia_MI" />          <s:enumeration value="Dover_DE" />          <s:enumeration value="Durham_NC" />          <s:enumeration value="Edison_NJ" />          <s:enumeration value="Elmira_NY" />          <s:enumeration value="ElPaso_TX" />          <s:enumeration value="Erie_PA" />          <s:enumeration value="Eugene_Springfield_OR" />          <s:enumeration value="Fargo_ND_MN" />          <s:enumeration value="Farmington_NM" />          <s:enumeration value="Florence_SC" />          <s:enumeration value="FtWayne_IN" />          <s:enumeration value="Gainesville_FL" />          <s:enumeration value="Gary_Hammond_IN" />          <s:enumeration value="GlensFalls_NY" />          <s:enumeration value="GrandRapids_MI" />          <s:enumeration value="GreenBay_WI" />          <s:enumeration value="Greensboro_HighPoint_NC" />          <s:enumeration value="Greenville_SC" />          <s:enumeration value="Gulfport_Biloxi_MS" />          <s:enumeration value="Hagerstown_Martinsburg_MD_WV" />          <s:enumeration value="Hartford_WestHartford_EastHartford_CT" />          <s:enumeration value="Honolulu_HI" />          <s:enumeration value="Houston_Baytown_SugarLand_TX" />          <s:enumeration value="Indianapolis_IN" />          <s:enumeration value="Jackson_MS" />          <s:enumeration value="Jacksonville_FL" />          <s:enumeration value="Kalamazoo_Portage_MI" />          <s:enumeration value="Kankakee_Bradley_IL" />          <s:enumeration value="KansasCity_MO_KS" />          <s:enumeration value="Kennewick_Richland_Pasco_WA" />          <s:enumeration value="Kingston_NY" />          <s:enumeration value="Knoxville_TN" />          <s:enumeration value="Lansing_ELansing_MI" />          <s:enumeration value="LasVegas_Paradise_NV" />          <s:enumeration value="Lexington_Fayette_KY" />          <s:enumeration value="Lincoln_NE" />          <s:enumeration value="LittleRock_NLittleRock_AR" />          <s:enumeration value="LosAngeles_LongBeach_SantaAna_CA" />          <s:enumeration value="Louisville_KY_IN" />          <s:enumeration value="Madison_WI" />          <s:enumeration value="Manchester_Nashua_NH" />          <s:enumeration value="Memphis_TN_MS_AR" />          <s:enumeration value="Miami_FortLauderdale_MiamiBeach_FL" />          <s:enumeration value="Milwaukee_Waukesha_WestAllis_WI" />          <s:enumeration value="Minneapolis_StPaul_Bloomington_MN_WI" />          <s:enumeration value="Mobile_AL" />          <s:enumeration value="Montgomery_AL" />          <s:enumeration value="Nashville_Davidson__Murfreesboro_TN" />          <s:enumeration value="Nassau_Suffolk_NY" />          <s:enumeration value="Newark_Union_NJ_PA" />          <s:enumeration value="NewHaven_Milford_CT" />          <s:enumeration value="NewOrleans_Metairie_Kenner_LA" />          <s:enumeration value="NewYork_NorthernNewJersey_LongIsland_NY_NJ_PA" />          <s:enumeration value="NewYork_Wayne_WhitePlains_NY_NJ" />          <s:enumeration value="Norwich_NewLondon_CT" />          <s:enumeration value="Ocala_FL" />          <s:enumeration value="OklahomaCity_OK" />          <s:enumeration value="Omaha_NE_IA" />          <s:enumeration value="Orlando_FL" />          <s:enumeration value="PalmBay_Melbourne_Titusville_FL" />          <s:enumeration value="Pensacola_FerryPass_Brent_FL" />          <s:enumeration value="Peoria_IL" />          <s:enumeration value="Philadelphia_Camden_Wilmington_PA_NJ_DE_MD" />          <s:enumeration value="Phoenix_Mesa_Scottsdale_AZ" />          <s:enumeration value="Pittsburgh_PA" />          <s:enumeration value="Pittsfield_MA" />          <s:enumeration value="Portland_SouthPortland_Biddeford_ME" />          <s:enumeration value="Portland_Vancouver_Beaverton_OR_WA" />          <s:enumeration value="Providence_NewBedford_FallRiver_RI_MA" />          <s:enumeration value="Raleigh_Cary_NC" />          <s:enumeration value="Reading_PA" />          <s:enumeration value="Reno_Sparks_NV" />          <s:enumeration value="Richmond_VA" />          <s:enumeration value="Riverside_SanBernardino_Ontario_CA" />          <s:enumeration value="Rochester_NY" />          <s:enumeration value="Rockford_IL" />          <s:enumeration value="Sacramento__Arden_Arcade__Roseville_CA" />          <s:enumeration value="Saginaw_SaginawTownshipNorth_MI" />          <s:enumeration value="SaintLouis_MO_IL" />          <s:enumeration value="Salem_OR" />          <s:enumeration value="SaltLakeCity_UT" />          <s:enumeration value="SanAntonio_TX" />          <s:enumeration value="SanDiego_Carlsbad_SanMarcos_CA" />          <s:enumeration value="SanFrancisco_Oakland_Fremont_CA" />          <s:enumeration value="SanJose_Sunnyvale_SantaClara_CA" />          <s:enumeration value="Sarasota_Bradenton_Venice_FL" />          <s:enumeration value="Seattle_Tacoma_Bellevue_WA" />          <s:enumeration value="Shreveport_BossierCity_LA" />          <s:enumeration value="SiouxFalls_SD" />          <s:enumeration value="SouthBend_Mishawaka_IN" />          <s:enumeration value="Spartanburg_SC" />          <s:enumeration value="Spokane_WA" />          <s:enumeration value="Springfield_IL" />          <s:enumeration value="Springfield_MA" />          <s:enumeration value="Springfield_MO" />          <s:enumeration value="Syracuse_NY" />          <s:enumeration value="Tallahassee_FL" />          <s:enumeration value="Tampa_StPetersburg_Clearwater_FL" />          <s:enumeration value="Toledo_OH" />          <s:enumeration value="Topeka_KS" />          <s:enumeration value="Trenton_Ewing_NJ" />          <s:enumeration value="Tucson_AZ" />          <s:enumeration value="Tulsa_OK" />          <s:enumeration value="VirginiaBeach_Norfolk_NewportNews_VA_NC" />          <s:enumeration value="Washington_Arlington_Alexandria_DC_VA_MD_WV" />          <s:enumeration value="Waterloo_CedarFalls_IA" />          <s:enumeration value="Wichita_KS" />          <s:enumeration value="Worcester_MA" />          <s:enumeration value="Yakima_WA" />          <s:enumeration value="Youngstown_Warren_Boardman_OH_PA" />        </s:restriction>      </s:simpleType>      <s:element name="GetHousingPricesByMetroAreaResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHousingPricesByMetroAreaResult" type="tns:ArrayOfHousingStatisticsRecord" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHistoricalIndicators">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Category" type="tns:IndicatorDataCategories" />            <s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:Regions" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Period" type="tns:Periods" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="IndicatorDataCategories">        <s:restriction base="s:string">          <s:enumeration value="ExistingHomeInventory" />          <s:enumeration value="ExistingCondoInventory" />          <s:enumeration value="ExistingSingleFamilyInventory" />          <s:enumeration value="FirstTimeBuyerAffordability" />          <s:enumeration value="HousingAffordability" />          <s:enumeration value="HousingAffordabilityFRM" />          <s:enumeration value="HousingAffordabilityARM" />          <s:enumeration value="HousingStarts" />          <s:enumeration value="MedianFamilyIncome" />          <s:enumeration value="PendingHomeSalesIndex" />          <s:enumeration value="PendingHomeSalesIndexNotAdjusted" />        </s:restriction>      </s:simpleType>      <s:element name="GetHistoricalIndicatorsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHistoricalIndicatorsResult" type="tns:ArrayOfHousingStatisticsRecord" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHousingIndicators">        <s:complexType />      </s:element>      <s:element name="GetHousingIndicatorsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHousingIndicatorsResult" type="tns:ArrayOfHousingIndicator" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfHousingIndicator">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="HousingIndicator" nillable="true" type="tns:HousingIndicator" />        </s:sequence>      </s:complexType>      <s:complexType name="HousingIndicator">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:IndicatorTypes" />              <s:element minOccurs="0" maxOccurs="1" name="ReleaseDate" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />              <s:element minOccurs="0" maxOccurs="1" name="Unit" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:simpleType name="IndicatorTypes">        <s:restriction base="s:string">          <s:enumeration value="MortgageRates" />          <s:enumeration value="MortgageApplications" />          <s:enumeration value="ExistingHomeSales" />          <s:enumeration value="NewHomeSales" />          <s:enumeration value="HousingAffordability" />          <s:enumeration value="HousingStarts" />          <s:enumeration value="PendingHomeSalesIndex" />        </s:restriction>      </s:simpleType>      <s:element name="GetYearlyPermits">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="FromYear" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="ToYear" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="Option" type="tns:OptionTypes" />            <s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:AreaTypes" />            <s:element minOccurs="1" maxOccurs="1" name="IncludeSubAreas" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="OptionTypes">        <s:restriction base="s:string">          <s:enumeration value="ByUnits" />          <s:enumeration value="ByValue" />        </s:restriction>      </s:simpleType>      <s:simpleType name="AreaTypes">        <s:restriction base="s:string">          <s:enumeration value="UnitedStates" />          <s:enumeration value="Northeast" />          <s:enumeration value="Midwest" />          <s:enumeration value="South" />          <s:enumeration value="West" />          <s:enumeration value="NewEngland" />          <s:enumeration value="MiddleAtlantic" />          <s:enumeration value="EastNorthCentral" />          <s:enumeration value="WestNorthCentral" />          <s:enumeration value="SouthAtlantic" />          <s:enumeration value="EastSouthCentral" />          <s:enumeration value="WestSouthCentral" />          <s:enumeration value="Mountain" />          <s:enumeration value="Pacific" />          <s:enumeration value="Connecticut" />          <s:enumeration value="Alabama" />          <s:enumeration value="Alaska" />          <s:enumeration value="Arizona" />          <s:enumeration value="Arkansas" />          <s:enumeration value="California" />          <s:enumeration value="Colorado" />          <s:enumeration value="Delaware" />          <s:enumeration value="DistrictofColumbia" />          <s:enumeration value="Florida" />          <s:enumeration value="Georgia" />          <s:enumeration value="Hawaii" />          <s:enumeration value="Idaho" />          <s:enumeration value="Illinois" />          <s:enumeration value="Indiana" />          <s:enumeration value="Iowa" />          <s:enumeration value="Kansas" />          <s:enumeration value="Kentucky" />          <s:enumeration value="Louisiana" />          <s:enumeration value="Maine" />          <s:enumeration value="Maryland" />          <s:enumeration value="Massachusetts" />          <s:enumeration value="Michigan" />          <s:enumeration value="Minnesota" />          <s:enumeration value="Mississippi" />          <s:enumeration value="Missouri" />          <s:enumeration value="Montana" />          <s:enumeration value="Nebraska" />          <s:enumeration value="Nevada" />          <s:enumeration value="NewHampshire" />          <s:enumeration value="NewJersey" />          <s:enumeration value="NewMexico" />          <s:enumeration value="NewYork" />          <s:enumeration value="NorthCarolina" />          <s:enumeration value="NorthDakota" />          <s:enumeration value="Ohio" />          <s:enumeration value="Oklahoma" />          <s:enumeration value="Oregon" />          <s:enumeration value="Pennsylvania" />          <s:enumeration value="RhodeIsland" />          <s:enumeration value="SouthCarolina" />          <s:enumeration value="SouthDakota" />          <s:enumeration value="Tennessee" />          <s:enumeration value="Texas" />          <s:enumeration value="Utah" />          <s:enumeration value="Vermont" />          <s:enumeration value="Virginia" />          <s:enumeration value="Washington" />          <s:enumeration value="WestVirginia" />          <s:enumeration value="Wisconsin" />          <s:enumeration value="Wyoming" />        </s:restriction>      </s:simpleType>      <s:element name="GetYearlyPermitsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetYearlyPermitsResult" type="tns:ArrayOfYearlyByState" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfYearlyByState">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="YearlyByState" nillable="true" type="tns:YearlyByState" />        </s:sequence>      </s:complexType>      <s:complexType name="YearlyByState">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="Year" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:OptionTypes" />              <s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:AreaTypes" />              <s:element minOccurs="0" maxOccurs="1" name="Records" type="tns:ArrayOfRecord" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="ArrayOfRecord">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Record" nillable="true" type="tns:Record" />        </s:sequence>      </s:complexType>      <s:complexType name="Record">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="ValueType" type="tns:ValueTypes" />          <s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />        </s:sequence>      </s:complexType>      <s:simpleType name="ValueTypes">        <s:restriction base="s:string">          <s:enumeration value="TotalUnits" />          <s:enumeration value="OneUnit" />          <s:enumeration value="TwoUnits" />          <s:enumeration value="ThreeOrFourUnits" />          <s:enumeration value="FiveUnitsOrMore" />          <s:enumeration value="StructuresWithFiveUnitsOrMore" />        </s:restriction>      </s:simpleType>      <s:element name="GetMonthlyPermits">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="FromDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ToDate" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Option" type="tns:OptionTypes" />            <s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:AreaTypes" />            <s:element minOccurs="1" maxOccurs="1" name="IncludeSubAreas" type="s:boolean" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetMonthlyPermitsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetMonthlyPermitsResult" type="tns:ArrayOfMonthlyByState" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfMonthlyByState">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="MonthlyByState" nillable="true" type="tns:MonthlyByState" />        </s:sequence>      </s:complexType>      <s:complexType name="MonthlyByState">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="Year" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="Month" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:AreaTypes" />              <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:OptionTypes" />              <s:element minOccurs="0" maxOccurs="1" name="Records" type="tns:ArrayOfRecord" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="ArrayOfHousingStatisticsRecord" nillable="true" type="tns:ArrayOfHousingStatisticsRecord" />      <s:element name="ArrayOfHousingIndicator" nillable="true" type="tns:ArrayOfHousingIndicator" />      <s:element name="ArrayOfYearlyByState" nillable="true" type="tns:ArrayOfYearlyByState" />      <s:element name="ArrayOfMonthlyByState" nillable="true" type="tns:ArrayOfMonthlyByState" />    </s:schema>  </wsdl:types>  <wsdl:message name="GetHousingSalesSoapIn">    <wsdl:part name="parameters" element="tns:GetHousingSales" />  </wsdl:message>  <wsdl:message name="GetHousingSalesSoapOut">    <wsdl:part name="parameters" element="tns:GetHousingSalesResponse" />  </wsdl:message>  <wsdl:message name="GetHousingSalesHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetHousingSalesByStateSoapIn">    <wsdl:part name="parameters" element="tns:GetHousingSalesByState" />  </wsdl:message>  <wsdl:message name="GetHousingSalesByStateSoapOut">    <wsdl:part name="parameters" element="tns:GetHousingSalesByStateResponse" />  </wsdl:message>  <wsdl:message name="GetHousingSalesByStateHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetHousingPricesSoapIn">    <wsdl:part name="parameters" element="tns:GetHousingPrices" />  </wsdl:message>  <wsdl:message name="GetHousingPricesSoapOut">    <wsdl:part name="parameters" element="tns:GetHousingPricesResponse" />  </wsdl:message>  <wsdl:message name="GetHousingPricesHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetHousingPricesByMetroAreaSoapIn">    <wsdl:part name="parameters" element="tns:GetHousingPricesByMetroArea" />  </wsdl:message>  <wsdl:message name="GetHousingPricesByMetroAreaSoapOut">    <wsdl:part name="parameters" element="tns:GetHousingPricesByMetroAreaResponse" />  </wsdl:message>  <wsdl:message name="GetHousingPricesByMetroAreaHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetHistoricalIndicatorsSoapIn">    <wsdl:part name="parameters" element="tns:GetHistoricalIndicators" />  </wsdl:message>  <wsdl:message name="GetHistoricalIndicatorsSoapOut">    <wsdl:part name="parameters" element="tns:GetHistoricalIndicatorsResponse" />  </wsdl:message>  <wsdl:message name="GetHistoricalIndicatorsHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetHousingIndicatorsSoapIn">    <wsdl:part name="parameters" element="tns:GetHousingIndicators" />  </wsdl:message>  <wsdl:message name="GetHousingIndicatorsSoapOut">    <wsdl:part name="parameters" element="tns:GetHousingIndicatorsResponse" />  </wsdl:message>  <wsdl:message name="GetHousingIndicatorsHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetYearlyPermitsSoapIn">    <wsdl:part name="parameters" element="tns:GetYearlyPermits" />  </wsdl:message>  <wsdl:message name="GetYearlyPermitsSoapOut">    <wsdl:part name="parameters" element="tns:GetYearlyPermitsResponse" />  </wsdl:message>  <wsdl:message name="GetYearlyPermitsHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetMonthlyPermitsSoapIn">    <wsdl:part name="parameters" element="tns:GetMonthlyPermits" />  </wsdl:message>  <wsdl:message name="GetMonthlyPermitsSoapOut">    <wsdl:part name="parameters" element="tns:GetMonthlyPermitsResponse" />  </wsdl:message>  <wsdl:message name="GetMonthlyPermitsHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetHousingSalesHttpGetIn">    <wsdl:part name="Category" type="s:string" />    <wsdl:part name="Area" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />    <wsdl:part name="Period" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHousingSalesHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />  </wsdl:message>  <wsdl:message name="GetHousingSalesByStateHttpGetIn">    <wsdl:part name="Category" type="s:string" />    <wsdl:part name="Area" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />    <wsdl:part name="Period" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHousingSalesByStateHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />  </wsdl:message>  <wsdl:message name="GetHousingPricesHttpGetIn">    <wsdl:part name="Category" type="s:string" />    <wsdl:part name="Area" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />    <wsdl:part name="Period" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHousingPricesHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />  </wsdl:message>  <wsdl:message name="GetHousingPricesByMetroAreaHttpGetIn">    <wsdl:part name="Category" type="s:string" />    <wsdl:part name="Area" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />    <wsdl:part name="Period" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHousingPricesByMetroAreaHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />  </wsdl:message>  <wsdl:message name="GetHistoricalIndicatorsHttpGetIn">    <wsdl:part name="Category" type="s:string" />    <wsdl:part name="Area" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />    <wsdl:part name="Period" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalIndicatorsHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />  </wsdl:message>  <wsdl:message name="GetHousingIndicatorsHttpGetIn" />  <wsdl:message name="GetHousingIndicatorsHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfHousingIndicator" />  </wsdl:message>  <wsdl:message name="GetYearlyPermitsHttpGetIn">    <wsdl:part name="FromYear" type="s:string" />    <wsdl:part name="ToYear" type="s:string" />    <wsdl:part name="Option" type="s:string" />    <wsdl:part name="Area" type="s:string" />    <wsdl:part name="IncludeSubAreas" type="s:string" />  </wsdl:message>  <wsdl:message name="GetYearlyPermitsHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfYearlyByState" />  </wsdl:message>  <wsdl:message name="GetMonthlyPermitsHttpGetIn">    <wsdl:part name="FromDate" type="s:string" />    <wsdl:part name="ToDate" type="s:string" />    <wsdl:part name="Option" type="s:string" />    <wsdl:part name="Area" type="s:string" />    <wsdl:part name="IncludeSubAreas" type="s:string" />  </wsdl:message>  <wsdl:message name="GetMonthlyPermitsHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfMonthlyByState" />  </wsdl:message>  <wsdl:message name="GetHousingSalesHttpPostIn">    <wsdl:part name="Category" type="s:string" />    <wsdl:part name="Area" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />    <wsdl:part name="Period" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHousingSalesHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />  </wsdl:message>  <wsdl:message name="GetHousingSalesByStateHttpPostIn">    <wsdl:part name="Category" type="s:string" />    <wsdl:part name="Area" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />    <wsdl:part name="Period" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHousingSalesByStateHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />  </wsdl:message>  <wsdl:message name="GetHousingPricesHttpPostIn">    <wsdl:part name="Category" type="s:string" />    <wsdl:part name="Area" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />    <wsdl:part name="Period" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHousingPricesHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />  </wsdl:message>  <wsdl:message name="GetHousingPricesByMetroAreaHttpPostIn">    <wsdl:part name="Category" type="s:string" />    <wsdl:part name="Area" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />    <wsdl:part name="Period" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHousingPricesByMetroAreaHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />  </wsdl:message>  <wsdl:message name="GetHistoricalIndicatorsHttpPostIn">    <wsdl:part name="Category" type="s:string" />    <wsdl:part name="Area" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />    <wsdl:part name="Period" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalIndicatorsHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />  </wsdl:message>  <wsdl:message name="GetHousingIndicatorsHttpPostIn" />  <wsdl:message name="GetHousingIndicatorsHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfHousingIndicator" />  </wsdl:message>  <wsdl:message name="GetYearlyPermitsHttpPostIn">    <wsdl:part name="FromYear" type="s:string" />    <wsdl:part name="ToYear" type="s:string" />    <wsdl:part name="Option" type="s:string" />    <wsdl:part name="Area" type="s:string" />    <wsdl:part name="IncludeSubAreas" type="s:string" />  </wsdl:message>  <wsdl:message name="GetYearlyPermitsHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfYearlyByState" />  </wsdl:message>  <wsdl:message name="GetMonthlyPermitsHttpPostIn">    <wsdl:part name="FromDate" type="s:string" />    <wsdl:part name="ToDate" type="s:string" />    <wsdl:part name="Option" type="s:string" />    <wsdl:part name="Area" type="s:string" />    <wsdl:part name="IncludeSubAreas" type="s:string" />  </wsdl:message>  <wsdl:message name="GetMonthlyPermitsHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfMonthlyByState" />  </wsdl:message>  <wsdl:portType name="XigniteHousingSoap">    <wsdl:operation name="GetHousingSales">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing sales data by region</wsdl:documentation>      <wsdl:input message="tns:GetHousingSalesSoapIn" />      <wsdl:output message="tns:GetHousingSalesSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetHousingSalesByState">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing sales data by state</wsdl:documentation>      <wsdl:input message="tns:GetHousingSalesByStateSoapIn" />      <wsdl:output message="tns:GetHousingSalesByStateSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetHousingPrices">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing prices data by region</wsdl:documentation>      <wsdl:input message="tns:GetHousingPricesSoapIn" />      <wsdl:output message="tns:GetHousingPricesSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetHousingPricesByMetroArea">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing prices data records by metropolitian statistical areas</wsdl:documentation>      <wsdl:input message="tns:GetHousingPricesByMetroAreaSoapIn" />      <wsdl:output message="tns:GetHousingPricesByMetroAreaSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalIndicators">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing indicator data by region</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalIndicatorsSoapIn" />      <wsdl:output message="tns:GetHistoricalIndicatorsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetHousingIndicators">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get indicators about the housing market.</wsdl:documentation>      <wsdl:input message="tns:GetHousingIndicatorsSoapIn" />      <wsdl:output message="tns:GetHousingIndicatorsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetYearlyPermits">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get previous years housing permits per region and state.</wsdl:documentation>      <wsdl:input message="tns:GetYearlyPermitsSoapIn" />      <wsdl:output message="tns:GetYearlyPermitsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetMonthlyPermits">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get current year permit permits per region and state.</wsdl:documentation>      <wsdl:input message="tns:GetMonthlyPermitsSoapIn" />      <wsdl:output message="tns:GetMonthlyPermitsSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteHousingHttpGet">    <wsdl:operation name="GetHousingSales">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing sales data by region</wsdl:documentation>      <wsdl:input message="tns:GetHousingSalesHttpGetIn" />      <wsdl:output message="tns:GetHousingSalesHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetHousingSalesByState">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing sales data by state</wsdl:documentation>      <wsdl:input message="tns:GetHousingSalesByStateHttpGetIn" />      <wsdl:output message="tns:GetHousingSalesByStateHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetHousingPrices">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing prices data by region</wsdl:documentation>      <wsdl:input message="tns:GetHousingPricesHttpGetIn" />      <wsdl:output message="tns:GetHousingPricesHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetHousingPricesByMetroArea">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing prices data records by metropolitian statistical areas</wsdl:documentation>      <wsdl:input message="tns:GetHousingPricesByMetroAreaHttpGetIn" />      <wsdl:output message="tns:GetHousingPricesByMetroAreaHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalIndicators">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing indicator data by region</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalIndicatorsHttpGetIn" />      <wsdl:output message="tns:GetHistoricalIndicatorsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetHousingIndicators">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get indicators about the housing market.</wsdl:documentation>      <wsdl:input message="tns:GetHousingIndicatorsHttpGetIn" />      <wsdl:output message="tns:GetHousingIndicatorsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetYearlyPermits">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get previous years housing permits per region and state.</wsdl:documentation>      <wsdl:input message="tns:GetYearlyPermitsHttpGetIn" />      <wsdl:output message="tns:GetYearlyPermitsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetMonthlyPermits">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get current year permit permits per region and state.</wsdl:documentation>      <wsdl:input message="tns:GetMonthlyPermitsHttpGetIn" />      <wsdl:output message="tns:GetMonthlyPermitsHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteHousingHttpPost">    <wsdl:operation name="GetHousingSales">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing sales data by region</wsdl:documentation>      <wsdl:input message="tns:GetHousingSalesHttpPostIn" />      <wsdl:output message="tns:GetHousingSalesHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetHousingSalesByState">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing sales data by state</wsdl:documentation>      <wsdl:input message="tns:GetHousingSalesByStateHttpPostIn" />      <wsdl:output message="tns:GetHousingSalesByStateHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetHousingPrices">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing prices data by region</wsdl:documentation>      <wsdl:input message="tns:GetHousingPricesHttpPostIn" />      <wsdl:output message="tns:GetHousingPricesHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetHousingPricesByMetroArea">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing prices data records by metropolitian statistical areas</wsdl:documentation>      <wsdl:input message="tns:GetHousingPricesByMetroAreaHttpPostIn" />      <wsdl:output message="tns:GetHousingPricesByMetroAreaHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalIndicators">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing indicator data by region</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalIndicatorsHttpPostIn" />      <wsdl:output message="tns:GetHistoricalIndicatorsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetHousingIndicators">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get indicators about the housing market.</wsdl:documentation>      <wsdl:input message="tns:GetHousingIndicatorsHttpPostIn" />      <wsdl:output message="tns:GetHousingIndicatorsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetYearlyPermits">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get previous years housing permits per region and state.</wsdl:documentation>      <wsdl:input message="tns:GetYearlyPermitsHttpPostIn" />      <wsdl:output message="tns:GetYearlyPermitsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetMonthlyPermits">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get current year permit permits per region and state.</wsdl:documentation>      <wsdl:input message="tns:GetMonthlyPermitsHttpPostIn" />      <wsdl:output message="tns:GetMonthlyPermitsHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="XigniteHousingSoap" type="tns:XigniteHousingSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetHousingSales">      <soap:operation soapAction="http://www.xignite.com/services/GetHousingSales" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetHousingSalesHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHousingSalesByState">      <soap:operation soapAction="http://www.xignite.com/services/GetHousingSalesByState" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetHousingSalesByStateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHousingPrices">      <soap:operation soapAction="http://www.xignite.com/services/GetHousingPrices" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetHousingPricesHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHousingPricesByMetroArea">      <soap:operation soapAction="http://www.xignite.com/services/GetHousingPricesByMetroArea" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetHousingPricesByMetroAreaHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalIndicators">      <soap:operation soapAction="http://www.xignite.com/services/GetHistoricalIndicators" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetHistoricalIndicatorsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHousingIndicators">      <soap:operation soapAction="http://www.xignite.com/services/GetHousingIndicators" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetHousingIndicatorsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetYearlyPermits">      <soap:operation soapAction="http://www.xignite.com/services/GetYearlyPermits" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetYearlyPermitsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetMonthlyPermits">      <soap:operation soapAction="http://www.xignite.com/services/GetMonthlyPermits" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetMonthlyPermitsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteHousingSoap12" type="tns:XigniteHousingSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetHousingSales">      <soap12:operation soapAction="http://www.xignite.com/services/GetHousingSales" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetHousingSalesHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHousingSalesByState">      <soap12:operation soapAction="http://www.xignite.com/services/GetHousingSalesByState" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetHousingSalesByStateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHousingPrices">      <soap12:operation soapAction="http://www.xignite.com/services/GetHousingPrices" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetHousingPricesHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHousingPricesByMetroArea">      <soap12:operation soapAction="http://www.xignite.com/services/GetHousingPricesByMetroArea" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetHousingPricesByMetroAreaHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalIndicators">      <soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalIndicators" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetHistoricalIndicatorsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHousingIndicators">      <soap12:operation soapAction="http://www.xignite.com/services/GetHousingIndicators" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetHousingIndicatorsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetYearlyPermits">      <soap12:operation soapAction="http://www.xignite.com/services/GetYearlyPermits" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetYearlyPermitsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetMonthlyPermits">      <soap12:operation soapAction="http://www.xignite.com/services/GetMonthlyPermits" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetMonthlyPermitsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteHousingHttpGet" type="tns:XigniteHousingHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetHousingSales">      <http:operation location="/GetHousingSales" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHousingSalesByState">      <http:operation location="/GetHousingSalesByState" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHousingPrices">      <http:operation location="/GetHousingPrices" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHousingPricesByMetroArea">      <http:operation location="/GetHousingPricesByMetroArea" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalIndicators">      <http:operation location="/GetHistoricalIndicators" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHousingIndicators">      <http:operation location="/GetHousingIndicators" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetYearlyPermits">      <http:operation location="/GetYearlyPermits" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetMonthlyPermits">      <http:operation location="/GetMonthlyPermits" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteHousingHttpPost" type="tns:XigniteHousingHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetHousingSales">      <http:operation location="/GetHousingSales" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHousingSalesByState">      <http:operation location="/GetHousingSalesByState" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHousingPrices">      <http:operation location="/GetHousingPrices" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHousingPricesByMetroArea">      <http:operation location="/GetHousingPricesByMetroArea" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalIndicators">      <http:operation location="/GetHistoricalIndicators" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHousingIndicators">      <http:operation location="/GetHousingIndicators" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetYearlyPermits">      <http:operation location="/GetYearlyPermits" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetMonthlyPermits">      <http:operation location="/GetMonthlyPermits" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="XigniteHousing">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Statistics on US Housing.</wsdl:documentation>    <wsdl:port name="XigniteHousingSoap" binding="tns:XigniteHousingSoap">      <soap:address location="http://www.xignite.com/xhousing.asmx" />    </wsdl:port>    <wsdl:port name="XigniteHousingSoap12" binding="tns:XigniteHousingSoap12">      <soap12:address location="http://www.xignite.com/xhousing.asmx" />    </wsdl:port>    <wsdl:port name="XigniteHousingHttpGet" binding="tns:XigniteHousingHttpGet">      <http:address location="http://www.xignite.com/xhousing.asmx" />    </wsdl:port>    <wsdl:port name="XigniteHousingHttpPost" binding="tns:XigniteHousingHttpPost">      <http:address location="http://www.xignite.com/xhousing.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Statistics on US Housing.</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">
+			<s:element name="GetHousingSales">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Category" type="tns:SalesDataCategories" />
+						<s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:Regions" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Period" type="tns:Periods" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="SalesDataCategories">
+				<s:restriction base="s:string">
+					<s:enumeration value="ExistingHomeSales" />
+					<s:enumeration value="ExistingHomeSalesNotAdjusted" />
+					<s:enumeration value="ExistingCondoSales" />
+					<s:enumeration value="ExistingCondoSalesNotAdjusted" />
+					<s:enumeration value="ExistingSingleFamilySales" />
+					<s:enumeration value="ExistingSingleFamilySalesNotAdjusted" />
+					<s:enumeration value="NewHomeSales" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="Regions">
+				<s:restriction base="s:string">
+					<s:enumeration value="UnitedStates" />
+					<s:enumeration value="Northeast" />
+					<s:enumeration value="Midwest" />
+					<s:enumeration value="South" />
+					<s:enumeration value="West" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="Periods">
+				<s:restriction base="s:string">
+					<s:enumeration value="Year" />
+					<s:enumeration value="Quarter" />
+					<s:enumeration value="Month" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetHousingSalesResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHousingSalesResult" type="tns:ArrayOfHousingStatisticsRecord" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfHousingStatisticsRecord">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="HousingStatisticsRecord" nillable="true"
+						type="tns:HousingStatisticsRecord" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="HousingStatisticsRecord">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:AbstractHousingDataObject">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="DataCategory" type="tns:DataCategories" />
+							<s:element minOccurs="1" maxOccurs="1" name="Region" type="tns:AllAreas" />
+							<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="Period" type="tns:Periods" />
+							<s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="AbstractHousingDataObject" abstract="true">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common" />
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="Common">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="OutcomeTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Success" />
+					<s:enumeration value="SystemError" />
+					<s:enumeration value="RequestError" />
+					<s:enumeration value="RegistrationError" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="DataCategories">
+				<s:restriction base="s:string">
+					<s:enumeration value="Undefined" />
+					<s:enumeration value="ExistingHomeSales" />
+					<s:enumeration value="ExistingHomeSalesNotAdjusted" />
+					<s:enumeration value="ExistingCondoSales" />
+					<s:enumeration value="ExistingCondoSalesNotAdjusted" />
+					<s:enumeration value="ExistingSingleFamilySales" />
+					<s:enumeration value="ExistingSingleFamilySalesNotAdjusted" />
+					<s:enumeration value="NewHomeSales" />
+					<s:enumeration value="ExistingHomeMedianPrice" />
+					<s:enumeration value="ExistingHomeMeanPrice" />
+					<s:enumeration value="ExistingCondoMedianPrice" />
+					<s:enumeration value="ExistingCondoMeanPrice" />
+					<s:enumeration value="ExistingSingleFamilyMedianPrice" />
+					<s:enumeration value="ExistingSingleFamilyMeanPrice" />
+					<s:enumeration value="StarterHomeMedianPrice" />
+					<s:enumeration value="ExistingHomeInventory" />
+					<s:enumeration value="ExistingCondoInventory" />
+					<s:enumeration value="ExistingSingleFamilyInventory" />
+					<s:enumeration value="FirstTimeBuyerAffordability" />
+					<s:enumeration value="HousingAffordability" />
+					<s:enumeration value="HousingAffordabilityFRM" />
+					<s:enumeration value="HousingAffordabilityARM" />
+					<s:enumeration value="HousingStarts" />
+					<s:enumeration value="MedianFamilyIncome" />
+					<s:enumeration value="PendingHomeSalesIndex" />
+					<s:enumeration value="PendingHomeSalesIndexNotAdjusted" />
+					<s:enumeration value="MortgageRates" />
+					<s:enumeration value="MortgageApplications" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="AllAreas">
+				<s:restriction base="s:string">
+					<s:enumeration value="Undefined" />
+					<s:enumeration value="UnitedStates" />
+					<s:enumeration value="Northeast" />
+					<s:enumeration value="Midwest" />
+					<s:enumeration value="South" />
+					<s:enumeration value="West" />
+					<s:enumeration value="NewEngland" />
+					<s:enumeration value="MiddleAtlantic" />
+					<s:enumeration value="EastNorthCentral" />
+					<s:enumeration value="WestNorthCentral" />
+					<s:enumeration value="SouthAtlantic" />
+					<s:enumeration value="EastSouthCentral" />
+					<s:enumeration value="WestSouthCentral" />
+					<s:enumeration value="Mountain" />
+					<s:enumeration value="Pacific" />
+					<s:enumeration value="Connecticut" />
+					<s:enumeration value="Alabama" />
+					<s:enumeration value="Alaska" />
+					<s:enumeration value="Arizona" />
+					<s:enumeration value="Arkansas" />
+					<s:enumeration value="California" />
+					<s:enumeration value="Colorado" />
+					<s:enumeration value="Delaware" />
+					<s:enumeration value="DistrictofColumbia" />
+					<s:enumeration value="Florida" />
+					<s:enumeration value="Georgia" />
+					<s:enumeration value="Hawaii" />
+					<s:enumeration value="Idaho" />
+					<s:enumeration value="Illinois" />
+					<s:enumeration value="Indiana" />
+					<s:enumeration value="Iowa" />
+					<s:enumeration value="Kansas" />
+					<s:enumeration value="Kentucky" />
+					<s:enumeration value="Louisiana" />
+					<s:enumeration value="Maine" />
+					<s:enumeration value="Maryland" />
+					<s:enumeration value="Massachusetts" />
+					<s:enumeration value="Michigan" />
+					<s:enumeration value="Minnesota" />
+					<s:enumeration value="Mississippi" />
+					<s:enumeration value="Missouri" />
+					<s:enumeration value="Montana" />
+					<s:enumeration value="Nebraska" />
+					<s:enumeration value="Nevada" />
+					<s:enumeration value="NewHampshire" />
+					<s:enumeration value="NewJersey" />
+					<s:enumeration value="NewMexico" />
+					<s:enumeration value="NewYork" />
+					<s:enumeration value="NorthCarolina" />
+					<s:enumeration value="NorthDakota" />
+					<s:enumeration value="Ohio" />
+					<s:enumeration value="Oklahoma" />
+					<s:enumeration value="Oregon" />
+					<s:enumeration value="Pennsylvania" />
+					<s:enumeration value="RhodeIsland" />
+					<s:enumeration value="SouthCarolina" />
+					<s:enumeration value="SouthDakota" />
+					<s:enumeration value="Tennessee" />
+					<s:enumeration value="Texas" />
+					<s:enumeration value="Utah" />
+					<s:enumeration value="Vermont" />
+					<s:enumeration value="Virginia" />
+					<s:enumeration value="Washington" />
+					<s:enumeration value="WestVirginia" />
+					<s:enumeration value="Wisconsin" />
+					<s:enumeration value="Wyoming" />
+					<s:enumeration value="Akron_OH" />
+					<s:enumeration value="Albany_Schenectady_Troy_NY" />
+					<s:enumeration value="Albuquerque_NM" />
+					<s:enumeration value="Allentown_Bethlehem_Easton_PA_NJ" />
+					<s:enumeration value="Amarillo_TX" />
+					<s:enumeration value="Anaheim_SantaAna_CA" />
+					<s:enumeration value="Appleton_WI" />
+					<s:enumeration value="Atlanta_SandySprings_Marietta_GA" />
+					<s:enumeration value="AtlanticCity_NJ" />
+					<s:enumeration value="Austin_RoundRock_TX" />
+					<s:enumeration value="Baltimore_Towson_MD" />
+					<s:enumeration value="BarnstableTown_MA" />
+					<s:enumeration value="BatonRouge_LA" />
+					<s:enumeration value="Beaumont_PortArthur_TX" />
+					<s:enumeration value="Binghamton_NY" />
+					<s:enumeration value="Birmingham_Hoover_AL" />
+					<s:enumeration value="Bismarck_ND" />
+					<s:enumeration value="Bloomington_Normal_IL" />
+					<s:enumeration value="BoiseCity_Nampa_ID" />
+					<s:enumeration value="Boston_Cambridge_Quincy_MA_NH" />
+					<s:enumeration value="Boulder_CO" />
+					<s:enumeration value="Bridgeport_Stamford_Norwalk_CT" />
+					<s:enumeration value="Buffalo_NiagaraFalls_NY" />
+					<s:enumeration value="Canton_Massillon_OH" />
+					<s:enumeration value="CapeCoral_FortMyers_FL" />
+					<s:enumeration value="CedarRapids_IA" />
+					<s:enumeration value="Champaign_Urbana_IL" />
+					<s:enumeration value="Charleston_NorthCharleston_SC" />
+					<s:enumeration value="Charleston_WV" />
+					<s:enumeration value="Charlotte_Gastonia_Concord_NC_SC" />
+					<s:enumeration value="Chattanooga_TN_GA" />
+					<s:enumeration value="Chicago_Naperville_Joliet_IL" />
+					<s:enumeration value="Cincinnati_Middletown_OH_KY_IN" />
+					<s:enumeration value="Cleveland_Elyria_Mentor_OH" />
+					<s:enumeration value="ColordoSprings_CO" />
+					<s:enumeration value="Columbia_MO" />
+					<s:enumeration value="Columbia_SC" />
+					<s:enumeration value="Columbus_OH" />
+					<s:enumeration value="CorpusChristi_TX" />
+					<s:enumeration value="Cumberland_MD_WV" />
+					<s:enumeration value="Dallas_FortWorth_Arlington_TX" />
+					<s:enumeration value="Danville_IL" />
+					<s:enumeration value="Davenport_Moline_RockIsland_IA_IL" />
+					<s:enumeration value="Dayton_OH" />
+					<s:enumeration value="Decatur_IL" />
+					<s:enumeration value="Deltona_DaytonaBeach_OrmondBeach_FL" />
+					<s:enumeration value="Denver_Aurora_CO" />
+					<s:enumeration value="DesMoines_IA" />
+					<s:enumeration value="Detroit_Warren_Livonia_MI" />
+					<s:enumeration value="Dover_DE" />
+					<s:enumeration value="Durham_NC" />
+					<s:enumeration value="Edison_NJ" />
+					<s:enumeration value="Elmira_NY" />
+					<s:enumeration value="ElPaso_TX" />
+					<s:enumeration value="Erie_PA" />
+					<s:enumeration value="Eugene_Springfield_OR" />
+					<s:enumeration value="Fargo_ND_MN" />
+					<s:enumeration value="Farmington_NM" />
+					<s:enumeration value="Florence_SC" />
+					<s:enumeration value="FtWayne_IN" />
+					<s:enumeration value="Gainesville_FL" />
+					<s:enumeration value="Gary_Hammond_IN" />
+					<s:enumeration value="GlensFalls_NY" />
+					<s:enumeration value="GrandRapids_MI" />
+					<s:enumeration value="GreenBay_WI" />
+					<s:enumeration value="Greensboro_HighPoint_NC" />
+					<s:enumeration value="Greenville_SC" />
+					<s:enumeration value="Gulfport_Biloxi_MS" />
+					<s:enumeration value="Hagerstown_Martinsburg_MD_WV" />
+					<s:enumeration value="Hartford_WestHartford_EastHartford_CT" />
+					<s:enumeration value="Honolulu_HI" />
+					<s:enumeration value="Houston_Baytown_SugarLand_TX" />
+					<s:enumeration value="Indianapolis_IN" />
+					<s:enumeration value="Jackson_MS" />
+					<s:enumeration value="Jacksonville_FL" />
+					<s:enumeration value="Kalamazoo_Portage_MI" />
+					<s:enumeration value="Kankakee_Bradley_IL" />
+					<s:enumeration value="KansasCity_MO_KS" />
+					<s:enumeration value="Kennewick_Richland_Pasco_WA" />
+					<s:enumeration value="Kingston_NY" />
+					<s:enumeration value="Knoxville_TN" />
+					<s:enumeration value="Lansing_ELansing_MI" />
+					<s:enumeration value="LasVegas_Paradise_NV" />
+					<s:enumeration value="Lexington_Fayette_KY" />
+					<s:enumeration value="Lincoln_NE" />
+					<s:enumeration value="LittleRock_NLittleRock_AR" />
+					<s:enumeration value="LosAngeles_LongBeach_SantaAna_CA" />
+					<s:enumeration value="Louisville_KY_IN" />
+					<s:enumeration value="Madison_WI" />
+					<s:enumeration value="Manchester_Nashua_NH" />
+					<s:enumeration value="Memphis_TN_MS_AR" />
+					<s:enumeration value="Miami_FortLauderdale_MiamiBeach_FL" />
+					<s:enumeration value="Milwaukee_Waukesha_WestAllis_WI" />
+					<s:enumeration value="Minneapolis_StPaul_Bloomington_MN_WI" />
+					<s:enumeration value="Mobile_AL" />
+					<s:enumeration value="Montgomery_AL" />
+					<s:enumeration value="Nashville_Davidson__Murfreesboro_TN" />
+					<s:enumeration value="Nassau_Suffolk_NY" />
+					<s:enumeration value="Newark_Union_NJ_PA" />
+					<s:enumeration value="NewHaven_Milford_CT" />
+					<s:enumeration value="NewOrleans_Metairie_Kenner_LA" />
+					<s:enumeration value="NewYork_NorthernNewJersey_LongIsland_NY_NJ_PA" />
+					<s:enumeration value="NewYork_Wayne_WhitePlains_NY_NJ" />
+					<s:enumeration value="Norwich_NewLondon_CT" />
+					<s:enumeration value="Ocala_FL" />
+					<s:enumeration value="OklahomaCity_OK" />
+					<s:enumeration value="Omaha_NE_IA" />
+					<s:enumeration value="Orlando_FL" />
+					<s:enumeration value="PalmBay_Melbourne_Titusville_FL" />
+					<s:enumeration value="Pensacola_FerryPass_Brent_FL" />
+					<s:enumeration value="Peoria_IL" />
+					<s:enumeration value="Philadelphia_Camden_Wilmington_PA_NJ_DE_MD" />
+					<s:enumeration value="Phoenix_Mesa_Scottsdale_AZ" />
+					<s:enumeration value="Pittsburgh_PA" />
+					<s:enumeration value="Pittsfield_MA" />
+					<s:enumeration value="Portland_SouthPortland_Biddeford_ME" />
+					<s:enumeration value="Portland_Vancouver_Beaverton_OR_WA" />
+					<s:enumeration value="Providence_NewBedford_FallRiver_RI_MA" />
+					<s:enumeration value="Raleigh_Cary_NC" />
+					<s:enumeration value="Reading_PA" />
+					<s:enumeration value="Reno_Sparks_NV" />
+					<s:enumeration value="Richmond_VA" />
+					<s:enumeration value="Riverside_SanBernardino_Ontario_CA" />
+					<s:enumeration value="Rochester_NY" />
+					<s:enumeration value="Rockford_IL" />
+					<s:enumeration value="Sacramento__Arden_Arcade__Roseville_CA" />
+					<s:enumeration value="Saginaw_SaginawTownshipNorth_MI" />
+					<s:enumeration value="SaintLouis_MO_IL" />
+					<s:enumeration value="Salem_OR" />
+					<s:enumeration value="SaltLakeCity_UT" />
+					<s:enumeration value="SanAntonio_TX" />
+					<s:enumeration value="SanDiego_Carlsbad_SanMarcos_CA" />
+					<s:enumeration value="SanFrancisco_Oakland_Fremont_CA" />
+					<s:enumeration value="SanJose_Sunnyvale_SantaClara_CA" />
+					<s:enumeration value="Sarasota_Bradenton_Venice_FL" />
+					<s:enumeration value="Seattle_Tacoma_Bellevue_WA" />
+					<s:enumeration value="Shreveport_BossierCity_LA" />
+					<s:enumeration value="SiouxFalls_SD" />
+					<s:enumeration value="SouthBend_Mishawaka_IN" />
+					<s:enumeration value="Spartanburg_SC" />
+					<s:enumeration value="Spokane_WA" />
+					<s:enumeration value="Springfield_IL" />
+					<s:enumeration value="Springfield_MA" />
+					<s:enumeration value="Springfield_MO" />
+					<s:enumeration value="Syracuse_NY" />
+					<s:enumeration value="Tallahassee_FL" />
+					<s:enumeration value="Tampa_StPetersburg_Clearwater_FL" />
+					<s:enumeration value="Toledo_OH" />
+					<s:enumeration value="Topeka_KS" />
+					<s:enumeration value="Trenton_Ewing_NJ" />
+					<s:enumeration value="Tucson_AZ" />
+					<s:enumeration value="Tulsa_OK" />
+					<s:enumeration value="VirginiaBeach_Norfolk_NewportNews_VA_NC" />
+					<s:enumeration value="Washington_Arlington_Alexandria_DC_VA_MD_WV" />
+					<s:enumeration value="Waterloo_CedarFalls_IA" />
+					<s:enumeration value="Wichita_KS" />
+					<s:enumeration value="Worcester_MA" />
+					<s:enumeration value="Yakima_WA" />
+					<s:enumeration value="Youngstown_Warren_Boardman_OH_PA" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="Header" type="tns:Header" />
+			<s:complexType name="Header">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />
+				</s:sequence>
+				<s:anyAttribute />
+			</s:complexType>
+			<s:element name="GetHousingSalesByState">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Category" type="tns:StateSalesDataCategories" />
+						<s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:States" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Period" type="tns:Periods" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="StateSalesDataCategories">
+				<s:restriction base="s:string">
+					<s:enumeration value="ExistingHomeSales" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="States">
+				<s:restriction base="s:string">
+					<s:enumeration value="Connecticut" />
+					<s:enumeration value="Alabama" />
+					<s:enumeration value="Alaska" />
+					<s:enumeration value="Arizona" />
+					<s:enumeration value="Arkansas" />
+					<s:enumeration value="California" />
+					<s:enumeration value="Colorado" />
+					<s:enumeration value="Delaware" />
+					<s:enumeration value="DistrictofColumbia" />
+					<s:enumeration value="Florida" />
+					<s:enumeration value="Georgia" />
+					<s:enumeration value="Hawaii" />
+					<s:enumeration value="Idaho" />
+					<s:enumeration value="Illinois" />
+					<s:enumeration value="Indiana" />
+					<s:enumeration value="Iowa" />
+					<s:enumeration value="Kansas" />
+					<s:enumeration value="Kentucky" />
+					<s:enumeration value="Louisiana" />
+					<s:enumeration value="Maine" />
+					<s:enumeration value="Maryland" />
+					<s:enumeration value="Massachusetts" />
+					<s:enumeration value="Michigan" />
+					<s:enumeration value="Minnesota" />
+					<s:enumeration value="Mississippi" />
+					<s:enumeration value="Missouri" />
+					<s:enumeration value="Montana" />
+					<s:enumeration value="Nebraska" />
+					<s:enumeration value="Nevada" />
+					<s:enumeration value="NewHampshire" />
+					<s:enumeration value="NewJersey" />
+					<s:enumeration value="NewMexico" />
+					<s:enumeration value="NewYork" />
+					<s:enumeration value="NorthCarolina" />
+					<s:enumeration value="NorthDakota" />
+					<s:enumeration value="Ohio" />
+					<s:enumeration value="Oklahoma" />
+					<s:enumeration value="Oregon" />
+					<s:enumeration value="Pennsylvania" />
+					<s:enumeration value="RhodeIsland" />
+					<s:enumeration value="SouthCarolina" />
+					<s:enumeration value="SouthDakota" />
+					<s:enumeration value="Tennessee" />
+					<s:enumeration value="Texas" />
+					<s:enumeration value="Utah" />
+					<s:enumeration value="Vermont" />
+					<s:enumeration value="Virginia" />
+					<s:enumeration value="Washington" />
+					<s:enumeration value="WestVirginia" />
+					<s:enumeration value="Wisconsin" />
+					<s:enumeration value="Wyoming" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetHousingSalesByStateResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHousingSalesByStateResult" type="tns:ArrayOfHousingStatisticsRecord" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHousingPrices">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Category" type="tns:PriceDataCategories" />
+						<s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:Regions" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Period" type="tns:Periods" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="PriceDataCategories">
+				<s:restriction base="s:string">
+					<s:enumeration value="ExistingHomeMedianPrice" />
+					<s:enumeration value="ExistingHomeMeanPrice" />
+					<s:enumeration value="ExistingCondoMedianPrice" />
+					<s:enumeration value="ExistingCondoMeanPrice" />
+					<s:enumeration value="ExistingSingleFamilyMedianPrice" />
+					<s:enumeration value="ExistingSingleFamilyMeanPrice" />
+					<s:enumeration value="StarterHomeMedianPrice" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetHousingPricesResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHousingPricesResult" type="tns:ArrayOfHousingStatisticsRecord" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHousingPricesByMetroArea">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Category" type="tns:MetroAreaPriceDataCategories" />
+						<s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:MetropolitanStatisticalAreas" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Period" type="tns:Periods" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="MetroAreaPriceDataCategories">
+				<s:restriction base="s:string">
+					<s:enumeration value="ExistingCondoMedianPrice" />
+					<s:enumeration value="ExistingSingleFamilyMedianPrice" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="MetropolitanStatisticalAreas">
+				<s:restriction base="s:string">
+					<s:enumeration value="Akron_OH" />
+					<s:enumeration value="Albany_Schenectady_Troy_NY" />
+					<s:enumeration value="Albuquerque_NM" />
+					<s:enumeration value="Allentown_Bethlehem_Easton_PA_NJ" />
+					<s:enumeration value="Amarillo_TX" />
+					<s:enumeration value="Anaheim_SantaAna_CA" />
+					<s:enumeration value="Appleton_WI" />
+					<s:enumeration value="Atlanta_SandySprings_Marietta_GA" />
+					<s:enumeration value="AtlanticCity_NJ" />
+					<s:enumeration value="Austin_RoundRock_TX" />
+					<s:enumeration value="Baltimore_Towson_MD" />
+					<s:enumeration value="BarnstableTown_MA" />
+					<s:enumeration value="BatonRouge_LA" />
+					<s:enumeration value="Beaumont_PortArthur_TX" />
+					<s:enumeration value="Binghamton_NY" />
+					<s:enumeration value="Birmingham_Hoover_AL" />
+					<s:enumeration value="Bismarck_ND" />
+					<s:enumeration value="Bloomington_Normal_IL" />
+					<s:enumeration value="BoiseCity_Nampa_ID" />
+					<s:enumeration value="Boston_Cambridge_Quincy_MA_NH" />
+					<s:enumeration value="Boulder_CO" />
+					<s:enumeration value="Bridgeport_Stamford_Norwalk_CT" />
+					<s:enumeration value="Buffalo_NiagaraFalls_NY" />
+					<s:enumeration value="Canton_Massillon_OH" />
+					<s:enumeration value="CapeCoral_FortMyers_FL" />
+					<s:enumeration value="CedarRapids_IA" />
+					<s:enumeration value="Champaign_Urbana_IL" />
+					<s:enumeration value="Charleston_NorthCharleston_SC" />
+					<s:enumeration value="Charleston_WV" />
+					<s:enumeration value="Charlotte_Gastonia_Concord_NC_SC" />
+					<s:enumeration value="Chattanooga_TN_GA" />
+					<s:enumeration value="Chicago_Naperville_Joliet_IL" />
+					<s:enumeration value="Cincinnati_Middletown_OH_KY_IN" />
+					<s:enumeration value="Cleveland_Elyria_Mentor_OH" />
+					<s:enumeration value="ColordoSprings_CO" />
+					<s:enumeration value="Columbia_MO" />
+					<s:enumeration value="Columbia_SC" />
+					<s:enumeration value="Columbus_OH" />
+					<s:enumeration value="CorpusChristi_TX" />
+					<s:enumeration value="Cumberland_MD_WV" />
+					<s:enumeration value="Dallas_FortWorth_Arlington_TX" />
+					<s:enumeration value="Danville_IL" />
+					<s:enumeration value="Davenport_Moline_RockIsland_IA_IL" />
+					<s:enumeration value="Dayton_OH" />
+					<s:enumeration value="Decatur_IL" />
+					<s:enumeration value="Deltona_DaytonaBeach_OrmondBeach_FL" />
+					<s:enumeration value="Denver_Aurora_CO" />
+					<s:enumeration value="DesMoines_IA" />
+					<s:enumeration value="Detroit_Warren_Livonia_MI" />
+					<s:enumeration value="Dover_DE" />
+					<s:enumeration value="Durham_NC" />
+					<s:enumeration value="Edison_NJ" />
+					<s:enumeration value="Elmira_NY" />
+					<s:enumeration value="ElPaso_TX" />
+					<s:enumeration value="Erie_PA" />
+					<s:enumeration value="Eugene_Springfield_OR" />
+					<s:enumeration value="Fargo_ND_MN" />
+					<s:enumeration value="Farmington_NM" />
+					<s:enumeration value="Florence_SC" />
+					<s:enumeration value="FtWayne_IN" />
+					<s:enumeration value="Gainesville_FL" />
+					<s:enumeration value="Gary_Hammond_IN" />
+					<s:enumeration value="GlensFalls_NY" />
+					<s:enumeration value="GrandRapids_MI" />
+					<s:enumeration value="GreenBay_WI" />
+					<s:enumeration value="Greensboro_HighPoint_NC" />
+					<s:enumeration value="Greenville_SC" />
+					<s:enumeration value="Gulfport_Biloxi_MS" />
+					<s:enumeration value="Hagerstown_Martinsburg_MD_WV" />
+					<s:enumeration value="Hartford_WestHartford_EastHartford_CT" />
+					<s:enumeration value="Honolulu_HI" />
+					<s:enumeration value="Houston_Baytown_SugarLand_TX" />
+					<s:enumeration value="Indianapolis_IN" />
+					<s:enumeration value="Jackson_MS" />
+					<s:enumeration value="Jacksonville_FL" />
+					<s:enumeration value="Kalamazoo_Portage_MI" />
+					<s:enumeration value="Kankakee_Bradley_IL" />
+					<s:enumeration value="KansasCity_MO_KS" />
+					<s:enumeration value="Kennewick_Richland_Pasco_WA" />
+					<s:enumeration value="Kingston_NY" />
+					<s:enumeration value="Knoxville_TN" />
+					<s:enumeration value="Lansing_ELansing_MI" />
+					<s:enumeration value="LasVegas_Paradise_NV" />
+					<s:enumeration value="Lexington_Fayette_KY" />
+					<s:enumeration value="Lincoln_NE" />
+					<s:enumeration value="LittleRock_NLittleRock_AR" />
+					<s:enumeration value="LosAngeles_LongBeach_SantaAna_CA" />
+					<s:enumeration value="Louisville_KY_IN" />
+					<s:enumeration value="Madison_WI" />
+					<s:enumeration value="Manchester_Nashua_NH" />
+					<s:enumeration value="Memphis_TN_MS_AR" />
+					<s:enumeration value="Miami_FortLauderdale_MiamiBeach_FL" />
+					<s:enumeration value="Milwaukee_Waukesha_WestAllis_WI" />
+					<s:enumeration value="Minneapolis_StPaul_Bloomington_MN_WI" />
+					<s:enumeration value="Mobile_AL" />
+					<s:enumeration value="Montgomery_AL" />
+					<s:enumeration value="Nashville_Davidson__Murfreesboro_TN" />
+					<s:enumeration value="Nassau_Suffolk_NY" />
+					<s:enumeration value="Newark_Union_NJ_PA" />
+					<s:enumeration value="NewHaven_Milford_CT" />
+					<s:enumeration value="NewOrleans_Metairie_Kenner_LA" />
+					<s:enumeration value="NewYork_NorthernNewJersey_LongIsland_NY_NJ_PA" />
+					<s:enumeration value="NewYork_Wayne_WhitePlains_NY_NJ" />
+					<s:enumeration value="Norwich_NewLondon_CT" />
+					<s:enumeration value="Ocala_FL" />
+					<s:enumeration value="OklahomaCity_OK" />
+					<s:enumeration value="Omaha_NE_IA" />
+					<s:enumeration value="Orlando_FL" />
+					<s:enumeration value="PalmBay_Melbourne_Titusville_FL" />
+					<s:enumeration value="Pensacola_FerryPass_Brent_FL" />
+					<s:enumeration value="Peoria_IL" />
+					<s:enumeration value="Philadelphia_Camden_Wilmington_PA_NJ_DE_MD" />
+					<s:enumeration value="Phoenix_Mesa_Scottsdale_AZ" />
+					<s:enumeration value="Pittsburgh_PA" />
+					<s:enumeration value="Pittsfield_MA" />
+					<s:enumeration value="Portland_SouthPortland_Biddeford_ME" />
+					<s:enumeration value="Portland_Vancouver_Beaverton_OR_WA" />
+					<s:enumeration value="Providence_NewBedford_FallRiver_RI_MA" />
+					<s:enumeration value="Raleigh_Cary_NC" />
+					<s:enumeration value="Reading_PA" />
+					<s:enumeration value="Reno_Sparks_NV" />
+					<s:enumeration value="Richmond_VA" />
+					<s:enumeration value="Riverside_SanBernardino_Ontario_CA" />
+					<s:enumeration value="Rochester_NY" />
+					<s:enumeration value="Rockford_IL" />
+					<s:enumeration value="Sacramento__Arden_Arcade__Roseville_CA" />
+					<s:enumeration value="Saginaw_SaginawTownshipNorth_MI" />
+					<s:enumeration value="SaintLouis_MO_IL" />
+					<s:enumeration value="Salem_OR" />
+					<s:enumeration value="SaltLakeCity_UT" />
+					<s:enumeration value="SanAntonio_TX" />
+					<s:enumeration value="SanDiego_Carlsbad_SanMarcos_CA" />
+					<s:enumeration value="SanFrancisco_Oakland_Fremont_CA" />
+					<s:enumeration value="SanJose_Sunnyvale_SantaClara_CA" />
+					<s:enumeration value="Sarasota_Bradenton_Venice_FL" />
+					<s:enumeration value="Seattle_Tacoma_Bellevue_WA" />
+					<s:enumeration value="Shreveport_BossierCity_LA" />
+					<s:enumeration value="SiouxFalls_SD" />
+					<s:enumeration value="SouthBend_Mishawaka_IN" />
+					<s:enumeration value="Spartanburg_SC" />
+					<s:enumeration value="Spokane_WA" />
+					<s:enumeration value="Springfield_IL" />
+					<s:enumeration value="Springfield_MA" />
+					<s:enumeration value="Springfield_MO" />
+					<s:enumeration value="Syracuse_NY" />
+					<s:enumeration value="Tallahassee_FL" />
+					<s:enumeration value="Tampa_StPetersburg_Clearwater_FL" />
+					<s:enumeration value="Toledo_OH" />
+					<s:enumeration value="Topeka_KS" />
+					<s:enumeration value="Trenton_Ewing_NJ" />
+					<s:enumeration value="Tucson_AZ" />
+					<s:enumeration value="Tulsa_OK" />
+					<s:enumeration value="VirginiaBeach_Norfolk_NewportNews_VA_NC" />
+					<s:enumeration value="Washington_Arlington_Alexandria_DC_VA_MD_WV" />
+					<s:enumeration value="Waterloo_CedarFalls_IA" />
+					<s:enumeration value="Wichita_KS" />
+					<s:enumeration value="Worcester_MA" />
+					<s:enumeration value="Yakima_WA" />
+					<s:enumeration value="Youngstown_Warren_Boardman_OH_PA" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetHousingPricesByMetroAreaResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHousingPricesByMetroAreaResult" type="tns:ArrayOfHousingStatisticsRecord" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHistoricalIndicators">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Category" type="tns:IndicatorDataCategories" />
+						<s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:Regions" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Period" type="tns:Periods" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="IndicatorDataCategories">
+				<s:restriction base="s:string">
+					<s:enumeration value="ExistingHomeInventory" />
+					<s:enumeration value="ExistingCondoInventory" />
+					<s:enumeration value="ExistingSingleFamilyInventory" />
+					<s:enumeration value="FirstTimeBuyerAffordability" />
+					<s:enumeration value="HousingAffordability" />
+					<s:enumeration value="HousingAffordabilityFRM" />
+					<s:enumeration value="HousingAffordabilityARM" />
+					<s:enumeration value="HousingStarts" />
+					<s:enumeration value="MedianFamilyIncome" />
+					<s:enumeration value="PendingHomeSalesIndex" />
+					<s:enumeration value="PendingHomeSalesIndexNotAdjusted" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetHistoricalIndicatorsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHistoricalIndicatorsResult" type="tns:ArrayOfHousingStatisticsRecord" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHousingIndicators">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetHousingIndicatorsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHousingIndicatorsResult" type="tns:ArrayOfHousingIndicator" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfHousingIndicator">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="HousingIndicator" nillable="true" type="tns:HousingIndicator" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="HousingIndicator">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:IndicatorTypes" />
+							<s:element minOccurs="0" maxOccurs="1" name="ReleaseDate" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />
+							<s:element minOccurs="0" maxOccurs="1" name="Unit" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:simpleType name="IndicatorTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="MortgageRates" />
+					<s:enumeration value="MortgageApplications" />
+					<s:enumeration value="ExistingHomeSales" />
+					<s:enumeration value="NewHomeSales" />
+					<s:enumeration value="HousingAffordability" />
+					<s:enumeration value="HousingStarts" />
+					<s:enumeration value="PendingHomeSalesIndex" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetYearlyPermits">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="FromYear" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="ToYear" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="Option" type="tns:OptionTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:AreaTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="IncludeSubAreas" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="OptionTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="ByUnits" />
+					<s:enumeration value="ByValue" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="AreaTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="UnitedStates" />
+					<s:enumeration value="Northeast" />
+					<s:enumeration value="Midwest" />
+					<s:enumeration value="South" />
+					<s:enumeration value="West" />
+					<s:enumeration value="NewEngland" />
+					<s:enumeration value="MiddleAtlantic" />
+					<s:enumeration value="EastNorthCentral" />
+					<s:enumeration value="WestNorthCentral" />
+					<s:enumeration value="SouthAtlantic" />
+					<s:enumeration value="EastSouthCentral" />
+					<s:enumeration value="WestSouthCentral" />
+					<s:enumeration value="Mountain" />
+					<s:enumeration value="Pacific" />
+					<s:enumeration value="Connecticut" />
+					<s:enumeration value="Alabama" />
+					<s:enumeration value="Alaska" />
+					<s:enumeration value="Arizona" />
+					<s:enumeration value="Arkansas" />
+					<s:enumeration value="California" />
+					<s:enumeration value="Colorado" />
+					<s:enumeration value="Delaware" />
+					<s:enumeration value="DistrictofColumbia" />
+					<s:enumeration value="Florida" />
+					<s:enumeration value="Georgia" />
+					<s:enumeration value="Hawaii" />
+					<s:enumeration value="Idaho" />
+					<s:enumeration value="Illinois" />
+					<s:enumeration value="Indiana" />
+					<s:enumeration value="Iowa" />
+					<s:enumeration value="Kansas" />
+					<s:enumeration value="Kentucky" />
+					<s:enumeration value="Louisiana" />
+					<s:enumeration value="Maine" />
+					<s:enumeration value="Maryland" />
+					<s:enumeration value="Massachusetts" />
+					<s:enumeration value="Michigan" />
+					<s:enumeration value="Minnesota" />
+					<s:enumeration value="Mississippi" />
+					<s:enumeration value="Missouri" />
+					<s:enumeration value="Montana" />
+					<s:enumeration value="Nebraska" />
+					<s:enumeration value="Nevada" />
+					<s:enumeration value="NewHampshire" />
+					<s:enumeration value="NewJersey" />
+					<s:enumeration value="NewMexico" />
+					<s:enumeration value="NewYork" />
+					<s:enumeration value="NorthCarolina" />
+					<s:enumeration value="NorthDakota" />
+					<s:enumeration value="Ohio" />
+					<s:enumeration value="Oklahoma" />
+					<s:enumeration value="Oregon" />
+					<s:enumeration value="Pennsylvania" />
+					<s:enumeration value="RhodeIsland" />
+					<s:enumeration value="SouthCarolina" />
+					<s:enumeration value="SouthDakota" />
+					<s:enumeration value="Tennessee" />
+					<s:enumeration value="Texas" />
+					<s:enumeration value="Utah" />
+					<s:enumeration value="Vermont" />
+					<s:enumeration value="Virginia" />
+					<s:enumeration value="Washington" />
+					<s:enumeration value="WestVirginia" />
+					<s:enumeration value="Wisconsin" />
+					<s:enumeration value="Wyoming" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetYearlyPermitsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetYearlyPermitsResult" type="tns:ArrayOfYearlyByState" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfYearlyByState">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="YearlyByState" nillable="true" type="tns:YearlyByState" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="YearlyByState">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="Year" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:OptionTypes" />
+							<s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:AreaTypes" />
+							<s:element minOccurs="0" maxOccurs="1" name="Records" type="tns:ArrayOfRecord" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="ArrayOfRecord">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Record" nillable="true" type="tns:Record" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Record">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="ValueType" type="tns:ValueTypes" />
+					<s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="ValueTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="TotalUnits" />
+					<s:enumeration value="OneUnit" />
+					<s:enumeration value="TwoUnits" />
+					<s:enumeration value="ThreeOrFourUnits" />
+					<s:enumeration value="FiveUnitsOrMore" />
+					<s:enumeration value="StructuresWithFiveUnitsOrMore" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetMonthlyPermits">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="FromDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ToDate" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Option" type="tns:OptionTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:AreaTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="IncludeSubAreas" type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetMonthlyPermitsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetMonthlyPermitsResult" type="tns:ArrayOfMonthlyByState" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfMonthlyByState">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="MonthlyByState" nillable="true" type="tns:MonthlyByState" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="MonthlyByState">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="Year" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="Month" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="Area" type="tns:AreaTypes" />
+							<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:OptionTypes" />
+							<s:element minOccurs="0" maxOccurs="1" name="Records" type="tns:ArrayOfRecord" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="ArrayOfHousingStatisticsRecord" nillable="true" type="tns:ArrayOfHousingStatisticsRecord" />
+			<s:element name="ArrayOfHousingIndicator" nillable="true" type="tns:ArrayOfHousingIndicator" />
+			<s:element name="ArrayOfYearlyByState" nillable="true" type="tns:ArrayOfYearlyByState" />
+			<s:element name="ArrayOfMonthlyByState" nillable="true" type="tns:ArrayOfMonthlyByState" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetHousingSalesSoapIn">
+		<wsdl:part name="parameters" element="tns:GetHousingSales" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingSalesSoapOut">
+		<wsdl:part name="parameters" element="tns:GetHousingSalesResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingSalesHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingSalesByStateSoapIn">
+		<wsdl:part name="parameters" element="tns:GetHousingSalesByState" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingSalesByStateSoapOut">
+		<wsdl:part name="parameters" element="tns:GetHousingSalesByStateResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingSalesByStateHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingPricesSoapIn">
+		<wsdl:part name="parameters" element="tns:GetHousingPrices" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingPricesSoapOut">
+		<wsdl:part name="parameters" element="tns:GetHousingPricesResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingPricesHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingPricesByMetroAreaSoapIn">
+		<wsdl:part name="parameters" element="tns:GetHousingPricesByMetroArea" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingPricesByMetroAreaSoapOut">
+		<wsdl:part name="parameters" element="tns:GetHousingPricesByMetroAreaResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingPricesByMetroAreaHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalIndicatorsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetHistoricalIndicators" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalIndicatorsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetHistoricalIndicatorsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalIndicatorsHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingIndicatorsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetHousingIndicators" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingIndicatorsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetHousingIndicatorsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingIndicatorsHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetYearlyPermitsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetYearlyPermits" />
+	</wsdl:message>
+	<wsdl:message name="GetYearlyPermitsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetYearlyPermitsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetYearlyPermitsHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetMonthlyPermitsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetMonthlyPermits" />
+	</wsdl:message>
+	<wsdl:message name="GetMonthlyPermitsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetMonthlyPermitsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetMonthlyPermitsHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingSalesHttpGetIn">
+		<wsdl:part name="Category" type="s:string" />
+		<wsdl:part name="Area" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+		<wsdl:part name="Period" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingSalesHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingSalesByStateHttpGetIn">
+		<wsdl:part name="Category" type="s:string" />
+		<wsdl:part name="Area" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+		<wsdl:part name="Period" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingSalesByStateHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingPricesHttpGetIn">
+		<wsdl:part name="Category" type="s:string" />
+		<wsdl:part name="Area" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+		<wsdl:part name="Period" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingPricesHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingPricesByMetroAreaHttpGetIn">
+		<wsdl:part name="Category" type="s:string" />
+		<wsdl:part name="Area" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+		<wsdl:part name="Period" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingPricesByMetroAreaHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalIndicatorsHttpGetIn">
+		<wsdl:part name="Category" type="s:string" />
+		<wsdl:part name="Area" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+		<wsdl:part name="Period" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalIndicatorsHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingIndicatorsHttpGetIn" />
+	<wsdl:message name="GetHousingIndicatorsHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfHousingIndicator" />
+	</wsdl:message>
+	<wsdl:message name="GetYearlyPermitsHttpGetIn">
+		<wsdl:part name="FromYear" type="s:string" />
+		<wsdl:part name="ToYear" type="s:string" />
+		<wsdl:part name="Option" type="s:string" />
+		<wsdl:part name="Area" type="s:string" />
+		<wsdl:part name="IncludeSubAreas" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetYearlyPermitsHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfYearlyByState" />
+	</wsdl:message>
+	<wsdl:message name="GetMonthlyPermitsHttpGetIn">
+		<wsdl:part name="FromDate" type="s:string" />
+		<wsdl:part name="ToDate" type="s:string" />
+		<wsdl:part name="Option" type="s:string" />
+		<wsdl:part name="Area" type="s:string" />
+		<wsdl:part name="IncludeSubAreas" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetMonthlyPermitsHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfMonthlyByState" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingSalesHttpPostIn">
+		<wsdl:part name="Category" type="s:string" />
+		<wsdl:part name="Area" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+		<wsdl:part name="Period" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingSalesHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingSalesByStateHttpPostIn">
+		<wsdl:part name="Category" type="s:string" />
+		<wsdl:part name="Area" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+		<wsdl:part name="Period" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingSalesByStateHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingPricesHttpPostIn">
+		<wsdl:part name="Category" type="s:string" />
+		<wsdl:part name="Area" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+		<wsdl:part name="Period" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingPricesHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingPricesByMetroAreaHttpPostIn">
+		<wsdl:part name="Category" type="s:string" />
+		<wsdl:part name="Area" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+		<wsdl:part name="Period" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingPricesByMetroAreaHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalIndicatorsHttpPostIn">
+		<wsdl:part name="Category" type="s:string" />
+		<wsdl:part name="Area" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+		<wsdl:part name="Period" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalIndicatorsHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfHousingStatisticsRecord" />
+	</wsdl:message>
+	<wsdl:message name="GetHousingIndicatorsHttpPostIn" />
+	<wsdl:message name="GetHousingIndicatorsHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfHousingIndicator" />
+	</wsdl:message>
+	<wsdl:message name="GetYearlyPermitsHttpPostIn">
+		<wsdl:part name="FromYear" type="s:string" />
+		<wsdl:part name="ToYear" type="s:string" />
+		<wsdl:part name="Option" type="s:string" />
+		<wsdl:part name="Area" type="s:string" />
+		<wsdl:part name="IncludeSubAreas" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetYearlyPermitsHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfYearlyByState" />
+	</wsdl:message>
+	<wsdl:message name="GetMonthlyPermitsHttpPostIn">
+		<wsdl:part name="FromDate" type="s:string" />
+		<wsdl:part name="ToDate" type="s:string" />
+		<wsdl:part name="Option" type="s:string" />
+		<wsdl:part name="Area" type="s:string" />
+		<wsdl:part name="IncludeSubAreas" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetMonthlyPermitsHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfMonthlyByState" />
+	</wsdl:message>
+	<wsdl:portType name="XigniteHousingSoap">
+		<wsdl:operation name="GetHousingSales">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing sales data by region</wsdl:documentation>
+			<wsdl:input message="tns:GetHousingSalesSoapIn" />
+			<wsdl:output message="tns:GetHousingSalesSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingSalesByState">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing sales data by state</wsdl:documentation>
+			<wsdl:input message="tns:GetHousingSalesByStateSoapIn" />
+			<wsdl:output message="tns:GetHousingSalesByStateSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingPrices">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing prices data by region</wsdl:documentation>
+			<wsdl:input message="tns:GetHousingPricesSoapIn" />
+			<wsdl:output message="tns:GetHousingPricesSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingPricesByMetroArea">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing prices data records by metropolitian statistical areas
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHousingPricesByMetroAreaSoapIn" />
+			<wsdl:output message="tns:GetHousingPricesByMetroAreaSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalIndicators">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing indicator data by region</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalIndicatorsSoapIn" />
+			<wsdl:output message="tns:GetHistoricalIndicatorsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingIndicators">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get indicators about the housing market.</wsdl:documentation>
+			<wsdl:input message="tns:GetHousingIndicatorsSoapIn" />
+			<wsdl:output message="tns:GetHousingIndicatorsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetYearlyPermits">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get previous years housing permits per region and state.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetYearlyPermitsSoapIn" />
+			<wsdl:output message="tns:GetYearlyPermitsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMonthlyPermits">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get current year permit permits per region and state.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetMonthlyPermitsSoapIn" />
+			<wsdl:output message="tns:GetMonthlyPermitsSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteHousingHttpGet">
+		<wsdl:operation name="GetHousingSales">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing sales data by region</wsdl:documentation>
+			<wsdl:input message="tns:GetHousingSalesHttpGetIn" />
+			<wsdl:output message="tns:GetHousingSalesHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingSalesByState">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing sales data by state</wsdl:documentation>
+			<wsdl:input message="tns:GetHousingSalesByStateHttpGetIn" />
+			<wsdl:output message="tns:GetHousingSalesByStateHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingPrices">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing prices data by region</wsdl:documentation>
+			<wsdl:input message="tns:GetHousingPricesHttpGetIn" />
+			<wsdl:output message="tns:GetHousingPricesHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingPricesByMetroArea">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing prices data records by metropolitian statistical areas
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHousingPricesByMetroAreaHttpGetIn" />
+			<wsdl:output message="tns:GetHousingPricesByMetroAreaHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalIndicators">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing indicator data by region</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalIndicatorsHttpGetIn" />
+			<wsdl:output message="tns:GetHistoricalIndicatorsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingIndicators">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get indicators about the housing market.</wsdl:documentation>
+			<wsdl:input message="tns:GetHousingIndicatorsHttpGetIn" />
+			<wsdl:output message="tns:GetHousingIndicatorsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetYearlyPermits">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get previous years housing permits per region and state.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetYearlyPermitsHttpGetIn" />
+			<wsdl:output message="tns:GetYearlyPermitsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMonthlyPermits">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get current year permit permits per region and state.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetMonthlyPermitsHttpGetIn" />
+			<wsdl:output message="tns:GetMonthlyPermitsHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteHousingHttpPost">
+		<wsdl:operation name="GetHousingSales">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing sales data by region</wsdl:documentation>
+			<wsdl:input message="tns:GetHousingSalesHttpPostIn" />
+			<wsdl:output message="tns:GetHousingSalesHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingSalesByState">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing sales data by state</wsdl:documentation>
+			<wsdl:input message="tns:GetHousingSalesByStateHttpPostIn" />
+			<wsdl:output message="tns:GetHousingSalesByStateHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingPrices">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing prices data by region</wsdl:documentation>
+			<wsdl:input message="tns:GetHousingPricesHttpPostIn" />
+			<wsdl:output message="tns:GetHousingPricesHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingPricesByMetroArea">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing prices data records by metropolitian statistical areas
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHousingPricesByMetroAreaHttpPostIn" />
+			<wsdl:output message="tns:GetHousingPricesByMetroAreaHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalIndicators">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get housing indicator data by region</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalIndicatorsHttpPostIn" />
+			<wsdl:output message="tns:GetHistoricalIndicatorsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingIndicators">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get indicators about the housing market.</wsdl:documentation>
+			<wsdl:input message="tns:GetHousingIndicatorsHttpPostIn" />
+			<wsdl:output message="tns:GetHousingIndicatorsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetYearlyPermits">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get previous years housing permits per region and state.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetYearlyPermitsHttpPostIn" />
+			<wsdl:output message="tns:GetYearlyPermitsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMonthlyPermits">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get current year permit permits per region and state.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetMonthlyPermitsHttpPostIn" />
+			<wsdl:output message="tns:GetMonthlyPermitsHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="XigniteHousingSoap" type="tns:XigniteHousingSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetHousingSales">
+			<soap:operation soapAction="http://www.xignite.com/services/GetHousingSales" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetHousingSalesHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingSalesByState">
+			<soap:operation soapAction="http://www.xignite.com/services/GetHousingSalesByState" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetHousingSalesByStateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingPrices">
+			<soap:operation soapAction="http://www.xignite.com/services/GetHousingPrices" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetHousingPricesHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingPricesByMetroArea">
+			<soap:operation soapAction="http://www.xignite.com/services/GetHousingPricesByMetroArea" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetHousingPricesByMetroAreaHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalIndicators">
+			<soap:operation soapAction="http://www.xignite.com/services/GetHistoricalIndicators" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetHistoricalIndicatorsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingIndicators">
+			<soap:operation soapAction="http://www.xignite.com/services/GetHousingIndicators" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetHousingIndicatorsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetYearlyPermits">
+			<soap:operation soapAction="http://www.xignite.com/services/GetYearlyPermits" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetYearlyPermitsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMonthlyPermits">
+			<soap:operation soapAction="http://www.xignite.com/services/GetMonthlyPermits" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetMonthlyPermitsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteHousingSoap12" type="tns:XigniteHousingSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetHousingSales">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetHousingSales" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetHousingSalesHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingSalesByState">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetHousingSalesByState" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetHousingSalesByStateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingPrices">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetHousingPrices" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetHousingPricesHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingPricesByMetroArea">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetHousingPricesByMetroArea" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetHousingPricesByMetroAreaHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalIndicators">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalIndicators" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetHistoricalIndicatorsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingIndicators">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetHousingIndicators" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetHousingIndicatorsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetYearlyPermits">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetYearlyPermits" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetYearlyPermitsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMonthlyPermits">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetMonthlyPermits" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetMonthlyPermitsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteHousingHttpGet" type="tns:XigniteHousingHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetHousingSales">
+			<http:operation location="/GetHousingSales" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingSalesByState">
+			<http:operation location="/GetHousingSalesByState" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingPrices">
+			<http:operation location="/GetHousingPrices" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingPricesByMetroArea">
+			<http:operation location="/GetHousingPricesByMetroArea" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalIndicators">
+			<http:operation location="/GetHistoricalIndicators" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingIndicators">
+			<http:operation location="/GetHousingIndicators" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetYearlyPermits">
+			<http:operation location="/GetYearlyPermits" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMonthlyPermits">
+			<http:operation location="/GetMonthlyPermits" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteHousingHttpPost" type="tns:XigniteHousingHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetHousingSales">
+			<http:operation location="/GetHousingSales" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingSalesByState">
+			<http:operation location="/GetHousingSalesByState" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingPrices">
+			<http:operation location="/GetHousingPrices" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingPricesByMetroArea">
+			<http:operation location="/GetHousingPricesByMetroArea" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalIndicators">
+			<http:operation location="/GetHistoricalIndicators" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHousingIndicators">
+			<http:operation location="/GetHousingIndicators" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetYearlyPermits">
+			<http:operation location="/GetYearlyPermits" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMonthlyPermits">
+			<http:operation location="/GetMonthlyPermits" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="XigniteHousing">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Statistics on US Housing.</wsdl:documentation>
+		<wsdl:port name="XigniteHousingSoap" binding="tns:XigniteHousingSoap">
+			<soap:address location="http://www.xignite.com/xhousing.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteHousingSoap12" binding="tns:XigniteHousingSoap12">
+			<soap12:address location="http://www.xignite.com/xhousing.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteHousingHttpGet" binding="tns:XigniteHousingHttpGet">
+			<http:address location="http://www.xignite.com/xhousing.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteHousingHttpPost" binding="tns:XigniteHousingHttpPost">
+			<http:address location="http://www.xignite.com/xhousing.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

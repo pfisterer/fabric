@@ -1,1 +1,889 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://skats.net/services/" xmlns:s1="http://skats.net/services/literalTypes" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://skats.net/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ZipCode Lookup web service features several functions for US zipcodes and distance manipulations: zip code lookup by distance, zip code coordinates, distance between zip codes.</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://skats.net/services/">      <s:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />      <s:import namespace="http://schemas.xmlsoap.org/wsdl/" />      <s:complexType name="ArrayOfZipCodeDistances">        <s:complexContent mixed="false">          <s:restriction base="soapenc:Array">            <s:attribute wsdl:arrayType="tns:ZipCodeDistances[]" ref="soapenc:arrayType" />          </s:restriction>        </s:complexContent>      </s:complexType>      <s:complexType name="ZipCodeDistances">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" form="unqualified" name="ZipCode" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" form="unqualified" name="Distance" type="s:float" />        </s:sequence>      </s:complexType>      <s:complexType name="AuthenticationHeader">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" form="unqualified" name="SessionID" type="s:string" />        </s:sequence>      </s:complexType>      <s:simpleType name="FilterType">        <s:restriction base="s:string">          <s:enumeration value="None" />          <s:enumeration value="StartsWith" />          <s:enumeration value="EndsWith" />          <s:enumeration value="Anywhere" />        </s:restriction>      </s:simpleType>      <s:complexType name="ZipCodeCoordinates">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" form="unqualified" name="LatDegrees" type="s:float" />          <s:element minOccurs="1" maxOccurs="1" form="unqualified" name="LonDegrees" type="s:float" />          <s:element minOccurs="1" maxOccurs="1" form="unqualified" name="LatRadians" type="s:float" />          <s:element minOccurs="1" maxOccurs="1" form="unqualified" name="LonRadians" type="s:float" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfUserPlaceDetail">        <s:complexContent mixed="false">          <s:restriction base="soapenc:Array">            <s:attribute wsdl:arrayType="tns:UserPlaceDetail[]" ref="soapenc:arrayType" />          </s:restriction>        </s:complexContent>      </s:complexType>      <s:complexType name="UserPlaceDetail">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" form="unqualified" name="Id" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" form="unqualified" name="Name" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" form="unqualified" name="Address" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" form="unqualified" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" form="unqualified" name="State" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" form="unqualified" name="ZipCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" form="unqualified" name="Category" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" form="unqualified" name="Data" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" form="unqualified" name="LatDegrees" type="s:float" />          <s:element minOccurs="1" maxOccurs="1" form="unqualified" name="LonDegrees" type="s:float" />          <s:element minOccurs="1" maxOccurs="1" form="unqualified" name="LatRadians" type="s:float" />          <s:element minOccurs="1" maxOccurs="1" form="unqualified" name="LonRadians" type="s:float" />          <s:element minOccurs="1" maxOccurs="1" form="unqualified" name="Distance" type="s:float" />          <s:element minOccurs="0" maxOccurs="1" form="unqualified" name="Country" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfGeoPlaceDistance">        <s:complexContent mixed="false">          <s:restriction base="soapenc:Array">            <s:attribute wsdl:arrayType="tns:GeoPlaceDistance[]" ref="soapenc:arrayType" />          </s:restriction>        </s:complexContent>      </s:complexType>      <s:complexType name="GeoPlaceDistance">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" form="unqualified" name="ToPlace" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" form="unqualified" name="ToState" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" form="unqualified" name="Distance" type="s:float" />        </s:sequence>      </s:complexType>    </s:schema>    <s:schema elementFormDefault="qualified" targetNamespace="http://skats.net/services/literalTypes">      <s:element name="ArrayOfZipCodeDistances" nillable="true" type="s1:ArrayOfZipCodeDistances" />      <s:complexType name="ArrayOfZipCodeDistances">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="ZipCodeDistances" nillable="true" type="s1:ZipCodeDistances" />        </s:sequence>      </s:complexType>      <s:complexType name="ZipCodeDistances">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="ZipCode" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Distance" type="s:float" />        </s:sequence>      </s:complexType>      <s:element name="float" type="s:float" />      <s:element name="ZipCodeCoordinates" nillable="true" type="s1:ZipCodeCoordinates" />      <s:complexType name="ZipCodeCoordinates">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="LatDegrees" type="s:float" />          <s:element minOccurs="1" maxOccurs="1" name="LonDegrees" type="s:float" />          <s:element minOccurs="1" maxOccurs="1" name="LatRadians" type="s:float" />          <s:element minOccurs="1" maxOccurs="1" name="LonRadians" type="s:float" />        </s:sequence>      </s:complexType>      <s:element name="ArrayOfUserPlaceDetail" nillable="true" type="s1:ArrayOfUserPlaceDetail" />      <s:complexType name="ArrayOfUserPlaceDetail">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="UserPlaceDetail" nillable="true" type="s1:UserPlaceDetail" />        </s:sequence>      </s:complexType>      <s:complexType name="UserPlaceDetail">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ZipCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Category" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Data" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="LatDegrees" type="s:float" />          <s:element minOccurs="1" maxOccurs="1" name="LonDegrees" type="s:float" />          <s:element minOccurs="1" maxOccurs="1" name="LatRadians" type="s:float" />          <s:element minOccurs="1" maxOccurs="1" name="LonRadians" type="s:float" />          <s:element minOccurs="1" maxOccurs="1" name="Distance" type="s:float" />          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="ArrayOfGeoPlaceDistance" nillable="true" type="s1:ArrayOfGeoPlaceDistance" />      <s:complexType name="ArrayOfGeoPlaceDistance">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="GeoPlaceDistance" nillable="true" type="s1:GeoPlaceDistance" />        </s:sequence>      </s:complexType>      <s:complexType name="GeoPlaceDistance">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="ToPlace" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ToState" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Distance" type="s:float" />        </s:sequence>      </s:complexType>    </s:schema>  </wsdl:types>  <wsdl:message name="GetZipCodesWithinSoapIn">    <wsdl:part name="zip" type="s:string" />    <wsdl:part name="distance" type="s:float" />  </wsdl:message>  <wsdl:message name="GetZipCodesWithinSoapOut">    <wsdl:part name="GetZipCodesWithinResult" type="tns:ArrayOfZipCodeDistances" />  </wsdl:message>  <wsdl:message name="GetZipCodesWithinAuthenticationHeader">    <wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />  </wsdl:message>  <wsdl:message name="GetZipCodesWithinFilteredSoapIn">    <wsdl:part name="zip" type="s:string" />    <wsdl:part name="distance" type="s:float" />    <wsdl:part name="filter" type="s:string" />    <wsdl:part name="filterType" type="tns:FilterType" />  </wsdl:message>  <wsdl:message name="GetZipCodesWithinFilteredSoapOut">    <wsdl:part name="GetZipCodesWithinFilteredResult" type="tns:ArrayOfZipCodeDistances" />  </wsdl:message>  <wsdl:message name="GetZipCodesWithinFilteredAuthenticationHeader">    <wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />  </wsdl:message>  <wsdl:message name="GetThreeDigitZipCodesWithinSoapIn">    <wsdl:part name="zip" type="s:string" />    <wsdl:part name="distance" type="s:float" />  </wsdl:message>  <wsdl:message name="GetThreeDigitZipCodesWithinSoapOut">    <wsdl:part name="GetThreeDigitZipCodesWithinResult" type="tns:ArrayOfZipCodeDistances" />  </wsdl:message>  <wsdl:message name="GetThreeDigitZipCodesWithinAuthenticationHeader">    <wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />  </wsdl:message>  <wsdl:message name="GetDistanceBetweenZipCodesSoapIn">    <wsdl:part name="zip1" type="s:string" />    <wsdl:part name="zip2" type="s:string" />  </wsdl:message>  <wsdl:message name="GetDistanceBetweenZipCodesSoapOut">    <wsdl:part name="GetDistanceBetweenZipCodesResult" type="s:float" />  </wsdl:message>  <wsdl:message name="GetDistanceBetweenZipCodesAuthenticationHeader">    <wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />  </wsdl:message>  <wsdl:message name="GetZipCodeCoordinatesSoapIn">    <wsdl:part name="zip" type="s:string" />  </wsdl:message>  <wsdl:message name="GetZipCodeCoordinatesSoapOut">    <wsdl:part name="GetZipCodeCoordinatesResult" type="tns:ZipCodeCoordinates" />  </wsdl:message>  <wsdl:message name="GetZipCodeCoordinatesAuthenticationHeader">    <wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />  </wsdl:message>  <wsdl:message name="GetAllUserPlacesSoapIn" />  <wsdl:message name="GetAllUserPlacesSoapOut">    <wsdl:part name="GetAllUserPlacesResult" type="tns:ArrayOfUserPlaceDetail" />  </wsdl:message>  <wsdl:message name="GetAllUserPlacesAuthenticationHeader">    <wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />  </wsdl:message>  <wsdl:message name="SaveUserPlacesSoapIn">    <wsdl:part name="places" type="tns:ArrayOfUserPlaceDetail" />  </wsdl:message>  <wsdl:message name="SaveUserPlacesSoapOut" />  <wsdl:message name="SaveUserPlacesAuthenticationHeader">    <wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />  </wsdl:message>  <wsdl:message name="GetUserPlacesWithinSoapIn">    <wsdl:part name="zip" type="s:string" />    <wsdl:part name="distance" type="s:float" />    <wsdl:part name="category" type="s:string" />  </wsdl:message>  <wsdl:message name="GetUserPlacesWithinSoapOut">    <wsdl:part name="GetUserPlacesWithinResult" type="tns:ArrayOfUserPlaceDetail" />  </wsdl:message>  <wsdl:message name="GetUserPlacesWithinAuthenticationHeader">    <wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />  </wsdl:message>  <wsdl:message name="GetPlacesInsideSoapIn">    <wsdl:part name="zip" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPlacesInsideSoapOut">    <wsdl:part name="GetPlacesInsideResult" type="tns:ArrayOfGeoPlaceDistance" />  </wsdl:message>  <wsdl:message name="GetPlacesInsideAuthenticationHeader">    <wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />  </wsdl:message>  <wsdl:message name="GetZipCodesWithinHttpGetIn">    <wsdl:part name="zip" type="s:string" />    <wsdl:part name="distance" type="s:string" />  </wsdl:message>  <wsdl:message name="GetZipCodesWithinHttpGetOut">    <wsdl:part name="Body" element="s1:ArrayOfZipCodeDistances" />  </wsdl:message>  <wsdl:message name="GetZipCodesWithinFilteredHttpGetIn">    <wsdl:part name="zip" type="s:string" />    <wsdl:part name="distance" type="s:string" />    <wsdl:part name="filter" type="s:string" />    <wsdl:part name="filterType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetZipCodesWithinFilteredHttpGetOut">    <wsdl:part name="Body" element="s1:ArrayOfZipCodeDistances" />  </wsdl:message>  <wsdl:message name="GetThreeDigitZipCodesWithinHttpGetIn">    <wsdl:part name="zip" type="s:string" />    <wsdl:part name="distance" type="s:string" />  </wsdl:message>  <wsdl:message name="GetThreeDigitZipCodesWithinHttpGetOut">    <wsdl:part name="Body" element="s1:ArrayOfZipCodeDistances" />  </wsdl:message>  <wsdl:message name="GetDistanceBetweenZipCodesHttpGetIn">    <wsdl:part name="zip1" type="s:string" />    <wsdl:part name="zip2" type="s:string" />  </wsdl:message>  <wsdl:message name="GetDistanceBetweenZipCodesHttpGetOut">    <wsdl:part name="Body" element="s1:float" />  </wsdl:message>  <wsdl:message name="GetZipCodeCoordinatesHttpGetIn">    <wsdl:part name="zip" type="s:string" />  </wsdl:message>  <wsdl:message name="GetZipCodeCoordinatesHttpGetOut">    <wsdl:part name="Body" element="s1:ZipCodeCoordinates" />  </wsdl:message>  <wsdl:message name="GetAllUserPlacesHttpGetIn" />  <wsdl:message name="GetAllUserPlacesHttpGetOut">    <wsdl:part name="Body" element="s1:ArrayOfUserPlaceDetail" />  </wsdl:message>  <wsdl:message name="GetUserPlacesWithinHttpGetIn">    <wsdl:part name="zip" type="s:string" />    <wsdl:part name="distance" type="s:string" />    <wsdl:part name="category" type="s:string" />  </wsdl:message>  <wsdl:message name="GetUserPlacesWithinHttpGetOut">    <wsdl:part name="Body" element="s1:ArrayOfUserPlaceDetail" />  </wsdl:message>  <wsdl:message name="GetPlacesInsideHttpGetIn">    <wsdl:part name="zip" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPlacesInsideHttpGetOut">    <wsdl:part name="Body" element="s1:ArrayOfGeoPlaceDistance" />  </wsdl:message>  <wsdl:message name="GetZipCodesWithinHttpPostIn">    <wsdl:part name="zip" type="s:string" />    <wsdl:part name="distance" type="s:string" />  </wsdl:message>  <wsdl:message name="GetZipCodesWithinHttpPostOut">    <wsdl:part name="Body" element="s1:ArrayOfZipCodeDistances" />  </wsdl:message>  <wsdl:message name="GetZipCodesWithinFilteredHttpPostIn">    <wsdl:part name="zip" type="s:string" />    <wsdl:part name="distance" type="s:string" />    <wsdl:part name="filter" type="s:string" />    <wsdl:part name="filterType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetZipCodesWithinFilteredHttpPostOut">    <wsdl:part name="Body" element="s1:ArrayOfZipCodeDistances" />  </wsdl:message>  <wsdl:message name="GetThreeDigitZipCodesWithinHttpPostIn">    <wsdl:part name="zip" type="s:string" />    <wsdl:part name="distance" type="s:string" />  </wsdl:message>  <wsdl:message name="GetThreeDigitZipCodesWithinHttpPostOut">    <wsdl:part name="Body" element="s1:ArrayOfZipCodeDistances" />  </wsdl:message>  <wsdl:message name="GetDistanceBetweenZipCodesHttpPostIn">    <wsdl:part name="zip1" type="s:string" />    <wsdl:part name="zip2" type="s:string" />  </wsdl:message>  <wsdl:message name="GetDistanceBetweenZipCodesHttpPostOut">    <wsdl:part name="Body" element="s1:float" />  </wsdl:message>  <wsdl:message name="GetZipCodeCoordinatesHttpPostIn">    <wsdl:part name="zip" type="s:string" />  </wsdl:message>  <wsdl:message name="GetZipCodeCoordinatesHttpPostOut">    <wsdl:part name="Body" element="s1:ZipCodeCoordinates" />  </wsdl:message>  <wsdl:message name="GetAllUserPlacesHttpPostIn" />  <wsdl:message name="GetAllUserPlacesHttpPostOut">    <wsdl:part name="Body" element="s1:ArrayOfUserPlaceDetail" />  </wsdl:message>  <wsdl:message name="GetUserPlacesWithinHttpPostIn">    <wsdl:part name="zip" type="s:string" />    <wsdl:part name="distance" type="s:string" />    <wsdl:part name="category" type="s:string" />  </wsdl:message>  <wsdl:message name="GetUserPlacesWithinHttpPostOut">    <wsdl:part name="Body" element="s1:ArrayOfUserPlaceDetail" />  </wsdl:message>  <wsdl:message name="GetPlacesInsideHttpPostIn">    <wsdl:part name="zip" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPlacesInsideHttpPostOut">    <wsdl:part name="Body" element="s1:ArrayOfGeoPlaceDistance" />  </wsdl:message>  <wsdl:portType name="ZipCodesSoap">    <wsdl:operation name="GetZipCodesWithin">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a given zip code. Parameters: zip - 5 digit US zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in miles.</wsdl:documentation>      <wsdl:input message="tns:GetZipCodesWithinSoapIn" />      <wsdl:output message="tns:GetZipCodesWithinSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetZipCodesWithinFiltered">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a given zip code. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in miles, filter - string to filter results, filterType - type of filter (StartsWith, EndsWith, Anywhere, None).</wsdl:documentation>      <wsdl:input message="tns:GetZipCodesWithinFilteredSoapIn" />      <wsdl:output message="tns:GetZipCodesWithinFilteredSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetThreeDigitZipCodesWithin">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a given zip code. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in miles.</wsdl:documentation>      <wsdl:input message="tns:GetThreeDigitZipCodesWithinSoapIn" />      <wsdl:output message="tns:GetThreeDigitZipCodesWithinSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetDistanceBetweenZipCodes">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a distance in miles between two zip codes. Parameters: zip1 - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), zip2 - 5 digit zip code or Canadian postal code (M3H, M3H 6A7).</wsdl:documentation>      <wsdl:input message="tns:GetDistanceBetweenZipCodesSoapIn" />      <wsdl:output message="tns:GetDistanceBetweenZipCodesSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetZipCodeCoordinates">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a centroid point of the zip code in both radians and degrees. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7).</wsdl:documentation>      <wsdl:input message="tns:GetZipCodeCoordinatesSoapIn" />      <wsdl:output message="tns:GetZipCodeCoordinatesSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetAllUserPlaces">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an array of all user-defined places.</wsdl:documentation>      <wsdl:input message="tns:GetAllUserPlacesSoapIn" />      <wsdl:output message="tns:GetAllUserPlacesSoapOut" />    </wsdl:operation>    <wsdl:operation name="SaveUserPlaces">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Saves user-defined places.</wsdl:documentation>      <wsdl:input message="tns:SaveUserPlacesSoapIn" />      <wsdl:output message="tns:SaveUserPlacesSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetUserPlacesWithin">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of user-defined places within a specified distance from a given place. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), state - 2 letter state code (not required for zip codes), distance - distance in miles, category - an optional category, if not empy only user-defined places that match the category will be returned.</wsdl:documentation>      <wsdl:input message="tns:GetUserPlacesWithinSoapIn" />      <wsdl:output message="tns:GetUserPlacesWithinSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetPlacesInside">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of geo places inside a given zip code. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), state - 2 letter state code (not required for zip codes).</wsdl:documentation>      <wsdl:input message="tns:GetPlacesInsideSoapIn" />      <wsdl:output message="tns:GetPlacesInsideSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="ZipCodesHttpGet">    <wsdl:operation name="GetZipCodesWithin">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a given zip code. Parameters: zip - 5 digit US zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in miles.</wsdl:documentation>      <wsdl:input message="tns:GetZipCodesWithinHttpGetIn" />      <wsdl:output message="tns:GetZipCodesWithinHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetZipCodesWithinFiltered">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a given zip code. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in miles, filter - string to filter results, filterType - type of filter (StartsWith, EndsWith, Anywhere, None).</wsdl:documentation>      <wsdl:input message="tns:GetZipCodesWithinFilteredHttpGetIn" />      <wsdl:output message="tns:GetZipCodesWithinFilteredHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetThreeDigitZipCodesWithin">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a given zip code. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in miles.</wsdl:documentation>      <wsdl:input message="tns:GetThreeDigitZipCodesWithinHttpGetIn" />      <wsdl:output message="tns:GetThreeDigitZipCodesWithinHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetDistanceBetweenZipCodes">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a distance in miles between two zip codes. Parameters: zip1 - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), zip2 - 5 digit zip code or Canadian postal code (M3H, M3H 6A7).</wsdl:documentation>      <wsdl:input message="tns:GetDistanceBetweenZipCodesHttpGetIn" />      <wsdl:output message="tns:GetDistanceBetweenZipCodesHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetZipCodeCoordinates">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a centroid point of the zip code in both radians and degrees. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7).</wsdl:documentation>      <wsdl:input message="tns:GetZipCodeCoordinatesHttpGetIn" />      <wsdl:output message="tns:GetZipCodeCoordinatesHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetAllUserPlaces">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an array of all user-defined places.</wsdl:documentation>      <wsdl:input message="tns:GetAllUserPlacesHttpGetIn" />      <wsdl:output message="tns:GetAllUserPlacesHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetUserPlacesWithin">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of user-defined places within a specified distance from a given place. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), state - 2 letter state code (not required for zip codes), distance - distance in miles, category - an optional category, if not empy only user-defined places that match the category will be returned.</wsdl:documentation>      <wsdl:input message="tns:GetUserPlacesWithinHttpGetIn" />      <wsdl:output message="tns:GetUserPlacesWithinHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetPlacesInside">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of geo places inside a given zip code. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), state - 2 letter state code (not required for zip codes).</wsdl:documentation>      <wsdl:input message="tns:GetPlacesInsideHttpGetIn" />      <wsdl:output message="tns:GetPlacesInsideHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="ZipCodesHttpPost">    <wsdl:operation name="GetZipCodesWithin">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a given zip code. Parameters: zip - 5 digit US zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in miles.</wsdl:documentation>      <wsdl:input message="tns:GetZipCodesWithinHttpPostIn" />      <wsdl:output message="tns:GetZipCodesWithinHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetZipCodesWithinFiltered">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a given zip code. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in miles, filter - string to filter results, filterType - type of filter (StartsWith, EndsWith, Anywhere, None).</wsdl:documentation>      <wsdl:input message="tns:GetZipCodesWithinFilteredHttpPostIn" />      <wsdl:output message="tns:GetZipCodesWithinFilteredHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetThreeDigitZipCodesWithin">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a given zip code. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in miles.</wsdl:documentation>      <wsdl:input message="tns:GetThreeDigitZipCodesWithinHttpPostIn" />      <wsdl:output message="tns:GetThreeDigitZipCodesWithinHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetDistanceBetweenZipCodes">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a distance in miles between two zip codes. Parameters: zip1 - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), zip2 - 5 digit zip code or Canadian postal code (M3H, M3H 6A7).</wsdl:documentation>      <wsdl:input message="tns:GetDistanceBetweenZipCodesHttpPostIn" />      <wsdl:output message="tns:GetDistanceBetweenZipCodesHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetZipCodeCoordinates">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a centroid point of the zip code in both radians and degrees. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7).</wsdl:documentation>      <wsdl:input message="tns:GetZipCodeCoordinatesHttpPostIn" />      <wsdl:output message="tns:GetZipCodeCoordinatesHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetAllUserPlaces">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an array of all user-defined places.</wsdl:documentation>      <wsdl:input message="tns:GetAllUserPlacesHttpPostIn" />      <wsdl:output message="tns:GetAllUserPlacesHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetUserPlacesWithin">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of user-defined places within a specified distance from a given place. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), state - 2 letter state code (not required for zip codes), distance - distance in miles, category - an optional category, if not empy only user-defined places that match the category will be returned.</wsdl:documentation>      <wsdl:input message="tns:GetUserPlacesWithinHttpPostIn" />      <wsdl:output message="tns:GetUserPlacesWithinHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetPlacesInside">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of geo places inside a given zip code. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), state - 2 letter state code (not required for zip codes).</wsdl:documentation>      <wsdl:input message="tns:GetPlacesInsideHttpPostIn" />      <wsdl:output message="tns:GetPlacesInsideHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="ZipCodesSoap" type="tns:ZipCodesSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />    <wsdl:operation name="GetZipCodesWithin">      <soap:operation soapAction="http://skats.net/services/GetZipCodesWithin" style="rpc" />      <wsdl:input>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />        <soap:header message="tns:GetZipCodesWithinAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetZipCodesWithinFiltered">      <soap:operation soapAction="http://skats.net/services/GetZipCodesWithinFiltered" style="rpc" />      <wsdl:input>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />        <soap:header message="tns:GetZipCodesWithinFilteredAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetThreeDigitZipCodesWithin">      <soap:operation soapAction="http://skats.net/services/GetThreeDigitZipCodesWithin" style="rpc" />      <wsdl:input>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />        <soap:header message="tns:GetThreeDigitZipCodesWithinAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDistanceBetweenZipCodes">      <soap:operation soapAction="http://skats.net/services/GetDistanceBetweenZipCodes" style="rpc" />      <wsdl:input>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />        <soap:header message="tns:GetDistanceBetweenZipCodesAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetZipCodeCoordinates">      <soap:operation soapAction="http://skats.net/services/GetZipCodeCoordinates" style="rpc" />      <wsdl:input>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />        <soap:header message="tns:GetZipCodeCoordinatesAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAllUserPlaces">      <soap:operation soapAction="http://skats.net/services/GetAllUserPlaces" style="rpc" />      <wsdl:input>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />        <soap:header message="tns:GetAllUserPlacesAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SaveUserPlaces">      <soap:operation soapAction="http://skats.net/services/SaveUserPlaces" style="rpc" />      <wsdl:input>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />        <soap:header message="tns:SaveUserPlacesAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetUserPlacesWithin">      <soap:operation soapAction="http://skats.net/services/GetUserPlacesWithin" style="rpc" />      <wsdl:input>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />        <soap:header message="tns:GetUserPlacesWithinAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPlacesInside">      <soap:operation soapAction="http://skats.net/services/GetPlacesInside" style="rpc" />      <wsdl:input>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />        <soap:header message="tns:GetPlacesInsideAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="ZipCodesSoap12" type="tns:ZipCodesSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />    <wsdl:operation name="GetZipCodesWithin">      <soap12:operation soapAction="http://skats.net/services/GetZipCodesWithin" style="rpc" />      <wsdl:input>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />        <soap12:header message="tns:GetZipCodesWithinAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetZipCodesWithinFiltered">      <soap12:operation soapAction="http://skats.net/services/GetZipCodesWithinFiltered" style="rpc" />      <wsdl:input>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />        <soap12:header message="tns:GetZipCodesWithinFilteredAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetThreeDigitZipCodesWithin">      <soap12:operation soapAction="http://skats.net/services/GetThreeDigitZipCodesWithin" style="rpc" />      <wsdl:input>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />        <soap12:header message="tns:GetThreeDigitZipCodesWithinAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDistanceBetweenZipCodes">      <soap12:operation soapAction="http://skats.net/services/GetDistanceBetweenZipCodes" style="rpc" />      <wsdl:input>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />        <soap12:header message="tns:GetDistanceBetweenZipCodesAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetZipCodeCoordinates">      <soap12:operation soapAction="http://skats.net/services/GetZipCodeCoordinates" style="rpc" />      <wsdl:input>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />        <soap12:header message="tns:GetZipCodeCoordinatesAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAllUserPlaces">      <soap12:operation soapAction="http://skats.net/services/GetAllUserPlaces" style="rpc" />      <wsdl:input>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />        <soap12:header message="tns:GetAllUserPlacesAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SaveUserPlaces">      <soap12:operation soapAction="http://skats.net/services/SaveUserPlaces" style="rpc" />      <wsdl:input>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />        <soap12:header message="tns:SaveUserPlacesAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetUserPlacesWithin">      <soap12:operation soapAction="http://skats.net/services/GetUserPlacesWithin" style="rpc" />      <wsdl:input>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />        <soap12:header message="tns:GetUserPlacesWithinAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPlacesInside">      <soap12:operation soapAction="http://skats.net/services/GetPlacesInside" style="rpc" />      <wsdl:input>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />        <soap12:header message="tns:GetPlacesInsideAuthenticationHeader" part="AuthenticationHeader" use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />      </wsdl:input>      <wsdl:output>        <soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="ZipCodesHttpGet" type="tns:ZipCodesHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetZipCodesWithin">      <http:operation location="/GetZipCodesWithin" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetZipCodesWithinFiltered">      <http:operation location="/GetZipCodesWithinFiltered" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetThreeDigitZipCodesWithin">      <http:operation location="/GetThreeDigitZipCodesWithin" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDistanceBetweenZipCodes">      <http:operation location="/GetDistanceBetweenZipCodes" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetZipCodeCoordinates">      <http:operation location="/GetZipCodeCoordinates" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAllUserPlaces">      <http:operation location="/GetAllUserPlaces" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetUserPlacesWithin">      <http:operation location="/GetUserPlacesWithin" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPlacesInside">      <http:operation location="/GetPlacesInside" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="ZipCodesHttpPost" type="tns:ZipCodesHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetZipCodesWithin">      <http:operation location="/GetZipCodesWithin" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetZipCodesWithinFiltered">      <http:operation location="/GetZipCodesWithinFiltered" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetThreeDigitZipCodesWithin">      <http:operation location="/GetThreeDigitZipCodesWithin" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDistanceBetweenZipCodes">      <http:operation location="/GetDistanceBetweenZipCodes" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetZipCodeCoordinates">      <http:operation location="/GetZipCodeCoordinates" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAllUserPlaces">      <http:operation location="/GetAllUserPlaces" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetUserPlacesWithin">      <http:operation location="/GetUserPlacesWithin" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPlacesInside">      <http:operation location="/GetPlacesInside" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="ZipCodes">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ZipCode Lookup web service features several functions for US zipcodes and distance manipulations: zip code lookup by distance, zip code coordinates, distance between zip codes.</wsdl:documentation>    <wsdl:port name="ZipCodesSoap" binding="tns:ZipCodesSoap">      <soap:address location="http://www.codebump.com/services/zipcodelookup.asmx" />    </wsdl:port>    <wsdl:port name="ZipCodesSoap12" binding="tns:ZipCodesSoap12">      <soap12:address location="http://www.codebump.com/services/zipcodelookup.asmx" />    </wsdl:port>    <wsdl:port name="ZipCodesHttpGet" binding="tns:ZipCodesHttpGet">      <http:address location="http://www.codebump.com/services/zipcodelookup.asmx" />    </wsdl:port>    <wsdl:port name="ZipCodesHttpPost" binding="tns:ZipCodesHttpPost">      <http:address location="http://www.codebump.com/services/zipcodelookup.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://skats.net/services/"
+	xmlns:s1="http://skats.net/services/literalTypes" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://skats.net/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ZipCode Lookup web service features several functions for US zipcodes
+		and distance manipulations: zip code lookup by distance, zip code coordinates, distance between zip codes.
+	</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://skats.net/services/">
+			<s:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+			<s:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+			<s:complexType name="ArrayOfZipCodeDistances">
+				<s:complexContent mixed="false">
+					<s:restriction base="soapenc:Array">
+						<s:attribute wsdl:arrayType="tns:ZipCodeDistances[]" ref="soapenc:arrayType" />
+					</s:restriction>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="ZipCodeDistances">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" form="unqualified" name="ZipCode" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" form="unqualified" name="Distance" type="s:float" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="AuthenticationHeader">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" form="unqualified" name="SessionID" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="FilterType">
+				<s:restriction base="s:string">
+					<s:enumeration value="None" />
+					<s:enumeration value="StartsWith" />
+					<s:enumeration value="EndsWith" />
+					<s:enumeration value="Anywhere" />
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="ZipCodeCoordinates">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" form="unqualified" name="LatDegrees" type="s:float" />
+					<s:element minOccurs="1" maxOccurs="1" form="unqualified" name="LonDegrees" type="s:float" />
+					<s:element minOccurs="1" maxOccurs="1" form="unqualified" name="LatRadians" type="s:float" />
+					<s:element minOccurs="1" maxOccurs="1" form="unqualified" name="LonRadians" type="s:float" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfUserPlaceDetail">
+				<s:complexContent mixed="false">
+					<s:restriction base="soapenc:Array">
+						<s:attribute wsdl:arrayType="tns:UserPlaceDetail[]" ref="soapenc:arrayType" />
+					</s:restriction>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="UserPlaceDetail">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" form="unqualified" name="Id" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" form="unqualified" name="Name" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" form="unqualified" name="Address" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" form="unqualified" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" form="unqualified" name="State" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" form="unqualified" name="ZipCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" form="unqualified" name="Category" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" form="unqualified" name="Data" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" form="unqualified" name="LatDegrees" type="s:float" />
+					<s:element minOccurs="1" maxOccurs="1" form="unqualified" name="LonDegrees" type="s:float" />
+					<s:element minOccurs="1" maxOccurs="1" form="unqualified" name="LatRadians" type="s:float" />
+					<s:element minOccurs="1" maxOccurs="1" form="unqualified" name="LonRadians" type="s:float" />
+					<s:element minOccurs="1" maxOccurs="1" form="unqualified" name="Distance" type="s:float" />
+					<s:element minOccurs="0" maxOccurs="1" form="unqualified" name="Country" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfGeoPlaceDistance">
+				<s:complexContent mixed="false">
+					<s:restriction base="soapenc:Array">
+						<s:attribute wsdl:arrayType="tns:GeoPlaceDistance[]" ref="soapenc:arrayType" />
+					</s:restriction>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="GeoPlaceDistance">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" form="unqualified" name="ToPlace" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" form="unqualified" name="ToState" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" form="unqualified" name="Distance" type="s:float" />
+				</s:sequence>
+			</s:complexType>
+		</s:schema>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://skats.net/services/literalTypes">
+			<s:element name="ArrayOfZipCodeDistances" nillable="true" type="s1:ArrayOfZipCodeDistances" />
+			<s:complexType name="ArrayOfZipCodeDistances">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="ZipCodeDistances" nillable="true" type="s1:ZipCodeDistances" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ZipCodeDistances">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="ZipCode" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Distance" type="s:float" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="float" type="s:float" />
+			<s:element name="ZipCodeCoordinates" nillable="true" type="s1:ZipCodeCoordinates" />
+			<s:complexType name="ZipCodeCoordinates">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="LatDegrees" type="s:float" />
+					<s:element minOccurs="1" maxOccurs="1" name="LonDegrees" type="s:float" />
+					<s:element minOccurs="1" maxOccurs="1" name="LatRadians" type="s:float" />
+					<s:element minOccurs="1" maxOccurs="1" name="LonRadians" type="s:float" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="ArrayOfUserPlaceDetail" nillable="true" type="s1:ArrayOfUserPlaceDetail" />
+			<s:complexType name="ArrayOfUserPlaceDetail">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="UserPlaceDetail" nillable="true" type="s1:UserPlaceDetail" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="UserPlaceDetail">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ZipCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Category" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Data" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="LatDegrees" type="s:float" />
+					<s:element minOccurs="1" maxOccurs="1" name="LonDegrees" type="s:float" />
+					<s:element minOccurs="1" maxOccurs="1" name="LatRadians" type="s:float" />
+					<s:element minOccurs="1" maxOccurs="1" name="LonRadians" type="s:float" />
+					<s:element minOccurs="1" maxOccurs="1" name="Distance" type="s:float" />
+					<s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="ArrayOfGeoPlaceDistance" nillable="true" type="s1:ArrayOfGeoPlaceDistance" />
+			<s:complexType name="ArrayOfGeoPlaceDistance">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="GeoPlaceDistance" nillable="true" type="s1:GeoPlaceDistance" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="GeoPlaceDistance">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="ToPlace" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ToState" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Distance" type="s:float" />
+				</s:sequence>
+			</s:complexType>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetZipCodesWithinSoapIn">
+		<wsdl:part name="zip" type="s:string" />
+		<wsdl:part name="distance" type="s:float" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodesWithinSoapOut">
+		<wsdl:part name="GetZipCodesWithinResult" type="tns:ArrayOfZipCodeDistances" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodesWithinAuthenticationHeader">
+		<wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodesWithinFilteredSoapIn">
+		<wsdl:part name="zip" type="s:string" />
+		<wsdl:part name="distance" type="s:float" />
+		<wsdl:part name="filter" type="s:string" />
+		<wsdl:part name="filterType" type="tns:FilterType" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodesWithinFilteredSoapOut">
+		<wsdl:part name="GetZipCodesWithinFilteredResult" type="tns:ArrayOfZipCodeDistances" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodesWithinFilteredAuthenticationHeader">
+		<wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />
+	</wsdl:message>
+	<wsdl:message name="GetThreeDigitZipCodesWithinSoapIn">
+		<wsdl:part name="zip" type="s:string" />
+		<wsdl:part name="distance" type="s:float" />
+	</wsdl:message>
+	<wsdl:message name="GetThreeDigitZipCodesWithinSoapOut">
+		<wsdl:part name="GetThreeDigitZipCodesWithinResult" type="tns:ArrayOfZipCodeDistances" />
+	</wsdl:message>
+	<wsdl:message name="GetThreeDigitZipCodesWithinAuthenticationHeader">
+		<wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />
+	</wsdl:message>
+	<wsdl:message name="GetDistanceBetweenZipCodesSoapIn">
+		<wsdl:part name="zip1" type="s:string" />
+		<wsdl:part name="zip2" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetDistanceBetweenZipCodesSoapOut">
+		<wsdl:part name="GetDistanceBetweenZipCodesResult" type="s:float" />
+	</wsdl:message>
+	<wsdl:message name="GetDistanceBetweenZipCodesAuthenticationHeader">
+		<wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodeCoordinatesSoapIn">
+		<wsdl:part name="zip" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodeCoordinatesSoapOut">
+		<wsdl:part name="GetZipCodeCoordinatesResult" type="tns:ZipCodeCoordinates" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodeCoordinatesAuthenticationHeader">
+		<wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />
+	</wsdl:message>
+	<wsdl:message name="GetAllUserPlacesSoapIn" />
+	<wsdl:message name="GetAllUserPlacesSoapOut">
+		<wsdl:part name="GetAllUserPlacesResult" type="tns:ArrayOfUserPlaceDetail" />
+	</wsdl:message>
+	<wsdl:message name="GetAllUserPlacesAuthenticationHeader">
+		<wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />
+	</wsdl:message>
+	<wsdl:message name="SaveUserPlacesSoapIn">
+		<wsdl:part name="places" type="tns:ArrayOfUserPlaceDetail" />
+	</wsdl:message>
+	<wsdl:message name="SaveUserPlacesSoapOut" />
+	<wsdl:message name="SaveUserPlacesAuthenticationHeader">
+		<wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />
+	</wsdl:message>
+	<wsdl:message name="GetUserPlacesWithinSoapIn">
+		<wsdl:part name="zip" type="s:string" />
+		<wsdl:part name="distance" type="s:float" />
+		<wsdl:part name="category" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetUserPlacesWithinSoapOut">
+		<wsdl:part name="GetUserPlacesWithinResult" type="tns:ArrayOfUserPlaceDetail" />
+	</wsdl:message>
+	<wsdl:message name="GetUserPlacesWithinAuthenticationHeader">
+		<wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />
+	</wsdl:message>
+	<wsdl:message name="GetPlacesInsideSoapIn">
+		<wsdl:part name="zip" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPlacesInsideSoapOut">
+		<wsdl:part name="GetPlacesInsideResult" type="tns:ArrayOfGeoPlaceDistance" />
+	</wsdl:message>
+	<wsdl:message name="GetPlacesInsideAuthenticationHeader">
+		<wsdl:part name="AuthenticationHeader" type="tns:AuthenticationHeader" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodesWithinHttpGetIn">
+		<wsdl:part name="zip" type="s:string" />
+		<wsdl:part name="distance" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodesWithinHttpGetOut">
+		<wsdl:part name="Body" element="s1:ArrayOfZipCodeDistances" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodesWithinFilteredHttpGetIn">
+		<wsdl:part name="zip" type="s:string" />
+		<wsdl:part name="distance" type="s:string" />
+		<wsdl:part name="filter" type="s:string" />
+		<wsdl:part name="filterType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodesWithinFilteredHttpGetOut">
+		<wsdl:part name="Body" element="s1:ArrayOfZipCodeDistances" />
+	</wsdl:message>
+	<wsdl:message name="GetThreeDigitZipCodesWithinHttpGetIn">
+		<wsdl:part name="zip" type="s:string" />
+		<wsdl:part name="distance" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetThreeDigitZipCodesWithinHttpGetOut">
+		<wsdl:part name="Body" element="s1:ArrayOfZipCodeDistances" />
+	</wsdl:message>
+	<wsdl:message name="GetDistanceBetweenZipCodesHttpGetIn">
+		<wsdl:part name="zip1" type="s:string" />
+		<wsdl:part name="zip2" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetDistanceBetweenZipCodesHttpGetOut">
+		<wsdl:part name="Body" element="s1:float" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodeCoordinatesHttpGetIn">
+		<wsdl:part name="zip" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodeCoordinatesHttpGetOut">
+		<wsdl:part name="Body" element="s1:ZipCodeCoordinates" />
+	</wsdl:message>
+	<wsdl:message name="GetAllUserPlacesHttpGetIn" />
+	<wsdl:message name="GetAllUserPlacesHttpGetOut">
+		<wsdl:part name="Body" element="s1:ArrayOfUserPlaceDetail" />
+	</wsdl:message>
+	<wsdl:message name="GetUserPlacesWithinHttpGetIn">
+		<wsdl:part name="zip" type="s:string" />
+		<wsdl:part name="distance" type="s:string" />
+		<wsdl:part name="category" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetUserPlacesWithinHttpGetOut">
+		<wsdl:part name="Body" element="s1:ArrayOfUserPlaceDetail" />
+	</wsdl:message>
+	<wsdl:message name="GetPlacesInsideHttpGetIn">
+		<wsdl:part name="zip" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPlacesInsideHttpGetOut">
+		<wsdl:part name="Body" element="s1:ArrayOfGeoPlaceDistance" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodesWithinHttpPostIn">
+		<wsdl:part name="zip" type="s:string" />
+		<wsdl:part name="distance" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodesWithinHttpPostOut">
+		<wsdl:part name="Body" element="s1:ArrayOfZipCodeDistances" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodesWithinFilteredHttpPostIn">
+		<wsdl:part name="zip" type="s:string" />
+		<wsdl:part name="distance" type="s:string" />
+		<wsdl:part name="filter" type="s:string" />
+		<wsdl:part name="filterType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodesWithinFilteredHttpPostOut">
+		<wsdl:part name="Body" element="s1:ArrayOfZipCodeDistances" />
+	</wsdl:message>
+	<wsdl:message name="GetThreeDigitZipCodesWithinHttpPostIn">
+		<wsdl:part name="zip" type="s:string" />
+		<wsdl:part name="distance" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetThreeDigitZipCodesWithinHttpPostOut">
+		<wsdl:part name="Body" element="s1:ArrayOfZipCodeDistances" />
+	</wsdl:message>
+	<wsdl:message name="GetDistanceBetweenZipCodesHttpPostIn">
+		<wsdl:part name="zip1" type="s:string" />
+		<wsdl:part name="zip2" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetDistanceBetweenZipCodesHttpPostOut">
+		<wsdl:part name="Body" element="s1:float" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodeCoordinatesHttpPostIn">
+		<wsdl:part name="zip" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetZipCodeCoordinatesHttpPostOut">
+		<wsdl:part name="Body" element="s1:ZipCodeCoordinates" />
+	</wsdl:message>
+	<wsdl:message name="GetAllUserPlacesHttpPostIn" />
+	<wsdl:message name="GetAllUserPlacesHttpPostOut">
+		<wsdl:part name="Body" element="s1:ArrayOfUserPlaceDetail" />
+	</wsdl:message>
+	<wsdl:message name="GetUserPlacesWithinHttpPostIn">
+		<wsdl:part name="zip" type="s:string" />
+		<wsdl:part name="distance" type="s:string" />
+		<wsdl:part name="category" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetUserPlacesWithinHttpPostOut">
+		<wsdl:part name="Body" element="s1:ArrayOfUserPlaceDetail" />
+	</wsdl:message>
+	<wsdl:message name="GetPlacesInsideHttpPostIn">
+		<wsdl:part name="zip" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPlacesInsideHttpPostOut">
+		<wsdl:part name="Body" element="s1:ArrayOfGeoPlaceDistance" />
+	</wsdl:message>
+	<wsdl:portType name="ZipCodesSoap">
+		<wsdl:operation name="GetZipCodesWithin">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a
+				given zip code. Parameters: zip - 5 digit US zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in
+				miles.</wsdl:documentation>
+			<wsdl:input message="tns:GetZipCodesWithinSoapIn" />
+			<wsdl:output message="tns:GetZipCodesWithinSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetZipCodesWithinFiltered">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a
+				given zip code. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in
+				miles, filter - string to filter results, filterType - type of filter (StartsWith, EndsWith, Anywhere, None).
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetZipCodesWithinFilteredSoapIn" />
+			<wsdl:output message="tns:GetZipCodesWithinFilteredSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetThreeDigitZipCodesWithin">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a
+				given zip code. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in
+				miles.</wsdl:documentation>
+			<wsdl:input message="tns:GetThreeDigitZipCodesWithinSoapIn" />
+			<wsdl:output message="tns:GetThreeDigitZipCodesWithinSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDistanceBetweenZipCodes">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a distance in miles between two zip codes. Parameters: zip1
+				- 5 digit zip code or Canadian postal code (M3H, M3H 6A7), zip2 - 5 digit zip code or Canadian postal code (M3H, M3H
+				6A7).</wsdl:documentation>
+			<wsdl:input message="tns:GetDistanceBetweenZipCodesSoapIn" />
+			<wsdl:output message="tns:GetDistanceBetweenZipCodesSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetZipCodeCoordinates">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a centroid point of the zip code in both radians and
+				degrees. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7).</wsdl:documentation>
+			<wsdl:input message="tns:GetZipCodeCoordinatesSoapIn" />
+			<wsdl:output message="tns:GetZipCodeCoordinatesSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAllUserPlaces">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an array of all user-defined places.</wsdl:documentation>
+			<wsdl:input message="tns:GetAllUserPlacesSoapIn" />
+			<wsdl:output message="tns:GetAllUserPlacesSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SaveUserPlaces">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Saves user-defined places.</wsdl:documentation>
+			<wsdl:input message="tns:SaveUserPlacesSoapIn" />
+			<wsdl:output message="tns:SaveUserPlacesSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetUserPlacesWithin">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of user-defined places within a specified distance
+				from a given place. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), state - 2 letter
+				state code (not required for zip codes), distance - distance in miles, category - an optional category, if not empy
+				only user-defined places that match the category will be returned.</wsdl:documentation>
+			<wsdl:input message="tns:GetUserPlacesWithinSoapIn" />
+			<wsdl:output message="tns:GetUserPlacesWithinSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPlacesInside">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of geo places inside a given zip code. Parameters:
+				zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), state - 2 letter state code (not required for zip
+				codes).</wsdl:documentation>
+			<wsdl:input message="tns:GetPlacesInsideSoapIn" />
+			<wsdl:output message="tns:GetPlacesInsideSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="ZipCodesHttpGet">
+		<wsdl:operation name="GetZipCodesWithin">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a
+				given zip code. Parameters: zip - 5 digit US zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in
+				miles.</wsdl:documentation>
+			<wsdl:input message="tns:GetZipCodesWithinHttpGetIn" />
+			<wsdl:output message="tns:GetZipCodesWithinHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetZipCodesWithinFiltered">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a
+				given zip code. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in
+				miles, filter - string to filter results, filterType - type of filter (StartsWith, EndsWith, Anywhere, None).
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetZipCodesWithinFilteredHttpGetIn" />
+			<wsdl:output message="tns:GetZipCodesWithinFilteredHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetThreeDigitZipCodesWithin">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a
+				given zip code. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in
+				miles.</wsdl:documentation>
+			<wsdl:input message="tns:GetThreeDigitZipCodesWithinHttpGetIn" />
+			<wsdl:output message="tns:GetThreeDigitZipCodesWithinHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDistanceBetweenZipCodes">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a distance in miles between two zip codes. Parameters: zip1
+				- 5 digit zip code or Canadian postal code (M3H, M3H 6A7), zip2 - 5 digit zip code or Canadian postal code (M3H, M3H
+				6A7).</wsdl:documentation>
+			<wsdl:input message="tns:GetDistanceBetweenZipCodesHttpGetIn" />
+			<wsdl:output message="tns:GetDistanceBetweenZipCodesHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetZipCodeCoordinates">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a centroid point of the zip code in both radians and
+				degrees. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7).</wsdl:documentation>
+			<wsdl:input message="tns:GetZipCodeCoordinatesHttpGetIn" />
+			<wsdl:output message="tns:GetZipCodeCoordinatesHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAllUserPlaces">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an array of all user-defined places.</wsdl:documentation>
+			<wsdl:input message="tns:GetAllUserPlacesHttpGetIn" />
+			<wsdl:output message="tns:GetAllUserPlacesHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetUserPlacesWithin">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of user-defined places within a specified distance
+				from a given place. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), state - 2 letter
+				state code (not required for zip codes), distance - distance in miles, category - an optional category, if not empy
+				only user-defined places that match the category will be returned.</wsdl:documentation>
+			<wsdl:input message="tns:GetUserPlacesWithinHttpGetIn" />
+			<wsdl:output message="tns:GetUserPlacesWithinHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPlacesInside">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of geo places inside a given zip code. Parameters:
+				zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), state - 2 letter state code (not required for zip
+				codes).</wsdl:documentation>
+			<wsdl:input message="tns:GetPlacesInsideHttpGetIn" />
+			<wsdl:output message="tns:GetPlacesInsideHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="ZipCodesHttpPost">
+		<wsdl:operation name="GetZipCodesWithin">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a
+				given zip code. Parameters: zip - 5 digit US zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in
+				miles.</wsdl:documentation>
+			<wsdl:input message="tns:GetZipCodesWithinHttpPostIn" />
+			<wsdl:output message="tns:GetZipCodesWithinHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetZipCodesWithinFiltered">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a
+				given zip code. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in
+				miles, filter - string to filter results, filterType - type of filter (StartsWith, EndsWith, Anywhere, None).
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetZipCodesWithinFilteredHttpPostIn" />
+			<wsdl:output message="tns:GetZipCodesWithinFilteredHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetThreeDigitZipCodesWithin">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of zip codes within a specified distance from a
+				given zip code. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), distance - distance in
+				miles.</wsdl:documentation>
+			<wsdl:input message="tns:GetThreeDigitZipCodesWithinHttpPostIn" />
+			<wsdl:output message="tns:GetThreeDigitZipCodesWithinHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDistanceBetweenZipCodes">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a distance in miles between two zip codes. Parameters: zip1
+				- 5 digit zip code or Canadian postal code (M3H, M3H 6A7), zip2 - 5 digit zip code or Canadian postal code (M3H, M3H
+				6A7).</wsdl:documentation>
+			<wsdl:input message="tns:GetDistanceBetweenZipCodesHttpPostIn" />
+			<wsdl:output message="tns:GetDistanceBetweenZipCodesHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetZipCodeCoordinates">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a centroid point of the zip code in both radians and
+				degrees. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7).</wsdl:documentation>
+			<wsdl:input message="tns:GetZipCodeCoordinatesHttpPostIn" />
+			<wsdl:output message="tns:GetZipCodeCoordinatesHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAllUserPlaces">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an array of all user-defined places.</wsdl:documentation>
+			<wsdl:input message="tns:GetAllUserPlacesHttpPostIn" />
+			<wsdl:output message="tns:GetAllUserPlacesHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetUserPlacesWithin">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of user-defined places within a specified distance
+				from a given place. Parameters: zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), state - 2 letter
+				state code (not required for zip codes), distance - distance in miles, category - an optional category, if not empy
+				only user-defined places that match the category will be returned.</wsdl:documentation>
+			<wsdl:input message="tns:GetUserPlacesWithinHttpPostIn" />
+			<wsdl:output message="tns:GetUserPlacesWithinHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPlacesInside">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of geo places inside a given zip code. Parameters:
+				zip - 5 digit zip code or Canadian postal code (M3H, M3H 6A7), state - 2 letter state code (not required for zip
+				codes).</wsdl:documentation>
+			<wsdl:input message="tns:GetPlacesInsideHttpPostIn" />
+			<wsdl:output message="tns:GetPlacesInsideHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="ZipCodesSoap" type="tns:ZipCodesSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+		<wsdl:operation name="GetZipCodesWithin">
+			<soap:operation soapAction="http://skats.net/services/GetZipCodesWithin" style="rpc" />
+			<wsdl:input>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:header message="tns:GetZipCodesWithinAuthenticationHeader" part="AuthenticationHeader" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetZipCodesWithinFiltered">
+			<soap:operation soapAction="http://skats.net/services/GetZipCodesWithinFiltered" style="rpc" />
+			<wsdl:input>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:header message="tns:GetZipCodesWithinFilteredAuthenticationHeader" part="AuthenticationHeader"
+					use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetThreeDigitZipCodesWithin">
+			<soap:operation soapAction="http://skats.net/services/GetThreeDigitZipCodesWithin" style="rpc" />
+			<wsdl:input>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:header message="tns:GetThreeDigitZipCodesWithinAuthenticationHeader" part="AuthenticationHeader"
+					use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDistanceBetweenZipCodes">
+			<soap:operation soapAction="http://skats.net/services/GetDistanceBetweenZipCodes" style="rpc" />
+			<wsdl:input>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:header message="tns:GetDistanceBetweenZipCodesAuthenticationHeader" part="AuthenticationHeader"
+					use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetZipCodeCoordinates">
+			<soap:operation soapAction="http://skats.net/services/GetZipCodeCoordinates" style="rpc" />
+			<wsdl:input>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:header message="tns:GetZipCodeCoordinatesAuthenticationHeader" part="AuthenticationHeader" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAllUserPlaces">
+			<soap:operation soapAction="http://skats.net/services/GetAllUserPlaces" style="rpc" />
+			<wsdl:input>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:header message="tns:GetAllUserPlacesAuthenticationHeader" part="AuthenticationHeader" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SaveUserPlaces">
+			<soap:operation soapAction="http://skats.net/services/SaveUserPlaces" style="rpc" />
+			<wsdl:input>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:header message="tns:SaveUserPlacesAuthenticationHeader" part="AuthenticationHeader" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetUserPlacesWithin">
+			<soap:operation soapAction="http://skats.net/services/GetUserPlacesWithin" style="rpc" />
+			<wsdl:input>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:header message="tns:GetUserPlacesWithinAuthenticationHeader" part="AuthenticationHeader" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPlacesInside">
+			<soap:operation soapAction="http://skats.net/services/GetPlacesInside" style="rpc" />
+			<wsdl:input>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:header message="tns:GetPlacesInsideAuthenticationHeader" part="AuthenticationHeader" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="ZipCodesSoap12" type="tns:ZipCodesSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+		<wsdl:operation name="GetZipCodesWithin">
+			<soap12:operation soapAction="http://skats.net/services/GetZipCodesWithin" style="rpc" />
+			<wsdl:input>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+				<soap12:header message="tns:GetZipCodesWithinAuthenticationHeader" part="AuthenticationHeader" use="encoded"
+					encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetZipCodesWithinFiltered">
+			<soap12:operation soapAction="http://skats.net/services/GetZipCodesWithinFiltered" style="rpc" />
+			<wsdl:input>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+				<soap12:header message="tns:GetZipCodesWithinFilteredAuthenticationHeader" part="AuthenticationHeader"
+					use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetThreeDigitZipCodesWithin">
+			<soap12:operation soapAction="http://skats.net/services/GetThreeDigitZipCodesWithin" style="rpc" />
+			<wsdl:input>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+				<soap12:header message="tns:GetThreeDigitZipCodesWithinAuthenticationHeader" part="AuthenticationHeader"
+					use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDistanceBetweenZipCodes">
+			<soap12:operation soapAction="http://skats.net/services/GetDistanceBetweenZipCodes" style="rpc" />
+			<wsdl:input>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+				<soap12:header message="tns:GetDistanceBetweenZipCodesAuthenticationHeader" part="AuthenticationHeader"
+					use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetZipCodeCoordinates">
+			<soap12:operation soapAction="http://skats.net/services/GetZipCodeCoordinates" style="rpc" />
+			<wsdl:input>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+				<soap12:header message="tns:GetZipCodeCoordinatesAuthenticationHeader" part="AuthenticationHeader"
+					use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAllUserPlaces">
+			<soap12:operation soapAction="http://skats.net/services/GetAllUserPlaces" style="rpc" />
+			<wsdl:input>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+				<soap12:header message="tns:GetAllUserPlacesAuthenticationHeader" part="AuthenticationHeader" use="encoded"
+					encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SaveUserPlaces">
+			<soap12:operation soapAction="http://skats.net/services/SaveUserPlaces" style="rpc" />
+			<wsdl:input>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+				<soap12:header message="tns:SaveUserPlacesAuthenticationHeader" part="AuthenticationHeader" use="encoded"
+					encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetUserPlacesWithin">
+			<soap12:operation soapAction="http://skats.net/services/GetUserPlacesWithin" style="rpc" />
+			<wsdl:input>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+				<soap12:header message="tns:GetUserPlacesWithinAuthenticationHeader" part="AuthenticationHeader" use="encoded"
+					encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPlacesInside">
+			<soap12:operation soapAction="http://skats.net/services/GetPlacesInside" style="rpc" />
+			<wsdl:input>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+				<soap12:header message="tns:GetPlacesInsideAuthenticationHeader" part="AuthenticationHeader" use="encoded"
+					encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://skats.net/services/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="encoded" namespace="http://skats.net/services/" encodingStyle="http://www.w3.org/2003/05/soap-encoding" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="ZipCodesHttpGet" type="tns:ZipCodesHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetZipCodesWithin">
+			<http:operation location="/GetZipCodesWithin" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetZipCodesWithinFiltered">
+			<http:operation location="/GetZipCodesWithinFiltered" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetThreeDigitZipCodesWithin">
+			<http:operation location="/GetThreeDigitZipCodesWithin" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDistanceBetweenZipCodes">
+			<http:operation location="/GetDistanceBetweenZipCodes" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetZipCodeCoordinates">
+			<http:operation location="/GetZipCodeCoordinates" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAllUserPlaces">
+			<http:operation location="/GetAllUserPlaces" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetUserPlacesWithin">
+			<http:operation location="/GetUserPlacesWithin" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPlacesInside">
+			<http:operation location="/GetPlacesInside" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="ZipCodesHttpPost" type="tns:ZipCodesHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetZipCodesWithin">
+			<http:operation location="/GetZipCodesWithin" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetZipCodesWithinFiltered">
+			<http:operation location="/GetZipCodesWithinFiltered" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetThreeDigitZipCodesWithin">
+			<http:operation location="/GetThreeDigitZipCodesWithin" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDistanceBetweenZipCodes">
+			<http:operation location="/GetDistanceBetweenZipCodes" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetZipCodeCoordinates">
+			<http:operation location="/GetZipCodeCoordinates" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAllUserPlaces">
+			<http:operation location="/GetAllUserPlaces" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetUserPlacesWithin">
+			<http:operation location="/GetUserPlacesWithin" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPlacesInside">
+			<http:operation location="/GetPlacesInside" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="ZipCodes">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ZipCode Lookup web service features several functions for US
+			zipcodes and distance manipulations: zip code lookup by distance, zip code coordinates, distance between zip codes.
+		</wsdl:documentation>
+		<wsdl:port name="ZipCodesSoap" binding="tns:ZipCodesSoap">
+			<soap:address location="http://www.codebump.com/services/zipcodelookup.asmx" />
+		</wsdl:port>
+		<wsdl:port name="ZipCodesSoap12" binding="tns:ZipCodesSoap12">
+			<soap12:address location="http://www.codebump.com/services/zipcodelookup.asmx" />
+		</wsdl:port>
+		<wsdl:port name="ZipCodesHttpGet" binding="tns:ZipCodesHttpGet">
+			<http:address location="http://www.codebump.com/services/zipcodelookup.asmx" />
+		</wsdl:port>
+		<wsdl:port name="ZipCodesHttpPost" binding="tns:ZipCodesHttpPost">
+			<http:address location="http://www.codebump.com/services/zipcodelookup.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

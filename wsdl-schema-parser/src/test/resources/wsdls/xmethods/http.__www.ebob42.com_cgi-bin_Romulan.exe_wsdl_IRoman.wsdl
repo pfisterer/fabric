@@ -1,1 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?><definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="IRomanservice" targetNamespace="http://eBob42.org/" xmlns:tns="http://eBob42.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/">  <message name="IntToRoman0Request">    <part name="Int" type="xs:int"/>  </message>  <message name="IntToRoman0Response">    <part name="return" type="xs:string"/>  </message>  <message name="RomanToInt1Request">    <part name="Rom" type="xs:string"/>  </message>  <message name="RomanToInt1Response">    <part name="return" type="xs:int"/>  </message>  <portType name="IRoman">    <operation name="IntToRoman">      <input message="tns:IntToRoman0Request"/>      <output message="tns:IntToRoman0Response"/>    </operation>    <operation name="RomanToInt">      <input message="tns:RomanToInt1Request"/>      <output message="tns:RomanToInt1Response"/>    </operation>  </portType>  <binding name="IRomanbinding" type="tns:IRoman">    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>    <operation name="IntToRoman">      <soap:operation soapAction="urn:Roman-IRoman#IntToRoman" style="rpc"/>      <input message="tns:IntToRoman0Request">        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:Roman-IRoman"/>      </input>      <output message="tns:IntToRoman0Response">        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:Roman-IRoman"/>      </output>    </operation>    <operation name="RomanToInt">      <soap:operation soapAction="urn:Roman-IRoman#RomanToInt" style="rpc"/>      <input message="tns:RomanToInt1Request">        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:Roman-IRoman"/>      </input>      <output message="tns:RomanToInt1Response">        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:Roman-IRoman"/>      </output>    </operation>  </binding>  <service name="IRomanservice">    <port name="IRomanPort" binding="tns:IRomanbinding">      <soap:address location="http://www.ebob42.com/cgi-bin/Romulan.exe/soap/IRoman"/>    </port>  </service></definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="IRomanservice"
+	targetNamespace="http://eBob42.org/" xmlns:tns="http://eBob42.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/">
+	<message name="IntToRoman0Request">
+		<part name="Int" type="xs:int" />
+	</message>
+	<message name="IntToRoman0Response">
+		<part name="return" type="xs:string" />
+	</message>
+	<message name="RomanToInt1Request">
+		<part name="Rom" type="xs:string" />
+	</message>
+	<message name="RomanToInt1Response">
+		<part name="return" type="xs:int" />
+	</message>
+	<portType name="IRoman">
+		<operation name="IntToRoman">
+			<input message="tns:IntToRoman0Request" />
+			<output message="tns:IntToRoman0Response" />
+		</operation>
+		<operation name="RomanToInt">
+			<input message="tns:RomanToInt1Request" />
+			<output message="tns:RomanToInt1Response" />
+		</operation>
+	</portType>
+	<binding name="IRomanbinding" type="tns:IRoman">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="IntToRoman">
+			<soap:operation soapAction="urn:Roman-IRoman#IntToRoman" style="rpc" />
+			<input message="tns:IntToRoman0Request">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:Roman-IRoman" />
+			</input>
+			<output message="tns:IntToRoman0Response">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:Roman-IRoman" />
+			</output>
+		</operation>
+		<operation name="RomanToInt">
+			<soap:operation soapAction="urn:Roman-IRoman#RomanToInt" style="rpc" />
+			<input message="tns:RomanToInt1Request">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:Roman-IRoman" />
+			</input>
+			<output message="tns:RomanToInt1Response">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:Roman-IRoman" />
+			</output>
+		</operation>
+	</binding>
+	<service name="IRomanservice">
+		<port name="IRomanPort" binding="tns:IRomanbinding">
+			<soap:address location="http://www.ebob42.com/cgi-bin/Romulan.exe/soap/IRoman" />
+		</port>
+	</service>
+</definitions>

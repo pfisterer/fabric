@@ -1,1 +1,882 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service provides compliance with OFAC requirements.</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">      <s:element name="GetCriteria">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="CriteriaType" type="tns:CriteriaTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="CriteriaTypes">        <s:restriction base="s:string">          <s:enumeration value="Country" />          <s:enumeration value="City" />          <s:enumeration value="Program" />        </s:restriction>      </s:simpleType>      <s:element name="GetCriteriaResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetCriteriaResult" type="tns:Criteria" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="Criteria">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="CriteriaType" type="tns:CriteriaTypes" />              <s:element minOccurs="0" maxOccurs="1" name="Values" type="tns:ArrayOfString" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="Common">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />        </s:sequence>      </s:complexType>      <s:simpleType name="OutcomeTypes">        <s:restriction base="s:string">          <s:enumeration value="Success" />          <s:enumeration value="SystemError" />          <s:enumeration value="RequestError" />          <s:enumeration value="RegistrationError" />        </s:restriction>      </s:simpleType>      <s:complexType name="ArrayOfString">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="Header" type="tns:Header" />      <s:complexType name="Header">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />        </s:sequence>        <s:anyAttribute />      </s:complexType>      <s:element name="SearchByName">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:OFACTypes" />            <s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="OFACTypes">        <s:restriction base="s:string">          <s:enumeration value="All" />          <s:enumeration value="Organization" />          <s:enumeration value="Individual" />          <s:enumeration value="Vessel" />        </s:restriction>      </s:simpleType>      <s:simpleType name="SearchTypes">        <s:restriction base="s:string">          <s:enumeration value="Contains" />          <s:enumeration value="ExactMatch" />          <s:enumeration value="SoundsLike" />        </s:restriction>      </s:simpleType>      <s:element name="SearchByNameResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SearchByNameResult" type="tns:SearchResults" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="SearchResults">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="TimeOfRequest" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="SearchCriteria" type="tns:SearchCriteria" />              <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />              <s:element minOccurs="0" maxOccurs="1" name="Matches" type="tns:ArrayOfOFACName" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="SearchCriteria">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:OFACTypes" />          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchTypes" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfOFACName">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="OFACName" nillable="true" type="tns:OFACName" />        </s:sequence>      </s:complexType>      <s:complexType name="OFACName">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:OFACTypes" />              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Remarks" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Addresses" type="tns:ArrayOfOFACAddress" />              <s:element minOccurs="0" maxOccurs="1" name="AlternateNames" type="tns:ArrayOfOFACAlternateName" />              <s:element minOccurs="0" maxOccurs="1" name="Programs" type="tns:ArrayOfSanctionProgram" />              <s:element minOccurs="0" maxOccurs="1" name="Vessel" type="tns:Vessel" />              <s:element minOccurs="0" maxOccurs="1" name="Score" type="tns:Score" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="ArrayOfOFACAddress">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="OFACAddress" nillable="true" type="tns:OFACAddress" />        </s:sequence>      </s:complexType>      <s:complexType name="OFACAddress">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Remarks" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="ArrayOfOFACAlternateName">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="OFACAlternateName" nillable="true" type="tns:OFACAlternateName" />        </s:sequence>      </s:complexType>      <s:complexType name="OFACAlternateName">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:AlternateNameTypes" />          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Remarks" type="s:string" />        </s:sequence>      </s:complexType>      <s:simpleType name="AlternateNameTypes">        <s:restriction base="s:string">          <s:enumeration value="aka" />          <s:enumeration value="fka" />          <s:enumeration value="nka" />        </s:restriction>      </s:simpleType>      <s:complexType name="ArrayOfSanctionProgram">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="SanctionProgram" nillable="true" type="tns:SanctionProgram" />        </s:sequence>      </s:complexType>      <s:complexType name="SanctionProgram">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Sanction" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="Vessel">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="CallSign" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Tonnage" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="GRT" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Flag" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Owner" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="Score">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Name" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="City" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="Country" type="s:double" />        </s:sequence>      </s:complexType>      <s:element name="SearchOrganization">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SearchOrganizationResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SearchOrganizationResult" type="tns:SearchResults" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SearchIndividual">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SearchIndividualResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SearchIndividualResult" type="tns:SearchResults" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SearchVessel">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SearchVesselResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SearchVesselResult" type="tns:SearchResults" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SearchByAddress">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:OFACTypes" />            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SearchByAddressResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SearchByAddressResult" type="tns:SearchResults" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Search">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:OFACTypes" />            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SearchResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SearchResult" type="tns:SearchResults" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Criteria" nillable="true" type="tns:Criteria" />      <s:element name="SearchResults" nillable="true" type="tns:SearchResults" />    </s:schema>  </wsdl:types>  <wsdl:message name="GetCriteriaSoapIn">    <wsdl:part name="parameters" element="tns:GetCriteria" />  </wsdl:message>  <wsdl:message name="GetCriteriaSoapOut">    <wsdl:part name="parameters" element="tns:GetCriteriaResponse" />  </wsdl:message>  <wsdl:message name="GetCriteriaHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="SearchByNameSoapIn">    <wsdl:part name="parameters" element="tns:SearchByName" />  </wsdl:message>  <wsdl:message name="SearchByNameSoapOut">    <wsdl:part name="parameters" element="tns:SearchByNameResponse" />  </wsdl:message>  <wsdl:message name="SearchByNameHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="SearchOrganizationSoapIn">    <wsdl:part name="parameters" element="tns:SearchOrganization" />  </wsdl:message>  <wsdl:message name="SearchOrganizationSoapOut">    <wsdl:part name="parameters" element="tns:SearchOrganizationResponse" />  </wsdl:message>  <wsdl:message name="SearchOrganizationHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="SearchIndividualSoapIn">    <wsdl:part name="parameters" element="tns:SearchIndividual" />  </wsdl:message>  <wsdl:message name="SearchIndividualSoapOut">    <wsdl:part name="parameters" element="tns:SearchIndividualResponse" />  </wsdl:message>  <wsdl:message name="SearchIndividualHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="SearchVesselSoapIn">    <wsdl:part name="parameters" element="tns:SearchVessel" />  </wsdl:message>  <wsdl:message name="SearchVesselSoapOut">    <wsdl:part name="parameters" element="tns:SearchVesselResponse" />  </wsdl:message>  <wsdl:message name="SearchVesselHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="SearchByAddressSoapIn">    <wsdl:part name="parameters" element="tns:SearchByAddress" />  </wsdl:message>  <wsdl:message name="SearchByAddressSoapOut">    <wsdl:part name="parameters" element="tns:SearchByAddressResponse" />  </wsdl:message>  <wsdl:message name="SearchByAddressHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="SearchSoapIn">    <wsdl:part name="parameters" element="tns:Search" />  </wsdl:message>  <wsdl:message name="SearchSoapOut">    <wsdl:part name="parameters" element="tns:SearchResponse" />  </wsdl:message>  <wsdl:message name="SearchHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetCriteriaHttpGetIn">    <wsdl:part name="CriteriaType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetCriteriaHttpGetOut">    <wsdl:part name="Body" element="tns:Criteria" />  </wsdl:message>  <wsdl:message name="SearchByNameHttpGetIn">    <wsdl:part name="Name" type="s:string" />    <wsdl:part name="Type" type="s:string" />    <wsdl:part name="SearchType" type="s:string" />  </wsdl:message>  <wsdl:message name="SearchByNameHttpGetOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="SearchOrganizationHttpGetIn">    <wsdl:part name="Name" type="s:string" />    <wsdl:part name="SearchType" type="s:string" />  </wsdl:message>  <wsdl:message name="SearchOrganizationHttpGetOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="SearchIndividualHttpGetIn">    <wsdl:part name="Name" type="s:string" />    <wsdl:part name="SearchType" type="s:string" />  </wsdl:message>  <wsdl:message name="SearchIndividualHttpGetOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="SearchVesselHttpGetIn">    <wsdl:part name="Name" type="s:string" />    <wsdl:part name="SearchType" type="s:string" />  </wsdl:message>  <wsdl:message name="SearchVesselHttpGetOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="SearchByAddressHttpGetIn">    <wsdl:part name="Type" type="s:string" />    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="Country" type="s:string" />    <wsdl:part name="SearchType" type="s:string" />  </wsdl:message>  <wsdl:message name="SearchByAddressHttpGetOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="SearchHttpGetIn">    <wsdl:part name="Name" type="s:string" />    <wsdl:part name="Title" type="s:string" />    <wsdl:part name="Type" type="s:string" />    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="Country" type="s:string" />    <wsdl:part name="SearchType" type="s:string" />  </wsdl:message>  <wsdl:message name="SearchHttpGetOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="GetCriteriaHttpPostIn">    <wsdl:part name="CriteriaType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetCriteriaHttpPostOut">    <wsdl:part name="Body" element="tns:Criteria" />  </wsdl:message>  <wsdl:message name="SearchByNameHttpPostIn">    <wsdl:part name="Name" type="s:string" />    <wsdl:part name="Type" type="s:string" />    <wsdl:part name="SearchType" type="s:string" />  </wsdl:message>  <wsdl:message name="SearchByNameHttpPostOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="SearchOrganizationHttpPostIn">    <wsdl:part name="Name" type="s:string" />    <wsdl:part name="SearchType" type="s:string" />  </wsdl:message>  <wsdl:message name="SearchOrganizationHttpPostOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="SearchIndividualHttpPostIn">    <wsdl:part name="Name" type="s:string" />    <wsdl:part name="SearchType" type="s:string" />  </wsdl:message>  <wsdl:message name="SearchIndividualHttpPostOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="SearchVesselHttpPostIn">    <wsdl:part name="Name" type="s:string" />    <wsdl:part name="SearchType" type="s:string" />  </wsdl:message>  <wsdl:message name="SearchVesselHttpPostOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="SearchByAddressHttpPostIn">    <wsdl:part name="Type" type="s:string" />    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="Country" type="s:string" />    <wsdl:part name="SearchType" type="s:string" />  </wsdl:message>  <wsdl:message name="SearchByAddressHttpPostOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="SearchHttpPostIn">    <wsdl:part name="Name" type="s:string" />    <wsdl:part name="Title" type="s:string" />    <wsdl:part name="Type" type="s:string" />    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="Country" type="s:string" />    <wsdl:part name="SearchType" type="s:string" />  </wsdl:message>  <wsdl:message name="SearchHttpPostOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:portType name="XigniteOFACSoap">    <wsdl:operation name="GetCriteria">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of valid search criteria.</wsdl:documentation>      <wsdl:input message="tns:GetCriteriaSoapIn" />      <wsdl:output message="tns:GetCriteriaSoapOut" />    </wsdl:operation>    <wsdl:operation name="SearchByName">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>      <wsdl:input message="tns:SearchByNameSoapIn" />      <wsdl:output message="tns:SearchByNameSoapOut" />    </wsdl:operation>    <wsdl:operation name="SearchOrganization">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>      <wsdl:input message="tns:SearchOrganizationSoapIn" />      <wsdl:output message="tns:SearchOrganizationSoapOut" />    </wsdl:operation>    <wsdl:operation name="SearchIndividual">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>      <wsdl:input message="tns:SearchIndividualSoapIn" />      <wsdl:output message="tns:SearchIndividualSoapOut" />    </wsdl:operation>    <wsdl:operation name="SearchVessel">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database for a vessel.</wsdl:documentation>      <wsdl:input message="tns:SearchVesselSoapIn" />      <wsdl:output message="tns:SearchVesselSoapOut" />    </wsdl:operation>    <wsdl:operation name="SearchByAddress">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by address.</wsdl:documentation>      <wsdl:input message="tns:SearchByAddressSoapIn" />      <wsdl:output message="tns:SearchByAddressSoapOut" />    </wsdl:operation>    <wsdl:operation name="Search">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database.</wsdl:documentation>      <wsdl:input message="tns:SearchSoapIn" />      <wsdl:output message="tns:SearchSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteOFACHttpGet">    <wsdl:operation name="GetCriteria">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of valid search criteria.</wsdl:documentation>      <wsdl:input message="tns:GetCriteriaHttpGetIn" />      <wsdl:output message="tns:GetCriteriaHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="SearchByName">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>      <wsdl:input message="tns:SearchByNameHttpGetIn" />      <wsdl:output message="tns:SearchByNameHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="SearchOrganization">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>      <wsdl:input message="tns:SearchOrganizationHttpGetIn" />      <wsdl:output message="tns:SearchOrganizationHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="SearchIndividual">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>      <wsdl:input message="tns:SearchIndividualHttpGetIn" />      <wsdl:output message="tns:SearchIndividualHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="SearchVessel">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database for a vessel.</wsdl:documentation>      <wsdl:input message="tns:SearchVesselHttpGetIn" />      <wsdl:output message="tns:SearchVesselHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="SearchByAddress">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by address.</wsdl:documentation>      <wsdl:input message="tns:SearchByAddressHttpGetIn" />      <wsdl:output message="tns:SearchByAddressHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="Search">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database.</wsdl:documentation>      <wsdl:input message="tns:SearchHttpGetIn" />      <wsdl:output message="tns:SearchHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteOFACHttpPost">    <wsdl:operation name="GetCriteria">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of valid search criteria.</wsdl:documentation>      <wsdl:input message="tns:GetCriteriaHttpPostIn" />      <wsdl:output message="tns:GetCriteriaHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="SearchByName">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>      <wsdl:input message="tns:SearchByNameHttpPostIn" />      <wsdl:output message="tns:SearchByNameHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="SearchOrganization">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>      <wsdl:input message="tns:SearchOrganizationHttpPostIn" />      <wsdl:output message="tns:SearchOrganizationHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="SearchIndividual">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>      <wsdl:input message="tns:SearchIndividualHttpPostIn" />      <wsdl:output message="tns:SearchIndividualHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="SearchVessel">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database for a vessel.</wsdl:documentation>      <wsdl:input message="tns:SearchVesselHttpPostIn" />      <wsdl:output message="tns:SearchVesselHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="SearchByAddress">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by address.</wsdl:documentation>      <wsdl:input message="tns:SearchByAddressHttpPostIn" />      <wsdl:output message="tns:SearchByAddressHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="Search">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database.</wsdl:documentation>      <wsdl:input message="tns:SearchHttpPostIn" />      <wsdl:output message="tns:SearchHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="XigniteOFACSoap" type="tns:XigniteOFACSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetCriteria">      <soap:operation soapAction="http://www.xignite.com/services/GetCriteria" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetCriteriaHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchByName">      <soap:operation soapAction="http://www.xignite.com/services/SearchByName" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:SearchByNameHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchOrganization">      <soap:operation soapAction="http://www.xignite.com/services/SearchOrganization" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:SearchOrganizationHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchIndividual">      <soap:operation soapAction="http://www.xignite.com/services/SearchIndividual" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:SearchIndividualHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchVessel">      <soap:operation soapAction="http://www.xignite.com/services/SearchVessel" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:SearchVesselHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchByAddress">      <soap:operation soapAction="http://www.xignite.com/services/SearchByAddress" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:SearchByAddressHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Search">      <soap:operation soapAction="http://www.xignite.com/services/Search" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:SearchHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteOFACSoap12" type="tns:XigniteOFACSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetCriteria">      <soap12:operation soapAction="http://www.xignite.com/services/GetCriteria" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetCriteriaHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchByName">      <soap12:operation soapAction="http://www.xignite.com/services/SearchByName" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:SearchByNameHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchOrganization">      <soap12:operation soapAction="http://www.xignite.com/services/SearchOrganization" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:SearchOrganizationHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchIndividual">      <soap12:operation soapAction="http://www.xignite.com/services/SearchIndividual" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:SearchIndividualHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchVessel">      <soap12:operation soapAction="http://www.xignite.com/services/SearchVessel" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:SearchVesselHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchByAddress">      <soap12:operation soapAction="http://www.xignite.com/services/SearchByAddress" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:SearchByAddressHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Search">      <soap12:operation soapAction="http://www.xignite.com/services/Search" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:SearchHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteOFACHttpGet" type="tns:XigniteOFACHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetCriteria">      <http:operation location="/GetCriteria" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchByName">      <http:operation location="/SearchByName" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchOrganization">      <http:operation location="/SearchOrganization" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchIndividual">      <http:operation location="/SearchIndividual" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchVessel">      <http:operation location="/SearchVessel" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchByAddress">      <http:operation location="/SearchByAddress" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Search">      <http:operation location="/Search" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteOFACHttpPost" type="tns:XigniteOFACHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetCriteria">      <http:operation location="/GetCriteria" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchByName">      <http:operation location="/SearchByName" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchOrganization">      <http:operation location="/SearchOrganization" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchIndividual">      <http:operation location="/SearchIndividual" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchVessel">      <http:operation location="/SearchVessel" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SearchByAddress">      <http:operation location="/SearchByAddress" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Search">      <http:operation location="/Search" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="XigniteOFAC">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service provides compliance with OFAC requirements.</wsdl:documentation>    <wsdl:port name="XigniteOFACSoap" binding="tns:XigniteOFACSoap">      <soap:address location="http://www.xignite.com/xofac.asmx" />    </wsdl:port>    <wsdl:port name="XigniteOFACSoap12" binding="tns:XigniteOFACSoap12">      <soap12:address location="http://www.xignite.com/xofac.asmx" />    </wsdl:port>    <wsdl:port name="XigniteOFACHttpGet" binding="tns:XigniteOFACHttpGet">      <http:address location="http://www.xignite.com/xofac.asmx" />    </wsdl:port>    <wsdl:port name="XigniteOFACHttpPost" binding="tns:XigniteOFACHttpPost">      <http:address location="http://www.xignite.com/xofac.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service provides compliance with OFAC requirements.
+	</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">
+			<s:element name="GetCriteria">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="CriteriaType" type="tns:CriteriaTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="CriteriaTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Country" />
+					<s:enumeration value="City" />
+					<s:enumeration value="Program" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetCriteriaResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetCriteriaResult" type="tns:Criteria" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="Criteria">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="CriteriaType" type="tns:CriteriaTypes" />
+							<s:element minOccurs="0" maxOccurs="1" name="Values" type="tns:ArrayOfString" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="Common">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="OutcomeTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Success" />
+					<s:enumeration value="SystemError" />
+					<s:enumeration value="RequestError" />
+					<s:enumeration value="RegistrationError" />
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="ArrayOfString">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="Header" type="tns:Header" />
+			<s:complexType name="Header">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />
+				</s:sequence>
+				<s:anyAttribute />
+			</s:complexType>
+			<s:element name="SearchByName">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:OFACTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="OFACTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="All" />
+					<s:enumeration value="Organization" />
+					<s:enumeration value="Individual" />
+					<s:enumeration value="Vessel" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="SearchTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Contains" />
+					<s:enumeration value="ExactMatch" />
+					<s:enumeration value="SoundsLike" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="SearchByNameResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SearchByNameResult" type="tns:SearchResults" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="SearchResults">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="TimeOfRequest" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="SearchCriteria" type="tns:SearchCriteria" />
+							<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+							<s:element minOccurs="0" maxOccurs="1" name="Matches" type="tns:ArrayOfOFACName" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="SearchCriteria">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:OFACTypes" />
+					<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchTypes" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfOFACName">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="OFACName" nillable="true" type="tns:OFACName" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="OFACName">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:OFACTypes" />
+							<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Remarks" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Addresses" type="tns:ArrayOfOFACAddress" />
+							<s:element minOccurs="0" maxOccurs="1" name="AlternateNames" type="tns:ArrayOfOFACAlternateName" />
+							<s:element minOccurs="0" maxOccurs="1" name="Programs" type="tns:ArrayOfSanctionProgram" />
+							<s:element minOccurs="0" maxOccurs="1" name="Vessel" type="tns:Vessel" />
+							<s:element minOccurs="0" maxOccurs="1" name="Score" type="tns:Score" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="ArrayOfOFACAddress">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="OFACAddress" nillable="true" type="tns:OFACAddress" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="OFACAddress">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Remarks" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ArrayOfOFACAlternateName">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="OFACAlternateName" nillable="true" type="tns:OFACAlternateName" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="OFACAlternateName">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:AlternateNameTypes" />
+					<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Remarks" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="AlternateNameTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="aka" />
+					<s:enumeration value="fka" />
+					<s:enumeration value="nka" />
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="ArrayOfSanctionProgram">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="SanctionProgram" nillable="true" type="tns:SanctionProgram" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="SanctionProgram">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Sanction" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="Vessel">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="CallSign" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Tonnage" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="GRT" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Flag" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Owner" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Score">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Name" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="City" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="Country" type="s:double" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="SearchOrganization">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SearchOrganizationResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SearchOrganizationResult" type="tns:SearchResults" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SearchIndividual">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SearchIndividualResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SearchIndividualResult" type="tns:SearchResults" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SearchVessel">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SearchVesselResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SearchVesselResult" type="tns:SearchResults" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SearchByAddress">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:OFACTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SearchByAddressResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SearchByAddressResult" type="tns:SearchResults" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Search">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:OFACTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SearchResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SearchResult" type="tns:SearchResults" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Criteria" nillable="true" type="tns:Criteria" />
+			<s:element name="SearchResults" nillable="true" type="tns:SearchResults" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetCriteriaSoapIn">
+		<wsdl:part name="parameters" element="tns:GetCriteria" />
+	</wsdl:message>
+	<wsdl:message name="GetCriteriaSoapOut">
+		<wsdl:part name="parameters" element="tns:GetCriteriaResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetCriteriaHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="SearchByNameSoapIn">
+		<wsdl:part name="parameters" element="tns:SearchByName" />
+	</wsdl:message>
+	<wsdl:message name="SearchByNameSoapOut">
+		<wsdl:part name="parameters" element="tns:SearchByNameResponse" />
+	</wsdl:message>
+	<wsdl:message name="SearchByNameHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="SearchOrganizationSoapIn">
+		<wsdl:part name="parameters" element="tns:SearchOrganization" />
+	</wsdl:message>
+	<wsdl:message name="SearchOrganizationSoapOut">
+		<wsdl:part name="parameters" element="tns:SearchOrganizationResponse" />
+	</wsdl:message>
+	<wsdl:message name="SearchOrganizationHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="SearchIndividualSoapIn">
+		<wsdl:part name="parameters" element="tns:SearchIndividual" />
+	</wsdl:message>
+	<wsdl:message name="SearchIndividualSoapOut">
+		<wsdl:part name="parameters" element="tns:SearchIndividualResponse" />
+	</wsdl:message>
+	<wsdl:message name="SearchIndividualHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="SearchVesselSoapIn">
+		<wsdl:part name="parameters" element="tns:SearchVessel" />
+	</wsdl:message>
+	<wsdl:message name="SearchVesselSoapOut">
+		<wsdl:part name="parameters" element="tns:SearchVesselResponse" />
+	</wsdl:message>
+	<wsdl:message name="SearchVesselHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="SearchByAddressSoapIn">
+		<wsdl:part name="parameters" element="tns:SearchByAddress" />
+	</wsdl:message>
+	<wsdl:message name="SearchByAddressSoapOut">
+		<wsdl:part name="parameters" element="tns:SearchByAddressResponse" />
+	</wsdl:message>
+	<wsdl:message name="SearchByAddressHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="SearchSoapIn">
+		<wsdl:part name="parameters" element="tns:Search" />
+	</wsdl:message>
+	<wsdl:message name="SearchSoapOut">
+		<wsdl:part name="parameters" element="tns:SearchResponse" />
+	</wsdl:message>
+	<wsdl:message name="SearchHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetCriteriaHttpGetIn">
+		<wsdl:part name="CriteriaType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetCriteriaHttpGetOut">
+		<wsdl:part name="Body" element="tns:Criteria" />
+	</wsdl:message>
+	<wsdl:message name="SearchByNameHttpGetIn">
+		<wsdl:part name="Name" type="s:string" />
+		<wsdl:part name="Type" type="s:string" />
+		<wsdl:part name="SearchType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SearchByNameHttpGetOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="SearchOrganizationHttpGetIn">
+		<wsdl:part name="Name" type="s:string" />
+		<wsdl:part name="SearchType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SearchOrganizationHttpGetOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="SearchIndividualHttpGetIn">
+		<wsdl:part name="Name" type="s:string" />
+		<wsdl:part name="SearchType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SearchIndividualHttpGetOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="SearchVesselHttpGetIn">
+		<wsdl:part name="Name" type="s:string" />
+		<wsdl:part name="SearchType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SearchVesselHttpGetOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="SearchByAddressHttpGetIn">
+		<wsdl:part name="Type" type="s:string" />
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="Country" type="s:string" />
+		<wsdl:part name="SearchType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SearchByAddressHttpGetOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="SearchHttpGetIn">
+		<wsdl:part name="Name" type="s:string" />
+		<wsdl:part name="Title" type="s:string" />
+		<wsdl:part name="Type" type="s:string" />
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="Country" type="s:string" />
+		<wsdl:part name="SearchType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SearchHttpGetOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="GetCriteriaHttpPostIn">
+		<wsdl:part name="CriteriaType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetCriteriaHttpPostOut">
+		<wsdl:part name="Body" element="tns:Criteria" />
+	</wsdl:message>
+	<wsdl:message name="SearchByNameHttpPostIn">
+		<wsdl:part name="Name" type="s:string" />
+		<wsdl:part name="Type" type="s:string" />
+		<wsdl:part name="SearchType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SearchByNameHttpPostOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="SearchOrganizationHttpPostIn">
+		<wsdl:part name="Name" type="s:string" />
+		<wsdl:part name="SearchType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SearchOrganizationHttpPostOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="SearchIndividualHttpPostIn">
+		<wsdl:part name="Name" type="s:string" />
+		<wsdl:part name="SearchType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SearchIndividualHttpPostOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="SearchVesselHttpPostIn">
+		<wsdl:part name="Name" type="s:string" />
+		<wsdl:part name="SearchType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SearchVesselHttpPostOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="SearchByAddressHttpPostIn">
+		<wsdl:part name="Type" type="s:string" />
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="Country" type="s:string" />
+		<wsdl:part name="SearchType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SearchByAddressHttpPostOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="SearchHttpPostIn">
+		<wsdl:part name="Name" type="s:string" />
+		<wsdl:part name="Title" type="s:string" />
+		<wsdl:part name="Type" type="s:string" />
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="Country" type="s:string" />
+		<wsdl:part name="SearchType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SearchHttpPostOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:portType name="XigniteOFACSoap">
+		<wsdl:operation name="GetCriteria">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of valid search criteria.</wsdl:documentation>
+			<wsdl:input message="tns:GetCriteriaSoapIn" />
+			<wsdl:output message="tns:GetCriteriaSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchByName">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>
+			<wsdl:input message="tns:SearchByNameSoapIn" />
+			<wsdl:output message="tns:SearchByNameSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchOrganization">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>
+			<wsdl:input message="tns:SearchOrganizationSoapIn" />
+			<wsdl:output message="tns:SearchOrganizationSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchIndividual">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>
+			<wsdl:input message="tns:SearchIndividualSoapIn" />
+			<wsdl:output message="tns:SearchIndividualSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchVessel">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database for a vessel.</wsdl:documentation>
+			<wsdl:input message="tns:SearchVesselSoapIn" />
+			<wsdl:output message="tns:SearchVesselSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchByAddress">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by address.</wsdl:documentation>
+			<wsdl:input message="tns:SearchByAddressSoapIn" />
+			<wsdl:output message="tns:SearchByAddressSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Search">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database.</wsdl:documentation>
+			<wsdl:input message="tns:SearchSoapIn" />
+			<wsdl:output message="tns:SearchSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteOFACHttpGet">
+		<wsdl:operation name="GetCriteria">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of valid search criteria.</wsdl:documentation>
+			<wsdl:input message="tns:GetCriteriaHttpGetIn" />
+			<wsdl:output message="tns:GetCriteriaHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchByName">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>
+			<wsdl:input message="tns:SearchByNameHttpGetIn" />
+			<wsdl:output message="tns:SearchByNameHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchOrganization">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>
+			<wsdl:input message="tns:SearchOrganizationHttpGetIn" />
+			<wsdl:output message="tns:SearchOrganizationHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchIndividual">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>
+			<wsdl:input message="tns:SearchIndividualHttpGetIn" />
+			<wsdl:output message="tns:SearchIndividualHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchVessel">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database for a vessel.</wsdl:documentation>
+			<wsdl:input message="tns:SearchVesselHttpGetIn" />
+			<wsdl:output message="tns:SearchVesselHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchByAddress">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by address.</wsdl:documentation>
+			<wsdl:input message="tns:SearchByAddressHttpGetIn" />
+			<wsdl:output message="tns:SearchByAddressHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Search">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database.</wsdl:documentation>
+			<wsdl:input message="tns:SearchHttpGetIn" />
+			<wsdl:output message="tns:SearchHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteOFACHttpPost">
+		<wsdl:operation name="GetCriteria">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of valid search criteria.</wsdl:documentation>
+			<wsdl:input message="tns:GetCriteriaHttpPostIn" />
+			<wsdl:output message="tns:GetCriteriaHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchByName">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>
+			<wsdl:input message="tns:SearchByNameHttpPostIn" />
+			<wsdl:output message="tns:SearchByNameHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchOrganization">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>
+			<wsdl:input message="tns:SearchOrganizationHttpPostIn" />
+			<wsdl:output message="tns:SearchOrganizationHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchIndividual">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by name.</wsdl:documentation>
+			<wsdl:input message="tns:SearchIndividualHttpPostIn" />
+			<wsdl:output message="tns:SearchIndividualHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchVessel">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database for a vessel.</wsdl:documentation>
+			<wsdl:input message="tns:SearchVesselHttpPostIn" />
+			<wsdl:output message="tns:SearchVesselHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchByAddress">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database by address.</wsdl:documentation>
+			<wsdl:input message="tns:SearchByAddressHttpPostIn" />
+			<wsdl:output message="tns:SearchByAddressHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Search">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search the OFAC database.</wsdl:documentation>
+			<wsdl:input message="tns:SearchHttpPostIn" />
+			<wsdl:output message="tns:SearchHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="XigniteOFACSoap" type="tns:XigniteOFACSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetCriteria">
+			<soap:operation soapAction="http://www.xignite.com/services/GetCriteria" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetCriteriaHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchByName">
+			<soap:operation soapAction="http://www.xignite.com/services/SearchByName" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:SearchByNameHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchOrganization">
+			<soap:operation soapAction="http://www.xignite.com/services/SearchOrganization" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:SearchOrganizationHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchIndividual">
+			<soap:operation soapAction="http://www.xignite.com/services/SearchIndividual" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:SearchIndividualHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchVessel">
+			<soap:operation soapAction="http://www.xignite.com/services/SearchVessel" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:SearchVesselHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchByAddress">
+			<soap:operation soapAction="http://www.xignite.com/services/SearchByAddress" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:SearchByAddressHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Search">
+			<soap:operation soapAction="http://www.xignite.com/services/Search" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:SearchHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteOFACSoap12" type="tns:XigniteOFACSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetCriteria">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetCriteria" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetCriteriaHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchByName">
+			<soap12:operation soapAction="http://www.xignite.com/services/SearchByName" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:SearchByNameHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchOrganization">
+			<soap12:operation soapAction="http://www.xignite.com/services/SearchOrganization" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:SearchOrganizationHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchIndividual">
+			<soap12:operation soapAction="http://www.xignite.com/services/SearchIndividual" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:SearchIndividualHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchVessel">
+			<soap12:operation soapAction="http://www.xignite.com/services/SearchVessel" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:SearchVesselHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchByAddress">
+			<soap12:operation soapAction="http://www.xignite.com/services/SearchByAddress" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:SearchByAddressHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Search">
+			<soap12:operation soapAction="http://www.xignite.com/services/Search" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:SearchHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteOFACHttpGet" type="tns:XigniteOFACHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetCriteria">
+			<http:operation location="/GetCriteria" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchByName">
+			<http:operation location="/SearchByName" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchOrganization">
+			<http:operation location="/SearchOrganization" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchIndividual">
+			<http:operation location="/SearchIndividual" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchVessel">
+			<http:operation location="/SearchVessel" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchByAddress">
+			<http:operation location="/SearchByAddress" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Search">
+			<http:operation location="/Search" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteOFACHttpPost" type="tns:XigniteOFACHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetCriteria">
+			<http:operation location="/GetCriteria" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchByName">
+			<http:operation location="/SearchByName" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchOrganization">
+			<http:operation location="/SearchOrganization" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchIndividual">
+			<http:operation location="/SearchIndividual" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchVessel">
+			<http:operation location="/SearchVessel" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchByAddress">
+			<http:operation location="/SearchByAddress" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Search">
+			<http:operation location="/Search" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="XigniteOFAC">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service provides compliance with OFAC requirements.
+		</wsdl:documentation>
+		<wsdl:port name="XigniteOFACSoap" binding="tns:XigniteOFACSoap">
+			<soap:address location="http://www.xignite.com/xofac.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteOFACSoap12" binding="tns:XigniteOFACSoap12">
+			<soap12:address location="http://www.xignite.com/xofac.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteOFACHttpGet" binding="tns:XigniteOFACHttpGet">
+			<http:address location="http://www.xignite.com/xofac.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteOFACHttpPost" binding="tns:XigniteOFACHttpPost">
+			<http:address location="http://www.xignite.com/xofac.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

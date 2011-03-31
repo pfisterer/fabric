@@ -1,1 +1,393 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="com.esendex.ems.soapinterface" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="com.esendex.ems.soapinterface" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Methods to send SMS messages individually and in batches. Click here for a &lt;a href="https://www.esendex.com/uk/evaluation/evaluation.aspx" title="SMS Service Trial"&gt;free trial&lt;/a&gt;.</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="com.esendex.ems.soapinterface">      <s:element name="SendMessage">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="recipient" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="type" type="tns:MessageType" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="MessageType">        <s:restriction base="s:string">          <s:enumeration value="Text" />          <s:enumeration value="Binary" />          <s:enumeration value="SmartMessage" />          <s:enumeration value="Unicode" />        </s:restriction>      </s:simpleType>      <s:element name="SendMessageResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SendMessageResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="MessengerHeader" type="tns:MessengerHeader" />      <s:complexType name="MessengerHeader">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Account" type="s:string" />        </s:sequence>        <s:anyAttribute />      </s:complexType>      <s:element name="SendMessageFull">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="originator" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="recipient" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="type" type="tns:MessageType" />            <s:element minOccurs="1" maxOccurs="1" name="validityperiod" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendMessageFullResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SendMessageFullResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendMessageMultipleRecipients">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="recipients" type="tns:ArrayOfString" />            <s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="type" type="tns:MessageType" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfString">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="SendMessageMultipleRecipientsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SendMessageMultipleRecipientsResult" type="tns:ArrayOfString" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendMessageMultipleRecipientsFull">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="originator" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="recipients" type="tns:ArrayOfString" />            <s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="type" type="tns:MessageType" />            <s:element minOccurs="1" maxOccurs="1" name="validityperiod" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendMessageMultipleRecipientsFullResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SendMessageMultipleRecipientsFullResult" type="tns:ArrayOfString" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SendMessageBatch">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="messages" type="tns:ArrayOfMessagesubmission" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfMessagesubmission">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="messagesubmission" nillable="true" type="tns:messagesubmission" />        </s:sequence>      </s:complexType>      <s:complexType name="messagesubmission">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="originator" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="recipient" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="type" type="tns:MessageContentType" />          <s:element minOccurs="1" maxOccurs="1" name="validityperiod" type="s:int" />        </s:sequence>      </s:complexType>      <s:simpleType name="MessageContentType">        <s:restriction base="s:string">          <s:enumeration value="Text" />          <s:enumeration value="Binary" />          <s:enumeration value="SmartMessage" />          <s:enumeration value="Unicode" />          <s:enumeration value="WapPush" />          <s:enumeration value="LongMessage" />          <s:enumeration value="WDPMessage" />          <s:enumeration value="AdvancedMessage" />          <s:enumeration value="VoiceMessage" />        </s:restriction>      </s:simpleType>      <s:element name="SendMessageBatchResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SendMessageBatchResult" type="tns:ArrayOfString" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetMessageStatus">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetMessageStatusResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetMessageStatusResult" type="tns:MessageStatusCode" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="MessageStatusCode">        <s:restriction base="s:string">          <s:enumeration value="Queued" />          <s:enumeration value="Sent" />          <s:enumeration value="Delivered" />          <s:enumeration value="Failed" />        </s:restriction>      </s:simpleType>    </s:schema>  </wsdl:types>  <wsdl:message name="SendMessageSoapIn">    <wsdl:part name="parameters" element="tns:SendMessage" />  </wsdl:message>  <wsdl:message name="SendMessageSoapOut">    <wsdl:part name="parameters" element="tns:SendMessageResponse" />  </wsdl:message>  <wsdl:message name="SendMessageMessengerHeader">    <wsdl:part name="MessengerHeader" element="tns:MessengerHeader" />  </wsdl:message>  <wsdl:message name="SendMessageFullSoapIn">    <wsdl:part name="parameters" element="tns:SendMessageFull" />  </wsdl:message>  <wsdl:message name="SendMessageFullSoapOut">    <wsdl:part name="parameters" element="tns:SendMessageFullResponse" />  </wsdl:message>  <wsdl:message name="SendMessageFullMessengerHeader">    <wsdl:part name="MessengerHeader" element="tns:MessengerHeader" />  </wsdl:message>  <wsdl:message name="SendMessageMultipleRecipientsSoapIn">    <wsdl:part name="parameters" element="tns:SendMessageMultipleRecipients" />  </wsdl:message>  <wsdl:message name="SendMessageMultipleRecipientsSoapOut">    <wsdl:part name="parameters" element="tns:SendMessageMultipleRecipientsResponse" />  </wsdl:message>  <wsdl:message name="SendMessageMultipleRecipientsMessengerHeader">    <wsdl:part name="MessengerHeader" element="tns:MessengerHeader" />  </wsdl:message>  <wsdl:message name="SendMessageMultipleRecipientsFullSoapIn">    <wsdl:part name="parameters" element="tns:SendMessageMultipleRecipientsFull" />  </wsdl:message>  <wsdl:message name="SendMessageMultipleRecipientsFullSoapOut">    <wsdl:part name="parameters" element="tns:SendMessageMultipleRecipientsFullResponse" />  </wsdl:message>  <wsdl:message name="SendMessageMultipleRecipientsFullMessengerHeader">    <wsdl:part name="MessengerHeader" element="tns:MessengerHeader" />  </wsdl:message>  <wsdl:message name="SendMessageBatchSoapIn">    <wsdl:part name="parameters" element="tns:SendMessageBatch" />  </wsdl:message>  <wsdl:message name="SendMessageBatchSoapOut">    <wsdl:part name="parameters" element="tns:SendMessageBatchResponse" />  </wsdl:message>  <wsdl:message name="SendMessageBatchMessengerHeader">    <wsdl:part name="MessengerHeader" element="tns:MessengerHeader" />  </wsdl:message>  <wsdl:message name="GetMessageStatusSoapIn">    <wsdl:part name="parameters" element="tns:GetMessageStatus" />  </wsdl:message>  <wsdl:message name="GetMessageStatusSoapOut">    <wsdl:part name="parameters" element="tns:GetMessageStatusResponse" />  </wsdl:message>  <wsdl:message name="GetMessageStatusMessengerHeader">    <wsdl:part name="MessengerHeader" element="tns:MessengerHeader" />  </wsdl:message>  <wsdl:portType name="SendServiceSoap">    <wsdl:operation name="SendMessage">      <wsdl:input message="tns:SendMessageSoapIn" />      <wsdl:output message="tns:SendMessageSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendMessageFull">      <wsdl:input message="tns:SendMessageFullSoapIn" />      <wsdl:output message="tns:SendMessageFullSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendMessageMultipleRecipients">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">&lt;p&gt;Sends an SMS message to the specified recipients using the default originator and validity period&lt;/p&gt;&lt;b&gt;Parameters&lt;/b&gt;	&lt;table border="1" width="500"&gt;		&lt;tr valign=top&gt;			&lt;td width="100"&gt;recipients&lt;/TD&gt;			&lt;td&gt;An array of mobile numbers to send the message to&lt;/TD&gt;		&lt;/tr&gt;		&lt;tr valign=top&gt;			&lt;td width="100"&gt;body&lt;/TD&gt;			&lt;td&gt;The content of the message. 160 max characters for Text, 140 octets max for Binary and SmartMessaging, 70 octet pairs for Unicode messages.&lt;/TD&gt;&lt;/TR&gt;		&lt;/tr&gt;		&lt;tr valign=top&gt;			&lt;td width="100"&gt;type&lt;/TD&gt;			&lt;td&gt;The type of message (Text, Binary, SmartMessage, Unicode)&lt;/td&gt;		&lt;/tr&gt;	&lt;/table&gt;&lt;br&gt;Returns an array of message IDs assigned by the Esendex message Server</wsdl:documentation>      <wsdl:input message="tns:SendMessageMultipleRecipientsSoapIn" />      <wsdl:output message="tns:SendMessageMultipleRecipientsSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendMessageMultipleRecipientsFull">      <wsdl:input message="tns:SendMessageMultipleRecipientsFullSoapIn" />      <wsdl:output message="tns:SendMessageMultipleRecipientsFullSoapOut" />    </wsdl:operation>    <wsdl:operation name="SendMessageBatch">      <wsdl:input message="tns:SendMessageBatchSoapIn" />      <wsdl:output message="tns:SendMessageBatchSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetMessageStatus">      <wsdl:input message="tns:GetMessageStatusSoapIn" />      <wsdl:output message="tns:GetMessageStatusSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="SendServiceSoap" type="tns:SendServiceSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="SendMessage">      <soap:operation soapAction="com.esendex.ems.soapinterface/SendMessage" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:SendMessageMessengerHeader" part="MessengerHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMessageFull">      <soap:operation soapAction="com.esendex.ems.soapinterface/SendMessageFull" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:SendMessageFullMessengerHeader" part="MessengerHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMessageMultipleRecipients">      <soap:operation soapAction="com.esendex.ems.soapinterface/SendMessageMultipleRecipients" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:SendMessageMultipleRecipientsMessengerHeader" part="MessengerHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMessageMultipleRecipientsFull">      <soap:operation soapAction="com.esendex.ems.soapinterface/SendMessageMultipleRecipientsFull" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:SendMessageMultipleRecipientsFullMessengerHeader" part="MessengerHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMessageBatch">      <soap:operation soapAction="com.esendex.ems.soapinterface/SendMessageBatch" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:SendMessageBatchMessengerHeader" part="MessengerHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetMessageStatus">      <soap:operation soapAction="com.esendex.ems.soapinterface/GetMessageStatus" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetMessageStatusMessengerHeader" part="MessengerHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="SendServiceSoap12" type="tns:SendServiceSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="SendMessage">      <soap12:operation soapAction="com.esendex.ems.soapinterface/SendMessage" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:SendMessageMessengerHeader" part="MessengerHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMessageFull">      <soap12:operation soapAction="com.esendex.ems.soapinterface/SendMessageFull" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:SendMessageFullMessengerHeader" part="MessengerHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMessageMultipleRecipients">      <soap12:operation soapAction="com.esendex.ems.soapinterface/SendMessageMultipleRecipients" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:SendMessageMultipleRecipientsMessengerHeader" part="MessengerHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMessageMultipleRecipientsFull">      <soap12:operation soapAction="com.esendex.ems.soapinterface/SendMessageMultipleRecipientsFull" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:SendMessageMultipleRecipientsFullMessengerHeader" part="MessengerHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SendMessageBatch">      <soap12:operation soapAction="com.esendex.ems.soapinterface/SendMessageBatch" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:SendMessageBatchMessengerHeader" part="MessengerHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetMessageStatus">      <soap12:operation soapAction="com.esendex.ems.soapinterface/GetMessageStatus" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetMessageStatusMessengerHeader" part="MessengerHeader" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="SendService">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Methods to send SMS messages individually and in batches. Click here for a &lt;a href="https://www.esendex.com/uk/evaluation/evaluation.aspx" title="SMS Service Trial"&gt;free trial&lt;/a&gt;.</wsdl:documentation>    <wsdl:port name="SendServiceSoap" binding="tns:SendServiceSoap">      <soap:address location="http://www.esendex.com/secure/messenger/soap/SendService.asmx" />    </wsdl:port>    <wsdl:port name="SendServiceSoap12" binding="tns:SendServiceSoap12">      <soap12:address location="http://www.esendex.com/secure/messenger/soap/SendService.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="com.esendex.ems.soapinterface"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="com.esendex.ems.soapinterface" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Methods to send SMS messages individually and in batches. Click here
+		for a &lt;a href="https://www.esendex.com/uk/evaluation/evaluation.aspx" title="SMS Service Trial"&gt;free
+		trial&lt;/a&gt;.</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="com.esendex.ems.soapinterface">
+			<s:element name="SendMessage">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="recipient" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="type" type="tns:MessageType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="MessageType">
+				<s:restriction base="s:string">
+					<s:enumeration value="Text" />
+					<s:enumeration value="Binary" />
+					<s:enumeration value="SmartMessage" />
+					<s:enumeration value="Unicode" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="SendMessageResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SendMessageResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="MessengerHeader" type="tns:MessengerHeader" />
+			<s:complexType name="MessengerHeader">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Account" type="s:string" />
+				</s:sequence>
+				<s:anyAttribute />
+			</s:complexType>
+			<s:element name="SendMessageFull">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="originator" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="recipient" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="type" type="tns:MessageType" />
+						<s:element minOccurs="1" maxOccurs="1" name="validityperiod" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendMessageFullResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SendMessageFullResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendMessageMultipleRecipients">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="recipients" type="tns:ArrayOfString" />
+						<s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="type" type="tns:MessageType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfString">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="SendMessageMultipleRecipientsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SendMessageMultipleRecipientsResult" type="tns:ArrayOfString" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendMessageMultipleRecipientsFull">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="originator" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="recipients" type="tns:ArrayOfString" />
+						<s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="type" type="tns:MessageType" />
+						<s:element minOccurs="1" maxOccurs="1" name="validityperiod" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendMessageMultipleRecipientsFullResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SendMessageMultipleRecipientsFullResult" type="tns:ArrayOfString" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SendMessageBatch">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="messages" type="tns:ArrayOfMessagesubmission" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfMessagesubmission">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="messagesubmission" nillable="true" type="tns:messagesubmission" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="messagesubmission">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="originator" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="recipient" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="type" type="tns:MessageContentType" />
+					<s:element minOccurs="1" maxOccurs="1" name="validityperiod" type="s:int" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="MessageContentType">
+				<s:restriction base="s:string">
+					<s:enumeration value="Text" />
+					<s:enumeration value="Binary" />
+					<s:enumeration value="SmartMessage" />
+					<s:enumeration value="Unicode" />
+					<s:enumeration value="WapPush" />
+					<s:enumeration value="LongMessage" />
+					<s:enumeration value="WDPMessage" />
+					<s:enumeration value="AdvancedMessage" />
+					<s:enumeration value="VoiceMessage" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="SendMessageBatchResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SendMessageBatchResult" type="tns:ArrayOfString" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetMessageStatus">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetMessageStatusResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetMessageStatusResult" type="tns:MessageStatusCode" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="MessageStatusCode">
+				<s:restriction base="s:string">
+					<s:enumeration value="Queued" />
+					<s:enumeration value="Sent" />
+					<s:enumeration value="Delivered" />
+					<s:enumeration value="Failed" />
+				</s:restriction>
+			</s:simpleType>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="SendMessageSoapIn">
+		<wsdl:part name="parameters" element="tns:SendMessage" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageSoapOut">
+		<wsdl:part name="parameters" element="tns:SendMessageResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageMessengerHeader">
+		<wsdl:part name="MessengerHeader" element="tns:MessengerHeader" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageFullSoapIn">
+		<wsdl:part name="parameters" element="tns:SendMessageFull" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageFullSoapOut">
+		<wsdl:part name="parameters" element="tns:SendMessageFullResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageFullMessengerHeader">
+		<wsdl:part name="MessengerHeader" element="tns:MessengerHeader" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageMultipleRecipientsSoapIn">
+		<wsdl:part name="parameters" element="tns:SendMessageMultipleRecipients" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageMultipleRecipientsSoapOut">
+		<wsdl:part name="parameters" element="tns:SendMessageMultipleRecipientsResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageMultipleRecipientsMessengerHeader">
+		<wsdl:part name="MessengerHeader" element="tns:MessengerHeader" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageMultipleRecipientsFullSoapIn">
+		<wsdl:part name="parameters" element="tns:SendMessageMultipleRecipientsFull" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageMultipleRecipientsFullSoapOut">
+		<wsdl:part name="parameters" element="tns:SendMessageMultipleRecipientsFullResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageMultipleRecipientsFullMessengerHeader">
+		<wsdl:part name="MessengerHeader" element="tns:MessengerHeader" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageBatchSoapIn">
+		<wsdl:part name="parameters" element="tns:SendMessageBatch" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageBatchSoapOut">
+		<wsdl:part name="parameters" element="tns:SendMessageBatchResponse" />
+	</wsdl:message>
+	<wsdl:message name="SendMessageBatchMessengerHeader">
+		<wsdl:part name="MessengerHeader" element="tns:MessengerHeader" />
+	</wsdl:message>
+	<wsdl:message name="GetMessageStatusSoapIn">
+		<wsdl:part name="parameters" element="tns:GetMessageStatus" />
+	</wsdl:message>
+	<wsdl:message name="GetMessageStatusSoapOut">
+		<wsdl:part name="parameters" element="tns:GetMessageStatusResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetMessageStatusMessengerHeader">
+		<wsdl:part name="MessengerHeader" element="tns:MessengerHeader" />
+	</wsdl:message>
+	<wsdl:portType name="SendServiceSoap">
+		<wsdl:operation name="SendMessage">
+			<wsdl:input message="tns:SendMessageSoapIn" />
+			<wsdl:output message="tns:SendMessageSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendMessageFull">
+			<wsdl:input message="tns:SendMessageFullSoapIn" />
+			<wsdl:output message="tns:SendMessageFullSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendMessageMultipleRecipients">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">&lt;p&gt;Sends an SMS message to the specified recipients using the
+				default originator and validity period&lt;/p&gt;&lt;b&gt;Parameters&lt;/b&gt; &lt;table border="1" width="500"&gt;
+				&lt;tr valign=top&gt; &lt;td width="100"&gt;recipients&lt;/TD&gt; &lt;td&gt;An array of mobile numbers to send the
+				message to&lt;/TD&gt; &lt;/tr&gt; &lt;tr valign=top&gt; &lt;td width="100"&gt;body&lt;/TD&gt; &lt;td&gt;The content
+				of the message. 160 max characters for Text, 140 octets max for Binary and SmartMessaging, 70 octet pairs for
+				Unicode messages.&lt;/TD&gt;&lt;/TR&gt; &lt;/tr&gt; &lt;tr valign=top&gt; &lt;td width="100"&gt;type&lt;/TD&gt;
+				&lt;td&gt;The type of message (Text, Binary, SmartMessage, Unicode)&lt;/td&gt; &lt;/tr&gt;
+				&lt;/table&gt;&lt;br&gt;Returns an array of message IDs assigned by the Esendex message Server</wsdl:documentation>
+			<wsdl:input message="tns:SendMessageMultipleRecipientsSoapIn" />
+			<wsdl:output message="tns:SendMessageMultipleRecipientsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendMessageMultipleRecipientsFull">
+			<wsdl:input message="tns:SendMessageMultipleRecipientsFullSoapIn" />
+			<wsdl:output message="tns:SendMessageMultipleRecipientsFullSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SendMessageBatch">
+			<wsdl:input message="tns:SendMessageBatchSoapIn" />
+			<wsdl:output message="tns:SendMessageBatchSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMessageStatus">
+			<wsdl:input message="tns:GetMessageStatusSoapIn" />
+			<wsdl:output message="tns:GetMessageStatusSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="SendServiceSoap" type="tns:SendServiceSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="SendMessage">
+			<soap:operation soapAction="com.esendex.ems.soapinterface/SendMessage" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:SendMessageMessengerHeader" part="MessengerHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMessageFull">
+			<soap:operation soapAction="com.esendex.ems.soapinterface/SendMessageFull" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:SendMessageFullMessengerHeader" part="MessengerHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMessageMultipleRecipients">
+			<soap:operation soapAction="com.esendex.ems.soapinterface/SendMessageMultipleRecipients" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:SendMessageMultipleRecipientsMessengerHeader" part="MessengerHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMessageMultipleRecipientsFull">
+			<soap:operation soapAction="com.esendex.ems.soapinterface/SendMessageMultipleRecipientsFull" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:SendMessageMultipleRecipientsFullMessengerHeader" part="MessengerHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMessageBatch">
+			<soap:operation soapAction="com.esendex.ems.soapinterface/SendMessageBatch" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:SendMessageBatchMessengerHeader" part="MessengerHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMessageStatus">
+			<soap:operation soapAction="com.esendex.ems.soapinterface/GetMessageStatus" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetMessageStatusMessengerHeader" part="MessengerHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="SendServiceSoap12" type="tns:SendServiceSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="SendMessage">
+			<soap12:operation soapAction="com.esendex.ems.soapinterface/SendMessage" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:SendMessageMessengerHeader" part="MessengerHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMessageFull">
+			<soap12:operation soapAction="com.esendex.ems.soapinterface/SendMessageFull" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:SendMessageFullMessengerHeader" part="MessengerHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMessageMultipleRecipients">
+			<soap12:operation soapAction="com.esendex.ems.soapinterface/SendMessageMultipleRecipients" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:SendMessageMultipleRecipientsMessengerHeader" part="MessengerHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMessageMultipleRecipientsFull">
+			<soap12:operation soapAction="com.esendex.ems.soapinterface/SendMessageMultipleRecipientsFull"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:SendMessageMultipleRecipientsFullMessengerHeader" part="MessengerHeader"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SendMessageBatch">
+			<soap12:operation soapAction="com.esendex.ems.soapinterface/SendMessageBatch" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:SendMessageBatchMessengerHeader" part="MessengerHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMessageStatus">
+			<soap12:operation soapAction="com.esendex.ems.soapinterface/GetMessageStatus" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetMessageStatusMessengerHeader" part="MessengerHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="SendService">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Methods to send SMS messages individually and in batches. Click here
+			for a &lt;a href="https://www.esendex.com/uk/evaluation/evaluation.aspx" title="SMS Service Trial"&gt;free
+			trial&lt;/a&gt;.</wsdl:documentation>
+		<wsdl:port name="SendServiceSoap" binding="tns:SendServiceSoap">
+			<soap:address location="http://www.esendex.com/secure/messenger/soap/SendService.asmx" />
+		</wsdl:port>
+		<wsdl:port name="SendServiceSoap12" binding="tns:SendServiceSoap12">
+			<soap12:address location="http://www.esendex.com/secure/messenger/soap/SendService.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,1 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?><definitions name="BankVal" targetNamespace="http://www.unifiedsoftware.co.uk/BankVal.wsdl" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.unifiedsoftware.co.uk/BankVal.wsdl" xmlns:xsd="http://www.w3.org/2001/XMLSchema">	<message name="ValidateInput">		<part name="params" type="xsd:string"/>	</message>	<message name="ValidateResult">		<part name="result" type="xsd:string"/>	</message>	<portType name="BankValPortType">		<operation name="bankvalidate">			<input message="tns:ValidateInput"/>			<output message="tns:ValidateResult"/>		</operation>	</portType>	<binding name="BankValBinding" type="tns:BankValPortType">		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>		<operation name="bankvalidate">			<soap:operation soapAction="urn:BankValSOAP#bankvalidate"/>			<input>				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:BankValSOAP"/>			</input>			<output>				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:BankValSOAP"/>			</output>		</operation>	</binding>	<service name="BankValSOAP">		<port name="BankValPort" binding="tns:BankValBinding">			<soap:address location="https://www.unifiedsoftware.co.uk/cgi-bin/bankvalSOAP.cgi"/>		</port>	</service></definitions>
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="BankVal" targetNamespace="http://www.unifiedsoftware.co.uk/BankVal.wsdl" xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.unifiedsoftware.co.uk/BankVal.wsdl" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<message name="ValidateInput">
+		<part name="params" type="xsd:string" />
+	</message>
+	<message name="ValidateResult">
+		<part name="result" type="xsd:string" />
+	</message>
+	<portType name="BankValPortType">
+		<operation name="bankvalidate">
+			<input message="tns:ValidateInput" />
+			<output message="tns:ValidateResult" />
+		</operation>
+	</portType>
+	<binding name="BankValBinding" type="tns:BankValPortType">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="bankvalidate">
+			<soap:operation soapAction="urn:BankValSOAP#bankvalidate" />
+			<input>
+				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:BankValSOAP" />
+			</input>
+			<output>
+				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:BankValSOAP" />
+			</output>
+		</operation>
+	</binding>
+	<service name="BankValSOAP">
+		<port name="BankValPort" binding="tns:BankValBinding">
+			<soap:address location="https://www.unifiedsoftware.co.uk/cgi-bin/bankvalSOAP.cgi" />
+		</port>
+	</service>
+</definitions>

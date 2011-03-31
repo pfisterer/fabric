@@ -1,1 +1,2050 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service provides historical US mutual fund pricing.</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">      <s:element name="GetSymbols">        <s:complexType />      </s:element>      <s:element name="GetSymbolsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetSymbolsResult" type="tns:SymbolList" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="SymbolList">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="tns:ArrayOfString" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="Common">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />        </s:sequence>      </s:complexType>      <s:simpleType name="OutcomeTypes">        <s:restriction base="s:string">          <s:enumeration value="Success" />          <s:enumeration value="SystemError" />          <s:enumeration value="RequestError" />          <s:enumeration value="RegistrationError" />        </s:restriction>      </s:simpleType>      <s:complexType name="ArrayOfString">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="Header" type="tns:Header" />      <s:complexType name="Header">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />        </s:sequence>        <s:anyAttribute />      </s:complexType>      <s:element name="GetLatestNAV">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="IdentifierTypes">        <s:restriction base="s:string">          <s:enumeration value="Symbol" />          <s:enumeration value="CIK" />          <s:enumeration value="CUSIP" />          <s:enumeration value="ISIN" />          <s:enumeration value="Valoren" />          <s:enumeration value="SEDOL" />        </s:restriction>      </s:simpleType>      <s:element name="GetLatestNAVResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetLatestNAVResult" type="tns:FundNAV" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="FundNAV">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />              <s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="Last" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="Open" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="LastClose" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="ChangeFromOpen" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="PercentChangeFromOpen" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="ChangeFromLastClose" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="PercentChangeFromLastClose" type="s:double" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="Security">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="CIK" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Cusip" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ISIN" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Valoren" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Market" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="CategoryOrIndustry" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="GetLastNAV">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLastNAVResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetLastNAVResult" type="tns:FundNAV" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLastNAVs">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifiers" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLastNAVsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetLastNAVsResult" type="tns:ArrayOfFundNAV" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfFundNAV">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="FundNAV" nillable="true" type="tns:FundNAV" />        </s:sequence>      </s:complexType>      <s:element name="GetLatestNAVs">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifiers" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestNAVsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetLatestNAVsResult" type="tns:ArrayOfFundNAV" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHistoricalNAV">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="0" maxOccurs="1" name="AsOfDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHistoricalNAVResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHistoricalNAVResult" type="tns:FundNAV" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHistoricalNAVs">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifiers" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="0" maxOccurs="1" name="AsOfDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHistoricalNAVsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHistoricalNAVsResult" type="tns:ArrayOfFundNAV" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHistoricalNAVsAsOf">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="1" maxOccurs="1" name="EndDate" type="s:dateTime" />            <s:element minOccurs="1" maxOccurs="1" name="PeriodType" type="tns:PeriodTypes" />            <s:element minOccurs="1" maxOccurs="1" name="Periods" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="PeriodTypes">        <s:restriction base="s:string">          <s:enumeration value="Day" />          <s:enumeration value="Week" />          <s:enumeration value="Month" />          <s:enumeration value="Quarter" />          <s:enumeration value="Year" />        </s:restriction>      </s:simpleType>      <s:element name="GetHistoricalNAVsAsOfResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHistoricalNAVsAsOfResult" type="tns:FundNAVs" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="FundNAVs">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />              <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="NAVs" type="tns:ArrayOfFundNAV" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="GetHistoricalNAVsRange">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetHistoricalNAVsRangeResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetHistoricalNAVsRangeResult" type="tns:FundNAVs" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTopGainers">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="FromDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ToDate" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTopGainersResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTopGainersResult" type="tns:ArrayOfTop" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfTop">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Top" nillable="true" type="tns:Top" />        </s:sequence>      </s:complexType>      <s:complexType name="Top">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="Rank" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:TopTypes" />              <s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />              <s:element minOccurs="1" maxOccurs="1" name="Change" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="PercentChange" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="StartNAV" type="s:double" />              <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="EndNAV" type="s:double" />              <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:simpleType name="TopTypes">        <s:restriction base="s:string">          <s:enumeration value="Gainers" />          <s:enumeration value="Losers" />        </s:restriction>      </s:simpleType>      <s:element name="GetTopLosers">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="FromDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ToDate" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTopLosersResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTopLosersResult" type="tns:ArrayOfTop" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawFundChartCustom">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="0" maxOccurs="1" name="AdditionalSymbols" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Style" type="tns:StockChartStyles" />            <s:element minOccurs="1" maxOccurs="1" name="Width" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="Height" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Design" type="tns:ChartDesign" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="StockChartStyles">        <s:restriction base="s:string">          <s:enumeration value="Line" />          <s:enumeration value="Candle" />          <s:enumeration value="Stick" />          <s:enumeration value="Area" />          <s:enumeration value="Percentage" />          <s:enumeration value="LinePercentage" />          <s:enumeration value="CandlePercentage" />          <s:enumeration value="StickPercentage" />          <s:enumeration value="AreaPercentage" />        </s:restriction>      </s:simpleType>      <s:complexType name="ChartDesign">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="Secure" type="s:boolean" />              <s:element minOccurs="0" maxOccurs="1" name="TextTitle" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="TextHeader" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="TextFooter" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="TextPriceLine" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="TextVolumeBar" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="TextHighest" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="TextLowest" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="TextOpen" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="TextClose" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="TextUp" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="TextDown" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorBackground" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorBackWall" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorVolumeBackWall" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="ShowVolumeBackWall" type="s:boolean" />              <s:element minOccurs="0" maxOccurs="1" name="ColorHighlight" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorPriceLine" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorVolumeBar" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorVolumeBarFill" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorHigh" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorStickUp" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorStickLow" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorConstant" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorLow" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorPoint" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorTitle" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorFooter" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorHeader" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorAxis" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorGrid" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorFonts" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorStripe" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorOpen" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorClose" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorVerticalGrid" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorHorizontalGrid" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorUp" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorDown" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorHighLowLine" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorCollection" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="GridHorizontalStyle" type="tns:LinePattern" />              <s:element minOccurs="1" maxOccurs="1" name="GridVerticalStyle" type="tns:LinePattern" />              <s:element minOccurs="1" maxOccurs="1" name="GridHorizontalWidth" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="GridVerticalWidth" type="s:int" />              <s:element minOccurs="0" maxOccurs="1" name="ColorFrame" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="FrameBorder" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="FormatPriceLine" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="FormatVolume" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="FormatDate" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="GradeBackground" type="s:boolean" />              <s:element minOccurs="1" maxOccurs="1" name="GradeBackwall" type="s:boolean" />              <s:element minOccurs="0" maxOccurs="1" name="WaterMark" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="WaterMarkTopMargin" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="WaterMarkLeftMargin" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="WaterMarkTransparency" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="PointSize" type="s:float" />              <s:element minOccurs="1" maxOccurs="1" name="StackVariationLabels" type="s:boolean" />              <s:element minOccurs="1" maxOccurs="1" name="ShowAxisLabelInLegend" type="s:boolean" />              <s:element minOccurs="1" maxOccurs="1" name="LineWidth" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="SplitPercent" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="ShowHigh" type="s:boolean" />              <s:element minOccurs="1" maxOccurs="1" name="ShowLow" type="s:boolean" />              <s:element minOccurs="1" maxOccurs="1" name="ShowOpen" type="s:boolean" />              <s:element minOccurs="1" maxOccurs="1" name="ShowClose" type="s:boolean" />              <s:element minOccurs="1" maxOccurs="1" name="ShowVolume" type="s:boolean" />              <s:element minOccurs="1" maxOccurs="1" name="ShowUpVariation" type="s:boolean" />              <s:element minOccurs="1" maxOccurs="1" name="ShowDownVariation" type="s:boolean" />              <s:element minOccurs="1" maxOccurs="1" name="ShowLegend" type="s:boolean" />              <s:element minOccurs="1" maxOccurs="1" name="VariationYear" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="VolumeDivider" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="VolumeTextOffset" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="PriceTextOffset" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="FrameType" type="tns:ImageFrameType" />              <s:element minOccurs="1" maxOccurs="1" name="Projection" type="tns:PredefinedProjection" />              <s:element minOccurs="1" maxOccurs="1" name="MarginTop" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="MarginBottom" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="MarginLeft" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="MarginRight" type="s:int" />              <s:element minOccurs="0" maxOccurs="1" name="FontFamily" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="FontSizeHeader" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="FontSizeFooter" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="Height" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="Width" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="ZoomPercent" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="LegendBox" type="s:boolean" />              <s:element minOccurs="0" maxOccurs="1" name="ColorLegendBackground" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="ColorLegendBorder" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="LegendVerticalPosition" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="LegendHorizontalPosition" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="Reload" type="s:boolean" />              <s:element minOccurs="1" maxOccurs="1" name="ShowPriceChartLabels" type="s:boolean" />              <s:element minOccurs="1" maxOccurs="1" name="TickPrecision" type="tns:TickPeriod" />              <s:element minOccurs="1" maxOccurs="1" name="TickPeriods" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="WaterMarkHorizontalAlign" type="tns:HorzAlign" />              <s:element minOccurs="1" maxOccurs="1" name="LightScheme" type="tns:PredefinedLightModel" />              <s:element minOccurs="1" maxOccurs="1" name="FontSizeLegend" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="FontSizeAxes" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="FontSizeTitle" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="DaysForHourDisplay" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="DaysForDayDisplay" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="DaysForWeekDisplay" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="DaysForBiWeeklyDisplay" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="DaysForMonthDisplay" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="DaysForQuarterDisplay" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="DaysForSemiAnnualDisplay" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="DaysForAnnualDisplay" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="DaysForBiAnnualDisplay" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="DaysForPentaAnnualDisplay" type="s:int" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:simpleType name="LinePattern">        <s:restriction base="s:string">          <s:enumeration value="Solid" />          <s:enumeration value="Dot" />          <s:enumeration value="Dash" />          <s:enumeration value="DashDot" />          <s:enumeration value="DashDotDot" />        </s:restriction>      </s:simpleType>      <s:simpleType name="ImageFrameType">        <s:restriction base="s:string">          <s:enumeration value="None" />          <s:enumeration value="Colonial" />          <s:enumeration value="Common" />          <s:enumeration value="Embed" />          <s:enumeration value="Emboss" />          <s:enumeration value="FrameOpenRight" />          <s:enumeration value="FrameOpenRL" />          <s:enumeration value="OneBarGradient" />          <s:enumeration value="RoundedUp" />          <s:enumeration value="SlimRoundedShadowed" />        </s:restriction>      </s:simpleType>      <s:simpleType name="PredefinedProjection">        <s:restriction base="s:string">          <s:enumeration value="Orthogonal" />          <s:enumeration value="OrthogonalElevated" />          <s:enumeration value="OrthogonalHorizontalLeft" />          <s:enumeration value="OrthogonalHorizontalRight" />          <s:enumeration value="OrthogonalHalf" />          <s:enumeration value="OrthogonalHalfHorizontalLeft" />          <s:enumeration value="OrthogonalHalfHorizontalRight" />          <s:enumeration value="OrthogonalHalfRotated" />          <s:enumeration value="OrthogonalHalfElevated" />          <s:enumeration value="Perspective" />          <s:enumeration value="PerspectiveHorizontalLeft" />          <s:enumeration value="PerspectiveHorizontalRight" />          <s:enumeration value="PerspectiveRotated" />          <s:enumeration value="PerspectiveElevated" />          <s:enumeration value="PerspectiveTilted" />        </s:restriction>      </s:simpleType>      <s:simpleType name="TickPeriod">        <s:restriction base="s:string">          <s:enumeration value="Tick" />          <s:enumeration value="Millisecond" />          <s:enumeration value="Second" />          <s:enumeration value="Minute" />          <s:enumeration value="Hour" />          <s:enumeration value="Day" />          <s:enumeration value="Week" />          <s:enumeration value="Month" />        </s:restriction>      </s:simpleType>      <s:simpleType name="HorzAlign">        <s:restriction base="s:string">          <s:enumeration value="Center" />          <s:enumeration value="Left" />          <s:enumeration value="Right" />        </s:restriction>      </s:simpleType>      <s:simpleType name="PredefinedLightModel">        <s:restriction base="s:string">          <s:enumeration value="None" />          <s:enumeration value="SoftTopLeft" />          <s:enumeration value="SoftFrontal" />          <s:enumeration value="SoftTopRight" />          <s:enumeration value="ShinyTopLeft" />          <s:enumeration value="ShinyFrontal" />          <s:enumeration value="ShinyTopRight" />          <s:enumeration value="MetallicLustre" />          <s:enumeration value="NorthernLights" />        </s:restriction>      </s:simpleType>      <s:element name="DrawFundChartCustomResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DrawFundChartCustomResult" type="tns:FundChart" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="FundChart">        <s:complexContent mixed="false">          <s:extension base="tns:StockChart">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />              <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="Width" type="s:int" />              <s:element minOccurs="1" maxOccurs="1" name="Height" type="s:int" />              <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="Style" type="tns:StockChartStyles" />              <s:element minOccurs="0" maxOccurs="1" name="Url" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="StockChart">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Design" type="tns:ChartDesign" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="DrawFundChart">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="0" maxOccurs="1" name="AdditionalSymbols" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Style" type="tns:StockChartStyles" />            <s:element minOccurs="1" maxOccurs="1" name="Width" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="Height" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawFundChartResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DrawFundChartResult" type="tns:FundChart" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawFundChartPreset">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />            <s:element minOccurs="0" maxOccurs="1" name="AdditionalSymbols" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Style" type="tns:StockChartStyles" />            <s:element minOccurs="1" maxOccurs="1" name="Width" type="s:int" />            <s:element minOccurs="1" maxOccurs="1" name="Height" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="Preset" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DrawFundChartPresetResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DrawFundChartPresetResult" type="tns:FundChart" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetChartDesign">        <s:complexType />      </s:element>      <s:element name="GetChartDesignResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetChartDesignResult" type="tns:ChartDesign" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetDividendHistory">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetDividendHistoryResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetDividendHistoryResult" type="tns:DividendHistory" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="DividendHistory">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Dividends" type="tns:ArrayOfDividend" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="ArrayOfDividend">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Dividend" nillable="true" type="tns:Dividend" />        </s:sequence>      </s:complexType>      <s:complexType name="Dividend">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="Amount" type="s:double" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="GetNewSymbols">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="FromDate" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ToDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetNewSymbolsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetNewSymbolsResult" type="tns:ArrayOfNewFund" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfNewFund">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="NewFund" nillable="true" type="tns:NewFund" />        </s:sequence>      </s:complexType>      <s:complexType name="NewFund">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="DateAdded" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="SymbolList" nillable="true" type="tns:SymbolList" />      <s:element name="FundNAV" nillable="true" type="tns:FundNAV" />      <s:element name="ArrayOfFundNAV" nillable="true" type="tns:ArrayOfFundNAV" />      <s:element name="FundNAVs" nillable="true" type="tns:FundNAVs" />      <s:element name="ArrayOfTop" nillable="true" type="tns:ArrayOfTop" />      <s:element name="FundChart" nillable="true" type="tns:FundChart" />      <s:element name="ChartDesign" nillable="true" type="tns:ChartDesign" />      <s:element name="DividendHistory" nillable="true" type="tns:DividendHistory" />      <s:element name="ArrayOfNewFund" nillable="true" type="tns:ArrayOfNewFund" />    </s:schema>  </wsdl:types>  <wsdl:message name="GetSymbolsSoapIn">    <wsdl:part name="parameters" element="tns:GetSymbols" />  </wsdl:message>  <wsdl:message name="GetSymbolsSoapOut">    <wsdl:part name="parameters" element="tns:GetSymbolsResponse" />  </wsdl:message>  <wsdl:message name="GetSymbolsHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetLatestNAVSoapIn">    <wsdl:part name="parameters" element="tns:GetLatestNAV" />  </wsdl:message>  <wsdl:message name="GetLatestNAVSoapOut">    <wsdl:part name="parameters" element="tns:GetLatestNAVResponse" />  </wsdl:message>  <wsdl:message name="GetLatestNAVHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetLastNAVSoapIn">    <wsdl:part name="parameters" element="tns:GetLastNAV" />  </wsdl:message>  <wsdl:message name="GetLastNAVSoapOut">    <wsdl:part name="parameters" element="tns:GetLastNAVResponse" />  </wsdl:message>  <wsdl:message name="GetLastNAVHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetLastNAVsSoapIn">    <wsdl:part name="parameters" element="tns:GetLastNAVs" />  </wsdl:message>  <wsdl:message name="GetLastNAVsSoapOut">    <wsdl:part name="parameters" element="tns:GetLastNAVsResponse" />  </wsdl:message>  <wsdl:message name="GetLastNAVsHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetLatestNAVsSoapIn">    <wsdl:part name="parameters" element="tns:GetLatestNAVs" />  </wsdl:message>  <wsdl:message name="GetLatestNAVsSoapOut">    <wsdl:part name="parameters" element="tns:GetLatestNAVsResponse" />  </wsdl:message>  <wsdl:message name="GetLatestNAVsHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVSoapIn">    <wsdl:part name="parameters" element="tns:GetHistoricalNAV" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVSoapOut">    <wsdl:part name="parameters" element="tns:GetHistoricalNAVResponse" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsSoapIn">    <wsdl:part name="parameters" element="tns:GetHistoricalNAVs" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsSoapOut">    <wsdl:part name="parameters" element="tns:GetHistoricalNAVsResponse" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsAsOfSoapIn">    <wsdl:part name="parameters" element="tns:GetHistoricalNAVsAsOf" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsAsOfSoapOut">    <wsdl:part name="parameters" element="tns:GetHistoricalNAVsAsOfResponse" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsAsOfHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsRangeSoapIn">    <wsdl:part name="parameters" element="tns:GetHistoricalNAVsRange" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsRangeSoapOut">    <wsdl:part name="parameters" element="tns:GetHistoricalNAVsRangeResponse" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsRangeHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetTopGainersSoapIn">    <wsdl:part name="parameters" element="tns:GetTopGainers" />  </wsdl:message>  <wsdl:message name="GetTopGainersSoapOut">    <wsdl:part name="parameters" element="tns:GetTopGainersResponse" />  </wsdl:message>  <wsdl:message name="GetTopGainersHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetTopLosersSoapIn">    <wsdl:part name="parameters" element="tns:GetTopLosers" />  </wsdl:message>  <wsdl:message name="GetTopLosersSoapOut">    <wsdl:part name="parameters" element="tns:GetTopLosersResponse" />  </wsdl:message>  <wsdl:message name="GetTopLosersHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="DrawFundChartCustomSoapIn">    <wsdl:part name="parameters" element="tns:DrawFundChartCustom" />  </wsdl:message>  <wsdl:message name="DrawFundChartCustomSoapOut">    <wsdl:part name="parameters" element="tns:DrawFundChartCustomResponse" />  </wsdl:message>  <wsdl:message name="DrawFundChartCustomHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="DrawFundChartSoapIn">    <wsdl:part name="parameters" element="tns:DrawFundChart" />  </wsdl:message>  <wsdl:message name="DrawFundChartSoapOut">    <wsdl:part name="parameters" element="tns:DrawFundChartResponse" />  </wsdl:message>  <wsdl:message name="DrawFundChartHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="DrawFundChartPresetSoapIn">    <wsdl:part name="parameters" element="tns:DrawFundChartPreset" />  </wsdl:message>  <wsdl:message name="DrawFundChartPresetSoapOut">    <wsdl:part name="parameters" element="tns:DrawFundChartPresetResponse" />  </wsdl:message>  <wsdl:message name="DrawFundChartPresetHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetChartDesignSoapIn">    <wsdl:part name="parameters" element="tns:GetChartDesign" />  </wsdl:message>  <wsdl:message name="GetChartDesignSoapOut">    <wsdl:part name="parameters" element="tns:GetChartDesignResponse" />  </wsdl:message>  <wsdl:message name="GetChartDesignHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetDividendHistorySoapIn">    <wsdl:part name="parameters" element="tns:GetDividendHistory" />  </wsdl:message>  <wsdl:message name="GetDividendHistorySoapOut">    <wsdl:part name="parameters" element="tns:GetDividendHistoryResponse" />  </wsdl:message>  <wsdl:message name="GetDividendHistoryHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetNewSymbolsSoapIn">    <wsdl:part name="parameters" element="tns:GetNewSymbols" />  </wsdl:message>  <wsdl:message name="GetNewSymbolsSoapOut">    <wsdl:part name="parameters" element="tns:GetNewSymbolsResponse" />  </wsdl:message>  <wsdl:message name="GetNewSymbolsHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetSymbolsHttpGetIn" />  <wsdl:message name="GetSymbolsHttpGetOut">    <wsdl:part name="Body" element="tns:SymbolList" />  </wsdl:message>  <wsdl:message name="GetLatestNAVHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetLatestNAVHttpGetOut">    <wsdl:part name="Body" element="tns:FundNAV" />  </wsdl:message>  <wsdl:message name="GetLastNAVHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetLastNAVHttpGetOut">    <wsdl:part name="Body" element="tns:FundNAV" />  </wsdl:message>  <wsdl:message name="GetLastNAVsHttpGetIn">    <wsdl:part name="Identifiers" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetLastNAVsHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfFundNAV" />  </wsdl:message>  <wsdl:message name="GetLatestNAVsHttpGetIn">    <wsdl:part name="Identifiers" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetLatestNAVsHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfFundNAV" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="AsOfDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVHttpGetOut">    <wsdl:part name="Body" element="tns:FundNAV" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsHttpGetIn">    <wsdl:part name="Identifiers" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="AsOfDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfFundNAV" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsAsOfHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />    <wsdl:part name="PeriodType" type="s:string" />    <wsdl:part name="Periods" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsAsOfHttpGetOut">    <wsdl:part name="Body" element="tns:FundNAVs" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsRangeHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsRangeHttpGetOut">    <wsdl:part name="Body" element="tns:FundNAVs" />  </wsdl:message>  <wsdl:message name="GetTopGainersHttpGetIn">    <wsdl:part name="FromDate" type="s:string" />    <wsdl:part name="ToDate" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTopGainersHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfTop" />  </wsdl:message>  <wsdl:message name="GetTopLosersHttpGetIn">    <wsdl:part name="FromDate" type="s:string" />    <wsdl:part name="ToDate" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTopLosersHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfTop" />  </wsdl:message>  <wsdl:message name="DrawFundChartHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="AdditionalSymbols" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />    <wsdl:part name="Style" type="s:string" />    <wsdl:part name="Width" type="s:string" />    <wsdl:part name="Height" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawFundChartHttpGetOut">    <wsdl:part name="Body" element="tns:FundChart" />  </wsdl:message>  <wsdl:message name="DrawFundChartPresetHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="AdditionalSymbols" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />    <wsdl:part name="Style" type="s:string" />    <wsdl:part name="Width" type="s:string" />    <wsdl:part name="Height" type="s:string" />    <wsdl:part name="Preset" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawFundChartPresetHttpGetOut">    <wsdl:part name="Body" element="tns:FundChart" />  </wsdl:message>  <wsdl:message name="GetChartDesignHttpGetIn" />  <wsdl:message name="GetChartDesignHttpGetOut">    <wsdl:part name="Body" element="tns:ChartDesign" />  </wsdl:message>  <wsdl:message name="GetDividendHistoryHttpGetIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetDividendHistoryHttpGetOut">    <wsdl:part name="Body" element="tns:DividendHistory" />  </wsdl:message>  <wsdl:message name="GetNewSymbolsHttpGetIn">    <wsdl:part name="FromDate" type="s:string" />    <wsdl:part name="ToDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetNewSymbolsHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfNewFund" />  </wsdl:message>  <wsdl:message name="GetSymbolsHttpPostIn" />  <wsdl:message name="GetSymbolsHttpPostOut">    <wsdl:part name="Body" element="tns:SymbolList" />  </wsdl:message>  <wsdl:message name="GetLatestNAVHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetLatestNAVHttpPostOut">    <wsdl:part name="Body" element="tns:FundNAV" />  </wsdl:message>  <wsdl:message name="GetLastNAVHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetLastNAVHttpPostOut">    <wsdl:part name="Body" element="tns:FundNAV" />  </wsdl:message>  <wsdl:message name="GetLastNAVsHttpPostIn">    <wsdl:part name="Identifiers" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetLastNAVsHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfFundNAV" />  </wsdl:message>  <wsdl:message name="GetLatestNAVsHttpPostIn">    <wsdl:part name="Identifiers" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetLatestNAVsHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfFundNAV" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="AsOfDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVHttpPostOut">    <wsdl:part name="Body" element="tns:FundNAV" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsHttpPostIn">    <wsdl:part name="Identifiers" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="AsOfDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfFundNAV" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsAsOfHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />    <wsdl:part name="PeriodType" type="s:string" />    <wsdl:part name="Periods" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsAsOfHttpPostOut">    <wsdl:part name="Body" element="tns:FundNAVs" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsRangeHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetHistoricalNAVsRangeHttpPostOut">    <wsdl:part name="Body" element="tns:FundNAVs" />  </wsdl:message>  <wsdl:message name="GetTopGainersHttpPostIn">    <wsdl:part name="FromDate" type="s:string" />    <wsdl:part name="ToDate" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTopGainersHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfTop" />  </wsdl:message>  <wsdl:message name="GetTopLosersHttpPostIn">    <wsdl:part name="FromDate" type="s:string" />    <wsdl:part name="ToDate" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTopLosersHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfTop" />  </wsdl:message>  <wsdl:message name="DrawFundChartHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="AdditionalSymbols" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />    <wsdl:part name="Style" type="s:string" />    <wsdl:part name="Width" type="s:string" />    <wsdl:part name="Height" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawFundChartHttpPostOut">    <wsdl:part name="Body" element="tns:FundChart" />  </wsdl:message>  <wsdl:message name="DrawFundChartPresetHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />    <wsdl:part name="AdditionalSymbols" type="s:string" />    <wsdl:part name="StartDate" type="s:string" />    <wsdl:part name="EndDate" type="s:string" />    <wsdl:part name="Style" type="s:string" />    <wsdl:part name="Width" type="s:string" />    <wsdl:part name="Height" type="s:string" />    <wsdl:part name="Preset" type="s:string" />  </wsdl:message>  <wsdl:message name="DrawFundChartPresetHttpPostOut">    <wsdl:part name="Body" element="tns:FundChart" />  </wsdl:message>  <wsdl:message name="GetChartDesignHttpPostIn" />  <wsdl:message name="GetChartDesignHttpPostOut">    <wsdl:part name="Body" element="tns:ChartDesign" />  </wsdl:message>  <wsdl:message name="GetDividendHistoryHttpPostIn">    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="IdentifierType" type="s:string" />  </wsdl:message>  <wsdl:message name="GetDividendHistoryHttpPostOut">    <wsdl:part name="Body" element="tns:DividendHistory" />  </wsdl:message>  <wsdl:message name="GetNewSymbolsHttpPostIn">    <wsdl:part name="FromDate" type="s:string" />    <wsdl:part name="ToDate" type="s:string" />  </wsdl:message>  <wsdl:message name="GetNewSymbolsHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfNewFund" />  </wsdl:message>  <wsdl:portType name="XigniteFundsSoap">    <wsdl:operation name="GetSymbols">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of symbols available in the historical database.</wsdl:documentation>      <wsdl:input message="tns:GetSymbolsSoapIn" />      <wsdl:output message="tns:GetSymbolsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestNAV">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns last closing NAV for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetLatestNAVSoapIn" />      <wsdl:output message="tns:GetLatestNAVSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetLastNAV">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the mots recent NAV for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetLastNAVSoapIn" />      <wsdl:output message="tns:GetLastNAVSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetLastNAVs">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns last closing price for a collection of funds.</wsdl:documentation>      <wsdl:input message="tns:GetLastNAVsSoapIn" />      <wsdl:output message="tns:GetLastNAVsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestNAVs">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns today's closing price for a collection of funds.</wsdl:documentation>      <wsdl:input message="tns:GetLatestNAVsSoapIn" />      <wsdl:output message="tns:GetLatestNAVsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAV">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a fund quote as of a historical NAV.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalNAVSoapIn" />      <wsdl:output message="tns:GetHistoricalNAVSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVs">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a fund NAV as of a historical date.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalNAVsSoapIn" />      <wsdl:output message="tns:GetHistoricalNAVsSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVsAsOf">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns a range of fund NAVs for a security.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalNAVsAsOfSoapIn" />      <wsdl:output message="tns:GetHistoricalNAVsAsOfSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVsRange">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns a range of NAVs for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalNAVsRangeSoapIn" />      <wsdl:output message="tns:GetHistoricalNAVsRangeSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetTopGainers">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns quote information about the top gaining funds for a date.</wsdl:documentation>      <wsdl:input message="tns:GetTopGainersSoapIn" />      <wsdl:output message="tns:GetTopGainersSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetTopLosers">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns quote information about the top losing equities from NYSE, NASDAQ and AMEX.</wsdl:documentation>      <wsdl:input message="tns:GetTopLosersSoapIn" />      <wsdl:output message="tns:GetTopLosersSoapOut" />    </wsdl:operation>    <wsdl:operation name="DrawFundChartCustom">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a custom historical fund chart for a date range.</wsdl:documentation>      <wsdl:input message="tns:DrawFundChartCustomSoapIn" />      <wsdl:output message="tns:DrawFundChartCustomSoapOut" />    </wsdl:operation>    <wsdl:operation name="DrawFundChart">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a standard historical fund chart for a date range.</wsdl:documentation>      <wsdl:input message="tns:DrawFundChartSoapIn" />      <wsdl:output message="tns:DrawFundChartSoapOut" />    </wsdl:operation>    <wsdl:operation name="DrawFundChartPreset">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a preset historical fund chart for a date range.</wsdl:documentation>      <wsdl:input message="tns:DrawFundChartPresetSoapIn" />      <wsdl:output message="tns:DrawFundChartPresetSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetChartDesign">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the default design class for the fund Chart.</wsdl:documentation>      <wsdl:input message="tns:GetChartDesignSoapIn" />      <wsdl:output message="tns:GetChartDesignSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetDividendHistory">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get dividend history for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetDividendHistorySoapIn" />      <wsdl:output message="tns:GetDividendHistorySoapOut" />    </wsdl:operation>    <wsdl:operation name="GetNewSymbols">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of mutual funds added between two dates.</wsdl:documentation>      <wsdl:input message="tns:GetNewSymbolsSoapIn" />      <wsdl:output message="tns:GetNewSymbolsSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteFundsHttpGet">    <wsdl:operation name="GetSymbols">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of symbols available in the historical database.</wsdl:documentation>      <wsdl:input message="tns:GetSymbolsHttpGetIn" />      <wsdl:output message="tns:GetSymbolsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestNAV">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns last closing NAV for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetLatestNAVHttpGetIn" />      <wsdl:output message="tns:GetLatestNAVHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetLastNAV">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the mots recent NAV for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetLastNAVHttpGetIn" />      <wsdl:output message="tns:GetLastNAVHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetLastNAVs">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns last closing price for a collection of funds.</wsdl:documentation>      <wsdl:input message="tns:GetLastNAVsHttpGetIn" />      <wsdl:output message="tns:GetLastNAVsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestNAVs">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns today's closing price for a collection of funds.</wsdl:documentation>      <wsdl:input message="tns:GetLatestNAVsHttpGetIn" />      <wsdl:output message="tns:GetLatestNAVsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAV">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a fund quote as of a historical NAV.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalNAVHttpGetIn" />      <wsdl:output message="tns:GetHistoricalNAVHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVs">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a fund NAV as of a historical date.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalNAVsHttpGetIn" />      <wsdl:output message="tns:GetHistoricalNAVsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVsAsOf">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns a range of fund NAVs for a security.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalNAVsAsOfHttpGetIn" />      <wsdl:output message="tns:GetHistoricalNAVsAsOfHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVsRange">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns a range of NAVs for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalNAVsRangeHttpGetIn" />      <wsdl:output message="tns:GetHistoricalNAVsRangeHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetTopGainers">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns quote information about the top gaining funds for a date.</wsdl:documentation>      <wsdl:input message="tns:GetTopGainersHttpGetIn" />      <wsdl:output message="tns:GetTopGainersHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetTopLosers">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns quote information about the top losing equities from NYSE, NASDAQ and AMEX.</wsdl:documentation>      <wsdl:input message="tns:GetTopLosersHttpGetIn" />      <wsdl:output message="tns:GetTopLosersHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DrawFundChart">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a standard historical fund chart for a date range.</wsdl:documentation>      <wsdl:input message="tns:DrawFundChartHttpGetIn" />      <wsdl:output message="tns:DrawFundChartHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DrawFundChartPreset">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a preset historical fund chart for a date range.</wsdl:documentation>      <wsdl:input message="tns:DrawFundChartPresetHttpGetIn" />      <wsdl:output message="tns:DrawFundChartPresetHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetChartDesign">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the default design class for the fund Chart.</wsdl:documentation>      <wsdl:input message="tns:GetChartDesignHttpGetIn" />      <wsdl:output message="tns:GetChartDesignHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetDividendHistory">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get dividend history for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetDividendHistoryHttpGetIn" />      <wsdl:output message="tns:GetDividendHistoryHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetNewSymbols">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of mutual funds added between two dates.</wsdl:documentation>      <wsdl:input message="tns:GetNewSymbolsHttpGetIn" />      <wsdl:output message="tns:GetNewSymbolsHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteFundsHttpPost">    <wsdl:operation name="GetSymbols">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of symbols available in the historical database.</wsdl:documentation>      <wsdl:input message="tns:GetSymbolsHttpPostIn" />      <wsdl:output message="tns:GetSymbolsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestNAV">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns last closing NAV for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetLatestNAVHttpPostIn" />      <wsdl:output message="tns:GetLatestNAVHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetLastNAV">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the mots recent NAV for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetLastNAVHttpPostIn" />      <wsdl:output message="tns:GetLastNAVHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetLastNAVs">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns last closing price for a collection of funds.</wsdl:documentation>      <wsdl:input message="tns:GetLastNAVsHttpPostIn" />      <wsdl:output message="tns:GetLastNAVsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestNAVs">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns today's closing price for a collection of funds.</wsdl:documentation>      <wsdl:input message="tns:GetLatestNAVsHttpPostIn" />      <wsdl:output message="tns:GetLatestNAVsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAV">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a fund quote as of a historical NAV.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalNAVHttpPostIn" />      <wsdl:output message="tns:GetHistoricalNAVHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVs">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a fund NAV as of a historical date.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalNAVsHttpPostIn" />      <wsdl:output message="tns:GetHistoricalNAVsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVsAsOf">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns a range of fund NAVs for a security.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalNAVsAsOfHttpPostIn" />      <wsdl:output message="tns:GetHistoricalNAVsAsOfHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVsRange">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns a range of NAVs for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetHistoricalNAVsRangeHttpPostIn" />      <wsdl:output message="tns:GetHistoricalNAVsRangeHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetTopGainers">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns quote information about the top gaining funds for a date.</wsdl:documentation>      <wsdl:input message="tns:GetTopGainersHttpPostIn" />      <wsdl:output message="tns:GetTopGainersHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetTopLosers">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns quote information about the top losing equities from NYSE, NASDAQ and AMEX.</wsdl:documentation>      <wsdl:input message="tns:GetTopLosersHttpPostIn" />      <wsdl:output message="tns:GetTopLosersHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DrawFundChart">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a standard historical fund chart for a date range.</wsdl:documentation>      <wsdl:input message="tns:DrawFundChartHttpPostIn" />      <wsdl:output message="tns:DrawFundChartHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DrawFundChartPreset">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a preset historical fund chart for a date range.</wsdl:documentation>      <wsdl:input message="tns:DrawFundChartPresetHttpPostIn" />      <wsdl:output message="tns:DrawFundChartPresetHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetChartDesign">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the default design class for the fund Chart.</wsdl:documentation>      <wsdl:input message="tns:GetChartDesignHttpPostIn" />      <wsdl:output message="tns:GetChartDesignHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetDividendHistory">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get dividend history for a fund.</wsdl:documentation>      <wsdl:input message="tns:GetDividendHistoryHttpPostIn" />      <wsdl:output message="tns:GetDividendHistoryHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetNewSymbols">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of mutual funds added between two dates.</wsdl:documentation>      <wsdl:input message="tns:GetNewSymbolsHttpPostIn" />      <wsdl:output message="tns:GetNewSymbolsHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="XigniteFundsSoap" type="tns:XigniteFundsSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetSymbols">      <soap:operation soapAction="http://www.xignite.com/services/GetSymbols" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetSymbolsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestNAV">      <soap:operation soapAction="http://www.xignite.com/services/GetLatestNAV" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetLatestNAVHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLastNAV">      <soap:operation soapAction="http://www.xignite.com/services/GetLastNAV" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetLastNAVHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLastNAVs">      <soap:operation soapAction="http://www.xignite.com/services/GetLastNAVs" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetLastNAVsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestNAVs">      <soap:operation soapAction="http://www.xignite.com/services/GetLatestNAVs" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetLatestNAVsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAV">      <soap:operation soapAction="http://www.xignite.com/services/GetHistoricalNAV" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetHistoricalNAVHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVs">      <soap:operation soapAction="http://www.xignite.com/services/GetHistoricalNAVs" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetHistoricalNAVsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVsAsOf">      <soap:operation soapAction="http://www.xignite.com/services/GetHistoricalNAVsAsOf" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetHistoricalNAVsAsOfHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVsRange">      <soap:operation soapAction="http://www.xignite.com/services/GetHistoricalNAVsRange" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetHistoricalNAVsRangeHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopGainers">      <soap:operation soapAction="http://www.xignite.com/services/GetTopGainers" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetTopGainersHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopLosers">      <soap:operation soapAction="http://www.xignite.com/services/GetTopLosers" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetTopLosersHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawFundChartCustom">      <soap:operation soapAction="http://www.xignite.com/services/DrawFundChartCustom" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:DrawFundChartCustomHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawFundChart">      <soap:operation soapAction="http://www.xignite.com/services/DrawFundChart" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:DrawFundChartHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawFundChartPreset">      <soap:operation soapAction="http://www.xignite.com/services/DrawFundChartPreset" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:DrawFundChartPresetHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetChartDesign">      <soap:operation soapAction="http://www.xignite.com/services/GetChartDesign" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetChartDesignHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDividendHistory">      <soap:operation soapAction="http://www.xignite.com/services/GetDividendHistory" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetDividendHistoryHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetNewSymbols">      <soap:operation soapAction="http://www.xignite.com/services/GetNewSymbols" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetNewSymbolsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteFundsSoap12" type="tns:XigniteFundsSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetSymbols">      <soap12:operation soapAction="http://www.xignite.com/services/GetSymbols" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetSymbolsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestNAV">      <soap12:operation soapAction="http://www.xignite.com/services/GetLatestNAV" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetLatestNAVHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLastNAV">      <soap12:operation soapAction="http://www.xignite.com/services/GetLastNAV" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetLastNAVHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLastNAVs">      <soap12:operation soapAction="http://www.xignite.com/services/GetLastNAVs" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetLastNAVsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestNAVs">      <soap12:operation soapAction="http://www.xignite.com/services/GetLatestNAVs" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetLatestNAVsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAV">      <soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalNAV" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetHistoricalNAVHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVs">      <soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalNAVs" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetHistoricalNAVsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVsAsOf">      <soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalNAVsAsOf" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetHistoricalNAVsAsOfHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVsRange">      <soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalNAVsRange" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetHistoricalNAVsRangeHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopGainers">      <soap12:operation soapAction="http://www.xignite.com/services/GetTopGainers" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetTopGainersHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopLosers">      <soap12:operation soapAction="http://www.xignite.com/services/GetTopLosers" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetTopLosersHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawFundChartCustom">      <soap12:operation soapAction="http://www.xignite.com/services/DrawFundChartCustom" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:DrawFundChartCustomHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawFundChart">      <soap12:operation soapAction="http://www.xignite.com/services/DrawFundChart" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:DrawFundChartHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawFundChartPreset">      <soap12:operation soapAction="http://www.xignite.com/services/DrawFundChartPreset" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:DrawFundChartPresetHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetChartDesign">      <soap12:operation soapAction="http://www.xignite.com/services/GetChartDesign" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetChartDesignHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDividendHistory">      <soap12:operation soapAction="http://www.xignite.com/services/GetDividendHistory" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetDividendHistoryHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetNewSymbols">      <soap12:operation soapAction="http://www.xignite.com/services/GetNewSymbols" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetNewSymbolsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteFundsHttpGet" type="tns:XigniteFundsHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetSymbols">      <http:operation location="/GetSymbols" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestNAV">      <http:operation location="/GetLatestNAV" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLastNAV">      <http:operation location="/GetLastNAV" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLastNAVs">      <http:operation location="/GetLastNAVs" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestNAVs">      <http:operation location="/GetLatestNAVs" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAV">      <http:operation location="/GetHistoricalNAV" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVs">      <http:operation location="/GetHistoricalNAVs" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVsAsOf">      <http:operation location="/GetHistoricalNAVsAsOf" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVsRange">      <http:operation location="/GetHistoricalNAVsRange" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopGainers">      <http:operation location="/GetTopGainers" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopLosers">      <http:operation location="/GetTopLosers" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawFundChart">      <http:operation location="/DrawFundChart" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawFundChartPreset">      <http:operation location="/DrawFundChartPreset" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetChartDesign">      <http:operation location="/GetChartDesign" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDividendHistory">      <http:operation location="/GetDividendHistory" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetNewSymbols">      <http:operation location="/GetNewSymbols" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteFundsHttpPost" type="tns:XigniteFundsHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetSymbols">      <http:operation location="/GetSymbols" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestNAV">      <http:operation location="/GetLatestNAV" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLastNAV">      <http:operation location="/GetLastNAV" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLastNAVs">      <http:operation location="/GetLastNAVs" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestNAVs">      <http:operation location="/GetLatestNAVs" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAV">      <http:operation location="/GetHistoricalNAV" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVs">      <http:operation location="/GetHistoricalNAVs" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVsAsOf">      <http:operation location="/GetHistoricalNAVsAsOf" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetHistoricalNAVsRange">      <http:operation location="/GetHistoricalNAVsRange" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopGainers">      <http:operation location="/GetTopGainers" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopLosers">      <http:operation location="/GetTopLosers" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawFundChart">      <http:operation location="/DrawFundChart" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DrawFundChartPreset">      <http:operation location="/DrawFundChartPreset" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetChartDesign">      <http:operation location="/GetChartDesign" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDividendHistory">      <http:operation location="/GetDividendHistory" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetNewSymbols">      <http:operation location="/GetNewSymbols" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="XigniteFunds">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service provides historical US mutual fund pricing.</wsdl:documentation>    <wsdl:port name="XigniteFundsSoap" binding="tns:XigniteFundsSoap">      <soap:address location="http://www.xignite.com/xFunds.asmx" />    </wsdl:port>    <wsdl:port name="XigniteFundsSoap12" binding="tns:XigniteFundsSoap12">      <soap12:address location="http://www.xignite.com/xFunds.asmx" />    </wsdl:port>    <wsdl:port name="XigniteFundsHttpGet" binding="tns:XigniteFundsHttpGet">      <http:address location="http://www.xignite.com/xFunds.asmx" />    </wsdl:port>    <wsdl:port name="XigniteFundsHttpPost" binding="tns:XigniteFundsHttpPost">      <http:address location="http://www.xignite.com/xFunds.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service provides historical US mutual fund pricing.
+	</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">
+			<s:element name="GetSymbols">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetSymbolsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetSymbolsResult" type="tns:SymbolList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="SymbolList">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="tns:ArrayOfString" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="Common">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="OutcomeTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Success" />
+					<s:enumeration value="SystemError" />
+					<s:enumeration value="RequestError" />
+					<s:enumeration value="RegistrationError" />
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="ArrayOfString">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="Header" type="tns:Header" />
+			<s:complexType name="Header">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />
+				</s:sequence>
+				<s:anyAttribute />
+			</s:complexType>
+			<s:element name="GetLatestNAV">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="IdentifierTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Symbol" />
+					<s:enumeration value="CIK" />
+					<s:enumeration value="CUSIP" />
+					<s:enumeration value="ISIN" />
+					<s:enumeration value="Valoren" />
+					<s:enumeration value="SEDOL" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetLatestNAVResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetLatestNAVResult" type="tns:FundNAV" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="FundNAV">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />
+							<s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="Last" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="Open" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="LastClose" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="ChangeFromOpen" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="PercentChangeFromOpen" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="ChangeFromLastClose" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="PercentChangeFromLastClose" type="s:double" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="Security">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="CIK" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Cusip" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ISIN" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Valoren" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Market" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="CategoryOrIndustry" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="GetLastNAV">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLastNAVResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetLastNAVResult" type="tns:FundNAV" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLastNAVs">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifiers" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLastNAVsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetLastNAVsResult" type="tns:ArrayOfFundNAV" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfFundNAV">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="FundNAV" nillable="true" type="tns:FundNAV" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetLatestNAVs">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifiers" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestNAVsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetLatestNAVsResult" type="tns:ArrayOfFundNAV" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHistoricalNAV">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="AsOfDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHistoricalNAVResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHistoricalNAVResult" type="tns:FundNAV" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHistoricalNAVs">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifiers" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="AsOfDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHistoricalNAVsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHistoricalNAVsResult" type="tns:ArrayOfFundNAV" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHistoricalNAVsAsOf">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="EndDate" type="s:dateTime" />
+						<s:element minOccurs="1" maxOccurs="1" name="PeriodType" type="tns:PeriodTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="Periods" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="PeriodTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Day" />
+					<s:enumeration value="Week" />
+					<s:enumeration value="Month" />
+					<s:enumeration value="Quarter" />
+					<s:enumeration value="Year" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetHistoricalNAVsAsOfResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHistoricalNAVsAsOfResult" type="tns:FundNAVs" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="FundNAVs">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />
+							<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="NAVs" type="tns:ArrayOfFundNAV" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="GetHistoricalNAVsRange">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetHistoricalNAVsRangeResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetHistoricalNAVsRangeResult" type="tns:FundNAVs" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTopGainers">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="FromDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ToDate" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTopGainersResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTopGainersResult" type="tns:ArrayOfTop" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfTop">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Top" nillable="true" type="tns:Top" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Top">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="Rank" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:TopTypes" />
+							<s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />
+							<s:element minOccurs="1" maxOccurs="1" name="Change" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="PercentChange" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="StartNAV" type="s:double" />
+							<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="EndNAV" type="s:double" />
+							<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:simpleType name="TopTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Gainers" />
+					<s:enumeration value="Losers" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetTopLosers">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="FromDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ToDate" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTopLosersResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTopLosersResult" type="tns:ArrayOfTop" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawFundChartCustom">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="AdditionalSymbols" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Style" type="tns:StockChartStyles" />
+						<s:element minOccurs="1" maxOccurs="1" name="Width" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="Height" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Design" type="tns:ChartDesign" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="StockChartStyles">
+				<s:restriction base="s:string">
+					<s:enumeration value="Line" />
+					<s:enumeration value="Candle" />
+					<s:enumeration value="Stick" />
+					<s:enumeration value="Area" />
+					<s:enumeration value="Percentage" />
+					<s:enumeration value="LinePercentage" />
+					<s:enumeration value="CandlePercentage" />
+					<s:enumeration value="StickPercentage" />
+					<s:enumeration value="AreaPercentage" />
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="ChartDesign">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="Secure" type="s:boolean" />
+							<s:element minOccurs="0" maxOccurs="1" name="TextTitle" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="TextHeader" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="TextFooter" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="TextPriceLine" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="TextVolumeBar" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="TextHighest" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="TextLowest" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="TextOpen" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="TextClose" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="TextUp" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="TextDown" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorBackground" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorBackWall" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorVolumeBackWall" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="ShowVolumeBackWall" type="s:boolean" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorHighlight" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorPriceLine" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorVolumeBar" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorVolumeBarFill" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorHigh" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorStickUp" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorStickLow" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorConstant" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorLow" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorPoint" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorTitle" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorFooter" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorHeader" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorAxis" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorGrid" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorFonts" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorStripe" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorOpen" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorClose" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorVerticalGrid" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorHorizontalGrid" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorUp" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorDown" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorHighLowLine" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorCollection" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="GridHorizontalStyle" type="tns:LinePattern" />
+							<s:element minOccurs="1" maxOccurs="1" name="GridVerticalStyle" type="tns:LinePattern" />
+							<s:element minOccurs="1" maxOccurs="1" name="GridHorizontalWidth" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="GridVerticalWidth" type="s:int" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorFrame" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="FrameBorder" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="FormatPriceLine" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="FormatVolume" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="FormatDate" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="GradeBackground" type="s:boolean" />
+							<s:element minOccurs="1" maxOccurs="1" name="GradeBackwall" type="s:boolean" />
+							<s:element minOccurs="0" maxOccurs="1" name="WaterMark" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="WaterMarkTopMargin" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="WaterMarkLeftMargin" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="WaterMarkTransparency" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="PointSize" type="s:float" />
+							<s:element minOccurs="1" maxOccurs="1" name="StackVariationLabels" type="s:boolean" />
+							<s:element minOccurs="1" maxOccurs="1" name="ShowAxisLabelInLegend" type="s:boolean" />
+							<s:element minOccurs="1" maxOccurs="1" name="LineWidth" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="SplitPercent" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="ShowHigh" type="s:boolean" />
+							<s:element minOccurs="1" maxOccurs="1" name="ShowLow" type="s:boolean" />
+							<s:element minOccurs="1" maxOccurs="1" name="ShowOpen" type="s:boolean" />
+							<s:element minOccurs="1" maxOccurs="1" name="ShowClose" type="s:boolean" />
+							<s:element minOccurs="1" maxOccurs="1" name="ShowVolume" type="s:boolean" />
+							<s:element minOccurs="1" maxOccurs="1" name="ShowUpVariation" type="s:boolean" />
+							<s:element minOccurs="1" maxOccurs="1" name="ShowDownVariation" type="s:boolean" />
+							<s:element minOccurs="1" maxOccurs="1" name="ShowLegend" type="s:boolean" />
+							<s:element minOccurs="1" maxOccurs="1" name="VariationYear" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="VolumeDivider" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="VolumeTextOffset" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="PriceTextOffset" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="FrameType" type="tns:ImageFrameType" />
+							<s:element minOccurs="1" maxOccurs="1" name="Projection" type="tns:PredefinedProjection" />
+							<s:element minOccurs="1" maxOccurs="1" name="MarginTop" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="MarginBottom" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="MarginLeft" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="MarginRight" type="s:int" />
+							<s:element minOccurs="0" maxOccurs="1" name="FontFamily" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="FontSizeHeader" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="FontSizeFooter" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="Height" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="Width" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="ZoomPercent" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="LegendBox" type="s:boolean" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorLegendBackground" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="ColorLegendBorder" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="LegendVerticalPosition" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="LegendHorizontalPosition" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="Reload" type="s:boolean" />
+							<s:element minOccurs="1" maxOccurs="1" name="ShowPriceChartLabels" type="s:boolean" />
+							<s:element minOccurs="1" maxOccurs="1" name="TickPrecision" type="tns:TickPeriod" />
+							<s:element minOccurs="1" maxOccurs="1" name="TickPeriods" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="WaterMarkHorizontalAlign" type="tns:HorzAlign" />
+							<s:element minOccurs="1" maxOccurs="1" name="LightScheme" type="tns:PredefinedLightModel" />
+							<s:element minOccurs="1" maxOccurs="1" name="FontSizeLegend" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="FontSizeAxes" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="FontSizeTitle" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="DaysForHourDisplay" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="DaysForDayDisplay" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="DaysForWeekDisplay" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="DaysForBiWeeklyDisplay" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="DaysForMonthDisplay" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="DaysForQuarterDisplay" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="DaysForSemiAnnualDisplay" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="DaysForAnnualDisplay" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="DaysForBiAnnualDisplay" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="DaysForPentaAnnualDisplay" type="s:int" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:simpleType name="LinePattern">
+				<s:restriction base="s:string">
+					<s:enumeration value="Solid" />
+					<s:enumeration value="Dot" />
+					<s:enumeration value="Dash" />
+					<s:enumeration value="DashDot" />
+					<s:enumeration value="DashDotDot" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ImageFrameType">
+				<s:restriction base="s:string">
+					<s:enumeration value="None" />
+					<s:enumeration value="Colonial" />
+					<s:enumeration value="Common" />
+					<s:enumeration value="Embed" />
+					<s:enumeration value="Emboss" />
+					<s:enumeration value="FrameOpenRight" />
+					<s:enumeration value="FrameOpenRL" />
+					<s:enumeration value="OneBarGradient" />
+					<s:enumeration value="RoundedUp" />
+					<s:enumeration value="SlimRoundedShadowed" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="PredefinedProjection">
+				<s:restriction base="s:string">
+					<s:enumeration value="Orthogonal" />
+					<s:enumeration value="OrthogonalElevated" />
+					<s:enumeration value="OrthogonalHorizontalLeft" />
+					<s:enumeration value="OrthogonalHorizontalRight" />
+					<s:enumeration value="OrthogonalHalf" />
+					<s:enumeration value="OrthogonalHalfHorizontalLeft" />
+					<s:enumeration value="OrthogonalHalfHorizontalRight" />
+					<s:enumeration value="OrthogonalHalfRotated" />
+					<s:enumeration value="OrthogonalHalfElevated" />
+					<s:enumeration value="Perspective" />
+					<s:enumeration value="PerspectiveHorizontalLeft" />
+					<s:enumeration value="PerspectiveHorizontalRight" />
+					<s:enumeration value="PerspectiveRotated" />
+					<s:enumeration value="PerspectiveElevated" />
+					<s:enumeration value="PerspectiveTilted" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="TickPeriod">
+				<s:restriction base="s:string">
+					<s:enumeration value="Tick" />
+					<s:enumeration value="Millisecond" />
+					<s:enumeration value="Second" />
+					<s:enumeration value="Minute" />
+					<s:enumeration value="Hour" />
+					<s:enumeration value="Day" />
+					<s:enumeration value="Week" />
+					<s:enumeration value="Month" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="HorzAlign">
+				<s:restriction base="s:string">
+					<s:enumeration value="Center" />
+					<s:enumeration value="Left" />
+					<s:enumeration value="Right" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="PredefinedLightModel">
+				<s:restriction base="s:string">
+					<s:enumeration value="None" />
+					<s:enumeration value="SoftTopLeft" />
+					<s:enumeration value="SoftFrontal" />
+					<s:enumeration value="SoftTopRight" />
+					<s:enumeration value="ShinyTopLeft" />
+					<s:enumeration value="ShinyFrontal" />
+					<s:enumeration value="ShinyTopRight" />
+					<s:enumeration value="MetallicLustre" />
+					<s:enumeration value="NorthernLights" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="DrawFundChartCustomResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DrawFundChartCustomResult" type="tns:FundChart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="FundChart">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:StockChart">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Security" type="tns:Security" />
+							<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="Width" type="s:int" />
+							<s:element minOccurs="1" maxOccurs="1" name="Height" type="s:int" />
+							<s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="Style" type="tns:StockChartStyles" />
+							<s:element minOccurs="0" maxOccurs="1" name="Url" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="StockChart">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Design" type="tns:ChartDesign" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="DrawFundChart">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="AdditionalSymbols" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Style" type="tns:StockChartStyles" />
+						<s:element minOccurs="1" maxOccurs="1" name="Width" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="Height" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawFundChartResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DrawFundChartResult" type="tns:FundChart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawFundChartPreset">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="AdditionalSymbols" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Style" type="tns:StockChartStyles" />
+						<s:element minOccurs="1" maxOccurs="1" name="Width" type="s:int" />
+						<s:element minOccurs="1" maxOccurs="1" name="Height" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="Preset" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DrawFundChartPresetResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DrawFundChartPresetResult" type="tns:FundChart" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetChartDesign">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetChartDesignResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetChartDesignResult" type="tns:ChartDesign" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetDividendHistory">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="tns:IdentifierTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetDividendHistoryResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetDividendHistoryResult" type="tns:DividendHistory" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="DividendHistory">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Dividends" type="tns:ArrayOfDividend" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="ArrayOfDividend">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Dividend" nillable="true" type="tns:Dividend" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Dividend">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="Amount" type="s:double" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="GetNewSymbols">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="FromDate" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ToDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetNewSymbolsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetNewSymbolsResult" type="tns:ArrayOfNewFund" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfNewFund">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="NewFund" nillable="true" type="tns:NewFund" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="NewFund">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="DateAdded" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="SymbolList" nillable="true" type="tns:SymbolList" />
+			<s:element name="FundNAV" nillable="true" type="tns:FundNAV" />
+			<s:element name="ArrayOfFundNAV" nillable="true" type="tns:ArrayOfFundNAV" />
+			<s:element name="FundNAVs" nillable="true" type="tns:FundNAVs" />
+			<s:element name="ArrayOfTop" nillable="true" type="tns:ArrayOfTop" />
+			<s:element name="FundChart" nillable="true" type="tns:FundChart" />
+			<s:element name="ChartDesign" nillable="true" type="tns:ChartDesign" />
+			<s:element name="DividendHistory" nillable="true" type="tns:DividendHistory" />
+			<s:element name="ArrayOfNewFund" nillable="true" type="tns:ArrayOfNewFund" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetSymbolsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetSymbols" />
+	</wsdl:message>
+	<wsdl:message name="GetSymbolsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetSymbolsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetSymbolsHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestNAVSoapIn">
+		<wsdl:part name="parameters" element="tns:GetLatestNAV" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestNAVSoapOut">
+		<wsdl:part name="parameters" element="tns:GetLatestNAVResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestNAVHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetLastNAVSoapIn">
+		<wsdl:part name="parameters" element="tns:GetLastNAV" />
+	</wsdl:message>
+	<wsdl:message name="GetLastNAVSoapOut">
+		<wsdl:part name="parameters" element="tns:GetLastNAVResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetLastNAVHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetLastNAVsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetLastNAVs" />
+	</wsdl:message>
+	<wsdl:message name="GetLastNAVsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetLastNAVsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetLastNAVsHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestNAVsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetLatestNAVs" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestNAVsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetLatestNAVsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestNAVsHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVSoapIn">
+		<wsdl:part name="parameters" element="tns:GetHistoricalNAV" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVSoapOut">
+		<wsdl:part name="parameters" element="tns:GetHistoricalNAVResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetHistoricalNAVs" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetHistoricalNAVsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsAsOfSoapIn">
+		<wsdl:part name="parameters" element="tns:GetHistoricalNAVsAsOf" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsAsOfSoapOut">
+		<wsdl:part name="parameters" element="tns:GetHistoricalNAVsAsOfResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsAsOfHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsRangeSoapIn">
+		<wsdl:part name="parameters" element="tns:GetHistoricalNAVsRange" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsRangeSoapOut">
+		<wsdl:part name="parameters" element="tns:GetHistoricalNAVsRangeResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsRangeHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetTopGainersSoapIn">
+		<wsdl:part name="parameters" element="tns:GetTopGainers" />
+	</wsdl:message>
+	<wsdl:message name="GetTopGainersSoapOut">
+		<wsdl:part name="parameters" element="tns:GetTopGainersResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTopGainersHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetTopLosersSoapIn">
+		<wsdl:part name="parameters" element="tns:GetTopLosers" />
+	</wsdl:message>
+	<wsdl:message name="GetTopLosersSoapOut">
+		<wsdl:part name="parameters" element="tns:GetTopLosersResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTopLosersHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartCustomSoapIn">
+		<wsdl:part name="parameters" element="tns:DrawFundChartCustom" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartCustomSoapOut">
+		<wsdl:part name="parameters" element="tns:DrawFundChartCustomResponse" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartCustomHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartSoapIn">
+		<wsdl:part name="parameters" element="tns:DrawFundChart" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartSoapOut">
+		<wsdl:part name="parameters" element="tns:DrawFundChartResponse" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartPresetSoapIn">
+		<wsdl:part name="parameters" element="tns:DrawFundChartPreset" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartPresetSoapOut">
+		<wsdl:part name="parameters" element="tns:DrawFundChartPresetResponse" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartPresetHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetChartDesignSoapIn">
+		<wsdl:part name="parameters" element="tns:GetChartDesign" />
+	</wsdl:message>
+	<wsdl:message name="GetChartDesignSoapOut">
+		<wsdl:part name="parameters" element="tns:GetChartDesignResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetChartDesignHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetDividendHistorySoapIn">
+		<wsdl:part name="parameters" element="tns:GetDividendHistory" />
+	</wsdl:message>
+	<wsdl:message name="GetDividendHistorySoapOut">
+		<wsdl:part name="parameters" element="tns:GetDividendHistoryResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetDividendHistoryHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetNewSymbolsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetNewSymbols" />
+	</wsdl:message>
+	<wsdl:message name="GetNewSymbolsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetNewSymbolsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetNewSymbolsHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetSymbolsHttpGetIn" />
+	<wsdl:message name="GetSymbolsHttpGetOut">
+		<wsdl:part name="Body" element="tns:SymbolList" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestNAVHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestNAVHttpGetOut">
+		<wsdl:part name="Body" element="tns:FundNAV" />
+	</wsdl:message>
+	<wsdl:message name="GetLastNAVHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetLastNAVHttpGetOut">
+		<wsdl:part name="Body" element="tns:FundNAV" />
+	</wsdl:message>
+	<wsdl:message name="GetLastNAVsHttpGetIn">
+		<wsdl:part name="Identifiers" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetLastNAVsHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfFundNAV" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestNAVsHttpGetIn">
+		<wsdl:part name="Identifiers" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestNAVsHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfFundNAV" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="AsOfDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVHttpGetOut">
+		<wsdl:part name="Body" element="tns:FundNAV" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsHttpGetIn">
+		<wsdl:part name="Identifiers" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="AsOfDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfFundNAV" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsAsOfHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+		<wsdl:part name="PeriodType" type="s:string" />
+		<wsdl:part name="Periods" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsAsOfHttpGetOut">
+		<wsdl:part name="Body" element="tns:FundNAVs" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsRangeHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsRangeHttpGetOut">
+		<wsdl:part name="Body" element="tns:FundNAVs" />
+	</wsdl:message>
+	<wsdl:message name="GetTopGainersHttpGetIn">
+		<wsdl:part name="FromDate" type="s:string" />
+		<wsdl:part name="ToDate" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTopGainersHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfTop" />
+	</wsdl:message>
+	<wsdl:message name="GetTopLosersHttpGetIn">
+		<wsdl:part name="FromDate" type="s:string" />
+		<wsdl:part name="ToDate" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTopLosersHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfTop" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="AdditionalSymbols" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+		<wsdl:part name="Style" type="s:string" />
+		<wsdl:part name="Width" type="s:string" />
+		<wsdl:part name="Height" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartHttpGetOut">
+		<wsdl:part name="Body" element="tns:FundChart" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartPresetHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="AdditionalSymbols" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+		<wsdl:part name="Style" type="s:string" />
+		<wsdl:part name="Width" type="s:string" />
+		<wsdl:part name="Height" type="s:string" />
+		<wsdl:part name="Preset" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartPresetHttpGetOut">
+		<wsdl:part name="Body" element="tns:FundChart" />
+	</wsdl:message>
+	<wsdl:message name="GetChartDesignHttpGetIn" />
+	<wsdl:message name="GetChartDesignHttpGetOut">
+		<wsdl:part name="Body" element="tns:ChartDesign" />
+	</wsdl:message>
+	<wsdl:message name="GetDividendHistoryHttpGetIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetDividendHistoryHttpGetOut">
+		<wsdl:part name="Body" element="tns:DividendHistory" />
+	</wsdl:message>
+	<wsdl:message name="GetNewSymbolsHttpGetIn">
+		<wsdl:part name="FromDate" type="s:string" />
+		<wsdl:part name="ToDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetNewSymbolsHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfNewFund" />
+	</wsdl:message>
+	<wsdl:message name="GetSymbolsHttpPostIn" />
+	<wsdl:message name="GetSymbolsHttpPostOut">
+		<wsdl:part name="Body" element="tns:SymbolList" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestNAVHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestNAVHttpPostOut">
+		<wsdl:part name="Body" element="tns:FundNAV" />
+	</wsdl:message>
+	<wsdl:message name="GetLastNAVHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetLastNAVHttpPostOut">
+		<wsdl:part name="Body" element="tns:FundNAV" />
+	</wsdl:message>
+	<wsdl:message name="GetLastNAVsHttpPostIn">
+		<wsdl:part name="Identifiers" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetLastNAVsHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfFundNAV" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestNAVsHttpPostIn">
+		<wsdl:part name="Identifiers" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestNAVsHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfFundNAV" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="AsOfDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVHttpPostOut">
+		<wsdl:part name="Body" element="tns:FundNAV" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsHttpPostIn">
+		<wsdl:part name="Identifiers" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="AsOfDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfFundNAV" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsAsOfHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+		<wsdl:part name="PeriodType" type="s:string" />
+		<wsdl:part name="Periods" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsAsOfHttpPostOut">
+		<wsdl:part name="Body" element="tns:FundNAVs" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsRangeHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetHistoricalNAVsRangeHttpPostOut">
+		<wsdl:part name="Body" element="tns:FundNAVs" />
+	</wsdl:message>
+	<wsdl:message name="GetTopGainersHttpPostIn">
+		<wsdl:part name="FromDate" type="s:string" />
+		<wsdl:part name="ToDate" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTopGainersHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfTop" />
+	</wsdl:message>
+	<wsdl:message name="GetTopLosersHttpPostIn">
+		<wsdl:part name="FromDate" type="s:string" />
+		<wsdl:part name="ToDate" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTopLosersHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfTop" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="AdditionalSymbols" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+		<wsdl:part name="Style" type="s:string" />
+		<wsdl:part name="Width" type="s:string" />
+		<wsdl:part name="Height" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartHttpPostOut">
+		<wsdl:part name="Body" element="tns:FundChart" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartPresetHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+		<wsdl:part name="AdditionalSymbols" type="s:string" />
+		<wsdl:part name="StartDate" type="s:string" />
+		<wsdl:part name="EndDate" type="s:string" />
+		<wsdl:part name="Style" type="s:string" />
+		<wsdl:part name="Width" type="s:string" />
+		<wsdl:part name="Height" type="s:string" />
+		<wsdl:part name="Preset" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DrawFundChartPresetHttpPostOut">
+		<wsdl:part name="Body" element="tns:FundChart" />
+	</wsdl:message>
+	<wsdl:message name="GetChartDesignHttpPostIn" />
+	<wsdl:message name="GetChartDesignHttpPostOut">
+		<wsdl:part name="Body" element="tns:ChartDesign" />
+	</wsdl:message>
+	<wsdl:message name="GetDividendHistoryHttpPostIn">
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="IdentifierType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetDividendHistoryHttpPostOut">
+		<wsdl:part name="Body" element="tns:DividendHistory" />
+	</wsdl:message>
+	<wsdl:message name="GetNewSymbolsHttpPostIn">
+		<wsdl:part name="FromDate" type="s:string" />
+		<wsdl:part name="ToDate" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetNewSymbolsHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfNewFund" />
+	</wsdl:message>
+	<wsdl:portType name="XigniteFundsSoap">
+		<wsdl:operation name="GetSymbols">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of symbols available in the historical database.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetSymbolsSoapIn" />
+			<wsdl:output message="tns:GetSymbolsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestNAV">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns last closing NAV for a fund.</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestNAVSoapIn" />
+			<wsdl:output message="tns:GetLatestNAVSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLastNAV">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the mots recent NAV for a fund.</wsdl:documentation>
+			<wsdl:input message="tns:GetLastNAVSoapIn" />
+			<wsdl:output message="tns:GetLastNAVSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLastNAVs">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns last closing price for a collection of funds.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetLastNAVsSoapIn" />
+			<wsdl:output message="tns:GetLastNAVsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestNAVs">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns today's closing price for a collection of funds.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestNAVsSoapIn" />
+			<wsdl:output message="tns:GetLatestNAVsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAV">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a fund quote as of a historical NAV.</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalNAVSoapIn" />
+			<wsdl:output message="tns:GetHistoricalNAVSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVs">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a fund NAV as of a historical date.</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalNAVsSoapIn" />
+			<wsdl:output message="tns:GetHistoricalNAVsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVsAsOf">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns a range of fund NAVs for a security.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalNAVsAsOfSoapIn" />
+			<wsdl:output message="tns:GetHistoricalNAVsAsOfSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVsRange">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns a range of NAVs for a fund.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalNAVsRangeSoapIn" />
+			<wsdl:output message="tns:GetHistoricalNAVsRangeSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTopGainers">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns quote information about the top gaining
+				funds for a date.</wsdl:documentation>
+			<wsdl:input message="tns:GetTopGainersSoapIn" />
+			<wsdl:output message="tns:GetTopGainersSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTopLosers">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns quote information about the top losing
+				equities from NYSE, NASDAQ and AMEX.</wsdl:documentation>
+			<wsdl:input message="tns:GetTopLosersSoapIn" />
+			<wsdl:output message="tns:GetTopLosersSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChartCustom">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a custom historical fund chart for a date range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:DrawFundChartCustomSoapIn" />
+			<wsdl:output message="tns:DrawFundChartCustomSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChart">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a standard historical fund chart for a date range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:DrawFundChartSoapIn" />
+			<wsdl:output message="tns:DrawFundChartSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChartPreset">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a preset historical fund chart for a date range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:DrawFundChartPresetSoapIn" />
+			<wsdl:output message="tns:DrawFundChartPresetSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetChartDesign">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the default design class for the fund Chart.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetChartDesignSoapIn" />
+			<wsdl:output message="tns:GetChartDesignSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDividendHistory">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get dividend history for a fund.</wsdl:documentation>
+			<wsdl:input message="tns:GetDividendHistorySoapIn" />
+			<wsdl:output message="tns:GetDividendHistorySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetNewSymbols">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of mutual funds added between two dates.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetNewSymbolsSoapIn" />
+			<wsdl:output message="tns:GetNewSymbolsSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteFundsHttpGet">
+		<wsdl:operation name="GetSymbols">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of symbols available in the historical database.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetSymbolsHttpGetIn" />
+			<wsdl:output message="tns:GetSymbolsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestNAV">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns last closing NAV for a fund.</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestNAVHttpGetIn" />
+			<wsdl:output message="tns:GetLatestNAVHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLastNAV">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the mots recent NAV for a fund.</wsdl:documentation>
+			<wsdl:input message="tns:GetLastNAVHttpGetIn" />
+			<wsdl:output message="tns:GetLastNAVHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLastNAVs">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns last closing price for a collection of funds.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetLastNAVsHttpGetIn" />
+			<wsdl:output message="tns:GetLastNAVsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestNAVs">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns today's closing price for a collection of funds.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestNAVsHttpGetIn" />
+			<wsdl:output message="tns:GetLatestNAVsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAV">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a fund quote as of a historical NAV.</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalNAVHttpGetIn" />
+			<wsdl:output message="tns:GetHistoricalNAVHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVs">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a fund NAV as of a historical date.</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalNAVsHttpGetIn" />
+			<wsdl:output message="tns:GetHistoricalNAVsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVsAsOf">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns a range of fund NAVs for a security.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalNAVsAsOfHttpGetIn" />
+			<wsdl:output message="tns:GetHistoricalNAVsAsOfHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVsRange">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns a range of NAVs for a fund.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalNAVsRangeHttpGetIn" />
+			<wsdl:output message="tns:GetHistoricalNAVsRangeHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTopGainers">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns quote information about the top gaining
+				funds for a date.</wsdl:documentation>
+			<wsdl:input message="tns:GetTopGainersHttpGetIn" />
+			<wsdl:output message="tns:GetTopGainersHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTopLosers">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns quote information about the top losing
+				equities from NYSE, NASDAQ and AMEX.</wsdl:documentation>
+			<wsdl:input message="tns:GetTopLosersHttpGetIn" />
+			<wsdl:output message="tns:GetTopLosersHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChart">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a standard historical fund chart for a date range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:DrawFundChartHttpGetIn" />
+			<wsdl:output message="tns:DrawFundChartHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChartPreset">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a preset historical fund chart for a date range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:DrawFundChartPresetHttpGetIn" />
+			<wsdl:output message="tns:DrawFundChartPresetHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetChartDesign">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the default design class for the fund Chart.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetChartDesignHttpGetIn" />
+			<wsdl:output message="tns:GetChartDesignHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDividendHistory">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get dividend history for a fund.</wsdl:documentation>
+			<wsdl:input message="tns:GetDividendHistoryHttpGetIn" />
+			<wsdl:output message="tns:GetDividendHistoryHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetNewSymbols">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of mutual funds added between two dates.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetNewSymbolsHttpGetIn" />
+			<wsdl:output message="tns:GetNewSymbolsHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteFundsHttpPost">
+		<wsdl:operation name="GetSymbols">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of symbols available in the historical database.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetSymbolsHttpPostIn" />
+			<wsdl:output message="tns:GetSymbolsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestNAV">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns last closing NAV for a fund.</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestNAVHttpPostIn" />
+			<wsdl:output message="tns:GetLatestNAVHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLastNAV">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the mots recent NAV for a fund.</wsdl:documentation>
+			<wsdl:input message="tns:GetLastNAVHttpPostIn" />
+			<wsdl:output message="tns:GetLastNAVHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLastNAVs">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns last closing price for a collection of funds.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetLastNAVsHttpPostIn" />
+			<wsdl:output message="tns:GetLastNAVsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestNAVs">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns today's closing price for a collection of funds.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestNAVsHttpPostIn" />
+			<wsdl:output message="tns:GetLatestNAVsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAV">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a fund quote as of a historical NAV.</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalNAVHttpPostIn" />
+			<wsdl:output message="tns:GetHistoricalNAVHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVs">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a fund NAV as of a historical date.</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalNAVsHttpPostIn" />
+			<wsdl:output message="tns:GetHistoricalNAVsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVsAsOf">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns a range of fund NAVs for a security.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalNAVsAsOfHttpPostIn" />
+			<wsdl:output message="tns:GetHistoricalNAVsAsOfHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVsRange">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns a range of NAVs for a fund.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetHistoricalNAVsRangeHttpPostIn" />
+			<wsdl:output message="tns:GetHistoricalNAVsRangeHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTopGainers">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns quote information about the top gaining
+				funds for a date.</wsdl:documentation>
+			<wsdl:input message="tns:GetTopGainersHttpPostIn" />
+			<wsdl:output message="tns:GetTopGainersHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTopLosers">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This operation returns quote information about the top losing
+				equities from NYSE, NASDAQ and AMEX.</wsdl:documentation>
+			<wsdl:input message="tns:GetTopLosersHttpPostIn" />
+			<wsdl:output message="tns:GetTopLosersHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChart">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a standard historical fund chart for a date range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:DrawFundChartHttpPostIn" />
+			<wsdl:output message="tns:DrawFundChartHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChartPreset">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Draw a preset historical fund chart for a date range.
+			</wsdl:documentation>
+			<wsdl:input message="tns:DrawFundChartPresetHttpPostIn" />
+			<wsdl:output message="tns:DrawFundChartPresetHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetChartDesign">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the default design class for the fund Chart.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetChartDesignHttpPostIn" />
+			<wsdl:output message="tns:GetChartDesignHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDividendHistory">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get dividend history for a fund.</wsdl:documentation>
+			<wsdl:input message="tns:GetDividendHistoryHttpPostIn" />
+			<wsdl:output message="tns:GetDividendHistoryHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetNewSymbols">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of mutual funds added between two dates.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetNewSymbolsHttpPostIn" />
+			<wsdl:output message="tns:GetNewSymbolsHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="XigniteFundsSoap" type="tns:XigniteFundsSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetSymbols">
+			<soap:operation soapAction="http://www.xignite.com/services/GetSymbols" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetSymbolsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestNAV">
+			<soap:operation soapAction="http://www.xignite.com/services/GetLatestNAV" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetLatestNAVHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLastNAV">
+			<soap:operation soapAction="http://www.xignite.com/services/GetLastNAV" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetLastNAVHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLastNAVs">
+			<soap:operation soapAction="http://www.xignite.com/services/GetLastNAVs" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetLastNAVsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestNAVs">
+			<soap:operation soapAction="http://www.xignite.com/services/GetLatestNAVs" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetLatestNAVsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAV">
+			<soap:operation soapAction="http://www.xignite.com/services/GetHistoricalNAV" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetHistoricalNAVHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVs">
+			<soap:operation soapAction="http://www.xignite.com/services/GetHistoricalNAVs" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetHistoricalNAVsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVsAsOf">
+			<soap:operation soapAction="http://www.xignite.com/services/GetHistoricalNAVsAsOf" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetHistoricalNAVsAsOfHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVsRange">
+			<soap:operation soapAction="http://www.xignite.com/services/GetHistoricalNAVsRange" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetHistoricalNAVsRangeHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopGainers">
+			<soap:operation soapAction="http://www.xignite.com/services/GetTopGainers" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetTopGainersHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopLosers">
+			<soap:operation soapAction="http://www.xignite.com/services/GetTopLosers" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetTopLosersHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChartCustom">
+			<soap:operation soapAction="http://www.xignite.com/services/DrawFundChartCustom" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:DrawFundChartCustomHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChart">
+			<soap:operation soapAction="http://www.xignite.com/services/DrawFundChart" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:DrawFundChartHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChartPreset">
+			<soap:operation soapAction="http://www.xignite.com/services/DrawFundChartPreset" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:DrawFundChartPresetHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetChartDesign">
+			<soap:operation soapAction="http://www.xignite.com/services/GetChartDesign" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetChartDesignHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDividendHistory">
+			<soap:operation soapAction="http://www.xignite.com/services/GetDividendHistory" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetDividendHistoryHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetNewSymbols">
+			<soap:operation soapAction="http://www.xignite.com/services/GetNewSymbols" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetNewSymbolsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteFundsSoap12" type="tns:XigniteFundsSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetSymbols">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetSymbols" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetSymbolsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestNAV">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetLatestNAV" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetLatestNAVHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLastNAV">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetLastNAV" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetLastNAVHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLastNAVs">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetLastNAVs" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetLastNAVsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestNAVs">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetLatestNAVs" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetLatestNAVsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAV">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalNAV" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetHistoricalNAVHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVs">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalNAVs" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetHistoricalNAVsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVsAsOf">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalNAVsAsOf" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetHistoricalNAVsAsOfHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVsRange">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetHistoricalNAVsRange" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetHistoricalNAVsRangeHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopGainers">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetTopGainers" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetTopGainersHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopLosers">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetTopLosers" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetTopLosersHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChartCustom">
+			<soap12:operation soapAction="http://www.xignite.com/services/DrawFundChartCustom" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:DrawFundChartCustomHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChart">
+			<soap12:operation soapAction="http://www.xignite.com/services/DrawFundChart" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:DrawFundChartHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChartPreset">
+			<soap12:operation soapAction="http://www.xignite.com/services/DrawFundChartPreset" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:DrawFundChartPresetHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetChartDesign">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetChartDesign" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetChartDesignHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDividendHistory">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetDividendHistory" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetDividendHistoryHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetNewSymbols">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetNewSymbols" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetNewSymbolsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteFundsHttpGet" type="tns:XigniteFundsHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetSymbols">
+			<http:operation location="/GetSymbols" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestNAV">
+			<http:operation location="/GetLatestNAV" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLastNAV">
+			<http:operation location="/GetLastNAV" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLastNAVs">
+			<http:operation location="/GetLastNAVs" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestNAVs">
+			<http:operation location="/GetLatestNAVs" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAV">
+			<http:operation location="/GetHistoricalNAV" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVs">
+			<http:operation location="/GetHistoricalNAVs" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVsAsOf">
+			<http:operation location="/GetHistoricalNAVsAsOf" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVsRange">
+			<http:operation location="/GetHistoricalNAVsRange" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopGainers">
+			<http:operation location="/GetTopGainers" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopLosers">
+			<http:operation location="/GetTopLosers" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChart">
+			<http:operation location="/DrawFundChart" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChartPreset">
+			<http:operation location="/DrawFundChartPreset" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetChartDesign">
+			<http:operation location="/GetChartDesign" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDividendHistory">
+			<http:operation location="/GetDividendHistory" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetNewSymbols">
+			<http:operation location="/GetNewSymbols" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteFundsHttpPost" type="tns:XigniteFundsHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetSymbols">
+			<http:operation location="/GetSymbols" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestNAV">
+			<http:operation location="/GetLatestNAV" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLastNAV">
+			<http:operation location="/GetLastNAV" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLastNAVs">
+			<http:operation location="/GetLastNAVs" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestNAVs">
+			<http:operation location="/GetLatestNAVs" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAV">
+			<http:operation location="/GetHistoricalNAV" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVs">
+			<http:operation location="/GetHistoricalNAVs" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVsAsOf">
+			<http:operation location="/GetHistoricalNAVsAsOf" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetHistoricalNAVsRange">
+			<http:operation location="/GetHistoricalNAVsRange" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopGainers">
+			<http:operation location="/GetTopGainers" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopLosers">
+			<http:operation location="/GetTopLosers" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChart">
+			<http:operation location="/DrawFundChart" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DrawFundChartPreset">
+			<http:operation location="/DrawFundChartPreset" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetChartDesign">
+			<http:operation location="/GetChartDesign" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDividendHistory">
+			<http:operation location="/GetDividendHistory" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetNewSymbols">
+			<http:operation location="/GetNewSymbols" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="XigniteFunds">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service provides historical US mutual fund pricing.
+		</wsdl:documentation>
+		<wsdl:port name="XigniteFundsSoap" binding="tns:XigniteFundsSoap">
+			<soap:address location="http://www.xignite.com/xFunds.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteFundsSoap12" binding="tns:XigniteFundsSoap12">
+			<soap12:address location="http://www.xignite.com/xFunds.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteFundsHttpGet" binding="tns:XigniteFundsHttpGet">
+			<http:address location="http://www.xignite.com/xFunds.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteFundsHttpPost" binding="tns:XigniteFundsHttpPost">
+			<http:address location="http://www.xignite.com/xFunds.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

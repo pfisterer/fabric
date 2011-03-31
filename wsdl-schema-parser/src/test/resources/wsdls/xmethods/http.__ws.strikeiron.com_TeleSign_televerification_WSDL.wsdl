@@ -1,1 +1,334 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="https://www.telesign.com/api/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="https://www.telesign.com/api/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="https://www.telesign.com/api/">      <s:element name="RequestAPIversion">        <s:complexType />      </s:element>      <s:element name="RequestAPIversionResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="RequestAPIversionResult" type="tns:Version" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="Version">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="RequestSMS">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Language" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="VerificationCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="RequestSMSResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="RequestSMSResult" type="tns:SMS" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="SMS">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="ReferenceID" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="APIError" type="tns:APIErrorResponse" />        </s:sequence>      </s:complexType>      <s:complexType name="APIErrorResponse">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Code" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="RequestPhoneID">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="RequestPhoneIDResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="RequestPhoneIDResult" type="tns:PhoneID" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="PhoneID">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="OriginalPhoneNumber" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CleansedPhoneNumber" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CleansedCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PrimaryMetroCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="County" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="TimeZone" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="TimeZoneUTCMin" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="TimeZoneUTCMax" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Latitude" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Longitude" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountryName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="MinNumLength" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="MaxNumLength" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="ReferenceID" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="TypeofPhone" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="APIError" type="tns:APIErrorResponse" />        </s:sequence>      </s:complexType>      <s:element name="RequestSTATUS">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ReferenceID" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="VerificationCode" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="RequestSTATUSResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="RequestSTATUSResult" type="tns:STATUS" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="STATUS">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="StatusCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="VerificationCodeValid" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Additional" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="KeyPress" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="APIError" type="tns:APIErrorResponse" />        </s:sequence>      </s:complexType>      <s:element name="RequestCALL">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Language" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="VerificationCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Priority" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="DelayTime" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="RedialCount" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ExtensionContent" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="ExtensionType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="CallType" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="CallerID" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Project" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Additional" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="RequestCALLResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="RequestCALLResult" type="tns:Call" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="Call">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="ReferenceID" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="APIError" type="tns:APIErrorResponse" />        </s:sequence>      </s:complexType>    </s:schema>    <xs:schema xmlns:tns1="http://ws.strikeiron.com" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://ws.strikeiron.com" xmlns:xs="http://www.w3.org/2001/XMLSchema">      <xs:element name="LicenseInfo" type="tns1:LicenseInfo" />      <xs:complexType name="LicenseInfo">        <xs:sequence>          <xs:element minOccurs="0" name="UnregisteredUser" type="tns1:UnregisteredUser" />          <xs:element minOccurs="0" name="RegisteredUser" type="tns1:RegisteredUser" />        </xs:sequence>      </xs:complexType>      <xs:complexType name="UnregisteredUser">        <xs:sequence>          <xs:element minOccurs="0" name="EmailAddress" type="xs:string" />        </xs:sequence>      </xs:complexType>      <xs:complexType name="RegisteredUser">        <xs:sequence>          <xs:element minOccurs="0" name="UserID" type="xs:string" />          <xs:element minOccurs="0" name="Password" type="xs:string" />        </xs:sequence>      </xs:complexType>      <xs:element name="SubscriptionInfo" type="tns1:SubscriptionInfo" />      <xs:complexType name="SubscriptionInfo">        <xs:sequence>          <xs:element name="LicenseStatusCode" type="xs:int" />          <xs:element minOccurs="0" name="LicenseStatus" type="xs:string" />          <xs:element name="LicenseActionCode" type="xs:int" />          <xs:element minOccurs="0" name="LicenseAction" type="xs:string" />          <xs:element name="RemainingHits" type="xs:int" />          <xs:element name="Amount" type="xs:decimal" />        </xs:sequence>      </xs:complexType>      <xs:element name="GetRemainingHits">        <xs:complexType />      </xs:element>      <xs:element name="GetRemainingHitsResponse">        <xs:complexType />      </xs:element>    </xs:schema>  </wsdl:types>  <wsdl:message name="RequestAPIversionSoapIn">    <wsdl:part name="parameters" element="tns:RequestAPIversion" />  </wsdl:message>  <wsdl:message name="RequestAPIversionSoapOut">    <wsdl:part name="parameters" element="tns:RequestAPIversionResponse" />  </wsdl:message>  <wsdl:message name="RequestSMSSoapIn">    <wsdl:part name="parameters" element="tns:RequestSMS" />  </wsdl:message>  <wsdl:message name="RequestSMSSoapOut">    <wsdl:part name="parameters" element="tns:RequestSMSResponse" />  </wsdl:message>  <wsdl:message name="RequestPhoneIDSoapIn">    <wsdl:part name="parameters" element="tns:RequestPhoneID" />  </wsdl:message>  <wsdl:message name="RequestPhoneIDSoapOut">    <wsdl:part name="parameters" element="tns:RequestPhoneIDResponse" />  </wsdl:message>  <wsdl:message name="RequestSTATUSSoapIn">    <wsdl:part name="parameters" element="tns:RequestSTATUS" />  </wsdl:message>  <wsdl:message name="RequestSTATUSSoapOut">    <wsdl:part name="parameters" element="tns:RequestSTATUSResponse" />  </wsdl:message>  <wsdl:message name="RequestCALLSoapIn">    <wsdl:part name="parameters" element="tns:RequestCALL" />  </wsdl:message>  <wsdl:message name="RequestCALLSoapOut">    <wsdl:part name="parameters" element="tns:RequestCALLResponse" />  </wsdl:message>  <wsdl:message name="GetRemainingHitsSoapIn">    <wsdl:part name="parameters" xmlns:q1="http://ws.strikeiron.com" element="q1:GetRemainingHits" />  </wsdl:message>  <wsdl:message name="GetRemainingHitsSoapOut">    <wsdl:part name="parameters" xmlns:q2="http://ws.strikeiron.com" element="q2:GetRemainingHitsResponse" />  </wsdl:message>  <wsdl:message name="LicenseInfoMessage">    <wsdl:part name="LicenseInfo" xmlns:q3="http://ws.strikeiron.com" element="q3:LicenseInfo" />  </wsdl:message>  <wsdl:message name="SubscriptionInfoMessage">    <wsdl:part name="SubscriptionInfo" xmlns:q4="http://ws.strikeiron.com" element="q4:SubscriptionInfo" />  </wsdl:message>  <wsdl:portType name="TelesignAPISoap">    <wsdl:operation name="RequestAPIversion">      <wsdl:input message="tns:RequestAPIversionSoapIn" />      <wsdl:output message="tns:RequestAPIversionSoapOut" />    </wsdl:operation>    <wsdl:operation name="RequestSMS">      <wsdl:input message="tns:RequestSMSSoapIn" />      <wsdl:output message="tns:RequestSMSSoapOut" />    </wsdl:operation>    <wsdl:operation name="RequestPhoneID">      <wsdl:input message="tns:RequestPhoneIDSoapIn" />      <wsdl:output message="tns:RequestPhoneIDSoapOut" />    </wsdl:operation>    <wsdl:operation name="RequestSTATUS">      <wsdl:input message="tns:RequestSTATUSSoapIn" />      <wsdl:output message="tns:RequestSTATUSSoapOut" />    </wsdl:operation>    <wsdl:operation name="RequestCALL">      <wsdl:input message="tns:RequestCALLSoapIn" />      <wsdl:output message="tns:RequestCALLSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetRemainingHits">      <wsdl:input message="tns:GetRemainingHitsSoapIn" />      <wsdl:output message="tns:GetRemainingHitsSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="TelesignAPISoap" type="tns:TelesignAPISoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="RequestAPIversion">      <soap:operation soapAction="https://www.telesign.com/api/RequestAPIversion" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="RequestSMS">      <soap:operation soapAction="https://www.telesign.com/api/RequestSMS" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="RequestPhoneID">      <soap:operation soapAction="https://www.telesign.com/api/RequestPhoneID" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="RequestSTATUS">      <soap:operation soapAction="https://www.telesign.com/api/RequestSTATUS" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="RequestCALL">      <soap:operation soapAction="https://www.telesign.com/api/RequestCALL" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetRemainingHits">      <soap:operation soapAction="http://ws.strikeiron.com/TeleSign/televerification/TelesignAPI/GetRemainingHits" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />        <soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="TelesignAPI">    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Telesign Application Programming Interface (API) - Simple Object Access Protocol (SOAP)</documentation>    <wsdl:port name="TelesignAPISoap" binding="tns:TelesignAPISoap">      <soap:address location="http://ws.strikeiron.com/TeleSign/televerification/TelesignAPI" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="https://www.telesign.com/api/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="https://www.telesign.com/api/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="https://www.telesign.com/api/">
+			<s:element name="RequestAPIversion">
+				<s:complexType />
+			</s:element>
+			<s:element name="RequestAPIversionResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="RequestAPIversionResult" type="tns:Version" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="Version">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="RequestSMS">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Language" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="VerificationCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="RequestSMSResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="RequestSMSResult" type="tns:SMS" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="SMS">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="ReferenceID" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="APIError" type="tns:APIErrorResponse" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="APIErrorResponse">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Code" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="RequestPhoneID">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="RequestPhoneIDResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="RequestPhoneIDResult" type="tns:PhoneID" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="PhoneID">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="OriginalPhoneNumber" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CleansedPhoneNumber" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CleansedCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PrimaryMetroCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="County" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="TimeZone" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="TimeZoneUTCMin" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="TimeZoneUTCMax" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Latitude" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Longitude" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountryName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="MinNumLength" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="MaxNumLength" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ReferenceID" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="TypeofPhone" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="APIError" type="tns:APIErrorResponse" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="RequestSTATUS">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ReferenceID" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="VerificationCode" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="RequestSTATUSResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="RequestSTATUSResult" type="tns:STATUS" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="STATUS">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="StatusCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="VerificationCodeValid" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Additional" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="KeyPress" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="APIError" type="tns:APIErrorResponse" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="RequestCALL">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Language" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="VerificationCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Priority" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="DelayTime" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="RedialCount" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ExtensionContent" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="ExtensionType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="CallType" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="CallerID" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Project" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Additional" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="RequestCALLResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="RequestCALLResult" type="tns:Call" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="Call">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="ReferenceID" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="APIError" type="tns:APIErrorResponse" />
+				</s:sequence>
+			</s:complexType>
+		</s:schema>
+		<xs:schema xmlns:tns1="http://ws.strikeiron.com" attributeFormDefault="unqualified" elementFormDefault="qualified"
+			targetNamespace="http://ws.strikeiron.com" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:element name="LicenseInfo" type="tns1:LicenseInfo" />
+			<xs:complexType name="LicenseInfo">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="UnregisteredUser" type="tns1:UnregisteredUser" />
+					<xs:element minOccurs="0" name="RegisteredUser" type="tns1:RegisteredUser" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="UnregisteredUser">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="EmailAddress" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="RegisteredUser">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="UserID" type="xs:string" />
+					<xs:element minOccurs="0" name="Password" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="SubscriptionInfo" type="tns1:SubscriptionInfo" />
+			<xs:complexType name="SubscriptionInfo">
+				<xs:sequence>
+					<xs:element name="LicenseStatusCode" type="xs:int" />
+					<xs:element minOccurs="0" name="LicenseStatus" type="xs:string" />
+					<xs:element name="LicenseActionCode" type="xs:int" />
+					<xs:element minOccurs="0" name="LicenseAction" type="xs:string" />
+					<xs:element name="RemainingHits" type="xs:int" />
+					<xs:element name="Amount" type="xs:decimal" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="GetRemainingHits">
+				<xs:complexType />
+			</xs:element>
+			<xs:element name="GetRemainingHitsResponse">
+				<xs:complexType />
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="RequestAPIversionSoapIn">
+		<wsdl:part name="parameters" element="tns:RequestAPIversion" />
+	</wsdl:message>
+	<wsdl:message name="RequestAPIversionSoapOut">
+		<wsdl:part name="parameters" element="tns:RequestAPIversionResponse" />
+	</wsdl:message>
+	<wsdl:message name="RequestSMSSoapIn">
+		<wsdl:part name="parameters" element="tns:RequestSMS" />
+	</wsdl:message>
+	<wsdl:message name="RequestSMSSoapOut">
+		<wsdl:part name="parameters" element="tns:RequestSMSResponse" />
+	</wsdl:message>
+	<wsdl:message name="RequestPhoneIDSoapIn">
+		<wsdl:part name="parameters" element="tns:RequestPhoneID" />
+	</wsdl:message>
+	<wsdl:message name="RequestPhoneIDSoapOut">
+		<wsdl:part name="parameters" element="tns:RequestPhoneIDResponse" />
+	</wsdl:message>
+	<wsdl:message name="RequestSTATUSSoapIn">
+		<wsdl:part name="parameters" element="tns:RequestSTATUS" />
+	</wsdl:message>
+	<wsdl:message name="RequestSTATUSSoapOut">
+		<wsdl:part name="parameters" element="tns:RequestSTATUSResponse" />
+	</wsdl:message>
+	<wsdl:message name="RequestCALLSoapIn">
+		<wsdl:part name="parameters" element="tns:RequestCALL" />
+	</wsdl:message>
+	<wsdl:message name="RequestCALLSoapOut">
+		<wsdl:part name="parameters" element="tns:RequestCALLResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetRemainingHitsSoapIn">
+		<wsdl:part name="parameters" xmlns:q1="http://ws.strikeiron.com" element="q1:GetRemainingHits" />
+	</wsdl:message>
+	<wsdl:message name="GetRemainingHitsSoapOut">
+		<wsdl:part name="parameters" xmlns:q2="http://ws.strikeiron.com" element="q2:GetRemainingHitsResponse" />
+	</wsdl:message>
+	<wsdl:message name="LicenseInfoMessage">
+		<wsdl:part name="LicenseInfo" xmlns:q3="http://ws.strikeiron.com" element="q3:LicenseInfo" />
+	</wsdl:message>
+	<wsdl:message name="SubscriptionInfoMessage">
+		<wsdl:part name="SubscriptionInfo" xmlns:q4="http://ws.strikeiron.com" element="q4:SubscriptionInfo" />
+	</wsdl:message>
+	<wsdl:portType name="TelesignAPISoap">
+		<wsdl:operation name="RequestAPIversion">
+			<wsdl:input message="tns:RequestAPIversionSoapIn" />
+			<wsdl:output message="tns:RequestAPIversionSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="RequestSMS">
+			<wsdl:input message="tns:RequestSMSSoapIn" />
+			<wsdl:output message="tns:RequestSMSSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="RequestPhoneID">
+			<wsdl:input message="tns:RequestPhoneIDSoapIn" />
+			<wsdl:output message="tns:RequestPhoneIDSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="RequestSTATUS">
+			<wsdl:input message="tns:RequestSTATUSSoapIn" />
+			<wsdl:output message="tns:RequestSTATUSSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="RequestCALL">
+			<wsdl:input message="tns:RequestCALLSoapIn" />
+			<wsdl:output message="tns:RequestCALLSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetRemainingHits">
+			<wsdl:input message="tns:GetRemainingHitsSoapIn" />
+			<wsdl:output message="tns:GetRemainingHitsSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="TelesignAPISoap" type="tns:TelesignAPISoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="RequestAPIversion">
+			<soap:operation soapAction="https://www.telesign.com/api/RequestAPIversion" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="RequestSMS">
+			<soap:operation soapAction="https://www.telesign.com/api/RequestSMS" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="RequestPhoneID">
+			<soap:operation soapAction="https://www.telesign.com/api/RequestPhoneID" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="RequestSTATUS">
+			<soap:operation soapAction="https://www.telesign.com/api/RequestSTATUS" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="RequestCALL">
+			<soap:operation soapAction="https://www.telesign.com/api/RequestCALL" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetRemainingHits">
+			<soap:operation soapAction="http://ws.strikeiron.com/TeleSign/televerification/TelesignAPI/GetRemainingHits" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:LicenseInfoMessage" part="LicenseInfo" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:SubscriptionInfoMessage" part="SubscriptionInfo" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="TelesignAPI">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Telesign Application Programming Interface (API) - Simple Object Access Protocol
+			(SOAP)</documentation>
+		<wsdl:port name="TelesignAPISoap" binding="tns:TelesignAPISoap">
+			<soap:address location="http://ws.strikeiron.com/TeleSign/televerification/TelesignAPI" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

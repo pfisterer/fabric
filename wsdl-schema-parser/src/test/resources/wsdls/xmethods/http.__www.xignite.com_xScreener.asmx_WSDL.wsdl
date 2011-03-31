@@ -1,1 +1,1479 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service provides screening and filtering functionality for equities.</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">      <s:element name="ListCriteria">        <s:complexType />      </s:element>      <s:element name="ListCriteriaResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ListCriteriaResult" type="tns:CriteriaList" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="CriteriaList">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />              <s:element minOccurs="0" maxOccurs="1" name="Criteria" type="tns:ArrayOfCriteria" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="Common">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />        </s:sequence>      </s:complexType>      <s:simpleType name="OutcomeTypes">        <s:restriction base="s:string">          <s:enumeration value="Success" />          <s:enumeration value="SystemError" />          <s:enumeration value="RequestError" />          <s:enumeration value="RegistrationError" />        </s:restriction>      </s:simpleType>      <s:complexType name="ArrayOfCriteria">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Criteria" nillable="true" type="tns:Criteria" />        </s:sequence>      </s:complexType>      <s:complexType name="Criteria">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:FundamentalTypes" />          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Unit" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="ValueType" type="tns:ValueTypes" />          <s:element minOccurs="1" maxOccurs="1" name="Rounding" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="ValidValues" type="tns:ArrayOfValidValue" />        </s:sequence>      </s:complexType>      <s:simpleType name="FundamentalTypes">        <s:restriction base="s:string">          <s:enumeration value="Name" />          <s:enumeration value="Ticker" />          <s:enumeration value="CUSIP" />          <s:enumeration value="CIK" />          <s:enumeration value="Category" />          <s:enumeration value="Exchange" />          <s:enumeration value="Industry" />          <s:enumeration value="IndustryGroup" />          <s:enumeration value="Sector" />          <s:enumeration value="Logo" />          <s:enumeration value="IRSNumber" />          <s:enumeration value="DUNS" />          <s:enumeration value="SECName" />          <s:enumeration value="ExchangeName" />          <s:enumeration value="AddressName" />          <s:enumeration value="LongName" />          <s:enumeration value="Description" />          <s:enumeration value="LongDescription" />          <s:enumeration value="MGNumber" />          <s:enumeration value="MGNumberOtherCommon" />          <s:enumeration value="PrimarySICCode" />          <s:enumeration value="SecondarySICCode1" />          <s:enumeration value="SecondarySICCode2" />          <s:enumeration value="SecondarySICCode3" />          <s:enumeration value="SecondarySICCode4" />          <s:enumeration value="SecondarySICCode5" />          <s:enumeration value="SecondarySICCode6" />          <s:enumeration value="SecondarySICCode7" />          <s:enumeration value="SecondarySICCode8" />          <s:enumeration value="SecondarySICCode9" />          <s:enumeration value="SecondarySICCode10" />          <s:enumeration value="NAICSCode" />          <s:enumeration value="ScripGroup" />          <s:enumeration value="Address1" />          <s:enumeration value="Address2" />          <s:enumeration value="City" />          <s:enumeration value="State" />          <s:enumeration value="Zip" />          <s:enumeration value="Country" />          <s:enumeration value="Phone" />          <s:enumeration value="FAX" />          <s:enumeration value="StateOfIncorporation" />          <s:enumeration value="Email" />          <s:enumeration value="CEO" />          <s:enumeration value="Employees" />          <s:enumeration value="WebDomain" />          <s:enumeration value="WebSite" />          <s:enumeration value="NumberOfExchanges" />          <s:enumeration value="SAndPRating" />          <s:enumeration value="FiscalYear" />          <s:enumeration value="MostRecentQuarter" />          <s:enumeration value="LastAnnualReport" />          <s:enumeration value="LastQuarterly" />          <s:enumeration value="LastProxyStatement" />          <s:enumeration value="LastDelayedPrice" />          <s:enumeration value="LastRealTimePrice" />          <s:enumeration value="LastTradeDate" />          <s:enumeration value="LastOpen" />          <s:enumeration value="LastHigh" />          <s:enumeration value="LastLow" />          <s:enumeration value="LastMarketClosePrice" />          <s:enumeration value="LastVolume" />          <s:enumeration value="LastFiscalYearAveragePrice" />          <s:enumeration value="AveragePriceThisFiscalQuarter" />          <s:enumeration value="AveragePriceFiscalQuarterMinus1" />          <s:enumeration value="AveragePriceFiscalQuarterMinus2" />          <s:enumeration value="AveragePriceFiscalQuarterMinus3" />          <s:enumeration value="AveragePriceFiscalQuarterMinus4" />          <s:enumeration value="AveragePriceFiscalQuarterMinus5" />          <s:enumeration value="AveragePriceFiscalQuarterMinus6" />          <s:enumeration value="AveragePriceFiscalQuarterMinus7" />          <s:enumeration value="AveragePriceFiscalQuarterMinus8" />          <s:enumeration value="AveragePriceFiscalQuarterMinus9" />          <s:enumeration value="AveragePriceFiscalQuarterMinus10" />          <s:enumeration value="AveragePriceFiscalQuarterMinus11" />          <s:enumeration value="AveragePriceFiscalQuarterMinus12" />          <s:enumeration value="AveragePriceThisFiscalYear" />          <s:enumeration value="AveragePriceFiscalYearMinus1" />          <s:enumeration value="AveragePriceFiscalYearMinus2" />          <s:enumeration value="AveragePriceFiscalYearMinus3" />          <s:enumeration value="AveragePriceFiscalYearMinus4" />          <s:enumeration value="AveragePriceFiscalYearMinus5" />          <s:enumeration value="AveragePriceFiscalYearMinus6" />          <s:enumeration value="AveragePriceFiscalYearMinus7" />          <s:enumeration value="AveragePriceFiscalYearMinus8" />          <s:enumeration value="AveragePriceFiscalYearMinus9" />          <s:enumeration value="AveragePriceFiscalYearMinus10" />          <s:enumeration value="AveragePriceFiscalYearMinus11" />          <s:enumeration value="AveragePriceFiscalYearMinus12" />          <s:enumeration value="AverageVolumeThisFiscalYear" />          <s:enumeration value="AverageVolumeFiscalYearMinus1" />          <s:enumeration value="AverageVolumeFiscalYearMinus2" />          <s:enumeration value="AverageVolumeFiscalYearMinus3" />          <s:enumeration value="AverageVolumeFiscalYearMinus4" />          <s:enumeration value="AverageVolumeFiscalYearMinus5" />          <s:enumeration value="AverageVolumeFiscalYearMinus6" />          <s:enumeration value="AverageVolumeFiscalYearMinus7" />          <s:enumeration value="AverageVolumeFiscalYearMinus8" />          <s:enumeration value="AverageVolumeFiscalYearMinus9" />          <s:enumeration value="AverageVolumeFiscalYearMinus10" />          <s:enumeration value="AverageVolumeFiscalYearMinus11" />          <s:enumeration value="AverageVolumeFiscalYearMinus12" />          <s:enumeration value="HighPriceThisFiscalYear" />          <s:enumeration value="HighPriceFiscalYearMinus1" />          <s:enumeration value="HighPriceFiscalYearMinus2" />          <s:enumeration value="HighPriceFiscalYearMinus3" />          <s:enumeration value="HighPriceFiscalYearMinus4" />          <s:enumeration value="HighPriceFiscalYearMinus5" />          <s:enumeration value="HighPriceFiscalYearMinus6" />          <s:enumeration value="HighPriceFiscalYearMinus7" />          <s:enumeration value="HighPriceFiscalYearMinus8" />          <s:enumeration value="HighPriceFiscalYearMinus9" />          <s:enumeration value="HighPriceFiscalYearMinus10" />          <s:enumeration value="HighPriceFiscalYearMinus11" />          <s:enumeration value="HighPriceFiscalYearMinus12" />          <s:enumeration value="LowPriceThisFiscalYear" />          <s:enumeration value="LowPriceFiscalYearMinus1" />          <s:enumeration value="LowPriceFiscalYearMinus2" />          <s:enumeration value="LowPriceFiscalYearMinus3" />          <s:enumeration value="LowPriceFiscalYearMinus4" />          <s:enumeration value="LowPriceFiscalYearMinus5" />          <s:enumeration value="LowPriceFiscalYearMinus6" />          <s:enumeration value="LowPriceFiscalYearMinus7" />          <s:enumeration value="LowPriceFiscalYearMinus8" />          <s:enumeration value="LowPriceFiscalYearMinus9" />          <s:enumeration value="LowPriceFiscalYearMinus10" />          <s:enumeration value="LowPriceFiscalYearMinus11" />          <s:enumeration value="LowPriceFiscalYearMinus12" />          <s:enumeration value="HighPriceLast4Weeks" />          <s:enumeration value="HighPriceLast13Weeks" />          <s:enumeration value="HighPriceLast26Weeks" />          <s:enumeration value="HighPriceLast52Weeks" />          <s:enumeration value="HighPriceLastMonth" />          <s:enumeration value="HighPriceLast3Months" />          <s:enumeration value="HighPriceLast6Months" />          <s:enumeration value="HighPriceLast9Months" />          <s:enumeration value="HighPriceLast12Months" />          <s:enumeration value="HighPriceYearToDate" />          <s:enumeration value="LowPriceLast4Weeks" />          <s:enumeration value="LowPriceLast13Weeks" />          <s:enumeration value="LowPriceLast26Weeks" />          <s:enumeration value="LowPriceLast52Weeks" />          <s:enumeration value="LowPriceLastMonth" />          <s:enumeration value="LowPriceLast3Months" />          <s:enumeration value="LowPriceLast6Months" />          <s:enumeration value="LowPriceLast9Months" />          <s:enumeration value="LowPriceLast12Months" />          <s:enumeration value="LowPriceYearToDate" />          <s:enumeration value="ClosePrice4WeeksAgo" />          <s:enumeration value="ClosePrice13WeeksAgo" />          <s:enumeration value="ClosePrice26WeeksAgo" />          <s:enumeration value="ClosePrice52WeeksAgo" />          <s:enumeration value="ClosePriceLastMonth" />          <s:enumeration value="ClosePrice3MonthsAgo" />          <s:enumeration value="ClosePrice6MonthsAgo" />          <s:enumeration value="ClosePrice9MonthsAgo" />          <s:enumeration value="ClosePrice12MonthsAgo" />          <s:enumeration value="FiveYearHighPrice" />          <s:enumeration value="FiveYearLowPrice" />          <s:enumeration value="PeriodAveragePrice" />          <s:enumeration value="OneYearHigh" />          <s:enumeration value="OneYearLow" />          <s:enumeration value="OneYearHighDate" />          <s:enumeration value="OneYearLowDate" />          <s:enumeration value="PercentPriceChange1Week" />          <s:enumeration value="PercentPriceChange4Weeks" />          <s:enumeration value="PercentPriceChange13Weeks" />          <s:enumeration value="PercentPriceChange1Month" />          <s:enumeration value="PercentPriceChangeLast10Days" />          <s:enumeration value="PercentPriceChangeLast26Weeks" />          <s:enumeration value="PercentPriceChangeLast52Weeks" />          <s:enumeration value="PercentPriceChangeYearToDate" />          <s:enumeration value="FiveDayMovingAverage" />          <s:enumeration value="TenDayMovingAverage" />          <s:enumeration value="TenWeekMovingAverage" />          <s:enumeration value="ThirtyWeekMovingAverage" />          <s:enumeration value="TwoHundredDayMovingAverage" />          <s:enumeration value="LatestCloseAsPercentOf5DayAverage" />          <s:enumeration value="LatestCloseAsPercentOf10DayAverage" />          <s:enumeration value="LatestCloseAsPercentOf10WeekAverage" />          <s:enumeration value="LatestCloseAsPercentOf30WeekAverage" />          <s:enumeration value="LatestCloseAsPercentOf200DayAverage" />          <s:enumeration value="LatestCloseAsPercentOf52WeekHigh" />          <s:enumeration value="LatestCloseAsPercentOf52WeekLow" />          <s:enumeration value="LatestCloseAsPercentOf5YearHigh" />          <s:enumeration value="LatestCloseAsPercentOf5YearLow" />          <s:enumeration value="PriceChangeVsMarket1Week" />          <s:enumeration value="PriceChangeVsMarket4Weeks" />          <s:enumeration value="PriceChangeVsMarket13Weeks" />          <s:enumeration value="PriceChangeVsMarket26Weeks" />          <s:enumeration value="PriceChangeVsMarket52Weeks" />          <s:enumeration value="PriceChangeVsMarketThisMonth" />          <s:enumeration value="PriceChangeVsMarket3Months" />          <s:enumeration value="PriceChangeVsMarket6Months" />          <s:enumeration value="PriceChangeVsMarket9Months" />          <s:enumeration value="PriceChangeVsMarket12Months" />          <s:enumeration value="PriceChangeVsMarketYearToDate" />          <s:enumeration value="TwoHundredDayPriceIndexVsMarket" />          <s:enumeration value="PriceMomentumThisWeek" />          <s:enumeration value="PriceMomentumPriorWeek" />          <s:enumeration value="Beta60Month" />          <s:enumeration value="Beta36Month" />          <s:enumeration value="TotalVolumeThisWeek" />          <s:enumeration value="TotalVolumeLast10Days" />          <s:enumeration value="TotalVolumeLast20Days" />          <s:enumeration value="TotalVolumeLast2Weeks" />          <s:enumeration value="TotalVolumeLast4Weeks" />          <s:enumeration value="TotalVolumeLast13Weeks" />          <s:enumeration value="TotalVolumeLast26Weeks" />          <s:enumeration value="TotalVolumeLast52Weeks" />          <s:enumeration value="TotalVolumeThisMonth" />          <s:enumeration value="TotalVolumeLast3Months" />          <s:enumeration value="TotalVolumeLast6Months" />          <s:enumeration value="TotalVolumeLast9Months" />          <s:enumeration value="TotalVolumeLast12Months" />          <s:enumeration value="TotalVolumeYearToDate" />          <s:enumeration value="AverageDailyVolumeLast10Days" />          <s:enumeration value="AverageDailyVolumeLast20Days" />          <s:enumeration value="AverageDailyVolumeLast2Weeks" />          <s:enumeration value="AverageDailyVolumeLast4Weeks" />          <s:enumeration value="AverageDailyVolumeLast13Weeks" />          <s:enumeration value="AverageDailyVolumeLast26Weeks" />          <s:enumeration value="AverageDailyVolumeLast52Weeks" />          <s:enumeration value="AverageDailyVolumeThisMonth" />          <s:enumeration value="AverageDailyVolumeLast3Months" />          <s:enumeration value="AverageDailyVolumeLast6Months" />          <s:enumeration value="AverageDailyVolumeLast9Months" />          <s:enumeration value="AverageDailyVolumeLast12Months" />          <s:enumeration value="AverageDailyVolumeYearToDate" />          <s:enumeration value="DailyVolumeAsPercentOf10DayAverageVolume" />          <s:enumeration value="ThisWeekVolumeTimesWeeksChange" />          <s:enumeration value="ThisWeeksDollarVolume" />          <s:enumeration value="WeeklyVolumeAsPercentOfSharesOutstanding" />          <s:enumeration value="LiquidityRatio" />          <s:enumeration value="OnBalanceVolumeIndexLast4Weeks" />          <s:enumeration value="LastYearClose" />          <s:enumeration value="OneYearClose" />          <s:enumeration value="NineMonthClose" />          <s:enumeration value="SixMonthClose" />          <s:enumeration value="ThreeMonthClose" />          <s:enumeration value="OneMonthClose" />          <s:enumeration value="LastSplitRatio" />          <s:enumeration value="LastSplitDate" />          <s:enumeration value="SplitFactorDate" />          <s:enumeration value="SplitFactor" />          <s:enumeration value="ManagementShares" />          <s:enumeration value="ManagementOwnership" />          <s:enumeration value="TotalAssets" />          <s:enumeration value="TotalLiabilities" />          <s:enumeration value="TotalDebt" />          <s:enumeration value="TotalCash" />          <s:enumeration value="TotalRevenue" />          <s:enumeration value="TotalExpenses" />          <s:enumeration value="TotalOperatingExpenses" />          <s:enumeration value="OperatingIncome" />          <s:enumeration value="NetIncome" />          <s:enumeration value="TotalEnterpriseValue" />          <s:enumeration value="TotalBookValue" />          <s:enumeration value="TangibleBookValue" />          <s:enumeration value="EBIT" />          <s:enumeration value="EBITDA" />          <s:enumeration value="RevenuePerShare" />          <s:enumeration value="RevenueGrowth" />          <s:enumeration value="EarningGrowth" />          <s:enumeration value="Beta" />          <s:enumeration value="Auditors" />          <s:enumeration value="MostRecentAuditorsReport" />          <s:enumeration value="StockOptionsIndicator" />          <s:enumeration value="MaintainsMailingList" />          <s:enumeration value="Currency" />          <s:enumeration value="CommonIssueType" />          <s:enumeration value="InBankruptcy" />          <s:enumeration value="DividendReinvestment" />          <s:enumeration value="DomicileIndicatorCode" />          <s:enumeration value="ADRToOrdinaryRatio" />          <s:enumeration value="DowJonesMembership" />          <s:enumeration value="SAndPMembership" />          <s:enumeration value="SAndPMidCapMembership" />          <s:enumeration value="SAndPSmallCapMembership" />          <s:enumeration value="Russell1000Membership" />          <s:enumeration value="Russell2000Membership" />          <s:enumeration value="Forbes500Membership" />          <s:enumeration value="Fortune500IndustrialMembership" />          <s:enumeration value="Fortune500ServicesMembership" />          <s:enumeration value="SAndPTop100Membership" />          <s:enumeration value="ShortInterestShares" />          <s:enumeration value="ShortInterestRatio" />          <s:enumeration value="ShortInterestAsAPercentageOfFloat" />          <s:enumeration value="InsiderSharesBought" />          <s:enumeration value="InsiderSharesSold" />          <s:enumeration value="NetInsiderTransactions" />          <s:enumeration value="PercentOfSharesOutstandingHeldByInsiders" />          <s:enumeration value="NumberOfInstitutionalSharesBought" />          <s:enumeration value="NumberOfInstitutionalSharesSold" />          <s:enumeration value="SharesHeldByInstitutions" />          <s:enumeration value="NumberOfInstitutionsHoldingShares" />          <s:enumeration value="PercentOfSharesOutstandingHeldByInstitutions" />          <s:enumeration value="TorontoMembership" />          <s:enumeration value="TorontoIndustrySectorCode" />          <s:enumeration value="MarketCapitalization" />          <s:enumeration value="MarketCapitalizationAllShares" />          <s:enumeration value="MarketValueAsPercentOfRevenues" />          <s:enumeration value="SharesOutstanding" />          <s:enumeration value="SharesOutstandingClassA" />          <s:enumeration value="SharesOutstandingClassB" />          <s:enumeration value="DateOfSharesOutstanding" />          <s:enumeration value="LatestBalanceSheetSharesOutstanding" />          <s:enumeration value="LatestBalanceSheetDate" />          <s:enumeration value="Float" />          <s:enumeration value="FloatAsAPercentOfSharesOutstanding" />          <s:enumeration value="LatestFiscalDate" />          <s:enumeration value="LatestFiscalRevenue" />          <s:enumeration value="LatestFiscalEPS" />          <s:enumeration value="LatestFiscalDividendsPerShare" />          <s:enumeration value="BasicEPS" />          <s:enumeration value="DilutedEPS" />          <s:enumeration value="LTMDate" />          <s:enumeration value="LatestQuarterIndicator" />          <s:enumeration value="LTMRevenue" />          <s:enumeration value="LTMIncomeFromContinuingOperations" />          <s:enumeration value="LTMIncomeFromTotalOperations" />          <s:enumeration value="LTMDilutedEPSFromContinuingOperations" />          <s:enumeration value="LTMDilutedEPSFromTotalOperations" />          <s:enumeration value="LTMDilutedEPSFromTotalOperations1YearAgo" />          <s:enumeration value="LTMProfitMarginFromContinuingOperations" />          <s:enumeration value="LTMProfitMarginFromTotalOperations" />          <s:enumeration value="PriceSales" />          <s:enumeration value="CurrentRevenuePerShare" />          <s:enumeration value="CurrentRevenuePerEmployee" />          <s:enumeration value="CurrentNetIncomeFromTotalOperationsPerEmployee" />          <s:enumeration value="PercentChangeRevenueThisYearToDateVsLastYTD" />          <s:enumeration value="PercentChangeRevenueCurrentQuarterVsQuarter1YearAgo" />          <s:enumeration value="PercentChangeRevenueAnnualVsLastAnnual" />          <s:enumeration value="PercentChangeEarningsThisYearToDateVsLastYTD" />          <s:enumeration value="PercentChangeEarningsCurrentQuarterVsQuarter1YearAgo" />          <s:enumeration value="PercentChangeEarningsAnnualVsLastAnnual" />          <s:enumeration value="ChangeInEPSThisYearToDateVsLastYTD" />          <s:enumeration value="ChangeInEPSThisQuarterVs1YearAgo" />          <s:enumeration value="ChangeInEPSThisFiscalYearVs1YearAgo" />          <s:enumeration value="ChangeIn12MonthEPSVs1YearAgo" />          <s:enumeration value="PercentChangeInEPSThisYearToDateVsLastYTD" />          <s:enumeration value="PercentChangeInEPSThisQuarterVs1YrAgo" />          <s:enumeration value="PercentChangeInEPSThisYearVs1YearAgo" />          <s:enumeration value="PercentChangeIn12MonthEPSvs1YearAgo" />          <s:enumeration value="LastDividendDate" />          <s:enumeration value="LastDividendExDate" />          <s:enumeration value="DividendCode" />          <s:enumeration value="DividendRate" />          <s:enumeration value="LastDividendYield" />          <s:enumeration value="PayoutFromTotalOperationsLatestFiscalYear" />          <s:enumeration value="PayoutRatio" />          <s:enumeration value="Payout5YearAverageFromTotalOperations" />          <s:enumeration value="DividendYield5YearAverage" />          <s:enumeration value="FiveYearAnnualRevenueGrowthRate" />          <s:enumeration value="ConsistencyOf5YearRevenueGrowthRate" />          <s:enumeration value="ThreeYearAnnualRevenueGrowthRate" />          <s:enumeration value="FiveYearAnnualIncomeGrowthRate" />          <s:enumeration value="ConsistencyOfFiveYearIncomeGrowthRate" />          <s:enumeration value="ThreeYearAnnualIncomeGrowthRate" />          <s:enumeration value="FiveYearAnnualDividendGrowthRate" />          <s:enumeration value="ConsistencyOfFiveYearDividendGrowthRate" />          <s:enumeration value="ThreeYearAnnualDividendGrowthRate" />          <s:enumeration value="FiveYearAnnualCapitalSpendingGrowthRate" />          <s:enumeration value="ThreeYearAnnualCapitalSpendingGrowthRate" />          <s:enumeration value="FiveYearAnnualRAndDGrowthRate" />          <s:enumeration value="ThreeYearAnnualRAndDGrowthRate" />          <s:enumeration value="FiveYearAnnualNormalizedIncomeGrowthRate" />          <s:enumeration value="ThreeYearAnnualNormalizedIncomeGrowthRate" />          <s:enumeration value="PERatio" />          <s:enumeration value="TrailingPE" />          <s:enumeration value="ForwardPE" />          <s:enumeration value="PERatio1MonthAgo" />          <s:enumeration value="PERatio26WeeksAgo" />          <s:enumeration value="PERatio52WeeksAgo" />          <s:enumeration value="FiveYearHighPERatio" />          <s:enumeration value="FiveYearAverageHighPERatio" />          <s:enumeration value="FiveYearLowPERatio" />          <s:enumeration value="FiveYearAverageLowPERatio" />          <s:enumeration value="FiveYearAveragePERatio" />          <s:enumeration value="CurrentPEAsPercentOf5YearAveragePERatio" />          <s:enumeration value="PERatioAsPercentOfIndustryGroupPERatio" />          <s:enumeration value="PERatioAsPercentOfIndustryPERatio" />          <s:enumeration value="Current12MonthNormalizedPERatio" />          <s:enumeration value="LatestFullContextQuarterEndingDate" />          <s:enumeration value="GrossMargin" />          <s:enumeration value="EBITMargin" />          <s:enumeration value="EBITDAMargin" />          <s:enumeration value="EBITPerShare" />          <s:enumeration value="EBITDAPerShare" />          <s:enumeration value="PreTaxProfitMargin" />          <s:enumeration value="InterestCoverage" />          <s:enumeration value="CurrentRatio" />          <s:enumeration value="QuickRatio" />          <s:enumeration value="LeverageRatio" />          <s:enumeration value="ReceivablesTurnover" />          <s:enumeration value="InventoryTurnover" />          <s:enumeration value="AssetTurnover" />          <s:enumeration value="RevenueToAssets" />          <s:enumeration value="ROEFromTotalOperations" />          <s:enumeration value="ReturnOnInvestedCapital" />          <s:enumeration value="ReturnOnAssets" />          <s:enumeration value="DebtCommonEquityRatio" />          <s:enumeration value="PriceBook" />          <s:enumeration value="BookValue" />          <s:enumeration value="BookValuePerShare" />          <s:enumeration value="TotalDebtEquityRatio" />          <s:enumeration value="LongTermDebtToTotalCapital" />          <s:enumeration value="SGAndAAsPercentOfSales" />          <s:enumeration value="RAndDAsPercentOfSales" />          <s:enumeration value="ReceivablesPerDaySales" />          <s:enumeration value="DaysCGSInInventory" />          <s:enumeration value="WorkingCapitalPerShare" />          <s:enumeration value="CashPerShare" />          <s:enumeration value="CashFlowPerShare" />          <s:enumeration value="FreeCashFlowPerShare" />          <s:enumeration value="TangibleBookValuePerShare" />          <s:enumeration value="PriceCashFlowRatio" />          <s:enumeration value="PriceFreeCashFlowRatio" />          <s:enumeration value="PriceTangibleBook" />          <s:enumeration value="FiveYearAverageReturnOnEquity" />          <s:enumeration value="FiveYearAverageReturnOnAssets" />          <s:enumeration value="FiveYearAverageReturnOnInvestedCapital" />          <s:enumeration value="FiveYearAverageGrossProfitMargin" />          <s:enumeration value="FiveYearAveragePreTaxProfitMargin" />          <s:enumeration value="FiveYearAveragePostTaxProfitMargin" />          <s:enumeration value="FiveYearAverageNetProfitMargin" />          <s:enumeration value="FiveYearAverageRAndDAsAPercentOfSales" />          <s:enumeration value="FiveYearAverageSGAndAAsAPercentOfSales" />          <s:enumeration value="FiveYearAverageDebtEquityRatio" />          <s:enumeration value="FiveYearAverageTotalDebtEquityRatio" />          <s:enumeration value="EarningsQuarter" />          <s:enumeration value="NextEarningsDateQuarter" />          <s:enumeration value="NextEarningDate" />          <s:enumeration value="NextEarningTime" />          <s:enumeration value="NextEarningDateType" />          <s:enumeration value="EarningConfirmationDate" />          <s:enumeration value="LastEarningUpdateDate" />          <s:enumeration value="Q1EarningDate" />          <s:enumeration value="Q2EarningDate" />          <s:enumeration value="Q3EarningDate" />          <s:enumeration value="Q4EarningDate" />          <s:enumeration value="NextEarningEstimateAverage" />          <s:enumeration value="LastEarningEstimateAverage" />          <s:enumeration value="EarningEstimateChangeAverage" />          <s:enumeration value="ConferenceCallDate" />          <s:enumeration value="ConferenceCallTime" />          <s:enumeration value="ConferenceCallNumber" />          <s:enumeration value="ConferenceCallPasscode" />          <s:enumeration value="ConferenceCallBroadcastURL" />          <s:enumeration value="ConferenceCallNotes" />          <s:enumeration value="ConferenceCallInternationalNumber" />          <s:enumeration value="ConferenceCallInternationalPasscode" />          <s:enumeration value="ReplayDate" />          <s:enumeration value="ReplayNumber" />          <s:enumeration value="ReplayPasscode" />          <s:enumeration value="ReplayWebcastURL" />          <s:enumeration value="ReplayEndDate" />          <s:enumeration value="ReplayWebcastEndDate" />          <s:enumeration value="BoardOfDirectorMeetingDate" />          <s:enumeration value="None" />        </s:restriction>      </s:simpleType>      <s:simpleType name="ValueTypes">        <s:restriction base="s:string">          <s:enumeration value="Numeric" />          <s:enumeration value="Text" />          <s:enumeration value="Boolean" />          <s:enumeration value="Date" />        </s:restriction>      </s:simpleType>      <s:complexType name="ArrayOfValidValue">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="ValidValue" nillable="true" type="tns:ValidValue" />        </s:sequence>      </s:complexType>      <s:complexType name="ValidValue">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="Header" type="tns:Header" />      <s:complexType name="Header">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />        </s:sequence>        <s:anyAttribute />      </s:complexType>      <s:element name="Search">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Criteria" type="tns:ArrayOfSearchCriteria" />            <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfSearchCriteria">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="SearchCriteria" nillable="true" type="tns:SearchCriteria" />        </s:sequence>      </s:complexType>      <s:complexType name="SearchCriteria">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:FundamentalTypes" />          <s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchCriteriaType" />          <s:element minOccurs="0" maxOccurs="1" name="FirstValue" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="SecondValue" type="s:string" />        </s:sequence>      </s:complexType>      <s:simpleType name="SearchCriteriaType">        <s:restriction base="s:string">          <s:enumeration value="Equal" />          <s:enumeration value="LessThan" />          <s:enumeration value="GreaterThan" />          <s:enumeration value="LessOrEqualTo" />          <s:enumeration value="GreaterOrEqualTo" />          <s:enumeration value="Between" />          <s:enumeration value="Like" />          <s:enumeration value="StartsWith" />          <s:enumeration value="EndsWith" />          <s:enumeration value="InList" />          <s:enumeration value="SoundsLike" />        </s:restriction>      </s:simpleType>      <s:element name="SearchResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SearchResult" type="tns:SearchResults" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="SearchResults">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />              <s:element minOccurs="0" maxOccurs="1" name="Criteria" type="tns:ArrayOfSearchCriteria" />              <s:element minOccurs="0" maxOccurs="1" name="Results" type="tns:ArrayOfResult" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="ArrayOfResult">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="Result" nillable="true" type="tns:Result" />        </s:sequence>      </s:complexType>      <s:complexType name="Result">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Sector" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="IndustryGroup" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Industry" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="LastPrice" type="s:double" />          <s:element minOccurs="0" maxOccurs="1" name="LastPriceDate" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="LastPriceTime" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="LastVolume" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="LastChange" type="s:double" />          <s:element minOccurs="1" maxOccurs="1" name="LastChangeType" type="tns:ChangeTypes" />          <s:element minOccurs="0" maxOccurs="1" name="SearchValues" type="tns:ArrayOfSearchValue" />        </s:sequence>      </s:complexType>      <s:simpleType name="ChangeTypes">        <s:restriction base="s:string">          <s:enumeration value="Up" />          <s:enumeration value="Down" />          <s:enumeration value="Unchanged" />        </s:restriction>      </s:simpleType>      <s:complexType name="ArrayOfSearchValue">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="SearchValue" nillable="true" type="tns:SearchValue" />        </s:sequence>      </s:complexType>      <s:complexType name="SearchValue">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:FundamentalTypes" />          <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="GetTop">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="OrderBy" type="tns:FundamentalTypes" />            <s:element minOccurs="1" maxOccurs="1" name="Direction" type="tns:DirectionTypes" />            <s:element minOccurs="0" maxOccurs="1" name="Criteria" type="tns:ArrayOfSearchCriteria" />            <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="DirectionTypes">        <s:restriction base="s:string">          <s:enumeration value="Ascending" />          <s:enumeration value="Descending" />        </s:restriction>      </s:simpleType>      <s:element name="GetTopResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTopResult" type="tns:SearchResults" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SingleSearch">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:FundamentalTypes" />            <s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchCriteriaType" />            <s:element minOccurs="0" maxOccurs="1" name="FirstValue" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="SecondValue" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="SingleSearchResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="SingleSearchResult" type="tns:SearchResults" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTopSingle">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="OrderBy" type="tns:FundamentalTypes" />            <s:element minOccurs="1" maxOccurs="1" name="Direction" type="tns:DirectionTypes" />            <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:FundamentalTypes" />            <s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchCriteriaType" />            <s:element minOccurs="0" maxOccurs="1" name="FirstValue" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="SecondValue" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetTopSingleResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetTopSingleResult" type="tns:SearchResults" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DoubleSearch">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Type1" type="tns:FundamentalTypes" />            <s:element minOccurs="1" maxOccurs="1" name="SearchType1" type="tns:SearchCriteriaType" />            <s:element minOccurs="0" maxOccurs="1" name="FirstValue1" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="SecondValue1" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Type2" type="tns:FundamentalTypes" />            <s:element minOccurs="1" maxOccurs="1" name="SearchType2" type="tns:SearchCriteriaType" />            <s:element minOccurs="0" maxOccurs="1" name="FirstValue2" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="SecondValue2" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DoubleSearchResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DoubleSearchResult" type="tns:SearchResults" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="TripleSearch">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="Type1" type="tns:FundamentalTypes" />            <s:element minOccurs="1" maxOccurs="1" name="SearchType1" type="tns:SearchCriteriaType" />            <s:element minOccurs="0" maxOccurs="1" name="FirstValue1" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="SecondValue1" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Type2" type="tns:FundamentalTypes" />            <s:element minOccurs="1" maxOccurs="1" name="SearchType2" type="tns:SearchCriteriaType" />            <s:element minOccurs="0" maxOccurs="1" name="FirstValue2" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="SecondValue2" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Type3" type="tns:FundamentalTypes" />            <s:element minOccurs="1" maxOccurs="1" name="SearchType3" type="tns:SearchCriteriaType" />            <s:element minOccurs="0" maxOccurs="1" name="FirstValue3" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="SecondValue3" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="TripleSearchResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="TripleSearchResult" type="tns:SearchResults" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Count">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Criteria" type="tns:ArrayOfSearchCriteria" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="CountResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="CountResult" type="tns:CountResults" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="CountResults">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />              <s:element minOccurs="0" maxOccurs="1" name="Criteria" type="tns:ArrayOfSearchCriteria" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="GetDetails">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetDetailsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetDetailsResult" type="tns:Details" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="Details">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Sector" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="IndustryGroup" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Industry" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="SICCode" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Street1" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Street2" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Fax" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="CEO" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="Employees" type="s:double" />              <s:element minOccurs="0" maxOccurs="1" name="WebSite" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="Beta" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="YearHigh" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="YearLow" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="AverageVolume" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="MarketCap" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="PERatio" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="EPS" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="Dividend" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="LastPrice" type="s:double" />              <s:element minOccurs="0" maxOccurs="1" name="LastPriceDate" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="LastPriceTime" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="LastVolume" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="LastChange" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="LastChangeType" type="tns:ChangeTypes" />              <s:element minOccurs="1" maxOccurs="1" name="DayHigh" type="s:double" />              <s:element minOccurs="1" maxOccurs="1" name="DayLow" type="s:double" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="CriteriaList" nillable="true" type="tns:CriteriaList" />      <s:element name="SearchResults" nillable="true" type="tns:SearchResults" />      <s:element name="Details" nillable="true" type="tns:Details" />    </s:schema>  </wsdl:types>  <wsdl:message name="ListCriteriaSoapIn">    <wsdl:part name="parameters" element="tns:ListCriteria" />  </wsdl:message>  <wsdl:message name="ListCriteriaSoapOut">    <wsdl:part name="parameters" element="tns:ListCriteriaResponse" />  </wsdl:message>  <wsdl:message name="ListCriteriaHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="SearchSoapIn">    <wsdl:part name="parameters" element="tns:Search" />  </wsdl:message>  <wsdl:message name="SearchSoapOut">    <wsdl:part name="parameters" element="tns:SearchResponse" />  </wsdl:message>  <wsdl:message name="SearchHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetTopSoapIn">    <wsdl:part name="parameters" element="tns:GetTop" />  </wsdl:message>  <wsdl:message name="GetTopSoapOut">    <wsdl:part name="parameters" element="tns:GetTopResponse" />  </wsdl:message>  <wsdl:message name="GetTopHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="SingleSearchSoapIn">    <wsdl:part name="parameters" element="tns:SingleSearch" />  </wsdl:message>  <wsdl:message name="SingleSearchSoapOut">    <wsdl:part name="parameters" element="tns:SingleSearchResponse" />  </wsdl:message>  <wsdl:message name="SingleSearchHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetTopSingleSoapIn">    <wsdl:part name="parameters" element="tns:GetTopSingle" />  </wsdl:message>  <wsdl:message name="GetTopSingleSoapOut">    <wsdl:part name="parameters" element="tns:GetTopSingleResponse" />  </wsdl:message>  <wsdl:message name="GetTopSingleHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="DoubleSearchSoapIn">    <wsdl:part name="parameters" element="tns:DoubleSearch" />  </wsdl:message>  <wsdl:message name="DoubleSearchSoapOut">    <wsdl:part name="parameters" element="tns:DoubleSearchResponse" />  </wsdl:message>  <wsdl:message name="DoubleSearchHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="TripleSearchSoapIn">    <wsdl:part name="parameters" element="tns:TripleSearch" />  </wsdl:message>  <wsdl:message name="TripleSearchSoapOut">    <wsdl:part name="parameters" element="tns:TripleSearchResponse" />  </wsdl:message>  <wsdl:message name="TripleSearchHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="CountSoapIn">    <wsdl:part name="parameters" element="tns:Count" />  </wsdl:message>  <wsdl:message name="CountSoapOut">    <wsdl:part name="parameters" element="tns:CountResponse" />  </wsdl:message>  <wsdl:message name="CountHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetDetailsSoapIn">    <wsdl:part name="parameters" element="tns:GetDetails" />  </wsdl:message>  <wsdl:message name="GetDetailsSoapOut">    <wsdl:part name="parameters" element="tns:GetDetailsResponse" />  </wsdl:message>  <wsdl:message name="GetDetailsHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="ListCriteriaHttpGetIn" />  <wsdl:message name="ListCriteriaHttpGetOut">    <wsdl:part name="Body" element="tns:CriteriaList" />  </wsdl:message>  <wsdl:message name="SingleSearchHttpGetIn">    <wsdl:part name="Type" type="s:string" />    <wsdl:part name="SearchType" type="s:string" />    <wsdl:part name="FirstValue" type="s:string" />    <wsdl:part name="SecondValue" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="SingleSearchHttpGetOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="GetTopSingleHttpGetIn">    <wsdl:part name="OrderBy" type="s:string" />    <wsdl:part name="Direction" type="s:string" />    <wsdl:part name="Type" type="s:string" />    <wsdl:part name="SearchType" type="s:string" />    <wsdl:part name="FirstValue" type="s:string" />    <wsdl:part name="SecondValue" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTopSingleHttpGetOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="DoubleSearchHttpGetIn">    <wsdl:part name="Type1" type="s:string" />    <wsdl:part name="SearchType1" type="s:string" />    <wsdl:part name="FirstValue1" type="s:string" />    <wsdl:part name="SecondValue1" type="s:string" />    <wsdl:part name="Type2" type="s:string" />    <wsdl:part name="SearchType2" type="s:string" />    <wsdl:part name="FirstValue2" type="s:string" />    <wsdl:part name="SecondValue2" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="DoubleSearchHttpGetOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="TripleSearchHttpGetIn">    <wsdl:part name="Type1" type="s:string" />    <wsdl:part name="SearchType1" type="s:string" />    <wsdl:part name="FirstValue1" type="s:string" />    <wsdl:part name="SecondValue1" type="s:string" />    <wsdl:part name="Type2" type="s:string" />    <wsdl:part name="SearchType2" type="s:string" />    <wsdl:part name="FirstValue2" type="s:string" />    <wsdl:part name="SecondValue2" type="s:string" />    <wsdl:part name="Type3" type="s:string" />    <wsdl:part name="SearchType3" type="s:string" />    <wsdl:part name="FirstValue3" type="s:string" />    <wsdl:part name="SecondValue3" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="TripleSearchHttpGetOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="GetDetailsHttpGetIn">    <wsdl:part name="Symbol" type="s:string" />  </wsdl:message>  <wsdl:message name="GetDetailsHttpGetOut">    <wsdl:part name="Body" element="tns:Details" />  </wsdl:message>  <wsdl:message name="ListCriteriaHttpPostIn" />  <wsdl:message name="ListCriteriaHttpPostOut">    <wsdl:part name="Body" element="tns:CriteriaList" />  </wsdl:message>  <wsdl:message name="SingleSearchHttpPostIn">    <wsdl:part name="Type" type="s:string" />    <wsdl:part name="SearchType" type="s:string" />    <wsdl:part name="FirstValue" type="s:string" />    <wsdl:part name="SecondValue" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="SingleSearchHttpPostOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="GetTopSingleHttpPostIn">    <wsdl:part name="OrderBy" type="s:string" />    <wsdl:part name="Direction" type="s:string" />    <wsdl:part name="Type" type="s:string" />    <wsdl:part name="SearchType" type="s:string" />    <wsdl:part name="FirstValue" type="s:string" />    <wsdl:part name="SecondValue" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="GetTopSingleHttpPostOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="DoubleSearchHttpPostIn">    <wsdl:part name="Type1" type="s:string" />    <wsdl:part name="SearchType1" type="s:string" />    <wsdl:part name="FirstValue1" type="s:string" />    <wsdl:part name="SecondValue1" type="s:string" />    <wsdl:part name="Type2" type="s:string" />    <wsdl:part name="SearchType2" type="s:string" />    <wsdl:part name="FirstValue2" type="s:string" />    <wsdl:part name="SecondValue2" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="DoubleSearchHttpPostOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="TripleSearchHttpPostIn">    <wsdl:part name="Type1" type="s:string" />    <wsdl:part name="SearchType1" type="s:string" />    <wsdl:part name="FirstValue1" type="s:string" />    <wsdl:part name="SecondValue1" type="s:string" />    <wsdl:part name="Type2" type="s:string" />    <wsdl:part name="SearchType2" type="s:string" />    <wsdl:part name="FirstValue2" type="s:string" />    <wsdl:part name="SecondValue2" type="s:string" />    <wsdl:part name="Type3" type="s:string" />    <wsdl:part name="SearchType3" type="s:string" />    <wsdl:part name="FirstValue3" type="s:string" />    <wsdl:part name="SecondValue3" type="s:string" />    <wsdl:part name="Count" type="s:string" />  </wsdl:message>  <wsdl:message name="TripleSearchHttpPostOut">    <wsdl:part name="Body" element="tns:SearchResults" />  </wsdl:message>  <wsdl:message name="GetDetailsHttpPostIn">    <wsdl:part name="Symbol" type="s:string" />  </wsdl:message>  <wsdl:message name="GetDetailsHttpPostOut">    <wsdl:part name="Body" element="tns:Details" />  </wsdl:message>  <wsdl:portType name="XigniteScreenerSoap">    <wsdl:operation name="ListCriteria">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lists valid search criteria for securities.</wsdl:documentation>      <wsdl:input message="tns:ListCriteriaSoapIn" />      <wsdl:output message="tns:ListCriteriaSoapOut" />    </wsdl:operation>    <wsdl:operation name="Search">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on a set of criteria.</wsdl:documentation>      <wsdl:input message="tns:SearchSoapIn" />      <wsdl:output message="tns:SearchSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetTop">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on a set of criteria.</wsdl:documentation>      <wsdl:input message="tns:GetTopSoapIn" />      <wsdl:output message="tns:GetTopSoapOut" />    </wsdl:operation>    <wsdl:operation name="SingleSearch">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on a single criteria.</wsdl:documentation>      <wsdl:input message="tns:SingleSearchSoapIn" />      <wsdl:output message="tns:SingleSearchSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetTopSingle">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on a single criteria.</wsdl:documentation>      <wsdl:input message="tns:GetTopSingleSoapIn" />      <wsdl:output message="tns:GetTopSingleSoapOut" />    </wsdl:operation>    <wsdl:operation name="DoubleSearch">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on two criteria.</wsdl:documentation>      <wsdl:input message="tns:DoubleSearchSoapIn" />      <wsdl:output message="tns:DoubleSearchSoapOut" />    </wsdl:operation>    <wsdl:operation name="TripleSearch">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on three criteria.</wsdl:documentation>      <wsdl:input message="tns:TripleSearchSoapIn" />      <wsdl:output message="tns:TripleSearchSoapOut" />    </wsdl:operation>    <wsdl:operation name="Count">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Count securities matching a set of criteria.</wsdl:documentation>      <wsdl:input message="tns:CountSoapIn" />      <wsdl:output message="tns:CountSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetDetails">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the details for security.</wsdl:documentation>      <wsdl:input message="tns:GetDetailsSoapIn" />      <wsdl:output message="tns:GetDetailsSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteScreenerHttpGet">    <wsdl:operation name="ListCriteria">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lists valid search criteria for securities.</wsdl:documentation>      <wsdl:input message="tns:ListCriteriaHttpGetIn" />      <wsdl:output message="tns:ListCriteriaHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="SingleSearch">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on a single criteria.</wsdl:documentation>      <wsdl:input message="tns:SingleSearchHttpGetIn" />      <wsdl:output message="tns:SingleSearchHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetTopSingle">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on a single criteria.</wsdl:documentation>      <wsdl:input message="tns:GetTopSingleHttpGetIn" />      <wsdl:output message="tns:GetTopSingleHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DoubleSearch">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on two criteria.</wsdl:documentation>      <wsdl:input message="tns:DoubleSearchHttpGetIn" />      <wsdl:output message="tns:DoubleSearchHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="TripleSearch">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on three criteria.</wsdl:documentation>      <wsdl:input message="tns:TripleSearchHttpGetIn" />      <wsdl:output message="tns:TripleSearchHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetDetails">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the details for security.</wsdl:documentation>      <wsdl:input message="tns:GetDetailsHttpGetIn" />      <wsdl:output message="tns:GetDetailsHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteScreenerHttpPost">    <wsdl:operation name="ListCriteria">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lists valid search criteria for securities.</wsdl:documentation>      <wsdl:input message="tns:ListCriteriaHttpPostIn" />      <wsdl:output message="tns:ListCriteriaHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="SingleSearch">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on a single criteria.</wsdl:documentation>      <wsdl:input message="tns:SingleSearchHttpPostIn" />      <wsdl:output message="tns:SingleSearchHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetTopSingle">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on a single criteria.</wsdl:documentation>      <wsdl:input message="tns:GetTopSingleHttpPostIn" />      <wsdl:output message="tns:GetTopSingleHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DoubleSearch">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on two criteria.</wsdl:documentation>      <wsdl:input message="tns:DoubleSearchHttpPostIn" />      <wsdl:output message="tns:DoubleSearchHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="TripleSearch">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on three criteria.</wsdl:documentation>      <wsdl:input message="tns:TripleSearchHttpPostIn" />      <wsdl:output message="tns:TripleSearchHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetDetails">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the details for security.</wsdl:documentation>      <wsdl:input message="tns:GetDetailsHttpPostIn" />      <wsdl:output message="tns:GetDetailsHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="XigniteScreenerSoap" type="tns:XigniteScreenerSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="ListCriteria">      <soap:operation soapAction="http://www.xignite.com/services/ListCriteria" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:ListCriteriaHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Search">      <soap:operation soapAction="http://www.xignite.com/services/Search" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:SearchHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTop">      <soap:operation soapAction="http://www.xignite.com/services/GetTop" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetTopHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SingleSearch">      <soap:operation soapAction="http://www.xignite.com/services/SingleSearch" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:SingleSearchHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopSingle">      <soap:operation soapAction="http://www.xignite.com/services/GetTopSingle" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetTopSingleHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DoubleSearch">      <soap:operation soapAction="http://www.xignite.com/services/DoubleSearch" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:DoubleSearchHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="TripleSearch">      <soap:operation soapAction="http://www.xignite.com/services/TripleSearch" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:TripleSearchHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Count">      <soap:operation soapAction="http://www.xignite.com/services/Count" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:CountHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDetails">      <soap:operation soapAction="http://www.xignite.com/services/GetDetails" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetDetailsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteScreenerSoap12" type="tns:XigniteScreenerSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="ListCriteria">      <soap12:operation soapAction="http://www.xignite.com/services/ListCriteria" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:ListCriteriaHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Search">      <soap12:operation soapAction="http://www.xignite.com/services/Search" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:SearchHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTop">      <soap12:operation soapAction="http://www.xignite.com/services/GetTop" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetTopHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SingleSearch">      <soap12:operation soapAction="http://www.xignite.com/services/SingleSearch" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:SingleSearchHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopSingle">      <soap12:operation soapAction="http://www.xignite.com/services/GetTopSingle" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetTopSingleHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DoubleSearch">      <soap12:operation soapAction="http://www.xignite.com/services/DoubleSearch" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:DoubleSearchHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="TripleSearch">      <soap12:operation soapAction="http://www.xignite.com/services/TripleSearch" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:TripleSearchHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="Count">      <soap12:operation soapAction="http://www.xignite.com/services/Count" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:CountHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDetails">      <soap12:operation soapAction="http://www.xignite.com/services/GetDetails" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetDetailsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteScreenerHttpGet" type="tns:XigniteScreenerHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="ListCriteria">      <http:operation location="/ListCriteria" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SingleSearch">      <http:operation location="/SingleSearch" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopSingle">      <http:operation location="/GetTopSingle" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DoubleSearch">      <http:operation location="/DoubleSearch" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="TripleSearch">      <http:operation location="/TripleSearch" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDetails">      <http:operation location="/GetDetails" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteScreenerHttpPost" type="tns:XigniteScreenerHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="ListCriteria">      <http:operation location="/ListCriteria" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="SingleSearch">      <http:operation location="/SingleSearch" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetTopSingle">      <http:operation location="/GetTopSingle" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DoubleSearch">      <http:operation location="/DoubleSearch" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="TripleSearch">      <http:operation location="/TripleSearch" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetDetails">      <http:operation location="/GetDetails" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="XigniteScreener">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service provides screening and filtering functionality for equities.</wsdl:documentation>    <wsdl:port name="XigniteScreenerSoap" binding="tns:XigniteScreenerSoap">      <soap:address location="http://www.xignite.com/xScreener.asmx" />    </wsdl:port>    <wsdl:port name="XigniteScreenerSoap12" binding="tns:XigniteScreenerSoap12">      <soap12:address location="http://www.xignite.com/xScreener.asmx" />    </wsdl:port>    <wsdl:port name="XigniteScreenerHttpGet" binding="tns:XigniteScreenerHttpGet">      <http:address location="http://www.xignite.com/xScreener.asmx" />    </wsdl:port>    <wsdl:port name="XigniteScreenerHttpPost" binding="tns:XigniteScreenerHttpPost">      <http:address location="http://www.xignite.com/xScreener.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service provides screening and filtering functionality for
+		equities.</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">
+			<s:element name="ListCriteria">
+				<s:complexType />
+			</s:element>
+			<s:element name="ListCriteriaResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ListCriteriaResult" type="tns:CriteriaList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="CriteriaList">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+							<s:element minOccurs="0" maxOccurs="1" name="Criteria" type="tns:ArrayOfCriteria" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="Common">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="OutcomeTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Success" />
+					<s:enumeration value="SystemError" />
+					<s:enumeration value="RequestError" />
+					<s:enumeration value="RegistrationError" />
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="ArrayOfCriteria">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Criteria" nillable="true" type="tns:Criteria" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Criteria">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:FundamentalTypes" />
+					<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Unit" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="ValueType" type="tns:ValueTypes" />
+					<s:element minOccurs="1" maxOccurs="1" name="Rounding" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="ValidValues" type="tns:ArrayOfValidValue" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="FundamentalTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Name" />
+					<s:enumeration value="Ticker" />
+					<s:enumeration value="CUSIP" />
+					<s:enumeration value="CIK" />
+					<s:enumeration value="Category" />
+					<s:enumeration value="Exchange" />
+					<s:enumeration value="Industry" />
+					<s:enumeration value="IndustryGroup" />
+					<s:enumeration value="Sector" />
+					<s:enumeration value="Logo" />
+					<s:enumeration value="IRSNumber" />
+					<s:enumeration value="DUNS" />
+					<s:enumeration value="SECName" />
+					<s:enumeration value="ExchangeName" />
+					<s:enumeration value="AddressName" />
+					<s:enumeration value="LongName" />
+					<s:enumeration value="Description" />
+					<s:enumeration value="LongDescription" />
+					<s:enumeration value="MGNumber" />
+					<s:enumeration value="MGNumberOtherCommon" />
+					<s:enumeration value="PrimarySICCode" />
+					<s:enumeration value="SecondarySICCode1" />
+					<s:enumeration value="SecondarySICCode2" />
+					<s:enumeration value="SecondarySICCode3" />
+					<s:enumeration value="SecondarySICCode4" />
+					<s:enumeration value="SecondarySICCode5" />
+					<s:enumeration value="SecondarySICCode6" />
+					<s:enumeration value="SecondarySICCode7" />
+					<s:enumeration value="SecondarySICCode8" />
+					<s:enumeration value="SecondarySICCode9" />
+					<s:enumeration value="SecondarySICCode10" />
+					<s:enumeration value="NAICSCode" />
+					<s:enumeration value="ScripGroup" />
+					<s:enumeration value="Address1" />
+					<s:enumeration value="Address2" />
+					<s:enumeration value="City" />
+					<s:enumeration value="State" />
+					<s:enumeration value="Zip" />
+					<s:enumeration value="Country" />
+					<s:enumeration value="Phone" />
+					<s:enumeration value="FAX" />
+					<s:enumeration value="StateOfIncorporation" />
+					<s:enumeration value="Email" />
+					<s:enumeration value="CEO" />
+					<s:enumeration value="Employees" />
+					<s:enumeration value="WebDomain" />
+					<s:enumeration value="WebSite" />
+					<s:enumeration value="NumberOfExchanges" />
+					<s:enumeration value="SAndPRating" />
+					<s:enumeration value="FiscalYear" />
+					<s:enumeration value="MostRecentQuarter" />
+					<s:enumeration value="LastAnnualReport" />
+					<s:enumeration value="LastQuarterly" />
+					<s:enumeration value="LastProxyStatement" />
+					<s:enumeration value="LastDelayedPrice" />
+					<s:enumeration value="LastRealTimePrice" />
+					<s:enumeration value="LastTradeDate" />
+					<s:enumeration value="LastOpen" />
+					<s:enumeration value="LastHigh" />
+					<s:enumeration value="LastLow" />
+					<s:enumeration value="LastMarketClosePrice" />
+					<s:enumeration value="LastVolume" />
+					<s:enumeration value="LastFiscalYearAveragePrice" />
+					<s:enumeration value="AveragePriceThisFiscalQuarter" />
+					<s:enumeration value="AveragePriceFiscalQuarterMinus1" />
+					<s:enumeration value="AveragePriceFiscalQuarterMinus2" />
+					<s:enumeration value="AveragePriceFiscalQuarterMinus3" />
+					<s:enumeration value="AveragePriceFiscalQuarterMinus4" />
+					<s:enumeration value="AveragePriceFiscalQuarterMinus5" />
+					<s:enumeration value="AveragePriceFiscalQuarterMinus6" />
+					<s:enumeration value="AveragePriceFiscalQuarterMinus7" />
+					<s:enumeration value="AveragePriceFiscalQuarterMinus8" />
+					<s:enumeration value="AveragePriceFiscalQuarterMinus9" />
+					<s:enumeration value="AveragePriceFiscalQuarterMinus10" />
+					<s:enumeration value="AveragePriceFiscalQuarterMinus11" />
+					<s:enumeration value="AveragePriceFiscalQuarterMinus12" />
+					<s:enumeration value="AveragePriceThisFiscalYear" />
+					<s:enumeration value="AveragePriceFiscalYearMinus1" />
+					<s:enumeration value="AveragePriceFiscalYearMinus2" />
+					<s:enumeration value="AveragePriceFiscalYearMinus3" />
+					<s:enumeration value="AveragePriceFiscalYearMinus4" />
+					<s:enumeration value="AveragePriceFiscalYearMinus5" />
+					<s:enumeration value="AveragePriceFiscalYearMinus6" />
+					<s:enumeration value="AveragePriceFiscalYearMinus7" />
+					<s:enumeration value="AveragePriceFiscalYearMinus8" />
+					<s:enumeration value="AveragePriceFiscalYearMinus9" />
+					<s:enumeration value="AveragePriceFiscalYearMinus10" />
+					<s:enumeration value="AveragePriceFiscalYearMinus11" />
+					<s:enumeration value="AveragePriceFiscalYearMinus12" />
+					<s:enumeration value="AverageVolumeThisFiscalYear" />
+					<s:enumeration value="AverageVolumeFiscalYearMinus1" />
+					<s:enumeration value="AverageVolumeFiscalYearMinus2" />
+					<s:enumeration value="AverageVolumeFiscalYearMinus3" />
+					<s:enumeration value="AverageVolumeFiscalYearMinus4" />
+					<s:enumeration value="AverageVolumeFiscalYearMinus5" />
+					<s:enumeration value="AverageVolumeFiscalYearMinus6" />
+					<s:enumeration value="AverageVolumeFiscalYearMinus7" />
+					<s:enumeration value="AverageVolumeFiscalYearMinus8" />
+					<s:enumeration value="AverageVolumeFiscalYearMinus9" />
+					<s:enumeration value="AverageVolumeFiscalYearMinus10" />
+					<s:enumeration value="AverageVolumeFiscalYearMinus11" />
+					<s:enumeration value="AverageVolumeFiscalYearMinus12" />
+					<s:enumeration value="HighPriceThisFiscalYear" />
+					<s:enumeration value="HighPriceFiscalYearMinus1" />
+					<s:enumeration value="HighPriceFiscalYearMinus2" />
+					<s:enumeration value="HighPriceFiscalYearMinus3" />
+					<s:enumeration value="HighPriceFiscalYearMinus4" />
+					<s:enumeration value="HighPriceFiscalYearMinus5" />
+					<s:enumeration value="HighPriceFiscalYearMinus6" />
+					<s:enumeration value="HighPriceFiscalYearMinus7" />
+					<s:enumeration value="HighPriceFiscalYearMinus8" />
+					<s:enumeration value="HighPriceFiscalYearMinus9" />
+					<s:enumeration value="HighPriceFiscalYearMinus10" />
+					<s:enumeration value="HighPriceFiscalYearMinus11" />
+					<s:enumeration value="HighPriceFiscalYearMinus12" />
+					<s:enumeration value="LowPriceThisFiscalYear" />
+					<s:enumeration value="LowPriceFiscalYearMinus1" />
+					<s:enumeration value="LowPriceFiscalYearMinus2" />
+					<s:enumeration value="LowPriceFiscalYearMinus3" />
+					<s:enumeration value="LowPriceFiscalYearMinus4" />
+					<s:enumeration value="LowPriceFiscalYearMinus5" />
+					<s:enumeration value="LowPriceFiscalYearMinus6" />
+					<s:enumeration value="LowPriceFiscalYearMinus7" />
+					<s:enumeration value="LowPriceFiscalYearMinus8" />
+					<s:enumeration value="LowPriceFiscalYearMinus9" />
+					<s:enumeration value="LowPriceFiscalYearMinus10" />
+					<s:enumeration value="LowPriceFiscalYearMinus11" />
+					<s:enumeration value="LowPriceFiscalYearMinus12" />
+					<s:enumeration value="HighPriceLast4Weeks" />
+					<s:enumeration value="HighPriceLast13Weeks" />
+					<s:enumeration value="HighPriceLast26Weeks" />
+					<s:enumeration value="HighPriceLast52Weeks" />
+					<s:enumeration value="HighPriceLastMonth" />
+					<s:enumeration value="HighPriceLast3Months" />
+					<s:enumeration value="HighPriceLast6Months" />
+					<s:enumeration value="HighPriceLast9Months" />
+					<s:enumeration value="HighPriceLast12Months" />
+					<s:enumeration value="HighPriceYearToDate" />
+					<s:enumeration value="LowPriceLast4Weeks" />
+					<s:enumeration value="LowPriceLast13Weeks" />
+					<s:enumeration value="LowPriceLast26Weeks" />
+					<s:enumeration value="LowPriceLast52Weeks" />
+					<s:enumeration value="LowPriceLastMonth" />
+					<s:enumeration value="LowPriceLast3Months" />
+					<s:enumeration value="LowPriceLast6Months" />
+					<s:enumeration value="LowPriceLast9Months" />
+					<s:enumeration value="LowPriceLast12Months" />
+					<s:enumeration value="LowPriceYearToDate" />
+					<s:enumeration value="ClosePrice4WeeksAgo" />
+					<s:enumeration value="ClosePrice13WeeksAgo" />
+					<s:enumeration value="ClosePrice26WeeksAgo" />
+					<s:enumeration value="ClosePrice52WeeksAgo" />
+					<s:enumeration value="ClosePriceLastMonth" />
+					<s:enumeration value="ClosePrice3MonthsAgo" />
+					<s:enumeration value="ClosePrice6MonthsAgo" />
+					<s:enumeration value="ClosePrice9MonthsAgo" />
+					<s:enumeration value="ClosePrice12MonthsAgo" />
+					<s:enumeration value="FiveYearHighPrice" />
+					<s:enumeration value="FiveYearLowPrice" />
+					<s:enumeration value="PeriodAveragePrice" />
+					<s:enumeration value="OneYearHigh" />
+					<s:enumeration value="OneYearLow" />
+					<s:enumeration value="OneYearHighDate" />
+					<s:enumeration value="OneYearLowDate" />
+					<s:enumeration value="PercentPriceChange1Week" />
+					<s:enumeration value="PercentPriceChange4Weeks" />
+					<s:enumeration value="PercentPriceChange13Weeks" />
+					<s:enumeration value="PercentPriceChange1Month" />
+					<s:enumeration value="PercentPriceChangeLast10Days" />
+					<s:enumeration value="PercentPriceChangeLast26Weeks" />
+					<s:enumeration value="PercentPriceChangeLast52Weeks" />
+					<s:enumeration value="PercentPriceChangeYearToDate" />
+					<s:enumeration value="FiveDayMovingAverage" />
+					<s:enumeration value="TenDayMovingAverage" />
+					<s:enumeration value="TenWeekMovingAverage" />
+					<s:enumeration value="ThirtyWeekMovingAverage" />
+					<s:enumeration value="TwoHundredDayMovingAverage" />
+					<s:enumeration value="LatestCloseAsPercentOf5DayAverage" />
+					<s:enumeration value="LatestCloseAsPercentOf10DayAverage" />
+					<s:enumeration value="LatestCloseAsPercentOf10WeekAverage" />
+					<s:enumeration value="LatestCloseAsPercentOf30WeekAverage" />
+					<s:enumeration value="LatestCloseAsPercentOf200DayAverage" />
+					<s:enumeration value="LatestCloseAsPercentOf52WeekHigh" />
+					<s:enumeration value="LatestCloseAsPercentOf52WeekLow" />
+					<s:enumeration value="LatestCloseAsPercentOf5YearHigh" />
+					<s:enumeration value="LatestCloseAsPercentOf5YearLow" />
+					<s:enumeration value="PriceChangeVsMarket1Week" />
+					<s:enumeration value="PriceChangeVsMarket4Weeks" />
+					<s:enumeration value="PriceChangeVsMarket13Weeks" />
+					<s:enumeration value="PriceChangeVsMarket26Weeks" />
+					<s:enumeration value="PriceChangeVsMarket52Weeks" />
+					<s:enumeration value="PriceChangeVsMarketThisMonth" />
+					<s:enumeration value="PriceChangeVsMarket3Months" />
+					<s:enumeration value="PriceChangeVsMarket6Months" />
+					<s:enumeration value="PriceChangeVsMarket9Months" />
+					<s:enumeration value="PriceChangeVsMarket12Months" />
+					<s:enumeration value="PriceChangeVsMarketYearToDate" />
+					<s:enumeration value="TwoHundredDayPriceIndexVsMarket" />
+					<s:enumeration value="PriceMomentumThisWeek" />
+					<s:enumeration value="PriceMomentumPriorWeek" />
+					<s:enumeration value="Beta60Month" />
+					<s:enumeration value="Beta36Month" />
+					<s:enumeration value="TotalVolumeThisWeek" />
+					<s:enumeration value="TotalVolumeLast10Days" />
+					<s:enumeration value="TotalVolumeLast20Days" />
+					<s:enumeration value="TotalVolumeLast2Weeks" />
+					<s:enumeration value="TotalVolumeLast4Weeks" />
+					<s:enumeration value="TotalVolumeLast13Weeks" />
+					<s:enumeration value="TotalVolumeLast26Weeks" />
+					<s:enumeration value="TotalVolumeLast52Weeks" />
+					<s:enumeration value="TotalVolumeThisMonth" />
+					<s:enumeration value="TotalVolumeLast3Months" />
+					<s:enumeration value="TotalVolumeLast6Months" />
+					<s:enumeration value="TotalVolumeLast9Months" />
+					<s:enumeration value="TotalVolumeLast12Months" />
+					<s:enumeration value="TotalVolumeYearToDate" />
+					<s:enumeration value="AverageDailyVolumeLast10Days" />
+					<s:enumeration value="AverageDailyVolumeLast20Days" />
+					<s:enumeration value="AverageDailyVolumeLast2Weeks" />
+					<s:enumeration value="AverageDailyVolumeLast4Weeks" />
+					<s:enumeration value="AverageDailyVolumeLast13Weeks" />
+					<s:enumeration value="AverageDailyVolumeLast26Weeks" />
+					<s:enumeration value="AverageDailyVolumeLast52Weeks" />
+					<s:enumeration value="AverageDailyVolumeThisMonth" />
+					<s:enumeration value="AverageDailyVolumeLast3Months" />
+					<s:enumeration value="AverageDailyVolumeLast6Months" />
+					<s:enumeration value="AverageDailyVolumeLast9Months" />
+					<s:enumeration value="AverageDailyVolumeLast12Months" />
+					<s:enumeration value="AverageDailyVolumeYearToDate" />
+					<s:enumeration value="DailyVolumeAsPercentOf10DayAverageVolume" />
+					<s:enumeration value="ThisWeekVolumeTimesWeeksChange" />
+					<s:enumeration value="ThisWeeksDollarVolume" />
+					<s:enumeration value="WeeklyVolumeAsPercentOfSharesOutstanding" />
+					<s:enumeration value="LiquidityRatio" />
+					<s:enumeration value="OnBalanceVolumeIndexLast4Weeks" />
+					<s:enumeration value="LastYearClose" />
+					<s:enumeration value="OneYearClose" />
+					<s:enumeration value="NineMonthClose" />
+					<s:enumeration value="SixMonthClose" />
+					<s:enumeration value="ThreeMonthClose" />
+					<s:enumeration value="OneMonthClose" />
+					<s:enumeration value="LastSplitRatio" />
+					<s:enumeration value="LastSplitDate" />
+					<s:enumeration value="SplitFactorDate" />
+					<s:enumeration value="SplitFactor" />
+					<s:enumeration value="ManagementShares" />
+					<s:enumeration value="ManagementOwnership" />
+					<s:enumeration value="TotalAssets" />
+					<s:enumeration value="TotalLiabilities" />
+					<s:enumeration value="TotalDebt" />
+					<s:enumeration value="TotalCash" />
+					<s:enumeration value="TotalRevenue" />
+					<s:enumeration value="TotalExpenses" />
+					<s:enumeration value="TotalOperatingExpenses" />
+					<s:enumeration value="OperatingIncome" />
+					<s:enumeration value="NetIncome" />
+					<s:enumeration value="TotalEnterpriseValue" />
+					<s:enumeration value="TotalBookValue" />
+					<s:enumeration value="TangibleBookValue" />
+					<s:enumeration value="EBIT" />
+					<s:enumeration value="EBITDA" />
+					<s:enumeration value="RevenuePerShare" />
+					<s:enumeration value="RevenueGrowth" />
+					<s:enumeration value="EarningGrowth" />
+					<s:enumeration value="Beta" />
+					<s:enumeration value="Auditors" />
+					<s:enumeration value="MostRecentAuditorsReport" />
+					<s:enumeration value="StockOptionsIndicator" />
+					<s:enumeration value="MaintainsMailingList" />
+					<s:enumeration value="Currency" />
+					<s:enumeration value="CommonIssueType" />
+					<s:enumeration value="InBankruptcy" />
+					<s:enumeration value="DividendReinvestment" />
+					<s:enumeration value="DomicileIndicatorCode" />
+					<s:enumeration value="ADRToOrdinaryRatio" />
+					<s:enumeration value="DowJonesMembership" />
+					<s:enumeration value="SAndPMembership" />
+					<s:enumeration value="SAndPMidCapMembership" />
+					<s:enumeration value="SAndPSmallCapMembership" />
+					<s:enumeration value="Russell1000Membership" />
+					<s:enumeration value="Russell2000Membership" />
+					<s:enumeration value="Forbes500Membership" />
+					<s:enumeration value="Fortune500IndustrialMembership" />
+					<s:enumeration value="Fortune500ServicesMembership" />
+					<s:enumeration value="SAndPTop100Membership" />
+					<s:enumeration value="ShortInterestShares" />
+					<s:enumeration value="ShortInterestRatio" />
+					<s:enumeration value="ShortInterestAsAPercentageOfFloat" />
+					<s:enumeration value="InsiderSharesBought" />
+					<s:enumeration value="InsiderSharesSold" />
+					<s:enumeration value="NetInsiderTransactions" />
+					<s:enumeration value="PercentOfSharesOutstandingHeldByInsiders" />
+					<s:enumeration value="NumberOfInstitutionalSharesBought" />
+					<s:enumeration value="NumberOfInstitutionalSharesSold" />
+					<s:enumeration value="SharesHeldByInstitutions" />
+					<s:enumeration value="NumberOfInstitutionsHoldingShares" />
+					<s:enumeration value="PercentOfSharesOutstandingHeldByInstitutions" />
+					<s:enumeration value="TorontoMembership" />
+					<s:enumeration value="TorontoIndustrySectorCode" />
+					<s:enumeration value="MarketCapitalization" />
+					<s:enumeration value="MarketCapitalizationAllShares" />
+					<s:enumeration value="MarketValueAsPercentOfRevenues" />
+					<s:enumeration value="SharesOutstanding" />
+					<s:enumeration value="SharesOutstandingClassA" />
+					<s:enumeration value="SharesOutstandingClassB" />
+					<s:enumeration value="DateOfSharesOutstanding" />
+					<s:enumeration value="LatestBalanceSheetSharesOutstanding" />
+					<s:enumeration value="LatestBalanceSheetDate" />
+					<s:enumeration value="Float" />
+					<s:enumeration value="FloatAsAPercentOfSharesOutstanding" />
+					<s:enumeration value="LatestFiscalDate" />
+					<s:enumeration value="LatestFiscalRevenue" />
+					<s:enumeration value="LatestFiscalEPS" />
+					<s:enumeration value="LatestFiscalDividendsPerShare" />
+					<s:enumeration value="BasicEPS" />
+					<s:enumeration value="DilutedEPS" />
+					<s:enumeration value="LTMDate" />
+					<s:enumeration value="LatestQuarterIndicator" />
+					<s:enumeration value="LTMRevenue" />
+					<s:enumeration value="LTMIncomeFromContinuingOperations" />
+					<s:enumeration value="LTMIncomeFromTotalOperations" />
+					<s:enumeration value="LTMDilutedEPSFromContinuingOperations" />
+					<s:enumeration value="LTMDilutedEPSFromTotalOperations" />
+					<s:enumeration value="LTMDilutedEPSFromTotalOperations1YearAgo" />
+					<s:enumeration value="LTMProfitMarginFromContinuingOperations" />
+					<s:enumeration value="LTMProfitMarginFromTotalOperations" />
+					<s:enumeration value="PriceSales" />
+					<s:enumeration value="CurrentRevenuePerShare" />
+					<s:enumeration value="CurrentRevenuePerEmployee" />
+					<s:enumeration value="CurrentNetIncomeFromTotalOperationsPerEmployee" />
+					<s:enumeration value="PercentChangeRevenueThisYearToDateVsLastYTD" />
+					<s:enumeration value="PercentChangeRevenueCurrentQuarterVsQuarter1YearAgo" />
+					<s:enumeration value="PercentChangeRevenueAnnualVsLastAnnual" />
+					<s:enumeration value="PercentChangeEarningsThisYearToDateVsLastYTD" />
+					<s:enumeration value="PercentChangeEarningsCurrentQuarterVsQuarter1YearAgo" />
+					<s:enumeration value="PercentChangeEarningsAnnualVsLastAnnual" />
+					<s:enumeration value="ChangeInEPSThisYearToDateVsLastYTD" />
+					<s:enumeration value="ChangeInEPSThisQuarterVs1YearAgo" />
+					<s:enumeration value="ChangeInEPSThisFiscalYearVs1YearAgo" />
+					<s:enumeration value="ChangeIn12MonthEPSVs1YearAgo" />
+					<s:enumeration value="PercentChangeInEPSThisYearToDateVsLastYTD" />
+					<s:enumeration value="PercentChangeInEPSThisQuarterVs1YrAgo" />
+					<s:enumeration value="PercentChangeInEPSThisYearVs1YearAgo" />
+					<s:enumeration value="PercentChangeIn12MonthEPSvs1YearAgo" />
+					<s:enumeration value="LastDividendDate" />
+					<s:enumeration value="LastDividendExDate" />
+					<s:enumeration value="DividendCode" />
+					<s:enumeration value="DividendRate" />
+					<s:enumeration value="LastDividendYield" />
+					<s:enumeration value="PayoutFromTotalOperationsLatestFiscalYear" />
+					<s:enumeration value="PayoutRatio" />
+					<s:enumeration value="Payout5YearAverageFromTotalOperations" />
+					<s:enumeration value="DividendYield5YearAverage" />
+					<s:enumeration value="FiveYearAnnualRevenueGrowthRate" />
+					<s:enumeration value="ConsistencyOf5YearRevenueGrowthRate" />
+					<s:enumeration value="ThreeYearAnnualRevenueGrowthRate" />
+					<s:enumeration value="FiveYearAnnualIncomeGrowthRate" />
+					<s:enumeration value="ConsistencyOfFiveYearIncomeGrowthRate" />
+					<s:enumeration value="ThreeYearAnnualIncomeGrowthRate" />
+					<s:enumeration value="FiveYearAnnualDividendGrowthRate" />
+					<s:enumeration value="ConsistencyOfFiveYearDividendGrowthRate" />
+					<s:enumeration value="ThreeYearAnnualDividendGrowthRate" />
+					<s:enumeration value="FiveYearAnnualCapitalSpendingGrowthRate" />
+					<s:enumeration value="ThreeYearAnnualCapitalSpendingGrowthRate" />
+					<s:enumeration value="FiveYearAnnualRAndDGrowthRate" />
+					<s:enumeration value="ThreeYearAnnualRAndDGrowthRate" />
+					<s:enumeration value="FiveYearAnnualNormalizedIncomeGrowthRate" />
+					<s:enumeration value="ThreeYearAnnualNormalizedIncomeGrowthRate" />
+					<s:enumeration value="PERatio" />
+					<s:enumeration value="TrailingPE" />
+					<s:enumeration value="ForwardPE" />
+					<s:enumeration value="PERatio1MonthAgo" />
+					<s:enumeration value="PERatio26WeeksAgo" />
+					<s:enumeration value="PERatio52WeeksAgo" />
+					<s:enumeration value="FiveYearHighPERatio" />
+					<s:enumeration value="FiveYearAverageHighPERatio" />
+					<s:enumeration value="FiveYearLowPERatio" />
+					<s:enumeration value="FiveYearAverageLowPERatio" />
+					<s:enumeration value="FiveYearAveragePERatio" />
+					<s:enumeration value="CurrentPEAsPercentOf5YearAveragePERatio" />
+					<s:enumeration value="PERatioAsPercentOfIndustryGroupPERatio" />
+					<s:enumeration value="PERatioAsPercentOfIndustryPERatio" />
+					<s:enumeration value="Current12MonthNormalizedPERatio" />
+					<s:enumeration value="LatestFullContextQuarterEndingDate" />
+					<s:enumeration value="GrossMargin" />
+					<s:enumeration value="EBITMargin" />
+					<s:enumeration value="EBITDAMargin" />
+					<s:enumeration value="EBITPerShare" />
+					<s:enumeration value="EBITDAPerShare" />
+					<s:enumeration value="PreTaxProfitMargin" />
+					<s:enumeration value="InterestCoverage" />
+					<s:enumeration value="CurrentRatio" />
+					<s:enumeration value="QuickRatio" />
+					<s:enumeration value="LeverageRatio" />
+					<s:enumeration value="ReceivablesTurnover" />
+					<s:enumeration value="InventoryTurnover" />
+					<s:enumeration value="AssetTurnover" />
+					<s:enumeration value="RevenueToAssets" />
+					<s:enumeration value="ROEFromTotalOperations" />
+					<s:enumeration value="ReturnOnInvestedCapital" />
+					<s:enumeration value="ReturnOnAssets" />
+					<s:enumeration value="DebtCommonEquityRatio" />
+					<s:enumeration value="PriceBook" />
+					<s:enumeration value="BookValue" />
+					<s:enumeration value="BookValuePerShare" />
+					<s:enumeration value="TotalDebtEquityRatio" />
+					<s:enumeration value="LongTermDebtToTotalCapital" />
+					<s:enumeration value="SGAndAAsPercentOfSales" />
+					<s:enumeration value="RAndDAsPercentOfSales" />
+					<s:enumeration value="ReceivablesPerDaySales" />
+					<s:enumeration value="DaysCGSInInventory" />
+					<s:enumeration value="WorkingCapitalPerShare" />
+					<s:enumeration value="CashPerShare" />
+					<s:enumeration value="CashFlowPerShare" />
+					<s:enumeration value="FreeCashFlowPerShare" />
+					<s:enumeration value="TangibleBookValuePerShare" />
+					<s:enumeration value="PriceCashFlowRatio" />
+					<s:enumeration value="PriceFreeCashFlowRatio" />
+					<s:enumeration value="PriceTangibleBook" />
+					<s:enumeration value="FiveYearAverageReturnOnEquity" />
+					<s:enumeration value="FiveYearAverageReturnOnAssets" />
+					<s:enumeration value="FiveYearAverageReturnOnInvestedCapital" />
+					<s:enumeration value="FiveYearAverageGrossProfitMargin" />
+					<s:enumeration value="FiveYearAveragePreTaxProfitMargin" />
+					<s:enumeration value="FiveYearAveragePostTaxProfitMargin" />
+					<s:enumeration value="FiveYearAverageNetProfitMargin" />
+					<s:enumeration value="FiveYearAverageRAndDAsAPercentOfSales" />
+					<s:enumeration value="FiveYearAverageSGAndAAsAPercentOfSales" />
+					<s:enumeration value="FiveYearAverageDebtEquityRatio" />
+					<s:enumeration value="FiveYearAverageTotalDebtEquityRatio" />
+					<s:enumeration value="EarningsQuarter" />
+					<s:enumeration value="NextEarningsDateQuarter" />
+					<s:enumeration value="NextEarningDate" />
+					<s:enumeration value="NextEarningTime" />
+					<s:enumeration value="NextEarningDateType" />
+					<s:enumeration value="EarningConfirmationDate" />
+					<s:enumeration value="LastEarningUpdateDate" />
+					<s:enumeration value="Q1EarningDate" />
+					<s:enumeration value="Q2EarningDate" />
+					<s:enumeration value="Q3EarningDate" />
+					<s:enumeration value="Q4EarningDate" />
+					<s:enumeration value="NextEarningEstimateAverage" />
+					<s:enumeration value="LastEarningEstimateAverage" />
+					<s:enumeration value="EarningEstimateChangeAverage" />
+					<s:enumeration value="ConferenceCallDate" />
+					<s:enumeration value="ConferenceCallTime" />
+					<s:enumeration value="ConferenceCallNumber" />
+					<s:enumeration value="ConferenceCallPasscode" />
+					<s:enumeration value="ConferenceCallBroadcastURL" />
+					<s:enumeration value="ConferenceCallNotes" />
+					<s:enumeration value="ConferenceCallInternationalNumber" />
+					<s:enumeration value="ConferenceCallInternationalPasscode" />
+					<s:enumeration value="ReplayDate" />
+					<s:enumeration value="ReplayNumber" />
+					<s:enumeration value="ReplayPasscode" />
+					<s:enumeration value="ReplayWebcastURL" />
+					<s:enumeration value="ReplayEndDate" />
+					<s:enumeration value="ReplayWebcastEndDate" />
+					<s:enumeration value="BoardOfDirectorMeetingDate" />
+					<s:enumeration value="None" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ValueTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Numeric" />
+					<s:enumeration value="Text" />
+					<s:enumeration value="Boolean" />
+					<s:enumeration value="Date" />
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="ArrayOfValidValue">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="ValidValue" nillable="true" type="tns:ValidValue" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="ValidValue">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="Header" type="tns:Header" />
+			<s:complexType name="Header">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />
+				</s:sequence>
+				<s:anyAttribute />
+			</s:complexType>
+			<s:element name="Search">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Criteria" type="tns:ArrayOfSearchCriteria" />
+						<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfSearchCriteria">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="SearchCriteria" nillable="true" type="tns:SearchCriteria" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="SearchCriteria">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:FundamentalTypes" />
+					<s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchCriteriaType" />
+					<s:element minOccurs="0" maxOccurs="1" name="FirstValue" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="SecondValue" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="SearchCriteriaType">
+				<s:restriction base="s:string">
+					<s:enumeration value="Equal" />
+					<s:enumeration value="LessThan" />
+					<s:enumeration value="GreaterThan" />
+					<s:enumeration value="LessOrEqualTo" />
+					<s:enumeration value="GreaterOrEqualTo" />
+					<s:enumeration value="Between" />
+					<s:enumeration value="Like" />
+					<s:enumeration value="StartsWith" />
+					<s:enumeration value="EndsWith" />
+					<s:enumeration value="InList" />
+					<s:enumeration value="SoundsLike" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="SearchResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SearchResult" type="tns:SearchResults" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="SearchResults">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+							<s:element minOccurs="0" maxOccurs="1" name="Criteria" type="tns:ArrayOfSearchCriteria" />
+							<s:element minOccurs="0" maxOccurs="1" name="Results" type="tns:ArrayOfResult" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="ArrayOfResult">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Result" nillable="true" type="tns:Result" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Result">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Sector" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="IndustryGroup" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Industry" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="LastPrice" type="s:double" />
+					<s:element minOccurs="0" maxOccurs="1" name="LastPriceDate" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="LastPriceTime" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="LastVolume" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="LastChange" type="s:double" />
+					<s:element minOccurs="1" maxOccurs="1" name="LastChangeType" type="tns:ChangeTypes" />
+					<s:element minOccurs="0" maxOccurs="1" name="SearchValues" type="tns:ArrayOfSearchValue" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="ChangeTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Up" />
+					<s:enumeration value="Down" />
+					<s:enumeration value="Unchanged" />
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="ArrayOfSearchValue">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="SearchValue" nillable="true" type="tns:SearchValue" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="SearchValue">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:FundamentalTypes" />
+					<s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetTop">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="OrderBy" type="tns:FundamentalTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="Direction" type="tns:DirectionTypes" />
+						<s:element minOccurs="0" maxOccurs="1" name="Criteria" type="tns:ArrayOfSearchCriteria" />
+						<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="DirectionTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Ascending" />
+					<s:enumeration value="Descending" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="GetTopResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTopResult" type="tns:SearchResults" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SingleSearch">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:FundamentalTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchCriteriaType" />
+						<s:element minOccurs="0" maxOccurs="1" name="FirstValue" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="SecondValue" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SingleSearchResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="SingleSearchResult" type="tns:SearchResults" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTopSingle">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="OrderBy" type="tns:FundamentalTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="Direction" type="tns:DirectionTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:FundamentalTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="SearchType" type="tns:SearchCriteriaType" />
+						<s:element minOccurs="0" maxOccurs="1" name="FirstValue" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="SecondValue" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTopSingleResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTopSingleResult" type="tns:SearchResults" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DoubleSearch">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Type1" type="tns:FundamentalTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="SearchType1" type="tns:SearchCriteriaType" />
+						<s:element minOccurs="0" maxOccurs="1" name="FirstValue1" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="SecondValue1" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Type2" type="tns:FundamentalTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="SearchType2" type="tns:SearchCriteriaType" />
+						<s:element minOccurs="0" maxOccurs="1" name="FirstValue2" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="SecondValue2" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DoubleSearchResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DoubleSearchResult" type="tns:SearchResults" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="TripleSearch">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="Type1" type="tns:FundamentalTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="SearchType1" type="tns:SearchCriteriaType" />
+						<s:element minOccurs="0" maxOccurs="1" name="FirstValue1" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="SecondValue1" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Type2" type="tns:FundamentalTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="SearchType2" type="tns:SearchCriteriaType" />
+						<s:element minOccurs="0" maxOccurs="1" name="FirstValue2" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="SecondValue2" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Type3" type="tns:FundamentalTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="SearchType3" type="tns:SearchCriteriaType" />
+						<s:element minOccurs="0" maxOccurs="1" name="FirstValue3" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="SecondValue3" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="TripleSearchResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="TripleSearchResult" type="tns:SearchResults" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Count">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Criteria" type="tns:ArrayOfSearchCriteria" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="CountResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="CountResult" type="tns:CountResults" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="CountResults">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+							<s:element minOccurs="0" maxOccurs="1" name="Criteria" type="tns:ArrayOfSearchCriteria" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="GetDetails">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetDetailsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetDetailsResult" type="tns:Details" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="Details">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Sector" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="IndustryGroup" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Industry" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="SICCode" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Street1" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Street2" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Fax" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="CEO" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="Employees" type="s:double" />
+							<s:element minOccurs="0" maxOccurs="1" name="WebSite" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="Beta" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="YearHigh" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="YearLow" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="AverageVolume" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="MarketCap" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="PERatio" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="EPS" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="Dividend" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="LastPrice" type="s:double" />
+							<s:element minOccurs="0" maxOccurs="1" name="LastPriceDate" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="LastPriceTime" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="LastVolume" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="LastChange" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="LastChangeType" type="tns:ChangeTypes" />
+							<s:element minOccurs="1" maxOccurs="1" name="DayHigh" type="s:double" />
+							<s:element minOccurs="1" maxOccurs="1" name="DayLow" type="s:double" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="CriteriaList" nillable="true" type="tns:CriteriaList" />
+			<s:element name="SearchResults" nillable="true" type="tns:SearchResults" />
+			<s:element name="Details" nillable="true" type="tns:Details" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="ListCriteriaSoapIn">
+		<wsdl:part name="parameters" element="tns:ListCriteria" />
+	</wsdl:message>
+	<wsdl:message name="ListCriteriaSoapOut">
+		<wsdl:part name="parameters" element="tns:ListCriteriaResponse" />
+	</wsdl:message>
+	<wsdl:message name="ListCriteriaHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="SearchSoapIn">
+		<wsdl:part name="parameters" element="tns:Search" />
+	</wsdl:message>
+	<wsdl:message name="SearchSoapOut">
+		<wsdl:part name="parameters" element="tns:SearchResponse" />
+	</wsdl:message>
+	<wsdl:message name="SearchHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetTopSoapIn">
+		<wsdl:part name="parameters" element="tns:GetTop" />
+	</wsdl:message>
+	<wsdl:message name="GetTopSoapOut">
+		<wsdl:part name="parameters" element="tns:GetTopResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTopHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="SingleSearchSoapIn">
+		<wsdl:part name="parameters" element="tns:SingleSearch" />
+	</wsdl:message>
+	<wsdl:message name="SingleSearchSoapOut">
+		<wsdl:part name="parameters" element="tns:SingleSearchResponse" />
+	</wsdl:message>
+	<wsdl:message name="SingleSearchHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetTopSingleSoapIn">
+		<wsdl:part name="parameters" element="tns:GetTopSingle" />
+	</wsdl:message>
+	<wsdl:message name="GetTopSingleSoapOut">
+		<wsdl:part name="parameters" element="tns:GetTopSingleResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTopSingleHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="DoubleSearchSoapIn">
+		<wsdl:part name="parameters" element="tns:DoubleSearch" />
+	</wsdl:message>
+	<wsdl:message name="DoubleSearchSoapOut">
+		<wsdl:part name="parameters" element="tns:DoubleSearchResponse" />
+	</wsdl:message>
+	<wsdl:message name="DoubleSearchHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="TripleSearchSoapIn">
+		<wsdl:part name="parameters" element="tns:TripleSearch" />
+	</wsdl:message>
+	<wsdl:message name="TripleSearchSoapOut">
+		<wsdl:part name="parameters" element="tns:TripleSearchResponse" />
+	</wsdl:message>
+	<wsdl:message name="TripleSearchHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="CountSoapIn">
+		<wsdl:part name="parameters" element="tns:Count" />
+	</wsdl:message>
+	<wsdl:message name="CountSoapOut">
+		<wsdl:part name="parameters" element="tns:CountResponse" />
+	</wsdl:message>
+	<wsdl:message name="CountHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetDetailsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetDetails" />
+	</wsdl:message>
+	<wsdl:message name="GetDetailsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetDetailsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetDetailsHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="ListCriteriaHttpGetIn" />
+	<wsdl:message name="ListCriteriaHttpGetOut">
+		<wsdl:part name="Body" element="tns:CriteriaList" />
+	</wsdl:message>
+	<wsdl:message name="SingleSearchHttpGetIn">
+		<wsdl:part name="Type" type="s:string" />
+		<wsdl:part name="SearchType" type="s:string" />
+		<wsdl:part name="FirstValue" type="s:string" />
+		<wsdl:part name="SecondValue" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SingleSearchHttpGetOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="GetTopSingleHttpGetIn">
+		<wsdl:part name="OrderBy" type="s:string" />
+		<wsdl:part name="Direction" type="s:string" />
+		<wsdl:part name="Type" type="s:string" />
+		<wsdl:part name="SearchType" type="s:string" />
+		<wsdl:part name="FirstValue" type="s:string" />
+		<wsdl:part name="SecondValue" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTopSingleHttpGetOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="DoubleSearchHttpGetIn">
+		<wsdl:part name="Type1" type="s:string" />
+		<wsdl:part name="SearchType1" type="s:string" />
+		<wsdl:part name="FirstValue1" type="s:string" />
+		<wsdl:part name="SecondValue1" type="s:string" />
+		<wsdl:part name="Type2" type="s:string" />
+		<wsdl:part name="SearchType2" type="s:string" />
+		<wsdl:part name="FirstValue2" type="s:string" />
+		<wsdl:part name="SecondValue2" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DoubleSearchHttpGetOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="TripleSearchHttpGetIn">
+		<wsdl:part name="Type1" type="s:string" />
+		<wsdl:part name="SearchType1" type="s:string" />
+		<wsdl:part name="FirstValue1" type="s:string" />
+		<wsdl:part name="SecondValue1" type="s:string" />
+		<wsdl:part name="Type2" type="s:string" />
+		<wsdl:part name="SearchType2" type="s:string" />
+		<wsdl:part name="FirstValue2" type="s:string" />
+		<wsdl:part name="SecondValue2" type="s:string" />
+		<wsdl:part name="Type3" type="s:string" />
+		<wsdl:part name="SearchType3" type="s:string" />
+		<wsdl:part name="FirstValue3" type="s:string" />
+		<wsdl:part name="SecondValue3" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="TripleSearchHttpGetOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="GetDetailsHttpGetIn">
+		<wsdl:part name="Symbol" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetDetailsHttpGetOut">
+		<wsdl:part name="Body" element="tns:Details" />
+	</wsdl:message>
+	<wsdl:message name="ListCriteriaHttpPostIn" />
+	<wsdl:message name="ListCriteriaHttpPostOut">
+		<wsdl:part name="Body" element="tns:CriteriaList" />
+	</wsdl:message>
+	<wsdl:message name="SingleSearchHttpPostIn">
+		<wsdl:part name="Type" type="s:string" />
+		<wsdl:part name="SearchType" type="s:string" />
+		<wsdl:part name="FirstValue" type="s:string" />
+		<wsdl:part name="SecondValue" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="SingleSearchHttpPostOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="GetTopSingleHttpPostIn">
+		<wsdl:part name="OrderBy" type="s:string" />
+		<wsdl:part name="Direction" type="s:string" />
+		<wsdl:part name="Type" type="s:string" />
+		<wsdl:part name="SearchType" type="s:string" />
+		<wsdl:part name="FirstValue" type="s:string" />
+		<wsdl:part name="SecondValue" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTopSingleHttpPostOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="DoubleSearchHttpPostIn">
+		<wsdl:part name="Type1" type="s:string" />
+		<wsdl:part name="SearchType1" type="s:string" />
+		<wsdl:part name="FirstValue1" type="s:string" />
+		<wsdl:part name="SecondValue1" type="s:string" />
+		<wsdl:part name="Type2" type="s:string" />
+		<wsdl:part name="SearchType2" type="s:string" />
+		<wsdl:part name="FirstValue2" type="s:string" />
+		<wsdl:part name="SecondValue2" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DoubleSearchHttpPostOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="TripleSearchHttpPostIn">
+		<wsdl:part name="Type1" type="s:string" />
+		<wsdl:part name="SearchType1" type="s:string" />
+		<wsdl:part name="FirstValue1" type="s:string" />
+		<wsdl:part name="SecondValue1" type="s:string" />
+		<wsdl:part name="Type2" type="s:string" />
+		<wsdl:part name="SearchType2" type="s:string" />
+		<wsdl:part name="FirstValue2" type="s:string" />
+		<wsdl:part name="SecondValue2" type="s:string" />
+		<wsdl:part name="Type3" type="s:string" />
+		<wsdl:part name="SearchType3" type="s:string" />
+		<wsdl:part name="FirstValue3" type="s:string" />
+		<wsdl:part name="SecondValue3" type="s:string" />
+		<wsdl:part name="Count" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="TripleSearchHttpPostOut">
+		<wsdl:part name="Body" element="tns:SearchResults" />
+	</wsdl:message>
+	<wsdl:message name="GetDetailsHttpPostIn">
+		<wsdl:part name="Symbol" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetDetailsHttpPostOut">
+		<wsdl:part name="Body" element="tns:Details" />
+	</wsdl:message>
+	<wsdl:portType name="XigniteScreenerSoap">
+		<wsdl:operation name="ListCriteria">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lists valid search criteria for securities.</wsdl:documentation>
+			<wsdl:input message="tns:ListCriteriaSoapIn" />
+			<wsdl:output message="tns:ListCriteriaSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Search">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on a set of criteria.</wsdl:documentation>
+			<wsdl:input message="tns:SearchSoapIn" />
+			<wsdl:output message="tns:SearchSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTop">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on a set of criteria.</wsdl:documentation>
+			<wsdl:input message="tns:GetTopSoapIn" />
+			<wsdl:output message="tns:GetTopSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SingleSearch">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on a single criteria.</wsdl:documentation>
+			<wsdl:input message="tns:SingleSearchSoapIn" />
+			<wsdl:output message="tns:SingleSearchSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTopSingle">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on a single criteria.</wsdl:documentation>
+			<wsdl:input message="tns:GetTopSingleSoapIn" />
+			<wsdl:output message="tns:GetTopSingleSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DoubleSearch">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on two criteria.</wsdl:documentation>
+			<wsdl:input message="tns:DoubleSearchSoapIn" />
+			<wsdl:output message="tns:DoubleSearchSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="TripleSearch">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on three criteria.</wsdl:documentation>
+			<wsdl:input message="tns:TripleSearchSoapIn" />
+			<wsdl:output message="tns:TripleSearchSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Count">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Count securities matching a set of criteria.</wsdl:documentation>
+			<wsdl:input message="tns:CountSoapIn" />
+			<wsdl:output message="tns:CountSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDetails">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the details for security.</wsdl:documentation>
+			<wsdl:input message="tns:GetDetailsSoapIn" />
+			<wsdl:output message="tns:GetDetailsSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteScreenerHttpGet">
+		<wsdl:operation name="ListCriteria">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lists valid search criteria for securities.</wsdl:documentation>
+			<wsdl:input message="tns:ListCriteriaHttpGetIn" />
+			<wsdl:output message="tns:ListCriteriaHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SingleSearch">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on a single criteria.</wsdl:documentation>
+			<wsdl:input message="tns:SingleSearchHttpGetIn" />
+			<wsdl:output message="tns:SingleSearchHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTopSingle">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on a single criteria.</wsdl:documentation>
+			<wsdl:input message="tns:GetTopSingleHttpGetIn" />
+			<wsdl:output message="tns:GetTopSingleHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DoubleSearch">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on two criteria.</wsdl:documentation>
+			<wsdl:input message="tns:DoubleSearchHttpGetIn" />
+			<wsdl:output message="tns:DoubleSearchHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="TripleSearch">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on three criteria.</wsdl:documentation>
+			<wsdl:input message="tns:TripleSearchHttpGetIn" />
+			<wsdl:output message="tns:TripleSearchHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDetails">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the details for security.</wsdl:documentation>
+			<wsdl:input message="tns:GetDetailsHttpGetIn" />
+			<wsdl:output message="tns:GetDetailsHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteScreenerHttpPost">
+		<wsdl:operation name="ListCriteria">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lists valid search criteria for securities.</wsdl:documentation>
+			<wsdl:input message="tns:ListCriteriaHttpPostIn" />
+			<wsdl:output message="tns:ListCriteriaHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SingleSearch">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on a single criteria.</wsdl:documentation>
+			<wsdl:input message="tns:SingleSearchHttpPostIn" />
+			<wsdl:output message="tns:SingleSearchHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTopSingle">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on a single criteria.</wsdl:documentation>
+			<wsdl:input message="tns:GetTopSingleHttpPostIn" />
+			<wsdl:output message="tns:GetTopSingleHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DoubleSearch">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on two criteria.</wsdl:documentation>
+			<wsdl:input message="tns:DoubleSearchHttpPostIn" />
+			<wsdl:output message="tns:DoubleSearchHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="TripleSearch">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search securities based on three criteria.</wsdl:documentation>
+			<wsdl:input message="tns:TripleSearchHttpPostIn" />
+			<wsdl:output message="tns:TripleSearchHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDetails">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the details for security.</wsdl:documentation>
+			<wsdl:input message="tns:GetDetailsHttpPostIn" />
+			<wsdl:output message="tns:GetDetailsHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="XigniteScreenerSoap" type="tns:XigniteScreenerSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="ListCriteria">
+			<soap:operation soapAction="http://www.xignite.com/services/ListCriteria" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:ListCriteriaHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Search">
+			<soap:operation soapAction="http://www.xignite.com/services/Search" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:SearchHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTop">
+			<soap:operation soapAction="http://www.xignite.com/services/GetTop" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetTopHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SingleSearch">
+			<soap:operation soapAction="http://www.xignite.com/services/SingleSearch" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:SingleSearchHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopSingle">
+			<soap:operation soapAction="http://www.xignite.com/services/GetTopSingle" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetTopSingleHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DoubleSearch">
+			<soap:operation soapAction="http://www.xignite.com/services/DoubleSearch" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:DoubleSearchHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="TripleSearch">
+			<soap:operation soapAction="http://www.xignite.com/services/TripleSearch" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:TripleSearchHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Count">
+			<soap:operation soapAction="http://www.xignite.com/services/Count" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:CountHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDetails">
+			<soap:operation soapAction="http://www.xignite.com/services/GetDetails" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetDetailsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteScreenerSoap12" type="tns:XigniteScreenerSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="ListCriteria">
+			<soap12:operation soapAction="http://www.xignite.com/services/ListCriteria" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:ListCriteriaHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Search">
+			<soap12:operation soapAction="http://www.xignite.com/services/Search" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:SearchHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTop">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetTop" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetTopHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SingleSearch">
+			<soap12:operation soapAction="http://www.xignite.com/services/SingleSearch" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:SingleSearchHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopSingle">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetTopSingle" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetTopSingleHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DoubleSearch">
+			<soap12:operation soapAction="http://www.xignite.com/services/DoubleSearch" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:DoubleSearchHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="TripleSearch">
+			<soap12:operation soapAction="http://www.xignite.com/services/TripleSearch" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:TripleSearchHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Count">
+			<soap12:operation soapAction="http://www.xignite.com/services/Count" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:CountHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDetails">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetDetails" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetDetailsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteScreenerHttpGet" type="tns:XigniteScreenerHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="ListCriteria">
+			<http:operation location="/ListCriteria" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SingleSearch">
+			<http:operation location="/SingleSearch" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopSingle">
+			<http:operation location="/GetTopSingle" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DoubleSearch">
+			<http:operation location="/DoubleSearch" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="TripleSearch">
+			<http:operation location="/TripleSearch" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDetails">
+			<http:operation location="/GetDetails" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteScreenerHttpPost" type="tns:XigniteScreenerHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="ListCriteria">
+			<http:operation location="/ListCriteria" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SingleSearch">
+			<http:operation location="/SingleSearch" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopSingle">
+			<http:operation location="/GetTopSingle" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DoubleSearch">
+			<http:operation location="/DoubleSearch" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="TripleSearch">
+			<http:operation location="/TripleSearch" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDetails">
+			<http:operation location="/GetDetails" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="XigniteScreener">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service provides screening and filtering functionality for
+			equities.</wsdl:documentation>
+		<wsdl:port name="XigniteScreenerSoap" binding="tns:XigniteScreenerSoap">
+			<soap:address location="http://www.xignite.com/xScreener.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteScreenerSoap12" binding="tns:XigniteScreenerSoap12">
+			<soap12:address location="http://www.xignite.com/xScreener.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteScreenerHttpGet" binding="tns:XigniteScreenerHttpGet">
+			<http:address location="http://www.xignite.com/xScreener.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteScreenerHttpPost" binding="tns:XigniteScreenerHttpPost">
+			<http:address location="http://www.xignite.com/xScreener.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

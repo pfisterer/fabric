@@ -1,1 +1,171 @@
-<?xml version="1.0" encoding="UTF-8"?><definitions name="lu" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://www.cs.fsu.edu/~engelen/lu.wsdl" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2000/10/XMLSchema" xmlns:tns="http://www.cs.fsu.edu/~engelen/lu.wsdl" xmlns:ns1="http://www.cs.fsu.edu/~engelen/lu.xsd"><types><schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="http://www.cs.fsu.edu/~engelen/lu.xsd" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"><complexType name="ArrayOfdouble" base="SOAP:Array"> <complexContent>  <restriction base="SOAP-ENC:Array">   <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:double[]"/>  </restriction> </complexContent></complexType><complexType name="ArrayOfint" base="SOAP:Array"> <complexContent>  <restriction base="SOAP-ENC:Array">   <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:int[]"/>  </restriction> </complexContent></complexType><complexType name="ArrayOfArrayOfdouble" base="SOAP:Array"> <complexContent>  <restriction base="SOAP-ENC:Array">   <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:double[][]"/>  </restriction> </complexContent></complexType><complexType name="ludcmpResponse"> <all>  <element name="a" type="ns1:ArrayOfArrayOfdouble" minOccurs="0" maxOccurs="1" nillable="true"/>  <element name="i" type="ns1:ArrayOfint" minOccurs="0" maxOccurs="1" nillable="true"/>  <element name="d" type="xsd:double" minOccurs="0" maxOccurs="1"/> </all> <anyAttribute namespace="##other"/></complexType></schema></types><message name="ludcmpRequest"> <part name="a" type="ns1:ArrayOfArrayOfdouble"/></message><message name="ludcmpResponse"> <part name="a" type="ns1:ArrayOfArrayOfdouble"/> <part name="i" type="ns1:ArrayOfint"/> <part name="d" type="xsd:double"/></message><message name="lubksbRequest"> <part name="a" type="ns1:ArrayOfArrayOfdouble"/> <part name="i" type="ns1:ArrayOfint"/> <part name="b" type="ns1:ArrayOfdouble"/></message><message name="lubksbResponse"> <part name="x" type="ns1:ArrayOfdouble"/></message><message name="lusolRequest"> <part name="a" type="ns1:ArrayOfArrayOfdouble"/> <part name="b" type="ns1:ArrayOfdouble"/></message><message name="lusolResponse"> <part name="x" type="ns1:ArrayOfdouble"/></message><message name="lusolsRequest"> <part name="a" type="ns1:ArrayOfArrayOfdouble"/> <part name="b" type="ns1:ArrayOfArrayOfdouble"/></message><message name="lusolsResponse"> <part name="x" type="ns1:ArrayOfArrayOfdouble"/></message><message name="luinvRequest"> <part name="a" type="ns1:ArrayOfArrayOfdouble"/></message><message name="luinvResponse"> <part name="b" type="ns1:ArrayOfArrayOfdouble"/></message><message name="ludetRequest"> <part name="a" type="ns1:ArrayOfArrayOfdouble"/></message><message name="ludetResponse"> <part name="d" type="xsd:double"/></message><portType name="luPortType"><operation name="ludcmp"> <input message="tns:ludcmpRequest"/> <output message="tns:ludcmpResponse"/></operation><operation name="lubksb"> <input message="tns:lubksbRequest"/> <output message="tns:lubksbResponse"/></operation><operation name="lusol"> <input message="tns:lusolRequest"/> <output message="tns:lusolResponse"/></operation><operation name="lusols"> <input message="tns:lusolsRequest"/> <output message="tns:lusolsResponse"/></operation><operation name="luinv"> <input message="tns:luinvRequest"/> <output message="tns:luinvResponse"/></operation><operation name="ludet"> <input message="tns:ludetRequest"/> <output message="tns:ludetResponse"/></operation></portType><binding name="luBinding" type="tns:luPortType"> <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/> <operation name="ludcmp">  <SOAP:operation soapAction=""/>  <input>   <SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>  </input>  <output>   <SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>  </output> </operation> <operation name="lubksb">  <SOAP:operation soapAction=""/>  <input>   <SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>  </input>  <output>   <SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>  </output> </operation> <operation name="lusol">  <SOAP:operation soapAction=""/>  <input>   <SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>  </input>  <output>   <SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>  </output> </operation> <operation name="lusols">  <SOAP:operation soapAction=""/>  <input>   <SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>  </input>  <output>   <SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>  </output> </operation> <operation name="luinv">  <SOAP:operation soapAction=""/>  <input>   <SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>  </input>  <output>   <SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>  </output> </operation> <operation name="ludet">  <SOAP:operation soapAction=""/>  <input>   <SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>  </input>  <output>   <SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>  </output> </operation></binding><service name="lu"> <documentation>SOAP C and C++ stub compiler 1.2.2 generated service definition</documentation> <port name="luPort" binding="tns:luBinding">  <SOAP:address location="http://www.cs.fsu.edu/~engelen/luserver.cgi"/> </port></service></definitions>
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="lu" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://www.cs.fsu.edu/~engelen/lu.wsdl"
+	xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2000/10/XMLSchema"
+	xmlns:tns="http://www.cs.fsu.edu/~engelen/lu.wsdl" xmlns:ns1="http://www.cs.fsu.edu/~engelen/lu.xsd">
+	<types>
+		<schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="http://www.cs.fsu.edu/~engelen/lu.xsd"
+			xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/">
+			<complexType name="ArrayOfdouble" base="SOAP:Array">
+				<complexContent>
+					<restriction base="SOAP-ENC:Array">
+						<attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:double[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="ArrayOfint" base="SOAP:Array">
+				<complexContent>
+					<restriction base="SOAP-ENC:Array">
+						<attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:int[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="ArrayOfArrayOfdouble" base="SOAP:Array">
+				<complexContent>
+					<restriction base="SOAP-ENC:Array">
+						<attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:double[][]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="ludcmpResponse">
+				<all>
+					<element name="a" type="ns1:ArrayOfArrayOfdouble" minOccurs="0" maxOccurs="1" nillable="true" />
+					<element name="i" type="ns1:ArrayOfint" minOccurs="0" maxOccurs="1" nillable="true" />
+					<element name="d" type="xsd:double" minOccurs="0" maxOccurs="1" />
+				</all>
+				<anyAttribute namespace="##other" />
+			</complexType>
+		</schema>
+	</types>
+	<message name="ludcmpRequest">
+		<part name="a" type="ns1:ArrayOfArrayOfdouble" />
+	</message>
+	<message name="ludcmpResponse">
+		<part name="a" type="ns1:ArrayOfArrayOfdouble" />
+		<part name="i" type="ns1:ArrayOfint" />
+		<part name="d" type="xsd:double" />
+	</message>
+	<message name="lubksbRequest">
+		<part name="a" type="ns1:ArrayOfArrayOfdouble" />
+		<part name="i" type="ns1:ArrayOfint" />
+		<part name="b" type="ns1:ArrayOfdouble" />
+	</message>
+	<message name="lubksbResponse">
+		<part name="x" type="ns1:ArrayOfdouble" />
+	</message>
+	<message name="lusolRequest">
+		<part name="a" type="ns1:ArrayOfArrayOfdouble" />
+		<part name="b" type="ns1:ArrayOfdouble" />
+	</message>
+	<message name="lusolResponse">
+		<part name="x" type="ns1:ArrayOfdouble" />
+	</message>
+	<message name="lusolsRequest">
+		<part name="a" type="ns1:ArrayOfArrayOfdouble" />
+		<part name="b" type="ns1:ArrayOfArrayOfdouble" />
+	</message>
+	<message name="lusolsResponse">
+		<part name="x" type="ns1:ArrayOfArrayOfdouble" />
+	</message>
+	<message name="luinvRequest">
+		<part name="a" type="ns1:ArrayOfArrayOfdouble" />
+	</message>
+	<message name="luinvResponse">
+		<part name="b" type="ns1:ArrayOfArrayOfdouble" />
+	</message>
+	<message name="ludetRequest">
+		<part name="a" type="ns1:ArrayOfArrayOfdouble" />
+	</message>
+	<message name="ludetResponse">
+		<part name="d" type="xsd:double" />
+	</message>
+	<portType name="luPortType">
+		<operation name="ludcmp">
+			<input message="tns:ludcmpRequest" />
+			<output message="tns:ludcmpResponse" />
+		</operation>
+		<operation name="lubksb">
+			<input message="tns:lubksbRequest" />
+			<output message="tns:lubksbResponse" />
+		</operation>
+		<operation name="lusol">
+			<input message="tns:lusolRequest" />
+			<output message="tns:lusolResponse" />
+		</operation>
+		<operation name="lusols">
+			<input message="tns:lusolsRequest" />
+			<output message="tns:lusolsResponse" />
+		</operation>
+		<operation name="luinv">
+			<input message="tns:luinvRequest" />
+			<output message="tns:luinvResponse" />
+		</operation>
+		<operation name="ludet">
+			<input message="tns:ludetRequest" />
+			<output message="tns:ludetResponse" />
+		</operation>
+	</portType>
+	<binding name="luBinding" type="tns:luPortType">
+		<SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="ludcmp">
+			<SOAP:operation soapAction="" />
+			<input>
+				<SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="lubksb">
+			<SOAP:operation soapAction="" />
+			<input>
+				<SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="lusol">
+			<SOAP:operation soapAction="" />
+			<input>
+				<SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="lusols">
+			<SOAP:operation soapAction="" />
+			<input>
+				<SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="luinv">
+			<SOAP:operation soapAction="" />
+			<input>
+				<SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="ludet">
+			<SOAP:operation soapAction="" />
+			<input>
+				<SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<SOAP:body use="encoded" namespace="urn:lu" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+	</binding>
+	<service name="lu">
+		<documentation>SOAP C and C++ stub compiler 1.2.2 generated service definition</documentation>
+		<port name="luPort" binding="tns:luBinding">
+			<SOAP:address location="http://www.cs.fsu.edu/~engelen/luserver.cgi" />
+		</port>
+	</service>
+</definitions>

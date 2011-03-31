@@ -1,1 +1,162 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.findpeoplefree.co.uk" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.findpeoplefree.co.uk" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.findpeoplefree.co.uk">      <s:element name="help">        <s:complexType />      </s:element>      <s:element name="helpResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="helpResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="findAddress">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="city" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="backlinkWebsite" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="findAddressResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="findAddressResult" type="tns:ArrayOfString" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfString">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="findPeople">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="exactAddress" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="backlinkWebsite" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="findPeopleResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="findPeopleResult">              <s:complexType>                <s:sequence>                  <s:element ref="s:schema" />                  <s:any />                </s:sequence>              </s:complexType>            </s:element>          </s:sequence>        </s:complexType>      </s:element>    </s:schema>  </wsdl:types>  <wsdl:message name="helpSoapIn">    <wsdl:part name="parameters" element="tns:help" />  </wsdl:message>  <wsdl:message name="helpSoapOut">    <wsdl:part name="parameters" element="tns:helpResponse" />  </wsdl:message>  <wsdl:message name="findAddressSoapIn">    <wsdl:part name="parameters" element="tns:findAddress" />  </wsdl:message>  <wsdl:message name="findAddressSoapOut">    <wsdl:part name="parameters" element="tns:findAddressResponse" />  </wsdl:message>  <wsdl:message name="findPeopleSoapIn">    <wsdl:part name="parameters" element="tns:findPeople" />  </wsdl:message>  <wsdl:message name="findPeopleSoapOut">    <wsdl:part name="parameters" element="tns:findPeopleResponse" />  </wsdl:message>  <wsdl:portType name="FindPeopleFreeSoap">    <wsdl:operation name="help">      <wsdl:input message="tns:helpSoapIn" />      <wsdl:output message="tns:helpSoapOut" />    </wsdl:operation>    <wsdl:operation name="findAddress">      <wsdl:input message="tns:findAddressSoapIn" />      <wsdl:output message="tns:findAddressSoapOut" />    </wsdl:operation>    <wsdl:operation name="findPeople">      <wsdl:input message="tns:findPeopleSoapIn" />      <wsdl:output message="tns:findPeopleSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="FindPeopleFreeSoap" type="tns:FindPeopleFreeSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="help">      <soap:operation soapAction="http://www.findpeoplefree.co.uk/help" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="findAddress">      <soap:operation soapAction="http://www.findpeoplefree.co.uk/findAddress" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="findPeople">      <soap:operation soapAction="http://www.findpeoplefree.co.uk/findPeople" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="FindPeopleFreeSoap12" type="tns:FindPeopleFreeSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="help">      <soap12:operation soapAction="http://www.findpeoplefree.co.uk/help" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="findAddress">      <soap12:operation soapAction="http://www.findpeoplefree.co.uk/findAddress" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="findPeople">      <soap12:operation soapAction="http://www.findpeoplefree.co.uk/findPeople" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="FindPeopleFree">    <wsdl:port name="FindPeopleFreeSoap" binding="tns:FindPeopleFreeSoap">      <soap:address location="http://www.findpeoplefree.co.uk/findpeoplefree.asmx" />    </wsdl:port>    <wsdl:port name="FindPeopleFreeSoap12" binding="tns:FindPeopleFreeSoap12">      <soap12:address location="http://www.findpeoplefree.co.uk/findpeoplefree.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.findpeoplefree.co.uk"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.findpeoplefree.co.uk" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.findpeoplefree.co.uk">
+			<s:element name="help">
+				<s:complexType />
+			</s:element>
+			<s:element name="helpResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="helpResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="findAddress">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="city" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="backlinkWebsite" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="findAddressResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="findAddressResult" type="tns:ArrayOfString" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfString">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="findPeople">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="exactAddress" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="backlinkWebsite" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="findPeopleResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="findPeopleResult">
+							<s:complexType>
+								<s:sequence>
+									<s:element ref="s:schema" />
+									<s:any />
+								</s:sequence>
+							</s:complexType>
+						</s:element>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="helpSoapIn">
+		<wsdl:part name="parameters" element="tns:help" />
+	</wsdl:message>
+	<wsdl:message name="helpSoapOut">
+		<wsdl:part name="parameters" element="tns:helpResponse" />
+	</wsdl:message>
+	<wsdl:message name="findAddressSoapIn">
+		<wsdl:part name="parameters" element="tns:findAddress" />
+	</wsdl:message>
+	<wsdl:message name="findAddressSoapOut">
+		<wsdl:part name="parameters" element="tns:findAddressResponse" />
+	</wsdl:message>
+	<wsdl:message name="findPeopleSoapIn">
+		<wsdl:part name="parameters" element="tns:findPeople" />
+	</wsdl:message>
+	<wsdl:message name="findPeopleSoapOut">
+		<wsdl:part name="parameters" element="tns:findPeopleResponse" />
+	</wsdl:message>
+	<wsdl:portType name="FindPeopleFreeSoap">
+		<wsdl:operation name="help">
+			<wsdl:input message="tns:helpSoapIn" />
+			<wsdl:output message="tns:helpSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="findAddress">
+			<wsdl:input message="tns:findAddressSoapIn" />
+			<wsdl:output message="tns:findAddressSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="findPeople">
+			<wsdl:input message="tns:findPeopleSoapIn" />
+			<wsdl:output message="tns:findPeopleSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="FindPeopleFreeSoap" type="tns:FindPeopleFreeSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="help">
+			<soap:operation soapAction="http://www.findpeoplefree.co.uk/help" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="findAddress">
+			<soap:operation soapAction="http://www.findpeoplefree.co.uk/findAddress" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="findPeople">
+			<soap:operation soapAction="http://www.findpeoplefree.co.uk/findPeople" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="FindPeopleFreeSoap12" type="tns:FindPeopleFreeSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="help">
+			<soap12:operation soapAction="http://www.findpeoplefree.co.uk/help" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="findAddress">
+			<soap12:operation soapAction="http://www.findpeoplefree.co.uk/findAddress" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="findPeople">
+			<soap12:operation soapAction="http://www.findpeoplefree.co.uk/findPeople" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="FindPeopleFree">
+		<wsdl:port name="FindPeopleFreeSoap" binding="tns:FindPeopleFreeSoap">
+			<soap:address location="http://www.findpeoplefree.co.uk/findpeoplefree.asmx" />
+		</wsdl:port>
+		<wsdl:port name="FindPeopleFreeSoap12" binding="tns:FindPeopleFreeSoap12">
+			<soap12:address location="http://www.findpeoplefree.co.uk/findpeoplefree.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

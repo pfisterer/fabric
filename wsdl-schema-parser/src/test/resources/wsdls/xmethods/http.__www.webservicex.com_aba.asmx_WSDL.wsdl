@@ -1,1 +1,307 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.webserviceX.NET" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.webserviceX.NET" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.webserviceX.NET">      <s:element name="GetABADetailsByRoutingNumber">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="RoutingNumber" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetABADetailsByRoutingNumberResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetABADetailsByRoutingNumberResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetABADetailsByPhoneNumber">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetABADetailsByPhoneNumberResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetABADetailsByPhoneNumberResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetABADetailsByBankDetails">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="BankName" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetABADetailsByBankDetailsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetABADetailsByBankDetailsResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="string" nillable="true" type="s:string" />    </s:schema>  </wsdl:types>  <wsdl:message name="GetABADetailsByRoutingNumberSoapIn">    <wsdl:part name="parameters" element="tns:GetABADetailsByRoutingNumber" />  </wsdl:message>  <wsdl:message name="GetABADetailsByRoutingNumberSoapOut">    <wsdl:part name="parameters" element="tns:GetABADetailsByRoutingNumberResponse" />  </wsdl:message>  <wsdl:message name="GetABADetailsByPhoneNumberSoapIn">    <wsdl:part name="parameters" element="tns:GetABADetailsByPhoneNumber" />  </wsdl:message>  <wsdl:message name="GetABADetailsByPhoneNumberSoapOut">    <wsdl:part name="parameters" element="tns:GetABADetailsByPhoneNumberResponse" />  </wsdl:message>  <wsdl:message name="GetABADetailsByBankDetailsSoapIn">    <wsdl:part name="parameters" element="tns:GetABADetailsByBankDetails" />  </wsdl:message>  <wsdl:message name="GetABADetailsByBankDetailsSoapOut">    <wsdl:part name="parameters" element="tns:GetABADetailsByBankDetailsResponse" />  </wsdl:message>  <wsdl:message name="GetABADetailsByRoutingNumberHttpGetIn">    <wsdl:part name="RoutingNumber" type="s:string" />  </wsdl:message>  <wsdl:message name="GetABADetailsByRoutingNumberHttpGetOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:message name="GetABADetailsByPhoneNumberHttpGetIn">    <wsdl:part name="PhoneNumber" type="s:string" />  </wsdl:message>  <wsdl:message name="GetABADetailsByPhoneNumberHttpGetOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:message name="GetABADetailsByBankDetailsHttpGetIn">    <wsdl:part name="BankName" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />  </wsdl:message>  <wsdl:message name="GetABADetailsByBankDetailsHttpGetOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:message name="GetABADetailsByRoutingNumberHttpPostIn">    <wsdl:part name="RoutingNumber" type="s:string" />  </wsdl:message>  <wsdl:message name="GetABADetailsByRoutingNumberHttpPostOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:message name="GetABADetailsByPhoneNumberHttpPostIn">    <wsdl:part name="PhoneNumber" type="s:string" />  </wsdl:message>  <wsdl:message name="GetABADetailsByPhoneNumberHttpPostOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:message name="GetABADetailsByBankDetailsHttpPostIn">    <wsdl:part name="BankName" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />  </wsdl:message>  <wsdl:message name="GetABADetailsByBankDetailsHttpPostOut">    <wsdl:part name="Body" element="tns:string" />  </wsdl:message>  <wsdl:portType name="ABASoap">    <wsdl:operation name="GetABADetailsByRoutingNumber">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers)  by Routing Number</wsdl:documentation>      <wsdl:input message="tns:GetABADetailsByRoutingNumberSoapIn" />      <wsdl:output message="tns:GetABADetailsByRoutingNumberSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetABADetailsByPhoneNumber">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers)  by PhoneNumber</wsdl:documentation>      <wsdl:input message="tns:GetABADetailsByPhoneNumberSoapIn" />      <wsdl:output message="tns:GetABADetailsByPhoneNumberSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetABADetailsByBankDetails">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers)  by Bank Name and Address</wsdl:documentation>      <wsdl:input message="tns:GetABADetailsByBankDetailsSoapIn" />      <wsdl:output message="tns:GetABADetailsByBankDetailsSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="ABAHttpGet">    <wsdl:operation name="GetABADetailsByRoutingNumber">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers)  by Routing Number</wsdl:documentation>      <wsdl:input message="tns:GetABADetailsByRoutingNumberHttpGetIn" />      <wsdl:output message="tns:GetABADetailsByRoutingNumberHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetABADetailsByPhoneNumber">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers)  by PhoneNumber</wsdl:documentation>      <wsdl:input message="tns:GetABADetailsByPhoneNumberHttpGetIn" />      <wsdl:output message="tns:GetABADetailsByPhoneNumberHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetABADetailsByBankDetails">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers)  by Bank Name and Address</wsdl:documentation>      <wsdl:input message="tns:GetABADetailsByBankDetailsHttpGetIn" />      <wsdl:output message="tns:GetABADetailsByBankDetailsHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="ABAHttpPost">    <wsdl:operation name="GetABADetailsByRoutingNumber">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers)  by Routing Number</wsdl:documentation>      <wsdl:input message="tns:GetABADetailsByRoutingNumberHttpPostIn" />      <wsdl:output message="tns:GetABADetailsByRoutingNumberHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetABADetailsByPhoneNumber">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers)  by PhoneNumber</wsdl:documentation>      <wsdl:input message="tns:GetABADetailsByPhoneNumberHttpPostIn" />      <wsdl:output message="tns:GetABADetailsByPhoneNumberHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetABADetailsByBankDetails">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers)  by Bank Name and Address</wsdl:documentation>      <wsdl:input message="tns:GetABADetailsByBankDetailsHttpPostIn" />      <wsdl:output message="tns:GetABADetailsByBankDetailsHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="ABASoap" type="tns:ABASoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetABADetailsByRoutingNumber">      <soap:operation soapAction="http://www.webserviceX.NET/GetABADetailsByRoutingNumber" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetABADetailsByPhoneNumber">      <soap:operation soapAction="http://www.webserviceX.NET/GetABADetailsByPhoneNumber" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetABADetailsByBankDetails">      <soap:operation soapAction="http://www.webserviceX.NET/GetABADetailsByBankDetails" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="ABASoap12" type="tns:ABASoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetABADetailsByRoutingNumber">      <soap12:operation soapAction="http://www.webserviceX.NET/GetABADetailsByRoutingNumber" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetABADetailsByPhoneNumber">      <soap12:operation soapAction="http://www.webserviceX.NET/GetABADetailsByPhoneNumber" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetABADetailsByBankDetails">      <soap12:operation soapAction="http://www.webserviceX.NET/GetABADetailsByBankDetails" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="ABAHttpGet" type="tns:ABAHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetABADetailsByRoutingNumber">      <http:operation location="/GetABADetailsByRoutingNumber" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetABADetailsByPhoneNumber">      <http:operation location="/GetABADetailsByPhoneNumber" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetABADetailsByBankDetails">      <http:operation location="/GetABADetailsByBankDetails" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="ABAHttpPost" type="tns:ABAHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetABADetailsByRoutingNumber">      <http:operation location="/GetABADetailsByRoutingNumber" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetABADetailsByPhoneNumber">      <http:operation location="/GetABADetailsByPhoneNumber" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetABADetailsByBankDetails">      <http:operation location="/GetABADetailsByBankDetails" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="ABA">    <wsdl:port name="ABASoap" binding="tns:ABASoap">      <soap:address location="http://www.webservicex.com/aba.asmx" />    </wsdl:port>    <wsdl:port name="ABASoap12" binding="tns:ABASoap12">      <soap12:address location="http://www.webservicex.com/aba.asmx" />    </wsdl:port>    <wsdl:port name="ABAHttpGet" binding="tns:ABAHttpGet">      <http:address location="http://www.webservicex.com/aba.asmx" />    </wsdl:port>    <wsdl:port name="ABAHttpPost" binding="tns:ABAHttpPost">      <http:address location="http://www.webservicex.com/aba.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.webserviceX.NET"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.webserviceX.NET" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.webserviceX.NET">
+			<s:element name="GetABADetailsByRoutingNumber">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="RoutingNumber" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetABADetailsByRoutingNumberResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetABADetailsByRoutingNumberResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetABADetailsByPhoneNumber">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetABADetailsByPhoneNumberResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetABADetailsByPhoneNumberResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetABADetailsByBankDetails">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="BankName" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetABADetailsByBankDetailsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetABADetailsByBankDetailsResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="string" nillable="true" type="s:string" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetABADetailsByRoutingNumberSoapIn">
+		<wsdl:part name="parameters" element="tns:GetABADetailsByRoutingNumber" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByRoutingNumberSoapOut">
+		<wsdl:part name="parameters" element="tns:GetABADetailsByRoutingNumberResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByPhoneNumberSoapIn">
+		<wsdl:part name="parameters" element="tns:GetABADetailsByPhoneNumber" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByPhoneNumberSoapOut">
+		<wsdl:part name="parameters" element="tns:GetABADetailsByPhoneNumberResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByBankDetailsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetABADetailsByBankDetails" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByBankDetailsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetABADetailsByBankDetailsResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByRoutingNumberHttpGetIn">
+		<wsdl:part name="RoutingNumber" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByRoutingNumberHttpGetOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByPhoneNumberHttpGetIn">
+		<wsdl:part name="PhoneNumber" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByPhoneNumberHttpGetOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByBankDetailsHttpGetIn">
+		<wsdl:part name="BankName" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByBankDetailsHttpGetOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByRoutingNumberHttpPostIn">
+		<wsdl:part name="RoutingNumber" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByRoutingNumberHttpPostOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByPhoneNumberHttpPostIn">
+		<wsdl:part name="PhoneNumber" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByPhoneNumberHttpPostOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByBankDetailsHttpPostIn">
+		<wsdl:part name="BankName" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetABADetailsByBankDetailsHttpPostOut">
+		<wsdl:part name="Body" element="tns:string" />
+	</wsdl:message>
+	<wsdl:portType name="ABASoap">
+		<wsdl:operation name="GetABADetailsByRoutingNumber">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers) by Routing
+				Number</wsdl:documentation>
+			<wsdl:input message="tns:GetABADetailsByRoutingNumberSoapIn" />
+			<wsdl:output message="tns:GetABADetailsByRoutingNumberSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetABADetailsByPhoneNumber">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers) by
+				PhoneNumber</wsdl:documentation>
+			<wsdl:input message="tns:GetABADetailsByPhoneNumberSoapIn" />
+			<wsdl:output message="tns:GetABADetailsByPhoneNumberSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetABADetailsByBankDetails">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers) by Bank
+				Name and Address</wsdl:documentation>
+			<wsdl:input message="tns:GetABADetailsByBankDetailsSoapIn" />
+			<wsdl:output message="tns:GetABADetailsByBankDetailsSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="ABAHttpGet">
+		<wsdl:operation name="GetABADetailsByRoutingNumber">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers) by Routing
+				Number</wsdl:documentation>
+			<wsdl:input message="tns:GetABADetailsByRoutingNumberHttpGetIn" />
+			<wsdl:output message="tns:GetABADetailsByRoutingNumberHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetABADetailsByPhoneNumber">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers) by
+				PhoneNumber</wsdl:documentation>
+			<wsdl:input message="tns:GetABADetailsByPhoneNumberHttpGetIn" />
+			<wsdl:output message="tns:GetABADetailsByPhoneNumberHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetABADetailsByBankDetails">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers) by Bank
+				Name and Address</wsdl:documentation>
+			<wsdl:input message="tns:GetABADetailsByBankDetailsHttpGetIn" />
+			<wsdl:output message="tns:GetABADetailsByBankDetailsHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="ABAHttpPost">
+		<wsdl:operation name="GetABADetailsByRoutingNumber">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers) by Routing
+				Number</wsdl:documentation>
+			<wsdl:input message="tns:GetABADetailsByRoutingNumberHttpPostIn" />
+			<wsdl:output message="tns:GetABADetailsByRoutingNumberHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetABADetailsByPhoneNumber">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers) by
+				PhoneNumber</wsdl:documentation>
+			<wsdl:input message="tns:GetABADetailsByPhoneNumberHttpPostIn" />
+			<wsdl:output message="tns:GetABADetailsByPhoneNumberHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetABADetailsByBankDetails">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate United States bank routing numbers(ABA numbers) by Bank
+				Name and Address</wsdl:documentation>
+			<wsdl:input message="tns:GetABADetailsByBankDetailsHttpPostIn" />
+			<wsdl:output message="tns:GetABADetailsByBankDetailsHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="ABASoap" type="tns:ABASoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetABADetailsByRoutingNumber">
+			<soap:operation soapAction="http://www.webserviceX.NET/GetABADetailsByRoutingNumber" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetABADetailsByPhoneNumber">
+			<soap:operation soapAction="http://www.webserviceX.NET/GetABADetailsByPhoneNumber" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetABADetailsByBankDetails">
+			<soap:operation soapAction="http://www.webserviceX.NET/GetABADetailsByBankDetails" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="ABASoap12" type="tns:ABASoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetABADetailsByRoutingNumber">
+			<soap12:operation soapAction="http://www.webserviceX.NET/GetABADetailsByRoutingNumber" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetABADetailsByPhoneNumber">
+			<soap12:operation soapAction="http://www.webserviceX.NET/GetABADetailsByPhoneNumber" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetABADetailsByBankDetails">
+			<soap12:operation soapAction="http://www.webserviceX.NET/GetABADetailsByBankDetails" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="ABAHttpGet" type="tns:ABAHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetABADetailsByRoutingNumber">
+			<http:operation location="/GetABADetailsByRoutingNumber" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetABADetailsByPhoneNumber">
+			<http:operation location="/GetABADetailsByPhoneNumber" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetABADetailsByBankDetails">
+			<http:operation location="/GetABADetailsByBankDetails" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="ABAHttpPost" type="tns:ABAHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetABADetailsByRoutingNumber">
+			<http:operation location="/GetABADetailsByRoutingNumber" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetABADetailsByPhoneNumber">
+			<http:operation location="/GetABADetailsByPhoneNumber" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetABADetailsByBankDetails">
+			<http:operation location="/GetABADetailsByBankDetails" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="ABA">
+		<wsdl:port name="ABASoap" binding="tns:ABASoap">
+			<soap:address location="http://www.webservicex.com/aba.asmx" />
+		</wsdl:port>
+		<wsdl:port name="ABASoap12" binding="tns:ABASoap12">
+			<soap12:address location="http://www.webservicex.com/aba.asmx" />
+		</wsdl:port>
+		<wsdl:port name="ABAHttpGet" binding="tns:ABAHttpGet">
+			<http:address location="http://www.webservicex.com/aba.asmx" />
+		</wsdl:port>
+		<wsdl:port name="ABAHttpPost" binding="tns:ABAHttpPost">
+			<http:address location="http://www.webservicex.com/aba.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,1 +1,37 @@
-<?xml version = "1.0"?><definitions name = "DiscordianService" xmlns:tns="http://www.compkarori.com/wsdl/discordian.wsdl" targetNamespace = "http://www.compkarori.com/wsdl/discordian.wsdl" xmlns:xsd = "http://www.w3.org/1999/XMLSchema" xmlns:soap = "http://schemas.xmlsoap.org/wsdl/soap/" xmlns = "http://schemas.xmlsoap.org/wsdl/">	<message name = "DiscordianRequest">		<part name = "year" type = "xsd:int"/>		<part name = "month" type = "xsd:int"/>		<part name = "day" type = "xsd:int"/>	</message>	<message name = "DiscordianResponse">		<part name = "return" type = "xsd:string"/>	</message>	<portType name = "DiscordianPortType">		<operation name = "Discordian">			<input message = "tns:DiscordianRequest" name = "Discordian"/>			<output message = "tns:DiscordianResponse" name = "DiscordianResponse"/>		</operation>	</portType>	<binding name = "DiscordianBinding" type = "tns:DiscordianPortType">		<soap:binding style = "rpc" transport = "http://schemas.xmlsoap.org/soap/http"/>		<operation name = "Discordian">			<soap:operation soapAction = ""/>			<input>				<soap:body use = "encoded" namespace = "http://tempuri.org/message/" encodingStyle = "http://schemas.xmlsoap.org/soap/encoding/"/>			</input>			<output>				<soap:body use = "encoded" namespace = "http://tempuri.org/message/" encodingStyle = "http://schemas.xmlsoap.org/soap/encoding/"/>			</output>		</operation>	</binding>	<service name = "Discordian">		<documentation>Date Converter from the Gregorian to the Semi-Divinely              Revealed POEE Calendar</documentation>		<port name = "DiscordianPort" binding = "tns:DiscordianBinding">			<soap:address location = "http://www.compkarori.com/cgi-local/discordian.r"/>		</port>	</service></definitions>
+<?xml version = "1.0"?>
+<definitions name="DiscordianService" xmlns:tns="http://www.compkarori.com/wsdl/discordian.wsdl"
+	targetNamespace="http://www.compkarori.com/wsdl/discordian.wsdl" xmlns:xsd="http://www.w3.org/1999/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<message name="DiscordianRequest">
+		<part name="year" type="xsd:int" />
+		<part name="month" type="xsd:int" />
+		<part name="day" type="xsd:int" />
+	</message>
+	<message name="DiscordianResponse">
+		<part name="return" type="xsd:string" />
+	</message>
+	<portType name="DiscordianPortType">
+		<operation name="Discordian">
+			<input message="tns:DiscordianRequest" name="Discordian" />
+			<output message="tns:DiscordianResponse" name="DiscordianResponse" />
+		</operation>
+	</portType>
+	<binding name="DiscordianBinding" type="tns:DiscordianPortType">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="Discordian">
+			<soap:operation soapAction="" />
+			<input>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://tempuri.org/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+	</binding>
+	<service name="Discordian">
+		<documentation>Date Converter from the Gregorian to the Semi-Divinely Revealed POEE Calendar</documentation>
+		<port name="DiscordianPort" binding="tns:DiscordianBinding">
+			<soap:address location="http://www.compkarori.com/cgi-local/discordian.r" />
+		</port>
+	</service>
+</definitions>

@@ -1,1 +1,2130 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This Web Service provides for the management of symbol-based watchlists.</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">      <s:element name="AddWatchList">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:WatchListTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="WatchListTypes">        <s:restriction base="s:string">          <s:enumeration value="Security" />          <s:enumeration value="Currency" />          <s:enumeration value="InterestRates" />          <s:enumeration value="Events" />          <s:enumeration value="Metals" />          <s:enumeration value="Other" />        </s:restriction>      </s:simpleType>      <s:element name="AddWatchListResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="AddWatchListResult" type="tns:WatchList" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="WatchList">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:WatchListTypes" />              <s:element minOccurs="0" maxOccurs="1" name="Items" type="tns:ArrayOfWatchListItem" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:complexType name="Common">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />        </s:sequence>      </s:complexType>      <s:simpleType name="OutcomeTypes">        <s:restriction base="s:string">          <s:enumeration value="Success" />          <s:enumeration value="SystemError" />          <s:enumeration value="RequestError" />          <s:enumeration value="RegistrationError" />        </s:restriction>      </s:simpleType>      <s:complexType name="ArrayOfWatchListItem">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="WatchListItem" nillable="true" type="tns:WatchListItem" />        </s:sequence>      </s:complexType>      <s:complexType name="WatchListItem">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Quantity" type="s:long" />        </s:sequence>      </s:complexType>      <s:element name="Header" type="tns:Header" />      <s:complexType name="Header">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />        </s:sequence>        <s:anyAttribute />      </s:complexType>      <s:element name="DeleteWatchList">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeleteWatchListResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DeleteWatchListResult" type="tns:BooleanResult" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="BooleanResult">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="Value" type="s:boolean" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:element name="GetWatchList">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetWatchListResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetWatchListResult" type="tns:WatchList" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="AddWatchListItem">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="AddWatchListItemResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="AddWatchListItemResult" type="tns:WatchList" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="AddWatchListItems">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Symbols" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="AddWatchListItemsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="AddWatchListItemsResult" type="tns:WatchList" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="AddWatchListRate">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="RateType" type="tns:RateTypes" />            <s:element minOccurs="1" maxOccurs="1" name="Currency" type="tns:LIBORCurrencyTypes" />            <s:element minOccurs="1" maxOccurs="1" name="PeriodType" type="tns:PeriodTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="RateTypes">        <s:restriction base="s:string">          <s:enumeration value="FederalFunds" />          <s:enumeration value="FederalFundsTargetRate" />          <s:enumeration value="Libor1Month" />          <s:enumeration value="Libor2Month" />          <s:enumeration value="Libor3Month" />          <s:enumeration value="Libor4Month" />          <s:enumeration value="Libor5Month" />          <s:enumeration value="Libor6Month" />          <s:enumeration value="Libor7Month" />          <s:enumeration value="Libor8Month" />          <s:enumeration value="Libor9Month" />          <s:enumeration value="Libor10Month" />          <s:enumeration value="Libor11Month" />          <s:enumeration value="Libor1Year" />          <s:enumeration value="Libor1Week" />          <s:enumeration value="Libor2Week" />          <s:enumeration value="LiborOvernite" />          <s:enumeration value="CommercialPaperNonFinancial1Month" />          <s:enumeration value="CommercialPaperNonFinancial2Month" />          <s:enumeration value="CommercialPaperNonFinancial3Month" />          <s:enumeration value="HistoricalCommercialPaperNonFinancial1Month" />          <s:enumeration value="HistoricalCommercialPaperNonFinancial3Month" />          <s:enumeration value="HistoricalCommercialPaperNonFinancial6Month" />          <s:enumeration value="BankersAcceptance3Month" />          <s:enumeration value="BankersAcceptance6Month" />          <s:enumeration value="CD1Month" />          <s:enumeration value="CD3Month" />          <s:enumeration value="CD6Month" />          <s:enumeration value="EuroDollarDeposits1Month" />          <s:enumeration value="EuroDollarDeposits3Month" />          <s:enumeration value="EuroDollarDeposits6Month" />          <s:enumeration value="Prime" />          <s:enumeration value="DiscountWindowBorrowing" />          <s:enumeration value="DiscountWindowPrimaryCredit" />          <s:enumeration value="TBillAuctionAverage3Month" />          <s:enumeration value="TBillAuctionAverage6Month" />          <s:enumeration value="TBillAuctionAverage1Year" />          <s:enumeration value="TBillSecondaryMarket3Month" />          <s:enumeration value="TBillSecondaryMarket6Month" />          <s:enumeration value="TBillSecondaryMarket1Year" />          <s:enumeration value="TBillSecondaryMarket4Week" />          <s:enumeration value="TreasuryConstant1Month" />          <s:enumeration value="TreasuryConstant3Month" />          <s:enumeration value="TreasuryConstant6Month" />          <s:enumeration value="TreasuryConstant1Year" />          <s:enumeration value="TreasuryConstant2Year" />          <s:enumeration value="TreasuryConstant3Year" />          <s:enumeration value="TreasuryConstant5Year" />          <s:enumeration value="TreasuryConstant7Year" />          <s:enumeration value="TreasuryConstant10Year" />          <s:enumeration value="TreasuryConstant20Year" />          <s:enumeration value="TreasuryConstant20YearHistorical" />          <s:enumeration value="TreasuryConstant30Year" />          <s:enumeration value="TreasuryConstant10YearComposite" />          <s:enumeration value="CommercialPaperFinancial1Month" />          <s:enumeration value="CommercialPaperFinancial2Month" />          <s:enumeration value="CommercialPaperFinancial3Month" />          <s:enumeration value="HistoricalCommercialPaperFinancial1Month" />          <s:enumeration value="HistoricalCommercialPaperFinancial3Month" />          <s:enumeration value="HistoricalCommercialPaperFinancial6Month" />          <s:enumeration value="CorporateBondsMoodysSeasonedAaa" />          <s:enumeration value="CorporateBondsMoodysSeasonedBaa" />          <s:enumeration value="CorporateBondsAUtility" />          <s:enumeration value="StateAndLocalBonds" />          <s:enumeration value="ConventionalMortgages" />          <s:enumeration value="TreasuryLongTermAverageAverage" />          <s:enumeration value="TreasuryLongTermAverageInflationIndexed" />          <s:enumeration value="TreasuryLongTermComposite" />          <s:enumeration value="InterestRateSwapsOvernight" />          <s:enumeration value="InterestRateSwaps1Week" />          <s:enumeration value="InterestRateSwaps2Week" />          <s:enumeration value="InterestRateSwaps1Month" />          <s:enumeration value="InterestRateSwaps2Month" />          <s:enumeration value="InterestRateSwaps3Month" />          <s:enumeration value="InterestRateSwaps4Month" />          <s:enumeration value="InterestRateSwaps5Month" />          <s:enumeration value="InterestRateSwaps6Month" />          <s:enumeration value="InterestRateSwaps7Month" />          <s:enumeration value="InterestRateSwaps8Month" />          <s:enumeration value="InterestRateSwaps9Month" />          <s:enumeration value="InterestRateSwaps10Month" />          <s:enumeration value="InterestRateSwaps11Month" />          <s:enumeration value="InterestRateSwaps1Year" />          <s:enumeration value="InterestRateSwaps2Year" />          <s:enumeration value="InterestRateSwaps3Year" />          <s:enumeration value="InterestRateSwaps4Year" />          <s:enumeration value="InterestRateSwaps5Year" />          <s:enumeration value="InterestRateSwaps6Year" />          <s:enumeration value="InterestRateSwaps7Year" />          <s:enumeration value="InterestRateSwaps10Year" />          <s:enumeration value="InterestRateSwaps20Year" />          <s:enumeration value="InterestRateSwaps30Year" />          <s:enumeration value="TreasuryInflationProtectedSecuritiesYield5Year" />          <s:enumeration value="TreasuryInflationProtectedSecuritiesYield7Year" />          <s:enumeration value="TreasuryInflationProtectedSecuritiesYield10Year" />          <s:enumeration value="TreasuryInflationProtectedSecuritiesYield20Year" />          <s:enumeration value="InterestRateSwapSpread1Year" />          <s:enumeration value="InterestRateSwapSpread2Year" />          <s:enumeration value="InterestRateSwapSpread3Year" />          <s:enumeration value="InterestRateSwapSpread5Year" />          <s:enumeration value="InterestRateSwapSpread7Year" />          <s:enumeration value="InterestRateSwapSpread10Year" />          <s:enumeration value="InterestRateSwapSpread30Year" />          <s:enumeration value="REIBOROvernight" />          <s:enumeration value="REIBOR1Week" />          <s:enumeration value="REIBOR2Week" />          <s:enumeration value="REIBOR1Month" />          <s:enumeration value="REIBOR2Month" />          <s:enumeration value="REIBOR3Month" />          <s:enumeration value="REIBOR6Month" />          <s:enumeration value="REIBOR9Month" />          <s:enumeration value="REIBOR1Year" />          <s:enumeration value="REIBIDOvernight" />          <s:enumeration value="REIBID1Week" />          <s:enumeration value="REIBID2Week" />          <s:enumeration value="REIBID1Month" />          <s:enumeration value="REIBID2Month" />          <s:enumeration value="REIBID3Month" />          <s:enumeration value="REIBID6Month" />          <s:enumeration value="REIBID9Month" />          <s:enumeration value="REIBID1Year" />          <s:enumeration value="OIBORTomorrowNext" />          <s:enumeration value="OIBORSpotNext" />          <s:enumeration value="OIBOR1Week" />          <s:enumeration value="OIBOR2Week" />          <s:enumeration value="OIBOR1Month" />          <s:enumeration value="OIBOR2Month" />          <s:enumeration value="OIBOR3Month" />          <s:enumeration value="OIBOR4Month" />          <s:enumeration value="OIBOR5Month" />          <s:enumeration value="OIBOR6Month" />          <s:enumeration value="OIBOR9Month" />          <s:enumeration value="OIBOR1Year" />          <s:enumeration value="STIBORTomorrowNext" />          <s:enumeration value="STIBOR1Week" />          <s:enumeration value="STIBOR1Month" />          <s:enumeration value="STIBOR2Month" />          <s:enumeration value="STIBOR3Month" />          <s:enumeration value="STIBOR6Month" />          <s:enumeration value="STIBOR9Month" />          <s:enumeration value="STIBOR1Year" />          <s:enumeration value="AIDIBOR1Month" />          <s:enumeration value="AIDIBOR3Month" />          <s:enumeration value="AIDIBOR6Month" />          <s:enumeration value="AIDIBOR1Year" />          <s:enumeration value="SIBOROvernight" />          <s:enumeration value="SIBORTomorrowNext" />          <s:enumeration value="SIBOR1Week" />          <s:enumeration value="SIBOR1Month" />          <s:enumeration value="SIBOR2Month" />          <s:enumeration value="SIBOR3Month" />          <s:enumeration value="SIBOR6Month" />          <s:enumeration value="SIBOR9Month" />          <s:enumeration value="SIBOR1Year" />          <s:enumeration value="SIBORSORA" />          <s:enumeration value="SIBOROvernightRepo" />          <s:enumeration value="RIGIBOROvernight" />          <s:enumeration value="RIGIBOR1Month" />          <s:enumeration value="RIGIBOR3Month" />          <s:enumeration value="RIGIBOR6Month" />          <s:enumeration value="RIGIBOR1Year" />          <s:enumeration value="RIGIBIDOvernight" />          <s:enumeration value="WIBOROvernight" />          <s:enumeration value="WIBORTomorrowNext" />          <s:enumeration value="WIBOR1Week" />          <s:enumeration value="WIBOR2Week" />          <s:enumeration value="WIBOR1Month" />          <s:enumeration value="WIBOR3Month" />          <s:enumeration value="WIBOR4Month" />          <s:enumeration value="WIBOR6Month" />          <s:enumeration value="WIBOR9Month" />          <s:enumeration value="WIBOR1Year" />          <s:enumeration value="CIBOR1Week" />          <s:enumeration value="CIBOR2Week" />          <s:enumeration value="CIBOR1Month" />          <s:enumeration value="CIBOR2Month" />          <s:enumeration value="CIBOR3Month" />          <s:enumeration value="CIBOR4Month" />          <s:enumeration value="CIBOR5Month" />          <s:enumeration value="CIBOR6Month" />          <s:enumeration value="CIBOR7Month" />          <s:enumeration value="CIBOR8Month" />          <s:enumeration value="CIBOR9Month" />          <s:enumeration value="CIBOR10Month" />          <s:enumeration value="CIBOR11Month" />          <s:enumeration value="CIBOR1Year" />          <s:enumeration value="EURIBOR1Week" />          <s:enumeration value="EURIBOR2Week" />          <s:enumeration value="EURIBOR3Week" />          <s:enumeration value="EURIBOR1Month" />          <s:enumeration value="EURIBOR2Month" />          <s:enumeration value="EURIBOR3Month" />          <s:enumeration value="EURIBOR4Month" />          <s:enumeration value="EURIBOR5Month" />          <s:enumeration value="EURIBOR6Month" />          <s:enumeration value="EURIBOR7Month" />          <s:enumeration value="EURIBOR8Month" />          <s:enumeration value="EURIBOR9Month" />          <s:enumeration value="EURIBOR10Month" />          <s:enumeration value="EURIBOR11Month" />          <s:enumeration value="EURIBOR1Year" />          <s:enumeration value="HIBOROvernight" />          <s:enumeration value="HIBOR1Week" />          <s:enumeration value="HIBOR2Week" />          <s:enumeration value="HIBOR1Month" />          <s:enumeration value="HIBOR2Month" />          <s:enumeration value="HIBOR3Month" />          <s:enumeration value="HIBOR4Month" />          <s:enumeration value="HIBOR5Month" />          <s:enumeration value="HIBOR6Month" />          <s:enumeration value="HIBOR7Month" />          <s:enumeration value="HIBOR8Month" />          <s:enumeration value="HIBOR9Month" />          <s:enumeration value="HIBOR10Month" />          <s:enumeration value="HIBOR11Month" />          <s:enumeration value="HIBOR1Year" />          <s:enumeration value="BUBOROvernight" />          <s:enumeration value="BUBOR1Week" />          <s:enumeration value="BUBOR2Week" />          <s:enumeration value="BUBOR1Month" />          <s:enumeration value="BUBOR2Month" />          <s:enumeration value="BUBOR3Month" />          <s:enumeration value="BUBOR4Month" />          <s:enumeration value="BUBOR5Month" />          <s:enumeration value="BUBOR6Month" />          <s:enumeration value="BUBOR7Month" />          <s:enumeration value="BUBOR8Month" />          <s:enumeration value="BUBOR9Month" />          <s:enumeration value="BUBOR10Month" />          <s:enumeration value="BUBOR11Month" />          <s:enumeration value="BUBOR1Year" />          <s:enumeration value="SOFIBOROvernight" />          <s:enumeration value="SOFIBOR1Week" />          <s:enumeration value="SOFIBOR1Month" />          <s:enumeration value="SOFIBOR2Month" />          <s:enumeration value="SOFIBOR3Month" />          <s:enumeration value="MIBOROvernight" />          <s:enumeration value="MIBOR2Week" />          <s:enumeration value="MIBOR1Month" />          <s:enumeration value="MIBOR3Month" />          <s:enumeration value="MIBIDOvernight" />          <s:enumeration value="MIBID2Week" />          <s:enumeration value="MIBID1Month" />          <s:enumeration value="MIBID3Month" />          <s:enumeration value="KORIBOR1Week" />          <s:enumeration value="KORIBOR2Week" />          <s:enumeration value="KORIBOR1Month" />          <s:enumeration value="KORIBOR2Month" />          <s:enumeration value="KORIBOR3Month" />          <s:enumeration value="KORIBOR4Month" />          <s:enumeration value="KORIBOR5Month" />          <s:enumeration value="KORIBOR6Month" />          <s:enumeration value="KORIBOR9Month" />          <s:enumeration value="KORIBOR1Year" />          <s:enumeration value="PRIBOROvernight" />          <s:enumeration value="PRIBOR1Week" />          <s:enumeration value="PRIBOR2Week" />          <s:enumeration value="PRIBOR1Month" />          <s:enumeration value="PRIBOR2Month" />          <s:enumeration value="PRIBOR3Month" />          <s:enumeration value="PRIBOR6Month" />          <s:enumeration value="PRIBOR9Month" />          <s:enumeration value="PRIBOR1Year" />          <s:enumeration value="PRIBIDOvernight" />          <s:enumeration value="PRIBID1Week" />          <s:enumeration value="PRIBID2Week" />          <s:enumeration value="PRIBID1Month" />          <s:enumeration value="PRIBID2Month" />          <s:enumeration value="PRIBID3Month" />          <s:enumeration value="PRIBID6Month" />          <s:enumeration value="PRIBID9Month" />          <s:enumeration value="PRIBID1Year" />          <s:enumeration value="SABOROvernight" />          <s:enumeration value="TURKIBOROvernight" />          <s:enumeration value="CHILIBOROvernight" />          <s:enumeration value="MEXIBOR1Month" />          <s:enumeration value="MEXIBOR3Month" />          <s:enumeration value="MEXIBOR6Month" />          <s:enumeration value="MEXIBOR9Month" />          <s:enumeration value="MEXIBOR1Year" />          <s:enumeration value="TELBOROvernight" />          <s:enumeration value="TELBOR1Week" />          <s:enumeration value="TELBOR1Month" />          <s:enumeration value="TELBOR2Month" />          <s:enumeration value="TELBOR3Month" />          <s:enumeration value="TELBOR6Month" />          <s:enumeration value="TELBOR9Month" />          <s:enumeration value="TELBOR1Year" />          <s:enumeration value="CHIBOROvernight" />          <s:enumeration value="CHIBOR1Week" />          <s:enumeration value="CHIBOR2Week" />          <s:enumeration value="CHIBOR3Week" />          <s:enumeration value="CHIBOR1Month" />          <s:enumeration value="CHIBOR2Month" />          <s:enumeration value="CHIBOR3Month" />          <s:enumeration value="CHIBOR4Month" />          <s:enumeration value="CHIBOR6Month" />          <s:enumeration value="CHIBOR9Month" />          <s:enumeration value="CHIBOR1Year" />          <s:enumeration value="SHIBOROvernight" />          <s:enumeration value="SHIBOR1Week" />          <s:enumeration value="SHIBOR2Week" />          <s:enumeration value="SHIBOR1Month" />          <s:enumeration value="SHIBOR3Month" />          <s:enumeration value="SHIBOR6Month" />          <s:enumeration value="SHIBOR9Month" />          <s:enumeration value="SHIBOR1Year" />          <s:enumeration value="JIBOR1Month" />          <s:enumeration value="JIBOR3Month" />          <s:enumeration value="JIBOR6Month" />          <s:enumeration value="JIBOROvernight" />          <s:enumeration value="JIBOR1Week" />          <s:enumeration value="JIBOR1Year" />          <s:enumeration value="KLIBOR1Month" />          <s:enumeration value="KLIBOR2Month" />          <s:enumeration value="KLIBOR3Month" />          <s:enumeration value="KLIBOR6Month" />          <s:enumeration value="KLIBOR9Month" />          <s:enumeration value="KLIBOR1Year" />          <s:enumeration value="KLIBOROvernight" />          <s:enumeration value="KLIBOR1Week" />          <s:enumeration value="TIBOR1Month" />          <s:enumeration value="TIBOR2Month" />          <s:enumeration value="TIBOR3Month" />          <s:enumeration value="TIBOR6Month" />          <s:enumeration value="TIBOR9Month" />          <s:enumeration value="TIBOR1Year" />          <s:enumeration value="PHIBOR1Month" />          <s:enumeration value="PHIBOR2Month" />          <s:enumeration value="PHIBOR3Month" />          <s:enumeration value="PHIBOR6Month" />          <s:enumeration value="PHIBOR1Year" />          <s:enumeration value="BKIBOR1Month" />          <s:enumeration value="BKIBOR2Month" />          <s:enumeration value="BKIBOR3Month" />          <s:enumeration value="BKIBOR6Month" />          <s:enumeration value="BKIBOR9Month" />          <s:enumeration value="BKIBOR1Year" />          <s:enumeration value="BKIBOROvernight" />          <s:enumeration value="BKIBOR1Week" />          <s:enumeration value="VNIBOR1Month" />          <s:enumeration value="VNIBOR1Week" />          <s:enumeration value="VNIBOR2Week" />          <s:enumeration value="VNIBOR2Month" />          <s:enumeration value="VNIBOR3Month" />          <s:enumeration value="VNIBOR6Month" />          <s:enumeration value="VNIBOR1Year" />          <s:enumeration value="KAIBOR1Week" />          <s:enumeration value="KAIBOR2Week" />          <s:enumeration value="KAIBOR1Month" />          <s:enumeration value="KAIBOR2Month" />          <s:enumeration value="KAIBOR3Month" />          <s:enumeration value="KAIBID1Week" />          <s:enumeration value="KAIBID2Week" />          <s:enumeration value="KAIBID1Month" />          <s:enumeration value="KAIBID2Month" />          <s:enumeration value="KAIBID3Month" />          <s:enumeration value="KIBOR1Week" />          <s:enumeration value="KIBOR2Week" />          <s:enumeration value="KIBOR1Month" />          <s:enumeration value="KIBOR3Month" />          <s:enumeration value="KIBOR6Month" />          <s:enumeration value="KIBOR9Month" />          <s:enumeration value="KIBOR1Year" />          <s:enumeration value="KIBOR2Year" />          <s:enumeration value="KIBOR3Year" />          <s:enumeration value="KIBID1Week" />          <s:enumeration value="KIBID2Week" />          <s:enumeration value="KIBID1Month" />          <s:enumeration value="KIBID3Month" />          <s:enumeration value="KIBID6Month" />          <s:enumeration value="KIBID9Month" />          <s:enumeration value="KIBID1Year" />          <s:enumeration value="KIBID2Year" />          <s:enumeration value="KIBID3Year" />          <s:enumeration value="MOSIBOROvernight" />          <s:enumeration value="MOSIBOR1Week" />          <s:enumeration value="MOSIBOR1Month" />          <s:enumeration value="MOSIBOR3Month" />          <s:enumeration value="MOSIBOR6Month" />          <s:enumeration value="MOSIBOR1Year" />          <s:enumeration value="MOSIBIDOvernight" />          <s:enumeration value="MOSIBID1Week" />          <s:enumeration value="MOSIBID1Month" />          <s:enumeration value="MOSIBID3Month" />          <s:enumeration value="MOSIBID6Month" />          <s:enumeration value="MOSIBID1Year" />          <s:enumeration value="BRAZIBOROvernight" />          <s:enumeration value="BRAZIBOR1Year" />          <s:enumeration value="TRLIBOROvernight" />          <s:enumeration value="TRLIBOR1Week" />          <s:enumeration value="TRLIBOR1Month" />          <s:enumeration value="TRLIBOR2Month" />          <s:enumeration value="TRLIBOR3Month" />          <s:enumeration value="TRLIBOR6Month" />          <s:enumeration value="TRLIBOR9Month" />          <s:enumeration value="TRLIBOR1Year" />          <s:enumeration value="TRLIBIDOvernight" />          <s:enumeration value="TRLIBID1Week" />          <s:enumeration value="TRLIBID1Month" />          <s:enumeration value="TRLIBID2Month" />          <s:enumeration value="TRLIBID3Month" />          <s:enumeration value="TRLIBID6Month" />          <s:enumeration value="TRLIBID9Month" />          <s:enumeration value="TRLIBID1Year" />          <s:enumeration value="JIBAR1Month" />          <s:enumeration value="JIBAR3Month" />          <s:enumeration value="JIBAR6Month" />          <s:enumeration value="JIBAR9Month" />          <s:enumeration value="JIBAR1Year" />          <s:enumeration value="TAIBOROvernight" />          <s:enumeration value="TAIBOR1Week" />          <s:enumeration value="TAIBOR2Week" />          <s:enumeration value="TAIBOR1Month" />          <s:enumeration value="TAIBOR2Month" />          <s:enumeration value="TAIBOR3Month" />          <s:enumeration value="TAIBOR6Month" />          <s:enumeration value="TAIBOR9Month" />          <s:enumeration value="TAIBOR1Year" />          <s:enumeration value="BRIBOROvernight" />          <s:enumeration value="BRIBOR1Week" />          <s:enumeration value="BRIBOR2Week" />          <s:enumeration value="BRIBOR1Month" />          <s:enumeration value="BRIBOR2Month" />          <s:enumeration value="BRIBOR3Month" />          <s:enumeration value="BRIBOR6Month" />          <s:enumeration value="BRIBOR9Month" />          <s:enumeration value="BRIBOR1Year" />          <s:enumeration value="BRIBIDOvernight" />          <s:enumeration value="BRIBID1Week" />          <s:enumeration value="BRIBID2Week" />          <s:enumeration value="BRIBID1Month" />          <s:enumeration value="BRIBID2Month" />          <s:enumeration value="BRIBID3Month" />          <s:enumeration value="BRIBID6Month" />          <s:enumeration value="BRIBID9Month" />          <s:enumeration value="BRIBID1Year" />          <s:enumeration value="AustralianBankBills1Month" />          <s:enumeration value="AustralianBankBills2Month" />          <s:enumeration value="AustralianBankBills3Month" />          <s:enumeration value="AustralianBankBills4Month" />          <s:enumeration value="AustralianBankBills5Month" />          <s:enumeration value="AustralianBankBills6Month" />          <s:enumeration value="AustralianBankBills9Month" />          <s:enumeration value="AustralianBankBills1Year" />          <s:enumeration value="NationalOvernightAverage30YearFixed" />          <s:enumeration value="NationalOvernightAverage15YearFixed" />          <s:enumeration value="NationalOvernightAverage5YearAdjustable" />          <s:enumeration value="BAIBOROvernight" />          <s:enumeration value="BAIBOR1Week" />          <s:enumeration value="BAIBOR1Month" />          <s:enumeration value="BAIBOR3Month" />          <s:enumeration value="BAIBOR6Month" />          <s:enumeration value="BAIBOR9Month" />          <s:enumeration value="BAIBOR1Year" />          <s:enumeration value="BAIBOR18Month" />          <s:enumeration value="COLIBOROvernight" />          <s:enumeration value="COLIBOR1Month" />          <s:enumeration value="EleventhDistrictCOFI" />          <s:enumeration value="FNMA30YearRequiredNetYield10Days" />          <s:enumeration value="FNMA30YearRequiredNetYield30Days" />          <s:enumeration value="FNMA30YearRequiredNetYield60Days" />          <s:enumeration value="FNMA30YearRequiredNetYield90Days" />          <s:enumeration value="FNMA15YearRequiredNetYield10Days" />          <s:enumeration value="FNMA15YearRequiredNetYield30Days" />          <s:enumeration value="FNMA15YearRequiredNetYield60Days" />          <s:enumeration value="FNMA15YearRequiredNetYield90Days" />          <s:enumeration value="FNMA7YearRequiredNetYield10Days" />          <s:enumeration value="FNMA7YearRequiredNetYield30Days" />          <s:enumeration value="FNMA7YearRequiredNetYield60Days" />          <s:enumeration value="FNMA7YearRequiredNetYield90Days" />          <s:enumeration value="FNMA5YearRequiredNetYield10Days" />          <s:enumeration value="FNMA5YearRequiredNetYield30Days" />          <s:enumeration value="FNMA5YearRequiredNetYield60Days" />          <s:enumeration value="FNMA5YearRequiredNetYield90Days" />          <s:enumeration value="FNMA20YearRequiredNetYield10Days" />          <s:enumeration value="FNMA20YearRequiredNetYield30Days" />          <s:enumeration value="FNMA20YearRequiredNetYield60Days" />          <s:enumeration value="FNMA20YearRequiredNetYield90Days" />          <s:enumeration value="FHLMC1YearARM" />          <s:enumeration value="CETES28" />          <s:enumeration value="CETES91" />          <s:enumeration value="TIIE28" />          <s:enumeration value="TIIE91" />          <s:enumeration value="BPA" />          <s:enumeration value="WIFR" />          <s:enumeration value="CanadianOvernightTargetRate" />          <s:enumeration value="CanadianOvernightRate" />          <s:enumeration value="CanadianBankRate" />          <s:enumeration value="CanadianOvernightRepoRate" />          <s:enumeration value="CanadianOperatingBandHigh" />          <s:enumeration value="CanadianOperatingBandLow" />          <s:enumeration value="CanadianLVTSSettlementBalancesTarget" />          <s:enumeration value="CanadianLVTSSettlementBalancesActual" />          <s:enumeration value="CanadianBankersAcceptances1Month" />          <s:enumeration value="CanadianBankersAcceptances3Month" />          <s:enumeration value="CanadianPrimeCorporatePaperRate1Month" />          <s:enumeration value="CanadianPrimeCorporatePaperRate2Month" />          <s:enumeration value="CanadianPrimeCorporatePaperRate3Month" />          <s:enumeration value="CanadianPrimeBusiness" />          <s:enumeration value="CanadianConventionalMortgage1Year" />          <s:enumeration value="CanadianConventionalMortgage3Year" />          <s:enumeration value="CanadianConventionalMortgage5Year" />          <s:enumeration value="CanadianGuaranteedInvestmentCertificates1Year" />          <s:enumeration value="CanadianGuaranteedInvestmentCertificates3Year" />          <s:enumeration value="CanadianGuaranteedInvestmentCertificates5Year" />          <s:enumeration value="Canadian5YearPersonalFixedTerm" />          <s:enumeration value="Canadian1MonthTreasuryBill" />          <s:enumeration value="Canadian3MonthTreasuryBill" />          <s:enumeration value="Canadian6MonthTreasuryBill" />          <s:enumeration value="Canadian1YearTreasuryBill" />          <s:enumeration value="Canadian2YearBenchmarkBondYield" />          <s:enumeration value="Canadian3YearBenchmarkBondYield" />          <s:enumeration value="Canadian5YearBenchmarkBondYield" />          <s:enumeration value="Canadian7YearBenchmarkBondYield" />          <s:enumeration value="Canadian10YearBenchmarkBondYield" />          <s:enumeration value="Canadian30YearBenchmarkBondYield" />          <s:enumeration value="TennesseeFormulaRate" />          <s:enumeration value="TennesseeEffectiveRate" />          <s:enumeration value="KansasUsuryRate" />          <s:enumeration value="KansasCodeMortgageRate" />          <s:enumeration value="MissouriMarketRate" />          <s:enumeration value="FederalDiscountPrimaryBoston" />          <s:enumeration value="FederalDiscountPrimaryNewYork" />          <s:enumeration value="FederalDiscountPrimaryPhiladelphia" />          <s:enumeration value="FederalDiscountPrimaryCleveland" />          <s:enumeration value="FederalDiscountPrimaryRichmond" />          <s:enumeration value="FederalDiscountPrimaryAtlanta" />          <s:enumeration value="FederalDiscountPrimaryChicago" />          <s:enumeration value="FederalDiscountPrimaryStLouis" />          <s:enumeration value="FederalDiscountPrimaryMinneapolis" />          <s:enumeration value="FederalDiscountPrimaryKansasCity" />          <s:enumeration value="FederalDiscountPrimaryDallas" />          <s:enumeration value="FederalDiscountPrimarySanFrancisco" />          <s:enumeration value="FederalDiscountSecondaryBoston" />          <s:enumeration value="FederalDiscountSecondaryNewYork" />          <s:enumeration value="FederalDiscountSecondaryPhiladelphia" />          <s:enumeration value="FederalDiscountSecondaryCleveland" />          <s:enumeration value="FederalDiscountSecondaryRichmond" />          <s:enumeration value="FederalDiscountSecondaryAtlanta" />          <s:enumeration value="FederalDiscountSecondaryChicago" />          <s:enumeration value="FederalDiscountSecondaryStLouis" />          <s:enumeration value="FederalDiscountSecondaryMinneapolis" />          <s:enumeration value="FederalDiscountSecondaryKansasCity" />          <s:enumeration value="FederalDiscountSecondaryDallas" />          <s:enumeration value="FederalDiscountSecondarySanFrancisco" />          <s:enumeration value="MuniComposite2YearA" />          <s:enumeration value="MuniComposite2YearAA" />          <s:enumeration value="MuniComposite2YearAAA" />          <s:enumeration value="MuniComposite5YearA" />          <s:enumeration value="MuniComposite5YearAA" />          <s:enumeration value="MuniComposite5YearAAA" />          <s:enumeration value="MuniComposite10YearA" />          <s:enumeration value="MuniComposite10YearAA" />          <s:enumeration value="MuniComposite10YearAAA" />          <s:enumeration value="MuniComposite20YearA" />          <s:enumeration value="MuniComposite20YearAA" />          <s:enumeration value="MuniComposite20YearAAA" />          <s:enumeration value="TreasuryComposite3Month" />          <s:enumeration value="TreasuryComposite6Month" />          <s:enumeration value="TreasuryComposite2Year" />          <s:enumeration value="TreasuryComposite3Year" />          <s:enumeration value="TreasuryComposite5Year" />          <s:enumeration value="TreasuryComposite10Year" />          <s:enumeration value="TreasuryComposite30Year" />          <s:enumeration value="NationalAverageContractMortgageRate" />          <s:enumeration value="FreddieMacSurvey30YearFixed" />          <s:enumeration value="FreddieMacSurvey15YearFixed" />          <s:enumeration value="FreddieMacSurvey5YearARM" />          <s:enumeration value="FreddieMacSurvey1YearARM" />          <s:enumeration value="FreddieMacSurvey30YearFixedPoints" />          <s:enumeration value="FreddieMacSurvey15YearFixedPoints" />          <s:enumeration value="FreddieMacSurvey5YearARMPoints" />          <s:enumeration value="FreddieMacSurvey1YearARMPoints" />          <s:enumeration value="BankOfEnglandBaseRate" />          <s:enumeration value="EuropeanCentralBankLending" />          <s:enumeration value="EuropeanCentralBankRefinancing" />          <s:enumeration value="EuropeanCentralBankDeposit" />          <s:enumeration value="Invalid" />          <s:enumeration value="Dummy" />          <s:enumeration value="TreasuryConstant1YearAverage" />          <s:enumeration value="TreasuryConstant2YearAverage" />          <s:enumeration value="TreasuryConstant3YearAverage" />          <s:enumeration value="TreasuryConstant5YearAverage" />          <s:enumeration value="TBillSecondaryMarket3MonthAverage" />          <s:enumeration value="CommercialPaperFinancial1MonthAverage" />          <s:enumeration value="CommercialPaperNonFinancial1MonthAverage" />        </s:restriction>      </s:simpleType>      <s:simpleType name="LIBORCurrencyTypes">        <s:restriction base="s:string">          <s:enumeration value="USD" />          <s:enumeration value="EUR" />          <s:enumeration value="GBP" />          <s:enumeration value="CHF" />          <s:enumeration value="JPY" />          <s:enumeration value="AUD" />          <s:enumeration value="CAD" />          <s:enumeration value="DKK" />          <s:enumeration value="NZD" />          <s:enumeration value="NOK" />          <s:enumeration value="ISK" />          <s:enumeration value="SGD" />          <s:enumeration value="PLN" />          <s:enumeration value="SEK" />          <s:enumeration value="HKD" />          <s:enumeration value="BGN" />          <s:enumeration value="HUF" />          <s:enumeration value="CLP" />          <s:enumeration value="INR" />          <s:enumeration value="CZK" />          <s:enumeration value="KRW" />          <s:enumeration value="TRL" />          <s:enumeration value="MXN" />          <s:enumeration value="ILS" />          <s:enumeration value="CNY" />          <s:enumeration value="MYR" />          <s:enumeration value="PHP" />          <s:enumeration value="THB" />          <s:enumeration value="VND" />          <s:enumeration value="IDR" />          <s:enumeration value="TWD" />          <s:enumeration value="ZAR" />          <s:enumeration value="TRY" />          <s:enumeration value="KZT" />          <s:enumeration value="PKR" />          <s:enumeration value="RUB" />          <s:enumeration value="BRL" />          <s:enumeration value="SKK" />          <s:enumeration value="ARS" />          <s:enumeration value="LVL" />          <s:enumeration value="COP" />          <s:enumeration value="AED" />        </s:restriction>      </s:simpleType>      <s:simpleType name="PeriodTypes">        <s:restriction base="s:string">          <s:enumeration value="Daily" />          <s:enumeration value="Monthly" />          <s:enumeration value="Quarterly" />          <s:enumeration value="Annually" />          <s:enumeration value="RealTime" />          <s:enumeration value="Weekly" />        </s:restriction>      </s:simpleType>      <s:element name="AddWatchListRateResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="AddWatchListRateResult" type="tns:WatchList" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="AddWatchListMetal">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LondonFixing" type="tns:LondonFixing" />            <s:element minOccurs="1" maxOccurs="1" name="Currency" type="tns:FixingCurrencyTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="LondonFixing">        <s:complexContent mixed="false">          <s:extension base="tns:Common">            <s:sequence>              <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:FixingTypes" />              <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="Currency" type="tns:FixingCurrencyTypes" />              <s:element minOccurs="1" maxOccurs="1" name="Period" type="tns:PeriodType" />              <s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />              <s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />              <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Unit" type="s:string" />              <s:element minOccurs="0" maxOccurs="1" name="Source" type="s:string" />            </s:sequence>          </s:extension>        </s:complexContent>      </s:complexType>      <s:simpleType name="FixingTypes">        <s:restriction base="s:string">          <s:enumeration value="LondonGold" />          <s:enumeration value="LondonSilver" />          <s:enumeration value="LondonPlatinum" />          <s:enumeration value="LondonPalladium" />        </s:restriction>      </s:simpleType>      <s:simpleType name="FixingCurrencyTypes">        <s:restriction base="s:string">          <s:enumeration value="USD" />          <s:enumeration value="GBP" />          <s:enumeration value="EURO" />        </s:restriction>      </s:simpleType>      <s:simpleType name="PeriodType">        <s:restriction base="s:string">          <s:enumeration value="Morning" />          <s:enumeration value="Evening" />        </s:restriction>      </s:simpleType>      <s:element name="AddWatchListMetalResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="AddWatchListMetalResult" type="tns:WatchList" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="AddWatchListCurrency">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Currency" type="tns:Currencies" />          </s:sequence>        </s:complexType>      </s:element>      <s:simpleType name="Currencies">        <s:restriction base="s:string">          <s:enumeration value="USD" />          <s:enumeration value="AED" />          <s:enumeration value="AFA" />          <s:enumeration value="AFN" />          <s:enumeration value="ALL" />          <s:enumeration value="AMD" />          <s:enumeration value="ANG" />          <s:enumeration value="AOA" />          <s:enumeration value="ARA" />          <s:enumeration value="ARE" />          <s:enumeration value="ARS" />          <s:enumeration value="ATS" />          <s:enumeration value="AUD" />          <s:enumeration value="AUN" />          <s:enumeration value="AWG" />          <s:enumeration value="AZM" />          <s:enumeration value="BAM" />          <s:enumeration value="BBD" />          <s:enumeration value="BDT" />          <s:enumeration value="BEF" />          <s:enumeration value="BEL" />          <s:enumeration value="BGL" />          <s:enumeration value="BGN" />          <s:enumeration value="BHD" />          <s:enumeration value="BIF" />          <s:enumeration value="BMD" />          <s:enumeration value="BND" />          <s:enumeration value="BOB" />          <s:enumeration value="BOV" />          <s:enumeration value="BRC" />          <s:enumeration value="BRE" />          <s:enumeration value="BRI" />          <s:enumeration value="BRL" />          <s:enumeration value="BRR" />          <s:enumeration value="BSD" />          <s:enumeration value="BTN" />          <s:enumeration value="BWP" />          <s:enumeration value="BYR" />          <s:enumeration value="BZD" />          <s:enumeration value="CAD" />          <s:enumeration value="CDF" />          <s:enumeration value="CHF" />          <s:enumeration value="CLF" />          <s:enumeration value="CHK" />          <s:enumeration value="CLP" />          <s:enumeration value="CNY" />          <s:enumeration value="COP" />          <s:enumeration value="CRC" />          <s:enumeration value="CSD" />          <s:enumeration value="CUP" />          <s:enumeration value="CVE" />          <s:enumeration value="CYP" />          <s:enumeration value="CZK" />          <s:enumeration value="DEM" />          <s:enumeration value="DJF" />          <s:enumeration value="DKK" />          <s:enumeration value="DOP" />          <s:enumeration value="DOE" />          <s:enumeration value="DOW" />          <s:enumeration value="DZD" />          <s:enumeration value="ECS" />          <s:enumeration value="EEK" />          <s:enumeration value="EGP" />          <s:enumeration value="ERN" />          <s:enumeration value="ESP" />          <s:enumeration value="ETB" />          <s:enumeration value="EUR" />          <s:enumeration value="FIM" />          <s:enumeration value="FJD" />          <s:enumeration value="FKP" />          <s:enumeration value="FRF" />          <s:enumeration value="FRN" />          <s:enumeration value="GBP" />          <s:enumeration value="GEL" />          <s:enumeration value="GGP" />          <s:enumeration value="GHC" />          <s:enumeration value="GHS" />          <s:enumeration value="GIP" />          <s:enumeration value="GMD" />          <s:enumeration value="GNF" />          <s:enumeration value="GRD" />          <s:enumeration value="GTQ" />          <s:enumeration value="GYD" />          <s:enumeration value="HKD" />          <s:enumeration value="HNL" />          <s:enumeration value="HRD" />          <s:enumeration value="HRK" />          <s:enumeration value="HTG" />          <s:enumeration value="HUF" />          <s:enumeration value="IDR" />          <s:enumeration value="IEP" />          <s:enumeration value="ILS" />          <s:enumeration value="IMP" />          <s:enumeration value="INR" />          <s:enumeration value="IQD" />          <s:enumeration value="IRR" />          <s:enumeration value="ISK" />          <s:enumeration value="ITL" />          <s:enumeration value="JEP" />          <s:enumeration value="JMD" />          <s:enumeration value="JOD" />          <s:enumeration value="JPY" />          <s:enumeration value="KES" />          <s:enumeration value="KGS" />          <s:enumeration value="KHR" />          <s:enumeration value="KMF" />          <s:enumeration value="KPW" />          <s:enumeration value="KRU" />          <s:enumeration value="KRW" />          <s:enumeration value="KWD" />          <s:enumeration value="KYD" />          <s:enumeration value="KZT" />          <s:enumeration value="LAK" />          <s:enumeration value="LBP" />          <s:enumeration value="LKR" />          <s:enumeration value="LRD" />          <s:enumeration value="LSL" />          <s:enumeration value="LTL" />          <s:enumeration value="LUF" />          <s:enumeration value="LVL" />          <s:enumeration value="LYD" />          <s:enumeration value="M5P" />          <s:enumeration value="MAD" />          <s:enumeration value="MAL" />          <s:enumeration value="MDL" />          <s:enumeration value="MFG" />          <s:enumeration value="MGA" />          <s:enumeration value="MKD" />          <s:enumeration value="MMK" />          <s:enumeration value="MNT" />          <s:enumeration value="MOP" />          <s:enumeration value="MRO" />          <s:enumeration value="MTL" />          <s:enumeration value="MTP" />          <s:enumeration value="MUR" />          <s:enumeration value="MVR" />          <s:enumeration value="MWK" />          <s:enumeration value="MXN" />          <s:enumeration value="MXP" />          <s:enumeration value="MXV" />          <s:enumeration value="MYR" />          <s:enumeration value="MZM" />          <s:enumeration value="MZN" />          <s:enumeration value="NAD" />          <s:enumeration value="NBL" />          <s:enumeration value="NGN" />          <s:enumeration value="NIC" />          <s:enumeration value="NIO" />          <s:enumeration value="NLG" />          <s:enumeration value="NOK" />          <s:enumeration value="NPR" />          <s:enumeration value="NSO" />          <s:enumeration value="NZD" />          <s:enumeration value="OMR" />          <s:enumeration value="OSO" />          <s:enumeration value="PAB" />          <s:enumeration value="PEI" />          <s:enumeration value="PEN" />          <s:enumeration value="PES" />          <s:enumeration value="PGK" />          <s:enumeration value="PHP" />          <s:enumeration value="PKR" />          <s:enumeration value="PLN" />          <s:enumeration value="PLZ" />          <s:enumeration value="PTE" />          <s:enumeration value="PYG" />          <s:enumeration value="QAR" />          <s:enumeration value="ROL" />          <s:enumeration value="RON" />          <s:enumeration value="RSD" />          <s:enumeration value="RUB" />          <s:enumeration value="RUR" />          <s:enumeration value="RWF" />          <s:enumeration value="SAR" />          <s:enumeration value="SBD" />          <s:enumeration value="SCR" />          <s:enumeration value="SDD" />          <s:enumeration value="SDP" />          <s:enumeration value="SDR" />          <s:enumeration value="SEK" />          <s:enumeration value="SGD" />          <s:enumeration value="SHP" />          <s:enumeration value="SIT" />          <s:enumeration value="SKK" />          <s:enumeration value="SLL" />          <s:enumeration value="SOS" />          <s:enumeration value="SPL" />          <s:enumeration value="SRG" />          <s:enumeration value="STD" />          <s:enumeration value="SUR" />          <s:enumeration value="SVC" />          <s:enumeration value="SYP" />          <s:enumeration value="SZL" />          <s:enumeration value="THB" />          <s:enumeration value="TJR" />          <s:enumeration value="TJS" />          <s:enumeration value="TMM" />          <s:enumeration value="TND" />          <s:enumeration value="TOP" />          <s:enumeration value="TRL" />          <s:enumeration value="TRY" />          <s:enumeration value="TTD" />          <s:enumeration value="TVD" />          <s:enumeration value="TWD" />          <s:enumeration value="TZS" />          <s:enumeration value="UAH" />          <s:enumeration value="UGX" />          <s:enumeration value="UNK" />          <s:enumeration value="UYP" />          <s:enumeration value="UYU" />          <s:enumeration value="UZS" />          <s:enumeration value="VEB" />          <s:enumeration value="VEF" />          <s:enumeration value="VND" />          <s:enumeration value="VRL" />          <s:enumeration value="VRN" />          <s:enumeration value="VUV" />          <s:enumeration value="WST" />          <s:enumeration value="XAF" />          <s:enumeration value="XAG" />          <s:enumeration value="XAU" />          <s:enumeration value="XCD" />          <s:enumeration value="XDR" />          <s:enumeration value="XEU" />          <s:enumeration value="XOF" />          <s:enumeration value="XPD" />          <s:enumeration value="XPF" />          <s:enumeration value="XPT" />          <s:enumeration value="YER" />          <s:enumeration value="YUD" />          <s:enumeration value="YUM" />          <s:enumeration value="ZAL" />          <s:enumeration value="ZAR" />          <s:enumeration value="ZMK" />          <s:enumeration value="ZRN" />          <s:enumeration value="ZRZ" />          <s:enumeration value="ZWD" />          <s:enumeration value="BAD" />          <s:enumeration value="NOCURRENCY" />        </s:restriction>      </s:simpleType>      <s:element name="AddWatchListCurrencyResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="AddWatchListCurrencyResult" type="tns:WatchList" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeleteWatchListItem">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeleteWatchListItemResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DeleteWatchListItemResult" type="tns:WatchList" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeleteWatchListRate">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="RateType" type="tns:RateTypes" />            <s:element minOccurs="1" maxOccurs="1" name="Currency" type="tns:LIBORCurrencyTypes" />            <s:element minOccurs="1" maxOccurs="1" name="PeriodType" type="tns:PeriodTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeleteWatchListRateResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DeleteWatchListRateResult" type="tns:WatchList" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeleteWatchListMetal">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LondonFixing" type="tns:LondonFixing" />            <s:element minOccurs="1" maxOccurs="1" name="Currency" type="tns:FixingCurrencyTypes" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="DeleteWatchListMetalResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="DeleteWatchListMetalResult" type="tns:WatchList" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ListWatchLists">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ListWatchListsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ListWatchListsResult" type="tns:ArrayOfWatchList" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfWatchList">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="WatchList" nillable="true" type="tns:WatchList" />        </s:sequence>      </s:complexType>      <s:element name="WatchList" nillable="true" type="tns:WatchList" />      <s:element name="BooleanResult" nillable="true" type="tns:BooleanResult" />      <s:element name="ArrayOfWatchList" nillable="true" type="tns:ArrayOfWatchList" />    </s:schema>  </wsdl:types>  <wsdl:message name="AddWatchListSoapIn">    <wsdl:part name="parameters" element="tns:AddWatchList" />  </wsdl:message>  <wsdl:message name="AddWatchListSoapOut">    <wsdl:part name="parameters" element="tns:AddWatchListResponse" />  </wsdl:message>  <wsdl:message name="AddWatchListHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="DeleteWatchListSoapIn">    <wsdl:part name="parameters" element="tns:DeleteWatchList" />  </wsdl:message>  <wsdl:message name="DeleteWatchListSoapOut">    <wsdl:part name="parameters" element="tns:DeleteWatchListResponse" />  </wsdl:message>  <wsdl:message name="DeleteWatchListHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="GetWatchListSoapIn">    <wsdl:part name="parameters" element="tns:GetWatchList" />  </wsdl:message>  <wsdl:message name="GetWatchListSoapOut">    <wsdl:part name="parameters" element="tns:GetWatchListResponse" />  </wsdl:message>  <wsdl:message name="GetWatchListHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="AddWatchListItemSoapIn">    <wsdl:part name="parameters" element="tns:AddWatchListItem" />  </wsdl:message>  <wsdl:message name="AddWatchListItemSoapOut">    <wsdl:part name="parameters" element="tns:AddWatchListItemResponse" />  </wsdl:message>  <wsdl:message name="AddWatchListItemHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="AddWatchListItemsSoapIn">    <wsdl:part name="parameters" element="tns:AddWatchListItems" />  </wsdl:message>  <wsdl:message name="AddWatchListItemsSoapOut">    <wsdl:part name="parameters" element="tns:AddWatchListItemsResponse" />  </wsdl:message>  <wsdl:message name="AddWatchListItemsHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="AddWatchListRateSoapIn">    <wsdl:part name="parameters" element="tns:AddWatchListRate" />  </wsdl:message>  <wsdl:message name="AddWatchListRateSoapOut">    <wsdl:part name="parameters" element="tns:AddWatchListRateResponse" />  </wsdl:message>  <wsdl:message name="AddWatchListRateHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="AddWatchListMetalSoapIn">    <wsdl:part name="parameters" element="tns:AddWatchListMetal" />  </wsdl:message>  <wsdl:message name="AddWatchListMetalSoapOut">    <wsdl:part name="parameters" element="tns:AddWatchListMetalResponse" />  </wsdl:message>  <wsdl:message name="AddWatchListMetalHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="AddWatchListCurrencySoapIn">    <wsdl:part name="parameters" element="tns:AddWatchListCurrency" />  </wsdl:message>  <wsdl:message name="AddWatchListCurrencySoapOut">    <wsdl:part name="parameters" element="tns:AddWatchListCurrencyResponse" />  </wsdl:message>  <wsdl:message name="AddWatchListCurrencyHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="DeleteWatchListItemSoapIn">    <wsdl:part name="parameters" element="tns:DeleteWatchListItem" />  </wsdl:message>  <wsdl:message name="DeleteWatchListItemSoapOut">    <wsdl:part name="parameters" element="tns:DeleteWatchListItemResponse" />  </wsdl:message>  <wsdl:message name="DeleteWatchListItemHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="DeleteWatchListRateSoapIn">    <wsdl:part name="parameters" element="tns:DeleteWatchListRate" />  </wsdl:message>  <wsdl:message name="DeleteWatchListRateSoapOut">    <wsdl:part name="parameters" element="tns:DeleteWatchListRateResponse" />  </wsdl:message>  <wsdl:message name="DeleteWatchListRateHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="DeleteWatchListMetalSoapIn">    <wsdl:part name="parameters" element="tns:DeleteWatchListMetal" />  </wsdl:message>  <wsdl:message name="DeleteWatchListMetalSoapOut">    <wsdl:part name="parameters" element="tns:DeleteWatchListMetalResponse" />  </wsdl:message>  <wsdl:message name="DeleteWatchListMetalHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="ListWatchListsSoapIn">    <wsdl:part name="parameters" element="tns:ListWatchLists" />  </wsdl:message>  <wsdl:message name="ListWatchListsSoapOut">    <wsdl:part name="parameters" element="tns:ListWatchListsResponse" />  </wsdl:message>  <wsdl:message name="ListWatchListsHeader">    <wsdl:part name="Header" element="tns:Header" />  </wsdl:message>  <wsdl:message name="AddWatchListHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="Name" type="s:string" />    <wsdl:part name="Description" type="s:string" />    <wsdl:part name="Type" type="s:string" />  </wsdl:message>  <wsdl:message name="AddWatchListHttpGetOut">    <wsdl:part name="Body" element="tns:WatchList" />  </wsdl:message>  <wsdl:message name="DeleteWatchListHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="Identifier" type="s:string" />  </wsdl:message>  <wsdl:message name="DeleteWatchListHttpGetOut">    <wsdl:part name="Body" element="tns:BooleanResult" />  </wsdl:message>  <wsdl:message name="GetWatchListHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="WatchList" type="s:string" />  </wsdl:message>  <wsdl:message name="GetWatchListHttpGetOut">    <wsdl:part name="Body" element="tns:WatchList" />  </wsdl:message>  <wsdl:message name="AddWatchListItemHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="WatchList" type="s:string" />    <wsdl:part name="Symbol" type="s:string" />  </wsdl:message>  <wsdl:message name="AddWatchListItemHttpGetOut">    <wsdl:part name="Body" element="tns:WatchList" />  </wsdl:message>  <wsdl:message name="AddWatchListItemsHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="WatchList" type="s:string" />    <wsdl:part name="Symbols" type="s:string" />  </wsdl:message>  <wsdl:message name="AddWatchListItemsHttpGetOut">    <wsdl:part name="Body" element="tns:WatchList" />  </wsdl:message>  <wsdl:message name="AddWatchListRateHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="WatchList" type="s:string" />    <wsdl:part name="RateType" type="s:string" />    <wsdl:part name="Currency" type="s:string" />    <wsdl:part name="PeriodType" type="s:string" />  </wsdl:message>  <wsdl:message name="AddWatchListRateHttpGetOut">    <wsdl:part name="Body" element="tns:WatchList" />  </wsdl:message>  <wsdl:message name="AddWatchListCurrencyHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="WatchList" type="s:string" />    <wsdl:part name="Currency" type="s:string" />  </wsdl:message>  <wsdl:message name="AddWatchListCurrencyHttpGetOut">    <wsdl:part name="Body" element="tns:WatchList" />  </wsdl:message>  <wsdl:message name="DeleteWatchListItemHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="WatchList" type="s:string" />    <wsdl:part name="Symbol" type="s:string" />  </wsdl:message>  <wsdl:message name="DeleteWatchListItemHttpGetOut">    <wsdl:part name="Body" element="tns:WatchList" />  </wsdl:message>  <wsdl:message name="DeleteWatchListRateHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="WatchList" type="s:string" />    <wsdl:part name="RateType" type="s:string" />    <wsdl:part name="Currency" type="s:string" />    <wsdl:part name="PeriodType" type="s:string" />  </wsdl:message>  <wsdl:message name="DeleteWatchListRateHttpGetOut">    <wsdl:part name="Body" element="tns:WatchList" />  </wsdl:message>  <wsdl:message name="ListWatchListsHttpGetIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />  </wsdl:message>  <wsdl:message name="ListWatchListsHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfWatchList" />  </wsdl:message>  <wsdl:message name="AddWatchListHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="Identifier" type="s:string" />    <wsdl:part name="Name" type="s:string" />    <wsdl:part name="Description" type="s:string" />    <wsdl:part name="Type" type="s:string" />  </wsdl:message>  <wsdl:message name="AddWatchListHttpPostOut">    <wsdl:part name="Body" element="tns:WatchList" />  </wsdl:message>  <wsdl:message name="DeleteWatchListHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="Identifier" type="s:string" />  </wsdl:message>  <wsdl:message name="DeleteWatchListHttpPostOut">    <wsdl:part name="Body" element="tns:BooleanResult" />  </wsdl:message>  <wsdl:message name="GetWatchListHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="WatchList" type="s:string" />  </wsdl:message>  <wsdl:message name="GetWatchListHttpPostOut">    <wsdl:part name="Body" element="tns:WatchList" />  </wsdl:message>  <wsdl:message name="AddWatchListItemHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="WatchList" type="s:string" />    <wsdl:part name="Symbol" type="s:string" />  </wsdl:message>  <wsdl:message name="AddWatchListItemHttpPostOut">    <wsdl:part name="Body" element="tns:WatchList" />  </wsdl:message>  <wsdl:message name="AddWatchListItemsHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="WatchList" type="s:string" />    <wsdl:part name="Symbols" type="s:string" />  </wsdl:message>  <wsdl:message name="AddWatchListItemsHttpPostOut">    <wsdl:part name="Body" element="tns:WatchList" />  </wsdl:message>  <wsdl:message name="AddWatchListRateHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="WatchList" type="s:string" />    <wsdl:part name="RateType" type="s:string" />    <wsdl:part name="Currency" type="s:string" />    <wsdl:part name="PeriodType" type="s:string" />  </wsdl:message>  <wsdl:message name="AddWatchListRateHttpPostOut">    <wsdl:part name="Body" element="tns:WatchList" />  </wsdl:message>  <wsdl:message name="AddWatchListCurrencyHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="WatchList" type="s:string" />    <wsdl:part name="Currency" type="s:string" />  </wsdl:message>  <wsdl:message name="AddWatchListCurrencyHttpPostOut">    <wsdl:part name="Body" element="tns:WatchList" />  </wsdl:message>  <wsdl:message name="DeleteWatchListItemHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="WatchList" type="s:string" />    <wsdl:part name="Symbol" type="s:string" />  </wsdl:message>  <wsdl:message name="DeleteWatchListItemHttpPostOut">    <wsdl:part name="Body" element="tns:WatchList" />  </wsdl:message>  <wsdl:message name="DeleteWatchListRateHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />    <wsdl:part name="WatchList" type="s:string" />    <wsdl:part name="RateType" type="s:string" />    <wsdl:part name="Currency" type="s:string" />    <wsdl:part name="PeriodType" type="s:string" />  </wsdl:message>  <wsdl:message name="DeleteWatchListRateHttpPostOut">    <wsdl:part name="Body" element="tns:WatchList" />  </wsdl:message>  <wsdl:message name="ListWatchListsHttpPostIn">    <wsdl:part name="Username" type="s:string" />    <wsdl:part name="Password" type="s:string" />  </wsdl:message>  <wsdl:message name="ListWatchListsHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfWatchList" />  </wsdl:message>  <wsdl:portType name="XigniteWatchListsSoap">    <wsdl:operation name="AddWatchList">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a new watchlist.</wsdl:documentation>      <wsdl:input message="tns:AddWatchListSoapIn" />      <wsdl:output message="tns:AddWatchListSoapOut" />    </wsdl:operation>    <wsdl:operation name="DeleteWatchList">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a watchlist.</wsdl:documentation>      <wsdl:input message="tns:DeleteWatchListSoapIn" />      <wsdl:output message="tns:DeleteWatchListSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetWatchList">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a watchlist and its content.</wsdl:documentation>      <wsdl:input message="tns:GetWatchListSoapIn" />      <wsdl:output message="tns:GetWatchListSoapOut" />    </wsdl:operation>    <wsdl:operation name="AddWatchListItem">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an item to a watchlist.</wsdl:documentation>      <wsdl:input message="tns:AddWatchListItemSoapIn" />      <wsdl:output message="tns:AddWatchListItemSoapOut" />    </wsdl:operation>    <wsdl:operation name="AddWatchListItems">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add several items to a watchlist.</wsdl:documentation>      <wsdl:input message="tns:AddWatchListItemsSoapIn" />      <wsdl:output message="tns:AddWatchListItemsSoapOut" />    </wsdl:operation>    <wsdl:operation name="AddWatchListRate">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an interest rate to a watchlist.</wsdl:documentation>      <wsdl:input message="tns:AddWatchListRateSoapIn" />      <wsdl:output message="tns:AddWatchListRateSoapOut" />    </wsdl:operation>    <wsdl:operation name="AddWatchListMetal">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an interest rate to a watchlist.</wsdl:documentation>      <wsdl:input message="tns:AddWatchListMetalSoapIn" />      <wsdl:output message="tns:AddWatchListMetalSoapOut" />    </wsdl:operation>    <wsdl:operation name="AddWatchListCurrency">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an interest rate to a watchlist.</wsdl:documentation>      <wsdl:input message="tns:AddWatchListCurrencySoapIn" />      <wsdl:output message="tns:AddWatchListCurrencySoapOut" />    </wsdl:operation>    <wsdl:operation name="DeleteWatchListItem">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a watchlist item.</wsdl:documentation>      <wsdl:input message="tns:DeleteWatchListItemSoapIn" />      <wsdl:output message="tns:DeleteWatchListItemSoapOut" />    </wsdl:operation>    <wsdl:operation name="DeleteWatchListRate">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an interest rate from a watchlist.</wsdl:documentation>      <wsdl:input message="tns:DeleteWatchListRateSoapIn" />      <wsdl:output message="tns:DeleteWatchListRateSoapOut" />    </wsdl:operation>    <wsdl:operation name="DeleteWatchListMetal">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an interest rate from a watchlist.</wsdl:documentation>      <wsdl:input message="tns:DeleteWatchListMetalSoapIn" />      <wsdl:output message="tns:DeleteWatchListMetalSoapOut" />    </wsdl:operation>    <wsdl:operation name="ListWatchLists">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List available watchlists.</wsdl:documentation>      <wsdl:input message="tns:ListWatchListsSoapIn" />      <wsdl:output message="tns:ListWatchListsSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteWatchListsHttpGet">    <wsdl:operation name="AddWatchList">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a new watchlist.</wsdl:documentation>      <wsdl:input message="tns:AddWatchListHttpGetIn" />      <wsdl:output message="tns:AddWatchListHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DeleteWatchList">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a watchlist.</wsdl:documentation>      <wsdl:input message="tns:DeleteWatchListHttpGetIn" />      <wsdl:output message="tns:DeleteWatchListHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetWatchList">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a watchlist and its content.</wsdl:documentation>      <wsdl:input message="tns:GetWatchListHttpGetIn" />      <wsdl:output message="tns:GetWatchListHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="AddWatchListItem">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an item to a watchlist.</wsdl:documentation>      <wsdl:input message="tns:AddWatchListItemHttpGetIn" />      <wsdl:output message="tns:AddWatchListItemHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="AddWatchListItems">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add several items to a watchlist.</wsdl:documentation>      <wsdl:input message="tns:AddWatchListItemsHttpGetIn" />      <wsdl:output message="tns:AddWatchListItemsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="AddWatchListRate">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an interest rate to a watchlist.</wsdl:documentation>      <wsdl:input message="tns:AddWatchListRateHttpGetIn" />      <wsdl:output message="tns:AddWatchListRateHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="AddWatchListCurrency">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an interest rate to a watchlist.</wsdl:documentation>      <wsdl:input message="tns:AddWatchListCurrencyHttpGetIn" />      <wsdl:output message="tns:AddWatchListCurrencyHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DeleteWatchListItem">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a watchlist item.</wsdl:documentation>      <wsdl:input message="tns:DeleteWatchListItemHttpGetIn" />      <wsdl:output message="tns:DeleteWatchListItemHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="DeleteWatchListRate">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an interest rate from a watchlist.</wsdl:documentation>      <wsdl:input message="tns:DeleteWatchListRateHttpGetIn" />      <wsdl:output message="tns:DeleteWatchListRateHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ListWatchLists">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List available watchlists.</wsdl:documentation>      <wsdl:input message="tns:ListWatchListsHttpGetIn" />      <wsdl:output message="tns:ListWatchListsHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="XigniteWatchListsHttpPost">    <wsdl:operation name="AddWatchList">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a new watchlist.</wsdl:documentation>      <wsdl:input message="tns:AddWatchListHttpPostIn" />      <wsdl:output message="tns:AddWatchListHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DeleteWatchList">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a watchlist.</wsdl:documentation>      <wsdl:input message="tns:DeleteWatchListHttpPostIn" />      <wsdl:output message="tns:DeleteWatchListHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetWatchList">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a watchlist and its content.</wsdl:documentation>      <wsdl:input message="tns:GetWatchListHttpPostIn" />      <wsdl:output message="tns:GetWatchListHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="AddWatchListItem">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an item to a watchlist.</wsdl:documentation>      <wsdl:input message="tns:AddWatchListItemHttpPostIn" />      <wsdl:output message="tns:AddWatchListItemHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="AddWatchListItems">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add several items to a watchlist.</wsdl:documentation>      <wsdl:input message="tns:AddWatchListItemsHttpPostIn" />      <wsdl:output message="tns:AddWatchListItemsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="AddWatchListRate">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an interest rate to a watchlist.</wsdl:documentation>      <wsdl:input message="tns:AddWatchListRateHttpPostIn" />      <wsdl:output message="tns:AddWatchListRateHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="AddWatchListCurrency">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an interest rate to a watchlist.</wsdl:documentation>      <wsdl:input message="tns:AddWatchListCurrencyHttpPostIn" />      <wsdl:output message="tns:AddWatchListCurrencyHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DeleteWatchListItem">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a watchlist item.</wsdl:documentation>      <wsdl:input message="tns:DeleteWatchListItemHttpPostIn" />      <wsdl:output message="tns:DeleteWatchListItemHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="DeleteWatchListRate">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an interest rate from a watchlist.</wsdl:documentation>      <wsdl:input message="tns:DeleteWatchListRateHttpPostIn" />      <wsdl:output message="tns:DeleteWatchListRateHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ListWatchLists">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List available watchlists.</wsdl:documentation>      <wsdl:input message="tns:ListWatchListsHttpPostIn" />      <wsdl:output message="tns:ListWatchListsHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="XigniteWatchListsSoap" type="tns:XigniteWatchListsSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="AddWatchList">      <soap:operation soapAction="http://www.xignite.com/services/AddWatchList" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:AddWatchListHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWatchList">      <soap:operation soapAction="http://www.xignite.com/services/DeleteWatchList" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:DeleteWatchListHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetWatchList">      <soap:operation soapAction="http://www.xignite.com/services/GetWatchList" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:GetWatchListHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListItem">      <soap:operation soapAction="http://www.xignite.com/services/AddWatchListItem" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:AddWatchListItemHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListItems">      <soap:operation soapAction="http://www.xignite.com/services/AddWatchListItems" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:AddWatchListItemsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListRate">      <soap:operation soapAction="http://www.xignite.com/services/AddWatchListRate" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:AddWatchListRateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListMetal">      <soap:operation soapAction="http://www.xignite.com/services/AddWatchListMetal" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:AddWatchListMetalHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListCurrency">      <soap:operation soapAction="http://www.xignite.com/services/AddWatchListCurrency" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:AddWatchListCurrencyHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWatchListItem">      <soap:operation soapAction="http://www.xignite.com/services/DeleteWatchListItem" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:DeleteWatchListItemHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWatchListRate">      <soap:operation soapAction="http://www.xignite.com/services/DeleteWatchListRate" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:DeleteWatchListRateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWatchListMetal">      <soap:operation soapAction="http://www.xignite.com/services/DeleteWatchListMetal" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:DeleteWatchListMetalHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListWatchLists">      <soap:operation soapAction="http://www.xignite.com/services/ListWatchLists" style="document" />      <wsdl:input>        <soap:body use="literal" />        <soap:header message="tns:ListWatchListsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteWatchListsSoap12" type="tns:XigniteWatchListsSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="AddWatchList">      <soap12:operation soapAction="http://www.xignite.com/services/AddWatchList" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:AddWatchListHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWatchList">      <soap12:operation soapAction="http://www.xignite.com/services/DeleteWatchList" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:DeleteWatchListHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetWatchList">      <soap12:operation soapAction="http://www.xignite.com/services/GetWatchList" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:GetWatchListHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListItem">      <soap12:operation soapAction="http://www.xignite.com/services/AddWatchListItem" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:AddWatchListItemHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListItems">      <soap12:operation soapAction="http://www.xignite.com/services/AddWatchListItems" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:AddWatchListItemsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListRate">      <soap12:operation soapAction="http://www.xignite.com/services/AddWatchListRate" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:AddWatchListRateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListMetal">      <soap12:operation soapAction="http://www.xignite.com/services/AddWatchListMetal" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:AddWatchListMetalHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListCurrency">      <soap12:operation soapAction="http://www.xignite.com/services/AddWatchListCurrency" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:AddWatchListCurrencyHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWatchListItem">      <soap12:operation soapAction="http://www.xignite.com/services/DeleteWatchListItem" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:DeleteWatchListItemHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWatchListRate">      <soap12:operation soapAction="http://www.xignite.com/services/DeleteWatchListRate" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:DeleteWatchListRateHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWatchListMetal">      <soap12:operation soapAction="http://www.xignite.com/services/DeleteWatchListMetal" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:DeleteWatchListMetalHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListWatchLists">      <soap12:operation soapAction="http://www.xignite.com/services/ListWatchLists" style="document" />      <wsdl:input>        <soap12:body use="literal" />        <soap12:header message="tns:ListWatchListsHeader" part="Header" use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteWatchListsHttpGet" type="tns:XigniteWatchListsHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="AddWatchList">      <http:operation location="/AddWatchList" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWatchList">      <http:operation location="/DeleteWatchList" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetWatchList">      <http:operation location="/GetWatchList" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListItem">      <http:operation location="/AddWatchListItem" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListItems">      <http:operation location="/AddWatchListItems" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListRate">      <http:operation location="/AddWatchListRate" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListCurrency">      <http:operation location="/AddWatchListCurrency" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWatchListItem">      <http:operation location="/DeleteWatchListItem" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWatchListRate">      <http:operation location="/DeleteWatchListRate" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListWatchLists">      <http:operation location="/ListWatchLists" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="XigniteWatchListsHttpPost" type="tns:XigniteWatchListsHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="AddWatchList">      <http:operation location="/AddWatchList" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWatchList">      <http:operation location="/DeleteWatchList" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetWatchList">      <http:operation location="/GetWatchList" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListItem">      <http:operation location="/AddWatchListItem" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListItems">      <http:operation location="/AddWatchListItems" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListRate">      <http:operation location="/AddWatchListRate" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="AddWatchListCurrency">      <http:operation location="/AddWatchListCurrency" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWatchListItem">      <http:operation location="/DeleteWatchListItem" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="DeleteWatchListRate">      <http:operation location="/DeleteWatchListRate" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ListWatchLists">      <http:operation location="/ListWatchLists" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="XigniteWatchLists">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This Web Service provides for the management of symbol-based watchlists.</wsdl:documentation>    <wsdl:port name="XigniteWatchListsSoap" binding="tns:XigniteWatchListsSoap">      <soap:address location="http://www.xignite.com/xwatchlists.asmx" />    </wsdl:port>    <wsdl:port name="XigniteWatchListsSoap12" binding="tns:XigniteWatchListsSoap12">      <soap12:address location="http://www.xignite.com/xwatchlists.asmx" />    </wsdl:port>    <wsdl:port name="XigniteWatchListsHttpGet" binding="tns:XigniteWatchListsHttpGet">      <http:address location="http://www.xignite.com/xwatchlists.asmx" />    </wsdl:port>    <wsdl:port name="XigniteWatchListsHttpPost" binding="tns:XigniteWatchListsHttpPost">      <http:address location="http://www.xignite.com/xwatchlists.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.xignite.com/services/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	targetNamespace="http://www.xignite.com/services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This Web Service provides for the management of symbol-based
+		watchlists.</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.xignite.com/services/">
+			<s:element name="AddWatchList">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:WatchListTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="WatchListTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Security" />
+					<s:enumeration value="Currency" />
+					<s:enumeration value="InterestRates" />
+					<s:enumeration value="Events" />
+					<s:enumeration value="Metals" />
+					<s:enumeration value="Other" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="AddWatchListResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="AddWatchListResult" type="tns:WatchList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="WatchList">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:WatchListTypes" />
+							<s:element minOccurs="0" maxOccurs="1" name="Items" type="tns:ArrayOfWatchListItem" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:complexType name="Common">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="Outcome" type="tns:OutcomeTypes" />
+					<s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Identity" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Delay" type="s:double" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="OutcomeTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Success" />
+					<s:enumeration value="SystemError" />
+					<s:enumeration value="RequestError" />
+					<s:enumeration value="RegistrationError" />
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="ArrayOfWatchListItem">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="WatchListItem" nillable="true" type="tns:WatchListItem" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="WatchListItem">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Quantity" type="s:long" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="Header" type="tns:Header" />
+			<s:complexType name="Header">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />
+				</s:sequence>
+				<s:anyAttribute />
+			</s:complexType>
+			<s:element name="DeleteWatchList">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeleteWatchListResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DeleteWatchListResult" type="tns:BooleanResult" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="BooleanResult">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="Value" type="s:boolean" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:element name="GetWatchList">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetWatchListResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetWatchListResult" type="tns:WatchList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="AddWatchListItem">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="AddWatchListItemResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="AddWatchListItemResult" type="tns:WatchList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="AddWatchListItems">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Symbols" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="AddWatchListItemsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="AddWatchListItemsResult" type="tns:WatchList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="AddWatchListRate">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="RateType" type="tns:RateTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="Currency" type="tns:LIBORCurrencyTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="PeriodType" type="tns:PeriodTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="RateTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="FederalFunds" />
+					<s:enumeration value="FederalFundsTargetRate" />
+					<s:enumeration value="Libor1Month" />
+					<s:enumeration value="Libor2Month" />
+					<s:enumeration value="Libor3Month" />
+					<s:enumeration value="Libor4Month" />
+					<s:enumeration value="Libor5Month" />
+					<s:enumeration value="Libor6Month" />
+					<s:enumeration value="Libor7Month" />
+					<s:enumeration value="Libor8Month" />
+					<s:enumeration value="Libor9Month" />
+					<s:enumeration value="Libor10Month" />
+					<s:enumeration value="Libor11Month" />
+					<s:enumeration value="Libor1Year" />
+					<s:enumeration value="Libor1Week" />
+					<s:enumeration value="Libor2Week" />
+					<s:enumeration value="LiborOvernite" />
+					<s:enumeration value="CommercialPaperNonFinancial1Month" />
+					<s:enumeration value="CommercialPaperNonFinancial2Month" />
+					<s:enumeration value="CommercialPaperNonFinancial3Month" />
+					<s:enumeration value="HistoricalCommercialPaperNonFinancial1Month" />
+					<s:enumeration value="HistoricalCommercialPaperNonFinancial3Month" />
+					<s:enumeration value="HistoricalCommercialPaperNonFinancial6Month" />
+					<s:enumeration value="BankersAcceptance3Month" />
+					<s:enumeration value="BankersAcceptance6Month" />
+					<s:enumeration value="CD1Month" />
+					<s:enumeration value="CD3Month" />
+					<s:enumeration value="CD6Month" />
+					<s:enumeration value="EuroDollarDeposits1Month" />
+					<s:enumeration value="EuroDollarDeposits3Month" />
+					<s:enumeration value="EuroDollarDeposits6Month" />
+					<s:enumeration value="Prime" />
+					<s:enumeration value="DiscountWindowBorrowing" />
+					<s:enumeration value="DiscountWindowPrimaryCredit" />
+					<s:enumeration value="TBillAuctionAverage3Month" />
+					<s:enumeration value="TBillAuctionAverage6Month" />
+					<s:enumeration value="TBillAuctionAverage1Year" />
+					<s:enumeration value="TBillSecondaryMarket3Month" />
+					<s:enumeration value="TBillSecondaryMarket6Month" />
+					<s:enumeration value="TBillSecondaryMarket1Year" />
+					<s:enumeration value="TBillSecondaryMarket4Week" />
+					<s:enumeration value="TreasuryConstant1Month" />
+					<s:enumeration value="TreasuryConstant3Month" />
+					<s:enumeration value="TreasuryConstant6Month" />
+					<s:enumeration value="TreasuryConstant1Year" />
+					<s:enumeration value="TreasuryConstant2Year" />
+					<s:enumeration value="TreasuryConstant3Year" />
+					<s:enumeration value="TreasuryConstant5Year" />
+					<s:enumeration value="TreasuryConstant7Year" />
+					<s:enumeration value="TreasuryConstant10Year" />
+					<s:enumeration value="TreasuryConstant20Year" />
+					<s:enumeration value="TreasuryConstant20YearHistorical" />
+					<s:enumeration value="TreasuryConstant30Year" />
+					<s:enumeration value="TreasuryConstant10YearComposite" />
+					<s:enumeration value="CommercialPaperFinancial1Month" />
+					<s:enumeration value="CommercialPaperFinancial2Month" />
+					<s:enumeration value="CommercialPaperFinancial3Month" />
+					<s:enumeration value="HistoricalCommercialPaperFinancial1Month" />
+					<s:enumeration value="HistoricalCommercialPaperFinancial3Month" />
+					<s:enumeration value="HistoricalCommercialPaperFinancial6Month" />
+					<s:enumeration value="CorporateBondsMoodysSeasonedAaa" />
+					<s:enumeration value="CorporateBondsMoodysSeasonedBaa" />
+					<s:enumeration value="CorporateBondsAUtility" />
+					<s:enumeration value="StateAndLocalBonds" />
+					<s:enumeration value="ConventionalMortgages" />
+					<s:enumeration value="TreasuryLongTermAverageAverage" />
+					<s:enumeration value="TreasuryLongTermAverageInflationIndexed" />
+					<s:enumeration value="TreasuryLongTermComposite" />
+					<s:enumeration value="InterestRateSwapsOvernight" />
+					<s:enumeration value="InterestRateSwaps1Week" />
+					<s:enumeration value="InterestRateSwaps2Week" />
+					<s:enumeration value="InterestRateSwaps1Month" />
+					<s:enumeration value="InterestRateSwaps2Month" />
+					<s:enumeration value="InterestRateSwaps3Month" />
+					<s:enumeration value="InterestRateSwaps4Month" />
+					<s:enumeration value="InterestRateSwaps5Month" />
+					<s:enumeration value="InterestRateSwaps6Month" />
+					<s:enumeration value="InterestRateSwaps7Month" />
+					<s:enumeration value="InterestRateSwaps8Month" />
+					<s:enumeration value="InterestRateSwaps9Month" />
+					<s:enumeration value="InterestRateSwaps10Month" />
+					<s:enumeration value="InterestRateSwaps11Month" />
+					<s:enumeration value="InterestRateSwaps1Year" />
+					<s:enumeration value="InterestRateSwaps2Year" />
+					<s:enumeration value="InterestRateSwaps3Year" />
+					<s:enumeration value="InterestRateSwaps4Year" />
+					<s:enumeration value="InterestRateSwaps5Year" />
+					<s:enumeration value="InterestRateSwaps6Year" />
+					<s:enumeration value="InterestRateSwaps7Year" />
+					<s:enumeration value="InterestRateSwaps10Year" />
+					<s:enumeration value="InterestRateSwaps20Year" />
+					<s:enumeration value="InterestRateSwaps30Year" />
+					<s:enumeration value="TreasuryInflationProtectedSecuritiesYield5Year" />
+					<s:enumeration value="TreasuryInflationProtectedSecuritiesYield7Year" />
+					<s:enumeration value="TreasuryInflationProtectedSecuritiesYield10Year" />
+					<s:enumeration value="TreasuryInflationProtectedSecuritiesYield20Year" />
+					<s:enumeration value="InterestRateSwapSpread1Year" />
+					<s:enumeration value="InterestRateSwapSpread2Year" />
+					<s:enumeration value="InterestRateSwapSpread3Year" />
+					<s:enumeration value="InterestRateSwapSpread5Year" />
+					<s:enumeration value="InterestRateSwapSpread7Year" />
+					<s:enumeration value="InterestRateSwapSpread10Year" />
+					<s:enumeration value="InterestRateSwapSpread30Year" />
+					<s:enumeration value="REIBOROvernight" />
+					<s:enumeration value="REIBOR1Week" />
+					<s:enumeration value="REIBOR2Week" />
+					<s:enumeration value="REIBOR1Month" />
+					<s:enumeration value="REIBOR2Month" />
+					<s:enumeration value="REIBOR3Month" />
+					<s:enumeration value="REIBOR6Month" />
+					<s:enumeration value="REIBOR9Month" />
+					<s:enumeration value="REIBOR1Year" />
+					<s:enumeration value="REIBIDOvernight" />
+					<s:enumeration value="REIBID1Week" />
+					<s:enumeration value="REIBID2Week" />
+					<s:enumeration value="REIBID1Month" />
+					<s:enumeration value="REIBID2Month" />
+					<s:enumeration value="REIBID3Month" />
+					<s:enumeration value="REIBID6Month" />
+					<s:enumeration value="REIBID9Month" />
+					<s:enumeration value="REIBID1Year" />
+					<s:enumeration value="OIBORTomorrowNext" />
+					<s:enumeration value="OIBORSpotNext" />
+					<s:enumeration value="OIBOR1Week" />
+					<s:enumeration value="OIBOR2Week" />
+					<s:enumeration value="OIBOR1Month" />
+					<s:enumeration value="OIBOR2Month" />
+					<s:enumeration value="OIBOR3Month" />
+					<s:enumeration value="OIBOR4Month" />
+					<s:enumeration value="OIBOR5Month" />
+					<s:enumeration value="OIBOR6Month" />
+					<s:enumeration value="OIBOR9Month" />
+					<s:enumeration value="OIBOR1Year" />
+					<s:enumeration value="STIBORTomorrowNext" />
+					<s:enumeration value="STIBOR1Week" />
+					<s:enumeration value="STIBOR1Month" />
+					<s:enumeration value="STIBOR2Month" />
+					<s:enumeration value="STIBOR3Month" />
+					<s:enumeration value="STIBOR6Month" />
+					<s:enumeration value="STIBOR9Month" />
+					<s:enumeration value="STIBOR1Year" />
+					<s:enumeration value="AIDIBOR1Month" />
+					<s:enumeration value="AIDIBOR3Month" />
+					<s:enumeration value="AIDIBOR6Month" />
+					<s:enumeration value="AIDIBOR1Year" />
+					<s:enumeration value="SIBOROvernight" />
+					<s:enumeration value="SIBORTomorrowNext" />
+					<s:enumeration value="SIBOR1Week" />
+					<s:enumeration value="SIBOR1Month" />
+					<s:enumeration value="SIBOR2Month" />
+					<s:enumeration value="SIBOR3Month" />
+					<s:enumeration value="SIBOR6Month" />
+					<s:enumeration value="SIBOR9Month" />
+					<s:enumeration value="SIBOR1Year" />
+					<s:enumeration value="SIBORSORA" />
+					<s:enumeration value="SIBOROvernightRepo" />
+					<s:enumeration value="RIGIBOROvernight" />
+					<s:enumeration value="RIGIBOR1Month" />
+					<s:enumeration value="RIGIBOR3Month" />
+					<s:enumeration value="RIGIBOR6Month" />
+					<s:enumeration value="RIGIBOR1Year" />
+					<s:enumeration value="RIGIBIDOvernight" />
+					<s:enumeration value="WIBOROvernight" />
+					<s:enumeration value="WIBORTomorrowNext" />
+					<s:enumeration value="WIBOR1Week" />
+					<s:enumeration value="WIBOR2Week" />
+					<s:enumeration value="WIBOR1Month" />
+					<s:enumeration value="WIBOR3Month" />
+					<s:enumeration value="WIBOR4Month" />
+					<s:enumeration value="WIBOR6Month" />
+					<s:enumeration value="WIBOR9Month" />
+					<s:enumeration value="WIBOR1Year" />
+					<s:enumeration value="CIBOR1Week" />
+					<s:enumeration value="CIBOR2Week" />
+					<s:enumeration value="CIBOR1Month" />
+					<s:enumeration value="CIBOR2Month" />
+					<s:enumeration value="CIBOR3Month" />
+					<s:enumeration value="CIBOR4Month" />
+					<s:enumeration value="CIBOR5Month" />
+					<s:enumeration value="CIBOR6Month" />
+					<s:enumeration value="CIBOR7Month" />
+					<s:enumeration value="CIBOR8Month" />
+					<s:enumeration value="CIBOR9Month" />
+					<s:enumeration value="CIBOR10Month" />
+					<s:enumeration value="CIBOR11Month" />
+					<s:enumeration value="CIBOR1Year" />
+					<s:enumeration value="EURIBOR1Week" />
+					<s:enumeration value="EURIBOR2Week" />
+					<s:enumeration value="EURIBOR3Week" />
+					<s:enumeration value="EURIBOR1Month" />
+					<s:enumeration value="EURIBOR2Month" />
+					<s:enumeration value="EURIBOR3Month" />
+					<s:enumeration value="EURIBOR4Month" />
+					<s:enumeration value="EURIBOR5Month" />
+					<s:enumeration value="EURIBOR6Month" />
+					<s:enumeration value="EURIBOR7Month" />
+					<s:enumeration value="EURIBOR8Month" />
+					<s:enumeration value="EURIBOR9Month" />
+					<s:enumeration value="EURIBOR10Month" />
+					<s:enumeration value="EURIBOR11Month" />
+					<s:enumeration value="EURIBOR1Year" />
+					<s:enumeration value="HIBOROvernight" />
+					<s:enumeration value="HIBOR1Week" />
+					<s:enumeration value="HIBOR2Week" />
+					<s:enumeration value="HIBOR1Month" />
+					<s:enumeration value="HIBOR2Month" />
+					<s:enumeration value="HIBOR3Month" />
+					<s:enumeration value="HIBOR4Month" />
+					<s:enumeration value="HIBOR5Month" />
+					<s:enumeration value="HIBOR6Month" />
+					<s:enumeration value="HIBOR7Month" />
+					<s:enumeration value="HIBOR8Month" />
+					<s:enumeration value="HIBOR9Month" />
+					<s:enumeration value="HIBOR10Month" />
+					<s:enumeration value="HIBOR11Month" />
+					<s:enumeration value="HIBOR1Year" />
+					<s:enumeration value="BUBOROvernight" />
+					<s:enumeration value="BUBOR1Week" />
+					<s:enumeration value="BUBOR2Week" />
+					<s:enumeration value="BUBOR1Month" />
+					<s:enumeration value="BUBOR2Month" />
+					<s:enumeration value="BUBOR3Month" />
+					<s:enumeration value="BUBOR4Month" />
+					<s:enumeration value="BUBOR5Month" />
+					<s:enumeration value="BUBOR6Month" />
+					<s:enumeration value="BUBOR7Month" />
+					<s:enumeration value="BUBOR8Month" />
+					<s:enumeration value="BUBOR9Month" />
+					<s:enumeration value="BUBOR10Month" />
+					<s:enumeration value="BUBOR11Month" />
+					<s:enumeration value="BUBOR1Year" />
+					<s:enumeration value="SOFIBOROvernight" />
+					<s:enumeration value="SOFIBOR1Week" />
+					<s:enumeration value="SOFIBOR1Month" />
+					<s:enumeration value="SOFIBOR2Month" />
+					<s:enumeration value="SOFIBOR3Month" />
+					<s:enumeration value="MIBOROvernight" />
+					<s:enumeration value="MIBOR2Week" />
+					<s:enumeration value="MIBOR1Month" />
+					<s:enumeration value="MIBOR3Month" />
+					<s:enumeration value="MIBIDOvernight" />
+					<s:enumeration value="MIBID2Week" />
+					<s:enumeration value="MIBID1Month" />
+					<s:enumeration value="MIBID3Month" />
+					<s:enumeration value="KORIBOR1Week" />
+					<s:enumeration value="KORIBOR2Week" />
+					<s:enumeration value="KORIBOR1Month" />
+					<s:enumeration value="KORIBOR2Month" />
+					<s:enumeration value="KORIBOR3Month" />
+					<s:enumeration value="KORIBOR4Month" />
+					<s:enumeration value="KORIBOR5Month" />
+					<s:enumeration value="KORIBOR6Month" />
+					<s:enumeration value="KORIBOR9Month" />
+					<s:enumeration value="KORIBOR1Year" />
+					<s:enumeration value="PRIBOROvernight" />
+					<s:enumeration value="PRIBOR1Week" />
+					<s:enumeration value="PRIBOR2Week" />
+					<s:enumeration value="PRIBOR1Month" />
+					<s:enumeration value="PRIBOR2Month" />
+					<s:enumeration value="PRIBOR3Month" />
+					<s:enumeration value="PRIBOR6Month" />
+					<s:enumeration value="PRIBOR9Month" />
+					<s:enumeration value="PRIBOR1Year" />
+					<s:enumeration value="PRIBIDOvernight" />
+					<s:enumeration value="PRIBID1Week" />
+					<s:enumeration value="PRIBID2Week" />
+					<s:enumeration value="PRIBID1Month" />
+					<s:enumeration value="PRIBID2Month" />
+					<s:enumeration value="PRIBID3Month" />
+					<s:enumeration value="PRIBID6Month" />
+					<s:enumeration value="PRIBID9Month" />
+					<s:enumeration value="PRIBID1Year" />
+					<s:enumeration value="SABOROvernight" />
+					<s:enumeration value="TURKIBOROvernight" />
+					<s:enumeration value="CHILIBOROvernight" />
+					<s:enumeration value="MEXIBOR1Month" />
+					<s:enumeration value="MEXIBOR3Month" />
+					<s:enumeration value="MEXIBOR6Month" />
+					<s:enumeration value="MEXIBOR9Month" />
+					<s:enumeration value="MEXIBOR1Year" />
+					<s:enumeration value="TELBOROvernight" />
+					<s:enumeration value="TELBOR1Week" />
+					<s:enumeration value="TELBOR1Month" />
+					<s:enumeration value="TELBOR2Month" />
+					<s:enumeration value="TELBOR3Month" />
+					<s:enumeration value="TELBOR6Month" />
+					<s:enumeration value="TELBOR9Month" />
+					<s:enumeration value="TELBOR1Year" />
+					<s:enumeration value="CHIBOROvernight" />
+					<s:enumeration value="CHIBOR1Week" />
+					<s:enumeration value="CHIBOR2Week" />
+					<s:enumeration value="CHIBOR3Week" />
+					<s:enumeration value="CHIBOR1Month" />
+					<s:enumeration value="CHIBOR2Month" />
+					<s:enumeration value="CHIBOR3Month" />
+					<s:enumeration value="CHIBOR4Month" />
+					<s:enumeration value="CHIBOR6Month" />
+					<s:enumeration value="CHIBOR9Month" />
+					<s:enumeration value="CHIBOR1Year" />
+					<s:enumeration value="SHIBOROvernight" />
+					<s:enumeration value="SHIBOR1Week" />
+					<s:enumeration value="SHIBOR2Week" />
+					<s:enumeration value="SHIBOR1Month" />
+					<s:enumeration value="SHIBOR3Month" />
+					<s:enumeration value="SHIBOR6Month" />
+					<s:enumeration value="SHIBOR9Month" />
+					<s:enumeration value="SHIBOR1Year" />
+					<s:enumeration value="JIBOR1Month" />
+					<s:enumeration value="JIBOR3Month" />
+					<s:enumeration value="JIBOR6Month" />
+					<s:enumeration value="JIBOROvernight" />
+					<s:enumeration value="JIBOR1Week" />
+					<s:enumeration value="JIBOR1Year" />
+					<s:enumeration value="KLIBOR1Month" />
+					<s:enumeration value="KLIBOR2Month" />
+					<s:enumeration value="KLIBOR3Month" />
+					<s:enumeration value="KLIBOR6Month" />
+					<s:enumeration value="KLIBOR9Month" />
+					<s:enumeration value="KLIBOR1Year" />
+					<s:enumeration value="KLIBOROvernight" />
+					<s:enumeration value="KLIBOR1Week" />
+					<s:enumeration value="TIBOR1Month" />
+					<s:enumeration value="TIBOR2Month" />
+					<s:enumeration value="TIBOR3Month" />
+					<s:enumeration value="TIBOR6Month" />
+					<s:enumeration value="TIBOR9Month" />
+					<s:enumeration value="TIBOR1Year" />
+					<s:enumeration value="PHIBOR1Month" />
+					<s:enumeration value="PHIBOR2Month" />
+					<s:enumeration value="PHIBOR3Month" />
+					<s:enumeration value="PHIBOR6Month" />
+					<s:enumeration value="PHIBOR1Year" />
+					<s:enumeration value="BKIBOR1Month" />
+					<s:enumeration value="BKIBOR2Month" />
+					<s:enumeration value="BKIBOR3Month" />
+					<s:enumeration value="BKIBOR6Month" />
+					<s:enumeration value="BKIBOR9Month" />
+					<s:enumeration value="BKIBOR1Year" />
+					<s:enumeration value="BKIBOROvernight" />
+					<s:enumeration value="BKIBOR1Week" />
+					<s:enumeration value="VNIBOR1Month" />
+					<s:enumeration value="VNIBOR1Week" />
+					<s:enumeration value="VNIBOR2Week" />
+					<s:enumeration value="VNIBOR2Month" />
+					<s:enumeration value="VNIBOR3Month" />
+					<s:enumeration value="VNIBOR6Month" />
+					<s:enumeration value="VNIBOR1Year" />
+					<s:enumeration value="KAIBOR1Week" />
+					<s:enumeration value="KAIBOR2Week" />
+					<s:enumeration value="KAIBOR1Month" />
+					<s:enumeration value="KAIBOR2Month" />
+					<s:enumeration value="KAIBOR3Month" />
+					<s:enumeration value="KAIBID1Week" />
+					<s:enumeration value="KAIBID2Week" />
+					<s:enumeration value="KAIBID1Month" />
+					<s:enumeration value="KAIBID2Month" />
+					<s:enumeration value="KAIBID3Month" />
+					<s:enumeration value="KIBOR1Week" />
+					<s:enumeration value="KIBOR2Week" />
+					<s:enumeration value="KIBOR1Month" />
+					<s:enumeration value="KIBOR3Month" />
+					<s:enumeration value="KIBOR6Month" />
+					<s:enumeration value="KIBOR9Month" />
+					<s:enumeration value="KIBOR1Year" />
+					<s:enumeration value="KIBOR2Year" />
+					<s:enumeration value="KIBOR3Year" />
+					<s:enumeration value="KIBID1Week" />
+					<s:enumeration value="KIBID2Week" />
+					<s:enumeration value="KIBID1Month" />
+					<s:enumeration value="KIBID3Month" />
+					<s:enumeration value="KIBID6Month" />
+					<s:enumeration value="KIBID9Month" />
+					<s:enumeration value="KIBID1Year" />
+					<s:enumeration value="KIBID2Year" />
+					<s:enumeration value="KIBID3Year" />
+					<s:enumeration value="MOSIBOROvernight" />
+					<s:enumeration value="MOSIBOR1Week" />
+					<s:enumeration value="MOSIBOR1Month" />
+					<s:enumeration value="MOSIBOR3Month" />
+					<s:enumeration value="MOSIBOR6Month" />
+					<s:enumeration value="MOSIBOR1Year" />
+					<s:enumeration value="MOSIBIDOvernight" />
+					<s:enumeration value="MOSIBID1Week" />
+					<s:enumeration value="MOSIBID1Month" />
+					<s:enumeration value="MOSIBID3Month" />
+					<s:enumeration value="MOSIBID6Month" />
+					<s:enumeration value="MOSIBID1Year" />
+					<s:enumeration value="BRAZIBOROvernight" />
+					<s:enumeration value="BRAZIBOR1Year" />
+					<s:enumeration value="TRLIBOROvernight" />
+					<s:enumeration value="TRLIBOR1Week" />
+					<s:enumeration value="TRLIBOR1Month" />
+					<s:enumeration value="TRLIBOR2Month" />
+					<s:enumeration value="TRLIBOR3Month" />
+					<s:enumeration value="TRLIBOR6Month" />
+					<s:enumeration value="TRLIBOR9Month" />
+					<s:enumeration value="TRLIBOR1Year" />
+					<s:enumeration value="TRLIBIDOvernight" />
+					<s:enumeration value="TRLIBID1Week" />
+					<s:enumeration value="TRLIBID1Month" />
+					<s:enumeration value="TRLIBID2Month" />
+					<s:enumeration value="TRLIBID3Month" />
+					<s:enumeration value="TRLIBID6Month" />
+					<s:enumeration value="TRLIBID9Month" />
+					<s:enumeration value="TRLIBID1Year" />
+					<s:enumeration value="JIBAR1Month" />
+					<s:enumeration value="JIBAR3Month" />
+					<s:enumeration value="JIBAR6Month" />
+					<s:enumeration value="JIBAR9Month" />
+					<s:enumeration value="JIBAR1Year" />
+					<s:enumeration value="TAIBOROvernight" />
+					<s:enumeration value="TAIBOR1Week" />
+					<s:enumeration value="TAIBOR2Week" />
+					<s:enumeration value="TAIBOR1Month" />
+					<s:enumeration value="TAIBOR2Month" />
+					<s:enumeration value="TAIBOR3Month" />
+					<s:enumeration value="TAIBOR6Month" />
+					<s:enumeration value="TAIBOR9Month" />
+					<s:enumeration value="TAIBOR1Year" />
+					<s:enumeration value="BRIBOROvernight" />
+					<s:enumeration value="BRIBOR1Week" />
+					<s:enumeration value="BRIBOR2Week" />
+					<s:enumeration value="BRIBOR1Month" />
+					<s:enumeration value="BRIBOR2Month" />
+					<s:enumeration value="BRIBOR3Month" />
+					<s:enumeration value="BRIBOR6Month" />
+					<s:enumeration value="BRIBOR9Month" />
+					<s:enumeration value="BRIBOR1Year" />
+					<s:enumeration value="BRIBIDOvernight" />
+					<s:enumeration value="BRIBID1Week" />
+					<s:enumeration value="BRIBID2Week" />
+					<s:enumeration value="BRIBID1Month" />
+					<s:enumeration value="BRIBID2Month" />
+					<s:enumeration value="BRIBID3Month" />
+					<s:enumeration value="BRIBID6Month" />
+					<s:enumeration value="BRIBID9Month" />
+					<s:enumeration value="BRIBID1Year" />
+					<s:enumeration value="AustralianBankBills1Month" />
+					<s:enumeration value="AustralianBankBills2Month" />
+					<s:enumeration value="AustralianBankBills3Month" />
+					<s:enumeration value="AustralianBankBills4Month" />
+					<s:enumeration value="AustralianBankBills5Month" />
+					<s:enumeration value="AustralianBankBills6Month" />
+					<s:enumeration value="AustralianBankBills9Month" />
+					<s:enumeration value="AustralianBankBills1Year" />
+					<s:enumeration value="NationalOvernightAverage30YearFixed" />
+					<s:enumeration value="NationalOvernightAverage15YearFixed" />
+					<s:enumeration value="NationalOvernightAverage5YearAdjustable" />
+					<s:enumeration value="BAIBOROvernight" />
+					<s:enumeration value="BAIBOR1Week" />
+					<s:enumeration value="BAIBOR1Month" />
+					<s:enumeration value="BAIBOR3Month" />
+					<s:enumeration value="BAIBOR6Month" />
+					<s:enumeration value="BAIBOR9Month" />
+					<s:enumeration value="BAIBOR1Year" />
+					<s:enumeration value="BAIBOR18Month" />
+					<s:enumeration value="COLIBOROvernight" />
+					<s:enumeration value="COLIBOR1Month" />
+					<s:enumeration value="EleventhDistrictCOFI" />
+					<s:enumeration value="FNMA30YearRequiredNetYield10Days" />
+					<s:enumeration value="FNMA30YearRequiredNetYield30Days" />
+					<s:enumeration value="FNMA30YearRequiredNetYield60Days" />
+					<s:enumeration value="FNMA30YearRequiredNetYield90Days" />
+					<s:enumeration value="FNMA15YearRequiredNetYield10Days" />
+					<s:enumeration value="FNMA15YearRequiredNetYield30Days" />
+					<s:enumeration value="FNMA15YearRequiredNetYield60Days" />
+					<s:enumeration value="FNMA15YearRequiredNetYield90Days" />
+					<s:enumeration value="FNMA7YearRequiredNetYield10Days" />
+					<s:enumeration value="FNMA7YearRequiredNetYield30Days" />
+					<s:enumeration value="FNMA7YearRequiredNetYield60Days" />
+					<s:enumeration value="FNMA7YearRequiredNetYield90Days" />
+					<s:enumeration value="FNMA5YearRequiredNetYield10Days" />
+					<s:enumeration value="FNMA5YearRequiredNetYield30Days" />
+					<s:enumeration value="FNMA5YearRequiredNetYield60Days" />
+					<s:enumeration value="FNMA5YearRequiredNetYield90Days" />
+					<s:enumeration value="FNMA20YearRequiredNetYield10Days" />
+					<s:enumeration value="FNMA20YearRequiredNetYield30Days" />
+					<s:enumeration value="FNMA20YearRequiredNetYield60Days" />
+					<s:enumeration value="FNMA20YearRequiredNetYield90Days" />
+					<s:enumeration value="FHLMC1YearARM" />
+					<s:enumeration value="CETES28" />
+					<s:enumeration value="CETES91" />
+					<s:enumeration value="TIIE28" />
+					<s:enumeration value="TIIE91" />
+					<s:enumeration value="BPA" />
+					<s:enumeration value="WIFR" />
+					<s:enumeration value="CanadianOvernightTargetRate" />
+					<s:enumeration value="CanadianOvernightRate" />
+					<s:enumeration value="CanadianBankRate" />
+					<s:enumeration value="CanadianOvernightRepoRate" />
+					<s:enumeration value="CanadianOperatingBandHigh" />
+					<s:enumeration value="CanadianOperatingBandLow" />
+					<s:enumeration value="CanadianLVTSSettlementBalancesTarget" />
+					<s:enumeration value="CanadianLVTSSettlementBalancesActual" />
+					<s:enumeration value="CanadianBankersAcceptances1Month" />
+					<s:enumeration value="CanadianBankersAcceptances3Month" />
+					<s:enumeration value="CanadianPrimeCorporatePaperRate1Month" />
+					<s:enumeration value="CanadianPrimeCorporatePaperRate2Month" />
+					<s:enumeration value="CanadianPrimeCorporatePaperRate3Month" />
+					<s:enumeration value="CanadianPrimeBusiness" />
+					<s:enumeration value="CanadianConventionalMortgage1Year" />
+					<s:enumeration value="CanadianConventionalMortgage3Year" />
+					<s:enumeration value="CanadianConventionalMortgage5Year" />
+					<s:enumeration value="CanadianGuaranteedInvestmentCertificates1Year" />
+					<s:enumeration value="CanadianGuaranteedInvestmentCertificates3Year" />
+					<s:enumeration value="CanadianGuaranteedInvestmentCertificates5Year" />
+					<s:enumeration value="Canadian5YearPersonalFixedTerm" />
+					<s:enumeration value="Canadian1MonthTreasuryBill" />
+					<s:enumeration value="Canadian3MonthTreasuryBill" />
+					<s:enumeration value="Canadian6MonthTreasuryBill" />
+					<s:enumeration value="Canadian1YearTreasuryBill" />
+					<s:enumeration value="Canadian2YearBenchmarkBondYield" />
+					<s:enumeration value="Canadian3YearBenchmarkBondYield" />
+					<s:enumeration value="Canadian5YearBenchmarkBondYield" />
+					<s:enumeration value="Canadian7YearBenchmarkBondYield" />
+					<s:enumeration value="Canadian10YearBenchmarkBondYield" />
+					<s:enumeration value="Canadian30YearBenchmarkBondYield" />
+					<s:enumeration value="TennesseeFormulaRate" />
+					<s:enumeration value="TennesseeEffectiveRate" />
+					<s:enumeration value="KansasUsuryRate" />
+					<s:enumeration value="KansasCodeMortgageRate" />
+					<s:enumeration value="MissouriMarketRate" />
+					<s:enumeration value="FederalDiscountPrimaryBoston" />
+					<s:enumeration value="FederalDiscountPrimaryNewYork" />
+					<s:enumeration value="FederalDiscountPrimaryPhiladelphia" />
+					<s:enumeration value="FederalDiscountPrimaryCleveland" />
+					<s:enumeration value="FederalDiscountPrimaryRichmond" />
+					<s:enumeration value="FederalDiscountPrimaryAtlanta" />
+					<s:enumeration value="FederalDiscountPrimaryChicago" />
+					<s:enumeration value="FederalDiscountPrimaryStLouis" />
+					<s:enumeration value="FederalDiscountPrimaryMinneapolis" />
+					<s:enumeration value="FederalDiscountPrimaryKansasCity" />
+					<s:enumeration value="FederalDiscountPrimaryDallas" />
+					<s:enumeration value="FederalDiscountPrimarySanFrancisco" />
+					<s:enumeration value="FederalDiscountSecondaryBoston" />
+					<s:enumeration value="FederalDiscountSecondaryNewYork" />
+					<s:enumeration value="FederalDiscountSecondaryPhiladelphia" />
+					<s:enumeration value="FederalDiscountSecondaryCleveland" />
+					<s:enumeration value="FederalDiscountSecondaryRichmond" />
+					<s:enumeration value="FederalDiscountSecondaryAtlanta" />
+					<s:enumeration value="FederalDiscountSecondaryChicago" />
+					<s:enumeration value="FederalDiscountSecondaryStLouis" />
+					<s:enumeration value="FederalDiscountSecondaryMinneapolis" />
+					<s:enumeration value="FederalDiscountSecondaryKansasCity" />
+					<s:enumeration value="FederalDiscountSecondaryDallas" />
+					<s:enumeration value="FederalDiscountSecondarySanFrancisco" />
+					<s:enumeration value="MuniComposite2YearA" />
+					<s:enumeration value="MuniComposite2YearAA" />
+					<s:enumeration value="MuniComposite2YearAAA" />
+					<s:enumeration value="MuniComposite5YearA" />
+					<s:enumeration value="MuniComposite5YearAA" />
+					<s:enumeration value="MuniComposite5YearAAA" />
+					<s:enumeration value="MuniComposite10YearA" />
+					<s:enumeration value="MuniComposite10YearAA" />
+					<s:enumeration value="MuniComposite10YearAAA" />
+					<s:enumeration value="MuniComposite20YearA" />
+					<s:enumeration value="MuniComposite20YearAA" />
+					<s:enumeration value="MuniComposite20YearAAA" />
+					<s:enumeration value="TreasuryComposite3Month" />
+					<s:enumeration value="TreasuryComposite6Month" />
+					<s:enumeration value="TreasuryComposite2Year" />
+					<s:enumeration value="TreasuryComposite3Year" />
+					<s:enumeration value="TreasuryComposite5Year" />
+					<s:enumeration value="TreasuryComposite10Year" />
+					<s:enumeration value="TreasuryComposite30Year" />
+					<s:enumeration value="NationalAverageContractMortgageRate" />
+					<s:enumeration value="FreddieMacSurvey30YearFixed" />
+					<s:enumeration value="FreddieMacSurvey15YearFixed" />
+					<s:enumeration value="FreddieMacSurvey5YearARM" />
+					<s:enumeration value="FreddieMacSurvey1YearARM" />
+					<s:enumeration value="FreddieMacSurvey30YearFixedPoints" />
+					<s:enumeration value="FreddieMacSurvey15YearFixedPoints" />
+					<s:enumeration value="FreddieMacSurvey5YearARMPoints" />
+					<s:enumeration value="FreddieMacSurvey1YearARMPoints" />
+					<s:enumeration value="BankOfEnglandBaseRate" />
+					<s:enumeration value="EuropeanCentralBankLending" />
+					<s:enumeration value="EuropeanCentralBankRefinancing" />
+					<s:enumeration value="EuropeanCentralBankDeposit" />
+					<s:enumeration value="Invalid" />
+					<s:enumeration value="Dummy" />
+					<s:enumeration value="TreasuryConstant1YearAverage" />
+					<s:enumeration value="TreasuryConstant2YearAverage" />
+					<s:enumeration value="TreasuryConstant3YearAverage" />
+					<s:enumeration value="TreasuryConstant5YearAverage" />
+					<s:enumeration value="TBillSecondaryMarket3MonthAverage" />
+					<s:enumeration value="CommercialPaperFinancial1MonthAverage" />
+					<s:enumeration value="CommercialPaperNonFinancial1MonthAverage" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="LIBORCurrencyTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="USD" />
+					<s:enumeration value="EUR" />
+					<s:enumeration value="GBP" />
+					<s:enumeration value="CHF" />
+					<s:enumeration value="JPY" />
+					<s:enumeration value="AUD" />
+					<s:enumeration value="CAD" />
+					<s:enumeration value="DKK" />
+					<s:enumeration value="NZD" />
+					<s:enumeration value="NOK" />
+					<s:enumeration value="ISK" />
+					<s:enumeration value="SGD" />
+					<s:enumeration value="PLN" />
+					<s:enumeration value="SEK" />
+					<s:enumeration value="HKD" />
+					<s:enumeration value="BGN" />
+					<s:enumeration value="HUF" />
+					<s:enumeration value="CLP" />
+					<s:enumeration value="INR" />
+					<s:enumeration value="CZK" />
+					<s:enumeration value="KRW" />
+					<s:enumeration value="TRL" />
+					<s:enumeration value="MXN" />
+					<s:enumeration value="ILS" />
+					<s:enumeration value="CNY" />
+					<s:enumeration value="MYR" />
+					<s:enumeration value="PHP" />
+					<s:enumeration value="THB" />
+					<s:enumeration value="VND" />
+					<s:enumeration value="IDR" />
+					<s:enumeration value="TWD" />
+					<s:enumeration value="ZAR" />
+					<s:enumeration value="TRY" />
+					<s:enumeration value="KZT" />
+					<s:enumeration value="PKR" />
+					<s:enumeration value="RUB" />
+					<s:enumeration value="BRL" />
+					<s:enumeration value="SKK" />
+					<s:enumeration value="ARS" />
+					<s:enumeration value="LVL" />
+					<s:enumeration value="COP" />
+					<s:enumeration value="AED" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="PeriodTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="Daily" />
+					<s:enumeration value="Monthly" />
+					<s:enumeration value="Quarterly" />
+					<s:enumeration value="Annually" />
+					<s:enumeration value="RealTime" />
+					<s:enumeration value="Weekly" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="AddWatchListRateResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="AddWatchListRateResult" type="tns:WatchList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="AddWatchListMetal">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LondonFixing" type="tns:LondonFixing" />
+						<s:element minOccurs="1" maxOccurs="1" name="Currency" type="tns:FixingCurrencyTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="LondonFixing">
+				<s:complexContent mixed="false">
+					<s:extension base="tns:Common">
+						<s:sequence>
+							<s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:FixingTypes" />
+							<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="Currency" type="tns:FixingCurrencyTypes" />
+							<s:element minOccurs="1" maxOccurs="1" name="Period" type="tns:PeriodType" />
+							<s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />
+							<s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />
+							<s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Unit" type="s:string" />
+							<s:element minOccurs="0" maxOccurs="1" name="Source" type="s:string" />
+						</s:sequence>
+					</s:extension>
+				</s:complexContent>
+			</s:complexType>
+			<s:simpleType name="FixingTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="LondonGold" />
+					<s:enumeration value="LondonSilver" />
+					<s:enumeration value="LondonPlatinum" />
+					<s:enumeration value="LondonPalladium" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="FixingCurrencyTypes">
+				<s:restriction base="s:string">
+					<s:enumeration value="USD" />
+					<s:enumeration value="GBP" />
+					<s:enumeration value="EURO" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="PeriodType">
+				<s:restriction base="s:string">
+					<s:enumeration value="Morning" />
+					<s:enumeration value="Evening" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="AddWatchListMetalResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="AddWatchListMetalResult" type="tns:WatchList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="AddWatchListCurrency">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Currency" type="tns:Currencies" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:simpleType name="Currencies">
+				<s:restriction base="s:string">
+					<s:enumeration value="USD" />
+					<s:enumeration value="AED" />
+					<s:enumeration value="AFA" />
+					<s:enumeration value="AFN" />
+					<s:enumeration value="ALL" />
+					<s:enumeration value="AMD" />
+					<s:enumeration value="ANG" />
+					<s:enumeration value="AOA" />
+					<s:enumeration value="ARA" />
+					<s:enumeration value="ARE" />
+					<s:enumeration value="ARS" />
+					<s:enumeration value="ATS" />
+					<s:enumeration value="AUD" />
+					<s:enumeration value="AUN" />
+					<s:enumeration value="AWG" />
+					<s:enumeration value="AZM" />
+					<s:enumeration value="BAM" />
+					<s:enumeration value="BBD" />
+					<s:enumeration value="BDT" />
+					<s:enumeration value="BEF" />
+					<s:enumeration value="BEL" />
+					<s:enumeration value="BGL" />
+					<s:enumeration value="BGN" />
+					<s:enumeration value="BHD" />
+					<s:enumeration value="BIF" />
+					<s:enumeration value="BMD" />
+					<s:enumeration value="BND" />
+					<s:enumeration value="BOB" />
+					<s:enumeration value="BOV" />
+					<s:enumeration value="BRC" />
+					<s:enumeration value="BRE" />
+					<s:enumeration value="BRI" />
+					<s:enumeration value="BRL" />
+					<s:enumeration value="BRR" />
+					<s:enumeration value="BSD" />
+					<s:enumeration value="BTN" />
+					<s:enumeration value="BWP" />
+					<s:enumeration value="BYR" />
+					<s:enumeration value="BZD" />
+					<s:enumeration value="CAD" />
+					<s:enumeration value="CDF" />
+					<s:enumeration value="CHF" />
+					<s:enumeration value="CLF" />
+					<s:enumeration value="CHK" />
+					<s:enumeration value="CLP" />
+					<s:enumeration value="CNY" />
+					<s:enumeration value="COP" />
+					<s:enumeration value="CRC" />
+					<s:enumeration value="CSD" />
+					<s:enumeration value="CUP" />
+					<s:enumeration value="CVE" />
+					<s:enumeration value="CYP" />
+					<s:enumeration value="CZK" />
+					<s:enumeration value="DEM" />
+					<s:enumeration value="DJF" />
+					<s:enumeration value="DKK" />
+					<s:enumeration value="DOP" />
+					<s:enumeration value="DOE" />
+					<s:enumeration value="DOW" />
+					<s:enumeration value="DZD" />
+					<s:enumeration value="ECS" />
+					<s:enumeration value="EEK" />
+					<s:enumeration value="EGP" />
+					<s:enumeration value="ERN" />
+					<s:enumeration value="ESP" />
+					<s:enumeration value="ETB" />
+					<s:enumeration value="EUR" />
+					<s:enumeration value="FIM" />
+					<s:enumeration value="FJD" />
+					<s:enumeration value="FKP" />
+					<s:enumeration value="FRF" />
+					<s:enumeration value="FRN" />
+					<s:enumeration value="GBP" />
+					<s:enumeration value="GEL" />
+					<s:enumeration value="GGP" />
+					<s:enumeration value="GHC" />
+					<s:enumeration value="GHS" />
+					<s:enumeration value="GIP" />
+					<s:enumeration value="GMD" />
+					<s:enumeration value="GNF" />
+					<s:enumeration value="GRD" />
+					<s:enumeration value="GTQ" />
+					<s:enumeration value="GYD" />
+					<s:enumeration value="HKD" />
+					<s:enumeration value="HNL" />
+					<s:enumeration value="HRD" />
+					<s:enumeration value="HRK" />
+					<s:enumeration value="HTG" />
+					<s:enumeration value="HUF" />
+					<s:enumeration value="IDR" />
+					<s:enumeration value="IEP" />
+					<s:enumeration value="ILS" />
+					<s:enumeration value="IMP" />
+					<s:enumeration value="INR" />
+					<s:enumeration value="IQD" />
+					<s:enumeration value="IRR" />
+					<s:enumeration value="ISK" />
+					<s:enumeration value="ITL" />
+					<s:enumeration value="JEP" />
+					<s:enumeration value="JMD" />
+					<s:enumeration value="JOD" />
+					<s:enumeration value="JPY" />
+					<s:enumeration value="KES" />
+					<s:enumeration value="KGS" />
+					<s:enumeration value="KHR" />
+					<s:enumeration value="KMF" />
+					<s:enumeration value="KPW" />
+					<s:enumeration value="KRU" />
+					<s:enumeration value="KRW" />
+					<s:enumeration value="KWD" />
+					<s:enumeration value="KYD" />
+					<s:enumeration value="KZT" />
+					<s:enumeration value="LAK" />
+					<s:enumeration value="LBP" />
+					<s:enumeration value="LKR" />
+					<s:enumeration value="LRD" />
+					<s:enumeration value="LSL" />
+					<s:enumeration value="LTL" />
+					<s:enumeration value="LUF" />
+					<s:enumeration value="LVL" />
+					<s:enumeration value="LYD" />
+					<s:enumeration value="M5P" />
+					<s:enumeration value="MAD" />
+					<s:enumeration value="MAL" />
+					<s:enumeration value="MDL" />
+					<s:enumeration value="MFG" />
+					<s:enumeration value="MGA" />
+					<s:enumeration value="MKD" />
+					<s:enumeration value="MMK" />
+					<s:enumeration value="MNT" />
+					<s:enumeration value="MOP" />
+					<s:enumeration value="MRO" />
+					<s:enumeration value="MTL" />
+					<s:enumeration value="MTP" />
+					<s:enumeration value="MUR" />
+					<s:enumeration value="MVR" />
+					<s:enumeration value="MWK" />
+					<s:enumeration value="MXN" />
+					<s:enumeration value="MXP" />
+					<s:enumeration value="MXV" />
+					<s:enumeration value="MYR" />
+					<s:enumeration value="MZM" />
+					<s:enumeration value="MZN" />
+					<s:enumeration value="NAD" />
+					<s:enumeration value="NBL" />
+					<s:enumeration value="NGN" />
+					<s:enumeration value="NIC" />
+					<s:enumeration value="NIO" />
+					<s:enumeration value="NLG" />
+					<s:enumeration value="NOK" />
+					<s:enumeration value="NPR" />
+					<s:enumeration value="NSO" />
+					<s:enumeration value="NZD" />
+					<s:enumeration value="OMR" />
+					<s:enumeration value="OSO" />
+					<s:enumeration value="PAB" />
+					<s:enumeration value="PEI" />
+					<s:enumeration value="PEN" />
+					<s:enumeration value="PES" />
+					<s:enumeration value="PGK" />
+					<s:enumeration value="PHP" />
+					<s:enumeration value="PKR" />
+					<s:enumeration value="PLN" />
+					<s:enumeration value="PLZ" />
+					<s:enumeration value="PTE" />
+					<s:enumeration value="PYG" />
+					<s:enumeration value="QAR" />
+					<s:enumeration value="ROL" />
+					<s:enumeration value="RON" />
+					<s:enumeration value="RSD" />
+					<s:enumeration value="RUB" />
+					<s:enumeration value="RUR" />
+					<s:enumeration value="RWF" />
+					<s:enumeration value="SAR" />
+					<s:enumeration value="SBD" />
+					<s:enumeration value="SCR" />
+					<s:enumeration value="SDD" />
+					<s:enumeration value="SDP" />
+					<s:enumeration value="SDR" />
+					<s:enumeration value="SEK" />
+					<s:enumeration value="SGD" />
+					<s:enumeration value="SHP" />
+					<s:enumeration value="SIT" />
+					<s:enumeration value="SKK" />
+					<s:enumeration value="SLL" />
+					<s:enumeration value="SOS" />
+					<s:enumeration value="SPL" />
+					<s:enumeration value="SRG" />
+					<s:enumeration value="STD" />
+					<s:enumeration value="SUR" />
+					<s:enumeration value="SVC" />
+					<s:enumeration value="SYP" />
+					<s:enumeration value="SZL" />
+					<s:enumeration value="THB" />
+					<s:enumeration value="TJR" />
+					<s:enumeration value="TJS" />
+					<s:enumeration value="TMM" />
+					<s:enumeration value="TND" />
+					<s:enumeration value="TOP" />
+					<s:enumeration value="TRL" />
+					<s:enumeration value="TRY" />
+					<s:enumeration value="TTD" />
+					<s:enumeration value="TVD" />
+					<s:enumeration value="TWD" />
+					<s:enumeration value="TZS" />
+					<s:enumeration value="UAH" />
+					<s:enumeration value="UGX" />
+					<s:enumeration value="UNK" />
+					<s:enumeration value="UYP" />
+					<s:enumeration value="UYU" />
+					<s:enumeration value="UZS" />
+					<s:enumeration value="VEB" />
+					<s:enumeration value="VEF" />
+					<s:enumeration value="VND" />
+					<s:enumeration value="VRL" />
+					<s:enumeration value="VRN" />
+					<s:enumeration value="VUV" />
+					<s:enumeration value="WST" />
+					<s:enumeration value="XAF" />
+					<s:enumeration value="XAG" />
+					<s:enumeration value="XAU" />
+					<s:enumeration value="XCD" />
+					<s:enumeration value="XDR" />
+					<s:enumeration value="XEU" />
+					<s:enumeration value="XOF" />
+					<s:enumeration value="XPD" />
+					<s:enumeration value="XPF" />
+					<s:enumeration value="XPT" />
+					<s:enumeration value="YER" />
+					<s:enumeration value="YUD" />
+					<s:enumeration value="YUM" />
+					<s:enumeration value="ZAL" />
+					<s:enumeration value="ZAR" />
+					<s:enumeration value="ZMK" />
+					<s:enumeration value="ZRN" />
+					<s:enumeration value="ZRZ" />
+					<s:enumeration value="ZWD" />
+					<s:enumeration value="BAD" />
+					<s:enumeration value="NOCURRENCY" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="AddWatchListCurrencyResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="AddWatchListCurrencyResult" type="tns:WatchList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeleteWatchListItem">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Symbol" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeleteWatchListItemResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DeleteWatchListItemResult" type="tns:WatchList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeleteWatchListRate">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="RateType" type="tns:RateTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="Currency" type="tns:LIBORCurrencyTypes" />
+						<s:element minOccurs="1" maxOccurs="1" name="PeriodType" type="tns:PeriodTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeleteWatchListRateResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DeleteWatchListRateResult" type="tns:WatchList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeleteWatchListMetal">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="WatchList" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LondonFixing" type="tns:LondonFixing" />
+						<s:element minOccurs="1" maxOccurs="1" name="Currency" type="tns:FixingCurrencyTypes" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="DeleteWatchListMetalResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="DeleteWatchListMetalResult" type="tns:WatchList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ListWatchLists">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ListWatchListsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ListWatchListsResult" type="tns:ArrayOfWatchList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfWatchList">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="WatchList" nillable="true" type="tns:WatchList" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="WatchList" nillable="true" type="tns:WatchList" />
+			<s:element name="BooleanResult" nillable="true" type="tns:BooleanResult" />
+			<s:element name="ArrayOfWatchList" nillable="true" type="tns:ArrayOfWatchList" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="AddWatchListSoapIn">
+		<wsdl:part name="parameters" element="tns:AddWatchList" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListSoapOut">
+		<wsdl:part name="parameters" element="tns:AddWatchListResponse" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListSoapIn">
+		<wsdl:part name="parameters" element="tns:DeleteWatchList" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListSoapOut">
+		<wsdl:part name="parameters" element="tns:DeleteWatchListResponse" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="GetWatchListSoapIn">
+		<wsdl:part name="parameters" element="tns:GetWatchList" />
+	</wsdl:message>
+	<wsdl:message name="GetWatchListSoapOut">
+		<wsdl:part name="parameters" element="tns:GetWatchListResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetWatchListHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListItemSoapIn">
+		<wsdl:part name="parameters" element="tns:AddWatchListItem" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListItemSoapOut">
+		<wsdl:part name="parameters" element="tns:AddWatchListItemResponse" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListItemHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListItemsSoapIn">
+		<wsdl:part name="parameters" element="tns:AddWatchListItems" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListItemsSoapOut">
+		<wsdl:part name="parameters" element="tns:AddWatchListItemsResponse" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListItemsHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListRateSoapIn">
+		<wsdl:part name="parameters" element="tns:AddWatchListRate" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListRateSoapOut">
+		<wsdl:part name="parameters" element="tns:AddWatchListRateResponse" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListRateHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListMetalSoapIn">
+		<wsdl:part name="parameters" element="tns:AddWatchListMetal" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListMetalSoapOut">
+		<wsdl:part name="parameters" element="tns:AddWatchListMetalResponse" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListMetalHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListCurrencySoapIn">
+		<wsdl:part name="parameters" element="tns:AddWatchListCurrency" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListCurrencySoapOut">
+		<wsdl:part name="parameters" element="tns:AddWatchListCurrencyResponse" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListCurrencyHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListItemSoapIn">
+		<wsdl:part name="parameters" element="tns:DeleteWatchListItem" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListItemSoapOut">
+		<wsdl:part name="parameters" element="tns:DeleteWatchListItemResponse" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListItemHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListRateSoapIn">
+		<wsdl:part name="parameters" element="tns:DeleteWatchListRate" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListRateSoapOut">
+		<wsdl:part name="parameters" element="tns:DeleteWatchListRateResponse" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListRateHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListMetalSoapIn">
+		<wsdl:part name="parameters" element="tns:DeleteWatchListMetal" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListMetalSoapOut">
+		<wsdl:part name="parameters" element="tns:DeleteWatchListMetalResponse" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListMetalHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="ListWatchListsSoapIn">
+		<wsdl:part name="parameters" element="tns:ListWatchLists" />
+	</wsdl:message>
+	<wsdl:message name="ListWatchListsSoapOut">
+		<wsdl:part name="parameters" element="tns:ListWatchListsResponse" />
+	</wsdl:message>
+	<wsdl:message name="ListWatchListsHeader">
+		<wsdl:part name="Header" element="tns:Header" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="Name" type="s:string" />
+		<wsdl:part name="Description" type="s:string" />
+		<wsdl:part name="Type" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListHttpGetOut">
+		<wsdl:part name="Body" element="tns:WatchList" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="Identifier" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListHttpGetOut">
+		<wsdl:part name="Body" element="tns:BooleanResult" />
+	</wsdl:message>
+	<wsdl:message name="GetWatchListHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="WatchList" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetWatchListHttpGetOut">
+		<wsdl:part name="Body" element="tns:WatchList" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListItemHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="WatchList" type="s:string" />
+		<wsdl:part name="Symbol" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListItemHttpGetOut">
+		<wsdl:part name="Body" element="tns:WatchList" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListItemsHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="WatchList" type="s:string" />
+		<wsdl:part name="Symbols" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListItemsHttpGetOut">
+		<wsdl:part name="Body" element="tns:WatchList" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListRateHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="WatchList" type="s:string" />
+		<wsdl:part name="RateType" type="s:string" />
+		<wsdl:part name="Currency" type="s:string" />
+		<wsdl:part name="PeriodType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListRateHttpGetOut">
+		<wsdl:part name="Body" element="tns:WatchList" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListCurrencyHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="WatchList" type="s:string" />
+		<wsdl:part name="Currency" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListCurrencyHttpGetOut">
+		<wsdl:part name="Body" element="tns:WatchList" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListItemHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="WatchList" type="s:string" />
+		<wsdl:part name="Symbol" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListItemHttpGetOut">
+		<wsdl:part name="Body" element="tns:WatchList" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListRateHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="WatchList" type="s:string" />
+		<wsdl:part name="RateType" type="s:string" />
+		<wsdl:part name="Currency" type="s:string" />
+		<wsdl:part name="PeriodType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListRateHttpGetOut">
+		<wsdl:part name="Body" element="tns:WatchList" />
+	</wsdl:message>
+	<wsdl:message name="ListWatchListsHttpGetIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ListWatchListsHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfWatchList" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="Identifier" type="s:string" />
+		<wsdl:part name="Name" type="s:string" />
+		<wsdl:part name="Description" type="s:string" />
+		<wsdl:part name="Type" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListHttpPostOut">
+		<wsdl:part name="Body" element="tns:WatchList" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="Identifier" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListHttpPostOut">
+		<wsdl:part name="Body" element="tns:BooleanResult" />
+	</wsdl:message>
+	<wsdl:message name="GetWatchListHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="WatchList" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetWatchListHttpPostOut">
+		<wsdl:part name="Body" element="tns:WatchList" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListItemHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="WatchList" type="s:string" />
+		<wsdl:part name="Symbol" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListItemHttpPostOut">
+		<wsdl:part name="Body" element="tns:WatchList" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListItemsHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="WatchList" type="s:string" />
+		<wsdl:part name="Symbols" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListItemsHttpPostOut">
+		<wsdl:part name="Body" element="tns:WatchList" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListRateHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="WatchList" type="s:string" />
+		<wsdl:part name="RateType" type="s:string" />
+		<wsdl:part name="Currency" type="s:string" />
+		<wsdl:part name="PeriodType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListRateHttpPostOut">
+		<wsdl:part name="Body" element="tns:WatchList" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListCurrencyHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="WatchList" type="s:string" />
+		<wsdl:part name="Currency" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="AddWatchListCurrencyHttpPostOut">
+		<wsdl:part name="Body" element="tns:WatchList" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListItemHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="WatchList" type="s:string" />
+		<wsdl:part name="Symbol" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListItemHttpPostOut">
+		<wsdl:part name="Body" element="tns:WatchList" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListRateHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+		<wsdl:part name="WatchList" type="s:string" />
+		<wsdl:part name="RateType" type="s:string" />
+		<wsdl:part name="Currency" type="s:string" />
+		<wsdl:part name="PeriodType" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="DeleteWatchListRateHttpPostOut">
+		<wsdl:part name="Body" element="tns:WatchList" />
+	</wsdl:message>
+	<wsdl:message name="ListWatchListsHttpPostIn">
+		<wsdl:part name="Username" type="s:string" />
+		<wsdl:part name="Password" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ListWatchListsHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfWatchList" />
+	</wsdl:message>
+	<wsdl:portType name="XigniteWatchListsSoap">
+		<wsdl:operation name="AddWatchList">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a new watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:AddWatchListSoapIn" />
+			<wsdl:output message="tns:AddWatchListSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchList">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteWatchListSoapIn" />
+			<wsdl:output message="tns:DeleteWatchListSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetWatchList">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a watchlist and its content.</wsdl:documentation>
+			<wsdl:input message="tns:GetWatchListSoapIn" />
+			<wsdl:output message="tns:GetWatchListSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListItem">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an item to a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:AddWatchListItemSoapIn" />
+			<wsdl:output message="tns:AddWatchListItemSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListItems">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add several items to a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:AddWatchListItemsSoapIn" />
+			<wsdl:output message="tns:AddWatchListItemsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListRate">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an interest rate to a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:AddWatchListRateSoapIn" />
+			<wsdl:output message="tns:AddWatchListRateSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListMetal">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an interest rate to a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:AddWatchListMetalSoapIn" />
+			<wsdl:output message="tns:AddWatchListMetalSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListCurrency">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an interest rate to a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:AddWatchListCurrencySoapIn" />
+			<wsdl:output message="tns:AddWatchListCurrencySoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListItem">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a watchlist item.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteWatchListItemSoapIn" />
+			<wsdl:output message="tns:DeleteWatchListItemSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListRate">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an interest rate from a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteWatchListRateSoapIn" />
+			<wsdl:output message="tns:DeleteWatchListRateSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListMetal">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an interest rate from a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteWatchListMetalSoapIn" />
+			<wsdl:output message="tns:DeleteWatchListMetalSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ListWatchLists">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List available watchlists.</wsdl:documentation>
+			<wsdl:input message="tns:ListWatchListsSoapIn" />
+			<wsdl:output message="tns:ListWatchListsSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteWatchListsHttpGet">
+		<wsdl:operation name="AddWatchList">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a new watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:AddWatchListHttpGetIn" />
+			<wsdl:output message="tns:AddWatchListHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchList">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteWatchListHttpGetIn" />
+			<wsdl:output message="tns:DeleteWatchListHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetWatchList">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a watchlist and its content.</wsdl:documentation>
+			<wsdl:input message="tns:GetWatchListHttpGetIn" />
+			<wsdl:output message="tns:GetWatchListHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListItem">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an item to a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:AddWatchListItemHttpGetIn" />
+			<wsdl:output message="tns:AddWatchListItemHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListItems">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add several items to a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:AddWatchListItemsHttpGetIn" />
+			<wsdl:output message="tns:AddWatchListItemsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListRate">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an interest rate to a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:AddWatchListRateHttpGetIn" />
+			<wsdl:output message="tns:AddWatchListRateHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListCurrency">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an interest rate to a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:AddWatchListCurrencyHttpGetIn" />
+			<wsdl:output message="tns:AddWatchListCurrencyHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListItem">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a watchlist item.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteWatchListItemHttpGetIn" />
+			<wsdl:output message="tns:DeleteWatchListItemHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListRate">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an interest rate from a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteWatchListRateHttpGetIn" />
+			<wsdl:output message="tns:DeleteWatchListRateHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ListWatchLists">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List available watchlists.</wsdl:documentation>
+			<wsdl:input message="tns:ListWatchListsHttpGetIn" />
+			<wsdl:output message="tns:ListWatchListsHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="XigniteWatchListsHttpPost">
+		<wsdl:operation name="AddWatchList">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a new watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:AddWatchListHttpPostIn" />
+			<wsdl:output message="tns:AddWatchListHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchList">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteWatchListHttpPostIn" />
+			<wsdl:output message="tns:DeleteWatchListHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetWatchList">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a watchlist and its content.</wsdl:documentation>
+			<wsdl:input message="tns:GetWatchListHttpPostIn" />
+			<wsdl:output message="tns:GetWatchListHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListItem">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an item to a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:AddWatchListItemHttpPostIn" />
+			<wsdl:output message="tns:AddWatchListItemHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListItems">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add several items to a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:AddWatchListItemsHttpPostIn" />
+			<wsdl:output message="tns:AddWatchListItemsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListRate">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an interest rate to a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:AddWatchListRateHttpPostIn" />
+			<wsdl:output message="tns:AddWatchListRateHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListCurrency">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an interest rate to a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:AddWatchListCurrencyHttpPostIn" />
+			<wsdl:output message="tns:AddWatchListCurrencyHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListItem">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a watchlist item.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteWatchListItemHttpPostIn" />
+			<wsdl:output message="tns:DeleteWatchListItemHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListRate">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an interest rate from a watchlist.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteWatchListRateHttpPostIn" />
+			<wsdl:output message="tns:DeleteWatchListRateHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ListWatchLists">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">List available watchlists.</wsdl:documentation>
+			<wsdl:input message="tns:ListWatchListsHttpPostIn" />
+			<wsdl:output message="tns:ListWatchListsHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="XigniteWatchListsSoap" type="tns:XigniteWatchListsSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="AddWatchList">
+			<soap:operation soapAction="http://www.xignite.com/services/AddWatchList" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:AddWatchListHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchList">
+			<soap:operation soapAction="http://www.xignite.com/services/DeleteWatchList" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:DeleteWatchListHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetWatchList">
+			<soap:operation soapAction="http://www.xignite.com/services/GetWatchList" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:GetWatchListHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListItem">
+			<soap:operation soapAction="http://www.xignite.com/services/AddWatchListItem" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:AddWatchListItemHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListItems">
+			<soap:operation soapAction="http://www.xignite.com/services/AddWatchListItems" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:AddWatchListItemsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListRate">
+			<soap:operation soapAction="http://www.xignite.com/services/AddWatchListRate" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:AddWatchListRateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListMetal">
+			<soap:operation soapAction="http://www.xignite.com/services/AddWatchListMetal" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:AddWatchListMetalHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListCurrency">
+			<soap:operation soapAction="http://www.xignite.com/services/AddWatchListCurrency" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:AddWatchListCurrencyHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListItem">
+			<soap:operation soapAction="http://www.xignite.com/services/DeleteWatchListItem" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:DeleteWatchListItemHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListRate">
+			<soap:operation soapAction="http://www.xignite.com/services/DeleteWatchListRate" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:DeleteWatchListRateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListMetal">
+			<soap:operation soapAction="http://www.xignite.com/services/DeleteWatchListMetal" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:DeleteWatchListMetalHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListWatchLists">
+			<soap:operation soapAction="http://www.xignite.com/services/ListWatchLists" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:ListWatchListsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteWatchListsSoap12" type="tns:XigniteWatchListsSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="AddWatchList">
+			<soap12:operation soapAction="http://www.xignite.com/services/AddWatchList" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:AddWatchListHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchList">
+			<soap12:operation soapAction="http://www.xignite.com/services/DeleteWatchList" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:DeleteWatchListHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetWatchList">
+			<soap12:operation soapAction="http://www.xignite.com/services/GetWatchList" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:GetWatchListHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListItem">
+			<soap12:operation soapAction="http://www.xignite.com/services/AddWatchListItem" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:AddWatchListItemHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListItems">
+			<soap12:operation soapAction="http://www.xignite.com/services/AddWatchListItems" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:AddWatchListItemsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListRate">
+			<soap12:operation soapAction="http://www.xignite.com/services/AddWatchListRate" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:AddWatchListRateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListMetal">
+			<soap12:operation soapAction="http://www.xignite.com/services/AddWatchListMetal" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:AddWatchListMetalHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListCurrency">
+			<soap12:operation soapAction="http://www.xignite.com/services/AddWatchListCurrency" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:AddWatchListCurrencyHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListItem">
+			<soap12:operation soapAction="http://www.xignite.com/services/DeleteWatchListItem" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:DeleteWatchListItemHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListRate">
+			<soap12:operation soapAction="http://www.xignite.com/services/DeleteWatchListRate" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:DeleteWatchListRateHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListMetal">
+			<soap12:operation soapAction="http://www.xignite.com/services/DeleteWatchListMetal" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:DeleteWatchListMetalHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListWatchLists">
+			<soap12:operation soapAction="http://www.xignite.com/services/ListWatchLists" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:ListWatchListsHeader" part="Header" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteWatchListsHttpGet" type="tns:XigniteWatchListsHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="AddWatchList">
+			<http:operation location="/AddWatchList" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchList">
+			<http:operation location="/DeleteWatchList" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetWatchList">
+			<http:operation location="/GetWatchList" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListItem">
+			<http:operation location="/AddWatchListItem" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListItems">
+			<http:operation location="/AddWatchListItems" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListRate">
+			<http:operation location="/AddWatchListRate" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListCurrency">
+			<http:operation location="/AddWatchListCurrency" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListItem">
+			<http:operation location="/DeleteWatchListItem" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListRate">
+			<http:operation location="/DeleteWatchListRate" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListWatchLists">
+			<http:operation location="/ListWatchLists" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="XigniteWatchListsHttpPost" type="tns:XigniteWatchListsHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="AddWatchList">
+			<http:operation location="/AddWatchList" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchList">
+			<http:operation location="/DeleteWatchList" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetWatchList">
+			<http:operation location="/GetWatchList" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListItem">
+			<http:operation location="/AddWatchListItem" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListItems">
+			<http:operation location="/AddWatchListItems" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListRate">
+			<http:operation location="/AddWatchListRate" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddWatchListCurrency">
+			<http:operation location="/AddWatchListCurrency" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListItem">
+			<http:operation location="/DeleteWatchListItem" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteWatchListRate">
+			<http:operation location="/DeleteWatchListRate" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ListWatchLists">
+			<http:operation location="/ListWatchLists" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="XigniteWatchLists">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This Web Service provides for the management of symbol-based
+			watchlists.</wsdl:documentation>
+		<wsdl:port name="XigniteWatchListsSoap" binding="tns:XigniteWatchListsSoap">
+			<soap:address location="http://www.xignite.com/xwatchlists.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteWatchListsSoap12" binding="tns:XigniteWatchListsSoap12">
+			<soap12:address location="http://www.xignite.com/xwatchlists.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteWatchListsHttpGet" binding="tns:XigniteWatchListsHttpGet">
+			<http:address location="http://www.xignite.com/xwatchlists.asmx" />
+		</wsdl:port>
+		<wsdl:port name="XigniteWatchListsHttpPost" binding="tns:XigniteWatchListsHttpPost">
+			<http:address location="http://www.xignite.com/xwatchlists.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

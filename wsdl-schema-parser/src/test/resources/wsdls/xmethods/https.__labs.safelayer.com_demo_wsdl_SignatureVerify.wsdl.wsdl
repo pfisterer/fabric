@@ -1,1 +1,63 @@
-<?xml version="1.0" encoding="UTF-8"?><definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sfly="http://www.safelayer.com/TWS/DSV.wsdl" xmlns:dss="http://www.docs.oasis-open.org/dss/2004/06/oasis-dss-1.0-core-schema-wd-27.xsd" targetNamespace="http://www.safelayer.com/TWS/DSV.wsdl">  <types>    <xs:schema targetNamespace="http://www.safelayer.com/TWS/DSV.wsdl">      <xs:import namespace="http://www.docs.oasis-open.org/dss/2004/06/oasis-dss-1.0-core-schema-wd-27.xsd" schemaLocation="http://www.oasis-open.org/committees/download.php/9559/oasis-dss-1.0-core-schema-wd-27.xsd"/>    </xs:schema>  </types>	<message name="Request">		<part name="VerifyRequest" element="dss:VerifyRequest"/>	</message>	<message name="Response">		<part name="VerifyResponse" element="dss:VerifyResponse"/>	</message>	<portType name="SignatureVerificationType">		<operation name="Verify">			<input message="sfly:Request"/>			<output message="sfly:Response"/>		</operation>	</portType>	<portType name="SignatureUpdateType">		<operation name="Update">			<input message="sfly:Request"/>			<output message="sfly:Response"/>		</operation>	</portType>	<binding name="DSVBinding" type="sfly:SignatureVerificationType">		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>		<operation name="Verify">			<soap:operation soapAction="Verify" style="document"/>			<input>				<soap:body use="literal"/>			</input>			<output>				<soap:body use="literal"/>			</output>		</operation>	</binding>	<binding name="DRBinding" type="sfly:SignatureUpdateType">		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>		<operation name="Update">			<soap:operation soapAction="Update" style="document"/>			<input>				<soap:body use="literal"/>			</input>			<output>				<soap:body use="literal"/>			</output>		</operation>	</binding>	<service name="TWS-DSV">		<port name="SignatureVerify" binding="sfly:DSVBinding">			<soap:address location="https://labs.safelayer.com/demo/services/SignatureVerify"/>		</port>	</service>	<service name="TWS-DR">		<port name="SignatureUpdate" binding="sfly:DRBinding">			<soap:address location="https://labs.safelayer.com/demo/services/SignatureVerify"/>		</port>	</service></definitions>
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sfly="http://www.safelayer.com/TWS/DSV.wsdl"
+	xmlns:dss="http://www.docs.oasis-open.org/dss/2004/06/oasis-dss-1.0-core-schema-wd-27.xsd" targetNamespace="http://www.safelayer.com/TWS/DSV.wsdl">
+	<types>
+		<xs:schema targetNamespace="http://www.safelayer.com/TWS/DSV.wsdl">
+			<xs:import namespace="http://www.docs.oasis-open.org/dss/2004/06/oasis-dss-1.0-core-schema-wd-27.xsd"
+				schemaLocation="http://www.oasis-open.org/committees/download.php/9559/oasis-dss-1.0-core-schema-wd-27.xsd" />
+		</xs:schema>
+	</types>
+	<message name="Request">
+		<part name="VerifyRequest" element="dss:VerifyRequest" />
+	</message>
+	<message name="Response">
+		<part name="VerifyResponse" element="dss:VerifyResponse" />
+	</message>
+	<portType name="SignatureVerificationType">
+		<operation name="Verify">
+			<input message="sfly:Request" />
+			<output message="sfly:Response" />
+		</operation>
+	</portType>
+	<portType name="SignatureUpdateType">
+		<operation name="Update">
+			<input message="sfly:Request" />
+			<output message="sfly:Response" />
+		</operation>
+	</portType>
+	<binding name="DSVBinding" type="sfly:SignatureVerificationType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="Verify">
+			<soap:operation soapAction="Verify" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<binding name="DRBinding" type="sfly:SignatureUpdateType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="Update">
+			<soap:operation soapAction="Update" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="TWS-DSV">
+		<port name="SignatureVerify" binding="sfly:DSVBinding">
+			<soap:address location="https://labs.safelayer.com/demo/services/SignatureVerify" />
+		</port>
+	</service>
+	<service name="TWS-DR">
+		<port name="SignatureUpdate" binding="sfly:DRBinding">
+			<soap:address location="https://labs.safelayer.com/demo/services/SignatureVerify" />
+		</port>
+	</service>
+</definitions>

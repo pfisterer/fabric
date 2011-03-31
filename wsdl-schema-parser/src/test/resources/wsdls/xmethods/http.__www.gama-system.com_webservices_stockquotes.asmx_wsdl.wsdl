@@ -1,1 +1,1045 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.gama-system.com/webservices" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://www.gama-system.com/webservices" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">WebService provides stock exchange information.</wsdl:documentation>  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.gama-system.com/webservices">      <s:element name="GetStocksXMLSchema">        <s:complexType />      </s:element>      <s:element name="GetStocksXMLSchemaResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetStocksXMLSchemaResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetStockDailyValuesByValueXML">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="dcmLow" type="s:decimal" />            <s:element minOccurs="1" maxOccurs="1" name="dcmHigh" type="s:decimal" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetStockDailyValuesByValueXMLResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetStockDailyValuesByValueXMLResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetStockDailyValuesByDateXML">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strDateLow" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strDateHigh" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetStockDailyValuesByDateXMLResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetStockDailyValuesByDateXMLResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetStockDailyValuesXML">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strSegment" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetStockDailyValuesXMLResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetStockDailyValuesXMLResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestStockDailyValuesXML">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strSegment" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestStockDailyValuesXMLResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetLatestStockDailyValuesXMLResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetStockDailyValue">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetStockDailyValueResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetStockDailyValueResult" type="s:decimal" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetPreviousStockDailyValue">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetPreviousStockDailyValueResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetPreviousStockDailyValueResult" type="s:decimal" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestStockDailyValue">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestStockDailyValueResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetLatestStockDailyValueResult" type="s:decimal" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestPreviousStockDailyValue">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestPreviousStockDailyValueResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetLatestPreviousStockDailyValueResult" type="s:decimal" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestStockValue">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestStockValueResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetLatestStockValueResult" type="s:decimal" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetStockValue">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strDateTime" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetStockValueResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetStockValueResult" type="s:decimal" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetStockValuesByDateTimeXML">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strDateTimeLow" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strDateTimeHigh" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetStockValuesByDateTimeXMLResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetStockValuesByDateTimeXMLResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIndicesXMLSchema">        <s:complexType />      </s:element>      <s:element name="GetIndicesXMLSchemaResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetIndicesXMLSchemaResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIndexDailyValuesByValueXML">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strIndex" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="dcmLow" type="s:decimal" />            <s:element minOccurs="1" maxOccurs="1" name="dcmHigh" type="s:decimal" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIndexDailyValuesByValueXMLResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetIndexDailyValuesByValueXMLResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIndexDailyValuesByDateXML">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strIndex" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strDateLow" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strDateHigh" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIndexDailyValuesByDateXMLResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetIndexDailyValuesByDateXMLResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIndexDailyValuesXML">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIndexDailyValuesXMLResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetIndexDailyValuesXMLResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestIndexDailyValuesXML">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestIndexDailyValuesXMLResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetLatestIndexDailyValuesXMLResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIndexDailyValue">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strIndex" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strDate" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIndexDailyValueResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetIndexDailyValueResult" type="s:decimal" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestIndexDailyValue">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strIndex" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestIndexDailyValueResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetLatestIndexDailyValueResult" type="s:decimal" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestIndexValue">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strIndex" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetLatestIndexValueResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetLatestIndexValueResult" type="s:decimal" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIndexValue">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strIndex" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strDateTime" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIndexValueResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="GetIndexValueResult" type="s:decimal" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIndexValuesByDateTimeXML">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strIndex" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strDateTimeLow" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="strDateTimeHigh" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetIndexValuesByDateTimeXMLResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetIndexValuesByDateTimeXMLResult" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>    </s:schema>  </wsdl:types>  <wsdl:message name="GetStocksXMLSchemaSoapIn">    <wsdl:part name="parameters" element="tns:GetStocksXMLSchema" />  </wsdl:message>  <wsdl:message name="GetStocksXMLSchemaSoapOut">    <wsdl:part name="parameters" element="tns:GetStocksXMLSchemaResponse" />  </wsdl:message>  <wsdl:message name="GetStockDailyValuesByValueXMLSoapIn">    <wsdl:part name="parameters" element="tns:GetStockDailyValuesByValueXML" />  </wsdl:message>  <wsdl:message name="GetStockDailyValuesByValueXMLSoapOut">    <wsdl:part name="parameters" element="tns:GetStockDailyValuesByValueXMLResponse" />  </wsdl:message>  <wsdl:message name="GetStockDailyValuesByDateXMLSoapIn">    <wsdl:part name="parameters" element="tns:GetStockDailyValuesByDateXML" />  </wsdl:message>  <wsdl:message name="GetStockDailyValuesByDateXMLSoapOut">    <wsdl:part name="parameters" element="tns:GetStockDailyValuesByDateXMLResponse" />  </wsdl:message>  <wsdl:message name="GetStockDailyValuesXMLSoapIn">    <wsdl:part name="parameters" element="tns:GetStockDailyValuesXML" />  </wsdl:message>  <wsdl:message name="GetStockDailyValuesXMLSoapOut">    <wsdl:part name="parameters" element="tns:GetStockDailyValuesXMLResponse" />  </wsdl:message>  <wsdl:message name="GetLatestStockDailyValuesXMLSoapIn">    <wsdl:part name="parameters" element="tns:GetLatestStockDailyValuesXML" />  </wsdl:message>  <wsdl:message name="GetLatestStockDailyValuesXMLSoapOut">    <wsdl:part name="parameters" element="tns:GetLatestStockDailyValuesXMLResponse" />  </wsdl:message>  <wsdl:message name="GetStockDailyValueSoapIn">    <wsdl:part name="parameters" element="tns:GetStockDailyValue" />  </wsdl:message>  <wsdl:message name="GetStockDailyValueSoapOut">    <wsdl:part name="parameters" element="tns:GetStockDailyValueResponse" />  </wsdl:message>  <wsdl:message name="GetPreviousStockDailyValueSoapIn">    <wsdl:part name="parameters" element="tns:GetPreviousStockDailyValue" />  </wsdl:message>  <wsdl:message name="GetPreviousStockDailyValueSoapOut">    <wsdl:part name="parameters" element="tns:GetPreviousStockDailyValueResponse" />  </wsdl:message>  <wsdl:message name="GetLatestStockDailyValueSoapIn">    <wsdl:part name="parameters" element="tns:GetLatestStockDailyValue" />  </wsdl:message>  <wsdl:message name="GetLatestStockDailyValueSoapOut">    <wsdl:part name="parameters" element="tns:GetLatestStockDailyValueResponse" />  </wsdl:message>  <wsdl:message name="GetLatestPreviousStockDailyValueSoapIn">    <wsdl:part name="parameters" element="tns:GetLatestPreviousStockDailyValue" />  </wsdl:message>  <wsdl:message name="GetLatestPreviousStockDailyValueSoapOut">    <wsdl:part name="parameters" element="tns:GetLatestPreviousStockDailyValueResponse" />  </wsdl:message>  <wsdl:message name="GetLatestStockValueSoapIn">    <wsdl:part name="parameters" element="tns:GetLatestStockValue" />  </wsdl:message>  <wsdl:message name="GetLatestStockValueSoapOut">    <wsdl:part name="parameters" element="tns:GetLatestStockValueResponse" />  </wsdl:message>  <wsdl:message name="GetStockValueSoapIn">    <wsdl:part name="parameters" element="tns:GetStockValue" />  </wsdl:message>  <wsdl:message name="GetStockValueSoapOut">    <wsdl:part name="parameters" element="tns:GetStockValueResponse" />  </wsdl:message>  <wsdl:message name="GetStockValuesByDateTimeXMLSoapIn">    <wsdl:part name="parameters" element="tns:GetStockValuesByDateTimeXML" />  </wsdl:message>  <wsdl:message name="GetStockValuesByDateTimeXMLSoapOut">    <wsdl:part name="parameters" element="tns:GetStockValuesByDateTimeXMLResponse" />  </wsdl:message>  <wsdl:message name="GetIndicesXMLSchemaSoapIn">    <wsdl:part name="parameters" element="tns:GetIndicesXMLSchema" />  </wsdl:message>  <wsdl:message name="GetIndicesXMLSchemaSoapOut">    <wsdl:part name="parameters" element="tns:GetIndicesXMLSchemaResponse" />  </wsdl:message>  <wsdl:message name="GetIndexDailyValuesByValueXMLSoapIn">    <wsdl:part name="parameters" element="tns:GetIndexDailyValuesByValueXML" />  </wsdl:message>  <wsdl:message name="GetIndexDailyValuesByValueXMLSoapOut">    <wsdl:part name="parameters" element="tns:GetIndexDailyValuesByValueXMLResponse" />  </wsdl:message>  <wsdl:message name="GetIndexDailyValuesByDateXMLSoapIn">    <wsdl:part name="parameters" element="tns:GetIndexDailyValuesByDateXML" />  </wsdl:message>  <wsdl:message name="GetIndexDailyValuesByDateXMLSoapOut">    <wsdl:part name="parameters" element="tns:GetIndexDailyValuesByDateXMLResponse" />  </wsdl:message>  <wsdl:message name="GetIndexDailyValuesXMLSoapIn">    <wsdl:part name="parameters" element="tns:GetIndexDailyValuesXML" />  </wsdl:message>  <wsdl:message name="GetIndexDailyValuesXMLSoapOut">    <wsdl:part name="parameters" element="tns:GetIndexDailyValuesXMLResponse" />  </wsdl:message>  <wsdl:message name="GetLatestIndexDailyValuesXMLSoapIn">    <wsdl:part name="parameters" element="tns:GetLatestIndexDailyValuesXML" />  </wsdl:message>  <wsdl:message name="GetLatestIndexDailyValuesXMLSoapOut">    <wsdl:part name="parameters" element="tns:GetLatestIndexDailyValuesXMLResponse" />  </wsdl:message>  <wsdl:message name="GetIndexDailyValueSoapIn">    <wsdl:part name="parameters" element="tns:GetIndexDailyValue" />  </wsdl:message>  <wsdl:message name="GetIndexDailyValueSoapOut">    <wsdl:part name="parameters" element="tns:GetIndexDailyValueResponse" />  </wsdl:message>  <wsdl:message name="GetLatestIndexDailyValueSoapIn">    <wsdl:part name="parameters" element="tns:GetLatestIndexDailyValue" />  </wsdl:message>  <wsdl:message name="GetLatestIndexDailyValueSoapOut">    <wsdl:part name="parameters" element="tns:GetLatestIndexDailyValueResponse" />  </wsdl:message>  <wsdl:message name="GetLatestIndexValueSoapIn">    <wsdl:part name="parameters" element="tns:GetLatestIndexValue" />  </wsdl:message>  <wsdl:message name="GetLatestIndexValueSoapOut">    <wsdl:part name="parameters" element="tns:GetLatestIndexValueResponse" />  </wsdl:message>  <wsdl:message name="GetIndexValueSoapIn">    <wsdl:part name="parameters" element="tns:GetIndexValue" />  </wsdl:message>  <wsdl:message name="GetIndexValueSoapOut">    <wsdl:part name="parameters" element="tns:GetIndexValueResponse" />  </wsdl:message>  <wsdl:message name="GetIndexValuesByDateTimeXMLSoapIn">    <wsdl:part name="parameters" element="tns:GetIndexValuesByDateTimeXML" />  </wsdl:message>  <wsdl:message name="GetIndexValuesByDateTimeXMLSoapOut">    <wsdl:part name="parameters" element="tns:GetIndexValuesByDateTimeXMLResponse" />  </wsdl:message>  <wsdl:portType name="StockQuotesSoap">    <wsdl:operation name="GetStocksXMLSchema">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns XML schema (XSD) in which all XML formatted stock information is in.</wsdl:documentation>      <wsdl:input message="tns:GetStocksXMLSchemaSoapIn" />      <wsdl:output message="tns:GetStocksXMLSchemaSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetStockDailyValuesByValueXML">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns all values for the specified stock that are in the given value interval as XML string.</wsdl:documentation>      <wsdl:input message="tns:GetStockDailyValuesByValueXMLSoapIn" />      <wsdl:output message="tns:GetStockDailyValuesByValueXMLSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetStockDailyValuesByDateXML">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns all values for the specified stock in the given time interval as XML string.</wsdl:documentation>      <wsdl:input message="tns:GetStockDailyValuesByDateXMLSoapIn" />      <wsdl:output message="tns:GetStockDailyValuesByDateXMLSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetStockDailyValuesXML">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns all stock values for given date as XML string.</wsdl:documentation>      <wsdl:input message="tns:GetStockDailyValuesXMLSoapIn" />      <wsdl:output message="tns:GetStockDailyValuesXMLSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestStockDailyValuesXML">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns latest published stock values as XML string.</wsdl:documentation>      <wsdl:input message="tns:GetLatestStockDailyValuesXMLSoapIn" />      <wsdl:output message="tns:GetLatestStockDailyValuesXMLSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetStockDailyValue">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the value for the specified stock on the given date.</wsdl:documentation>      <wsdl:input message="tns:GetStockDailyValueSoapIn" />      <wsdl:output message="tns:GetStockDailyValueSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetPreviousStockDailyValue">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the latest published value for the specified stock before the given date.</wsdl:documentation>      <wsdl:input message="tns:GetPreviousStockDailyValueSoapIn" />      <wsdl:output message="tns:GetPreviousStockDailyValueSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestStockDailyValue">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the latest published value for the specified stock.</wsdl:documentation>      <wsdl:input message="tns:GetLatestStockDailyValueSoapIn" />      <wsdl:output message="tns:GetLatestStockDailyValueSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestPreviousStockDailyValue">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the value before the latest published value for the specified stock.</wsdl:documentation>      <wsdl:input message="tns:GetLatestPreviousStockDailyValueSoapIn" />      <wsdl:output message="tns:GetLatestPreviousStockDailyValueSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestStockValue">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the current value for the specified stock.</wsdl:documentation>      <wsdl:input message="tns:GetLatestStockValueSoapIn" />      <wsdl:output message="tns:GetLatestStockValueSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetStockValue">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the value for the specified stock at the given time.</wsdl:documentation>      <wsdl:input message="tns:GetStockValueSoapIn" />      <wsdl:output message="tns:GetStockValueSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetStockValuesByDateTimeXML">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns all values for the specified stock in the given time interval as XML string.</wsdl:documentation>      <wsdl:input message="tns:GetStockValuesByDateTimeXMLSoapIn" />      <wsdl:output message="tns:GetStockValuesByDateTimeXMLSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetIndicesXMLSchema">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns XML schema (XSD) in which all XML formatted index information is in.</wsdl:documentation>      <wsdl:input message="tns:GetIndicesXMLSchemaSoapIn" />      <wsdl:output message="tns:GetIndicesXMLSchemaSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetIndexDailyValuesByValueXML">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns all values for the specified index that are in the given value interval as XML string.</wsdl:documentation>      <wsdl:input message="tns:GetIndexDailyValuesByValueXMLSoapIn" />      <wsdl:output message="tns:GetIndexDailyValuesByValueXMLSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetIndexDailyValuesByDateXML">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns all values for the specified index in the given time interval as XML string.</wsdl:documentation>      <wsdl:input message="tns:GetIndexDailyValuesByDateXMLSoapIn" />      <wsdl:output message="tns:GetIndexDailyValuesByDateXMLSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetIndexDailyValuesXML">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns all index values for given date as XML string.</wsdl:documentation>      <wsdl:input message="tns:GetIndexDailyValuesXMLSoapIn" />      <wsdl:output message="tns:GetIndexDailyValuesXMLSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestIndexDailyValuesXML">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns latest published index values as XML string.</wsdl:documentation>      <wsdl:input message="tns:GetLatestIndexDailyValuesXMLSoapIn" />      <wsdl:output message="tns:GetLatestIndexDailyValuesXMLSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetIndexDailyValue">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the value for the specified index on the given date.</wsdl:documentation>      <wsdl:input message="tns:GetIndexDailyValueSoapIn" />      <wsdl:output message="tns:GetIndexDailyValueSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestIndexDailyValue">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the latest published value for the specified index.</wsdl:documentation>      <wsdl:input message="tns:GetLatestIndexDailyValueSoapIn" />      <wsdl:output message="tns:GetLatestIndexDailyValueSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetLatestIndexValue">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the current value for the specified index.</wsdl:documentation>      <wsdl:input message="tns:GetLatestIndexValueSoapIn" />      <wsdl:output message="tns:GetLatestIndexValueSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetIndexValue">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the value for the specified index at the given time.</wsdl:documentation>      <wsdl:input message="tns:GetIndexValueSoapIn" />      <wsdl:output message="tns:GetIndexValueSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetIndexValuesByDateTimeXML">      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns all values for the specified index in the given time interval as XML string.</wsdl:documentation>      <wsdl:input message="tns:GetIndexValuesByDateTimeXMLSoapIn" />      <wsdl:output message="tns:GetIndexValuesByDateTimeXMLSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="StockQuotesSoap" type="tns:StockQuotesSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetStocksXMLSchema">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetStocksXMLSchema" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetStockDailyValuesByValueXML">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetStockDailyValuesByValueXML" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetStockDailyValuesByDateXML">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetStockDailyValuesByDateXML" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetStockDailyValuesXML">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetStockDailyValuesXML" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestStockDailyValuesXML">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetLatestStockDailyValuesXML" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetStockDailyValue">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetStockDailyValue" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPreviousStockDailyValue">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetPreviousStockDailyValue" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestStockDailyValue">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetLatestStockDailyValue" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestPreviousStockDailyValue">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetLatestPreviousStockDailyValue" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestStockValue">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetLatestStockValue" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetStockValue">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetStockValue" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetStockValuesByDateTimeXML">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetStockValuesByDateTimeXML" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIndicesXMLSchema">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetIndicesXMLSchema" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIndexDailyValuesByValueXML">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetIndexDailyValuesByValueXML" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIndexDailyValuesByDateXML">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetIndexDailyValuesByDateXML" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIndexDailyValuesXML">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetIndexDailyValuesXML" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestIndexDailyValuesXML">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetLatestIndexDailyValuesXML" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIndexDailyValue">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetIndexDailyValue" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestIndexDailyValue">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetLatestIndexDailyValue" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestIndexValue">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetLatestIndexValue" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIndexValue">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetIndexValue" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIndexValuesByDateTimeXML">      <soap:operation soapAction="http://www.gama-system.com/webservices/GetIndexValuesByDateTimeXML" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="StockQuotesSoap12" type="tns:StockQuotesSoap">    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />    <wsdl:operation name="GetStocksXMLSchema">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetStocksXMLSchema" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetStockDailyValuesByValueXML">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetStockDailyValuesByValueXML" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetStockDailyValuesByDateXML">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetStockDailyValuesByDateXML" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetStockDailyValuesXML">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetStockDailyValuesXML" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestStockDailyValuesXML">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetLatestStockDailyValuesXML" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetStockDailyValue">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetStockDailyValue" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPreviousStockDailyValue">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetPreviousStockDailyValue" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestStockDailyValue">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetLatestStockDailyValue" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestPreviousStockDailyValue">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetLatestPreviousStockDailyValue" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestStockValue">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetLatestStockValue" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetStockValue">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetStockValue" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetStockValuesByDateTimeXML">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetStockValuesByDateTimeXML" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIndicesXMLSchema">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetIndicesXMLSchema" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIndexDailyValuesByValueXML">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetIndexDailyValuesByValueXML" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIndexDailyValuesByDateXML">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetIndexDailyValuesByDateXML" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIndexDailyValuesXML">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetIndexDailyValuesXML" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestIndexDailyValuesXML">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetLatestIndexDailyValuesXML" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIndexDailyValue">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetIndexDailyValue" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestIndexDailyValue">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetLatestIndexDailyValue" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetLatestIndexValue">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetLatestIndexValue" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIndexValue">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetIndexValue" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetIndexValuesByDateTimeXML">      <soap12:operation soapAction="http://www.gama-system.com/webservices/GetIndexValuesByDateTimeXML" style="document" />      <wsdl:input>        <soap12:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap12:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="StockQuotes">    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">WebService provides stock exchange information.</wsdl:documentation>    <wsdl:port name="StockQuotesSoap" binding="tns:StockQuotesSoap">      <soap:address location="http://www.gama-system.com/webservices/stockquotes.asmx" />    </wsdl:port>    <wsdl:port name="StockQuotesSoap12" binding="tns:StockQuotesSoap12">      <soap12:address location="http://www.gama-system.com/webservices/stockquotes.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.gama-system.com/webservices" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://www.gama-system.com/webservices"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">WebService provides stock exchange information.</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.gama-system.com/webservices">
+			<s:element name="GetStocksXMLSchema">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetStocksXMLSchemaResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetStocksXMLSchemaResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetStockDailyValuesByValueXML">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="dcmLow" type="s:decimal" />
+						<s:element minOccurs="1" maxOccurs="1" name="dcmHigh" type="s:decimal" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetStockDailyValuesByValueXMLResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetStockDailyValuesByValueXMLResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetStockDailyValuesByDateXML">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strDateLow" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strDateHigh" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetStockDailyValuesByDateXMLResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetStockDailyValuesByDateXMLResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetStockDailyValuesXML">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strSegment" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetStockDailyValuesXMLResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetStockDailyValuesXMLResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestStockDailyValuesXML">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strSegment" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestStockDailyValuesXMLResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetLatestStockDailyValuesXMLResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetStockDailyValue">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetStockDailyValueResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetStockDailyValueResult" type="s:decimal" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetPreviousStockDailyValue">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetPreviousStockDailyValueResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetPreviousStockDailyValueResult" type="s:decimal" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestStockDailyValue">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestStockDailyValueResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetLatestStockDailyValueResult" type="s:decimal" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestPreviousStockDailyValue">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestPreviousStockDailyValueResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetLatestPreviousStockDailyValueResult" type="s:decimal" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestStockValue">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestStockValueResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetLatestStockValueResult" type="s:decimal" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetStockValue">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strDateTime" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetStockValueResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetStockValueResult" type="s:decimal" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetStockValuesByDateTimeXML">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strStock" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strDateTimeLow" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strDateTimeHigh" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetStockValuesByDateTimeXMLResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetStockValuesByDateTimeXMLResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIndicesXMLSchema">
+				<s:complexType />
+			</s:element>
+			<s:element name="GetIndicesXMLSchemaResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetIndicesXMLSchemaResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIndexDailyValuesByValueXML">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strIndex" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="dcmLow" type="s:decimal" />
+						<s:element minOccurs="1" maxOccurs="1" name="dcmHigh" type="s:decimal" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIndexDailyValuesByValueXMLResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetIndexDailyValuesByValueXMLResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIndexDailyValuesByDateXML">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strIndex" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strDateLow" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strDateHigh" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIndexDailyValuesByDateXMLResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetIndexDailyValuesByDateXMLResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIndexDailyValuesXML">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIndexDailyValuesXMLResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetIndexDailyValuesXMLResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestIndexDailyValuesXML">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestIndexDailyValuesXMLResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetLatestIndexDailyValuesXMLResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIndexDailyValue">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strIndex" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strDate" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIndexDailyValueResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetIndexDailyValueResult" type="s:decimal" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestIndexDailyValue">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strIndex" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestIndexDailyValueResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetLatestIndexDailyValueResult" type="s:decimal" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestIndexValue">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strIndex" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetLatestIndexValueResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetLatestIndexValueResult" type="s:decimal" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIndexValue">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strIndex" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strDateTime" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIndexValueResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="GetIndexValueResult" type="s:decimal" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIndexValuesByDateTimeXML">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="strStockExchange" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strIndex" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strDateTimeLow" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="strDateTimeHigh" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetIndexValuesByDateTimeXMLResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetIndexValuesByDateTimeXMLResult" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetStocksXMLSchemaSoapIn">
+		<wsdl:part name="parameters" element="tns:GetStocksXMLSchema" />
+	</wsdl:message>
+	<wsdl:message name="GetStocksXMLSchemaSoapOut">
+		<wsdl:part name="parameters" element="tns:GetStocksXMLSchemaResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetStockDailyValuesByValueXMLSoapIn">
+		<wsdl:part name="parameters" element="tns:GetStockDailyValuesByValueXML" />
+	</wsdl:message>
+	<wsdl:message name="GetStockDailyValuesByValueXMLSoapOut">
+		<wsdl:part name="parameters" element="tns:GetStockDailyValuesByValueXMLResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetStockDailyValuesByDateXMLSoapIn">
+		<wsdl:part name="parameters" element="tns:GetStockDailyValuesByDateXML" />
+	</wsdl:message>
+	<wsdl:message name="GetStockDailyValuesByDateXMLSoapOut">
+		<wsdl:part name="parameters" element="tns:GetStockDailyValuesByDateXMLResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetStockDailyValuesXMLSoapIn">
+		<wsdl:part name="parameters" element="tns:GetStockDailyValuesXML" />
+	</wsdl:message>
+	<wsdl:message name="GetStockDailyValuesXMLSoapOut">
+		<wsdl:part name="parameters" element="tns:GetStockDailyValuesXMLResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestStockDailyValuesXMLSoapIn">
+		<wsdl:part name="parameters" element="tns:GetLatestStockDailyValuesXML" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestStockDailyValuesXMLSoapOut">
+		<wsdl:part name="parameters" element="tns:GetLatestStockDailyValuesXMLResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetStockDailyValueSoapIn">
+		<wsdl:part name="parameters" element="tns:GetStockDailyValue" />
+	</wsdl:message>
+	<wsdl:message name="GetStockDailyValueSoapOut">
+		<wsdl:part name="parameters" element="tns:GetStockDailyValueResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetPreviousStockDailyValueSoapIn">
+		<wsdl:part name="parameters" element="tns:GetPreviousStockDailyValue" />
+	</wsdl:message>
+	<wsdl:message name="GetPreviousStockDailyValueSoapOut">
+		<wsdl:part name="parameters" element="tns:GetPreviousStockDailyValueResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestStockDailyValueSoapIn">
+		<wsdl:part name="parameters" element="tns:GetLatestStockDailyValue" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestStockDailyValueSoapOut">
+		<wsdl:part name="parameters" element="tns:GetLatestStockDailyValueResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestPreviousStockDailyValueSoapIn">
+		<wsdl:part name="parameters" element="tns:GetLatestPreviousStockDailyValue" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestPreviousStockDailyValueSoapOut">
+		<wsdl:part name="parameters" element="tns:GetLatestPreviousStockDailyValueResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestStockValueSoapIn">
+		<wsdl:part name="parameters" element="tns:GetLatestStockValue" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestStockValueSoapOut">
+		<wsdl:part name="parameters" element="tns:GetLatestStockValueResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetStockValueSoapIn">
+		<wsdl:part name="parameters" element="tns:GetStockValue" />
+	</wsdl:message>
+	<wsdl:message name="GetStockValueSoapOut">
+		<wsdl:part name="parameters" element="tns:GetStockValueResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetStockValuesByDateTimeXMLSoapIn">
+		<wsdl:part name="parameters" element="tns:GetStockValuesByDateTimeXML" />
+	</wsdl:message>
+	<wsdl:message name="GetStockValuesByDateTimeXMLSoapOut">
+		<wsdl:part name="parameters" element="tns:GetStockValuesByDateTimeXMLResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetIndicesXMLSchemaSoapIn">
+		<wsdl:part name="parameters" element="tns:GetIndicesXMLSchema" />
+	</wsdl:message>
+	<wsdl:message name="GetIndicesXMLSchemaSoapOut">
+		<wsdl:part name="parameters" element="tns:GetIndicesXMLSchemaResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetIndexDailyValuesByValueXMLSoapIn">
+		<wsdl:part name="parameters" element="tns:GetIndexDailyValuesByValueXML" />
+	</wsdl:message>
+	<wsdl:message name="GetIndexDailyValuesByValueXMLSoapOut">
+		<wsdl:part name="parameters" element="tns:GetIndexDailyValuesByValueXMLResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetIndexDailyValuesByDateXMLSoapIn">
+		<wsdl:part name="parameters" element="tns:GetIndexDailyValuesByDateXML" />
+	</wsdl:message>
+	<wsdl:message name="GetIndexDailyValuesByDateXMLSoapOut">
+		<wsdl:part name="parameters" element="tns:GetIndexDailyValuesByDateXMLResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetIndexDailyValuesXMLSoapIn">
+		<wsdl:part name="parameters" element="tns:GetIndexDailyValuesXML" />
+	</wsdl:message>
+	<wsdl:message name="GetIndexDailyValuesXMLSoapOut">
+		<wsdl:part name="parameters" element="tns:GetIndexDailyValuesXMLResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestIndexDailyValuesXMLSoapIn">
+		<wsdl:part name="parameters" element="tns:GetLatestIndexDailyValuesXML" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestIndexDailyValuesXMLSoapOut">
+		<wsdl:part name="parameters" element="tns:GetLatestIndexDailyValuesXMLResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetIndexDailyValueSoapIn">
+		<wsdl:part name="parameters" element="tns:GetIndexDailyValue" />
+	</wsdl:message>
+	<wsdl:message name="GetIndexDailyValueSoapOut">
+		<wsdl:part name="parameters" element="tns:GetIndexDailyValueResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestIndexDailyValueSoapIn">
+		<wsdl:part name="parameters" element="tns:GetLatestIndexDailyValue" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestIndexDailyValueSoapOut">
+		<wsdl:part name="parameters" element="tns:GetLatestIndexDailyValueResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestIndexValueSoapIn">
+		<wsdl:part name="parameters" element="tns:GetLatestIndexValue" />
+	</wsdl:message>
+	<wsdl:message name="GetLatestIndexValueSoapOut">
+		<wsdl:part name="parameters" element="tns:GetLatestIndexValueResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetIndexValueSoapIn">
+		<wsdl:part name="parameters" element="tns:GetIndexValue" />
+	</wsdl:message>
+	<wsdl:message name="GetIndexValueSoapOut">
+		<wsdl:part name="parameters" element="tns:GetIndexValueResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetIndexValuesByDateTimeXMLSoapIn">
+		<wsdl:part name="parameters" element="tns:GetIndexValuesByDateTimeXML" />
+	</wsdl:message>
+	<wsdl:message name="GetIndexValuesByDateTimeXMLSoapOut">
+		<wsdl:part name="parameters" element="tns:GetIndexValuesByDateTimeXMLResponse" />
+	</wsdl:message>
+	<wsdl:portType name="StockQuotesSoap">
+		<wsdl:operation name="GetStocksXMLSchema">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns XML schema (XSD) in which all XML formatted stock
+				information is in.</wsdl:documentation>
+			<wsdl:input message="tns:GetStocksXMLSchemaSoapIn" />
+			<wsdl:output message="tns:GetStocksXMLSchemaSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStockDailyValuesByValueXML">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns all values for the specified stock that are in the
+				given value interval as XML string.</wsdl:documentation>
+			<wsdl:input message="tns:GetStockDailyValuesByValueXMLSoapIn" />
+			<wsdl:output message="tns:GetStockDailyValuesByValueXMLSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStockDailyValuesByDateXML">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns all values for the specified stock in the given time
+				interval as XML string.</wsdl:documentation>
+			<wsdl:input message="tns:GetStockDailyValuesByDateXMLSoapIn" />
+			<wsdl:output message="tns:GetStockDailyValuesByDateXMLSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStockDailyValuesXML">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns all stock values for given date as XML string.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetStockDailyValuesXMLSoapIn" />
+			<wsdl:output message="tns:GetStockDailyValuesXMLSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestStockDailyValuesXML">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns latest published stock values as XML string.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestStockDailyValuesXMLSoapIn" />
+			<wsdl:output message="tns:GetLatestStockDailyValuesXMLSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStockDailyValue">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the value for the specified stock on the given date.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetStockDailyValueSoapIn" />
+			<wsdl:output message="tns:GetStockDailyValueSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPreviousStockDailyValue">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the latest published value for the specified stock
+				before the given date.</wsdl:documentation>
+			<wsdl:input message="tns:GetPreviousStockDailyValueSoapIn" />
+			<wsdl:output message="tns:GetPreviousStockDailyValueSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestStockDailyValue">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the latest published value for the specified stock.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestStockDailyValueSoapIn" />
+			<wsdl:output message="tns:GetLatestStockDailyValueSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestPreviousStockDailyValue">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the value before the latest published value for the
+				specified stock.</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestPreviousStockDailyValueSoapIn" />
+			<wsdl:output message="tns:GetLatestPreviousStockDailyValueSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestStockValue">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the current value for the specified stock.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestStockValueSoapIn" />
+			<wsdl:output message="tns:GetLatestStockValueSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStockValue">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the value for the specified stock at the given time.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetStockValueSoapIn" />
+			<wsdl:output message="tns:GetStockValueSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStockValuesByDateTimeXML">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns all values for the specified stock in the given time
+				interval as XML string.</wsdl:documentation>
+			<wsdl:input message="tns:GetStockValuesByDateTimeXMLSoapIn" />
+			<wsdl:output message="tns:GetStockValuesByDateTimeXMLSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetIndicesXMLSchema">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns XML schema (XSD) in which all XML formatted index
+				information is in.</wsdl:documentation>
+			<wsdl:input message="tns:GetIndicesXMLSchemaSoapIn" />
+			<wsdl:output message="tns:GetIndicesXMLSchemaSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexDailyValuesByValueXML">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns all values for the specified index that are in the
+				given value interval as XML string.</wsdl:documentation>
+			<wsdl:input message="tns:GetIndexDailyValuesByValueXMLSoapIn" />
+			<wsdl:output message="tns:GetIndexDailyValuesByValueXMLSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexDailyValuesByDateXML">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns all values for the specified index in the given time
+				interval as XML string.</wsdl:documentation>
+			<wsdl:input message="tns:GetIndexDailyValuesByDateXMLSoapIn" />
+			<wsdl:output message="tns:GetIndexDailyValuesByDateXMLSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexDailyValuesXML">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns all index values for given date as XML string.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetIndexDailyValuesXMLSoapIn" />
+			<wsdl:output message="tns:GetIndexDailyValuesXMLSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestIndexDailyValuesXML">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns latest published index values as XML string.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestIndexDailyValuesXMLSoapIn" />
+			<wsdl:output message="tns:GetLatestIndexDailyValuesXMLSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexDailyValue">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the value for the specified index on the given date.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetIndexDailyValueSoapIn" />
+			<wsdl:output message="tns:GetIndexDailyValueSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestIndexDailyValue">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the latest published value for the specified index.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestIndexDailyValueSoapIn" />
+			<wsdl:output message="tns:GetLatestIndexDailyValueSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestIndexValue">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the current value for the specified index.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetLatestIndexValueSoapIn" />
+			<wsdl:output message="tns:GetLatestIndexValueSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexValue">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns the value for the specified index at the given time.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetIndexValueSoapIn" />
+			<wsdl:output message="tns:GetIndexValueSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexValuesByDateTimeXML">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Method returns all values for the specified index in the given time
+				interval as XML string.</wsdl:documentation>
+			<wsdl:input message="tns:GetIndexValuesByDateTimeXMLSoapIn" />
+			<wsdl:output message="tns:GetIndexValuesByDateTimeXMLSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="StockQuotesSoap" type="tns:StockQuotesSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetStocksXMLSchema">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetStocksXMLSchema" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStockDailyValuesByValueXML">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetStockDailyValuesByValueXML"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStockDailyValuesByDateXML">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetStockDailyValuesByDateXML"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStockDailyValuesXML">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetStockDailyValuesXML" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestStockDailyValuesXML">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetLatestStockDailyValuesXML"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStockDailyValue">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetStockDailyValue" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPreviousStockDailyValue">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetPreviousStockDailyValue" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestStockDailyValue">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetLatestStockDailyValue" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestPreviousStockDailyValue">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetLatestPreviousStockDailyValue"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestStockValue">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetLatestStockValue" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStockValue">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetStockValue" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStockValuesByDateTimeXML">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetStockValuesByDateTimeXML" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIndicesXMLSchema">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetIndicesXMLSchema" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexDailyValuesByValueXML">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetIndexDailyValuesByValueXML"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexDailyValuesByDateXML">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetIndexDailyValuesByDateXML"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexDailyValuesXML">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetIndexDailyValuesXML" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestIndexDailyValuesXML">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetLatestIndexDailyValuesXML"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexDailyValue">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetIndexDailyValue" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestIndexDailyValue">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetLatestIndexDailyValue" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestIndexValue">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetLatestIndexValue" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexValue">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetIndexValue" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexValuesByDateTimeXML">
+			<soap:operation soapAction="http://www.gama-system.com/webservices/GetIndexValuesByDateTimeXML" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="StockQuotesSoap12" type="tns:StockQuotesSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetStocksXMLSchema">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetStocksXMLSchema" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStockDailyValuesByValueXML">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetStockDailyValuesByValueXML"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStockDailyValuesByDateXML">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetStockDailyValuesByDateXML"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStockDailyValuesXML">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetStockDailyValuesXML" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestStockDailyValuesXML">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetLatestStockDailyValuesXML"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStockDailyValue">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetStockDailyValue" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPreviousStockDailyValue">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetPreviousStockDailyValue"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestStockDailyValue">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetLatestStockDailyValue"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestPreviousStockDailyValue">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetLatestPreviousStockDailyValue"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestStockValue">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetLatestStockValue" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStockValue">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetStockValue" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStockValuesByDateTimeXML">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetStockValuesByDateTimeXML"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIndicesXMLSchema">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetIndicesXMLSchema" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexDailyValuesByValueXML">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetIndexDailyValuesByValueXML"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexDailyValuesByDateXML">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetIndexDailyValuesByDateXML"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexDailyValuesXML">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetIndexDailyValuesXML" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestIndexDailyValuesXML">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetLatestIndexDailyValuesXML"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexDailyValue">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetIndexDailyValue" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestIndexDailyValue">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetLatestIndexDailyValue"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetLatestIndexValue">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetLatestIndexValue" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexValue">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetIndexValue" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetIndexValuesByDateTimeXML">
+			<soap12:operation soapAction="http://www.gama-system.com/webservices/GetIndexValuesByDateTimeXML"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="StockQuotes">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">WebService provides stock exchange information.</wsdl:documentation>
+		<wsdl:port name="StockQuotesSoap" binding="tns:StockQuotesSoap">
+			<soap:address location="http://www.gama-system.com/webservices/stockquotes.asmx" />
+		</wsdl:port>
+		<wsdl:port name="StockQuotesSoap12" binding="tns:StockQuotesSoap12">
+			<soap12:address location="http://www.gama-system.com/webservices/stockquotes.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

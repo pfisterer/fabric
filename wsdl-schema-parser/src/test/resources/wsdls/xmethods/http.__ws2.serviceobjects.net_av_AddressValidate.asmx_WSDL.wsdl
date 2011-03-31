@@ -1,1 +1,945 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.serviceobjects.com/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://www.serviceobjects.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.serviceobjects.com/">      <s:element name="ValidateAddress">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidateAddressResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ValidateAddressResult" type="tns:Address" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="Address">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="BarcodeDigits" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CarrierRoute" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CongressCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountyCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountyName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Fragment" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Exception" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />        </s:sequence>      </s:complexType>      <s:complexType name="Err">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Desc" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />        </s:sequence>      </s:complexType>      <s:element name="ValidateAddressWithFragments">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidateAddressWithFragmentsResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ValidateAddressWithFragmentsResult" type="tns:FragmentAddress" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="FragmentAddress">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="BarcodeDigits" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CarrierRoute" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CongressCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountyCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountyName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Fragment" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentHouse" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentPMBNumber" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentPMBPrefix" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentPostDir" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentPreDir" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentStreet" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentSuffix" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentUnit" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Source" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />        </s:sequence>      </s:complexType>      <s:element name="ParseAddress">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ParseAddressResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ParseAddressResult" type="tns:FragmentAddress" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidateAddressWithExtras">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidateAddressWithExtrasResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ValidateAddressWithExtrasResult" type="tns:Address" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetPossibleMatches">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetPossibleMatchesResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetPossibleMatchesResult" type="tns:ArrayOfFragmentAddress" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="ArrayOfFragmentAddress">        <s:sequence>          <s:element minOccurs="0" maxOccurs="unbounded" name="FragmentAddress" nillable="true" type="tns:FragmentAddress" />        </s:sequence>      </s:complexType>      <s:element name="ValidateAddressType">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidateAddressTypeResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ValidateAddressTypeResult" type="tns:AddressType" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="AddressType">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="AddressType" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="AddressTypeDescription" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />        </s:sequence>      </s:complexType>      <s:element name="ValidateAddressSingleLine">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidateAddressSingleLineResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ValidateAddressSingleLineResult" type="tns:FragmentAddress" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidateCityStateZip">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidateCityStateZipResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ValidateCityStateZipResult" type="tns:AreaAddress" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="AreaAddress">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="PostalCodeFound" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />        </s:sequence>      </s:complexType>      <s:element name="ValidateAddressWithDPV">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="ValidateAddressWithDPVResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="ValidateAddressWithDPVResult" type="tns:DPVAddress" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="DPVAddress">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="BarcodeDigits" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CarrierRoute" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CongressCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountyCode" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CountyName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Fragment" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentHouse" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentPMBNumber" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentPMBPrefix" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentPostDir" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentPreDir" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentStreet" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentSuffix" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="FragmentUnit" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Source" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DPV" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DPVDesc" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DPVNotes" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="DPVNotesDesc" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Corrections" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CorrectionsDesc" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />        </s:sequence>      </s:complexType>      <s:element name="Address" nillable="true" type="tns:Address" />      <s:element name="FragmentAddress" nillable="true" type="tns:FragmentAddress" />      <s:element name="ArrayOfFragmentAddress" nillable="true" type="tns:ArrayOfFragmentAddress" />      <s:element name="AddressType" nillable="true" type="tns:AddressType" />      <s:element name="AreaAddress" nillable="true" type="tns:AreaAddress" />      <s:element name="DPVAddress" nillable="true" type="tns:DPVAddress" />    </s:schema>  </wsdl:types>  <wsdl:message name="ValidateAddressSoapIn">    <wsdl:part name="parameters" element="tns:ValidateAddress" />  </wsdl:message>  <wsdl:message name="ValidateAddressSoapOut">    <wsdl:part name="parameters" element="tns:ValidateAddressResponse" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithFragmentsSoapIn">    <wsdl:part name="parameters" element="tns:ValidateAddressWithFragments" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithFragmentsSoapOut">    <wsdl:part name="parameters" element="tns:ValidateAddressWithFragmentsResponse" />  </wsdl:message>  <wsdl:message name="ParseAddressSoapIn">    <wsdl:part name="parameters" element="tns:ParseAddress" />  </wsdl:message>  <wsdl:message name="ParseAddressSoapOut">    <wsdl:part name="parameters" element="tns:ParseAddressResponse" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithExtrasSoapIn">    <wsdl:part name="parameters" element="tns:ValidateAddressWithExtras" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithExtrasSoapOut">    <wsdl:part name="parameters" element="tns:ValidateAddressWithExtrasResponse" />  </wsdl:message>  <wsdl:message name="GetPossibleMatchesSoapIn">    <wsdl:part name="parameters" element="tns:GetPossibleMatches" />  </wsdl:message>  <wsdl:message name="GetPossibleMatchesSoapOut">    <wsdl:part name="parameters" element="tns:GetPossibleMatchesResponse" />  </wsdl:message>  <wsdl:message name="ValidateAddressTypeSoapIn">    <wsdl:part name="parameters" element="tns:ValidateAddressType" />  </wsdl:message>  <wsdl:message name="ValidateAddressTypeSoapOut">    <wsdl:part name="parameters" element="tns:ValidateAddressTypeResponse" />  </wsdl:message>  <wsdl:message name="ValidateAddressSingleLineSoapIn">    <wsdl:part name="parameters" element="tns:ValidateAddressSingleLine" />  </wsdl:message>  <wsdl:message name="ValidateAddressSingleLineSoapOut">    <wsdl:part name="parameters" element="tns:ValidateAddressSingleLineResponse" />  </wsdl:message>  <wsdl:message name="ValidateCityStateZipSoapIn">    <wsdl:part name="parameters" element="tns:ValidateCityStateZip" />  </wsdl:message>  <wsdl:message name="ValidateCityStateZipSoapOut">    <wsdl:part name="parameters" element="tns:ValidateCityStateZipResponse" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithDPVSoapIn">    <wsdl:part name="parameters" element="tns:ValidateAddressWithDPV" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithDPVSoapOut">    <wsdl:part name="parameters" element="tns:ValidateAddressWithDPVResponse" />  </wsdl:message>  <wsdl:message name="ValidateAddressHttpGetIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateAddressHttpGetOut">    <wsdl:part name="Body" element="tns:Address" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithFragmentsHttpGetIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithFragmentsHttpGetOut">    <wsdl:part name="Body" element="tns:FragmentAddress" />  </wsdl:message>  <wsdl:message name="ParseAddressHttpGetIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ParseAddressHttpGetOut">    <wsdl:part name="Body" element="tns:FragmentAddress" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithExtrasHttpGetIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="Address2" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithExtrasHttpGetOut">    <wsdl:part name="Body" element="tns:Address" />  </wsdl:message>  <wsdl:message name="GetPossibleMatchesHttpGetIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="Address2" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPossibleMatchesHttpGetOut">    <wsdl:part name="Body" element="tns:ArrayOfFragmentAddress" />  </wsdl:message>  <wsdl:message name="ValidateAddressTypeHttpGetIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="Address2" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateAddressTypeHttpGetOut">    <wsdl:part name="Body" element="tns:AddressType" />  </wsdl:message>  <wsdl:message name="ValidateAddressSingleLineHttpGetIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateAddressSingleLineHttpGetOut">    <wsdl:part name="Body" element="tns:FragmentAddress" />  </wsdl:message>  <wsdl:message name="ValidateCityStateZipHttpGetIn">    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateCityStateZipHttpGetOut">    <wsdl:part name="Body" element="tns:AreaAddress" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithDPVHttpGetIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="Address2" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithDPVHttpGetOut">    <wsdl:part name="Body" element="tns:DPVAddress" />  </wsdl:message>  <wsdl:message name="ValidateAddressHttpPostIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateAddressHttpPostOut">    <wsdl:part name="Body" element="tns:Address" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithFragmentsHttpPostIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithFragmentsHttpPostOut">    <wsdl:part name="Body" element="tns:FragmentAddress" />  </wsdl:message>  <wsdl:message name="ParseAddressHttpPostIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ParseAddressHttpPostOut">    <wsdl:part name="Body" element="tns:FragmentAddress" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithExtrasHttpPostIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="Address2" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithExtrasHttpPostOut">    <wsdl:part name="Body" element="tns:Address" />  </wsdl:message>  <wsdl:message name="GetPossibleMatchesHttpPostIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="Address2" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetPossibleMatchesHttpPostOut">    <wsdl:part name="Body" element="tns:ArrayOfFragmentAddress" />  </wsdl:message>  <wsdl:message name="ValidateAddressTypeHttpPostIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="Address2" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateAddressTypeHttpPostOut">    <wsdl:part name="Body" element="tns:AddressType" />  </wsdl:message>  <wsdl:message name="ValidateAddressSingleLineHttpPostIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateAddressSingleLineHttpPostOut">    <wsdl:part name="Body" element="tns:FragmentAddress" />  </wsdl:message>  <wsdl:message name="ValidateCityStateZipHttpPostIn">    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateCityStateZipHttpPostOut">    <wsdl:part name="Body" element="tns:AreaAddress" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithDPVHttpPostIn">    <wsdl:part name="Address" type="s:string" />    <wsdl:part name="Address2" type="s:string" />    <wsdl:part name="City" type="s:string" />    <wsdl:part name="State" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="ValidateAddressWithDPVHttpPostOut">    <wsdl:part name="Body" element="tns:DPVAddress" />  </wsdl:message>  <wsdl:portType name="DOTSAddressValidateSoap">    <wsdl:operation name="ValidateAddress">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US postal address.</documentation>      <wsdl:input message="tns:ValidateAddressSoapIn" />      <wsdl:output message="tns:ValidateAddressSoapOut" />    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithFragments">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information and street address fragments for a given US postal address.</documentation>      <wsdl:input message="tns:ValidateAddressWithFragmentsSoapIn" />      <wsdl:output message="tns:ValidateAddressWithFragmentsSoapOut" />    </wsdl:operation>    <wsdl:operation name="ParseAddress">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information and street address fragments for a given US postal address. If information is not found, address will be parsed.</documentation>      <wsdl:input message="tns:ParseAddressSoapIn" />      <wsdl:output message="tns:ParseAddressSoapOut" />    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithExtras">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US postal address.</documentation>      <wsdl:input message="tns:ValidateAddressWithExtrasSoapIn" />      <wsdl:output message="tns:ValidateAddressWithExtrasSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetPossibleMatches">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the possible validated matches for a given US postal address.</documentation>      <wsdl:input message="tns:GetPossibleMatchesSoapIn" />      <wsdl:output message="tns:GetPossibleMatchesSoapOut" />    </wsdl:operation>    <wsdl:operation name="ValidateAddressType">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the type of address for a given US postal address.</documentation>      <wsdl:input message="tns:ValidateAddressTypeSoapIn" />      <wsdl:output message="tns:ValidateAddressTypeSoapOut" />    </wsdl:operation>    <wsdl:operation name="ValidateAddressSingleLine">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns parsed and validated address elements for an address on a single line.</documentation>      <wsdl:input message="tns:ValidateAddressSingleLineSoapIn" />      <wsdl:output message="tns:ValidateAddressSingleLineSoapOut" />    </wsdl:operation>    <wsdl:operation name="ValidateCityStateZip">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US city, state, and/or postal code.</documentation>      <wsdl:input message="tns:ValidateCityStateZipSoapIn" />      <wsdl:output message="tns:ValidateCityStateZipSoapOut" />    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithDPV">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns parsed and validated address elements including Delivery Point Validation.</documentation>      <wsdl:input message="tns:ValidateAddressWithDPVSoapIn" />      <wsdl:output message="tns:ValidateAddressWithDPVSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="DOTSAddressValidateHttpGet">    <wsdl:operation name="ValidateAddress">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US postal address.</documentation>      <wsdl:input message="tns:ValidateAddressHttpGetIn" />      <wsdl:output message="tns:ValidateAddressHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithFragments">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information and street address fragments for a given US postal address.</documentation>      <wsdl:input message="tns:ValidateAddressWithFragmentsHttpGetIn" />      <wsdl:output message="tns:ValidateAddressWithFragmentsHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ParseAddress">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information and street address fragments for a given US postal address. If information is not found, address will be parsed.</documentation>      <wsdl:input message="tns:ParseAddressHttpGetIn" />      <wsdl:output message="tns:ParseAddressHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithExtras">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US postal address.</documentation>      <wsdl:input message="tns:ValidateAddressWithExtrasHttpGetIn" />      <wsdl:output message="tns:ValidateAddressWithExtrasHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetPossibleMatches">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the possible validated matches for a given US postal address.</documentation>      <wsdl:input message="tns:GetPossibleMatchesHttpGetIn" />      <wsdl:output message="tns:GetPossibleMatchesHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ValidateAddressType">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the type of address for a given US postal address.</documentation>      <wsdl:input message="tns:ValidateAddressTypeHttpGetIn" />      <wsdl:output message="tns:ValidateAddressTypeHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ValidateAddressSingleLine">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns parsed and validated address elements for an address on a single line.</documentation>      <wsdl:input message="tns:ValidateAddressSingleLineHttpGetIn" />      <wsdl:output message="tns:ValidateAddressSingleLineHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ValidateCityStateZip">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US city, state, and/or postal code.</documentation>      <wsdl:input message="tns:ValidateCityStateZipHttpGetIn" />      <wsdl:output message="tns:ValidateCityStateZipHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithDPV">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns parsed and validated address elements including Delivery Point Validation.</documentation>      <wsdl:input message="tns:ValidateAddressWithDPVHttpGetIn" />      <wsdl:output message="tns:ValidateAddressWithDPVHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="DOTSAddressValidateHttpPost">    <wsdl:operation name="ValidateAddress">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US postal address.</documentation>      <wsdl:input message="tns:ValidateAddressHttpPostIn" />      <wsdl:output message="tns:ValidateAddressHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithFragments">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information and street address fragments for a given US postal address.</documentation>      <wsdl:input message="tns:ValidateAddressWithFragmentsHttpPostIn" />      <wsdl:output message="tns:ValidateAddressWithFragmentsHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ParseAddress">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information and street address fragments for a given US postal address. If information is not found, address will be parsed.</documentation>      <wsdl:input message="tns:ParseAddressHttpPostIn" />      <wsdl:output message="tns:ParseAddressHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithExtras">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US postal address.</documentation>      <wsdl:input message="tns:ValidateAddressWithExtrasHttpPostIn" />      <wsdl:output message="tns:ValidateAddressWithExtrasHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetPossibleMatches">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the possible validated matches for a given US postal address.</documentation>      <wsdl:input message="tns:GetPossibleMatchesHttpPostIn" />      <wsdl:output message="tns:GetPossibleMatchesHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ValidateAddressType">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the type of address for a given US postal address.</documentation>      <wsdl:input message="tns:ValidateAddressTypeHttpPostIn" />      <wsdl:output message="tns:ValidateAddressTypeHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ValidateAddressSingleLine">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns parsed and validated address elements for an address on a single line.</documentation>      <wsdl:input message="tns:ValidateAddressSingleLineHttpPostIn" />      <wsdl:output message="tns:ValidateAddressSingleLineHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ValidateCityStateZip">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US city, state, and/or postal code.</documentation>      <wsdl:input message="tns:ValidateCityStateZipHttpPostIn" />      <wsdl:output message="tns:ValidateCityStateZipHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithDPV">      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns parsed and validated address elements including Delivery Point Validation.</documentation>      <wsdl:input message="tns:ValidateAddressWithDPVHttpPostIn" />      <wsdl:output message="tns:ValidateAddressWithDPVHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="DOTSAddressValidateSoap" type="tns:DOTSAddressValidateSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <wsdl:operation name="ValidateAddress">      <soap:operation soapAction="http://www.serviceobjects.com/ValidateAddress" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithFragments">      <soap:operation soapAction="http://www.serviceobjects.com/ValidateAddressWithFragments" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ParseAddress">      <soap:operation soapAction="http://www.serviceobjects.com/ParseAddress" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithExtras">      <soap:operation soapAction="http://www.serviceobjects.com/ValidateAddressWithExtras" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPossibleMatches">      <soap:operation soapAction="http://www.serviceobjects.com/GetPossibleMatches" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateAddressType">      <soap:operation soapAction="http://www.serviceobjects.com/ValidateAddressType" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateAddressSingleLine">      <soap:operation soapAction="http://www.serviceobjects.com/ValidateAddressSingleLine" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateCityStateZip">      <soap:operation soapAction="http://www.serviceobjects.com/ValidateCityStateZip" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithDPV">      <soap:operation soapAction="http://www.serviceobjects.com/ValidateAddressWithDPV" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="DOTSAddressValidateHttpGet" type="tns:DOTSAddressValidateHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="ValidateAddress">      <http:operation location="/ValidateAddress" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithFragments">      <http:operation location="/ValidateAddressWithFragments" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ParseAddress">      <http:operation location="/ParseAddress" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithExtras">      <http:operation location="/ValidateAddressWithExtras" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPossibleMatches">      <http:operation location="/GetPossibleMatches" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateAddressType">      <http:operation location="/ValidateAddressType" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateAddressSingleLine">      <http:operation location="/ValidateAddressSingleLine" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateCityStateZip">      <http:operation location="/ValidateCityStateZip" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithDPV">      <http:operation location="/ValidateAddressWithDPV" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="DOTSAddressValidateHttpPost" type="tns:DOTSAddressValidateHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="ValidateAddress">      <http:operation location="/ValidateAddress" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithFragments">      <http:operation location="/ValidateAddressWithFragments" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ParseAddress">      <http:operation location="/ParseAddress" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithExtras">      <http:operation location="/ValidateAddressWithExtras" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetPossibleMatches">      <http:operation location="/GetPossibleMatches" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateAddressType">      <http:operation location="/ValidateAddressType" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateAddressSingleLine">      <http:operation location="/ValidateAddressSingleLine" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateCityStateZip">      <http:operation location="/ValidateCityStateZip" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="ValidateAddressWithDPV">      <http:operation location="/ValidateAddressWithDPV" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="DOTSAddressValidate">    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">For more information on our web services, visit us at &lt;a href='http://www.serviceobjects.com/products/default.asp' target='new'&gt;our website&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;&lt;a href='http://www.serviceobjects.com' target='new'&gt;&lt;img src='http://www.serviceobjects.com/images/so_logo_2_inside.gif' border='0'/&gt;&lt;/a&gt;</documentation>    <wsdl:port name="DOTSAddressValidateSoap" binding="tns:DOTSAddressValidateSoap">      <soap:address location="http://ws2.serviceobjects.net/av/AddressValidate.asmx" />    </wsdl:port>    <wsdl:port name="DOTSAddressValidateHttpGet" binding="tns:DOTSAddressValidateHttpGet">      <http:address location="http://ws2.serviceobjects.net/av/AddressValidate.asmx" />    </wsdl:port>    <wsdl:port name="DOTSAddressValidateHttpPost" binding="tns:DOTSAddressValidateHttpPost">      <http:address location="http://ws2.serviceobjects.net/av/AddressValidate.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.serviceobjects.com/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	targetNamespace="http://www.serviceobjects.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.serviceobjects.com/">
+			<s:element name="ValidateAddress">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidateAddressResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ValidateAddressResult" type="tns:Address" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="Address">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="BarcodeDigits" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CarrierRoute" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CongressCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountyCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountyName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Fragment" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Exception" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Err">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Desc" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="ValidateAddressWithFragments">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidateAddressWithFragmentsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ValidateAddressWithFragmentsResult" type="tns:FragmentAddress" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="FragmentAddress">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="BarcodeDigits" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CarrierRoute" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CongressCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountyCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountyName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Fragment" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentHouse" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentPMBNumber" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentPMBPrefix" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentPostDir" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentPreDir" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentStreet" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentSuffix" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentUnit" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Source" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="ParseAddress">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ParseAddressResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ParseAddressResult" type="tns:FragmentAddress" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidateAddressWithExtras">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidateAddressWithExtrasResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ValidateAddressWithExtrasResult" type="tns:Address" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetPossibleMatches">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetPossibleMatchesResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetPossibleMatchesResult" type="tns:ArrayOfFragmentAddress" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="ArrayOfFragmentAddress">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="FragmentAddress" nillable="true" type="tns:FragmentAddress" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="ValidateAddressType">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidateAddressTypeResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ValidateAddressTypeResult" type="tns:AddressType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="AddressType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="AddressType" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="AddressTypeDescription" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="ValidateAddressSingleLine">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidateAddressSingleLineResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ValidateAddressSingleLineResult" type="tns:FragmentAddress" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidateCityStateZip">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidateCityStateZipResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ValidateCityStateZipResult" type="tns:AreaAddress" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="AreaAddress">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="PostalCodeFound" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="ValidateAddressWithDPV">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="ValidateAddressWithDPVResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="ValidateAddressWithDPVResult" type="tns:DPVAddress" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="DPVAddress">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="BarcodeDigits" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CarrierRoute" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CongressCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountyCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CountyName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Fragment" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentHouse" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentPMBNumber" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentPMBPrefix" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentPostDir" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentPreDir" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentStreet" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentSuffix" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="FragmentUnit" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Source" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DPV" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DPVDesc" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DPVNotes" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="DPVNotesDesc" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Corrections" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CorrectionsDesc" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="Address" nillable="true" type="tns:Address" />
+			<s:element name="FragmentAddress" nillable="true" type="tns:FragmentAddress" />
+			<s:element name="ArrayOfFragmentAddress" nillable="true" type="tns:ArrayOfFragmentAddress" />
+			<s:element name="AddressType" nillable="true" type="tns:AddressType" />
+			<s:element name="AreaAddress" nillable="true" type="tns:AreaAddress" />
+			<s:element name="DPVAddress" nillable="true" type="tns:DPVAddress" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="ValidateAddressSoapIn">
+		<wsdl:part name="parameters" element="tns:ValidateAddress" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressSoapOut">
+		<wsdl:part name="parameters" element="tns:ValidateAddressResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithFragmentsSoapIn">
+		<wsdl:part name="parameters" element="tns:ValidateAddressWithFragments" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithFragmentsSoapOut">
+		<wsdl:part name="parameters" element="tns:ValidateAddressWithFragmentsResponse" />
+	</wsdl:message>
+	<wsdl:message name="ParseAddressSoapIn">
+		<wsdl:part name="parameters" element="tns:ParseAddress" />
+	</wsdl:message>
+	<wsdl:message name="ParseAddressSoapOut">
+		<wsdl:part name="parameters" element="tns:ParseAddressResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithExtrasSoapIn">
+		<wsdl:part name="parameters" element="tns:ValidateAddressWithExtras" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithExtrasSoapOut">
+		<wsdl:part name="parameters" element="tns:ValidateAddressWithExtrasResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetPossibleMatchesSoapIn">
+		<wsdl:part name="parameters" element="tns:GetPossibleMatches" />
+	</wsdl:message>
+	<wsdl:message name="GetPossibleMatchesSoapOut">
+		<wsdl:part name="parameters" element="tns:GetPossibleMatchesResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressTypeSoapIn">
+		<wsdl:part name="parameters" element="tns:ValidateAddressType" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressTypeSoapOut">
+		<wsdl:part name="parameters" element="tns:ValidateAddressTypeResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressSingleLineSoapIn">
+		<wsdl:part name="parameters" element="tns:ValidateAddressSingleLine" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressSingleLineSoapOut">
+		<wsdl:part name="parameters" element="tns:ValidateAddressSingleLineResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidateCityStateZipSoapIn">
+		<wsdl:part name="parameters" element="tns:ValidateCityStateZip" />
+	</wsdl:message>
+	<wsdl:message name="ValidateCityStateZipSoapOut">
+		<wsdl:part name="parameters" element="tns:ValidateCityStateZipResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithDPVSoapIn">
+		<wsdl:part name="parameters" element="tns:ValidateAddressWithDPV" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithDPVSoapOut">
+		<wsdl:part name="parameters" element="tns:ValidateAddressWithDPVResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressHttpGetIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressHttpGetOut">
+		<wsdl:part name="Body" element="tns:Address" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithFragmentsHttpGetIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithFragmentsHttpGetOut">
+		<wsdl:part name="Body" element="tns:FragmentAddress" />
+	</wsdl:message>
+	<wsdl:message name="ParseAddressHttpGetIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ParseAddressHttpGetOut">
+		<wsdl:part name="Body" element="tns:FragmentAddress" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithExtrasHttpGetIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="Address2" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithExtrasHttpGetOut">
+		<wsdl:part name="Body" element="tns:Address" />
+	</wsdl:message>
+	<wsdl:message name="GetPossibleMatchesHttpGetIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="Address2" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPossibleMatchesHttpGetOut">
+		<wsdl:part name="Body" element="tns:ArrayOfFragmentAddress" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressTypeHttpGetIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="Address2" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressTypeHttpGetOut">
+		<wsdl:part name="Body" element="tns:AddressType" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressSingleLineHttpGetIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressSingleLineHttpGetOut">
+		<wsdl:part name="Body" element="tns:FragmentAddress" />
+	</wsdl:message>
+	<wsdl:message name="ValidateCityStateZipHttpGetIn">
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateCityStateZipHttpGetOut">
+		<wsdl:part name="Body" element="tns:AreaAddress" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithDPVHttpGetIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="Address2" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithDPVHttpGetOut">
+		<wsdl:part name="Body" element="tns:DPVAddress" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressHttpPostIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressHttpPostOut">
+		<wsdl:part name="Body" element="tns:Address" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithFragmentsHttpPostIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithFragmentsHttpPostOut">
+		<wsdl:part name="Body" element="tns:FragmentAddress" />
+	</wsdl:message>
+	<wsdl:message name="ParseAddressHttpPostIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ParseAddressHttpPostOut">
+		<wsdl:part name="Body" element="tns:FragmentAddress" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithExtrasHttpPostIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="Address2" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithExtrasHttpPostOut">
+		<wsdl:part name="Body" element="tns:Address" />
+	</wsdl:message>
+	<wsdl:message name="GetPossibleMatchesHttpPostIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="Address2" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetPossibleMatchesHttpPostOut">
+		<wsdl:part name="Body" element="tns:ArrayOfFragmentAddress" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressTypeHttpPostIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="Address2" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressTypeHttpPostOut">
+		<wsdl:part name="Body" element="tns:AddressType" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressSingleLineHttpPostIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressSingleLineHttpPostOut">
+		<wsdl:part name="Body" element="tns:FragmentAddress" />
+	</wsdl:message>
+	<wsdl:message name="ValidateCityStateZipHttpPostIn">
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateCityStateZipHttpPostOut">
+		<wsdl:part name="Body" element="tns:AreaAddress" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithDPVHttpPostIn">
+		<wsdl:part name="Address" type="s:string" />
+		<wsdl:part name="Address2" type="s:string" />
+		<wsdl:part name="City" type="s:string" />
+		<wsdl:part name="State" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressWithDPVHttpPostOut">
+		<wsdl:part name="Body" element="tns:DPVAddress" />
+	</wsdl:message>
+	<wsdl:portType name="DOTSAddressValidateSoap">
+		<wsdl:operation name="ValidateAddress">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US postal address.
+			</documentation>
+			<wsdl:input message="tns:ValidateAddressSoapIn" />
+			<wsdl:output message="tns:ValidateAddressSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithFragments">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information and street address fragments for a given US
+				postal address.</documentation>
+			<wsdl:input message="tns:ValidateAddressWithFragmentsSoapIn" />
+			<wsdl:output message="tns:ValidateAddressWithFragmentsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ParseAddress">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information and street address fragments for a given US
+				postal address. If information is not found, address will be parsed.</documentation>
+			<wsdl:input message="tns:ParseAddressSoapIn" />
+			<wsdl:output message="tns:ParseAddressSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithExtras">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US postal address.
+			</documentation>
+			<wsdl:input message="tns:ValidateAddressWithExtrasSoapIn" />
+			<wsdl:output message="tns:ValidateAddressWithExtrasSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPossibleMatches">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the possible validated matches for a given US postal address.
+			</documentation>
+			<wsdl:input message="tns:GetPossibleMatchesSoapIn" />
+			<wsdl:output message="tns:GetPossibleMatchesSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressType">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the type of address for a given US postal address.</documentation>
+			<wsdl:input message="tns:ValidateAddressTypeSoapIn" />
+			<wsdl:output message="tns:ValidateAddressTypeSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressSingleLine">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns parsed and validated address elements for an address on a single line.
+			</documentation>
+			<wsdl:input message="tns:ValidateAddressSingleLineSoapIn" />
+			<wsdl:output message="tns:ValidateAddressSingleLineSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateCityStateZip">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US city, state, and/or postal
+				code.</documentation>
+			<wsdl:input message="tns:ValidateCityStateZipSoapIn" />
+			<wsdl:output message="tns:ValidateCityStateZipSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithDPV">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns parsed and validated address elements including Delivery Point Validation.
+			</documentation>
+			<wsdl:input message="tns:ValidateAddressWithDPVSoapIn" />
+			<wsdl:output message="tns:ValidateAddressWithDPVSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DOTSAddressValidateHttpGet">
+		<wsdl:operation name="ValidateAddress">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US postal address.
+			</documentation>
+			<wsdl:input message="tns:ValidateAddressHttpGetIn" />
+			<wsdl:output message="tns:ValidateAddressHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithFragments">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information and street address fragments for a given US
+				postal address.</documentation>
+			<wsdl:input message="tns:ValidateAddressWithFragmentsHttpGetIn" />
+			<wsdl:output message="tns:ValidateAddressWithFragmentsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ParseAddress">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information and street address fragments for a given US
+				postal address. If information is not found, address will be parsed.</documentation>
+			<wsdl:input message="tns:ParseAddressHttpGetIn" />
+			<wsdl:output message="tns:ParseAddressHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithExtras">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US postal address.
+			</documentation>
+			<wsdl:input message="tns:ValidateAddressWithExtrasHttpGetIn" />
+			<wsdl:output message="tns:ValidateAddressWithExtrasHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPossibleMatches">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the possible validated matches for a given US postal address.
+			</documentation>
+			<wsdl:input message="tns:GetPossibleMatchesHttpGetIn" />
+			<wsdl:output message="tns:GetPossibleMatchesHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressType">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the type of address for a given US postal address.</documentation>
+			<wsdl:input message="tns:ValidateAddressTypeHttpGetIn" />
+			<wsdl:output message="tns:ValidateAddressTypeHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressSingleLine">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns parsed and validated address elements for an address on a single line.
+			</documentation>
+			<wsdl:input message="tns:ValidateAddressSingleLineHttpGetIn" />
+			<wsdl:output message="tns:ValidateAddressSingleLineHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateCityStateZip">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US city, state, and/or postal
+				code.</documentation>
+			<wsdl:input message="tns:ValidateCityStateZipHttpGetIn" />
+			<wsdl:output message="tns:ValidateCityStateZipHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithDPV">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns parsed and validated address elements including Delivery Point Validation.
+			</documentation>
+			<wsdl:input message="tns:ValidateAddressWithDPVHttpGetIn" />
+			<wsdl:output message="tns:ValidateAddressWithDPVHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DOTSAddressValidateHttpPost">
+		<wsdl:operation name="ValidateAddress">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US postal address.
+			</documentation>
+			<wsdl:input message="tns:ValidateAddressHttpPostIn" />
+			<wsdl:output message="tns:ValidateAddressHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithFragments">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information and street address fragments for a given US
+				postal address.</documentation>
+			<wsdl:input message="tns:ValidateAddressWithFragmentsHttpPostIn" />
+			<wsdl:output message="tns:ValidateAddressWithFragmentsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ParseAddress">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information and street address fragments for a given US
+				postal address. If information is not found, address will be parsed.</documentation>
+			<wsdl:input message="tns:ParseAddressHttpPostIn" />
+			<wsdl:output message="tns:ParseAddressHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithExtras">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US postal address.
+			</documentation>
+			<wsdl:input message="tns:ValidateAddressWithExtrasHttpPostIn" />
+			<wsdl:output message="tns:ValidateAddressWithExtrasHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPossibleMatches">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the possible validated matches for a given US postal address.
+			</documentation>
+			<wsdl:input message="tns:GetPossibleMatchesHttpPostIn" />
+			<wsdl:output message="tns:GetPossibleMatchesHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressType">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns the type of address for a given US postal address.</documentation>
+			<wsdl:input message="tns:ValidateAddressTypeHttpPostIn" />
+			<wsdl:output message="tns:ValidateAddressTypeHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressSingleLine">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns parsed and validated address elements for an address on a single line.
+			</documentation>
+			<wsdl:input message="tns:ValidateAddressSingleLineHttpPostIn" />
+			<wsdl:output message="tns:ValidateAddressSingleLineHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateCityStateZip">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns corrected address information for a given US city, state, and/or postal
+				code.</documentation>
+			<wsdl:input message="tns:ValidateCityStateZipHttpPostIn" />
+			<wsdl:output message="tns:ValidateCityStateZipHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithDPV">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns parsed and validated address elements including Delivery Point Validation.
+			</documentation>
+			<wsdl:input message="tns:ValidateAddressWithDPVHttpPostIn" />
+			<wsdl:output message="tns:ValidateAddressWithDPVHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="DOTSAddressValidateSoap" type="tns:DOTSAddressValidateSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<wsdl:operation name="ValidateAddress">
+			<soap:operation soapAction="http://www.serviceobjects.com/ValidateAddress" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithFragments">
+			<soap:operation soapAction="http://www.serviceobjects.com/ValidateAddressWithFragments" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ParseAddress">
+			<soap:operation soapAction="http://www.serviceobjects.com/ParseAddress" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithExtras">
+			<soap:operation soapAction="http://www.serviceobjects.com/ValidateAddressWithExtras" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPossibleMatches">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetPossibleMatches" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressType">
+			<soap:operation soapAction="http://www.serviceobjects.com/ValidateAddressType" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressSingleLine">
+			<soap:operation soapAction="http://www.serviceobjects.com/ValidateAddressSingleLine" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateCityStateZip">
+			<soap:operation soapAction="http://www.serviceobjects.com/ValidateCityStateZip" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithDPV">
+			<soap:operation soapAction="http://www.serviceobjects.com/ValidateAddressWithDPV" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="DOTSAddressValidateHttpGet" type="tns:DOTSAddressValidateHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="ValidateAddress">
+			<http:operation location="/ValidateAddress" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithFragments">
+			<http:operation location="/ValidateAddressWithFragments" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ParseAddress">
+			<http:operation location="/ParseAddress" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithExtras">
+			<http:operation location="/ValidateAddressWithExtras" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPossibleMatches">
+			<http:operation location="/GetPossibleMatches" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressType">
+			<http:operation location="/ValidateAddressType" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressSingleLine">
+			<http:operation location="/ValidateAddressSingleLine" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateCityStateZip">
+			<http:operation location="/ValidateCityStateZip" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithDPV">
+			<http:operation location="/ValidateAddressWithDPV" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="DOTSAddressValidateHttpPost" type="tns:DOTSAddressValidateHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="ValidateAddress">
+			<http:operation location="/ValidateAddress" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithFragments">
+			<http:operation location="/ValidateAddressWithFragments" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ParseAddress">
+			<http:operation location="/ParseAddress" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithExtras">
+			<http:operation location="/ValidateAddressWithExtras" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPossibleMatches">
+			<http:operation location="/GetPossibleMatches" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressType">
+			<http:operation location="/ValidateAddressType" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressSingleLine">
+			<http:operation location="/ValidateAddressSingleLine" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateCityStateZip">
+			<http:operation location="/ValidateCityStateZip" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateAddressWithDPV">
+			<http:operation location="/ValidateAddressWithDPV" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="DOTSAddressValidate">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">For more information on our web services, visit us at &lt;a
+			href='http://www.serviceobjects.com/products/default.asp' target='new'&gt;our
+			website&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;&lt;a href='http://www.serviceobjects.com' target='new'&gt;&lt;img
+			src='http://www.serviceobjects.com/images/so_logo_2_inside.gif' border='0'/&gt;&lt;/a&gt;</documentation>
+		<wsdl:port name="DOTSAddressValidateSoap" binding="tns:DOTSAddressValidateSoap">
+			<soap:address location="http://ws2.serviceobjects.net/av/AddressValidate.asmx" />
+		</wsdl:port>
+		<wsdl:port name="DOTSAddressValidateHttpGet" binding="tns:DOTSAddressValidateHttpGet">
+			<http:address location="http://ws2.serviceobjects.net/av/AddressValidate.asmx" />
+		</wsdl:port>
+		<wsdl:port name="DOTSAddressValidateHttpPost" binding="tns:DOTSAddressValidateHttpPost">
+			<http:address location="http://ws2.serviceobjects.net/av/AddressValidate.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

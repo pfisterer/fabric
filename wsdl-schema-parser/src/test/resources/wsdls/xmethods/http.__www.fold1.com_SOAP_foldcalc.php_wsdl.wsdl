@@ -1,1 +1,220 @@
-<?xml version="1.0" encoding="ISO-8859-1"?><definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:fold" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:fold"><types><xsd:schema targetNamespace="urn:fold"> <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" /> <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" /> <xsd:complexType name="ArrayOfstring">  <xsd:complexContent>   <xsd:restriction base="SOAP-ENC:Array">    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:string[]"/>   </xsd:restriction>  </xsd:complexContent> </xsd:complexType> <xsd:complexType name="knownproduct">  <xsd:all>   <xsd:element name="productid" type="xsd:string"/>   <xsd:element name="brand" type="xsd:string"/>   <xsd:element name="productdesc" type="xsd:string"/>  </xsd:all> </xsd:complexType> <xsd:complexType name="ArrayOfknownproduct">  <xsd:complexContent>   <xsd:restriction base="SOAP-ENC:Array">    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:knownproduct[]"/>   </xsd:restriction>  </xsd:complexContent> </xsd:complexType></xsd:schema></types><message name="calculateRequest"><part name="reflectance" type="xsd:string" /><part name="kfactor" type="xsd:string" /><part name="productid" type="xsd:string" /></message><message name="calculateResponse"><part name="return" type="xsd:string" /></message><message name="isknownRequest"><part name="productid" type="xsd:string" /><part name="year" type="xsd:string" /></message><message name="isknownResponse"><part name="msg" type="xsd:string" /><part name="known" type="xsd:string" /></message><message name="listbrandsRequest"><part name="year" type="xsd:string" /></message><message name="listbrandsResponse"><part name="msg" type="xsd:string" /><part name="known" type="tns:ArrayOfstring" /></message><message name="listproductsRequest"><part name="brand" type="xsd:string" /><part name="year" type="xsd:string" /></message><message name="listproductsResponse"><part name="msg" type="xsd:string" /><part name="known" type="tns:ArrayOfknownproduct" /></message><message name="luxprovidedRequest"><part name="roomlength" type="xsd:string" /><part name="roomwidth" type="xsd:string" /><part name="ceiling" type="xsd:string" /><part name="workplane" type="xsd:string" /><part name="reflectance" type="xsd:string" /><part name="maintenance" type="xsd:string" /><part name="qty" type="xsd:string" /><part name="productid" type="xsd:string" /></message><message name="luxprovidedResponse"><part name="msg" type="xsd:string" /><part name="lux" type="xsd:string" /></message><message name="requiredqtyRequest"><part name="roomlength" type="xsd:string" /><part name="roomwidth" type="xsd:string" /><part name="ceiling" type="xsd:string" /><part name="workplane" type="xsd:string" /><part name="reflectance" type="xsd:string" /><part name="maintenance" type="xsd:string" /><part name="reqlux" type="xsd:string" /><part name="productid" type="xsd:string" /></message><message name="requiredqtyResponse"><part name="msg" type="xsd:string" /><part name="qty" type="xsd:string" /><part name="lux" type="xsd:string" /></message><message name="wellspacedqtyRequest"><part name="roomlength" type="xsd:string" /><part name="roomwidth" type="xsd:string" /><part name="ceiling" type="xsd:string" /><part name="workplane" type="xsd:string" /><part name="edge" type="xsd:string" /><part name="reflectance" type="xsd:string" /><part name="maintenance" type="xsd:string" /><part name="reqlux" type="xsd:string" /><part name="productid" type="xsd:string" /></message><message name="wellspacedqtyResponse"><part name="msg" type="xsd:string" /><part name="qty" type="xsd:string" /><part name="qtylwise" type="xsd:string" /><part name="qtywwise" type="xsd:string" /><part name="spclwise" type="xsd:string" /><part name="spcwwise" type="xsd:string" /></message><portType name="foldPortType"><operation name="calculate"><documentation>Retrieve magic number from FOLD1 database</documentation><input message="tns:calculateRequest"/><output message="tns:calculateResponse"/></operation><operation name="isknown"><documentation>See or productid is present in the FOLD1 database</documentation><input message="tns:isknownRequest"/><output message="tns:isknownResponse"/></operation><operation name="listbrands"><documentation>List brands for certain year in the FOLD1 database</documentation><input message="tns:listbrandsRequest"/><output message="tns:listbrandsResponse"/></operation><operation name="listproducts"><documentation>List selected products present in the FOLD1 database</documentation><input message="tns:listproductsRequest"/><output message="tns:listproductsResponse"/></operation><operation name="luxprovided"><documentation>Return lux provided by qty of productid in room from FOLD1 database</documentation><input message="tns:luxprovidedRequest"/><output message="tns:luxprovidedResponse"/></operation><operation name="requiredqty"><documentation>Return reqd qty for productid in room from FOLD1 database</documentation><input message="tns:requiredqtyRequest"/><output message="tns:requiredqtyResponse"/></operation><operation name="wellspacedqty"><documentation>Return well spaced solution for productid in room from FOLD1 database</documentation><input message="tns:wellspacedqtyRequest"/><output message="tns:wellspacedqtyResponse"/></operation></portType><binding name="foldBinding" type="tns:foldPortType"><soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/><operation name="calculate"><soap:operation soapAction="urn:fold#calculate" style="rpc"/><input><soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="isknown"><soap:operation soapAction="urn:fold#isknown" style="rpc"/><input><soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="listbrands"><soap:operation soapAction="urn:fold#listbrands" style="rpc"/><input><soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="listproducts"><soap:operation soapAction="urn:fold#listproducts" style="rpc"/><input><soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="luxprovided"><soap:operation soapAction="urn:fold#luxprovided" style="rpc"/><input><soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="requiredqty"><soap:operation soapAction="urn:fold#requiredqty" style="rpc"/><input><soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="wellspacedqty"><soap:operation soapAction="urn:fold#wellspacedqty" style="rpc"/><input><soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation></binding><service name="fold"><port name="foldPort" binding="tns:foldBinding"><soap:address location="http://www.fold1.com/SOAP/foldcalc.php"/></port></service></definitions>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:tns="urn:fold" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:fold">
+	<types>
+		<xsd:schema targetNamespace="urn:fold">
+			<xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+			<xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+			<xsd:complexType name="ArrayOfstring">
+				<xsd:complexContent>
+					<xsd:restriction base="SOAP-ENC:Array">
+						<xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:string[]" />
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="knownproduct">
+				<xsd:all>
+					<xsd:element name="productid" type="xsd:string" />
+					<xsd:element name="brand" type="xsd:string" />
+					<xsd:element name="productdesc" type="xsd:string" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="ArrayOfknownproduct">
+				<xsd:complexContent>
+					<xsd:restriction base="SOAP-ENC:Array">
+						<xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:knownproduct[]" />
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
+		</xsd:schema>
+	</types>
+	<message name="calculateRequest">
+		<part name="reflectance" type="xsd:string" />
+		<part name="kfactor" type="xsd:string" />
+		<part name="productid" type="xsd:string" />
+	</message>
+	<message name="calculateResponse">
+		<part name="return" type="xsd:string" />
+	</message>
+	<message name="isknownRequest">
+		<part name="productid" type="xsd:string" />
+		<part name="year" type="xsd:string" />
+	</message>
+	<message name="isknownResponse">
+		<part name="msg" type="xsd:string" />
+		<part name="known" type="xsd:string" />
+	</message>
+	<message name="listbrandsRequest">
+		<part name="year" type="xsd:string" />
+	</message>
+	<message name="listbrandsResponse">
+		<part name="msg" type="xsd:string" />
+		<part name="known" type="tns:ArrayOfstring" />
+	</message>
+	<message name="listproductsRequest">
+		<part name="brand" type="xsd:string" />
+		<part name="year" type="xsd:string" />
+	</message>
+	<message name="listproductsResponse">
+		<part name="msg" type="xsd:string" />
+		<part name="known" type="tns:ArrayOfknownproduct" />
+	</message>
+	<message name="luxprovidedRequest">
+		<part name="roomlength" type="xsd:string" />
+		<part name="roomwidth" type="xsd:string" />
+		<part name="ceiling" type="xsd:string" />
+		<part name="workplane" type="xsd:string" />
+		<part name="reflectance" type="xsd:string" />
+		<part name="maintenance" type="xsd:string" />
+		<part name="qty" type="xsd:string" />
+		<part name="productid" type="xsd:string" />
+	</message>
+	<message name="luxprovidedResponse">
+		<part name="msg" type="xsd:string" />
+		<part name="lux" type="xsd:string" />
+	</message>
+	<message name="requiredqtyRequest">
+		<part name="roomlength" type="xsd:string" />
+		<part name="roomwidth" type="xsd:string" />
+		<part name="ceiling" type="xsd:string" />
+		<part name="workplane" type="xsd:string" />
+		<part name="reflectance" type="xsd:string" />
+		<part name="maintenance" type="xsd:string" />
+		<part name="reqlux" type="xsd:string" />
+		<part name="productid" type="xsd:string" />
+	</message>
+	<message name="requiredqtyResponse">
+		<part name="msg" type="xsd:string" />
+		<part name="qty" type="xsd:string" />
+		<part name="lux" type="xsd:string" />
+	</message>
+	<message name="wellspacedqtyRequest">
+		<part name="roomlength" type="xsd:string" />
+		<part name="roomwidth" type="xsd:string" />
+		<part name="ceiling" type="xsd:string" />
+		<part name="workplane" type="xsd:string" />
+		<part name="edge" type="xsd:string" />
+		<part name="reflectance" type="xsd:string" />
+		<part name="maintenance" type="xsd:string" />
+		<part name="reqlux" type="xsd:string" />
+		<part name="productid" type="xsd:string" />
+	</message>
+	<message name="wellspacedqtyResponse">
+		<part name="msg" type="xsd:string" />
+		<part name="qty" type="xsd:string" />
+		<part name="qtylwise" type="xsd:string" />
+		<part name="qtywwise" type="xsd:string" />
+		<part name="spclwise" type="xsd:string" />
+		<part name="spcwwise" type="xsd:string" />
+	</message>
+	<portType name="foldPortType">
+		<operation name="calculate">
+			<documentation>Retrieve magic number from FOLD1 database</documentation>
+			<input message="tns:calculateRequest" />
+			<output message="tns:calculateResponse" />
+		</operation>
+		<operation name="isknown">
+			<documentation>See or productid is present in the FOLD1 database</documentation>
+			<input message="tns:isknownRequest" />
+			<output message="tns:isknownResponse" />
+		</operation>
+		<operation name="listbrands">
+			<documentation>List brands for certain year in the FOLD1 database</documentation>
+			<input message="tns:listbrandsRequest" />
+			<output message="tns:listbrandsResponse" />
+		</operation>
+		<operation name="listproducts">
+			<documentation>List selected products present in the FOLD1 database</documentation>
+			<input message="tns:listproductsRequest" />
+			<output message="tns:listproductsResponse" />
+		</operation>
+		<operation name="luxprovided">
+			<documentation>Return lux provided by qty of productid in room from FOLD1 database</documentation>
+			<input message="tns:luxprovidedRequest" />
+			<output message="tns:luxprovidedResponse" />
+		</operation>
+		<operation name="requiredqty">
+			<documentation>Return reqd qty for productid in room from FOLD1 database</documentation>
+			<input message="tns:requiredqtyRequest" />
+			<output message="tns:requiredqtyResponse" />
+		</operation>
+		<operation name="wellspacedqty">
+			<documentation>Return well spaced solution for productid in room from FOLD1 database</documentation>
+			<input message="tns:wellspacedqtyRequest" />
+			<output message="tns:wellspacedqtyResponse" />
+		</operation>
+	</portType>
+	<binding name="foldBinding" type="tns:foldPortType">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="calculate">
+			<soap:operation soapAction="urn:fold#calculate" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="isknown">
+			<soap:operation soapAction="urn:fold#isknown" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="listbrands">
+			<soap:operation soapAction="urn:fold#listbrands" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="listproducts">
+			<soap:operation soapAction="urn:fold#listproducts" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="luxprovided">
+			<soap:operation soapAction="urn:fold#luxprovided" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="requiredqty">
+			<soap:operation soapAction="urn:fold#requiredqty" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="wellspacedqty">
+			<soap:operation soapAction="urn:fold#wellspacedqty" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:fold" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+	</binding>
+	<service name="fold">
+		<port name="foldPort" binding="tns:foldBinding">
+			<soap:address location="http://www.fold1.com/SOAP/foldcalc.php" />
+		</port>
+	</service>
+</definitions>

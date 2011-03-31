@@ -1,1 +1,308 @@
-<?xml version="1.0" encoding="utf-8"?><wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.serviceobjects.com/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://www.serviceobjects.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  <wsdl:types>    <s:schema elementFormDefault="qualified" targetNamespace="http://www.serviceobjects.com/">      <s:element name="GetYPListingsByCategoryID">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="CategoryID" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />            <s:element minOccurs="1" maxOccurs="1" name="Radius" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetYPListingsByCategoryIDResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetYPListingsByCategoryIDResult" type="tns:Listings" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="Listings">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />          <s:element minOccurs="0" maxOccurs="unbounded" name="Listing" type="tns:Listing" />        </s:sequence>      </s:complexType>      <s:complexType name="Err">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Desc" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />        </s:sequence>      </s:complexType>      <s:complexType name="Listing">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Category" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />          <s:element minOccurs="1" maxOccurs="1" name="Latitude" type="s:decimal" />          <s:element minOccurs="1" maxOccurs="1" name="Longitude" type="s:decimal" />        </s:sequence>      </s:complexType>      <s:element name="GetAllYPCategories">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetAllYPCategoriesResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetAllYPCategoriesResult" type="tns:Categories" />          </s:sequence>        </s:complexType>      </s:element>      <s:complexType name="Categories">        <s:sequence>          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />          <s:element minOccurs="0" maxOccurs="unbounded" name="Category" type="tns:Category" />        </s:sequence>      </s:complexType>      <s:complexType name="Category">        <s:sequence>          <s:element minOccurs="1" maxOccurs="1" name="CategoryID" type="s:int" />          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />        </s:sequence>      </s:complexType>      <s:element name="GetYPCategoryByID">        <s:complexType>          <s:sequence>            <s:element minOccurs="1" maxOccurs="1" name="CategoryID" type="s:int" />            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="GetYPCategoryByIDResponse">        <s:complexType>          <s:sequence>            <s:element minOccurs="0" maxOccurs="1" name="GetYPCategoryByIDResult" type="tns:Category" />          </s:sequence>        </s:complexType>      </s:element>      <s:element name="Listings" nillable="true" type="tns:Listings" />      <s:element name="Categories" nillable="true" type="tns:Categories" />      <s:element name="Category" nillable="true" type="tns:Category" />    </s:schema>  </wsdl:types>  <wsdl:message name="GetYPListingsByCategoryIDSoapIn">    <wsdl:part name="parameters" element="tns:GetYPListingsByCategoryID" />  </wsdl:message>  <wsdl:message name="GetYPListingsByCategoryIDSoapOut">    <wsdl:part name="parameters" element="tns:GetYPListingsByCategoryIDResponse" />  </wsdl:message>  <wsdl:message name="GetAllYPCategoriesSoapIn">    <wsdl:part name="parameters" element="tns:GetAllYPCategories" />  </wsdl:message>  <wsdl:message name="GetAllYPCategoriesSoapOut">    <wsdl:part name="parameters" element="tns:GetAllYPCategoriesResponse" />  </wsdl:message>  <wsdl:message name="GetYPCategoryByIDSoapIn">    <wsdl:part name="parameters" element="tns:GetYPCategoryByID" />  </wsdl:message>  <wsdl:message name="GetYPCategoryByIDSoapOut">    <wsdl:part name="parameters" element="tns:GetYPCategoryByIDResponse" />  </wsdl:message>  <wsdl:message name="GetYPListingsByCategoryIDHttpGetIn">    <wsdl:part name="CategoryID" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="Radius" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetYPListingsByCategoryIDHttpGetOut">    <wsdl:part name="Body" element="tns:Listings" />  </wsdl:message>  <wsdl:message name="GetAllYPCategoriesHttpGetIn">    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetAllYPCategoriesHttpGetOut">    <wsdl:part name="Body" element="tns:Categories" />  </wsdl:message>  <wsdl:message name="GetYPCategoryByIDHttpGetIn">    <wsdl:part name="CategoryID" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetYPCategoryByIDHttpGetOut">    <wsdl:part name="Body" element="tns:Category" />  </wsdl:message>  <wsdl:message name="GetYPListingsByCategoryIDHttpPostIn">    <wsdl:part name="CategoryID" type="s:string" />    <wsdl:part name="PostalCode" type="s:string" />    <wsdl:part name="Radius" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetYPListingsByCategoryIDHttpPostOut">    <wsdl:part name="Body" element="tns:Listings" />  </wsdl:message>  <wsdl:message name="GetAllYPCategoriesHttpPostIn">    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetAllYPCategoriesHttpPostOut">    <wsdl:part name="Body" element="tns:Categories" />  </wsdl:message>  <wsdl:message name="GetYPCategoryByIDHttpPostIn">    <wsdl:part name="CategoryID" type="s:string" />    <wsdl:part name="LicenseKey" type="s:string" />  </wsdl:message>  <wsdl:message name="GetYPCategoryByIDHttpPostOut">    <wsdl:part name="Body" element="tns:Category" />  </wsdl:message>  <wsdl:portType name="DOTSYellowPagesSoap">    <wsdl:operation name="GetYPListingsByCategoryID">      <wsdl:input message="tns:GetYPListingsByCategoryIDSoapIn" />      <wsdl:output message="tns:GetYPListingsByCategoryIDSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetAllYPCategories">      <wsdl:input message="tns:GetAllYPCategoriesSoapIn" />      <wsdl:output message="tns:GetAllYPCategoriesSoapOut" />    </wsdl:operation>    <wsdl:operation name="GetYPCategoryByID">      <wsdl:input message="tns:GetYPCategoryByIDSoapIn" />      <wsdl:output message="tns:GetYPCategoryByIDSoapOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="DOTSYellowPagesHttpGet">    <wsdl:operation name="GetYPListingsByCategoryID">      <wsdl:input message="tns:GetYPListingsByCategoryIDHttpGetIn" />      <wsdl:output message="tns:GetYPListingsByCategoryIDHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetAllYPCategories">      <wsdl:input message="tns:GetAllYPCategoriesHttpGetIn" />      <wsdl:output message="tns:GetAllYPCategoriesHttpGetOut" />    </wsdl:operation>    <wsdl:operation name="GetYPCategoryByID">      <wsdl:input message="tns:GetYPCategoryByIDHttpGetIn" />      <wsdl:output message="tns:GetYPCategoryByIDHttpGetOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:portType name="DOTSYellowPagesHttpPost">    <wsdl:operation name="GetYPListingsByCategoryID">      <wsdl:input message="tns:GetYPListingsByCategoryIDHttpPostIn" />      <wsdl:output message="tns:GetYPListingsByCategoryIDHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetAllYPCategories">      <wsdl:input message="tns:GetAllYPCategoriesHttpPostIn" />      <wsdl:output message="tns:GetAllYPCategoriesHttpPostOut" />    </wsdl:operation>    <wsdl:operation name="GetYPCategoryByID">      <wsdl:input message="tns:GetYPCategoryByIDHttpPostIn" />      <wsdl:output message="tns:GetYPCategoryByIDHttpPostOut" />    </wsdl:operation>  </wsdl:portType>  <wsdl:binding name="DOTSYellowPagesSoap" type="tns:DOTSYellowPagesSoap">    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />    <wsdl:operation name="GetYPListingsByCategoryID">      <soap:operation soapAction="http://www.serviceobjects.com/GetYPListingsByCategoryID" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAllYPCategories">      <soap:operation soapAction="http://www.serviceobjects.com/GetAllYPCategories" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetYPCategoryByID">      <soap:operation soapAction="http://www.serviceobjects.com/GetYPCategoryByID" style="document" />      <wsdl:input>        <soap:body use="literal" />      </wsdl:input>      <wsdl:output>        <soap:body use="literal" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="DOTSYellowPagesHttpGet" type="tns:DOTSYellowPagesHttpGet">    <http:binding verb="GET" />    <wsdl:operation name="GetYPListingsByCategoryID">      <http:operation location="/GetYPListingsByCategoryID" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAllYPCategories">      <http:operation location="/GetAllYPCategories" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetYPCategoryByID">      <http:operation location="/GetYPCategoryByID" />      <wsdl:input>        <http:urlEncoded />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:binding name="DOTSYellowPagesHttpPost" type="tns:DOTSYellowPagesHttpPost">    <http:binding verb="POST" />    <wsdl:operation name="GetYPListingsByCategoryID">      <http:operation location="/GetYPListingsByCategoryID" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetAllYPCategories">      <http:operation location="/GetAllYPCategories" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>    <wsdl:operation name="GetYPCategoryByID">      <http:operation location="/GetYPCategoryByID" />      <wsdl:input>        <mime:content type="application/x-www-form-urlencoded" />      </wsdl:input>      <wsdl:output>        <mime:mimeXml part="Body" />      </wsdl:output>    </wsdl:operation>  </wsdl:binding>  <wsdl:service name="DOTSYellowPages">    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">For more information on our web services, visit us at &lt;a href='http://www.serviceobjects.com/products/default.asp' target='new'&gt;our website&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;&lt;a href='http://www.serviceobjects.com' target='new'&gt;&lt;img src='http://www.serviceobjects.com/images/so_logo_2_inside.gif' border='0'/&gt;&lt;/a&gt;</documentation>    <wsdl:port name="DOTSYellowPagesSoap" binding="tns:DOTSYellowPagesSoap">      <soap:address location="http://ws2.serviceobjects.net/yp/YellowPages.asmx" />    </wsdl:port>    <wsdl:port name="DOTSYellowPagesHttpGet" binding="tns:DOTSYellowPagesHttpGet">      <http:address location="http://ws2.serviceobjects.net/yp/YellowPages.asmx" />    </wsdl:port>    <wsdl:port name="DOTSYellowPagesHttpPost" binding="tns:DOTSYellowPagesHttpPost">      <http:address location="http://ws2.serviceobjects.net/yp/YellowPages.asmx" />    </wsdl:port>  </wsdl:service></wsdl:definitions>
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.serviceobjects.com/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	targetNamespace="http://www.serviceobjects.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://www.serviceobjects.com/">
+			<s:element name="GetYPListingsByCategoryID">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="CategoryID" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="Radius" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetYPListingsByCategoryIDResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetYPListingsByCategoryIDResult" type="tns:Listings" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="Listings">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Listing" type="tns:Listing" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Err">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Desc" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Listing">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Category" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="Latitude" type="s:decimal" />
+					<s:element minOccurs="1" maxOccurs="1" name="Longitude" type="s:decimal" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetAllYPCategories">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetAllYPCategoriesResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetAllYPCategoriesResult" type="tns:Categories" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="Categories">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Category" type="tns:Category" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Category">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="CategoryID" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Err" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="GetYPCategoryByID">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="1" maxOccurs="1" name="CategoryID" type="s:int" />
+						<s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetYPCategoryByIDResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetYPCategoryByIDResult" type="tns:Category" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Listings" nillable="true" type="tns:Listings" />
+			<s:element name="Categories" nillable="true" type="tns:Categories" />
+			<s:element name="Category" nillable="true" type="tns:Category" />
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetYPListingsByCategoryIDSoapIn">
+		<wsdl:part name="parameters" element="tns:GetYPListingsByCategoryID" />
+	</wsdl:message>
+	<wsdl:message name="GetYPListingsByCategoryIDSoapOut">
+		<wsdl:part name="parameters" element="tns:GetYPListingsByCategoryIDResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetAllYPCategoriesSoapIn">
+		<wsdl:part name="parameters" element="tns:GetAllYPCategories" />
+	</wsdl:message>
+	<wsdl:message name="GetAllYPCategoriesSoapOut">
+		<wsdl:part name="parameters" element="tns:GetAllYPCategoriesResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetYPCategoryByIDSoapIn">
+		<wsdl:part name="parameters" element="tns:GetYPCategoryByID" />
+	</wsdl:message>
+	<wsdl:message name="GetYPCategoryByIDSoapOut">
+		<wsdl:part name="parameters" element="tns:GetYPCategoryByIDResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetYPListingsByCategoryIDHttpGetIn">
+		<wsdl:part name="CategoryID" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="Radius" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetYPListingsByCategoryIDHttpGetOut">
+		<wsdl:part name="Body" element="tns:Listings" />
+	</wsdl:message>
+	<wsdl:message name="GetAllYPCategoriesHttpGetIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAllYPCategoriesHttpGetOut">
+		<wsdl:part name="Body" element="tns:Categories" />
+	</wsdl:message>
+	<wsdl:message name="GetYPCategoryByIDHttpGetIn">
+		<wsdl:part name="CategoryID" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetYPCategoryByIDHttpGetOut">
+		<wsdl:part name="Body" element="tns:Category" />
+	</wsdl:message>
+	<wsdl:message name="GetYPListingsByCategoryIDHttpPostIn">
+		<wsdl:part name="CategoryID" type="s:string" />
+		<wsdl:part name="PostalCode" type="s:string" />
+		<wsdl:part name="Radius" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetYPListingsByCategoryIDHttpPostOut">
+		<wsdl:part name="Body" element="tns:Listings" />
+	</wsdl:message>
+	<wsdl:message name="GetAllYPCategoriesHttpPostIn">
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAllYPCategoriesHttpPostOut">
+		<wsdl:part name="Body" element="tns:Categories" />
+	</wsdl:message>
+	<wsdl:message name="GetYPCategoryByIDHttpPostIn">
+		<wsdl:part name="CategoryID" type="s:string" />
+		<wsdl:part name="LicenseKey" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetYPCategoryByIDHttpPostOut">
+		<wsdl:part name="Body" element="tns:Category" />
+	</wsdl:message>
+	<wsdl:portType name="DOTSYellowPagesSoap">
+		<wsdl:operation name="GetYPListingsByCategoryID">
+			<wsdl:input message="tns:GetYPListingsByCategoryIDSoapIn" />
+			<wsdl:output message="tns:GetYPListingsByCategoryIDSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAllYPCategories">
+			<wsdl:input message="tns:GetAllYPCategoriesSoapIn" />
+			<wsdl:output message="tns:GetAllYPCategoriesSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetYPCategoryByID">
+			<wsdl:input message="tns:GetYPCategoryByIDSoapIn" />
+			<wsdl:output message="tns:GetYPCategoryByIDSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DOTSYellowPagesHttpGet">
+		<wsdl:operation name="GetYPListingsByCategoryID">
+			<wsdl:input message="tns:GetYPListingsByCategoryIDHttpGetIn" />
+			<wsdl:output message="tns:GetYPListingsByCategoryIDHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAllYPCategories">
+			<wsdl:input message="tns:GetAllYPCategoriesHttpGetIn" />
+			<wsdl:output message="tns:GetAllYPCategoriesHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetYPCategoryByID">
+			<wsdl:input message="tns:GetYPCategoryByIDHttpGetIn" />
+			<wsdl:output message="tns:GetYPCategoryByIDHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DOTSYellowPagesHttpPost">
+		<wsdl:operation name="GetYPListingsByCategoryID">
+			<wsdl:input message="tns:GetYPListingsByCategoryIDHttpPostIn" />
+			<wsdl:output message="tns:GetYPListingsByCategoryIDHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAllYPCategories">
+			<wsdl:input message="tns:GetAllYPCategoriesHttpPostIn" />
+			<wsdl:output message="tns:GetAllYPCategoriesHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetYPCategoryByID">
+			<wsdl:input message="tns:GetYPCategoryByIDHttpPostIn" />
+			<wsdl:output message="tns:GetYPCategoryByIDHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="DOTSYellowPagesSoap" type="tns:DOTSYellowPagesSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<wsdl:operation name="GetYPListingsByCategoryID">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetYPListingsByCategoryID" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAllYPCategories">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetAllYPCategories" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetYPCategoryByID">
+			<soap:operation soapAction="http://www.serviceobjects.com/GetYPCategoryByID" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="DOTSYellowPagesHttpGet" type="tns:DOTSYellowPagesHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetYPListingsByCategoryID">
+			<http:operation location="/GetYPListingsByCategoryID" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAllYPCategories">
+			<http:operation location="/GetAllYPCategories" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetYPCategoryByID">
+			<http:operation location="/GetYPCategoryByID" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="DOTSYellowPagesHttpPost" type="tns:DOTSYellowPagesHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetYPListingsByCategoryID">
+			<http:operation location="/GetYPListingsByCategoryID" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAllYPCategories">
+			<http:operation location="/GetAllYPCategories" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetYPCategoryByID">
+			<http:operation location="/GetYPCategoryByID" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:mimeXml part="Body" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="DOTSYellowPages">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">For more information on our web services, visit us at &lt;a
+			href='http://www.serviceobjects.com/products/default.asp' target='new'&gt;our
+			website&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;&lt;a href='http://www.serviceobjects.com' target='new'&gt;&lt;img
+			src='http://www.serviceobjects.com/images/so_logo_2_inside.gif' border='0'/&gt;&lt;/a&gt;</documentation>
+		<wsdl:port name="DOTSYellowPagesSoap" binding="tns:DOTSYellowPagesSoap">
+			<soap:address location="http://ws2.serviceobjects.net/yp/YellowPages.asmx" />
+		</wsdl:port>
+		<wsdl:port name="DOTSYellowPagesHttpGet" binding="tns:DOTSYellowPagesHttpGet">
+			<http:address location="http://ws2.serviceobjects.net/yp/YellowPages.asmx" />
+		</wsdl:port>
+		<wsdl:port name="DOTSYellowPagesHttpPost" binding="tns:DOTSYellowPagesHttpPost">
+			<http:address location="http://ws2.serviceobjects.net/yp/YellowPages.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,1 +1,189 @@
-<?xml version="1.0" encoding="UTF-8"?><definitions name="NavBarServer" 		targetNamespace="http://soap.xara.com/wsdl/" 		xmlns:wsdlns="http://soap.xara.com/wsdl/" 		xmlns:typens="http://soap.xara.com/type" 		xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 		xmlns:xsd="http://www.w3.org/2001/XMLSchema" 		xmlns:stk="http://schemas.microsoft.com/soap-toolkit/wsdl-extension" 		xmlns="http://schemas.xmlsoap.org/wsdl/">   <types>      <schema targetNamespace="http://soap.xara.com/type" 				xmlns="http://www.w3.org/2001/XMLSchema" 				xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" 				xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 				elementFormDefault="qualified">         <complexType name="ArrayOfstring">            <complexContent>               <restriction base="SOAP-ENC:Array">                  <attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="string[]"/>               </restriction>            </complexContent>         </complexType>         <complexType name="ColorInfo">            <element name="Color" type="xsd:string"/>            <element name="RGBValue" type="xsd:string"/>         </complexType>         <complexType name="ArrayOfColorInfo">            <complexContent>               <restriction base="SOAP-ENC:Array">                  <attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="typens:ColorInfo[]"/>               </restriction>            </complexContent>         </complexType>         <complexType name="LinkInfo">            <element name="URL" type="xsd:string"/>            <element name="Target" type="xsd:string"/>         </complexType>         <complexType name="ArrayOfLinkInfo">            <complexContent>               <restriction base="SOAP-ENC:Array">                  <attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="typens:LinkInfo[]"/>               </restriction>            </complexContent>         </complexType>         <complexType name="TemplateInfo">            <element name="Template" type="xsd:string"/>            <element name="Variant" type="xsd:string"/>            <element name="ThumbURL" type="xsd:string"/>         </complexType>         <complexType name="ArrayOfTemplateInfo">            <complexContent>               <restriction base="SOAP-ENC:Array">                  <attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="typens:TemplateInfo[]"/>               </restriction>            </complexContent>         </complexType>         <complexType name="FontInfo">            <element name="Font" type="xsd:string"/>            <element name="ThumbURL" type="xsd:string"/>         </complexType>         <complexType name="ArrayOfFontInfo">            <complexContent>               <restriction base="SOAP-ENC:Array">                  <attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="typens:FontInfo[]"/>               </restriction>            </complexContent>         </complexType>         <complexType name="ImageInfo">            <element name="Name" type="xsd:string"/>            <element name="Width" type="xsd:int"/>            <element name="Height" type="xsd:int"/>            <element name="Data" type="xsd:string"/>         </complexType>         <complexType name="ArrayOfImageInfo">            <complexContent>               <restriction base="SOAP-ENC:Array">                  <attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="typens:ImageInfo[]"/>               </restriction>            </complexContent>         </complexType>      </schema>   </types>   <message name="NavBarServer.CreateNavBar">      <part name="Template" type="xsd:string"/>      <part name="Variant" type="xsd:string"/>      <part name="Text" type="typens:ArrayOfstring"/>      <part name="BackgroundRGB" type="xsd:string"/>      <part name="BackgroundURL" type="xsd:string"/>      <part name="Links" type="typens:ArrayOfLinkInfo"/>      <part name="AltText" type="typens:ArrayOfstring"/>      <part name="StatusText" type="typens:ArrayOfstring"/>      <part name="Colors" type="typens:ArrayOfColorInfo"/>      <part name="Font" type="xsd:string"/>      <part name="FontSize" type="xsd:double"/>      <part name="TextOffsetX" type="xsd:int"/>      <part name="TextOffsetY" type="xsd:int"/>      <part name="FontAspect" type="xsd:double"/>      <part name="FontSpacing" type="xsd:int"/>      <part name="PercentSize" type="xsd:double"/>      <part name="ButtonWidth" type="xsd:int"/>      <part name="ExportType" type="xsd:string"/>      <part name="Quality" type="xsd:double"/>      <part name="NumColours" type="xsd:int"/>      <part name="Transparent" type="xsd:boolean"/>      <part name="Dither" type="xsd:string"/>      <part name="Preview" type="xsd:boolean"/>      <part name="NoHTML" type="xsd:boolean"/>      <part name="OutputUNC" type="xsd:string"/>      <part name="OutputURL" type="xsd:string"/>      <part name="ImagePrefix " type="xsd:string"/>   </message>   <message name="NavBarServer.CreateNavBarResponse">      <part name="HTML" type="xsd:string"/>      <part name="Images" type="typens:ArrayOfImageInfo"/>   </message>   <message name="NavBarServer.GetTemplates">      <part name="Template" type="xsd:string"/>      <part name="Variant" type="xsd:string"/>   </message>   <message name="NavBarServer.GetTemplatesResponse">      <part name="Templates" type="typens:ArrayOfTemplateInfo"/>   </message>   <message name="NavBarServer.GetFonts"/>   <message name="NavBarServer.GetFontsResponse">      <part name="Fonts" type="typens:ArrayOfFontInfo"/>   </message>   <message name="NavBarServer.GetColors">      <part name="Template" type="xsd:string"/>      <part name="Variant" type="xsd:string"/>   </message>   <message name="NavBarServer.GetColorsResponse">      <part name="Colors" type="typens:ArrayOfColorInfo"/>   </message>   <portType name="NavBarServerSoapPort">      <operation name="CreateNavBar">         <input message="wsdlns:NavBarServer.CreateNavBar"/>         <output message="wsdlns:NavBarServer.CreateNavBarResponse"/>      </operation>      <operation name="GetTemplates">         <input message="wsdlns:NavBarServer.GetTemplates"/>         <output message="wsdlns:NavBarServer.GetTemplatesResponse"/>      </operation>      <operation name="GetFonts">         <input message="wsdlns:NavBarServer.GetFonts"/>         <output message="wsdlns:NavBarServer.GetFontsResponse"/>      </operation>      <operation name="GetColors">         <input message="wsdlns:NavBarServer.GetColors"/>         <output message="wsdlns:NavBarServer.GetColorsResponse"/>      </operation>   </portType>   <binding name="NavBarServerSoapBinding" type="wsdlns:NavBarServerSoapPort">      <stk:binding preferredEncoding="UTF-8"/>      <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>      <operation name="CreateNavBar">         <soap:operation soapAction="http://soap.xara.com/action/NavBarServer.CreateNavBar"/>         <input>            <soap:body use="encoded" namespace="http://soap.xara.com/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>         </input>         <output>            <soap:body use="encoded" namespace="http://soap.xara.com/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>         </output>      </operation>      <operation name="GetTemplates">         <soap:operation soapAction="http://soap.xara.com/action/NavBarServer.GetTemplates"/>         <input>            <soap:body use="encoded" namespace="http://soap.xara.com/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>         </input>         <output>            <soap:body use="encoded" namespace="http://soap.xara.com/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>         </output>      </operation>      <operation name="GetFonts">         <soap:operation soapAction="http://soap.xara.com/action/NavBarServer.GetFonts"/>         <input>            <soap:body use="encoded" namespace="http://soap.xara.com/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>         </input>         <output>            <soap:body use="encoded" namespace="http://soap.xara.com/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>         </output>      </operation>      <operation name="GetColors">         <soap:operation soapAction="http://soap.xara.com/action/NavBarServer.GetColors"/>         <input>            <soap:body use="encoded" namespace="http://soap.xara.com/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>         </input>         <output>            <soap:body use="encoded" namespace="http://soap.xara.com/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>         </output>      </operation>   </binding>   <service name="NavBarServer">      <port name="NavBarServerSoapPort" binding="wsdlns:NavBarServerSoapBinding">         <soap:address location="http://ws.xara.com/navbar/navbar.asp"/>      </port>   </service></definitions>
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="NavBarServer" targetNamespace="http://soap.xara.com/wsdl/" xmlns:wsdlns="http://soap.xara.com/wsdl/"
+	xmlns:typens="http://soap.xara.com/type" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:stk="http://schemas.microsoft.com/soap-toolkit/wsdl-extension" xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<types>
+		<schema targetNamespace="http://soap.xara.com/type" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+			xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" elementFormDefault="qualified">
+			<complexType name="ArrayOfstring">
+				<complexContent>
+					<restriction base="SOAP-ENC:Array">
+						<attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="string[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="ColorInfo">
+				<element name="Color" type="xsd:string" />
+				<element name="RGBValue" type="xsd:string" />
+			</complexType>
+			<complexType name="ArrayOfColorInfo">
+				<complexContent>
+					<restriction base="SOAP-ENC:Array">
+						<attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="typens:ColorInfo[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="LinkInfo">
+				<element name="URL" type="xsd:string" />
+				<element name="Target" type="xsd:string" />
+			</complexType>
+			<complexType name="ArrayOfLinkInfo">
+				<complexContent>
+					<restriction base="SOAP-ENC:Array">
+						<attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="typens:LinkInfo[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="TemplateInfo">
+				<element name="Template" type="xsd:string" />
+				<element name="Variant" type="xsd:string" />
+				<element name="ThumbURL" type="xsd:string" />
+			</complexType>
+			<complexType name="ArrayOfTemplateInfo">
+				<complexContent>
+					<restriction base="SOAP-ENC:Array">
+						<attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="typens:TemplateInfo[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="FontInfo">
+				<element name="Font" type="xsd:string" />
+				<element name="ThumbURL" type="xsd:string" />
+			</complexType>
+			<complexType name="ArrayOfFontInfo">
+				<complexContent>
+					<restriction base="SOAP-ENC:Array">
+						<attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="typens:FontInfo[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="ImageInfo">
+				<element name="Name" type="xsd:string" />
+				<element name="Width" type="xsd:int" />
+				<element name="Height" type="xsd:int" />
+				<element name="Data" type="xsd:string" />
+			</complexType>
+			<complexType name="ArrayOfImageInfo">
+				<complexContent>
+					<restriction base="SOAP-ENC:Array">
+						<attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="typens:ImageInfo[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+		</schema>
+	</types>
+	<message name="NavBarServer.CreateNavBar">
+		<part name="Template" type="xsd:string" />
+		<part name="Variant" type="xsd:string" />
+		<part name="Text" type="typens:ArrayOfstring" />
+		<part name="BackgroundRGB" type="xsd:string" />
+		<part name="BackgroundURL" type="xsd:string" />
+		<part name="Links" type="typens:ArrayOfLinkInfo" />
+		<part name="AltText" type="typens:ArrayOfstring" />
+		<part name="StatusText" type="typens:ArrayOfstring" />
+		<part name="Colors" type="typens:ArrayOfColorInfo" />
+		<part name="Font" type="xsd:string" />
+		<part name="FontSize" type="xsd:double" />
+		<part name="TextOffsetX" type="xsd:int" />
+		<part name="TextOffsetY" type="xsd:int" />
+		<part name="FontAspect" type="xsd:double" />
+		<part name="FontSpacing" type="xsd:int" />
+		<part name="PercentSize" type="xsd:double" />
+		<part name="ButtonWidth" type="xsd:int" />
+		<part name="ExportType" type="xsd:string" />
+		<part name="Quality" type="xsd:double" />
+		<part name="NumColours" type="xsd:int" />
+		<part name="Transparent" type="xsd:boolean" />
+		<part name="Dither" type="xsd:string" />
+		<part name="Preview" type="xsd:boolean" />
+		<part name="NoHTML" type="xsd:boolean" />
+		<part name="OutputUNC" type="xsd:string" />
+		<part name="OutputURL" type="xsd:string" />
+		<part name="ImagePrefix " type="xsd:string" />
+	</message>
+	<message name="NavBarServer.CreateNavBarResponse">
+		<part name="HTML" type="xsd:string" />
+		<part name="Images" type="typens:ArrayOfImageInfo" />
+	</message>
+	<message name="NavBarServer.GetTemplates">
+		<part name="Template" type="xsd:string" />
+		<part name="Variant" type="xsd:string" />
+	</message>
+	<message name="NavBarServer.GetTemplatesResponse">
+		<part name="Templates" type="typens:ArrayOfTemplateInfo" />
+	</message>
+	<message name="NavBarServer.GetFonts" />
+	<message name="NavBarServer.GetFontsResponse">
+		<part name="Fonts" type="typens:ArrayOfFontInfo" />
+	</message>
+	<message name="NavBarServer.GetColors">
+		<part name="Template" type="xsd:string" />
+		<part name="Variant" type="xsd:string" />
+	</message>
+	<message name="NavBarServer.GetColorsResponse">
+		<part name="Colors" type="typens:ArrayOfColorInfo" />
+	</message>
+	<portType name="NavBarServerSoapPort">
+		<operation name="CreateNavBar">
+			<input message="wsdlns:NavBarServer.CreateNavBar" />
+			<output message="wsdlns:NavBarServer.CreateNavBarResponse" />
+		</operation>
+		<operation name="GetTemplates">
+			<input message="wsdlns:NavBarServer.GetTemplates" />
+			<output message="wsdlns:NavBarServer.GetTemplatesResponse" />
+		</operation>
+		<operation name="GetFonts">
+			<input message="wsdlns:NavBarServer.GetFonts" />
+			<output message="wsdlns:NavBarServer.GetFontsResponse" />
+		</operation>
+		<operation name="GetColors">
+			<input message="wsdlns:NavBarServer.GetColors" />
+			<output message="wsdlns:NavBarServer.GetColorsResponse" />
+		</operation>
+	</portType>
+	<binding name="NavBarServerSoapBinding" type="wsdlns:NavBarServerSoapPort">
+		<stk:binding preferredEncoding="UTF-8" />
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="CreateNavBar">
+			<soap:operation soapAction="http://soap.xara.com/action/NavBarServer.CreateNavBar" />
+			<input>
+				<soap:body use="encoded" namespace="http://soap.xara.com/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://soap.xara.com/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="GetTemplates">
+			<soap:operation soapAction="http://soap.xara.com/action/NavBarServer.GetTemplates" />
+			<input>
+				<soap:body use="encoded" namespace="http://soap.xara.com/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://soap.xara.com/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="GetFonts">
+			<soap:operation soapAction="http://soap.xara.com/action/NavBarServer.GetFonts" />
+			<input>
+				<soap:body use="encoded" namespace="http://soap.xara.com/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://soap.xara.com/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="GetColors">
+			<soap:operation soapAction="http://soap.xara.com/action/NavBarServer.GetColors" />
+			<input>
+				<soap:body use="encoded" namespace="http://soap.xara.com/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://soap.xara.com/message/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+	</binding>
+	<service name="NavBarServer">
+		<port name="NavBarServerSoapPort" binding="wsdlns:NavBarServerSoapBinding">
+			<soap:address location="http://ws.xara.com/navbar/navbar.asp" />
+		</port>
+	</service>
+</definitions>
