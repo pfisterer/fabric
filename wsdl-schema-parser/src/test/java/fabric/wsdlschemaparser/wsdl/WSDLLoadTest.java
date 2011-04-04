@@ -8,6 +8,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.apache.log4j.Appender;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -17,7 +22,12 @@ public class WSDLLoadTest {
     private static Collection<File> wsdlFiles;
 
     static {
-        Logging.setLoggingDefaults();
+        //TODO Replace with Logging.setDebugLoggingDefaults();
+        PatternLayout patternLayout = new PatternLayout("%-13d{HH:mm:ss,SSS} | %-20.20C{3} | %-5p | %m%n");
+        final Appender appender = new ConsoleAppender(patternLayout);
+        Logger.getRootLogger().removeAllAppenders();
+        Logger.getRootLogger().addAppender(appender);
+        Logger.getRootLogger().setLevel(Level.DEBUG);
     }
 
     static class WsdlFilesFilter implements FilenameFilter {
@@ -30,11 +40,13 @@ public class WSDLLoadTest {
 
     @BeforeClass
     public static void loadWsdlFiles() {
+        Logging.setLoggingDefaults();
+        Logger.getRootLogger().setLevel(Level.DEBUG);
 
         wsdlFiles = new LinkedList<File>();
 
-        //String dirs[] = new String[] { "src/test/resources/wsdls" };
-         String dirs[] = new String[] { "src/test/resources/wsdls", "src/test/resources/wsdls/xmethods" };
+        // String dirs[] = new String[] { "src/test/resources/wsdls" };
+        String dirs[] = new String[] { "src/test/resources/wsdls", "src/test/resources/wsdls/xmethods" };
 
         for (String dir : dirs) {
             File directory = new File(dir);
