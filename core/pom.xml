@@ -31,6 +31,29 @@
 
 	<packaging>jar</packaging>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.dstovall</groupId>
+				<artifactId>onejar-maven-plugin-rc8fix</artifactId>
+				<version>1.4.9</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<configuration>
+							<mainClass>fabric.Main</mainClass>
+							<onejarVersion>0.98-RC2</onejarVersion>
+							<attachToBuild>true</attachToBuild>
+						</configuration>
+						<goals>
+							<goal>one-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencies>
 		<dependency>
 			<groupId>de.uniluebeck.itm</groupId>
@@ -52,7 +75,7 @@
 			<groupId>de.uniluebeck.itm</groupId>
 			<artifactId>fabric.module.protobuf</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>de.uniluebeck.itm</groupId>
 			<artifactId>tr.util</artifactId>
