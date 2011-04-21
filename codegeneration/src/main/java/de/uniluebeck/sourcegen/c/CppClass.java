@@ -26,76 +26,108 @@ package de.uniluebeck.sourcegen.c;
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
-
 /**
  * @author Daniel Bimschas
  */
 public interface CppClass extends CppComplexType {
 
-	class CppClassFactory {
+    class CppClassFactory {
 
-		private static CppClassFactory instance;
+        private static CppClassFactory instance;
 
-		private CppClassFactory() { /* not to be invoked */ }
+        private CppClassFactory() { /* not to be invoked */
+        }
 
-		static CppClassFactory getInstance() {
-			if (instance == null)
-				instance = new CppClassFactory();
-			return instance;
-		}
-		
-		public CppClass create(String className, CppSourceFile sourceFile) {
-			return new CppClassImpl(className, sourceFile);
-		}
+        static CppClassFactory getInstance() {
+            if (instance == null)
+                instance = new CppClassFactory();
+            return instance;
+        }
 
-	}
+        public CppClass create(String className, CppSourceFile sourceFile) {
+            return new CppClassImpl(className, sourceFile);
+        }
 
-	public static final CppClassFactory factory = CppClassFactory.getInstance();
-	
-	public CppClass		add					(long vis, CEnum... enumObj)				throws CppDuplicateException;
-	public CppClass		add					(long vis, CFun... function)				throws CppDuplicateException;
-	public CppClass 	add					(long vis, CppConstructor... constructor) 	throws CppDuplicateException;
-	public CppClass 	add					(long vis, CppDestructor... destructor) 	throws CppDuplicateException;
-	public CppClass 	add					(long vis, CppFun... fun) 					throws CppDuplicateException;
-	public CppClass 	add					(long vis, CppVar... var) 					throws CppDuplicateException;
-	public CppClass 	add					(long vis, CStruct... struct)				throws CppDuplicateException;
-	public CppClass		add					(long vis, CUnion... unions)				throws CppDuplicateException;
-	public CppClass 	addAfterDirective	(CPreProcessorDirective... directive)		;
-	public CppClass		addAfterDirective	(String... directives)						throws CPreProcessorValidationException;
-	public CppClass		addBeforeDirective	(CPreProcessorDirective... directive)		;
-	public CppClass 	addBeforeDirective	(String... directive)						throws CPreProcessorValidationException;
-	public CppClass 	addExtended			(long vis, CppClass... extended) 			throws CppDuplicateException;
+    }
 
-	public boolean 		contains			(CEnum enumObj);
-	public boolean 		contains			(CFun fun);
-	public boolean 		contains			(CppConstructor constructor);
-	public boolean 		contains			(CppDestructor destructor);
-	public boolean 		contains			(CppFun fun);
-	public boolean 		contains			(CppVar var);
-	public boolean 		contains			(CStruct struct);
-	public boolean		contains			(CUnion enumObj);
-	public boolean		containsAfterDirective	(CPreProcessorDirective directive)		;
-	public boolean		containsBeforeDirective	(CPreProcessorDirective directive)		;
-	public boolean 		containsExtended	(CppClass extended);
+    public static final CppClassFactory factory = CppClassFactory.getInstance();
 
-	public CEnum		getEnumByName		(String name);
+    public CppClass add(long vis, CEnum... enumObj) throws CppDuplicateException;
 
-	public String 		getTypeName		();
-	
-	public long			getVis				(CEnum enumObj);
-	public long			getVis				(CFun fun);
-	public long 		getVis				(CppConstructor constructor);
-	public long			getVis				(CppDestructor destructor);
-	public long 		getVis				(CppFun fun);
-	public long			getVis				(CppVar var);
-	public long			getVis				(CStruct struct);
-	public long			getVis				(CUnion union);
-	public long			getVisExtended		(CppClass extended);
-	
-	public String 		toString			();
-	
-	public CppConstructor[] getConstructors(long vis);
-	public CppDestructor[] getDestructors(long vis);
-	public CppFun[] getFuns(long vis);
+    public CppClass add(long vis, CFun... function) throws CppDuplicateException;
+
+    public CppClass add(long vis, CppConstructor... constructor) throws CppDuplicateException;
+
+    public CppClass add(long vis, CppDestructor... destructor) throws CppDuplicateException;
+
+    public CppClass add(long vis, CppFun... fun) throws CppDuplicateException;
+
+    public CppClass add(long vis, CppVar... var) throws CppDuplicateException;
+
+    public CppClass add(long vis, CStruct... struct) throws CppDuplicateException;
+
+    public CppClass add(long vis, CUnion... unions) throws CppDuplicateException;
+
+    public CppClass addAfterDirective(CPreProcessorDirective... directive);
+
+    public CppClass addAfterDirective(String... directives) throws CPreProcessorValidationException;
+
+    public CppClass addBeforeDirective(CPreProcessorDirective... directive);
+
+    public CppClass addBeforeDirective(String... directive) throws CPreProcessorValidationException;
+
+    public CppClass addExtended(long vis, CppClass... extended) throws CppDuplicateException;
+
+    public boolean contains(CEnum enumObj);
+
+    public boolean contains(CFun fun);
+
+    public boolean contains(CppConstructor constructor);
+
+    public boolean contains(CppDestructor destructor);
+
+    public boolean contains(CppFun fun);
+
+    public boolean contains(CppVar var);
+
+    public boolean contains(CStruct struct);
+
+    public boolean contains(CUnion enumObj);
+
+    public boolean containsAfterDirective(CPreProcessorDirective directive);
+
+    public boolean containsBeforeDirective(CPreProcessorDirective directive);
+
+    public boolean containsExtended(CppClass extended);
+
+    public CEnum getEnumByName(String name);
+
+    public String getTypeName();
+
+    public long getVis(CEnum enumObj);
+
+    public long getVis(CFun fun);
+
+    public long getVis(CppConstructor constructor);
+
+    public long getVis(CppDestructor destructor);
+
+    public long getVis(CppFun fun);
+
+    public long getVis(CppVar var);
+
+    public long getVis(CStruct struct);
+
+    public long getVis(CUnion union);
+
+    public long getVisExtended(CppClass extended);
+
+    public String toString();
+
+    public CppConstructor[] getConstructors(long vis);
+
+    public CppDestructor[] getDestructors(long vis);
+
+    public CppFun[] getFuns(long vis);
 
 }
