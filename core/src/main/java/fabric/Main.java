@@ -114,7 +114,7 @@ public class Main {
                 for (String moduleName : line.getOptionValue('m').split(",")) {
                     moduleName = moduleName.trim();
                     Main.log.debug("Creating instance of module {}", moduleName);
-                    treeItemHandlers.add(registry.get(moduleName).getHandler(workspace, properties));
+                    treeItemHandlers.add(registry.get(moduleName).getHandler(workspace));
                 }
             }
 

@@ -33,8 +33,7 @@ import fabric.module.api.FabricModule;
 import fabric.module.api.FabricSchemaTreeItemHandler;
 
 /**
- * Fabric module used for creating Graphviz dot visualisations of the Schema
- * object tree.
+ * Fabric module used for creating Graphviz dot visualisations of the Schema object tree.
  *
  * @author Marco Wegner
  */
@@ -44,28 +43,28 @@ public class FabricDotGraphModule implements FabricModule {
      * Option key used for the Dot graph output file.
      */
     private static final String KEY_DOT_OUTFILE = "dot.outfile";
+    private Properties properties = null;
 
     /**
      * Constructs a new module.
      */
     public FabricDotGraphModule(Properties p) {
-    	p.put(KEY_DOT_OUTFILE, "dotfile.dot");
+        this.properties = p;
+        p.put(KEY_DOT_OUTFILE, "dotfile.dot");
     }
 
     @Override
-    public String getName( ) {
+    public String getName() {
         return "dot";
     }
 
     @Override
-    public String getDescription( ) {
-        return String.format("Creates a Graphviz DOT file. Valid options are '%s'.",
-                KEY_DOT_OUTFILE);
+    public String getDescription() {
+        return String.format("Creates a Graphviz DOT file. Valid options are '%s'.", KEY_DOT_OUTFILE);
     }
 
     @Override
-    public FabricSchemaTreeItemHandler getHandler(Workspace workspace, Properties properties)
-            throws Exception {
-        return new FabricDotGraphHandler(workspace, properties);
+    public FabricSchemaTreeItemHandler getHandler(Workspace workspace) throws Exception {
+        return new FabricDotGraphHandler(workspace, this.properties);
     }
 }

@@ -26,8 +26,6 @@
  */
 package fabric.module.api;
 
-import java.util.Properties;
-
 import de.uniluebeck.sourcegen.Workspace;
 
 /**
@@ -69,6 +67,6 @@ public interface FabricModule {
      * @throws Exception
      *             If an error occurs.
      */
-    public abstract FabricSchemaTreeItemHandler getHandler(Workspace workspace, Properties properties) throws Exception;
+    public abstract FabricSchemaTreeItemHandler getHandler(Workspace workspace) throws Exception;
 
 }
