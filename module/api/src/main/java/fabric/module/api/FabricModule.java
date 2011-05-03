@@ -22,7 +22,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * 
+ *
  */
 package fabric.module.api;
 
@@ -35,36 +35,39 @@ import de.uniluebeck.sourcegen.Workspace;
  * Basic module interface in Fabric.
  * </p>
  * <p>
- * A module has a name and description as well and can supply default values for
- * any properties which are used to customise the behaviour of this module.
+ * A module has a name and description as well and can supply default values for any properties which are used to
+ * customise the behaviour of this module.
  * </p>
- * 
+ *
  * @author Marco Wegner
  */
 public interface FabricModule {
 
     /**
      * Returns this module's name.
-     * 
+     *
      * @return The module name.
      */
-    public abstract String getName( );
+    public abstract String getName();
 
     /**
      * Returns this module's description.
-     * 
+     *
      * @return The module description.
      */
-    public abstract String getDescription( );
+    public abstract String getDescription();
 
     /**
-     * Creates and returns the handler for this module. That handler is used
-     * when walking a Schema object tree.
-     * @param workspace TODO
-     * @param properties The properties used to set up the handler.
-     * 
+     * Creates and returns the handler for this module. That handler is used when walking a Schema object tree.
+     *
+     * @param workspace
+     *            TODO
+     * @param properties
+     *            The properties used to set up the handler.
+     *
      * @return The Schema tree item handler.
-     * @throws Exception If an error occurs.
+     * @throws Exception
+     *             If an error occurs.
      */
     public abstract FabricSchemaTreeItemHandler getHandler(Workspace workspace, Properties properties) throws Exception;
 

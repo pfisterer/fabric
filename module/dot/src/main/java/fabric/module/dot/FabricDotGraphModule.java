@@ -22,7 +22,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * 
+ *
  */
 package fabric.module.dot;
 
@@ -35,7 +35,7 @@ import fabric.module.api.FabricSchemaTreeItemHandler;
 /**
  * Fabric module used for creating Graphviz dot visualisations of the Schema
  * object tree.
- * 
+ *
  * @author Marco Wegner
  */
 public class FabricDotGraphModule implements FabricModule {
