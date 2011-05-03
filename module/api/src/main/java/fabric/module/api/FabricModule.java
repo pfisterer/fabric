@@ -58,13 +58,6 @@ public interface FabricModule {
     public abstract String getDescription( );
 
     /**
-     * Returns this module's default properties.
-     * 
-     * @return The module properties.
-     */
-    public abstract Properties getDefaultProperties( );
-
-    /**
      * Creates and returns the handler for this module. That handler is used
      * when walking a Schema object tree.
      * @param workspace TODO

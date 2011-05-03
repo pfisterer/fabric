@@ -40,7 +40,6 @@ import org.slf4j.LoggerFactory;
 
 import de.uniluebeck.itm.tr.util.Logging;
 import de.uniluebeck.sourcegen.Workspace;
-import fabric.module.api.FabricModule;
 import fabric.module.api.FabricSchemaTreeItemHandler;
 import fabric.module.api.FabricSchemaTreeWalker;
 import fabric.module.api.ModuleRegistry;
@@ -72,13 +71,10 @@ public class Main {
 		File schemaFile = null;
 		Workspace workspace = null;
 
-		final ModuleRegistry registry = new ModuleRegistry();
-		registry.register(new FabricDotGraphModule());
-
 		final Properties properties = new Properties();
-		for (FabricModule m : registry) {
-			properties.putAll(m.getDefaultProperties());
-		}
+
+		final ModuleRegistry registry = new ModuleRegistry();
+		registry.register(new FabricDotGraphModule(properties));
 
 		final List<FabricSchemaTreeItemHandler> treeItemHandlers = new ArrayList<FabricSchemaTreeItemHandler>();
 
