@@ -1,7 +1,6 @@
 package de.uniluebeck.sourcegen.protobuf;
 
 import java.util.List;
-import java.util.Properties;
 
 import de.uniluebeck.sourcegen.SourceFile;
 import de.uniluebeck.sourcegen.Workspace;
@@ -16,10 +15,10 @@ public class ProtobufWorkspace {
 
     private final List<SourceFile> sourceFiles;
 
-    public ProtobufWorkspace(Workspace w, Properties properties) {
+    public ProtobufWorkspace(Workspace w) {
         sourceFiles = w.getSourceFiles();
-        packageName = properties.getProperty(PACKAGE);
-        fileName = properties.getProperty(DEFAULT_FILENAME, "protobuf.prot");
+        packageName = w.getProperties().getProperty(PACKAGE);
+        fileName = w.getProperties().getProperty(DEFAULT_FILENAME, "protobuf.prot");
     }
 
     public String getPackageName() {

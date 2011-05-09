@@ -128,8 +128,8 @@ public class Workspace {
         // Set up the workspaces
         this.java = new JavaWorkspace(this);
         this.c = new CWorkspace(this);
-        this.protobuf = new ProtobufWorkspace(this, properties);
-        this.dot = new DotGraphWorkspace(this, properties);
+        this.protobuf = new ProtobufWorkspace(this);
+        this.dot = new DotGraphWorkspace(this);
     }
 
     /**
@@ -180,8 +180,6 @@ public class Workspace {
     public String getJPackagePrefix() {
         return jPackagePrefix;
     }
-
-
 
     private void assureDirExists(File dir) throws Exception {
         if (!dir.exists())

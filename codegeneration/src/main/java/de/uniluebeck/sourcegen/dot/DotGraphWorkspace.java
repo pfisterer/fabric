@@ -1,7 +1,6 @@
 package de.uniluebeck.sourcegen.dot;
 
 import java.util.List;
-import java.util.Properties;
 
 import de.uniluebeck.sourcegen.SourceFile;
 import de.uniluebeck.sourcegen.Workspace;
@@ -38,9 +37,9 @@ public class DotGraphWorkspace {
      *
      * @param properties
      */
-    public DotGraphWorkspace(Workspace w, Properties properties) {
+    public DotGraphWorkspace(Workspace w) {
         this.sourceFiles = w.getSourceFiles();
-        fileName = properties.getProperty(KEY_DOT_OUTFILE);
+        fileName = w.getProperties().getProperty(KEY_DOT_OUTFILE);
     }
 
     /**
