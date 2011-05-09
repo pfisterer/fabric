@@ -50,7 +50,7 @@ public class FabricDotGraphModule implements FabricModule {
      */
     public FabricDotGraphModule(Properties p) {
         this.properties = p;
-        p.put(KEY_DOT_OUTFILE, "dotfile.dot");
+        this.properties.put(FabricDotGraphModule.KEY_DOT_OUTFILE, "dotfile.dot");
     }
 
     @Override
@@ -60,7 +60,7 @@ public class FabricDotGraphModule implements FabricModule {
 
     @Override
     public String getDescription() {
-        return String.format("Creates a Graphviz DOT file. Valid options are '%s'.", KEY_DOT_OUTFILE);
+        return String.format("Creates a Graphviz DOT file. Valid options are '%s'.", FabricDotGraphModule.KEY_DOT_OUTFILE);
     }
 
     @Override
