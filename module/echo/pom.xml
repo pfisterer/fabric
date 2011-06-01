@@ -23,20 +23,22 @@
 		<groupId>de.uniluebeck.itm</groupId>
 		<artifactId>fabric</artifactId>
 		<version>1.0</version>
-		<relativePath>../</relativePath>
+		<relativePath>../../</relativePath>
 	</parent>
 
-	<artifactId>fabric.codegeneration</artifactId>
-	<name>Fabric :: Code Generation Framework</name>
-
+	<artifactId>fabric.module.echo</artifactId>
+	<name>Fabric :: Echo Module</name>
 	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
 			<groupId>de.uniluebeck.itm</groupId>
+			<artifactId>fabric.module.api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>de.uniluebeck.itm</groupId>
 			<artifactId>tr.util</artifactId>
 		</dependency>
 	</dependencies>
-
 
 </project>

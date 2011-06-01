@@ -73,6 +73,10 @@
 		</dependency>
 		<dependency>
 			<groupId>de.uniluebeck.itm</groupId>
+			<artifactId>fabric.module.echo</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>de.uniluebeck.itm</groupId>
 			<artifactId>fabric.module.protobuf</artifactId>
 		</dependency>
 
