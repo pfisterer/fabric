@@ -82,6 +82,8 @@ public class Workspace {
 	
 	private final EchoWorkspaceHelper echoHelper;
 	
+	private final HelloWorldWorkspaceHelper helloWorldHelper;
+	
     /**
      * Helper for dot graph creation in this workspace.
      */
@@ -99,6 +101,7 @@ public class Workspace {
 		protobufHelper = new ProtobufWorkspaceHelper(properties);
         this.dotHelper = new DotGraphWorkspaceHelper(properties);
         echoHelper = new EchoWorkspaceHelper(properties);
+        helloWorldHelper = new HelloWorldWorkspaceHelper(properties);
 	}
 
 	public Properties getProperties() {
@@ -120,6 +123,11 @@ public class Workspace {
 	public EchoWorkspaceHelper getEchoHelper() {
 	        log.info("Dies ist ein Test für das Echo-Modul.");
 	        return echoHelper;
+	}
+	
+	public HelloWorldWorkspaceHelper getHelloWorldHelper() {
+	    log.info("Dies ist ein Test für das Hello World-Modul.");
+	    return helloWorldHelper;
 	}
 
     /**
@@ -507,6 +515,61 @@ public class Workspace {
         public EchoFile getDefaultSourceFile( ) {
             if (defaultSourceFile == null) {
                 defaultSourceFile = new EchoFile(fileName);
+                sourceFiles.add(defaultSourceFile);
+            }
+            return this.defaultSourceFile;
+        }
+    }
+    
+    public class HelloWorldWorkspaceHelper {
+        /**
+         * Property key to retrieve the file name.
+         */
+        private static final String KEY_HELLOWORLD_OUTFILE = "helloworld.outfile";
+        
+        /**
+         * Property key to retrieve the package name.
+         */
+        private static final String KEY_HELLOWORLD_PACKAGE = "helloworld.package";
+
+        /**
+         * The actual file name.
+         */
+        private String fileName;
+        
+        /**
+         * The actual package name.
+         */
+        private String packageName;
+
+        /**
+         * The default file used for echo creation.
+         */
+        private JSourceFileImpl defaultSourceFile;
+
+        {
+            defaultSourceFile = null;
+        }
+
+        /**
+         * Constructs a new echo workspace helper.
+         * 
+         * @param properties
+         */
+        public HelloWorldWorkspaceHelper(Properties properties) {
+            fileName = properties.getProperty(KEY_HELLOWORLD_OUTFILE);
+            packageName = properties.getProperty(KEY_HELLOWORLD_PACKAGE);
+        }
+
+        /**
+         * Returns the default source file. If no such file exists exist, then
+         * it is created and added to the workspace's list of source files.
+         * 
+         * @return
+         */
+        public JSourceFileImpl getDefaultSourceFile( ) {
+            if (defaultSourceFile == null) {
+                defaultSourceFile = new JSourceFileImpl(packageName,fileName);
                 sourceFiles.add(defaultSourceFile);
             }
             return this.defaultSourceFile;

@@ -46,6 +46,7 @@ import fabric.module.api.FabricSchemaTreeWalker;
 import fabric.module.api.ModuleRegistry;
 import fabric.module.dot.FabricDotGraphModule;
 import fabric.module.echo.FabricEchoModule;
+import fabric.module.helloworld.FabricHelloWorldModule;
 import fabric.wsdlschemaparser.schema.FSchema;
 import fabric.wsdlschemaparser.wsdl.FWSDL;
 
@@ -76,6 +77,7 @@ public class Main {
 		final ModuleRegistry registry = new ModuleRegistry();
 		registry.register(new FabricDotGraphModule());
 		registry.register(new FabricEchoModule());
+		registry.register(new FabricHelloWorldModule());
 
 		final Properties properties = new Properties();
 		for (FabricModule m : registry) {

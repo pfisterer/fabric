@@ -21,30 +21,62 @@
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package fabric.module.echo;
+/**
+ * 
+ */
+package fabric.module.helloworld;
 
-import java.io.File;
 import java.util.Properties;
 
 import de.uniluebeck.sourcegen.Workspace;
-import fabric.module.api.Module;
-import fabric.module.api.ModuleFactory;
+import fabric.module.api.FabricModule;
+import fabric.module.api.FabricSchemaTreeItemHandler;
 
-public class EchoModuleFactory implements ModuleFactory {
-	private static final String DOT_OUTFILE = "echo.outfile";
+/**
+ * Fabric module used for creating an echo file of the Schema
+ * object tree.
+ */
+public class FabricHelloWorldModule implements FabricModule {
 
-	@Override
-	public String getName() {
-		return "dot";
-	}
+    /**
+     * Option key used for the Hello World output file.
+     */
+    private static final String KEY_HELLOWORLD_OUTFILE = "helloworld.outfile";
+    
+    /**
+     * Option key used for the Hello World package.
+     */
+    private static final String KEY_HELLOWORLD_PACKAGE = "helloworld.package";
 
-	@Override
-	public String getDescription() {
-		return "Creates a Graphviz DOT file. Options are '" + DOT_OUTFILE + "'";
-	}
+    /**
+     * Constructs a new module.
+     */
+    public FabricHelloWorldModule( ) {
+        super( );
+    }
 
-	@Override
-	public Module create(Properties properties, Workspace workspace) throws Exception {
-		return new EchoModule(new File(properties.getProperty(DOT_OUTFILE, "echofile.echo")), workspace);
-	}
+    @Override
+    public String getName( ) {
+        return "helloworld";
+    }
+
+    @Override
+    public String getDescription( ) {
+        return String.format("Creates a hello world file. Valid options are '%s'.",
+                KEY_HELLOWORLD_OUTFILE);
+    }
+
+    @Override
+    public Properties getDefaultProperties( ) {
+        final Properties p = new Properties( );
+        p.put(KEY_HELLOWORLD_OUTFILE, "HelloWorld");
+        p.put(KEY_HELLOWORLD_PACKAGE, "helloworld");
+        return p;
+    }
+
+    @Override
+    public FabricSchemaTreeItemHandler getHandler(Workspace workspace, Properties properties)
+            throws Exception {
+        return new FabricHelloWorldHandler(workspace, properties);
+    }
 }
