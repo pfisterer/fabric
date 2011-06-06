@@ -84,10 +84,13 @@ public class FabricEchoHandler extends FabricDefaultHandler {
      */
     private String edgeTopLevelTypeReference;
 
+    private final EchoFile echoSource;
+    
+    
     /**
      * 
      */
-    private final DGraphFile graphSource;
+   /* private final DGraphFile graphSource;
 
     {
         this.topLevelElementAttributes = EchoConstants.DEFAULT_TOP_LEVEL_ELEMENT_ATTRIBUTES;
@@ -97,7 +100,7 @@ public class FabricEchoHandler extends FabricDefaultHandler {
         this.topLevelComplexTypeAttributes = EchoConstants.DEFAULT_TOP_LEVEL_COMPLEX_TYPE_ATTRIBUTES;
         this.localComplexTypeAttributes = EchoConstants.DEFAULT_LOCAL_COMPLEX_TYPE_ATTRIBUTES;
         this.edgeTopLevelTypeReference = EchoConstants.DEFAULT_EDGE_TOP_LEVEL_TYPE;
-    }
+    }*/
 
     /**
      * Constructs a new handler for dot graph generation.
@@ -106,7 +109,7 @@ public class FabricEchoHandler extends FabricDefaultHandler {
      * @param properties The properties used to customise this handler.
      */
     public FabricEchoHandler(Workspace workspace, Properties properties) {
-        this.graphSource = workspace.getDotHelper( ).getDefaultSourceFile( );
+        this.echoSource = workspace.getEchoHelper( ).getDefaultSourceFile( );
         // TODO use the properties to customise the styles
     }
 
@@ -182,39 +185,33 @@ public class FabricEchoHandler extends FabricDefaultHandler {
 
     @Override
     public void startTopLevelElement(FElement element) throws Exception {
-        createGraphNode(element, this.topLevelElementAttributes);
+        this.echoSource.add(createNodeLabel(element));
+    	//createGraphNode(element, this.topLevelElementAttributes);
     }
 
     @Override
     public void startLocalElement(FElement element, FComplexType parent) throws Exception {
-        final DGraphNode node = createGraphNode(element, this.localElementAttributes);
-        createGraphEdge(parent, node, null);
+    	this.echoSource.add(createNodeLabel(element));
     }
 
     @Override
     public void startTopLevelSimpleType(FSimpleType type, FElement parent) throws Exception {
-        final DGraphNode node = getOrCreateGraphNode(type, type.getName( ),
-                this.topLevelSimpleTypeAttributes);
-        createGraphEdge(parent, node, this.edgeTopLevelTypeReference);
+        
     }
 
     @Override
     public void startLocalSimpleType(FSimpleType type, FElement parent) throws Exception {
-        final DGraphNode node = createGraphNode(type, this.localSimpleTypeAttributes);
-        createGraphEdge(parent, node, null);
+        
     }
 
     @Override
     public void startTopLevelComplexType(FComplexType type, FElement parent) throws Exception {
-        final DGraphNode node = getOrCreateGraphNode(type, type.getName( ),
-                this.topLevelComplexTypeAttributes);
-        createGraphEdge(parent, node, this.edgeTopLevelTypeReference);
+        
     }
 
     @Override
     public void startLocalComplexType(FComplexType type, FElement parent) throws Exception {
-        final DGraphNode node = createGraphNode(type, this.localComplexTypeAttributes);
-        createGraphEdge(parent, node, null);
+        
     }
 
     /**
@@ -237,12 +234,12 @@ public class FabricEchoHandler extends FabricDefaultHandler {
      * @param attributes The node's attributes as comma-separated list.
      * @return The newly created graph node.
      */
-    private DGraphNode createGraphNode(FSchemaObject object, String attributes) {
-        final DGraphNode node = new DGraphNode(object.getID( ));
-        node.setLabel(createNodeLabel(object));
-        node.setNodeStyle(attributes);
-        this.graphSource.add(node);
-        return node;
+    private String createGraphNode(FSchemaObject object, String attributes) {
+        //final DGraphNode node = new DGraphNode(object.getID( ));
+        String label = createNodeLabel(object);
+        //node.setNodeStyle(attributes);
+        //this.graphSource.add(node);
+        return label;
     }
 
     /**
@@ -258,11 +255,8 @@ public class FabricEchoHandler extends FabricDefaultHandler {
      * @return The newly created graph node.
      */
     private DGraphNode getOrCreateGraphNode(FSchemaObject object, String label, String attributes) {
-        DGraphNode node = this.graphSource.getNodeByID(object.getID( ));
-        if (node == null) {
-            node = createGraphNode(object, attributes);
-        }
-        return node;
+        
+        return null;
     }
 
     /**
@@ -275,10 +269,7 @@ public class FabricEchoHandler extends FabricDefaultHandler {
      * @return The newly created graph edge.
      */
     private DGraphEdge createGraphEdge(DGraphNode source, DGraphNode target, String attributes) {
-        final DGraphEdge edge = new DGraphEdge(source, target);
-        edge.setLineStyle(attributes);
-        this.graphSource.add(edge);
-        return edge;
+        return null;
     }
 
     /**
@@ -292,10 +283,7 @@ public class FabricEchoHandler extends FabricDefaultHandler {
      * @param attributes The edge's attributes as comma-separated list.
      * @return The newly created graph edge.
      */
-    private DGraphEdge createGraphEdge(FSchemaObject object, DGraphNode target, String attributes) {
-        final DGraphNode source = this.graphSource.getNodeByID(object.getID( ));
-        return createGraphEdge(source, target, attributes);
-    }
+    
 
     /**
      * Creates the label for a node. This label is used in the graph to give the

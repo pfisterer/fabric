@@ -21,30 +21,18 @@
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package fabric.module.echo;
+/**
+ * 
+ */
+package de.uniluebeck.sourcegen.echo;
 
-import java.io.File;
-import java.util.Properties;
+import de.uniluebeck.sourcegen.ElemImpl;
 
-import de.uniluebeck.sourcegen.Workspace;
-import fabric.module.api.Module;
-import fabric.module.api.ModuleFactory;
-
-public class EchoModuleFactory implements ModuleFactory {
-	private static final String DOT_OUTFILE = "echo.outfile";
-
-	@Override
-	public String getName() {
-		return "dot";
-	}
-
-	@Override
-	public String getDescription() {
-		return "Creates a Graphviz DOT file. Options are '" + DOT_OUTFILE + "'";
-	}
-
-	@Override
-	public Module create(Properties properties, Workspace workspace) throws Exception {
-		return new EchoModule(new File(properties.getProperty(DOT_OUTFILE, "echofile.echo")), workspace);
-	}
+/**
+ * Abstract base class for all Graphviz Dot elements.
+ * 
+ * @author Marco Wegner
+ */
+public abstract class EchoElement extends ElemImpl {
+    //
 }

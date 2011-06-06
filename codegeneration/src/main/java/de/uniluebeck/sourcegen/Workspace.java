@@ -80,7 +80,7 @@ public class Workspace {
 
 	private ProtobufWorkspaceHelper protobufHelper;
 	
-	private EchoWorkspaceHelper echoHelper;
+	private final EchoWorkspaceHelper echoHelper;
 	
     /**
      * Helper for dot graph creation in this workspace.
@@ -98,7 +98,7 @@ public class Workspace {
 		cHelper = new CWorkspaceHelper();
 		protobufHelper = new ProtobufWorkspaceHelper(properties);
         this.dotHelper = new DotGraphWorkspaceHelper(properties);
-                echoHelper = new EchoWorkspaceHelper(properties);
+        echoHelper = new EchoWorkspaceHelper(properties);
 	}
 
 	public Properties getProperties() {
@@ -117,7 +117,7 @@ public class Workspace {
 		return protobufHelper;
 	}
 	
-	public EchoWorkspaceHelper getEcho() {
+	public EchoWorkspaceHelper getEchoHelper() {
 	        log.info("Dies ist ein Test für das Echo-Modul.");
 	        return echoHelper;
 	}

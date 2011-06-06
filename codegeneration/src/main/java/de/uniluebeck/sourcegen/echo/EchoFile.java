@@ -24,14 +24,20 @@
 package de.uniluebeck.sourcegen.echo;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.uniluebeck.sourcegen.SourceFile;
+import de.uniluebeck.sourcegen.dot.DGraphNode;
 
-public class EchoFile implements SourceFile {
+public class EchoFile extends EchoElement implements SourceFile {
     /**
      * This echo source file's path relative to the workspace.
      */
     private final File echoFile;
+    
+    private final List<String> labels = new ArrayList<String>();
+    
     
     /**
      * Constructs a new echo source file with the specified file name.
@@ -46,4 +52,18 @@ public class EchoFile implements SourceFile {
     public String getFileName() {
         return echoFile.getPath();
     }
+    
+    @Override
+    public void toString(StringBuffer buffer, int tabCount) {
+        addLine(buffer, tabCount, "Found xsd elements");
+       for(String s : labels){
+    	   addLine(buffer,tabCount, s);
+       }
+        addLine(buffer, tabCount, "This should be all");
+    }
+    
+    public void add(String label) {
+        this.labels.add(label);
+    }
+    
 }
