@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>cpp</groupId>
+  <artifactId>fabric.module.cpp</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+  	<dependency>
+  		<groupId>de.uniluebeck.itm</groupId>
+  		<artifactId>fabric.codegeneration</artifactId>
+  		<version>1.0</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>de.uniluebeck.itm</groupId>
+  		<artifactId>fabric.wsdl-schema-parser</artifactId>
+  		<version>1.0</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>de.uniluebeck.itm</groupId>
+  		<artifactId>fabric.module.api</artifactId>
+  		<version>1.0</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
+  </dependencies>
+</project>
