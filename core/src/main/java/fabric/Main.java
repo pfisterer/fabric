@@ -38,6 +38,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import test.CppModule;
 import de.uniluebeck.itm.tr.util.Logging;
 import de.uniluebeck.sourcegen.Workspace;
 import fabric.module.api.FabricSchemaTreeItemHandler;
@@ -163,6 +164,7 @@ public class Main {
      */
     private void registerModules() throws Exception {
         this.registry.register(new FabricDotGraphModule(this.properties));
+        this.registry.register(new CppModule(this.properties));
     }
 
     /**
