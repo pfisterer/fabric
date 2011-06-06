@@ -31,7 +31,7 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 	public CppHeaderFileImpl(String fileName) {
 		super(fileName);
 	}
-	
+
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 		//Before Preprocessordiretives
@@ -39,36 +39,36 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 			ppd.toString(buffer, tabCount);
 			buffer.append("\n");
 		}
-		buffer.append("\n");
-		
+		if(base.beforeDirectives.size() > 0) buffer.append("\n");
+
 		//Includes
 		for(String s : base.libIncludes){
 			buffer.append("#include <");
 			buffer.append(s);
 			buffer.append(">\n");
 		}
-		buffer.append("\n");
-				
+		if(base.libIncludes.size() > 0) buffer.append("\n");
+
 		//namespace TODO: ordentlich machen!
-		buffer.append("namespace isense {\n\n");
-		
+		// buffer.append("namespace isense {\n\n");
+
 		//structs
 		for(CStructBaseImpl struct : base.structsUnions){
 			buffer.append(struct.toString());
 		}
-		buffer.append("\n\n");
-		
+		if(base.structsUnions.size() > 0) buffer.append("\n\n");
+
 		//classes
 		for(CppClass c : this.cppClasses){
 			buffer.append(c.toString());
 		}
-		
-		buffer.append("}\n");
-		
+
+		// buffer.append("}\n");
+
 		//After Preprocessordirectives
 		for(CPreProcessorDirectiveImpl ppd : base.afterDirectives){
 			buffer.append("\n");
 			ppd.toString(buffer, tabCount);
 		}
-	}	
+	}
 }

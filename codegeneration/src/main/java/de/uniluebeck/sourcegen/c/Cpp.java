@@ -24,7 +24,9 @@
 package de.uniluebeck.sourcegen.c;
 
 public abstract class Cpp {
-	
+
+    public static String newline = System.getProperty("line.separator");
+
 	public static final long ARRAY 		= 1<<0;
 	public static final long ARRAY2D	= 1<<1;
 	public static final long ARRAY3D	= 1<<2;
@@ -57,148 +59,148 @@ public abstract class Cpp {
 	public static final long VOID		= 1<<29;
 	public static final long VOLATILE	= 1<<30;
 	public static final long WCHAR_T	= 1<<31;
-	
+
 	public boolean isArray(long mod) {
 		return (mod & ARRAY) != 0;
 	}
-	
+
 	public boolean isArray2D(long mod) {
 		return (mod & ARRAY2D) != 0;
 	}
-	
+
 	public boolean isArray3D(long mod) {
 		return (mod & ARRAY3D) != 0;
-		
+
 	}
-	
+
 	public boolean isBool(long mod) {
 		return (mod & BOOL) != 0;
-		
+
 	}
-	
+
 	public boolean isChar(long mod) {
 		return (mod & CHAR) != 0;
-		
+
 	}
-	
+
 	public boolean isConst(long mod) {
 		return (mod & CONST) != 0;
-		
+
 	}
-	
+
 	public boolean isDouble(long mod) {
 		return (mod & DOUBLE) != 0;
-		
+
 	}
-	
+
 	public boolean isExtern(long mod) {
 		return (mod & EXTERN) != 0;
-		
+
 	}
-	
+
 	public boolean isFloat(long mod) {
 		return (mod & FLOAT) != 0;
-		
+
 	}
-	
+
 	public boolean isFriend(long mod) {
 		return (mod & FRIEND) != 0;
-		
+
 	}
-	
+
 	public boolean isInline(long mod) {
 		return (mod & INLINE) != 0;
-		
+
 	}
-	
+
 	public boolean isInt(long mod) {
 		return (mod & INT) != 0;
 	}
-	
+
 	public boolean isLong(long mod) {
 		return (mod & LONG) != 0;
 	}
-	
+
 	public boolean isLongDouble(long mod) {
 		return (mod & LONGDOUBLE) != 0;
 	}
-	
+
 	public boolean isMutable(long mod) {
 		return (mod & MUTABLE) != 0;
 	}
-	
+
 	public boolean isNone(long mod) {
 		return (mod & NONE) != 0;
 	}
-	
+
 	public boolean isPointer(long mod) {
 		return (mod & POINTER) != 0;
 	}
-	
+
 	public boolean isPrivate(long mod) {
 		return (mod & PRIVATE) != 0;
 	}
-	
+
 	public boolean isProtected(long mod) {
 		return (mod & PROTECTED) != 0;
 	}
-	
+
 	public boolean isPublic(long mod) {
 		return (mod & PUBLIC) != 0;
 	}
-	
+
 	public boolean isReference(long mod) {
 		return (mod & REFERENCE) != 0;
 	}
-	
+
 	public boolean isRegister(long mod) {
 		return (mod & REGISTER) != 0;
 	}
-	
+
 	public boolean isShort(long mod) {
 		return (mod & SHORT) != 0;
 	}
-	
+
 	public boolean isSigned(long mod) {
 		return (mod & SIGNED) != 0;
 	}
-	
+
 	public boolean isStatic(long mod) {
 		return (mod & STATIC) != 0;
 	}
-	
+
 	public boolean isThis(long mod) {
 		return (mod & THIS) != 0;
 	}
-	
+
 	public boolean isTypedef(long mod) {
 		return (mod & TYPEDEF) != 0;
 	}
-	
+
 	public boolean isUnsigned(long mod) {
 		return (mod & UNSIGNED) != 0;
 	}
-	
+
 	public boolean isVirtual(long mod) {
 		return (mod & VIRTUAL) != 0;
 	}
-	
+
 	public boolean isVoid(long mod) {
 		return (mod & VOID) != 0;
 	}
-	
+
 	public boolean isVolatile(long mod) {
 		return (mod & VOLATILE) != 0;
 	}
-	
+
 	public boolean isWchar_t(long mod) {
 		return (mod & WCHAR_T) != 0;
 	}
-	
+
 	public static String toString(long mod) {
 		StringBuffer sb = new StringBuffer();
-		int len;
-		
+		// int len;
+
 		if ((mod & CONST) != 0) 	sb.append("const ");
 		if ((mod & EXTERN) != 0) 	sb.append("extern ");
 		if ((mod & FRIEND) != 0) 	sb.append("friend ");
@@ -235,16 +237,18 @@ public abstract class Cpp {
 		if ((mod & NONE) != 0) 		sb.append(" ");
 		if ((mod & THIS) != 0) 		sb.append("this ");
 		if ((mod & VOID) != 0) 		sb.append("void ");
-		
+
+		/*
 		if ((len = sb.length()) > 0)
 		    return sb.toString().substring(0, len-1);
-		return sb.toString();
+		*/
+		return sb.toString().trim();
 	}
-	
+
 	public static void main(String args[]) {
 		System.out.println(Long.toBinaryString(1) + " & " + Long.toBinaryString(1<<5) + " : " +Long.toBinaryString((1 & (1<<5))));
 		System.out.println(Long.toBinaryString(STATIC) + " & " + Long.toBinaryString(STATIC) + " : " +Long.toBinaryString((STATIC & (STATIC))));
-		
+
 	}
 
 }

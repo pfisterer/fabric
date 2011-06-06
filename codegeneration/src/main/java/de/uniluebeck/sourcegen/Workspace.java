@@ -167,6 +167,8 @@ public class Workspace {
     // OTHER STUFF
     // ###################################################################
 
+    // TODO: Is that stuff really needed here?
+
     public static final String KEY_C_FILENAME = "c.filename";
 
     public static final String KEY_JAVA_PKG_PREFIX = "java.package";

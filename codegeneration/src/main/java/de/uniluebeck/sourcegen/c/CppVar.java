@@ -40,6 +40,11 @@ public interface CppVar extends CppLangElem {
 			return instance;
 		}
 
+		// qualifiedType
+                public CppVar create(long qualifiedType) {
+                        return create(qualifiedType, "", "");
+                }
+
 		public CppVar create(long qualifiedType, String varName) {
 			return create(qualifiedType, varName, "");
 		}
@@ -48,33 +53,50 @@ public interface CppVar extends CppLangElem {
 			return new CppVarImpl(qualifiedType, varName, initCode);
 		}
 
+                public CppVar create(long qualifiedType, String varName, CppTemplateHelper template) {
+                    return new CppVarImpl(qualifiedType, varName, template);
+                }
+
+                // CppTypeGenerator
+                public CppVar create(CppTypeGenerator type, String varName, CppTemplateName... types) {
+                    return new CppVarImpl(type, varName, null, types);
+                }
+
+                public CppVar create(CppTypeGenerator type, String varName, CppTemplateHelper template, CppTemplateName... types) {
+                    return new CppVarImpl(type, varName, template, types);
+                }
+
+                // CppClass
+                public CppVar create(CppClass clazz, String varName, CppTemplateHelper template) {
+                    return new CppVarImpl(new CppTypeGenerator(clazz, template), varName, template);
+                }
+
+                // String
 		public CppVar create(String varDeclString) {
 			return new CppVarImpl(varDeclString);
 		}
 
-		public CppVar create(long qualifiedType) {
-			return create(qualifiedType, "", "");
-		}
-
-		public CppVar create(long qualifier, CComplexType type, String varName) {
-			return new CppVarImpl(qualifier, type, varName, "");
-		}
-
-		public CppVar create(long qualifier, CppComplexType type, String varName) {
-			return new CppVarImpl(qualifier, type, varName, "");
-		}
-		
-		public CppVar create(long qualifier, CComplexType type, String varName, String initCode) {
-			return new CppVarImpl(qualifier, type, varName, initCode);
-		}
-
+		// CComplexType
 		public CppVar create(CComplexType type, String varName) {
 			return create(Cpp.NONE, type, varName);
 		}
-		
+
 		public CppVar create(CppComplexType type, String varName) {
 			return create(Cpp.NONE, type, varName);
 		}
+
+                // qualifier + ComplexType
+                public CppVar create(long qualifier, CComplexType type, String varName) {
+                    return new CppVarImpl(qualifier, type, varName, "");
+                }
+
+                public CppVar create(long qualifier, CppComplexType type, String varName) {
+                        return new CppVarImpl(qualifier, type, varName, "");
+                }
+
+                public CppVar create(long qualifier, CComplexType type, String varName, String initCode) {
+                        return new CppVarImpl(qualifier, type, varName, initCode);
+                }
 
 	}
 
