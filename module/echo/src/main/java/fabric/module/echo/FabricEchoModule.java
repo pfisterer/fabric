@@ -33,17 +33,15 @@ import fabric.module.api.FabricModule;
 import fabric.module.api.FabricSchemaTreeItemHandler;
 
 /**
- * Fabric module used for creating Graphviz dot visualisations of the Schema
+ * Fabric module used for creating an echo file of the Schema
  * object tree.
- * 
- * @author Marco Wegner
  */
 public class FabricEchoModule implements FabricModule {
 
     /**
      * Option key used for the Dot graph output file.
      */
-    private static final String KEY_DOT_OUTFILE = "dot.outfile";
+    private static final String KEY_ECHO_OUTFILE = "echo.outfile";
 
     /**
      * Constructs a new module.
@@ -59,14 +57,14 @@ public class FabricEchoModule implements FabricModule {
 
     @Override
     public String getDescription( ) {
-        return String.format("Creates a Graphviz DOT file. Valid options are '%s'.",
-                KEY_DOT_OUTFILE);
+        return String.format("Creates an echo file. Valid options are '%s'.",
+                KEY_ECHO_OUTFILE);
     }
 
     @Override
     public Properties getDefaultProperties( ) {
         final Properties p = new Properties( );
-        p.put(KEY_DOT_OUTFILE, "dotfile.xsd");
+        p.put(KEY_ECHO_OUTFILE, "echofile.xsd");
         return p;
     }
 

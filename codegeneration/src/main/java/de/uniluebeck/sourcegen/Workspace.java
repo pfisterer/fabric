@@ -43,6 +43,7 @@ import de.uniluebeck.sourcegen.c.CppHeaderFileImpl;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppSourceFileImpl;
 import de.uniluebeck.sourcegen.dot.DGraphFile;
+import de.uniluebeck.sourcegen.echo.EchoFile;
 import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JMethod;
 import de.uniluebeck.sourcegen.java.JSourceFile;
@@ -79,6 +80,8 @@ public class Workspace {
 
 	private ProtobufWorkspaceHelper protobufHelper;
 	
+	private EchoWorkspaceHelper echoHelper;
+	
     /**
      * Helper for dot graph creation in this workspace.
      */
@@ -95,6 +98,7 @@ public class Workspace {
 		cHelper = new CWorkspaceHelper();
 		protobufHelper = new ProtobufWorkspaceHelper(properties);
         this.dotHelper = new DotGraphWorkspaceHelper(properties);
+                echoHelper = new EchoWorkspaceHelper(properties);
 	}
 
 	public Properties getProperties() {
@@ -111,6 +115,11 @@ public class Workspace {
 
 	public ProtobufWorkspaceHelper getProtobuf() {
 		return protobufHelper;
+	}
+	
+	public EchoWorkspaceHelper getEcho() {
+	        log.info("Dies ist ein Test für das Echo-Modul.");
+	        return echoHelper;
 	}
 
     /**
@@ -448,6 +457,56 @@ public class Workspace {
         public DGraphFile getDefaultSourceFile( ) {
             if (defaultSourceFile == null) {
                 defaultSourceFile = new DGraphFile(fileName);
+                sourceFiles.add(defaultSourceFile);
+            }
+            return this.defaultSourceFile;
+        }
+    }
+    
+    
+    /**
+     * Workspace helper class for Graphviz dot file generation.
+     * 
+     * @author Marco Wegner
+     */
+    public class EchoWorkspaceHelper {
+        /**
+         * Property key to retrieve the echo file name.
+         */
+        private static final String KEY_ECHO_OUTFILE = "echo.outfile";
+
+        /**
+         * The actual echo file name.
+         */
+        private String fileName;
+
+        /**
+         * The default file used for echo creation.
+         */
+        private EchoFile defaultSourceFile;
+
+        {
+            defaultSourceFile = null;
+        }
+
+        /**
+         * Constructs a new echo workspace helper.
+         * 
+         * @param properties
+         */
+        public EchoWorkspaceHelper(Properties properties) {
+            fileName = properties.getProperty(KEY_ECHO_OUTFILE);
+        }
+
+        /**
+         * Returns the default source file. If no such file exists exist, then
+         * it is created and added to the workspace's list of source files.
+         * 
+         * @return
+         */
+        public EchoFile getDefaultSourceFile( ) {
+            if (defaultSourceFile == null) {
+                defaultSourceFile = new EchoFile(fileName);
                 sourceFiles.add(defaultSourceFile);
             }
             return this.defaultSourceFile;

@@ -48,19 +48,16 @@ import fabric.wsdlschemaparser.schema.FSequence;
 import fabric.wsdlschemaparser.schema.FSimpleType;
 import fabric.wsdlschemaparser.schema.FString;
 
-/**
- * @author Marco Wegner
- */
+
 public class EchoModule extends TreeWalkerBase {
 	private static final org.slf4j.Logger log = LoggerFactory.getLogger(EchoModule.class);
 	
 	private BufferedWriter writer;
 
-	public EchoModule(File dotFile, Workspace workspace) throws Exception {
-		//TODO Change dot module to use workspace
-		log.debug("New dot writer for output file {}", dotFile);
-		log.info("Run dot -Tpng -O {} to generate a PNG output file", dotFile);
-		this.writer = new BufferedWriter(new FileWriter(dotFile));
+	public EchoModule(File echoFile, Workspace workspace) throws Exception {
+		log.debug("New echo writer for output file {}", echoFile);
+		log.info("Run echo {} to generate a echo output file", echoFile);
+		this.writer = new BufferedWriter(new FileWriter(echoFile));
 		writeLine("digraph G {");
 	}
 	
@@ -69,7 +66,7 @@ public class EchoModule extends TreeWalkerBase {
 		writeLine("}");
 		writer.flush();
 		writer.close();
-		log.debug("Dot writing done.");
+		log.debug("XSD writing done.");
 	}
 
 	@Override
@@ -78,117 +75,56 @@ public class EchoModule extends TreeWalkerBase {
 
 	@Override
 	public void handle(FElement elem) throws Exception {
-		handleElement(elem, null);
+		String s = handleElement(elem, null);
+		writeLine(s);
 	}
 
 	@Override
 	public void handle(FSimpleType st) throws Exception {
-		writeType(st);
+		writeSimpleType(st);
 	}
 
 	@Override
 	public void handle(FComplexType ct) throws Exception {
-		writeType(ct);
-		handleComplexTypeChildren(ct);
+		writeComplexType(ct);
 	}
+	
+       private String handleElement(FElement elem, FComplexType parent) throws Exception {
+           String ret = "";
 
-	private void handleElement(FElement elem, FComplexType parent) throws Exception {
-		writeElement(elem, parent);
+           FSchemaType type = elem.getSchemaType();
+           if (type instanceof FSimpleType) {
+               ret += writeSimpleType((FSimpleType) type);
+	   } else if (type instanceof FComplexType) {
+	       ret += writeComplexType((FComplexType) type);
+	   } else {
+	       throw new Exception("Unknown SimpleType: " + type.toString());
+	   }
+           
+           return ret;
+       }
+	
+       private String writeSimpleType(FSchemaType type) throws Exception {
+           return "<xs:element name=\"" + getTypeString(type) + "\">";
+       }
+       
+       private String writeComplexType(FComplexType ct) throws Exception {
+           String ret = "";
+           
+           for (FSchemaObject o : ct.getChildObjects()) {
+               if (o instanceof FElement) {
+                       FElement e = (FElement) o;
+                       ret += handleElement(e, ct);
+               } else if (o instanceof FComplexType) {
+                       FComplexType ctype = (FComplexType) o;
+                       ret += writeComplexType(ctype);
+               } else {
+                       throw new Exception("Unknown type: " + o.toString());
+               }
+           }
+           return ret;
+       }
 
-		FSchemaType type = elem.getSchemaType();
-
-		if (type instanceof FSimpleType) {
-			handle((FSimpleType) type);
-		} else if (type instanceof FComplexType) {
-			handle((FComplexType) type);
-		} else {
-			throw new Exception("Unknown SimpleType: " + type.toString());
-		}
-
-		writeTransition(elem, parent, type);
-	}
-
-	private void handleComplexTypeChildren(FComplexType ct) throws Exception {
-		for (FSchemaObject o : ct.getChildObjects()) {
-			if (o instanceof FElement) {
-				FElement e = (FElement) o;
-				handleElement(e, ct);
-				writeTransition(ct, e);
-			} else if (o instanceof FComplexType) {
-				FComplexType ctype = (FComplexType) o;
-				handle(ctype);
-				writeTransition(ct, ctype);
-			} else {
-				throw new Exception("Unknown type: " + o.toString());
-			}
-		}
-	}
-
-	private void writeElement(FElement fse, FComplexType parent) throws Exception {
-
-		// don't generate anything if the element is just referenced
-		if (fse.isReference()) {
-			return;
-		}
-
-		// element attributes
-		String eattr = "shape = ellipse";
-		if (fse.isTopLevel()) {
-			eattr += ", style = filled";
-		}
-		eattr = " [" + eattr + "]";
-
-		String source = fse.getName();
-		if (parent != null) {
-			source = getElementString(fse, parent);
-		}
-		writeLine(source + eattr + ";");
-	}
-
-	private void writeType(FSchemaType type) throws Exception {
-		String name = getTypeString(type);
-
-		String attr;
-		if (FSchemaTypeHelper.isEnum(type)) {
-			attr = "shape = polygon, sides = 4, skew = 0.4";
-		} else {
-			attr = "shape = box";
-		}
-
-		if (type.isTopLevel()) {
-			attr += ", style = filled";
-		}
-
-		writeLine(name + " [" + attr + "];");
-	}
-
-	private void writeTransition(FElement source, FComplexType parent, FSchemaType dest) throws Exception {
-		String attr = "";
-		if (dest.isTopLevel()) {
-			attr = " [style = dashed]";
-		}
-		writeLine(getElementString(source, parent) + " -> " + getTypeString(dest) + attr);
-	}
-
-	private void writeTransition(FComplexType source, FElement dest) throws Exception {
-		String attr = "";
-		if (dest.isReference()) {
-			attr = " [style = dashed]";
-		}
-		writeLine(getTypeString(source) + " -> " + getElementString(dest, source) + attr);
-	}
-
-	private void writeTransition(FComplexType source, FComplexType dest) throws Exception {
-		writeLine(getTypeString(source) + " -> " + getTypeString(dest));
-	}
-
-	private String getElementString(FElement e, FComplexType parent) {
-		String destination = e.getName();
-		if (!(e.isTopLevel() || e.isReference())) {
-			destination = "\"" + getTypeNameString(parent) + "::\\n" + destination + "\"";
-		}
-		return destination;
-	}
 
 	private String getTypeString(FSchemaType ft) {
 		String name = getTypeNameString(ft);
