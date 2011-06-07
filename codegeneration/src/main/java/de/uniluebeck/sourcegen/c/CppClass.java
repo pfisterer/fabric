@@ -29,7 +29,7 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 /**
  * @author Daniel Bimschas
  */
-public interface CppClass extends CppComplexType {
+public interface CppClass extends CppComplexType, CppTemplateName {
 
     class CppClassFactory {
 

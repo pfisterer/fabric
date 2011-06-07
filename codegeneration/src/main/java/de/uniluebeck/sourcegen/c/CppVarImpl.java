@@ -23,79 +23,113 @@
  */
 package de.uniluebeck.sourcegen.c;
 
-
-
-
+import java.util.LinkedList;
+import java.util.List;
 
 class CppVarImpl extends CElemImpl implements CppVar {
-	private enum Type {
-		DECL_STRING,
-		LONG_STRING,
-		LONG_CCOMPLEX_STRING,
-		LONG_CPPCOMPLEX_STRING
-	}
+    private enum Type {
+        DECL_STRING, LONG_STRING, LONG_CCOMPLEX_STRING, LONG_CPPCOMPLEX_STRING, TEMPLATE
+    }
 
-	private String varDeclString;
-	private Type type;
-	private String initCode;
-	private String varName;
-	private CComplexType cComplexType;
-	private CppComplexType cppComplexType;
-	private long qualifier;
-	private long qualifiedType;
-	
-	public CppVarImpl(String varDeclString) {
-		this.type = Type.DECL_STRING;
-		this.varDeclString = varDeclString;
-	}
+    private String varDeclString;
+    private Type type;
+    private String initCode;
+    private String varName;
+    private CComplexType cComplexType;
+    private CppComplexType cppComplexType;
 
-	public CppVarImpl(long qualifiedType, String varName, String initCode) {
-		this.type = Type.LONG_STRING;
-		this.qualifiedType = qualifiedType;
-		this.varName = varName;
-		this.initCode = initCode;
-	}
+    private CppTypeGenerator typeGenerator;
+    private List<CppTemplateName> depTypes = new LinkedList<CppTemplateName>();
 
-	public CppVarImpl(long qualifier, CComplexType type, String varName, String initCode) {
-		this.type = Type.LONG_CCOMPLEX_STRING;
-		this.qualifier = qualifier;
-		this.cComplexType = type;
-		this.varName = varName;
-		this.initCode = initCode;
-	}
+    public CppVarImpl(String varDeclString) {
+        this.type = Type.DECL_STRING;
+        this.varDeclString = varDeclString;
+    }
 
-	public CppVarImpl(long qualifier, CppComplexType type, String varName, String initCode) {
-		this.type = Type.LONG_CPPCOMPLEX_STRING;
-		this.qualifier = qualifier;
-		this.cppComplexType = type;
-		this.varName = varName;
-		this.initCode = initCode;
-	}
+    public CppVarImpl(long qualifiedType, String varName, String initCode) {
+        this.type = Type.LONG_STRING;
+        this.typeGenerator = new CppTypeGenerator(null, qualifiedType, null);
+        this.varName = varName;
+        this.initCode = initCode;
+    }
 
-	@Override
-	public void toString(StringBuffer buffer, int tabCount) {
-		indent(buffer, tabCount);
-		switch(type) {
-		case DECL_STRING:
-			buffer.append(varDeclString);
-			break;
-		case LONG_CCOMPLEX_STRING: case LONG_CPPCOMPLEX_STRING:
-			String modString = Cpp.toString(this.qualifier);
-			buffer.append(modString.length() > 0 ? modString + " " : "");
-			buffer.append(type == Type.LONG_CPPCOMPLEX_STRING ?
-				this.cppComplexType.getTypeName() :
-				this.cComplexType.getTypeName()
-			);
-			buffer.append(" " + varName);
-			buffer.append(initCode);
-			break;
-		case LONG_STRING:
-			buffer.append(Cpp.toString(this.qualifiedType));
-			buffer.append(" ");
-			buffer.append(varName);
-			buffer.append(initCode);
-			break;
-		}
-	}
+    public CppVarImpl(long qualifiedType, String varName, CppTemplateHelper template, CppTemplateName... dep) {
+        this.type = Type.TEMPLATE;
+        this.typeGenerator = new CppTypeGenerator(null, qualifiedType, template);
+        this.varName = varName;
+        this.initCode = "";
+        this.addDependencies(dep);
+    }
+
+    public CppVarImpl(CppTypeGenerator type, String varName, CppTemplateHelper template, CppTemplateName... dep) {
+        this.type = Type.TEMPLATE;
+        this.typeGenerator = type;
+        this.varName = varName;
+        this.initCode = "";
+        this.addDependencies(dep);
+    }
+
+    public CppVarImpl(long qualifier, CComplexType type, String varName, String initCode) {
+        this.type = Type.LONG_CCOMPLEX_STRING;
+        this.typeGenerator = new CppTypeGenerator(qualifier, null, null);
+        this.cComplexType = type;
+        this.varName = varName;
+        this.initCode = initCode;
+    }
+
+    public CppVarImpl(long qualifier, CppComplexType type, String varName, String initCode) {
+        this.type = Type.LONG_CPPCOMPLEX_STRING;
+        this.typeGenerator = new CppTypeGenerator(qualifier, null, null);
+        this.cppComplexType = type;
+        this.varName = varName;
+        this.initCode = initCode;
+    }
+
+    public void addDependencies(CppTemplateName... dep) {
+        for (CppTemplateName elem : dep) {
+            this.depTypes.add(elem);
+        }
+    }
+
+    @Override
+    public void toString(StringBuffer buffer, int tabCount) {
+        indent(buffer, tabCount);
+
+        // Add all dependent types
+        if (this.depTypes != null && this.depTypes.size() > 0) {
+            int cnt = this.depTypes.size();
+            for (int i = 0; i < cnt; i++) {
+                buffer.append(this.depTypes.get(i).getTemplateName());
+                buffer.append("::");
+            }
+        }
+
+        switch (type) {
+        case DECL_STRING:
+            buffer.append(varDeclString);
+            break;
+        case LONG_CCOMPLEX_STRING:
+        case LONG_CPPCOMPLEX_STRING:
+            String modString = typeGenerator.toString();
+            buffer.append(modString.length() > 0 ? modString + " " : ""); // Add a space
+            buffer.append(type == Type.LONG_CPPCOMPLEX_STRING ? this.cppComplexType.getTypeName() : this.cComplexType
+                    .getTypeName());
+            buffer.append(" " + varName);
+            buffer.append(initCode);
+            break;
+        case LONG_STRING:
+            buffer.append(typeGenerator.toString());
+            buffer.append(" ");
+            buffer.append(varName);
+            buffer.append(initCode);
+            break;
+        case TEMPLATE:
+            buffer.append(typeGenerator.toString());
+            buffer.append(" ");
+            buffer.append(varName);
+            buffer.append(initCode);
+            break;
+        }
+    }
 
 }
