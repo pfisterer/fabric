@@ -30,7 +30,6 @@ import java.util.Properties;
 
 import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.dot.DGraphEdge;
-import de.uniluebeck.sourcegen.dot.DGraphFile;
 import de.uniluebeck.sourcegen.dot.DGraphNode;
 import de.uniluebeck.sourcegen.echo.EchoFile;
 import fabric.module.api.FabricDefaultHandler;

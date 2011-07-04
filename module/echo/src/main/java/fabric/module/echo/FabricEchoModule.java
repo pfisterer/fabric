@@ -21,9 +21,6 @@
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-/**
- * 
- */
 package fabric.module.echo;
 
 import java.util.Properties;
@@ -39,15 +36,17 @@ import fabric.module.api.FabricSchemaTreeItemHandler;
 public class FabricEchoModule implements FabricModule {
 
     /**
-     * Option key used for the Dot graph output file.
+     * Option key used for the echo output file.
      */
     private static final String KEY_ECHO_OUTFILE = "echo.outfile";
+    private Properties properties = null;
 
     /**
      * Constructs a new module.
      */
-    public FabricEchoModule( ) {
-        super( );
+    public FabricEchoModule(Properties p) {
+        this.properties = p;
+        this.properties.put(FabricEchoModule.KEY_ECHO_OUTFILE, "echofile.xsd");
     }
 
     @Override
@@ -57,20 +56,11 @@ public class FabricEchoModule implements FabricModule {
 
     @Override
     public String getDescription( ) {
-        return String.format("Creates an echo file. Valid options are '%s'.",
-                KEY_ECHO_OUTFILE);
+        return String.format("Creates an echo file. Valid options are '%s'.", KEY_ECHO_OUTFILE);
     }
 
     @Override
-    public Properties getDefaultProperties( ) {
-        final Properties p = new Properties( );
-        p.put(KEY_ECHO_OUTFILE, "echofile.xsd");
-        return p;
-    }
-
-    @Override
-    public FabricSchemaTreeItemHandler getHandler(Workspace workspace, Properties properties)
-            throws Exception {
-        return new FabricEchoHandler(workspace, properties);
+    public FabricSchemaTreeItemHandler getHandler(Workspace workspace) throws Exception {
+        return new FabricEchoHandler(workspace, this.properties);
     }
 }

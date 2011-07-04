@@ -38,9 +38,9 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import test.CppModule;
 import de.uniluebeck.itm.tr.util.Logging;
 import de.uniluebeck.sourcegen.Workspace;
-import fabric.module.api.FabricModule;
 import fabric.module.api.FabricSchemaTreeItemHandler;
 import fabric.module.api.FabricSchemaTreeWalker;
 import fabric.module.api.ModuleRegistry;
@@ -51,115 +51,139 @@ import fabric.wsdlschemaparser.schema.FSchema;
 import fabric.wsdlschemaparser.wsdl.FWSDL;
 
 public class Main {
-	private static final org.slf4j.Logger log = LoggerFactory.getLogger(Main.class);
 
-	static {
-		Logging.setLoggingDefaults();
-	}
+    static {
+        Logging.setLoggingDefaults();
+    }
 
-	public static void main(String[] args) throws Exception {
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(Main.class);
 
-		// create the command line parser
-		CommandLineParser parser = new PosixParser();
-		Options options = new Options();
-		options.addOption("x", "xsd", true, "The XML Schema file to load");
-		options.addOption("w", "wsdl", true, "The WSDL file to load");
-		options.addOption("t", "target", true, "The target system to generate code for");
-		options.addOption("p", "properties", true, "The properties file to configure the modules");
-		options.addOption("m", "modules", true, "Comma-separated list of modules to run");
-		options.addOption("v", "verbose", false, "Verbose logging output");
-		options.addOption("h", "help", false, "Help output");
+    private File wsdlFile = null;
+    private File schemaFile = null;
+    private Workspace workspace = null;
 
-		File wsdlFile = null;
-		File schemaFile = null;
-		Workspace workspace = null;
+    private final Properties properties = new Properties();
+    private final ModuleRegistry registry = new ModuleRegistry();
+    private final List<FabricSchemaTreeItemHandler> treeItemHandlers = new ArrayList<FabricSchemaTreeItemHandler>();
 
-		final ModuleRegistry registry = new ModuleRegistry();
-		registry.register(new FabricDotGraphModule());
-		registry.register(new FabricEchoModule());
-		registry.register(new FabricHelloWorldModule());
+    public Main(String[] args) {
 
-		final Properties properties = new Properties();
-		for (FabricModule m : registry) {
-			properties.putAll(m.getDefaultProperties());
-		}
+        // Create the command line parser
+        CommandLineParser parser = new PosixParser();
+        Options options = new Options();
+        options.addOption("x", "xsd", true, "The XML Schema file to load");
+        options.addOption("w", "wsdl", true, "The WSDL file to load");
+        options.addOption("p", "properties", true, "The properties file to configure the modules");
+        options.addOption("m", "modules", true, "Comma-separated list of modules to run");
+        options.addOption("v", "verbose", false, "Verbose logging output");
+        options.addOption("h", "help", false, "Help output");
 
-		final List<FabricSchemaTreeItemHandler> treeItemHandlers = new ArrayList<FabricSchemaTreeItemHandler>();
+        // Load all modules
+        try {
+            registerModules();
+        } catch (Exception e) {
+            Main.log.error("", e);
+            System.exit(1);
+        }
 
-		// Parse the command line
-		try {
-			CommandLine line = parser.parse(options, args);
+        // Parse the command line
+        try {
+            CommandLine line = parser.parse(options, args);
 
-			// Check if verbose output should be used
-			if (line.hasOption('v')) {
-				Logger.getRootLogger().setLevel(Level.DEBUG);
-			} else {
-				Logger.getRootLogger().setLevel(Level.INFO);
-			}
+            // Check if verbose output should be used
+            if (line.hasOption('v')) {
+                Logger.getRootLogger().setLevel(Level.DEBUG);
+            } else {
+                Logger.getRootLogger().setLevel(Level.INFO);
+            }
 
-			// Output help and exit
-			if (line.hasOption('h')) {
-				usage(options, registry);
-				System.exit(0);
-			}
+            // Output help and exit
+            if (line.hasOption('h')) {
+                usage(options, registry);
+                System.exit(0);
+            }
 
-			// Load properties from file
-			if (line.hasOption('p')) {
-				String propertiesFile = line.getOptionValue('p');
-				log.debug("Loading properties from {}", propertiesFile);
-				properties.load(new FileReader(new File(propertiesFile)));
-			}
+            // Load properties from file
+            if (line.hasOption('p')) {
+                String propertiesFile = line.getOptionValue('p');
+                Main.log.debug("Loading properties from {}", propertiesFile);
+                properties.load(new FileReader(new File(propertiesFile)));
+            }
 
-			workspace = new Workspace(properties);
+            workspace = new Workspace(properties);
 
-			// Create module instances
-			if (line.hasOption('m')) {
-				for (String moduleName : line.getOptionValue('m').split(",")) {
-					moduleName = moduleName.trim();
-					log.debug("Creating instance of module {}", moduleName);
-					treeItemHandlers.add(registry.get(moduleName).getHandler(
-							workspace, properties));
-				}
-			}
+            // Create module instances
+            if (line.hasOption('m')) {
+                for (String moduleName : line.getOptionValue('m').split(",")) {
+                    moduleName = moduleName.trim();
+                    Main.log.debug("Creating instance of module {}", moduleName);
+                    treeItemHandlers.add(registry.get(moduleName).getHandler(workspace));
+                }
+            }
 
-			if (line.hasOption('x') && line.hasOption('w')) {
-				throw new Exception("Only one of -x or -w is allowed");
-			} else if (line.hasOption('x')) {
-				schemaFile = new File(line.getOptionValue('x'));
-			} else if (line.hasOption('w')) {
-				wsdlFile = new File(line.getOptionValue('w'));
-			} else {
-				throw new Exception("Supply one of -x or -w");
-			}
+            if (line.hasOption('x') && line.hasOption('w')) {
+                throw new Exception("Only one of -x or -w is allowed");
+            } else if (line.hasOption('x')) {
+                schemaFile = new File(line.getOptionValue('x'));
+            } else if (line.hasOption('w')) {
+                wsdlFile = new File(line.getOptionValue('w'));
+            } else {
+                throw new Exception("Supply one of -x or -w");
+            }
 
-		} catch (Exception e) {
-			log.error("Invalid command line: " + e, e);
-			usage(options, registry);
-			System.exit(1);
-		}
+        } catch (Exception e) {
+            Main.log.error("Invalid command line: " + e, e);
+            usage(options, registry);
+            System.exit(1);
+        }
 
-		if (wsdlFile != null) {
-			FWSDL wsdl = new FWSDL(wsdlFile);
-			System.out.println(wsdl.toString());
-			
-		} else if (schemaFile != null) {
-			FSchema schema = new FSchema(schemaFile);
-			System.out.println(schema.toString());
+        // Handle the two different file types
+        try {
+            if (wsdlFile != null) {
+                FWSDL wsdl = new FWSDL(wsdlFile);
+                System.out.println(wsdl.toString());
 
-			FabricSchemaTreeWalker tw = new FabricSchemaTreeWalker();
-			for (FabricSchemaTreeItemHandler h : treeItemHandlers) {
-				tw.walk(schema, h);
-			}
+            } else if (schemaFile != null) {
+                FSchema schema = new FSchema(schemaFile);
+                System.out.println(schema.toString());
 
-			workspace.generate();
+                FabricSchemaTreeWalker tw = new FabricSchemaTreeWalker();
+                for (FabricSchemaTreeItemHandler h : treeItemHandlers) {
+                    tw.walk(schema, h);
+                }
 
-		}
+                workspace.generate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	}
+    /**
+     * All possible modules are addes here
+     *
+     * @throws Exception
+     */
+    private void registerModules() throws Exception {
+        this.registry.register(new FabricDotGraphModule(this.properties));
+        this.registry.register(new CppModule(this.properties));
+        this.registry.register(new FabricEchoModule(this.properties));
+        this.registry.register(new FabricHelloWorldModule(this.properties));
+    }
 
-	private static void usage(Options options, ModuleRegistry registry) {
-		HelpFormatter formatter = new HelpFormatter();
-		formatter.printHelp(120, Main.class.getCanonicalName(), null, options, null);
-		System.out.println(registry.toString());
-	}
+    /**
+     * Prints the usage of the program.
+     *
+     * @param options
+     * @param registry
+     */
+    private void usage(Options options, ModuleRegistry registry) {
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp(120, Main.class.getCanonicalName(), null, options, null);
+        System.out.println(registry.toString());
+    }
+
+    public static void main(String[] args) {
+        new Main(args);
+    }
 }

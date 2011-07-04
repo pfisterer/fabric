@@ -21,9 +21,6 @@
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-/**
- * 
- */
 package fabric.module.helloworld;
 
 import java.util.Properties;
@@ -49,10 +46,17 @@ public class FabricHelloWorldModule implements FabricModule {
     private static final String KEY_HELLOWORLD_PACKAGE = "helloworld.package";
 
     /**
+     * Properties for the Hello World program.
+     */
+    private Properties properties = null;
+
+    /**
      * Constructs a new module.
      */
-    public FabricHelloWorldModule( ) {
-        super( );
+    public FabricHelloWorldModule(Properties p) {
+        this.properties = p;
+        p.put(KEY_HELLOWORLD_OUTFILE, "HelloWorld");
+        p.put(KEY_HELLOWORLD_PACKAGE, "helloworld");
     }
 
     @Override
@@ -62,21 +66,11 @@ public class FabricHelloWorldModule implements FabricModule {
 
     @Override
     public String getDescription( ) {
-        return String.format("Creates a hello world file. Valid options are '%s'.",
-                KEY_HELLOWORLD_OUTFILE);
+        return String.format("Creates a Hello World! program. Valid options are '%s'.", KEY_HELLOWORLD_OUTFILE);
     }
 
     @Override
-    public Properties getDefaultProperties( ) {
-        final Properties p = new Properties( );
-        p.put(KEY_HELLOWORLD_OUTFILE, "HelloWorld");
-        p.put(KEY_HELLOWORLD_PACKAGE, "helloworld");
-        return p;
-    }
-
-    @Override
-    public FabricSchemaTreeItemHandler getHandler(Workspace workspace, Properties properties)
-            throws Exception {
-        return new FabricHelloWorldHandler(workspace, properties);
+    public FabricSchemaTreeItemHandler getHandler(Workspace workspace) throws Exception {
+        return new FabricHelloWorldHandler(workspace, this.properties);
     }
 }

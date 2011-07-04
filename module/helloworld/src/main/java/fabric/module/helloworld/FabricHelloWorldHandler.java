@@ -21,29 +21,21 @@
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-/**
- * 
- */
 package fabric.module.helloworld;
 
 import java.util.Properties;
 
 import de.uniluebeck.sourcegen.Workspace;
-import de.uniluebeck.sourcegen.dot.DGraphEdge;
-import de.uniluebeck.sourcegen.dot.DGraphFile;
-import de.uniluebeck.sourcegen.dot.DGraphNode;
-import de.uniluebeck.sourcegen.echo.EchoFile;
 import de.uniluebeck.sourcegen.java.JMethod;
 import de.uniluebeck.sourcegen.java.JMethodCommentImpl;
 import de.uniluebeck.sourcegen.java.JMethodSignature;
 import de.uniluebeck.sourcegen.java.JModifier;
-import de.uniluebeck.sourcegen.java.JParameter;
 import de.uniluebeck.sourcegen.java.JSourceFileImpl;
 import de.uniluebeck.sourcegen.java.JClass;
+import de.uniluebeck.sourcegen.java.JParameter;
 import fabric.module.api.FabricDefaultHandler;
 import fabric.wsdlschemaparser.schema.FComplexType;
 import fabric.wsdlschemaparser.schema.FElement;
-import fabric.wsdlschemaparser.schema.FSchemaObject;
 import fabric.wsdlschemaparser.schema.FSimpleType;
 
 /**
@@ -92,11 +84,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
     private String edgeTopLevelTypeReference;
 
     private final JSourceFileImpl helloWorldSource;
-    
-    
-    /**
-     * 
-     */
+
    /* private final DGraphFile graphSource;
 
     {

@@ -23,6 +23,7 @@
 		<module>module/echo</module>
 		<module>module/helloworld</module>
 		<module>module/protobuf</module>
+		<module>module/cpp</module>
 
 		<!-- <module>module/microfibre</module> <module>module/macrofibre</module> <module>module/xml</module> -->
 	</modules>
@@ -84,6 +85,11 @@
 			<dependency>
 				<groupId>de.uniluebeck.itm</groupId>
 				<artifactId>fabric.module.protobuf</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.uniluebeck.itm</groupId>
+				<artifactId>fabric.module.cpp</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

@@ -32,7 +32,7 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 //TODO make package private. it's public because of Workspace::getCppSourceFile (new CppSourceFileImpl(fileName);)
 public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
-	
+
 	protected LinkedList<CppVar> 			cppVars;
 	protected LinkedList<CppFun> 			cppFuns;
 	protected LinkedList<CppClass> 		 	cppClasses;
@@ -46,11 +46,11 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	public String getFileName() {
 		return fileName;
 	}
-	
+
 	public CppSourceFileImpl(String fileName) {
 		this(fileName, new CSourceFileBase());
 	}
-	
+
 	private CppSourceFileImpl(String newFileName, CSourceFileBase newBase) {
 		fileName	= newFileName;
 		base 		= newBase;
@@ -64,7 +64,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		base.internalAddEnum(enums);
 		return this;
 	}
-	
+
 	public CppSourceFile add(CFun... functions) throws CDuplicateException {
 		base.internalAddFun(functions);
 		return this;
@@ -87,7 +87,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		}
 		return this;
 	}
-	
+
 	public CppSourceFile add(CppVar... vars) throws CppDuplicateException {
 		for (CppVar var : vars) {
 			if (contains(var))
@@ -122,12 +122,12 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		base.internalAddAfterDirective(directive);
 		return this;
 	}
-	
+
 	public CppSourceFile addBeforeDirective(boolean hash, String... directives) throws CPreProcessorValidationException {
 		base.internalAddBeforeDirective(hash, directives);
 		return this;
 	}
-	
+
 	public CppSourceFile addBeforeDirective(CPreProcessorDirective... directives) {
 		base.internalAddBeforeDirective(directives);
 		return this;
@@ -165,7 +165,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		}
 		return this;
 	}
-	
+
 	public CppSourceFile addLibInclude(String... libIncludes) throws CppDuplicateException {
 		try {
 			base.internalAddLibInclude(libIncludes);
@@ -182,28 +182,28 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	public boolean contains(CFun fun) {
 		return base.internalContainsFun(fun);
 	}
-	
+
 	public boolean contains(CppClass clazz) {
 		for (CppClass c : cppClasses)
 			if (c.equals(clazz))
 				return true;
 		return false;
 	}
-	
+
 	public boolean contains(CppFun fun) {
 		for (CppFun f : cppFuns)
 			if (f.equals(fun))
 				return true;
 		return false;
 	}
-	
+
 	public boolean contains(CppVar var) {
 		for (CppVar v : cppVars)
 			if (v.equals(var))
 				return true;
 		return false;
 	}
-	
+
 	public boolean contains(CStruct struct) {
 		return base.internalContainsStruct(struct);
 	}
@@ -215,11 +215,11 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	public boolean containsAfterDirective(CPreProcessorDirective directive) {
 		return base.internalContainsAfterDirective(directive);
 	}
-	
+
 	public boolean containsAfterDirective(String directive) {
 		return base.internalContainsAfterDirective(directive);
 	}
-	
+
 	public boolean containsBeforeDirective(CPreProcessorDirective directive) {
 		return base.internalContainsBeforeDirective(directive);
 	}
@@ -276,42 +276,46 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
-		
+
+	        buffer.append("/** Some comment **/\n");
+
 		//includes
 		for(CppSourceFileImpl file : this.cppIncludes){
-			buffer.append("#include <" + file.getFileName().substring(0,17) + ".hpp>\n");
+                    buffer.append("#include <" + file.getFileName() + ".hpp>\n");
+                    //buffer.append("#include <" + file.getFileName().substring(0,17) + ".hpp>\n");
 		}
 		buffer.append("\n");
-			
+
 		//namespace
-		buffer.append("namespace isense {\n\n");
-		
+		// TODO: dynamically with a program-parameter
+//		buffer.append("namespace isense {\n\n");
+
 		for(CppSourceFileImpl file : this.cppIncludes){
-			for(CppClass clazz : file.cppClasses){
+			for(CppClass clazz : file.getCppClasses()){
 				//constructors
 				for(CppConstructor c : clazz.getConstructors(Cpp.PUBLIC)){
 					c.toString(buffer, tabCount);
 				}
-							
+
 				//destructors
 				for(CppDestructor d : clazz.getDestructors(Cpp.PUBLIC)){
 					d.toString(buffer, tabCount);
 				}
-				
+
 				//public functions
 				for(CppFun f : clazz.getFuns(Cpp.PUBLIC)){
 					f.toString(buffer, tabCount);
 					buffer.append("}\n\n");
 				}
-				
+
 				//private functions
 				for(CppFun f : clazz.getFuns(Cpp.PRIVATE)){
 					f.toString(buffer, tabCount);
 					buffer.append("}\n\n");
 				}
-					
+
 			}
 		}
-		buffer.append("}");
+//		buffer.append("}");
 	}
 }
