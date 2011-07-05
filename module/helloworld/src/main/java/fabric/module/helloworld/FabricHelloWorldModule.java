@@ -55,8 +55,8 @@ public class FabricHelloWorldModule implements FabricModule {
      */
     public FabricHelloWorldModule(Properties p) {
         this.properties = p;
-        p.put(KEY_HELLOWORLD_OUTFILE, "HelloWorld");
-        p.put(KEY_HELLOWORLD_PACKAGE, "helloworld");
+        this.properties.put(KEY_HELLOWORLD_OUTFILE, "HelloWorld"); // No file extension!
+        this.properties.put(KEY_HELLOWORLD_PACKAGE, "helloworld");        
     }
 
     @Override
@@ -66,7 +66,7 @@ public class FabricHelloWorldModule implements FabricModule {
 
     @Override
     public String getDescription( ) {
-        return String.format("Creates a Hello World! program. Valid options are '%s'.", KEY_HELLOWORLD_OUTFILE);
+        return String.format("Creates a Hello World! program. Valid options are '%s' and '%s'.", KEY_HELLOWORLD_OUTFILE, KEY_HELLOWORLD_PACKAGE);
     }
 
     @Override

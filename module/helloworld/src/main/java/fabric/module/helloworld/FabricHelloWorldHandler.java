@@ -26,13 +26,13 @@ package fabric.module.helloworld;
 import java.util.Properties;
 
 import de.uniluebeck.sourcegen.Workspace;
+import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JMethod;
 import de.uniluebeck.sourcegen.java.JMethodCommentImpl;
 import de.uniluebeck.sourcegen.java.JMethodSignature;
 import de.uniluebeck.sourcegen.java.JModifier;
-import de.uniluebeck.sourcegen.java.JSourceFileImpl;
-import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JParameter;
+import de.uniluebeck.sourcegen.java.JSourceFileImpl;
 import fabric.module.api.FabricDefaultHandler;
 import fabric.wsdlschemaparser.schema.FComplexType;
 import fabric.wsdlschemaparser.schema.FElement;

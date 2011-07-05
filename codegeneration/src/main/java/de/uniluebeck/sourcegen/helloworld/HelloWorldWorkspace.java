@@ -2,6 +2,9 @@ package de.uniluebeck.sourcegen.helloworld;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.uniluebeck.sourcegen.SourceFile;
 import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.java.JSourceFileImpl;
@@ -12,15 +15,20 @@ import de.uniluebeck.sourcegen.java.JSourceFileImpl;
  * @author seidel
  */
 public class HelloWorldWorkspace {
+	/**
+	 * Logger object for debugging.
+	 */
+	private final Logger LOGGER = LoggerFactory.getLogger(HelloWorldWorkspace.class);
+	
     /**
      * Property key to retrieve the Hello World! program file name.
      */
-    private static final String KEY_HELLOWORLD_OUTFILE = "HelloWorld.java";
+    private static final String KEY_HELLOWORLD_OUTFILE = "helloworld.outfile";
 
     /**
      * Property key to retrieve the Hello World! package name.
      */
-    private static final String KEY_HELLOWORLD_PACKAGE = "helloworld";
+    private static final String KEY_HELLOWORLD_PACKAGE = "helloworld.package";
 
     /**
      * The actual Hello World! program file name.
@@ -49,9 +57,14 @@ public class HelloWorldWorkspace {
      * @param properties
      */
     public HelloWorldWorkspace(Workspace w) {
+    	LOGGER.debug("Constructor of 'HelloWorldWorkspace' was called.");
+    	
         this.sourceFiles = w.getSourceFiles();
         fileName = w.getProperties().getProperty(KEY_HELLOWORLD_OUTFILE);
         packageName = w.getProperties().getProperty(KEY_HELLOWORLD_PACKAGE);
+        
+        LOGGER.debug("FileName is now: " + fileName);
+        LOGGER.debug("PackageName is now: " + packageName);
     }
 
     /**
@@ -61,11 +74,16 @@ public class HelloWorldWorkspace {
      *
      * @return
      */
-    public JSourceFileImpl getDefaultSourceFile() {
-        if (defaultSourceFile == null) {
+    public JSourceFileImpl getDefaultSourceFile() {   	
+    	if (defaultSourceFile == null) {
+    		LOGGER.debug("DefaultSourceFile was null.");
+    		
             defaultSourceFile = new JSourceFileImpl(packageName, fileName);
             sourceFiles.add(defaultSourceFile);
         }
+    	
+    	LOGGER.info("DefaultSourceFile is now: " + defaultSourceFile.getFileName());
+    	
         return this.defaultSourceFile;
     }
 }

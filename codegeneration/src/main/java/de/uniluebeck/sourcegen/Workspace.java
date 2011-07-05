@@ -243,7 +243,7 @@ public class Workspace {
         return sourceFile.getFileName();
     }
 
-    private String getDirString(SourceFile sourceFile) {
+    private String getDirString(SourceFile sourceFile) throws Exception {
         String projectDirString = properties.getProperty(KEY_PROJECTDIR, System.getProperty("user.dir"));
         String subDir = properties.getProperty(KEY_PROJECTSUBDIR, "");
 
@@ -255,7 +255,16 @@ public class Workspace {
             projectDirString = assureTrailingSeparator(projectDirString);
             projectDirString += jPackagePrefix.replace('.', File.separatorChar);
             projectDirString = assureTrailingSeparator(projectDirString);
-            projectDirString += jSourceFile.getPackageName().replace('.', File.separatorChar);
+            
+            if (null == jSourceFile.getPackageName())
+            {
+            	throw new Exception("PackageName is null for source file '" + jSourceFile.getFileName() + "'. "
+            			+ "Maybe you did not set it correctly in your module?");
+            }
+            else
+            {
+            	projectDirString += jSourceFile.getPackageName().replace('.', File.separatorChar);
+            }
         }
 
         projectDirString = assureTrailingSeparator(projectDirString);
