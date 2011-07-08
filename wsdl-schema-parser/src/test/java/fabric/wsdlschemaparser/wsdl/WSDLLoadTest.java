@@ -27,7 +27,7 @@ public class WSDLLoadTest {
         final Appender appender = new ConsoleAppender(patternLayout);
         Logger.getRootLogger().removeAllAppenders();
         Logger.getRootLogger().addAppender(appender);
-        Logger.getRootLogger().setLevel(Level.DEBUG);
+        Logger.getRootLogger().setLevel(Level.INFO);
     }
 
     static class WsdlFilesFilter implements FilenameFilter {
