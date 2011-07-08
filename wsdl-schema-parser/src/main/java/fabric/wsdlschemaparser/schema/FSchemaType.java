@@ -28,13 +28,11 @@ package fabric.wsdlschemaparser.schema;
 
 import java.util.List;
 
-
-
 /**
  * @author Marco Wegner
  */
 public abstract class FSchemaType extends FSchemaObject {
-	
+
     // --------------------------------------------------------------------
     // Static attributes
     // --------------------------------------------------------------------
@@ -42,108 +40,102 @@ public abstract class FSchemaType extends FSchemaObject {
     /**
      * This type's restrictions.
      */
-    private FSchemaRestrictions restrictions;
-    
+    private final FSchemaRestrictions restrictions = new FSchemaRestrictions(this);
+
     // --------------------------------------------------------------------
 
     /**
      * Stores whether this type is a top-level one or not.
      */
     private boolean isTopLevel;
-    
+
     // --------------------------------------------------------------------
 
     /**
-	 * Creates a new Fabric Schema type.
-	 * 
-	 * @param name The new type's name.
-	 */
-	protected FSchemaType(String name) {
-		super(name);
-		setTopLevel(false);
-		restrictions = null;
-	}
+     * Creates a new Fabric Schema type.
+     * 
+     * @param name
+     *            The new type's name.
+     */
+    protected FSchemaType(String name) {
+        super(name);
+        setTopLevel(false);
+    }
 
     // --------------------------------------------------------------------
-	
-	/**
-	 * Returns the list of valid facets for this type
-	 * 
-	 * @return The list of valid facets for this type.
-	 */
-	public List<Integer> getValidFacets( ) {
-		return null;
-	}
-	
-    // --------------------------------------------------------------------
 
-	/**
-	 * @param facet
-	 * @param value
-	 * @throws UnsupportedRestrictionException
-	 */
-	public void addRestriction(int facet, Object value) throws UnsupportedRestrictionException {
-		// check if the facet is valid at all
-		if (getValidFacets( ) == null || !getValidFacets( ).contains(facet) || value == null)
-			throw new UnsupportedRestrictionException( );
-		
-		// lazy instantiation
-		if (restrictions == null)
-			restrictions = new FSchemaRestrictions(this);
-		
-		// finally, add the restriction
-		restrictions.setRestriction(facet, value);
-	}
-	
-    // --------------------------------------------------------------------
-	
-	/**
-	 * Returns the restriction object for this type.
-	 * 
-	 * @return The restriction object for this type.
-	 */
-	public FSchemaRestrictions getRestrictions( ) {
-		return restrictions;
-	}
-	
-    // --------------------------------------------------------------------
-
-	/**
-	 * @param isTopLevel
-	 */
-	public void setTopLevel(boolean isTopLevel) {
-		this.isTopLevel = isTopLevel;
-	}
+    /**
+     * Returns the list of valid facets for this type
+     * 
+     * @return The list of valid facets for this type.
+     */
+    public List<Integer> getValidFacets() {
+        return null;
+    }
 
     // --------------------------------------------------------------------
-	
-	/**
+
+    /**
+     * @param facet
+     * @param value
+     * @throws UnsupportedRestrictionException
+     */
+    public void addRestriction(int facet, Object value) throws UnsupportedRestrictionException {
+        // check if the facet is valid at all
+        if (getValidFacets() == null || !getValidFacets().contains(facet) || value == null)
+            throw new UnsupportedRestrictionException();
+
+        // finally, add the restriction
+        restrictions.setRestriction(facet, value);
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Returns the restriction object for this type.
+     * 
+     * @return The restriction object for this type.
+     */
+    public FSchemaRestrictions getRestrictions() {
+        return restrictions;
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * @param isTopLevel
+     */
+    public void setTopLevel(boolean isTopLevel) {
+        this.isTopLevel = isTopLevel;
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
      * Check whether this type is a top-level one or not.
      * 
-     * @return <code>true</code> if this type is a top-level one, else
-     *         <code>false</code>
+     * @return <code>true</code> if this type is a top-level one, else <code>false</code>
      */
-	public boolean isTopLevel( ) {
-		return isTopLevel;
-	}
+    public boolean isTopLevel() {
+        return isTopLevel;
+    }
 
     // --------------------------------------------------------------------
-	
+
     /**
      * Check whether this type is a simple one or not.
      * 
-     * @return <code>true</code> if this type is a simple one, else
-     *         <code>false</code>
+     * @return <code>true</code> if this type is a simple one, else <code>false</code>
      */
-    public abstract boolean isSimple( );
+    public abstract boolean isSimple();
 
     // --------------------------------------------------------------------
 
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString( ) {
-		return "[" + getClass( ).getSimpleName( ) + "]";
-	}
+    /**
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "[" + getClass().getSimpleName() + "]";
+    }
 }

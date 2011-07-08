@@ -762,9 +762,8 @@ public class FSchemaTypeFactory {
 		switch (builtinTypeCode) {
 
 		case SchemaType.BTC_BASE_64_BINARY:
-			throw new UnhandledBuiltinTypeException("Unsupported built in type: BTC_BASE_64_BINARY");
-			// fst = new FBase64Binary( );
-			// break;
+			fst = new FBase64Binary( );
+			break;
 
 		case SchemaType.BTC_BOOLEAN:
 			fst = new FBoolean();
@@ -775,14 +774,12 @@ public class FSchemaTypeFactory {
 			break;
 
 		case SchemaType.BTC_DATE:
-			throw new UnhandledBuiltinTypeException("Unsupported built in type: BTC_DATE");
-			// fst = new FDate( );
-			// break;
+			fst = new FDate( );
+			break;
 
 		case SchemaType.BTC_DATE_TIME:
-			throw new UnhandledBuiltinTypeException("Unsupported built in type: BTC_DATE_TIME");
-			// fst = new FDateTime( );
-			// break;
+			fst = new FDateTime();
+			break;
 
 		case SchemaType.BTC_DECIMAL:
 			fst = new FDecimal();
@@ -793,43 +790,36 @@ public class FSchemaTypeFactory {
 			break;
 
 		case SchemaType.BTC_DURATION:
-			throw new UnhandledBuiltinTypeException("Unsupported built in type: BTC_DURATION");
-			// fst = new FDuration( );
-			// break;
+			fst = new FDuration( );
+			break;
 
 		case SchemaType.BTC_FLOAT:
 			fst = new FFloat();
 			break;
 
 		case SchemaType.BTC_G_DAY:
-			throw new UnhandledBuiltinTypeException("Unsupported built in type: BTC_G_DAY");
-			// fst = new FDay( );
-			// break;
+			fst = new FDay( );
+			break;
 
 		case SchemaType.BTC_G_MONTH:
-			throw new UnhandledBuiltinTypeException("Unsupported built in type: BTC_G_MONTH");
-			// fst = new FMonth( );
-			// break;
+			fst = new FMonth( );
+			break;
 
 		case SchemaType.BTC_G_MONTH_DAY:
-			throw new UnhandledBuiltinTypeException("Unsupported built in type: BTC_G_MONTH_DAY");
-			// fst = new FMonthDay( );
-			// break;
+			 fst = new FMonthDay();
+			 break;
 
 		case SchemaType.BTC_G_YEAR:
-			throw new UnhandledBuiltinTypeException("Unsupported built in type: BTC_G_YEAR");
-			// fst = new FYear( );
-			// break;
+			fst = new FYear( );
+			break;
 
 		case SchemaType.BTC_G_YEAR_MONTH:
-			throw new UnhandledBuiltinTypeException("Unsupported built in type: BTC_G_YEAR_MONTH");
-			// fst = new FYearMonth( );
-			// break;
+		        fst = new FYearMonth( );
+			break;
 
 		case SchemaType.BTC_HEX_BINARY:
-			throw new UnhandledBuiltinTypeException("Unsupported built in type: BTC_HEX_BINARY");
-			// fst = new FHexBinary( );
-			// break;
+			fst = new FHexBinary( );
+			break;
 
 		case SchemaType.BTC_INT:
 			fst = new FInt();
@@ -896,9 +886,8 @@ public class FSchemaTypeFactory {
 			break;
 
 		case SchemaType.BTC_TIME:
-			throw new UnhandledBuiltinTypeException("Unsupported built in type: BTC_TIME");
-			// fst = new FTime( );
-			// break;
+			fst = new FTime( );
+			break;
 
 		case SchemaType.BTC_UNSIGNED_BYTE:
 			fst = new FUnsignedByte();
