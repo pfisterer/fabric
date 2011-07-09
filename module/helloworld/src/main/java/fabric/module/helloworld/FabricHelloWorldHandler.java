@@ -36,6 +36,7 @@ import de.uniluebeck.sourcegen.java.JSourceFileImpl;
 import fabric.module.api.FabricDefaultHandler;
 import fabric.wsdlschemaparser.schema.FComplexType;
 import fabric.wsdlschemaparser.schema.FElement;
+import fabric.wsdlschemaparser.schema.FSchema;
 import fabric.wsdlschemaparser.schema.FSimpleType;
 
 /**
@@ -178,17 +179,38 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
         //this.localComplexTypeAttributes = attributes;
     }
 
+    /**
+     * This method creates a simple Hello World! application
+     * and writes it to the Java workspace of Fabric.
+     *
+     * @throws Exception Error during code generation
+     */
+    private void createHelloWorldFile() throws Exception {
+      JMethodSignature jms = JMethodSignature.factory.create(JParameter.factory.create("String[]", "args"));
+      JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, "void", "main", jms);
+      jm.getBody().appendSource("System.out.println(\"Hello World!\");");
+      jm.setComment(new JMethodCommentImpl("Dies ist ein Hello World-Programm!"));
+      JClass jc = JClass.factory.create(JModifier.PUBLIC, "HelloWorld");
+      jc.add(jm);
+      this.helloWorldSource.add(jc);
+      this.helloWorldSource.addImport("java.io.*");
+    }
+
+    /**
+     * This method is run only once (hopefully).
+     *
+     * @param schema XSD schema object
+     *
+     * @throws Exception Error during schema processing
+     */
     @Override
-    public void startTopLevelElement(FElement element) throws Exception {
-        JMethodSignature jms = JMethodSignature.factory.create(JParameter.factory.create("String[]", "args"));
-        JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, "void", "main", jms);
-        jm.getBody().appendSource("System.out.println(\"Hello World!\");");
-        jm.setComment(new JMethodCommentImpl("Dies ist ein Hello World-Programm!"));
-        JClass jc = JClass.factory.create(JModifier.PUBLIC, "HelloWorld");
-        jc.add(jm);
-        this.helloWorldSource.add(jc);
-        this.helloWorldSource.addImport("java.io.*");
-        
+    public void startSchema(FSchema schema) throws Exception {
+      // Generate Hello World! application
+      this.createHelloWorldFile();
+    }
+
+    @Override
+    public void startTopLevelElement(FElement element) throws Exception {       
     	//createGraphNode(element, this.topLevelElementAttributes);
     }
 
