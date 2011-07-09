@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://base64binary/and/hexBinary/test">
-	<xs:element name="hexAndBase64Test">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="hexBinary" type="xs:hexBinary"/>
-				<xs:element name="base64Binary" type="xs:base64Binary"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+  <xs:element name="hexAndBase64Test">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="hexBinary" type="xs:hexBinary"/>
+        <xs:element name="base64Binary" type="xs:base64Binary"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

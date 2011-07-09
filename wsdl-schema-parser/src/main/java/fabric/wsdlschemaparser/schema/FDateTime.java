@@ -10,6 +10,4 @@ public class FDateTime extends FAbstractDateType {
         super(typeName);
     }
 
-    
-    
 }
