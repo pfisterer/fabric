@@ -19,6 +19,7 @@
 		<module>wsdl-schema-parser</module>
 
 		<module>module/api</module>
+		<module>module/typegen</module>
 		<module>module/dot</module>
 		<module>module/echo</module>
 		<module>module/helloworld</module>
@@ -65,6 +66,11 @@
 			<dependency>
 				<groupId>de.uniluebeck.itm</groupId>
 				<artifactId>fabric.module.xml</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.uniluebeck.itm</groupId>
+				<artifactId>fabric.module.typegen</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

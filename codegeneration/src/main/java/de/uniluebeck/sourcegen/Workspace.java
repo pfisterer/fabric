@@ -91,7 +91,7 @@ public class Workspace {
     public ProtobufWorkspace getProtobuf() {
         return protobuf;
     }
-
+    
     // ###################################################################
     // Dot workspace
     // ###################################################################
