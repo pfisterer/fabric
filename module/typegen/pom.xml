@@ -27,7 +27,7 @@
 	</parent>
 
 	<artifactId>fabric.module.typegen</artifactId>
-	<name>Fabric :: TypeGen Module</name>
+	<name>Fabric :: Module TypeGen</name>
 	<packaging>jar</packaging>
 
 	<dependencies>

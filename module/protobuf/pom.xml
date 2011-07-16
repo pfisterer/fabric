@@ -13,7 +13,7 @@
 	</parent>
 
 	<artifactId>fabric.module.protobuf</artifactId>
-	<name>Fabric :: Module protobuf</name>
+	<name>Fabric :: Module Protobuf</name>
 	
 	<packaging>jar</packaging>
 	
