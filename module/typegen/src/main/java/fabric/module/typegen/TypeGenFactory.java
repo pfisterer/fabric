@@ -1,5 +1,7 @@
 package fabric.module.typegen;
 
+import fabric.module.typegen.base.TypeGen;
+
 /**
  * Abstract factory for creation of concrete TypeGen objects.
  *
