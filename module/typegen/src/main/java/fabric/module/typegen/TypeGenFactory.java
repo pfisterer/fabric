@@ -58,7 +58,7 @@ public class TypeGenFactory
     {
       // Try to instantiate concrete TypeGen class
       Class concreteClass = Class.forName(concreteTypeGenName);
-      concreteTypeGen = (TypeGen)concreteClass.newInstance();
+      concreteTypeGen = (TypeGen)concreteClass.newInstance();      
     }
     catch (ClassNotFoundException e)
     {
@@ -71,6 +71,10 @@ public class TypeGenFactory
     catch (IllegalAccessException e)
     {
       throw new Exception(String.format("Illegal access to class '%s'.", concreteTypeGenName));
+    }
+    catch (ClassCastException e)
+    {
+      throw new Exception(String.format("Class '%s' is not a valid TypeGen implementation.", concreteTypeGenName));
     }
 
     return concreteTypeGen;

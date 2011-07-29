@@ -72,7 +72,11 @@ public class MapperFactory
     {
       throw new Exception(String.format("Illegal access to class '%s'.", concreteMapperName));
     }
-
+    catch (ClassCastException e)
+    {
+      throw new Exception(String.format("Class '%s' is not a valid Mapper implementation.", concreteMapperName));
+    }
+    
     return concreteMapper;
   }
 }
