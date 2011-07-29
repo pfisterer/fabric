@@ -1,6 +1,7 @@
 package fabric.module.typegen;
 
 import fabric.module.typegen.base.TypeGen;
+import fabric.module.typegen.exceptions.UnsupportedTypeGenException;
 
 /**
  * Abstract factory for creation of concrete TypeGen objects.
@@ -74,7 +75,7 @@ public class TypeGenFactory
     }
     catch (ClassCastException e)
     {
-      throw new Exception(String.format("Class '%s' is not a valid TypeGen implementation.", concreteTypeGenName));
+      throw new UnsupportedTypeGenException(String.format("Class '%s' is not a valid TypeGen implementation.", concreteTypeGenName));
     }
 
     return concreteTypeGen;

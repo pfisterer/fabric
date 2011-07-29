@@ -1,6 +1,7 @@
 package fabric.module.typegen;
 
 import fabric.module.typegen.base.Mapper;
+import fabric.module.typegen.exceptions.UnsupportedMapperException;
 
 /**
  * Abstract factory for creation of concrete Mapper objects.
@@ -74,7 +75,7 @@ public class MapperFactory
     }
     catch (ClassCastException e)
     {
-      throw new Exception(String.format("Class '%s' is not a valid Mapper implementation.", concreteMapperName));
+      throw new UnsupportedMapperException(String.format("Class '%s' is not a valid Mapper implementation.", concreteMapperName));
     }
     
     return concreteMapper;
