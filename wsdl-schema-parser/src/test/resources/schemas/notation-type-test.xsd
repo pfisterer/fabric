@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- File added 07/2011, seidel -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <!-- XSD element for picture file representation. -->
+  <xs:element name="picture">
+    <xs:annotation>
+      <xs:documentation>This document can be used to test the NOTATION type of XML Schema.</xs:documentation>
+    </xs:annotation>
+
+    <!-- Simple type with NOTATION restriction. -->
+    <xs:simpleType name="fileFormat">
+      <xs:restriction base="xs:NOTATION">
+        <xs:enumeration value="jpeg"/>
+        <xs:enumeration value="gif"/>
+        <xs:enumeration value="png"/>
+        <xs:enumeration value="svg"/>
+        <xs:enumeration value="pdf"/>
+      </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Complex type with picture data. -->
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="fileName" type="xs:string"/>
+        <xs:element name="fileType" type="xs:fileFormat"/>
+        <xs:element name="filaData" type="xs:base64Binary"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

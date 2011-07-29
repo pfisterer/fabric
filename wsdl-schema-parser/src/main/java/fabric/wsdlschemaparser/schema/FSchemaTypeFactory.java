@@ -885,6 +885,10 @@ public class FSchemaTypeFactory {
 			fst = new FQName();
 			break;
 
+		case SchemaType.BTC_NOTATION:
+      fst = new FNOTATION();
+      break;
+
 		case SchemaType.BTC_TIME:
 			fst = new FTime( );
 			break;
