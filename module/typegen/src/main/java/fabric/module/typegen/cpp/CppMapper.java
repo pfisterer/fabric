@@ -55,9 +55,9 @@ public class CppMapper extends Mapper
     types.put(new FYear(), "javax.xml.datatype.XMLGregorianCalendar");
     types.put(new FYearMonth(), "javax.xml.datatype.XMLGregorianCalendar");
     types.put(new FDuration(), "javax.xml.datatype.Duration");
-    // TODO: Implement FNOTATION class: types.put(new FNOTATION(), "javax.xml.namespace.QName");
+    types.put(new FNOTATION(), "javax.xml.namespace.QName");
     types.put(new FQName(), "javax.xml.namespace.QName");
-    types.put(new FAnyURI(), "java.net.URI");
+    types.put(new FAnyURI(), "String");
      */
   }
 }

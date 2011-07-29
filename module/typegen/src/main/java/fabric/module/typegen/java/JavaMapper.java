@@ -17,6 +17,7 @@ import fabric.wsdlschemaparser.schema.FInt;
 import fabric.wsdlschemaparser.schema.FLong;
 import fabric.wsdlschemaparser.schema.FMonth;
 import fabric.wsdlschemaparser.schema.FMonthDay;
+import fabric.wsdlschemaparser.schema.FNOTATION;
 import fabric.wsdlschemaparser.schema.FPositiveInteger;
 import fabric.wsdlschemaparser.schema.FQName;
 import fabric.wsdlschemaparser.schema.FShort;
@@ -71,8 +72,8 @@ public class JavaMapper extends Mapper
     types.put(new FYear(), "javax.xml.datatype.XMLGregorianCalendar");
     types.put(new FYearMonth(), "javax.xml.datatype.XMLGregorianCalendar");
     types.put(new FDuration(), "javax.xml.datatype.Duration");
-    // TODO: Implement FNOTATION class: types.put(new FNOTATION(), "javax.xml.namespace.QName");
+    types.put(new FNOTATION(), "javax.xml.namespace.QName");
     types.put(new FQName(), "javax.xml.namespace.QName");
-    types.put(new FAnyURI(), "java.net.URI");
+    types.put(new FAnyURI(), "String");
   }
 }
