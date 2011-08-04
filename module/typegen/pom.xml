@@ -17,28 +17,34 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>de.uniluebeck.itm</groupId>
-		<artifactId>fabric</artifactId>
-		<version>1.0</version>
-		<relativePath>../../</relativePath>
-	</parent>
+  <parent>
+    <groupId>de.uniluebeck.itm</groupId>
+    <artifactId>fabric</artifactId>
+    <version>1.0</version>
+    <relativePath>../../</relativePath>
+  </parent>
 
-	<artifactId>fabric.module.typegen</artifactId>
-	<name>Fabric :: Module TypeGen</name>
-	<packaging>jar</packaging>
+  <artifactId>fabric.module.typegen</artifactId>
+  <name>Fabric :: Module TypeGen</name>
+  <packaging>jar</packaging>
 
-	<dependencies>
-		<dependency>
-			<groupId>de.uniluebeck.itm</groupId>
-			<artifactId>fabric.module.api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>de.uniluebeck.itm</groupId>
-			<artifactId>tr.util</artifactId>
-		</dependency>
-	</dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>de.uniluebeck.itm</groupId>
+      <artifactId>fabric.module.api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>de.uniluebeck.itm</groupId>
+      <artifactId>tr.util</artifactId>
+    </dependency>
+    <!-- Simple library for BeanToXML conversion -->
+    <dependency>
+      <groupId>org.simpleframework</groupId>
+      <artifactId>simple-xml</artifactId>
+      <version>2.6</version>
+    </dependency>
+  </dependencies>
 
 </project>
