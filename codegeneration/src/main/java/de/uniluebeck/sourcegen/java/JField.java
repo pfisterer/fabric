@@ -75,4 +75,12 @@ public interface JField extends JLangElem {
 	 * @return This object.
 	 */
 	public JField setComment(JFieldComment comment);
+
+    	/**
+	 * Set the annotation for the current field.
+	 *
+	 * @param annotation The Java field annotation.
+	 * @return This object.
+	 */
+	public JField setAnnotation(JFieldAnnotation annotation);
 }

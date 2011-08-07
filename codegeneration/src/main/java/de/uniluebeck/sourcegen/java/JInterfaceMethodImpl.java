@@ -58,6 +58,11 @@ class JInterfaceMethodImpl extends JElemImpl implements JInterfaceMethod {
 	 */
 	private JMethodComment comment = null;
 
+    	/**
+	 * This method's annotation.
+	 */
+	private JMethodAnnotation annotation = null;
+
 	public JInterfaceMethodImpl(int modifiers, String returnType, String name,
 			JMethodSignature signature, String[] exceptions) throws JDuplicateException,
 			JInvalidModifierException {
@@ -121,6 +126,14 @@ class JInterfaceMethodImpl extends JElemImpl implements JInterfaceMethod {
 		return this;
 	}
 
+    	/**
+	 * @see de.uniluebeck.sourcegen.java.JInterfaceMethod#setAnnotation(JMethodAnnotation)(de.uniluebeck.sourcegen.java.JMethodAnnotation)
+	 */
+	public JInterfaceMethod setAnnotation(JMethodAnnotation annotation) {
+		this.annotation = annotation;
+		return this;
+	}
+
 	public boolean equals(JInterfaceMethod other) {
 		return
 			name.equals(((JInterfaceMethodImpl)other).name) &&
@@ -164,6 +177,11 @@ class JInterfaceMethodImpl extends JElemImpl implements JInterfaceMethod {
 	 */
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
+
+                // write annotation if necessary
+		if (annotation != null) {
+			annotation.toString(buffer, tabCount);
+		}
 
 		// write comment if necessary
 		if (comment != null) {

@@ -66,6 +66,11 @@ class JClassImpl extends JComplexTypeImpl implements JClass {
 	 */
 	private JClassComment comment = null;
 
+    	/**
+	 * This class's annotation.
+	 */
+	private JClassAnnotation annotation = null;
+
 	protected JClassImpl(int modifiers, String className) throws JInvalidModifierException, JConflictingModifierException {
 		this.className = className;
 		this.modifiers = modifiers;
@@ -191,6 +196,9 @@ class JClassImpl extends JComplexTypeImpl implements JClass {
 
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
+                if (annotation != null) {
+			annotation.toString(buffer, tabCount);
+		}
 
 		if (comment != null) {
 			comment.toString(buffer, tabCount);
@@ -424,6 +432,14 @@ class JClassImpl extends JComplexTypeImpl implements JClass {
 	 */
 	public JClass setComment(JClassComment comment) {
 		this.comment = comment;
+		return this;
+	}
+
+    	/* (non-Javadoc)
+	 * @see de.uniluebeck.sourcegen.JClass#setAnnotation(de.uniluebeck.sourcegen.JClassAnnotation)
+	 */
+    	public JClass setAnnotation(JClassAnnotation annotation) {
+		this.annotation = annotation;
 		return this;
 	}
 

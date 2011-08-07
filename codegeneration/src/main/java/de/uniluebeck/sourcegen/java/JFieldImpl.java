@@ -45,6 +45,8 @@ class JFieldImpl extends JElemImpl implements JField {
 
 	private JFieldComment comment = null;
 
+        private JFieldAnnotation annotation = null;
+
 	public JFieldImpl(int modifiers, String type, String name)
 			throws JConflictingModifierException,
 			JInvalidModifierException {
@@ -86,6 +88,9 @@ class JFieldImpl extends JElemImpl implements JField {
 	 */
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
+                if (this.annotation != null) {
+			annotation.toString(buffer, tabCount);
+		}
 
 		if (this.comment != null) {
 			comment.toString(buffer, tabCount);
@@ -115,6 +120,14 @@ class JFieldImpl extends JElemImpl implements JField {
 
 	public JField setComment(JFieldComment comment) {
 		this.comment = comment;
+		return this;
+	}
+
+        /* (non-Javadoc)
+	 * @see de.uniluebeck.sourcegen.JField#setAnnotation(de.uniluebeck.sourcegen.JFieldAnnotation)
+	 */
+    	public JField setAnnotation(JFieldAnnotation annotation) {
+		this.annotation = annotation;
 		return this;
 	}
 
