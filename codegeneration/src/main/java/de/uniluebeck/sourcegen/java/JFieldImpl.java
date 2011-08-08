@@ -23,6 +23,9 @@
  */
 package de.uniluebeck.sourcegen.java;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import de.uniluebeck.sourcegen.exceptions.JConflictingModifierException;
@@ -45,7 +48,10 @@ class JFieldImpl extends JElemImpl implements JField {
 
 	private JFieldComment comment = null;
 
-        private JFieldAnnotation annotation = null;
+	/**
+	 * This field's list of Java annotations.
+	 */
+	private List<JFieldAnnotation> annotations = new ArrayList<JFieldAnnotation>( );
 
 	public JFieldImpl(int modifiers, String type, String name)
 			throws JConflictingModifierException,
@@ -88,13 +94,15 @@ class JFieldImpl extends JElemImpl implements JField {
 	 */
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
-                if (this.annotation != null) {
-			annotation.toString(buffer, tabCount);
-		}
-
-		if (this.comment != null) {
+		// write comment if necessary
+		if (comment != null) {
 			comment.toString(buffer, tabCount);
 		}
+
+		// write annotations if there are any
+                for (JFieldAnnotation ann : this.annotations) {
+                    ann.toString(buffer, tabCount);
+                }
 
 		if (toStringModifiers(buffer, tabCount, modifiers))
 			buffer.append(" ");
@@ -123,12 +131,14 @@ class JFieldImpl extends JElemImpl implements JField {
 		return this;
 	}
 
-        /* (non-Javadoc)
-	 * @see de.uniluebeck.sourcegen.JField#setAnnotation(de.uniluebeck.sourcegen.JFieldAnnotation)
+	/**
+	 * @see de.uniluebeck.sourcegen.java.JField#addAnnotation(de.uniluebeck.sourcegen.java.JFieldAnnotation[])
 	 */
-    	public JField setAnnotation(JFieldAnnotation annotation) {
-		this.annotation = annotation;
-		return this;
+	public JField addAnnotation(JFieldAnnotation... annotation) {
+	    for (JFieldAnnotation ann : annotation) {
+	        this.annotations.add(ann);
+	    }
+	    return this;
 	}
 
 	protected void validateModifiers() throws JInvalidModifierException, JConflictingModifierException {

@@ -51,17 +51,12 @@ class JInterfaceMethodImpl extends JElemImpl implements JInterfaceMethod {
 	/**
 	 * This method's list of Java annotations (e.g. Override).
 	 */
-	private List<String> annotations = new ArrayList<String>( );
+	private List<JMethodAnnotation> annotations = new ArrayList<JMethodAnnotation>( );
 
 	/**
 	 * This method's Javadoc comment.
 	 */
 	private JMethodComment comment = null;
-
-    	/**
-	 * This method's annotation.
-	 */
-	private JMethodAnnotation annotation = null;
 
 	public JInterfaceMethodImpl(int modifiers, String returnType, String name,
 			JMethodSignature signature, String[] exceptions) throws JDuplicateException,
@@ -109,10 +104,10 @@ class JInterfaceMethodImpl extends JElemImpl implements JInterfaceMethod {
 	}
 
 	/**
-	 * @see de.uniluebeck.sourcegen.java.JInterfaceMethod#addAnnotation(java.lang.String[])
+	 * @see de.uniluebeck.sourcegen.java.JInterfaceMethod#addAnnotation(de.uniluebeck.sourcegen.java.JMethodAnnotation[])
 	 */
-	public JInterfaceMethod addAnnotation(String... annotation) {
-	    for (String ann : annotation) {
+	public JInterfaceMethod addAnnotation(JMethodAnnotation... annotation) {
+	    for (JMethodAnnotation ann : annotation) {
 	        this.annotations.add(ann);
 	    }
 	    return this;
@@ -123,14 +118,6 @@ class JInterfaceMethodImpl extends JElemImpl implements JInterfaceMethod {
 	 */
 	public JInterfaceMethod setComment(JMethodComment comment) {
 		this.comment = comment;
-		return this;
-	}
-
-    	/**
-	 * @see de.uniluebeck.sourcegen.java.JInterfaceMethod#setAnnotation(JMethodAnnotation)(de.uniluebeck.sourcegen.java.JMethodAnnotation)
-	 */
-	public JInterfaceMethod setAnnotation(JMethodAnnotation annotation) {
-		this.annotation = annotation;
 		return this;
 	}
 
@@ -178,21 +165,15 @@ class JInterfaceMethodImpl extends JElemImpl implements JInterfaceMethod {
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 
-                // write annotation if necessary
-		if (annotation != null) {
-			annotation.toString(buffer, tabCount);
-		}
-
 		// write comment if necessary
 		if (comment != null) {
 			comment.toString(buffer, tabCount);
 		}
 
 		// write annotations if there are any
-        for (String a : this.annotations) {
-            indent(buffer, tabCount);
-            buffer.append("@").append(a).append("\n");
-        }
+                for (JMethodAnnotation ann : this.annotations) {
+                    ann.toString(buffer, tabCount);
+                }
 
 		indent(buffer, tabCount);
 		buffer.append(Modifier.toString(modifiers));

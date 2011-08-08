@@ -23,6 +23,7 @@
  */
 package de.uniluebeck.sourcegen.java;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -66,10 +67,10 @@ class JClassImpl extends JComplexTypeImpl implements JClass {
 	 */
 	private JClassComment comment = null;
 
-    	/**
-	 * This class's annotation.
+	/**
+	 * This class's list of Java annotations.
 	 */
-	private JClassAnnotation annotation = null;
+	private List<JClassAnnotation> annotations = new ArrayList<JClassAnnotation>( );
 
 	protected JClassImpl(int modifiers, String className) throws JInvalidModifierException, JConflictingModifierException {
 		this.className = className;
@@ -196,13 +197,15 @@ class JClassImpl extends JComplexTypeImpl implements JClass {
 
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
-                if (annotation != null) {
-			annotation.toString(buffer, tabCount);
-		}
-
+		// write comment if necessary
 		if (comment != null) {
 			comment.toString(buffer, tabCount);
 		}
+
+		// write annotations if there are any
+                for (JClassAnnotation ann : this.annotations) {
+                    ann.toString(buffer, tabCount);
+                }
 
 		if (toStringModifiers(buffer, tabCount, modifiers))
 			buffer.append(" ");
@@ -435,12 +438,14 @@ class JClassImpl extends JComplexTypeImpl implements JClass {
 		return this;
 	}
 
-    	/* (non-Javadoc)
-	 * @see de.uniluebeck.sourcegen.JClass#setAnnotation(de.uniluebeck.sourcegen.JClassAnnotation)
+	/**
+	 * @see de.uniluebeck.sourcegen.java.JClass#addAnnotation(de.uniluebeck.sourcegen.java.JClassAnnotation[])
 	 */
-    	public JClass setAnnotation(JClassAnnotation annotation) {
-		this.annotation = annotation;
-		return this;
+	public JClass addAnnotation(JClassAnnotation... annotation) {
+	    for (JClassAnnotation ann : annotation) {
+	        this.annotations.add(ann);
+	    }
+	    return this;
 	}
 
 	public List<JMethod> getMethods()

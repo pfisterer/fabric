@@ -58,16 +58,14 @@ public interface JInterfaceMethod extends JLangElem {
 	public JMethodSignature	getSignature		();
 	public boolean 			equals				(JInterfaceMethod other);
 
-	/**
-	 * Adds a annotation to this method. Supplying the at sign (@) is not
-	 * necessary since it is added automatically. Annotation containing
-	 * parameters (e.g. <code>@SuppressWarnings("unused")</code>) are not yet
-	 * supported.
+    	/**
+	 * Adds an annotation to this method.
 	 *
 	 * @param annotations The annotation's name.
 	 * @return This object.
 	 */
-	public JInterfaceMethod addAnnotation       (String... annotations);
+	public JInterfaceMethod addAnnotation       (JMethodAnnotation... annotations);
+
 	/**
 	 * Set the Javadoc comment for the current method.
 	 *
@@ -75,11 +73,4 @@ public interface JInterfaceMethod extends JLangElem {
 	 * @return This object.
 	 */
 	public JInterfaceMethod setComment			(JMethodComment comment);
-    	/**
-	 * Set the annotation for the current method.
-	 *
-	 * @param annotation The Java method annotation.
-	 * @return This object.
-	 */
-	public JInterfaceMethod setAnnotation			(JMethodAnnotation annotation);
 }

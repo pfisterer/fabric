@@ -45,8 +45,6 @@ class JConstructorImpl extends JElemImpl implements JConstructor {
 
 	private JConstructorComment comment = null;
 
-        private JConstructorAnnotation annotation = null;
-
 	public JConstructorImpl(JComplexType parent, int modifiers,
 			JMethodSignature signature, String... source)
 			throws JConflictingModifierException, JInvalidModifierException {
@@ -114,11 +112,6 @@ class JConstructorImpl extends JElemImpl implements JConstructor {
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 
-                // write annotation if necessary
-		if (annotation != null) {
-			annotation.toString(buffer, tabCount);
-		}
-
 		// write comment if necessary
 		if (comment != null) {
 			comment.toString(buffer, tabCount);
@@ -156,14 +149,6 @@ class JConstructorImpl extends JElemImpl implements JConstructor {
 	 */
 	public JConstructor setComment(JConstructorComment comment) {
 		this.comment = comment;
-		return this;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.uniluebeck.sourcegen.JConstructor#setAnnotation(de.uniluebeck.sourcegen.JConstructorAnnotation)
-	 */
-    	public JConstructor setAnnotation(JConstructorAnnotation annotation) {
-		this.annotation = annotation;
 		return this;
 	}
 

@@ -24,7 +24,9 @@
 package de.uniluebeck.sourcegen.java;
 
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import de.uniluebeck.sourcegen.exceptions.JConflictingModifierException;
@@ -106,10 +108,10 @@ class JEnumImpl extends JComplexTypeImpl implements JEnum {
 	 */
 	private JEnumComment comment = null;
 
-    	/**
-	 * This enum's annotation.
+	/**
+	 * This enum's list of Java annotations.
 	 */
-	private JEnumAnnotation annotation = null;
+	private List<JEnumAnnotation> annotations = new ArrayList<JEnumAnnotation>( );
 
 	@Override
 	JComplexType getParent() {
@@ -131,13 +133,15 @@ class JEnumImpl extends JComplexTypeImpl implements JEnum {
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 
-                if (annotation != null) {
-			annotation.toString(buffer, tabCount);
-		}
-
+		// write comment if necessary
 		if (comment != null) {
 			comment.toString(buffer, tabCount);
 		}
+
+		// write annotations if there are any
+                for (JEnumAnnotation ann : this.annotations) {
+                    ann.toString(buffer, tabCount);
+                }
 
 		if (toStringModifiers(buffer, tabCount, modifiers))
 			buffer.append(" ");
@@ -281,11 +285,13 @@ class JEnumImpl extends JComplexTypeImpl implements JEnum {
 		return this;
 	}
 
-    	/* (non-Javadoc)
-	 * @see de.uniluebeck.sourcegen.JEnum#setAnnotation(de.uniluebeck.sourcegen.JEnumAnnotation)
+	/**
+	 * @see de.uniluebeck.sourcegen.java.JEnum#addAnnotation(de.uniluebeck.sourcegen.java.JEnumAnnotation[])
 	 */
-    	public JEnum setAnnotation(JEnumAnnotation annotation) {
-		this.annotation = annotation;
-		return this;
+	public JEnum addAnnotation(JEnumAnnotation... annotation) {
+	    for (JEnumAnnotation ann : annotation) {
+	        this.annotations.add(ann);
+	    }
+	    return this;
 	}
 }

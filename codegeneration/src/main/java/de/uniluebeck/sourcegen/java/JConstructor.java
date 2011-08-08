@@ -55,12 +55,4 @@ public interface JConstructor extends JLangElem {
 	public boolean equals(JConstructorImpl other);
 
 	JConstructor setComment(JConstructorComment comment);
-
-        /**
-	 * Set the annotation for the current constructor.
-	 *
-	 * @param annotation The Java constructor annotation.
-	 * @return This object.
-	 */
-	public JConstructor setAnnotation(JConstructorAnnotation annotation);
 }
