@@ -58,10 +58,10 @@ class JInterfaceMethodImpl extends JElemImpl implements JInterfaceMethod {
 	 */
 	private JMethodComment comment = null;
 
-    	/**
-	 * This method's annotation.
-	 */
-	private JMethodAnnotation annotation = null;
+  /**
+   * This method's annotation.
+   */
+  private JMethodAnnotation annotation = null;
 
 	public JInterfaceMethodImpl(int modifiers, String returnType, String name,
 			JMethodSignature signature, String[] exceptions) throws JDuplicateException,
@@ -126,7 +126,7 @@ class JInterfaceMethodImpl extends JElemImpl implements JInterfaceMethod {
 		return this;
 	}
 
-    	/**
+  /**
 	 * @see de.uniluebeck.sourcegen.java.JInterfaceMethod#setAnnotation(JMethodAnnotation)(de.uniluebeck.sourcegen.java.JMethodAnnotation)
 	 */
 	public JInterfaceMethod setAnnotation(JMethodAnnotation annotation) {
@@ -177,16 +177,17 @@ class JInterfaceMethodImpl extends JElemImpl implements JInterfaceMethod {
 	 */
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
-
-                // write annotation if necessary
-		if (annotation != null) {
-			annotation.toString(buffer, tabCount);
-		}
-
 		// write comment if necessary
 		if (comment != null) {
 			comment.toString(buffer, tabCount);
 		}
+
+    // write annotation if necessary
+    if (annotation != null) {
+      annotation.toString(buffer, tabCount);
+    }
+    
+    // Why is this here? Do we already have annotations support?
 
 		// write annotations if there are any
         for (String a : this.annotations) {

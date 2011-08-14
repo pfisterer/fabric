@@ -76,7 +76,7 @@ public interface JField extends JLangElem {
 	 */
 	public JField setComment(JFieldComment comment);
 
-    	/**
+  /**
 	 * Set the annotation for the current field.
 	 *
 	 * @param annotation The Java field annotation.

@@ -106,7 +106,7 @@ class JEnumImpl extends JComplexTypeImpl implements JEnum {
 	 */
 	private JEnumComment comment = null;
 
-    	/**
+ 	/**
 	 * This enum's annotation.
 	 */
 	private JEnumAnnotation annotation = null;
@@ -130,14 +130,13 @@ class JEnumImpl extends JComplexTypeImpl implements JEnum {
 
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
-
-                if (annotation != null) {
-			annotation.toString(buffer, tabCount);
-		}
-
 		if (comment != null) {
 			comment.toString(buffer, tabCount);
 		}
+
+    if (annotation != null) {
+      annotation.toString(buffer, tabCount);
+    }
 
 		if (toStringModifiers(buffer, tabCount, modifiers))
 			buffer.append(" ");
@@ -281,11 +280,11 @@ class JEnumImpl extends JComplexTypeImpl implements JEnum {
 		return this;
 	}
 
-    	/* (non-Javadoc)
-	 * @see de.uniluebeck.sourcegen.JEnum#setAnnotation(de.uniluebeck.sourcegen.JEnumAnnotation)
-	 */
-    	public JEnum setAnnotation(JEnumAnnotation annotation) {
-		this.annotation = annotation;
-		return this;
-	}
+  /* (non-Javadoc)
+   * @see de.uniluebeck.sourcegen.JEnum#setAnnotation(de.uniluebeck.sourcegen.JEnumAnnotation)
+   */
+  public JEnum setAnnotation(JEnumAnnotation annotation) {
+    this.annotation = annotation;
+    return this;
+  }
 }

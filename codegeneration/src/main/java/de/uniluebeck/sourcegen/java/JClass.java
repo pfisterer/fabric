@@ -96,7 +96,8 @@ public interface JClass extends JComplexType {
 	 * @return This object.
 	 */
 	public JClass	setComment(JClassComment comment);
-    	/**
+
+  /**
 	 * Set the annotation for the current class.
 	 *
 	 * @param annotation The Java class annotation.

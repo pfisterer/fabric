@@ -114,15 +114,15 @@ class JConstructorImpl extends JElemImpl implements JConstructor {
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 
-                // write annotation if necessary
-		if (annotation != null) {
-			annotation.toString(buffer, tabCount);
-		}
-
 		// write comment if necessary
 		if (comment != null) {
 			comment.toString(buffer, tabCount);
 		}
+
+    // write annotation if necessary
+    if (annotation != null) {
+      annotation.toString(buffer, tabCount);
+    }
 
 		if (toStringModifiers(buffer, tabCount, modifiers))
 			buffer.append(" ");

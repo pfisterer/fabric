@@ -56,7 +56,7 @@ public interface JConstructor extends JLangElem {
 
 	JConstructor setComment(JConstructorComment comment);
 
-        /**
+  /**
 	 * Set the annotation for the current constructor.
 	 *
 	 * @param annotation The Java constructor annotation.

@@ -75,7 +75,8 @@ public interface JInterfaceMethod extends JLangElem {
 	 * @return This object.
 	 */
 	public JInterfaceMethod setComment			(JMethodComment comment);
-    	/**
+
+  /**
 	 * Set the annotation for the current method.
 	 *
 	 * @param annotation The Java method annotation.
