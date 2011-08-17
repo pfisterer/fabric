@@ -441,8 +441,8 @@ class JClassImpl extends JComplexTypeImpl implements JClass {
 	/**
 	 * @see de.uniluebeck.sourcegen.java.JClass#addAnnotation(de.uniluebeck.sourcegen.java.JClassAnnotation[])
 	 */
-	public JClass addAnnotation(JClassAnnotation... annotation) {
-	    for (JClassAnnotation ann : annotation) {
+	public JClass addAnnotation(JClassAnnotation... annotations) {
+	    for (JClassAnnotation ann : annotations) {
 	        this.annotations.add(ann);
 	    }
 	    return this;

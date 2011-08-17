@@ -106,8 +106,8 @@ class JInterfaceMethodImpl extends JElemImpl implements JInterfaceMethod {
 	/**
 	 * @see de.uniluebeck.sourcegen.java.JInterfaceMethod#addAnnotation(de.uniluebeck.sourcegen.java.JMethodAnnotation[])
 	 */
-	public JInterfaceMethod addAnnotation(JMethodAnnotation... annotation) {
-	    for (JMethodAnnotation ann : annotation) {
+	public JInterfaceMethod addAnnotation(JMethodAnnotation... annotations) {
+	    for (JMethodAnnotation ann : annotations) {
 	        this.annotations.add(ann);
 	    }
 	    return this;
@@ -165,15 +165,15 @@ class JInterfaceMethodImpl extends JElemImpl implements JInterfaceMethod {
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 
-		// write comment if necessary
-		if (comment != null) {
-			comment.toString(buffer, tabCount);
-		}
+    // write comment if necessary
+    if (comment != null) {
+      comment.toString(buffer, tabCount);
+    }
 
-		// write annotations if there are any
-                for (JMethodAnnotation ann : this.annotations) {
-                    ann.toString(buffer, tabCount);
-                }
+    // write annotations if there are any
+    for (JMethodAnnotation ann: this.annotations) {
+      ann.toString(buffer, tabCount);
+    }
 
 		indent(buffer, tabCount);
 		buffer.append(Modifier.toString(modifiers));

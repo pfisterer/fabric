@@ -139,9 +139,9 @@ class JEnumImpl extends JComplexTypeImpl implements JEnum {
 		}
 
 		// write annotations if there are any
-                for (JEnumAnnotation ann : this.annotations) {
-                    ann.toString(buffer, tabCount);
-                }
+    for (JEnumAnnotation ann: this.annotations) {
+      ann.toString(buffer, tabCount);
+    }
 
 		if (toStringModifiers(buffer, tabCount, modifiers))
 			buffer.append(" ");
@@ -288,8 +288,8 @@ class JEnumImpl extends JComplexTypeImpl implements JEnum {
 	/**
 	 * @see de.uniluebeck.sourcegen.java.JEnum#addAnnotation(de.uniluebeck.sourcegen.java.JEnumAnnotation[])
 	 */
-	public JEnum addAnnotation(JEnumAnnotation... annotation) {
-	    for (JEnumAnnotation ann : annotation) {
+	public JEnum addAnnotation(JEnumAnnotation... annotations) {
+	    for (JEnumAnnotation ann : annotations) {
 	        this.annotations.add(ann);
 	    }
 	    return this;
