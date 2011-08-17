@@ -14,9 +14,10 @@
         		<xsd:element name = "Waehrungsname" type = "xsd:string"/>
         		<xsd:element name = "Wert" type = "xsd:decimal"/>
         	</xsd:sequence>
-   		</xsd:complexType>
-   		
-   		<xsd:simpleType name="waehrungscodes">
+   		</xsd:complexType> 		
+   	</xsd:element>
+   	
+   	<xsd:simpleType name="waehrungscodes">
    			<xsd:annotation>
    				<xsd:documentation>
    					This is a currency code type enumeration
@@ -35,6 +36,4 @@
 			    <xsd:enumeration value = "USD"/><!-- US Dollar -->
    			</xsd:restriction>
    		</xsd:simpleType>
-   		
-   	</xsd:element>
 </xsd:schema>
