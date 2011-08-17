@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="Waehrung">
+   		<xsd:annotation>
+			<xsd:documentation>
+				This is mainly an enumeration XSD document including date time objects and decimals 
+       		</xsd:documentation>
+		</xsd:annotation>
+   		
+   		<xsd:complexType>
+      		<xsd:sequence>
+        		<xsd:element name = "Datum" type = "xsd:dateTime"/>
+        		<xsd:element name = "Waehrungscode" type = "waehrungscodes"/>
+        		<xsd:element name = "Waehrungsname" type = "xsd:string"/>
+        		<xsd:element name = "Wert" type = "xsd:decimal"/>
+        	</xsd:sequence>
+   		</xsd:complexType> 		
+   	</xsd:element>
+   	
+   	<xsd:simpleType name="waehrungscodes">
+   			<xsd:annotation>
+   				<xsd:documentation>
+   					This is a currency code type enumeration
+   				</xsd:documentation>
+   			</xsd:annotation>
+   			<xsd:restriction base="xsd:string">
+   				<xsd:enumeration value = "AUD"/><!-- Australian Dollar -->
+			    <xsd:enumeration value = "BRL"/><!-- Brazilian Real -->
+			    <xsd:enumeration value = "CAD"/><!-- Canadian Dollar -->
+			    <xsd:enumeration value = "CNY"/><!-- Chinese Yen -->
+			    <xsd:enumeration value = "EUR"/><!-- Euro -->
+			    <xsd:enumeration value = "GBP"/><!-- British Pound -->
+			    <xsd:enumeration value = "INR"/><!-- Indian Rupee -->
+			    <xsd:enumeration value = "JPY"/><!-- Japanese Yen -->
+			    <xsd:enumeration value = "RUR"/><!-- Russian Rouble -->
+			    <xsd:enumeration value = "USD"/><!-- US Dollar -->
+   			</xsd:restriction>
+   		</xsd:simpleType>
+</xsd:schema>
