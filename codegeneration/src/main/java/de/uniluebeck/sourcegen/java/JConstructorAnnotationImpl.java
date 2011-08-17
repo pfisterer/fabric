@@ -1,11 +1,30 @@
 package de.uniluebeck.sourcegen.java;
 
 /**
- * Created by IntelliJ IDEA.
- * User: reichart
- * Date: 17.08.11
- * Time: 11:50
- * To change this template use File | Settings | File Templates.
+ * Annotation implementation for the annotation of Java class constructors.
  */
-public class JConstructorAnnotationImpl {
+public class JConstructorAnnotationImpl extends JElemImpl implements JConstructorAnnotation {
+
+    /**
+     * The actual annotation description.
+     */
+    private final String description;
+
+    /**
+     * Generate a constructor annotation with specified description.
+     *
+     * @param description The actual annotation description.
+     */
+    public JConstructorAnnotationImpl(String description) {
+        this.description = description;
+    }
+
+    /**
+     * @see de.uniluebeck.sourcegen.ElemImpl#toString(StringBuffer, int)
+     */
+    @Override
+    public void toString(StringBuffer buffer, int tabCount) {
+        indent(buffer, tabCount);
+        buffer.append("@").append(this.description).append("\n");
+    }
 }

@@ -10,7 +10,8 @@
  * 	  disclaimer.
  * 	- Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
  * 	  following disclaimer in the documentation and/or other materials provided with the distribution.
- * 	- Neither the name of the University of Luebeck nor the names of its contributors may be used to endorse or promote
+ * 	- Neither the name of the University of Luebeck nor the names of its contributors may be used to endorse or
+ promote
  * 	  products derived from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
@@ -28,31 +29,39 @@ import de.uniluebeck.sourcegen.exceptions.JInvalidModifierException;
 
 public interface JConstructor extends JLangElem {
 
-	class JavaConstructorFactory {
+    class JavaConstructorFactory {
 
-		private static JavaConstructorFactory instance;
+        private static JavaConstructorFactory instance;
 
-		static JavaConstructorFactory getInstance() {
-			if (instance == null)
-				instance = new JavaConstructorFactory();
-			return instance;
-		}
+        static JavaConstructorFactory getInstance() {
+            if (instance == null)
+                instance = new JavaConstructorFactory();
+            return instance;
+        }
 
-		private JavaConstructorFactory() { /* not to be invoked */ }
+        private JavaConstructorFactory() { /* not to be invoked */ }
 
-		public JConstructor create(JComplexType parent, int modifiers,
-				JMethodSignature signature, String... source)
-				throws JConflictingModifierException,
-				JInvalidModifierException {
+        public JConstructor create(JComplexType parent, int modifiers,
+                                   JMethodSignature signature, String... source)
+                throws JConflictingModifierException,
+                JInvalidModifierException {
 
-			return new JConstructorImpl(parent, modifiers, signature, source);
-		}
+            return new JConstructorImpl(parent, modifiers, signature, source);
+        }
 
-	}
+    }
 
-	public static final JavaConstructorFactory factory = JavaConstructorFactory.getInstance();
+    public static final JavaConstructorFactory factory = JavaConstructorFactory.getInstance();
 
-	public boolean equals(JConstructorImpl other);
+    public boolean equals(JConstructorImpl other);
 
-	JConstructor setComment(JConstructorComment comment);
+    JConstructor setComment(JConstructorComment comment);
+
+    /**
+     * Adds an annotation to this class.
+     *
+     * @param annotations The annotation's name.
+     * @return This object.
+     */
+    public JConstructor addAnnotation(JConstructorAnnotation... annotations);
 }
