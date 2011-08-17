@@ -1,5 +1,5 @@
 /*
- * Test case for enumerations and the corresponding "Simple" XSD data types
+ * Testcase for xsd enumerations, decimals and dateTime
  */
 
 package XSD2JavaTestCases.JavaFiles;
@@ -11,19 +11,19 @@ import org.simpleframework.xml.Root;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 /*
- *	This is a class description
+ *	This is mainly an enumeration XSD document including date time objects and decimals
  */
 @Root
 public class Waehrung4{
 	
 	@Element
-	public XMLGregorianCalendar Datum;
+	private XMLGregorianCalendar Datum;
 	@Element
-	public Waehrungscodes Waehrungscode;
+	private Waehrungscodes Waehrungscode;
 	@Element
-	public String Waehrungsname; 
+	private String Waehrungsname; 
 	@Element
-	public BigDecimal Wert;
+	private BigDecimal Wert;
 	
 	/*
 	 * This is a currency code type enumeration
