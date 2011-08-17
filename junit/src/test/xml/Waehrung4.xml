@@ -4,5 +4,5 @@
 	<Datum>2003-01-01T12:25:00</Datum>
 	<Waehrungscode>EUR</Waehrungscode>
 	<Waehrungsname>Euro</Waehrungsname>
-	<Wert>1,234</Wert>
+	<Wert>1.234</Wert>
 </Waehrung>
