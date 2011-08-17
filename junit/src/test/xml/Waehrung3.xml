@@ -1,3 +1,4 @@
-<waehrung waehrungscode="">
-	<name></name>
-</waehrung>
+<?xml version="1.0" encoding="UTF-8"?>
+<Waehrung waehrungscode="">
+	<Name></Name>
+</Waehrung>
