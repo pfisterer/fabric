@@ -161,7 +161,7 @@ public class Main {
     }
 
     /**
-     * All possible modules are addes here
+     * All possible modules are added here
      *
      * @throws Exception
      */
