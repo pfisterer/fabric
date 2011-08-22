@@ -3,6 +3,8 @@ package fabric.module.typegen.java;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
 
@@ -31,7 +33,14 @@ public class ClassGenerationStrategyTest
     JClass jClassObject = (JClass)javaStrategy.generateClassObject(AttributeContainer.newBuilder().addAttribute("int", "foo").build());
     assertNotNull("JClass object must not be null.", jClassObject);
     assertFalse("JClass content must not be empty string.", ("").equals(jClassObject.toString()));
-
+    
+    // Output JClass for debug reasons
     System.out.println(jClassObject.toString());
+
+    // Check getRequiredImports()
+    ArrayList<String> imports = javaStrategy.getRequiredDependencies();
+    assertTrue("List of required imports must contain two items.", imports.size() == 2);
+    assertTrue("Required imports must contain 'org.simpleframework.xml.Root'.", imports.contains("org.simpleframework.xml.Root"));
+    assertTrue("Required imports must contain 'org.simpleframework.xml.Attribute'.", imports.contains("org.simpleframework.xml.Attribute"));
   }
 }

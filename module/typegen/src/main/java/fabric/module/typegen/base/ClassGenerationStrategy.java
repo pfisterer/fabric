@@ -1,5 +1,7 @@
 package fabric.module.typegen.base;
 
+import java.util.ArrayList;
+
 import de.uniluebeck.sourcegen.WorkspaceElement;
 import fabric.module.typegen.AttributeContainer;
 
@@ -23,4 +25,14 @@ public interface ClassGenerationStrategy
    * @throws Exception Error during class object creation
    */
   public WorkspaceElement generateClassObject(AttributeContainer container) throws Exception;
+
+  /**
+   * Get list of dependencies that are required to save the class
+   * object as a valid source file. Depending on the implementation,
+   * the method may return imports (Java) or includes (C++), for
+   * example.
+   *
+   * @return List of required dependencies
+   */
+  public ArrayList<String> getRequiredDependencies();
 }

@@ -172,17 +172,17 @@ public class AttributeContainer
       if (master instanceof AttributeContainer.Attribute)
       {
         AttributeContainer.Attribute a = (AttributeContainer.Attribute)master;
-        copy = (new AttributeContainer()).new Attribute(a.type, a.name, a.value);
+        copy = new AttributeContainer.Attribute(a.type, a.name, a.value);
       }
       else if (master instanceof AttributeContainer.Element)
       {
         AttributeContainer.Element e = (AttributeContainer.Element)master;
-        copy = (new AttributeContainer()).new Element(e.type, e.name, e.value);
+        copy = new AttributeContainer.Element(e.type, e.name, e.value);
       }
       else if (master instanceof AttributeContainer.ElementArray)
       {
         AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)master;
-        copy = (new AttributeContainer()).new ElementArray(ea.type, ea.name, ea.size);
+        copy = new AttributeContainer.ElementArray(ea.type, ea.name, ea.size);
       }
 
       return copy;
@@ -249,7 +249,7 @@ public class AttributeContainer
     public Builder addAttribute(final String type, final String name, final String value)
     {
       // Member class Attribute cannot exist without instance of outer class AttributeContainer
-      this.members.put(name, (new AttributeContainer()).new Attribute(type, name, value));
+      this.members.put(name, new AttributeContainer.Attribute(type, name, value));
 
       return this;
     }
@@ -265,7 +265,7 @@ public class AttributeContainer
      */
     public Builder addAttribute(final String type, final String name)
     {
-      this.members.put(name, (new AttributeContainer()).new Attribute(type, name));
+      this.members.put(name, new AttributeContainer.Attribute(type, name));
 
       return this;
     }
@@ -282,7 +282,7 @@ public class AttributeContainer
      */
     public Builder addElement(final String type, final String name, final String value)
     {
-      this.members.put(name, (new AttributeContainer()).new Element(type, name, value));
+      this.members.put(name, new AttributeContainer.Element(type, name, value));
 
       return this;
     }
@@ -298,7 +298,7 @@ public class AttributeContainer
      */
     public Builder addElement(final String type, final String name)
     {
-      this.members.put(name, (new AttributeContainer()).new Element(type, name));
+      this.members.put(name, new AttributeContainer.Element(type, name));
 
       return this;
     }
@@ -323,7 +323,7 @@ public class AttributeContainer
         throw new IllegalArgumentException("Array size should be positive.");
       }
 
-      this.members.put(name, (new AttributeContainer()).new ElementArray(type, name, size));
+      this.members.put(name, new AttributeContainer.ElementArray(type, name, size));
 
       return this;
     }
@@ -339,7 +339,7 @@ public class AttributeContainer
      */
     public Builder addElementArray(final String type, final String name)
     {
-      this.members.put(name, (new AttributeContainer()).new ElementArray(type, name));
+      this.members.put(name, new AttributeContainer.ElementArray(type, name));
       
       return this;
     }
@@ -363,8 +363,8 @@ public class AttributeContainer
   /*****************************************************************
    * MemberVariable internal classes
    *****************************************************************/
-
-  public abstract class MemberVariable
+  
+  public static abstract class MemberVariable
   {
     /** Type of member variable */
     public String type;
@@ -373,7 +373,7 @@ public class AttributeContainer
     public String name;
   }
 
-  public class Attribute extends MemberVariable
+  public static class Attribute extends MemberVariable
   {
     /** Value of XML attribute */
     public String value;
@@ -404,7 +404,7 @@ public class AttributeContainer
     }
   }
 
-  public class Element extends MemberVariable
+  public static class Element extends MemberVariable
   {
     /** Value of XML element */
     public String value;
@@ -435,7 +435,7 @@ public class AttributeContainer
     }
   }
 
-  public class ElementArray extends MemberVariable
+  public static class ElementArray extends MemberVariable
   {
     /** Size of XML element array */
     public int size;

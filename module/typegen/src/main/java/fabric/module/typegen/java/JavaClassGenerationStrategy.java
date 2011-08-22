@@ -1,6 +1,7 @@
 package fabric.module.typegen.java;
 
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import de.uniluebeck.sourcegen.WorkspaceElement;
@@ -70,6 +71,18 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
   {
     return this.generateJClassObject(container);
   }
+  
+  /**
+   * This method returns a list of all Java imports that
+   * are needed to support the required XML annotations.
+   *
+   * @return List of required Java imports
+   */
+  @Override
+  public ArrayList<String> getRequiredDependencies()
+  {
+    return this.getRequiredImports();
+  }
 
   /**
    * Private helper method to create JClass object from AttributeContainer.
@@ -126,7 +139,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
         jc.add(getter);
       }
     }
-
+    
     return jc;
   }
 
@@ -221,7 +234,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       }
 
       jf.setComment(new JFieldCommentImpl("The '" + a.name + "' element array."));
-      jf.addAnnotation(new JFieldAnnotationImpl("ElementArray"));
+      jf.addAnnotation(new JFieldAnnotationImpl(this.xmlMapper.getAnnotation("elementArray")));
     }
 
     /*****************************************************************
@@ -288,6 +301,17 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     getter.setComment(new JMethodCommentImpl("Get the '" + member.name + "' member variable."));
 
     return getter;
+  }
+
+  /**
+   * Private helper method to get a list of all Java imports
+   * that are needed to support the required XML annotations.
+   *
+   * @return List of required Java imports
+   */
+  private ArrayList<String> getRequiredImports()
+  {
+    return this.xmlMapper.getUsedImports();
   }
 
   /**

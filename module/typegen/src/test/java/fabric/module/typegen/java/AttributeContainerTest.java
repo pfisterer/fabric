@@ -7,7 +7,6 @@ import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JSourceFileImpl;
 
 import fabric.module.typegen.AttributeContainer;
-import fabric.module.typegen.base.ClassGenerationStrategy;
 
 /**
  * Unit test for AttributeContainer class and Builder.
@@ -147,7 +146,7 @@ public class AttributeContainerTest
 
     // Create JClass object from AttributeContainer
     AnnotationMapper xmlMapper = new AnnotationMapper("Simple");
-    ClassGenerationStrategy strategy = new JavaClassGenerationStrategy(xmlMapper);
+    JavaClassGenerationStrategy strategy = new JavaClassGenerationStrategy(xmlMapper);
     JClass jClassObject = (JClass)carContainer.asClassObject(strategy);
     
     // Check asClassObject()
@@ -157,9 +156,15 @@ public class AttributeContainerTest
     // Add JClass to JSourceFile
     JSourceFileImpl jsf = new JSourceFileImpl("test.de", "testFile.java");
     jsf.add(jClassObject);
-
+    
+    // Add required Java imports to JSourceFile
+    for (String requiredImport: strategy.getRequiredDependencies())
+    {
+      jsf.addImport(requiredImport);
+    }
+    
     // Output JSourceFile for debug reasons
-    System.out.println(jsf.toString());    
+    System.out.println(jsf.toString());
   }
 
   /**
