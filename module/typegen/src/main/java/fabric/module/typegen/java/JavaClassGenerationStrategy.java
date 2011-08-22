@@ -15,39 +15,82 @@ import de.uniluebeck.sourcegen.java.JMethodCommentImpl;
 import de.uniluebeck.sourcegen.java.JMethodSignature;
 import de.uniluebeck.sourcegen.java.JModifier;
 import de.uniluebeck.sourcegen.java.JParameter;
-import fabric.module.typegen.AttributeContainer;
 
+import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.AttributeContainer.MemberVariable;
 import fabric.module.typegen.base.ClassGenerationStrategy;
 import fabric.module.typegen.exceptions.FabricTypeGenException;
 
 /**
+ * Class generation strategy for Java. This class implements the
+ * ClassGenerationStrategy interface to convert AttributeContainer
+ * objects to JClass objects.
+ *
  * @author seidel
  */
 public class JavaClassGenerationStrategy implements ClassGenerationStrategy
 {
-  // TODO: Annotation-Mapper einbauen
+  /** Mapper for framework-specific JavaToXML annotations */
+  private AnnotationMapper xmlMapper = null;
 
   /**
-   * Returns class object that can be added to a source file. Return
-   * value should be cast to JClass before further use.
+   * Parameterless constructor uses AnnotationMapper with default
+   * XML framework.
    *
-   * @return JClass object
+   * @throws Exception Error during AnnotationMapper creation
+   */
+  public JavaClassGenerationStrategy() throws Exception
+  {
+    this(new AnnotationMapper());
+  }
+
+  /**
+   * Parameterized constructor can be configured with a custom
+   * AnnotationMapper object.
+   *
+   * @param mapper AnnotationMapper object
+   */
+  public JavaClassGenerationStrategy(final AnnotationMapper mapper)
+  {
+    this.xmlMapper = mapper;
+  }
+
+  /**
+   * This method returns a class object that can be added to a source
+   * file. Return value should be casted to JClass before further use.
+   *
+   * @param container AttributeContainer for conversion
+   *
+   * @return Generated WorkspaceElement object
+   *
+   * @throws Exception Error during class object generation
    */
   @Override
-  public WorkspaceElement generateClassObject(AttributeContainer container) throws Exception
+  public WorkspaceElement generateClassObject(final AttributeContainer container) throws Exception
   {
     return this.generateJClassObject(container);
   }
 
-  private JClass generateJClassObject(AttributeContainer container) throws Exception
+  /**
+   * Private helper method to create JClass object from AttributeContainer.
+   *
+   * @param container AttributeContainer for conversion
+   *
+   * @return Generated JClass object
+   *
+   * @throws Exception Error during class object generation
+   */
+  private JClass generateJClassObject(final AttributeContainer container) throws Exception
   {
     /*****************************************************************
-     * Create container class
+     * Create surrounding container class
      *****************************************************************/
     JClass jc = JClass.factory.create(JModifier.PUBLIC, this.firstLetterCapital(container.getName()));
     jc.setComment(new JClassCommentImpl("The '" + container.getName() + "' container class."));
-    jc.addAnnotation(new JClassAnnotationImpl("Root(name = \"" + this.firstLetterCapital(container.getName()) + "\")"));
+
+    // Annotation pattern e.g. @Root(name = "value") or @XStreamAlias("value")
+    String annotation = String.format(this.xmlMapper.getAnnotation("root"), this.firstLetterCapital(container.getName()));
+    jc.addAnnotation(new JClassAnnotationImpl(annotation));
 
     // Process all members
     Iterator iterator = container.getMembers().entrySet().iterator();
@@ -87,11 +130,23 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     return jc;
   }
 
+  /**
+   * Private helper method for member variable creation. This function
+   * will create an annotated JField with a comment.
+   *
+   * @param member MemberVariable object for creation
+   *
+   * @return Generated JField object
+   *
+   * @throws Exception Error during JField creation
+   */
   private JField createMemberVariable(MemberVariable member) throws Exception
   {
     JField jf = null;
 
-    // Handle XML attributes
+    /*****************************************************************
+     * Handle XML attributes
+     *****************************************************************/
     if (member instanceof AttributeContainer.Attribute)
     {
       AttributeContainer.Attribute a = (AttributeContainer.Attribute)member;
@@ -115,9 +170,12 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       }
 
       jf.setComment(new JFieldCommentImpl("The '" + a.name + "' attribute."));
-      jf.addAnnotation(new JFieldAnnotationImpl("Attribute"));
+      jf.addAnnotation(new JFieldAnnotationImpl(this.xmlMapper.getAnnotation("attribute")));
     }
-    // Handle XML elements
+
+    /*****************************************************************
+     * Handle XML elements
+     *****************************************************************/
     else if (member instanceof AttributeContainer.Element)
     {
       AttributeContainer.Element a = (AttributeContainer.Element)member;
@@ -141,9 +199,12 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       }
 
       jf.setComment(new JFieldCommentImpl("The '" + a.name + "' element."));
-      jf.addAnnotation(new JFieldAnnotationImpl("Element"));
+      jf.addAnnotation(new JFieldAnnotationImpl(this.xmlMapper.getAnnotation("element")));
     }
-    // Handle XML element arrays
+
+    /*****************************************************************
+     * Handle XML element arrays
+     *****************************************************************/
     else if (member instanceof AttributeContainer.ElementArray)
     {
       AttributeContainer.ElementArray a = (AttributeContainer.ElementArray)member;
@@ -162,6 +223,10 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       jf.setComment(new JFieldCommentImpl("The '" + a.name + "' element array."));
       jf.addAnnotation(new JFieldAnnotationImpl("ElementArray"));
     }
+
+    /*****************************************************************
+     * Handle unknown types
+     *****************************************************************/
     else
     {
       throw new FabricTypeGenException("Member variable in attribute container has unknown type.");
@@ -170,8 +235,19 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     return jf;
   }
 
+  /**
+   * Private helper method to create setter methods. This function
+   * will create a JMethod object with a comment.
+   *
+   * @param member MemberVariable object for creation
+   *
+   * @return Generated JMethod object
+   *
+   * @throws Exception Error during JMethod creation
+   */
   private JMethod createSetterMethod(MemberVariable member) throws Exception
   {
+    // Member variable is an array
     String name = member.name;
     if (member instanceof AttributeContainer.ElementArray)
     {
@@ -181,14 +257,25 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     JMethodSignature jms = JMethodSignature.factory.create(JParameter.factory.create(JModifier.FINAL, member.type, name));
     JMethod setter = JMethod.factory.create(JModifier.PUBLIC, "void", "set" + this.firstLetterCapital(member.name), jms);
 
-    setter.getBody().appendSource("container." + member.name + " = " + member.name + ";");
+    setter.getBody().appendSource("this." + member.name + " = " + member.name + ";");
     setter.setComment(new JMethodCommentImpl("Set the '" + member.name + "' member variable."));
 
     return setter;
   }
 
+  /**
+   * Private helper method to create getter methods. This function
+   * will create a JMethod object with a comment.
+   *
+   * @param member MemberVariable object for creation
+   *
+   * @return Generated JMethod object
+   *
+   * @throws Exception Error during JMethod creation
+   */
   private JMethod createGetterMethod(MemberVariable member) throws Exception
   {
+    // Member variable is an array
     String type = member.type;
     if (member instanceof AttributeContainer.ElementArray)
     {
@@ -197,12 +284,19 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
 
     JMethod getter = JMethod.factory.create(JModifier.PUBLIC, type, "get" + this.firstLetterCapital(member.name));
 
-    getter.getBody().appendSource("return container." + member.name + ";");
+    getter.getBody().appendSource("return this." + member.name + ";");
     getter.setComment(new JMethodCommentImpl("Get the '" + member.name + "' member variable."));
 
     return getter;
   }
 
+  /**
+   * Private helper method to capitalize the first letter of a string.
+   *
+   * @param text Text to process
+   *
+   * @return Text with first letter capitalized
+   */
   private String firstLetterCapital(final String text)
   {
     return text.substring(0, 1).toUpperCase() + text.substring(1, text.length());
