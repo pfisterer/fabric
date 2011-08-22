@@ -16,7 +16,7 @@ public class FabricTypeGenException extends Exception
   }
   
   /**
-   * Parameterizes constructor for exception.
+   * Parameterized constructor for exception.
    * 
    * @param message Error message
    */
