@@ -148,21 +148,21 @@ public class AttributeContainerTest
     AnnotationMapper xmlMapper = new AnnotationMapper("Simple");
     JavaClassGenerationStrategy strategy = new JavaClassGenerationStrategy(xmlMapper);
     JClass jClassObject = (JClass)carContainer.asClassObject(strategy);
-    
+
     // Check asClassObject()
     assertTrue("Method must return instance of 'java.lang.String'.", jClassObject.toString() instanceof String);
     assertFalse("Class content must not be empty string.", ("").equals(jClassObject.toString()));
-    
+
     // Add JClass to JSourceFile
     JSourceFileImpl jsf = new JSourceFileImpl("test.de", "testFile.java");
     jsf.add(jClassObject);
-    
+
     // Add required Java imports to JSourceFile
     for (String requiredImport: strategy.getRequiredDependencies())
     {
       jsf.addImport(requiredImport);
     }
-    
+
     // Output JSourceFile for debug reasons
     System.out.println(jsf.toString());
   }

@@ -27,7 +27,7 @@ public class MapperFactory
    *
    * @return MapperFactory object
    */
-  public synchronized MapperFactory getInstance()
+  public static synchronized MapperFactory getInstance()
   {
     // Instance does not exist, create a new one
     if (null == instance)

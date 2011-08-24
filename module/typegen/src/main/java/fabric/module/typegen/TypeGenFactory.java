@@ -27,7 +27,7 @@ public class TypeGenFactory
    *
    * @return TypeGenFactory object
    */
-  public synchronized TypeGenFactory getInstance()
+  public static synchronized TypeGenFactory getInstance()
   {
     // Instance does not exist, create a new one
     if (null == instance)
