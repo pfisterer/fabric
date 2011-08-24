@@ -169,8 +169,8 @@ class JConstructorImpl extends JElemImpl implements JConstructor {
     /**
      * @see de.uniluebeck.sourcegen.java.JConstructor#addAnnotation(de.uniluebeck.sourcegen.java.JConstructorAnnotation[])
      */
-    public JConstructor addAnnotation(JConstructorAnnotation... annotation) {
-        for (JConstructorAnnotation ann : annotation) {
+    public JConstructor addAnnotation(JConstructorAnnotation... annotations) {
+        for (JConstructorAnnotation ann : annotations) {
             this.annotations.add(ann);
         }
         return this;

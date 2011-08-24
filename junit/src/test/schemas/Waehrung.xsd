@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:element name="Waehrung">
@@ -9,3 +10,16 @@
    		</xsd:complexType>
    	</xsd:element>
 </xsd:schema>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="waehrung">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element name="waehrungscode" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+</xsd:schema>
+>>>>>>> a1006bdfdd1a7d307c0e7bf95166af09599a8f56

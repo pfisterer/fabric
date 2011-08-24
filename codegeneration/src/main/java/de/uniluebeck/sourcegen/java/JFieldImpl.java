@@ -24,7 +24,6 @@
 package de.uniluebeck.sourcegen.java;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -99,10 +98,10 @@ class JFieldImpl extends JElemImpl implements JField {
 			comment.toString(buffer, tabCount);
 		}
 
-		// write annotations if there are any
-                for (JFieldAnnotation ann : this.annotations) {
-                    ann.toString(buffer, tabCount);
-                }
+    // write annotations if there are any
+    for (JFieldAnnotation ann: this.annotations) {
+      ann.toString(buffer, tabCount);
+    }
 
 		if (toStringModifiers(buffer, tabCount, modifiers))
 			buffer.append(" ");
@@ -134,8 +133,8 @@ class JFieldImpl extends JElemImpl implements JField {
 	/**
 	 * @see de.uniluebeck.sourcegen.java.JField#addAnnotation(de.uniluebeck.sourcegen.java.JFieldAnnotation[])
 	 */
-	public JField addAnnotation(JFieldAnnotation... annotation) {
-	    for (JFieldAnnotation ann : annotation) {
+	public JField addAnnotation(JFieldAnnotation... annotations) {
+	    for (JFieldAnnotation ann : annotations) {
 	        this.annotations.add(ann);
 	    }
 	    return this;

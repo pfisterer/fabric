@@ -60,7 +60,7 @@ public interface JConstructor extends JLangElem {
     /**
      * Adds an annotation to this class.
      *
-     * @param annotations The annotation's name.
+     * @param annotations The Java constructor's annotation.
      * @return This object.
      */
     public JConstructor addAnnotation(JConstructorAnnotation... annotations);

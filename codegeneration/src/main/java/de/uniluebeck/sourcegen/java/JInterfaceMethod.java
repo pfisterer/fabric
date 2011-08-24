@@ -58,10 +58,10 @@ public interface JInterfaceMethod extends JLangElem {
 	public JMethodSignature	getSignature		();
 	public boolean 			equals				(JInterfaceMethod other);
 
-    	/**
+  /**
 	 * Adds an annotation to this method.
 	 *
-	 * @param annotations The annotation's name.
+	 * @param annotations The Java method annotation.
 	 * @return This object.
 	 */
 	public JInterfaceMethod addAnnotation       (JMethodAnnotation... annotations);

@@ -73,10 +73,10 @@ public interface JEnum extends JComplexType {
 	 */
 	public JEnum setComment(JEnumComment comment);
 
-    	/**
+  /**
 	 * Adds an annotation to this enum.
 	 *
-	 * @param annotations The annotation's name.
+	 * @param annotations The Java enum annotation.
 	 * @return This object.
 	 */
 	public JEnum addAnnotation       (JEnumAnnotation... annotations);
