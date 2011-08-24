@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 import de.uniluebeck.sourcegen.java.JClass;
+import de.uniluebeck.sourcegen.java.JModifier;
 import fabric.module.typegen.AttributeContainer;
 
 /**
@@ -36,6 +37,11 @@ public class ClassGenerationStrategyTest
     
     // Output JClass for debug reasons
     System.out.println(jClassObject.toString());
+
+    // Check generateClassObject() with custom modifiers
+    int modifiers = JModifier.PUBLIC | JModifier.STATIC;
+    jClassObject = (JClass)javaStrategy.generateClassObject(AttributeContainer.newBuilder().addAttribute("int", "foo").build(), modifiers);
+    assertNotNull("JClass object with custom modifiers must not be null.", jClassObject);
 
     // Check getRequiredImports()
     ArrayList<String> imports = javaStrategy.getRequiredDependencies();

@@ -59,6 +59,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
   /**
    * This method returns a class object that can be added to a source
    * file. Return value should be casted to JClass before further use.
+   * The returned class has public visibility.
    *
    * @param container AttributeContainer for conversion
    *
@@ -69,7 +70,26 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
   @Override
   public WorkspaceElement generateClassObject(final AttributeContainer container) throws Exception
   {
-    return this.generateJClassObject(container);
+    return this.generateJClassObject(container, JModifier.PUBLIC);
+  }
+
+  /**
+   * This method returns a class object that can be added to a source
+   * file. Return value should be casted to JClass before further use.
+   * The returned class has custom visibility, depending on modifiers
+   * argument (e.g. JModifier.PUBLIC | JModifier.STATIC for static
+   * nested inner classes).
+   *
+   * @param container AttributeContainer for conversion
+   * @param modifiers Modifiers for class object (e.g. visibility)
+   *
+   * @return Generated WorkspaceElement object
+   *
+   * @throws Exception Error during class object generation
+   */
+  public WorkspaceElement generateClassObject(final AttributeContainer container, final int modifiers) throws Exception
+  {
+    return this.generateJClassObject(container, modifiers);
   }
   
   /**
@@ -88,17 +108,18 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
    * Private helper method to create JClass object from AttributeContainer.
    *
    * @param container AttributeContainer for conversion
+   * @param modifiers Modifiers for JClass object (e.g. visibility)
    *
    * @return Generated JClass object
    *
    * @throws Exception Error during class object generation
    */
-  private JClass generateJClassObject(final AttributeContainer container) throws Exception
+  private JClass generateJClassObject(final AttributeContainer container, final int modifiers) throws Exception
   {
     /*****************************************************************
      * Create surrounding container class
      *****************************************************************/
-    JClass jc = JClass.factory.create(JModifier.PUBLIC, this.firstLetterCapital(container.getName()));
+    JClass jc = JClass.factory.create(modifiers, this.firstLetterCapital(container.getName()));
     jc.setComment(new JClassCommentImpl("The '" + container.getName() + "' container class."));
 
     // Annotation pattern e.g. @Root(name = "value") or @XStreamAlias("value")
