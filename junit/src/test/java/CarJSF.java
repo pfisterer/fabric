@@ -1,4 +1,11 @@
+import de.uniluebeck.sourcegen.WorkspaceElement;
+import de.uniluebeck.sourcegen.c.CppClass;
+import de.uniluebeck.sourcegen.c.CppSourceFile;
+import de.uniluebeck.sourcegen.c.CppSourceFileImpl;
 import de.uniluebeck.sourcegen.java.*;
+import fabric.module.typegen.AttributeContainer;
+import fabric.module.typegen.base.ClassGenerationStrategy;
+import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 /**
  * Class that generates the expected JSourceFiles for car.xsd manually
@@ -20,9 +27,15 @@ public class CarJSF {
     private static final String ENDING_JAVA = ".java";
 
     /**
+     * Class generation strategy
+     */
+    private ClassGenerationStrategy strategy;
+
+    /**
      * Constructor
      */
-    public CarJSF() {
+    public CarJSF(ClassGenerationStrategy strategy) {
+        this.strategy = strategy;
         buildCarClass();
         buildSpeedClass();
         buildWeightClass();
@@ -41,7 +54,11 @@ public class CarJSF {
                                            .addElementArray("PassengerWeightClass", "PassengerWeight")
                                            .build();
         carJava = new JSourceFileImpl(ROOT.toLowerCase(), ROOT + ENDING_JAVA);
-        carJava.add(carContainer.asJClass());
+        try {
+            carJava.add((JClass)carContainer.asClassObject(strategy));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -53,7 +70,11 @@ public class CarJSF {
                                            .setName("CurrentSpeedClass")
                                            .addElement("int", "SpeedGermany")
                                            .build();
-        carJava.add(speedContainer.asJClass());
+        try {
+            carJava.add((JClass)speedContainer.asClassObject(strategy));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -67,7 +88,11 @@ public class CarJSF {
                                             .addElement("ArrayList<BigDecimal>", "Float")
                                             .addAttribute("int", "Length")
                                             .build();
-        carJava.add(carContainer.asJClass());
+        try {
+            carJava.add((JClass)weightContainer.asClassObject(strategy));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
