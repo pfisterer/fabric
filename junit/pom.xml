@@ -17,6 +17,41 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+<<<<<<< HEAD
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.uniluebeck.itm</groupId>
+		<artifactId>fabric</artifactId>
+		<version>1.0</version>
+		<relativePath>../</relativePath>
+	</parent>
+
+	<artifactId>fabric.junit</artifactId>
+	<name>Fabric :: JUnit Test Suite</name>
+
+	<packaging>jar</packaging>
+
+	<dependencies>
+                <dependency>
+			<groupId>de.uniluebeck.itm</groupId>
+			<artifactId>tr.util</artifactId>
+		</dependency>
+                <dependency>
+                        <groupId>de.uniluebeck.itm</groupId>
+                        <artifactId>fabric.core</artifactId>
+                </dependency>
+                <dependency>
+                        <groupId>de.uniluebeck.itm</groupId>
+                        <artifactId>fabric.codegeneration</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                    <version>4.8.1</version>
+                </dependency>
+        </dependencies>
+=======
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -50,5 +85,6 @@
       <version>2.6</version>
     </dependency>
   </dependencies>
+>>>>>>> a1006bdfdd1a7d307c0e7bf95166af09599a8f56
 
 </project>
