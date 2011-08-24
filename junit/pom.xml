@@ -36,11 +36,19 @@
 			<groupId>de.uniluebeck.itm</groupId>
 			<artifactId>tr.util</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+                <dependency>
+                        <groupId>de.uniluebeck.itm</groupId>
+                        <artifactId>fabric.core</artifactId>
+                </dependency>
+                <dependency>
+                        <groupId>de.uniluebeck.itm</groupId>
+                        <artifactId>fabric.codegeneration</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                    <version>4.8.1</version>
+                </dependency>
+        </dependencies>
 
 </project>
