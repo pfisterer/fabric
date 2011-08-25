@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Car" type="CarType"/>
+	
+	<xs:complexType name="CarType">
+		<xs:attribute name="Length" type="xs:unsignedInt"/>
+		<xs:attribute name="LicenseNumber" type="xs:string" use="required"/>
+		<xs:attribute name="Name" type="xs:string" use="prohibited"/>
+	</xs:complexType>
+</xs:schema>

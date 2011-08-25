@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Username" type="UsernameType"/>
+	<xs:element name="Password" type="PasswordType"/>
+  		
+  	<xs:simpleType name="UsernameType">
+    	<xs:restriction base="xs:string">
+    		<xs:length value="8"/>
+    	</xs:restriction>
+  	</xs:simpleType>
+  	
+  	<xs:simpleType name="PasswordType">
+    	<xs:restriction base="xs:string">
+    		<xs:minLength value="5"/>
+      		<xs:maxLength value="8"/>
+    	</xs:restriction>
+  	</xs:simpleType>
+</xs:schema>
