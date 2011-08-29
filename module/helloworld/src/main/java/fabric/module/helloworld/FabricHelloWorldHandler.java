@@ -6,12 +6,12 @@
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met:
  *
- * 	- Redistributions of source code must retain the above copyright notice, this list of conditions and the following
- * 	  disclaimer.
- * 	- Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
- * 	  following disclaimer in the documentation and/or other materials provided with the distribution.
- * 	- Neither the name of the University of Luebeck nor the names of its contributors may be used to endorse or promote
- * 	  products derived from this software without specific prior written permission.
+ *  - Redistributions of source code must retain the above copyright notice, this list of conditions and the following
+ *    disclaimer.
+ *  - Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+ *    following disclaimer in the documentation and/or other materials provided with the distribution.
+ *  - Neither the name of the University of Luebeck nor the names of its contributors may be used to endorse or promote
+ *    products derived from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -36,7 +36,7 @@ import fabric.wsdlschemaparser.schema.FSimpleType;
 /**
  * Fabric handler class that creates Graphviz dot graph files from a parsed
  * Schema tree. The resulting file can be used to visualise the Schema tree.
- * 
+ *
  * @author Marco Wegner
  * @see <a href="http://www.graphviz.org">Graphviz Dot Homepage</a>
  */
@@ -94,7 +94,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
 
     /**
      * Constructs a new handler for dot graph generation.
-     * 
+     *
      * @param workspace The workspace where the graph source file resides.
      * @param properties The properties used to customise this handler.
      */
@@ -115,7 +115,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
      * <li>shape = polygon, sides = 4, skew = 0.4</li>
      * </ul>
      * </p>
-     * 
+     *
      * @param attributes The new attributes.
      * @see <a href="http://www.graphviz.org">Graphviz Dot Homepage</a>
      */
@@ -125,7 +125,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
 
     /**
      * Sets the attributes for local-element nodes.
-     * 
+     *
      * @param attributes The new attributes.
      * @see #setTopLevelElementAttributes(String) Style attribute examples
      */
@@ -135,7 +135,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
 
     /**
      * Sets the attributes for top-level-simple-type nodes.
-     * 
+     *
      * @param attributes The new attributes.
      * @see #setTopLevelElementAttributes(String) Style attribute examples
      */
@@ -145,7 +145,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
 
     /**
      * Sets the attributes for local-simple-type nodes.
-     * 
+     *
      * @param attributes The new attributes.
      * @see #setTopLevelElementAttributes(String) Style attribute examples
      */
@@ -155,7 +155,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
 
     /**
      * Sets the attributes for top-level-complex-type nodes.
-     * 
+     *
      * @param attributes The new attributes.
      * @see #setTopLevelElementAttributes(String) Style attribute examples
      */
@@ -165,7 +165,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
 
     /**
      * Sets the attributes for local-complex-type nodes.
-     * 
+     *
      * @param attributes The new attributes.
      * @see #setTopLevelElementAttributes(String) Style attribute examples
      */
@@ -227,33 +227,33 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
     }
 
     @Override
-    public void startTopLevelElement(FElement element) throws Exception {       
-    	//createGraphNode(element, this.topLevelElementAttributes);
+    public void startTopLevelElement(FElement element) throws Exception {
+      //createGraphNode(element, this.topLevelElementAttributes);
     }
 
     @Override
     public void startLocalElement(FElement element, FComplexType parent) throws Exception {
-    	//this.helloWorldSource.add(createNodeLabel(element));
+      //this.helloWorldSource.add(createNodeLabel(element));
     }
 
     @Override
     public void startTopLevelSimpleType(FSimpleType type, FElement parent) throws Exception {
-        
+
     }
 
     @Override
     public void startLocalSimpleType(FSimpleType type, FElement parent) throws Exception {
-        
+
     }
 
     @Override
     public void startTopLevelComplexType(FComplexType type, FElement parent) throws Exception {
-        
+
     }
 
     @Override
     public void startLocalComplexType(FComplexType type, FElement parent) throws Exception {
-        
+
     }
 
 //    /**
@@ -270,7 +270,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
 //     * <p>
 //     * The newly created node is also added to the graph source file.
 //     * </p>
-//     * 
+//     *
 //     * @param object The Schema object for which the corresponding node is to be
 //     *        created.
 //     * @param attributes The node's attributes as comma-separated list.
@@ -289,7 +289,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
 //     * and only if, no such node currently exists in the graph. In this case the
 //     * node is also added to the graph. If, on the other hand, the node does
 //     * exist it is simply returned.
-//     * 
+//     *
 //     * @param object The Schema object for which the corresponding node is to be
 //     *        queried and/or created.
 //     * @param label The node's label.
@@ -297,14 +297,14 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
 //     * @return The newly created graph node.
 //     */
 //    private DGraphNode getOrCreateGraphNode(FSchemaObject object, String label, String attributes) {
-//        
+//
 //        return null;
 //    }
 //
 //    /**
 //     * Creates and returns an edge. The edge is also added to the graph source
 //     * file.
-//     * 
+//     *
 //     * @param source The new edge's source node.
 //     * @param target The new edge's target node.
 //     * @param attributes The edge's attributes as comma-separated list.
@@ -317,7 +317,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
 //    /**
 //     * Creates and returns an edge. The edge is also added to the graph source
 //     * file.
-//     * 
+//     *
 //     * @param object The parent Schema object. That object's ID is used to
 //     *        retrieve the corresponding graph node which will function as the
 //     *        new edge's source node.
@@ -325,12 +325,12 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
 //     * @param attributes The edge's attributes as comma-separated list.
 //     * @return The newly created graph edge.
 //     */
-//    
+//
 //
 //    /**
 //     * Creates the label for a node. This label is used in the graph to give the
 //     * node a more descriptive text.
-//     * 
+//     *
 //     * @param object The Schema object to create the label for.
 //     * @return The node's new label.
 //     */
@@ -350,7 +350,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
 //
 //    /**
 //     * Creates the label for an element node.
-//     * 
+//     *
 //     * @param e The Schema element to create a label for.
 //     * @return The element node's new label.
 //     */
@@ -360,7 +360,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
 //
 //    /**
 //     * Creates the label for a simple type node.
-//     * 
+//     *
 //     * @param type The Schema simple type to create the label for.
 //     * @return The type node's new label.
 //     */
@@ -376,7 +376,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
 //
 //    /**
 //     * Creates the label for a complex type node.
-//     * 
+//     *
 //     * @param type The Schema complex type to create the label for.
 //     * @return The type node's new label.
 //     */
