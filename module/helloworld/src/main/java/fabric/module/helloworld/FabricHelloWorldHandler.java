@@ -26,13 +26,7 @@ package fabric.module.helloworld;
 import java.util.Properties;
 
 import de.uniluebeck.sourcegen.Workspace;
-import de.uniluebeck.sourcegen.java.JClass;
-import de.uniluebeck.sourcegen.java.JMethod;
-import de.uniluebeck.sourcegen.java.JMethodCommentImpl;
-import de.uniluebeck.sourcegen.java.JMethodSignature;
-import de.uniluebeck.sourcegen.java.JModifier;
-import de.uniluebeck.sourcegen.java.JParameter;
-import de.uniluebeck.sourcegen.java.JSourceFileImpl;
+import de.uniluebeck.sourcegen.java.*;
 import fabric.module.api.FabricDefaultHandler;
 import fabric.wsdlschemaparser.schema.FComplexType;
 import fabric.wsdlschemaparser.schema.FElement;
@@ -193,8 +187,30 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
       JClass jc = JClass.factory.create(JModifier.PUBLIC, "HelloWorld");
       jc.add(jm);
       this.helloWorldSource.add(jc);
-      this.helloWorldSource.addImport("java.io.*");
     }
+
+    /**
+     * This method creates a simple Java class for testing
+     * the support of annotations and writes it to the Java
+     * workspace of Fabric.
+     *
+     * @throws Exception Error during code generation
+     */
+/*    private void createAnnotationTestFile() throws Exception {
+      JMethodSignature jms = JMethodSignature.factory.create(JParameter.factory.create("String[]", "args"));
+      JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, "void", "main", jms);
+      jm.getBody().appendSource("System.out.println(\"Dies ist ein Test!\");");
+      jm.setComment(new JMethodCommentImpl("Dies ist eine Methode mit Annotationen."));
+      jm.addAnnotation(new JMethodAnnotationImpl("SuppressWarnings(\"unchecked\")"));
+      jm.addAnnotation(new JMethodAnnotationImpl("Deprecated"));
+      JField jf = JField.factory.create(JModifier.PUBLIC, "String", "attribute");
+      jf.addAnnotation(new JFieldAnnotationImpl("Attribute"));
+      JClass jc = JClass.factory.create(JModifier.PUBLIC, "AnnotationTest");
+      jc.add(jm);
+      jc.add(jf);
+      jc.addAnnotation(new JClassAnnotationImpl("Override"));
+      this.helloWorldSource.add(jc);
+    }*/
 
     /**
      * This method is run only once (hopefully).
@@ -207,6 +223,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
     public void startSchema(FSchema schema) throws Exception {
       // Generate Hello World! application
       this.createHelloWorldFile();
+      // this.createAnnotationTestFile();
     }
 
     @Override

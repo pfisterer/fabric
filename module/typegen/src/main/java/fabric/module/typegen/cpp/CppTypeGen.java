@@ -1,33 +1,44 @@
 package fabric.module.typegen.cpp;
 
-import de.uniluebeck.sourcegen.c.CppClass;
+import de.uniluebeck.sourcegen.Workspace;
 import fabric.module.typegen.MapperFactory;
 import fabric.module.typegen.base.TypeGen;
-import fabric.wsdlschemaparser.schema.FSchemaType;
+import fabric.wsdlschemaparser.schema.FComplexType;
+import fabric.wsdlschemaparser.schema.FElement;
+import fabric.wsdlschemaparser.schema.FSimpleType;
 
 /**
  * Type generator for C++.
  *
  * @author seidel
  */
-public class CppTypeGen implements TypeGen
-{
-  /** MapperFactory to create CppMapper object */
-  private MapperFactory mapperFactory;
+public class CppTypeGen implements TypeGen {
+    /**
+     * MapperFactory to create CppMapper object
+     */
+    private MapperFactory mapperFactory;
 
-  /**
-   * This method parses an FSchemaType object and generates
-   * a corresponding CppClass object.
-   *
-   * @param type FSchemaType object
-   *
-   * @return CppClass object for FSchemaType object
-   */
-  @Override
-  public CppClass parseType(FSchemaType type)
-  {
-    // TODO Implement method and return correct object
+    @Override public void generateRootContainer() {
 
-    return null;
-  }
+    }
+
+    @Override public void generateSourceFiles(Workspace workspace) {
+
+    }
+
+    @Override public void addSimpleType(FSimpleType type, FElement parent) {
+
+    }
+
+    @Override public void generateNewContainer(FComplexType type) {
+
+    }
+
+    @Override public void generateNewClass() throws Exception {
+
+    }
+
+    @Override public void generateNewExtendedClass(String name) throws Exception {
+
+    }
 }
