@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import java.util.IllegalFormatException;
 import fabric.module.typegen.exceptions.UnsupportedXMLFrameworkException;
 
 /**
@@ -87,7 +88,7 @@ public class AnnotationMapper
     {
       throw new UnsupportedXMLFrameworkException(String.format("Unsupported XML framework '%s' requested.", usedFramework));
     }
-    
+
     this.usedFramework = usedFramework;
     this.usedImports = new ArrayList<String>();
   }
@@ -137,7 +138,7 @@ public class AnnotationMapper
     annotations.put("attribute", "Attribute");
     annotations.put("element", "Element");
     annotations.put("elementArray", "ElementArray");
-    
+
     return new AnnotationMapper.XMLFramework("Simple", imports, annotations);
   }
 
@@ -150,18 +151,17 @@ public class AnnotationMapper
    */
   private static AnnotationMapper.XMLFramework initXStreamFramework()
   {
-    // TODO: Add mapping for XStream library
     HashMap<String, String> imports = new HashMap<String, String>();
-    imports.put("root", "");
-    imports.put("attribute", "");
-    imports.put("element", "");
-    imports.put("elementArray", "");
+    imports.put("root", "com.thoughtworks.xstream.annotations.XStreamAlias");
+    imports.put("attribute", "com.thoughtworks.xstream.annotations.XStreamAsAttribute");
+    imports.put("element", "com.thoughtworks.xstream.annotations.XStreamAlias");
+    imports.put("elementArray", "com.thoughtworks.xstream.annotations.XStreamImplicit");
 
     HashMap<String, String> annotations = new HashMap<String, String>();
     annotations.put("root", "XStreamAlias(\"%s\")");
     annotations.put("attribute", "XStreamAsAttribute");
-    annotations.put("element", "");
-    annotations.put("elementArray", "");
+    annotations.put("element", "XStreamAlias(\"%s\")");
+    annotations.put("elementArray", "XStreamImplicit(itemFieldName=\"%s\")");
 
     return new AnnotationMapper.XMLFramework("XStream", imports, annotations);
   }
@@ -175,18 +175,17 @@ public class AnnotationMapper
    */
   private static AnnotationMapper.XMLFramework initJAXBFramework()
   {
-    // TODO: Add mapping for JAXB library
     HashMap<String, String> imports = new HashMap<String, String>();
-    imports.put("root", "");
-    imports.put("attribute", "");
-    imports.put("element", "");
-    imports.put("elementArray", "");
+    imports.put("root", "javax.xml.bind.annotation.XmlRootElement");
+    imports.put("attribute", "javax.xml.bind.annotation.XmlAttribute");
+    imports.put("element", "javax.xml.bind.annotation.XmlElement");
+    imports.put("elementArray", "javax.xml.bind.annotation.XmlList");
 
     HashMap<String, String> annotations = new HashMap<String, String>();
-    annotations.put("root", "");
-    annotations.put("attribute", "");
-    annotations.put("element", "");
-    annotations.put("elementArray", "");
+    annotations.put("root", "XmlRootElement(name = \"%s\")");
+    annotations.put("attribute", "XmlAttribute");
+    annotations.put("element", "XmlElement");
+    annotations.put("elementArray", "XmlList");
 
     return new AnnotationMapper.XMLFramework("JAXB", imports, annotations);
   }
@@ -212,13 +211,13 @@ public class AnnotationMapper
   }
 
   /**
-   * Lookup framework-specific Java annotation for the given, general
+   * Look-up framework-specific Java annotation for the given, general
    * annotation key. Valid keys are for example "root", "attribute",
    * "element" and "elementArray" (others may follow).
    *
-   * @param key General key for annotation lookup
+   * @param key General key for annotation look-up
    *
-   * @return Framework-specific Java annotation
+   * @return Framework-specific Java annotation or null
    */
   public String getAnnotation(final String key)
   {
@@ -230,6 +229,39 @@ public class AnnotationMapper
     if (null != annotation && !this.usedImports.contains(requiredImport))
     {
       this.usedImports.add(requiredImport);
+    }
+
+    return annotation;
+  }
+
+  /**
+   * Look-up frameworks-pecific Java annotations for the given, general
+   * annotation key. The second parameter can be used to pass a variable
+   * amount of arguments to replace placeholders in the annotation
+   * pattern (e.g. "%s" in "Root(name = "%s")").
+   *
+   * The method will try to replace as many placeholders as possible.
+   * However, if an error occurs, the function will return the pattern
+   * without replacing any placeholders.
+   *
+   * @param key General key for annotation look-up
+   * @param arguments Arguments to replace placeholders
+   *
+   * @return Framework-specific Java annotation or null
+   */
+  public String getAnnotation(final String key, final String... arguments)
+  {
+    String annotation = this.getAnnotation(key);
+    
+    // Try to replace any placeholder...
+    try
+    {
+      annotation = String.format(annotation, (Object[])arguments);
+    }
+    // ... and return raw pattern in case of error
+    catch (IllegalFormatException e)
+    {
+      // Exception ignored intentionally
     }
 
     return annotation;

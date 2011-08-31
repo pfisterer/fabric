@@ -123,7 +123,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     jc.setComment(new JClassCommentImpl("The '" + container.getName() + "' container class."));
 
     // Annotation pattern e.g. @Root(name = "value") or @XStreamAlias("value")
-    String annotation = String.format(this.xmlMapper.getAnnotation("root"), this.firstLetterCapital(container.getName()));
+    String annotation = this.xmlMapper.getAnnotation("root", this.firstLetterCapital(container.getName()));
     jc.addAnnotation(new JClassAnnotationImpl(annotation));
 
     // Process all members
@@ -204,7 +204,10 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       }
 
       jf.setComment(new JFieldCommentImpl("The '" + a.name + "' attribute."));
-      jf.addAnnotation(new JFieldAnnotationImpl(this.xmlMapper.getAnnotation("attribute")));
+
+      // Annotation pattern e.g. @Attribute or @XStreamAsAttribute
+      String annotation = this.xmlMapper.getAnnotation("attribute", a.name);
+      jf.addAnnotation(new JFieldAnnotationImpl(annotation));
     }
 
     /*****************************************************************
@@ -233,7 +236,10 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       }
 
       jf.setComment(new JFieldCommentImpl("The '" + a.name + "' element."));
-      jf.addAnnotation(new JFieldAnnotationImpl(this.xmlMapper.getAnnotation("element")));
+
+      // Annotation pattern e.g. @Element or @XStreamAlias("value")
+      String annotation = this.xmlMapper.getAnnotation("element", a.name);
+      jf.addAnnotation(new JFieldAnnotationImpl(annotation));
     }
 
     /*****************************************************************
@@ -255,7 +261,10 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       }
 
       jf.setComment(new JFieldCommentImpl("The '" + a.name + "' element array."));
-      jf.addAnnotation(new JFieldAnnotationImpl(this.xmlMapper.getAnnotation("elementArray")));
+
+      // Annotation pattern e.g. @ElementArray or @XStreamImplicit(itemFieldName="value")
+      String annotation = this.xmlMapper.getAnnotation("elementArray", a.name);
+      jf.addAnnotation(new JFieldAnnotationImpl(annotation));
     }
 
     /*****************************************************************

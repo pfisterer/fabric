@@ -41,7 +41,7 @@ public class AttributeContainerTest
 
     // Check toBuilder()
     assertNotNull("Builder created from container must not be null.", carContainer.toBuilder());
-    
+
     // Check getName() from container
     assertEquals("Container name must match initial value.", CONTAINER_NAME, carContainer.getName());
   }
@@ -88,7 +88,7 @@ public class AttributeContainerTest
    */
   @Test(timeout = 1000)
   public void testBuilderAttributes()
-  {    
+  {
     // Create builder
     AttributeContainer.Builder testBuilder = AttributeContainer.newBuilder();
 
