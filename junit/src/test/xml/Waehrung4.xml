@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- This is mainly an enumeration XSD document including date time objects and decimals -->
-<Waehrung>
-	<Datum>2003-01-01T12:25:00</Datum>
-	<Waehrungscode>EUR</Waehrungscode>
-	<Waehrungsname>Euro</Waehrungsname>
-	<Wert>1.234</Wert>
-</Waehrung>

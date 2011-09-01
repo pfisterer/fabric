@@ -1,3 +1,4 @@
+/** 02.09.2011 01:31:25 */
 package fabric.module.typegen;
 
 import java.util.Map;
@@ -29,11 +30,11 @@ import fabric.module.typegen.base.ClassGenerationStrategy;
  *                             .addElementArray("String", "trunkItems")
  *                             .addElementArray("String", "passengers", 2)
  *                             .build();
- * 
+ *
  * @author seidel
  */
 public class AttributeContainer
-{ 
+{
   /*****************************************************************
    * Builder inner class
    *****************************************************************/
@@ -273,11 +274,11 @@ public class AttributeContainer
     /**
      * Add XML element to container. Initial value can be predefined.
      * Existing entries will be overridden by new element definition.
-     * 
+     *
      * @param type Type of member variable
      * @param name Name of member variable
      * @param value Initial value of member variable
-     * 
+     *
      * @return Builder object
      */
     public Builder addElement(final String type, final String name, final String value)
@@ -340,7 +341,7 @@ public class AttributeContainer
     public Builder addElementArray(final String type, final String name)
     {
       this.members.put(name, new AttributeContainer.ElementArray(type, name));
-      
+
       return this;
     }
 
@@ -363,7 +364,7 @@ public class AttributeContainer
   /*****************************************************************
    * MemberVariable internal classes
    *****************************************************************/
-  
+
   public static abstract class MemberVariable
   {
     /** Type of member variable */
@@ -411,7 +412,7 @@ public class AttributeContainer
 
     /**
      * Parameterized constructor.
-     * 
+     *
      * @param type Type of XML element
      * @param name Name of XML element
      * @param value Initial value of XML element
@@ -453,7 +454,7 @@ public class AttributeContainer
       this.name = name;
       this.size = size;
     }
-    
+
     /**
      * Parameterized constructor.
      *
@@ -463,7 +464,7 @@ public class AttributeContainer
     public ElementArray(final String type, final String name)
     {
       this(type, name, Integer.MAX_VALUE);
-    }    
+    }
   }
 
   /*****************************************************************
@@ -499,7 +500,7 @@ public class AttributeContainer
   {
     return AttributeContainer.DEFAULT_CONTAINER_NAME;
   }
-  
+
   /**
    * Return default AttributeContainer instance.
    *
@@ -556,18 +557,18 @@ public class AttributeContainer
    * Return content of AttributeContainer as class object. Return value
    * is of type WorkspaceElement and should be casted before further use
    * (e.g. to JClass or CppClass, depending on ClassGenerationStrategy).
-   * 
+   *
    * @param strategy Strategy object for external class generation
-   * 
+   *
    * @return Class object (as WorkspaceElement)
-   * 
+   *
    * @throws Exception Error during class object creation
    */
   public WorkspaceElement asClassObject(ClassGenerationStrategy strategy) throws Exception
   {
     return strategy.generateClassObject(this);
   }
-  
+
   /**
    * Get the name of the container class.
    *

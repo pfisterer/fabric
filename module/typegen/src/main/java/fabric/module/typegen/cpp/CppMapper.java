@@ -17,7 +17,7 @@ public class CppMapper extends Mapper
   @Override
   public void createMapping()
   {
-    // TODO Add missing datatype mappings for C++
+    // TODO: Add missing datatype mappings for C++
 
     types.put("FBoolean", "bool");
     types.put("FFloat", "float");
@@ -27,11 +27,11 @@ public class CppMapper extends Mapper
     types.put("FShort", "short");
     types.put("FUnsignedShort", "int");
     types.put("FInt", "int");
-    // types.put("FPositiveInteger(),	"java.math.BigInteger");
+    // types.put("FPositiveInteger, "java.math.BigInteger");
     types.put("FUnsignedInt", "long");
     types.put("FLong", "long");
-    // types.put("FUnsignedLong(),		"java.math.BigDecimal");
-    // types.put("FDecimal(),			"java.math.BigDecimal");
+    // types.put("FUnsignedLong, "java.math.BigDecimal");
+    // types.put("FDecimal, "java.math.BigDecimal");
     /*
     types.put("FString", "String");
     types.put("FHexBinary", "byte[]");

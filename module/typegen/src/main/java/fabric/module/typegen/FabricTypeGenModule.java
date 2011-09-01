@@ -105,7 +105,7 @@ public class FabricTypeGenModule implements FabricModule
    * time, however, the Java properties file from the command line is
    * not yet processed. This is why this method must not be called in
    * the module's constructor, but in the getHandler() method.
-   * 
+   *
    * @throws Exception Error during validation
    */
   private void validateProperties() throws Exception
