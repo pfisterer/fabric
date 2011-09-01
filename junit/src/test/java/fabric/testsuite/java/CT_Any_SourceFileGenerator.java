@@ -1,5 +1,7 @@
 package fabric.testsuite.java;
 
+import de.uniluebeck.sourcegen.java.JClass;
+import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 /**
@@ -14,10 +16,24 @@ public class CT_Any_SourceFileGenerator extends JSourceFileGenerator {
         super(strategy);
     }
 
-    /**
-     * Generates the JComplexType objects corresponding to the test XSD.
-     */
     @Override void generateClasses() throws Exception {
-        // TODO: Implement me!
+        /*
+        PersonType
+         */
+        types.add((JClass) AttributeContainer.newBuilder()
+                .setName("CarType")
+                .addElement("int", "HorsePower")
+                .addElement("String", "LicenseNumber")
+                .addElement("javax.xml.datatype.XMLGregorianCalendar", "ProductionYear")
+                .build()
+                .asClassObject(strategy));
+        /*
+        Root
+         */
+        types.add((JClass) AttributeContainer.newBuilder()
+                .setName(ROOT)
+                .addElement("CarType", "Car")
+                .build()
+                .asClassObject(strategy));
     }
 }

@@ -29,17 +29,17 @@ public class CppMapper extends Mapper
   {
     // TODO Add missing datatype mappings for C++
 
-    types.put(new FBoolean(), "bool");
-    types.put(new FFloat(), "float");
-    types.put(new FDouble(), "double");
-    types.put(new FByte(), "byte");
-    types.put(new FUnsignedByte(), "short");
-    types.put(new FShort(), "short");
-    types.put(new FUnsignedShort(), "int");
-    types.put(new FInt(), "int");
-    // types.put(new FPositiveInteger(),	"java.math.BigInteger");
-    types.put(new FUnsignedInt(), "long");
-    types.put(new FLong(), "long");
+//    types.put(new FBoolean(), "bool");
+//    types.put(new FFloat(), "float");
+//    types.put(new FDouble(), "double");
+//    types.put(new FByte(), "byte");
+//    types.put(new FUnsignedByte(), "short");
+//    types.put(new FShort(), "short");
+//    types.put(new FUnsignedShort(), "int");
+//    types.put(new FInt(), "int");
+//    // types.put(new FPositiveInteger(),	"java.math.BigInteger");
+//    types.put(new FUnsignedInt(), "long");
+//    types.put(new FLong(), "long");
     // types.put(new FUnsignedLong(),		"java.math.BigDecimal");
     // types.put(new FDecimal(),			"java.math.BigDecimal");
     /*

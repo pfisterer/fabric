@@ -1,31 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	<xs:element name="BooleanValue" type="xs:boolean"/>
-	<xs:element name="FloatValue" type="xs:float"/>
-	<xs:element name="DoubleValue" type="xs:double"/>
-	<xs:element name="ByteValue" type="xs:byte"/>
-	<xs:element name="UnsignedByteValue" type="xs:unsignedByte"/>
-	<xs:element name="ShortValue" type="xs:short"/>
-	<xs:element name="UnsignedShortValue" type="xs:unsignedShort"/>
-	<xs:element name="IntValue" type="xs:int"/>
-	<xs:element name="PositiveIntValue" type="xs:positiveInt"/>
-	<xs:element name="UnsignedIntValue" type="xs:unsignedInt"/>
-	<xs:element name="LongValue" type="xs:long"/>
-	<xs:element name="UnsignedLongValue" type="xs:unsignedLong"/>
-	<xs:element name="DecimalValue" type="xs:decimal"/>
-	<xs:element name="StringValue" type="xs:string"/>
-	<xs:element name="HexBinaryValue" type="xs:hexBinary"/>
-	<xs:element name="Base64BinaryValue" type="xs:base64Binary"/>
-	<xs:element name="DateTimeValue" type="xs:dateTime"/>
-	<xs:element name="TimeValue" type="xs:time"/>
-	<xs:element name="DateValue" type="xs:date"/>
-	<xs:element name="DayValue" type="xs:gDay"/>
-	<xs:element name="MonthValue" type="xs:gMonth"/>
-	<xs:element name="MonthDayValue" type="xs:gMonthDay"/>
-	<xs:element name="YearValue" type="xs:gYear"/>
-	<xs:element name="YearMonthValue" type="xs:gYearMonth"/>
-	<xs:element name="DurationValue" type="xs:duration"/>
-	<xs:element name="NOTATIONValue" type="xs:NOTATION"/>
-	<xs:element name="QNameValue" type="xs:QName"/>
-	<xs:element name="AnyURIValue" type="xs:anyURI"/>
+    <xs:element name="BooleanValue" type="xs:boolean"/>
+    <xs:element name="FloatValue" type="xs:float"/>
+    <xs:element name="DoubleValue" type="xs:double"/>
+    <xs:element name="ByteValue" type="xs:byte"/>
+    <xs:element name="UnsignedByteValue" type="xs:unsignedByte"/>
+    <xs:element name="ShortValue" type="xs:short"/>
+    <xs:element name="UnsignedShortValue" type="xs:unsignedShort"/>
+    <xs:element name="IntValue" type="xs:int"/>
+    <xs:element name="PositiveIntValue" type="xs:positiveInteger"/>
+    <xs:element name="UnsignedIntValue" type="xs:unsignedInt"/>
+    <xs:element name="LongValue" type="xs:long"/>
+    <xs:element name="UnsignedLongValue" type="xs:unsignedLong"/>
+    <xs:element name="DecimalValue" type="xs:decimal"/>
+    <xs:element name="StringValue" type="xs:string"/>
+    <xs:element name="HexBinaryValue" type="xs:hexBinary"/>
+    <xs:element name="Base64BinaryValue" type="xs:base64Binary"/>
+    <xs:element name="DateTimeValue" type="xs:dateTime"/>
+    <xs:element name="TimeValue" type="xs:time"/>
+    <xs:element name="DateValue" type="xs:date"/>
+    <xs:element name="DayValue" type="xs:gDay"/>
+    <xs:element name="MonthValue" type="xs:gMonth"/>
+    <xs:element name="MonthDayValue" type="xs:gMonthDay"/>
+    <xs:element name="YearValue" type="xs:gYear"/>
+    <xs:element name="YearMonthValue" type="xs:gYearMonth"/>
+    <xs:element name="DurationValue" type="xs:duration"/>
+    <xs:element name="NOTATIONValue" type="xs:NOTATION"/>
+    <xs:element name="QNameValue" type="xs:QName"/>
+    <xs:element name="AnyURIValue" type="xs:anyURI"/>
+    <xs:element name="IntegerValue" type="xs:integer"/>
+    <xs:element name="NameValue" type="xs:Name"/>
+    <xs:element name="NCNameValue" type="xs:NCName"/>
+    <xs:element name="NegativeIntegerValue" type="xs:negativeInteger"/>
+    <xs:element name="NMTOKENValue" type="xs:NMTOKEN"/>
+    <xs:element name="NonNegativeIntegerValue" type="xs:nonNegativeInteger"/>
+    <xs:element name="NonPositiveIntegerValue" type="xs:nonPositiveInteger"/>
+    <xs:element name="Norma"
+
+
+        types.put("FNMTOKEN", "String");
+        types.put("FNonNegativeInteger", "java.math.BigDecimal");
+        types.put("FNonPositiveInteger", "java.math.BigDecimal");
+        types.put("FNormalizedString", "String");
+        types.put("FToken", "String");
 </xs:schema>
