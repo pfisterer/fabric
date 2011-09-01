@@ -5,7 +5,7 @@ import fabric.module.typegen.java.JavaClassGenerationStrategy;
 import fabric.testsuite.java.*;
 import junit.framework.TestCase;
 import de.uniluebeck.sourcegen.Workspace;
-import fabric.Main;
+//import fabric.Main;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -91,10 +91,6 @@
 			<groupId>de.uniluebeck.itm</groupId>
 			<artifactId>fabric.module.cpp</artifactId>
 		</dependency>
-    <dependency>
-			<groupId>de.uniluebeck.itm</groupId>
-			<artifactId>fabric.junit</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>com.google.guava</groupId>

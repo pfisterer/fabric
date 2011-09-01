@@ -1,6 +1,8 @@
 package fabric.module.typegen.base;
 
 import java.util.HashMap;
+
+import fabric.wsdlschemaparser.schema.FSchemaType;
 import fabric.wsdlschemaparser.schema.FSimpleType;
 
 /**
@@ -24,14 +26,14 @@ abstract public class Mapper {
     }
 
     /**
-     * Look up the language-specific representation of an FSimpleType object.
+     * Look up the language-specific representation of an FSchemaType object.
      *
-     * @param type FSimpleType object for lookup
+     * @param type FSchemaType object for lookup
      * @return String with the name of the corresponding
      *         language-specific datatype
      * @throws IllegalArgumentException No matching mapping found
      */
-    public String lookup(FSimpleType type) throws IllegalArgumentException {
+    public String lookup(FSchemaType type) throws IllegalArgumentException {
         String className = type.getClass().getCanonicalName();
         if (types.containsKey(className)) {
             return types.get(className);
