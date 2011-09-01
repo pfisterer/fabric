@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Car" type="CarType"/>
+	
+	<xs:complexType name="CarType">
+		<xs:sequence>
+			<xs:element name="HorsePower" type="xs:int"/>
+			<xs:element name="LicenseNumber" type="xs:string"/>
+			<xs:element name="ProductionYear" type="xs:gYear"/>
+			<xs:any minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

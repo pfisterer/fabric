@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Digit" type="DigitType"/>
+	<xs:element name="PositiveDigit" type="PositiveDigitType"/>
+
+	<xs:simpleType name="DigitType">
+	    <xs:restriction base="xs:int">
+	    	<xs:minInclusive value="0"/>
+            <xs:maxInclusive value="9"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="PositiveDigitType">
+	    <xs:restriction base="xs:int">
+	    	<xs:minExclusive value="0"/>
+            <xs:maxExclusive value="10"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
