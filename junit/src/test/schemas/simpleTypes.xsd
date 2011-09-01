@@ -35,12 +35,6 @@
     <xs:element name="NMTOKENValue" type="xs:NMTOKEN"/>
     <xs:element name="NonNegativeIntegerValue" type="xs:nonNegativeInteger"/>
     <xs:element name="NonPositiveIntegerValue" type="xs:nonPositiveInteger"/>
-    <xs:element name="Norma"
-
-
-        types.put("FNMTOKEN", "String");
-        types.put("FNonNegativeInteger", "java.math.BigDecimal");
-        types.put("FNonPositiveInteger", "java.math.BigDecimal");
-        types.put("FNormalizedString", "String");
-        types.put("FToken", "String");
+    <xs:element name="NormalizedStringValue" type="xs:normalizedString"/>
+    <xs:element name="TokenValue" type="xs:token"/>
 </xs:schema>
