@@ -1,5 +1,7 @@
 package classes.java;
 
+import de.uniluebeck.sourcegen.java.JClass;
+import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 /**
@@ -18,6 +20,21 @@ public class CT_SimpleContent_SourceFileGenerator extends JSourceFileGenerator {
      * Generates the JComplexType objects corresponding to the test XSD.
      */
     @Override void generateClasses() throws Exception {
-        // TODO: Implement me!
+
+        JClass shoeType = ((JClass) AttributeContainer.newBuilder()
+            .setName("ShoeType")
+            .addElement("int", "this_name_should_be_removed")   // TODO remove name
+            .addAttribute("String", "Country")
+            .build()
+            .asClassObject(strategy));
+
+
+        JClass root = ((JClass) AttributeContainer.newBuilder()
+            .setName(ROOT)
+            .addElement("ShoeType", "Shoe")
+            .build()
+            .asClassObject(strategy));
+
+        types.add(root);
     }
 }

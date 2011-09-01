@@ -18,8 +18,8 @@ public class CT_Any_SourceFileGenerator extends JSourceFileGenerator {
 
     @Override void generateClasses() throws Exception {
         /*
-        PersonType
-         */
+               * PersonType
+               */
         types.add((JClass) AttributeContainer.newBuilder()
                 .setName("CarType")
                 .addElement("int", "HorsePower")
@@ -28,9 +28,10 @@ public class CT_Any_SourceFileGenerator extends JSourceFileGenerator {
                 .addElement("String", "anyElement")
                 .build()
                 .asClassObject(strategy));
+
         /*
-        Root
-         */
+               * Root
+               */
         types.add((JClass) AttributeContainer.newBuilder()
                 .setName(ROOT)
                 .addElement("CarType", "Car")
