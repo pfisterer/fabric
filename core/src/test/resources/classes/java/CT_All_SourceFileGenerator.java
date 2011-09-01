@@ -16,8 +16,7 @@ public class CT_All_SourceFileGenerator extends JSourceFileGenerator {
         super(strategy);
     }
 
-    @Override
-    void generateClasses() throws Exception {
+    @Override void generateClasses() throws Exception {
         /*
                  PersonType
              */

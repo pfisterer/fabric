@@ -50,6 +50,15 @@ public class ST_SourceFileGenerator extends JSourceFileGenerator {
                 .addElement("javax.xml.datatype.QName", "NOTATIONValue")
                 .addElement("javax.xml.namespace.QName", "QNameValue")
                 .addElement("String", "AnyURIValue")
+                .addElement("java.math.BigDecimal", "IntegerValue")
+                .addElement("String", "NameValue")
+                .addElement("String", "NCNameValue")
+                .addElement("java.math.BigDecimal", "NegativeIntegerValue")
+                .addElement("String", "NMTOKENValue")
+                .addElement("java.math.BigDecimal", "NonNegativeIntegerValue")
+                .addElement("java.math.BigDecimal", "NonPositiveIntegerValue")
+                .addElement("String", "NormalizedStringValue")
+                .addElement("String", "TokenValue")
                 .build()
                 .asClassObject(strategy));
     }

@@ -9,6 +9,8 @@ import java.util.List;
 public interface SourceFileGenerator {
     /**
      * Name of the root class
+     *
+     * TODO: Change name corresponding to the value in the properties file!
      */
     public static final String ROOT = "Main";
 
