@@ -1,19 +1,18 @@
 package fabric.module.typegen.base;
 
 import java.util.HashMap;
-import fabric.wsdlschemaparser.schema.FSchemaType;
 
 /**
  * Abstract base class for all language mapper implementations.
  * This class defines various methods, which are being used for
- * mapping creation and datatype lookup.
+ * mapping creation and datatype look-up.
  *
  * @author seidel
  */
 abstract public class Mapper
 {
-  /** Mapping between XSD build-in datatypes and language-specific ones */
-  protected HashMap<FSchemaType, String> types = new HashMap<FSchemaType, String>();
+  /** Mapping between Fabric's XSD built-in datatypes and language-specific ones */
+  protected HashMap<String, String> types = new HashMap<String, String>();
 
   /**
    * Constructor initializes the internal datatype mapping.
@@ -24,23 +23,22 @@ abstract public class Mapper
   }
 
   /**
-   * Look up the language-specific representation of an FSchemaType object.
+   * Look-up the language-specific representation of an XSD built-in type.
    *
-   * @param type FSchemaType object for lookup
+   * @param type Fabric's type name for look-up
    *
-   * @return String with the name of the corresponding
-   * language-specific datatype
+   * @return String with the name of the corresponding language-specific datatype
    *
    * @throws IllegalArgumentException No matching mapping found
    */
-  public String lookup(FSchemaType type) throws IllegalArgumentException
+  public String lookup(String type) throws IllegalArgumentException
   {
     if (types.containsKey(type))
     {
       return types.get(type);
     }
 
-    throw new IllegalArgumentException(String.format("No mapping found for datatype '%s'.", type.getName()));
+    throw new IllegalArgumentException(String.format("No mapping found for datatype '%s'.", type));
   }
 
   /**
