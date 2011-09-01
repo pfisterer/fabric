@@ -113,7 +113,7 @@ public class FabricDefaultHandler implements FabricSchemaTreeItemHandler {
     }
 
     @Override
-    public void endTopLevelComplexType(FComplexType type, FElement parent) throws Exception {
+    public void endTopLevelComplexType(FComplexType type, FElement parent) {
         // doesn't do anything
     }
 
@@ -123,7 +123,7 @@ public class FabricDefaultHandler implements FabricSchemaTreeItemHandler {
     }
 
     @Override
-    public void endLocalComplexType(FComplexType type, FElement parent) throws Exception {
+    public void endLocalComplexType(FComplexType type, FElement parent) {
         // doesn't do anything
     }
 }

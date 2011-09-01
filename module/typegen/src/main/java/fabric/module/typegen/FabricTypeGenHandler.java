@@ -37,10 +37,10 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
     public FabricTypeGenHandler(Workspace workspace, Properties properties) {
         try {
             // TODO: Hier muss auf die Properties zugegriffen werden!
-            typeGen = TypeGenFactory.getInstance().createTypeGen("JavaTypeGen");
+            typeGen = TypeGenFactory.getInstance().createTypeGen("fabric.module.typegen.java.JavaTypeGen");
             this.workspace = workspace;
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO: Remove this!
         }
     }
 
@@ -99,20 +99,27 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
     }
 
     @Override
-    public void endTopLevelComplexType(FComplexType type, FElement parent) throws Exception {
-        /*
-        Check for xs:simpleContent with xs:restriction
-         */
-        if (type.isSimpleContent() && type.getRestrictions().getCount() > 0) {
-            typeGen.generateNewExtendedClass(((FSimpleType) type.getChildObjects().get(0)).getName());
-        } else {
-            typeGen.generateNewClass();
-        }
+    public void endTopLevelComplexType(FComplexType type, FElement parent) {
 
-        /*
-        Check for xs:complexContent
-         */
-        // TODO: in Fabric not supported yet!
+      try {
+          /*
+          Check for xs:simpleContent with xs:restriction
+           */
+          if (type.isSimpleContent() && type.getRestrictions().getCount() > 0) {
+              typeGen.generateNewExtendedClass(((FSimpleType) type.getChildObjects().get(0)).getName());
+          } else {
+              typeGen.generateNewClass();
+          }
+
+          /*
+          Check for xs:complexContent
+           */
+          // TODO: in Fabric not supported yet!
+      }
+      catch (Exception e)
+      {
+        // TODO: Log exception
+      }
     }
 
     @Override
@@ -136,17 +143,24 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
     }
 
     @Override
-    public void endLocalComplexType(FComplexType type, FElement parent) throws Exception {
+    public void endLocalComplexType(FComplexType type, FElement parent) {
         // TODO: Soll es in den Klassen einen Unterschied zwischen lokalen und globalen ComplexTypes geben?
-        /*
-        Check for xs:simpleContent with xs:restriction
-         */
-        if (type.isSimpleContent() && type.getRestrictions().getCount() > 0) {
-            typeGen.generateNewExtendedClass(((FSimpleType) type.getChildObjects().get(0)).getName());
-        } else {
-            typeGen.generateNewClass();
+        
+        try {
+          /*
+          Check for xs:simpleContent with xs:restriction
+           */
+          if (type.isSimpleContent() && type.getRestrictions().getCount() > 0) {
+              typeGen.generateNewExtendedClass(((FSimpleType) type.getChildObjects().get(0)).getName());
+          } else {
+              typeGen.generateNewClass();
+          }
         }
-
+        catch (Exception e)
+        {
+          // TODO: Log exception
+        }
+        
         /*
         Check for xs:complexContent
          */

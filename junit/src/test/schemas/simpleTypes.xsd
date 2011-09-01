@@ -8,7 +8,7 @@
 	<xs:element name="ShortValue" type="xs:short"/>
 	<xs:element name="UnsignedShortValue" type="xs:unsignedShort"/>
 	<xs:element name="IntValue" type="xs:int"/>
-	<xs:element name="PositiveIntValue" type="xs:positiveInt"/>
+	<xs:element name="PositiveIntValue" type="xs:positiveInteger"/>
 	<xs:element name="UnsignedIntValue" type="xs:unsignedInt"/>
 	<xs:element name="LongValue" type="xs:long"/>
 	<xs:element name="UnsignedLongValue" type="xs:unsignedLong"/>
