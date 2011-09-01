@@ -31,8 +31,8 @@ public class CT_Attributes_SourceFileGenerator extends JSourceFileGenerator {
                 .build()
                 .asClassObject(strategy));
         /*
-            Root
-             */
+               * Root
+               */
         types.add((JClass) AttributeContainer.newBuilder()
                 .setName(ROOT)
                 .addElement("CarType", "Car")

@@ -19,7 +19,8 @@ public class CT_InnerComplexType_SourceFileGenerator extends JSourceFileGenerato
     /**
      * Generates the JComplexType objects corresponding to the test XSD.
      */
-    @Override void generateClasses() throws Exception {
+    @Override
+    void generateClasses() throws Exception {
         /*
                * PersonType
                */
@@ -28,7 +29,7 @@ public class CT_InnerComplexType_SourceFileGenerator extends JSourceFileGenerato
             .addElement("int", "HorsePower")
             .addElement("String", "LicenseNumber")
             .addElement("javax.xml.datatype.XMLGregorianCalendar", "ProductionYear")
-            .addElement("Tank", "anyElement")
+            .addElement("notype", "Tank")
             .build()
             .asClassObject(strategy));
 
