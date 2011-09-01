@@ -8,22 +8,36 @@ import de.uniluebeck.sourcegen.Workspace;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
+import java.io.FileInputStream;
 import java.util.List;
 import java.util.Properties;
 
 public class MainTest {
     /**
-     * Parameters for using the Java Type-Generator in the test cases.
-     *
-     * TODO: Parameter anpassen!
+     * Path to resources folder
      */
-    public static final String USE_TYPE_GEN = "typegen java";
+    private static final String RESOURCES = "src/test/resources/";
+
+    /**
+     * Path to schemas folder
+     */
+    private static final String SCHEMAS = RESOURCES + "schemas/";
+
+    /**
+     * Properties file
+     */
+    private static final String PROPERTIES = RESOURCES + "javaTypeGen.properties";
+
+    /**
+     * Parameters for using the Type-Generator in the test cases.
+     */
+    private static final String USE_TYPE_GEN = "typegen";
 
     /**
      * File format endings of the test files.
      */
-    public static final String ENDING_XSD   = ".xsd";
-    public static final String ENDING_XML   = ".xml";
+    private static final String ENDING_XSD   = ".xsd";
+    private static final String ENDING_XML   = ".xml";
 
     /**
      * Names of the predefined test files without file format endings.
@@ -64,7 +78,10 @@ public class MainTest {
 
     @Before
     public void setUpWorkspace() throws Exception {
-        workspace = new Workspace(new Properties());
+        FileInputStream propInFile = new FileInputStream(PROPERTIES);
+        Properties properties = new Properties();
+        properties.load(propInFile);
+        workspace = new Workspace(properties);
         javaStrategy = new JavaClassGenerationStrategy();  // TODO: Annotation Mapper?
     }
 
@@ -261,7 +278,7 @@ public class MainTest {
      * @param xsd Name of the XSD file (without ending ".xsd")
      */
     private List<SourceFile> generateSourceFilesAutomatically(String xsd) {
-        String[] params = {"-x", xsd + ENDING_XSD, "-m", USE_TYPE_GEN};
+        String[] params = {"-x", SCHEMAS + xsd + ENDING_XSD, "-p", PROPERTIES, "-m", USE_TYPE_GEN, "-v"};
         Main.main(params);
         return workspace.getSourceFiles();
     }
