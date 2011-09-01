@@ -1,5 +1,7 @@
 package fabric.testsuite.java;
 
+import de.uniluebeck.sourcegen.java.JClass;
+import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 /**
@@ -18,6 +20,36 @@ public class CT_InnerComplexType_SourceFileGenerator extends JSourceFileGenerato
      * Generates the JComplexType objects corresponding to the test XSD.
      */
     @Override void generateClasses() throws Exception {
-        // TODO: Implement me!
+        /*
+               * PersonType
+               */
+        JClass carType = ((JClass) AttributeContainer.newBuilder()
+            .setName("CarType")
+            .addElement("int", "HorsePower")
+            .addElement("String", "LicenseNumber")
+            .addElement("javax.xml.datatype.XMLGregorianCalendar", "ProductionYear")
+            .addElement("Tank", "anyElement")
+            .build()
+            .asClassObject(strategy));
+
+        JClass tank = ((JClass) AttributeContainer.newBuilder()
+            .setName("Tank")
+            .addElement("long", "Capacity")
+            .addElement("String", "Material")
+            .build()
+            .asClassObject(strategy));
+
+        carType.add(tank);
+        types.add(carType);
+
+
+        /*
+               * Root
+               */
+        types.add((JClass) AttributeContainer.newBuilder()
+            .setName(ROOT)
+            .addElement("CarType", "Car")
+            .build()
+            .asClassObject(strategy));
     }
 }

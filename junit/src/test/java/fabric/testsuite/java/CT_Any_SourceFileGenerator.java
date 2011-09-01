@@ -25,6 +25,7 @@ public class CT_Any_SourceFileGenerator extends JSourceFileGenerator {
                 .addElement("int", "HorsePower")
                 .addElement("String", "LicenseNumber")
                 .addElement("javax.xml.datatype.XMLGregorianCalendar", "ProductionYear")
+                .addElement("String", "anyElement")
                 .build()
                 .asClassObject(strategy));
         /*
