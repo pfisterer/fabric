@@ -10,24 +10,25 @@ import fabric.module.typegen.java.JavaClassGenerationStrategy;
 public class CT_Attributes_SourceFileGenerator extends JSourceFileGenerator {
 
     /**
-     * Constructor
-     */
+        * Constructor
+        */
     public CT_Attributes_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
         super(strategy);
     }
 
     /**
-     * Generates the JComplexType objects corresponding to the test XSD.
-     */
-    @Override void generateClasses() throws Exception {
+        * Generates the JComplexType objects corresponding to the test XSD.
+        */
+    @Override
+    void generateClasses() throws Exception {
         /*
-                 PersonType
-             */
+               * CarType
+               */
         types.add((JClass) AttributeContainer.newBuilder()
                 .setName("CarType")
                 .addAttribute("long",   "Length")
-                .addAttribute("String", "LicenseNumber")
-                .addAttribute("String", "Name")
+                .addAttribute("String", "LicenseNumber")    // use="required"
+                .addAttribute("String", "Name")             // use="prohibited"
                 .build()
                 .asClassObject(strategy));
         /*
