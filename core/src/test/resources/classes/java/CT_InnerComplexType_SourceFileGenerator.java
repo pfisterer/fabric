@@ -17,8 +17,8 @@ public class CT_InnerComplexType_SourceFileGenerator extends JSourceFileGenerato
     }
 
     /**
-     * Generates the JComplexType objects corresponding to the test XSD.
-     */
+        * Generates the JComplexType objects corresponding to the test XSD.
+        */
     @Override
     void generateClasses() throws Exception {
         /*
@@ -29,7 +29,7 @@ public class CT_InnerComplexType_SourceFileGenerator extends JSourceFileGenerato
             .addElement("int", "HorsePower")
             .addElement("String", "LicenseNumber")
             .addElement("javax.xml.datatype.XMLGregorianCalendar", "ProductionYear")
-            .addElement("notype", "Tank")
+            .addElement("notype", "Tank")       // TODO Anonymous type doesn't have an identifier
             .build()
             .asClassObject(strategy));
 

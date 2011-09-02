@@ -17,21 +17,23 @@ public class CT_Choice_SourceFileGenerator extends JSourceFileGenerator {
     }
 
     /**
-     * Generates the JComplexType objects corresponding to the test XSD.
-     */
-    @Override void generateClasses() throws Exception {
+        * Generates the JComplexType objects corresponding to the test XSD.
+        */
+    @Override
+    void generateClasses() throws Exception {
         /*
-        MonthType
-         */
+               * MonthType
+               */
         types.add((JClass) AttributeContainer.newBuilder()
                 .setName("MonthType")
                 .addElement("int", "MonthInt")
                 .addElement("String", "MonthName")
                 .build()
                 .asClassObject(strategy));
+
         /*
-        Root
-         */
+               * Root
+               */
         types.add((JClass) AttributeContainer.newBuilder()
                 .setName(ROOT)
                 .addElement("MonthType", "Month")

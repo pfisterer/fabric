@@ -10,15 +10,15 @@ import fabric.module.typegen.java.JavaClassGenerationStrategy;
 public class CT_Ref_SourceFileGenerator extends JSourceFileGenerator {
 
     /**
-     * Constructor
-     */
+        * Constructor
+        */
     public CT_Ref_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
         super(strategy);
     }
 
     /**
-     * Generates the JComplexType objects corresponding to the test XSD.
-     */
+        * Generates the JComplexType objects corresponding to the test XSD.
+        */
     @Override void generateClasses() throws Exception {
         JClass root = ((JClass) AttributeContainer.newBuilder()
             .setName(ROOT)
