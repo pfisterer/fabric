@@ -26,14 +26,14 @@ public class FabricTypeGenModule implements FabricModule
   /** Key for target language in properties object */
   private static final String TARGET_LANGUAGE_KEY = "typegen.target_language";
 
-  /** Key for XML framework name in properties object */
-  private static final String XML_FRAMEWORK_KEY = "typegen.xml_framework";
-
   /** Key for main class name in properties object */
   private static final String MAIN_CLASS_NAME_KEY = "typegen.main_class_name";
 
+  /** Key for XML framework name in properties object */
+  private static final String XML_FRAMEWORK_KEY = "typegen.java.xml_framework";
+
   /** Key for main package name in properties object */
-  private static final String PACKAGE_NAME_KEY = "typegen.package_name";
+  private static final String PACKAGE_NAME_KEY = "typegen.java.package_name";
 
   /** Key for TypeGen factory name in properties object */
   private static final String FACTORY_NAME_KEY = "typegen.factory_name";
@@ -118,8 +118,8 @@ public class FabricTypeGenModule implements FabricModule
 
     // Check properties
     this.checkTargetLanguage();
-    this.checkXMLFramework();
     this.checkMainClassName();
+    this.checkXMLFramework();
     this.checkPackageName();
 
     // Print typegen properties for debug purposes
@@ -171,23 +171,6 @@ public class FabricTypeGenModule implements FabricModule
   }
 
   /**
-   * Check parameter for XML framework. This property is optional,
-   * because it only applies to the Java type generator. In case
-   * that no framework name is provided, the Simple XML library is
-   * used as default.
-   */
-  private void checkXMLFramework()
-  {
-    String xmlFramework = this.properties.getProperty(XML_FRAMEWORK_KEY);
-
-    // Use Simple as default XML library
-    if (!xmlFramework.equals("Simple") && !xmlFramework.equals("XStream") && !xmlFramework.equals("JAXB"))
-    {
-      this.properties.setProperty(XML_FRAMEWORK_KEY, "Simple");
-    }
-  }
-
-  /**
    * Check parameter for the main class name. This property is optional.
    * However, it is strongly recommended to provide a value, because
    * otherwise "Main" is used as default.
@@ -201,6 +184,23 @@ public class FabricTypeGenModule implements FabricModule
     {
       this.properties.setProperty(MAIN_CLASS_NAME_KEY,
               className.substring(0, 1).toUpperCase() + className.substring(1, className.length()));
+    }
+  }
+
+  /**
+   * Check parameter for XML framework. This property is optional,
+   * because it only applies to the Java type generator. In case
+   * that no framework name is provided, the Simple XML library is
+   * used as default.
+   */
+  private void checkXMLFramework()
+  {
+    String xmlFramework = this.properties.getProperty(XML_FRAMEWORK_KEY);
+
+    // Use Simple as default XML library
+    if (!xmlFramework.equals("Simple") && !xmlFramework.equals("XStream") && !xmlFramework.equals("JAXB"))
+    {
+      this.properties.setProperty(XML_FRAMEWORK_KEY, "Simple");
     }
   }
 
