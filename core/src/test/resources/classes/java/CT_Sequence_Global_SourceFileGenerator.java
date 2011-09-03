@@ -19,10 +19,11 @@ public class CT_Sequence_Global_SourceFileGenerator extends JSourceFileGenerator
     /**
      * Generates the JComplexType objects corresponding to the test XSD.
      */
-    @Override void generateClasses() throws Exception {
+    @Override
+    void generateClasses() throws Exception {
         /*
-        CarType
-         */
+               * CarType
+               */
         types.add((JClass) AttributeContainer.newBuilder()
                 .setName("CarType")
                 .addElement("int", "HorsePower")
@@ -31,8 +32,8 @@ public class CT_Sequence_Global_SourceFileGenerator extends JSourceFileGenerator
                 .build()
                 .asClassObject(strategy));
         /*
-        Root
-         */
+               * Root
+               */
         types.add((JClass) AttributeContainer.newBuilder()
                 .setName(ROOT)
                 .addElement("CarType", "Car")

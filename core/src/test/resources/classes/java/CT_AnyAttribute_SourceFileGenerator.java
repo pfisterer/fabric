@@ -10,32 +10,35 @@ import fabric.module.typegen.java.JavaClassGenerationStrategy;
 public class CT_AnyAttribute_SourceFileGenerator extends JSourceFileGenerator {
 
     /**
-     * Constructor
-     */
+        * Constructor
+        */
     public CT_AnyAttribute_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
         super(strategy);
     }
 
     /**
-     * Generates the JComplexType objects corresponding to the test XSD.
-     */
-    @Override void generateClasses() throws Exception {
-                /*
-                 PersonType
-             */
+        * Generates the JComplexType objects corresponding to the test XSD.
+        */
+    @Override
+    void generateClasses() throws Exception {
+        /*
+               * CarType
+               */
         types.add((JClass) AttributeContainer.newBuilder()
-                .setName("PersonType")
-                .addElement("String", "FirstName")
-                .addElement("String", "LastName")
-                .addAttribute("String", "anyAttribute")
+                .setName("CarType")
+                .addElement("int", "HorsePower")
+                .addElement("String", "LicenseNumber")
+                .addElement("javax.xml.datatype.XMLGregorianCalendar", "ProductionYear")
+                .addAttribute("String", "anyElement")
                 .build()
                 .asClassObject(strategy));
+
         /*
-            Root
-             */
+               * Root
+               */
         types.add((JClass) AttributeContainer.newBuilder()
                 .setName(ROOT)
-                .addElement("PersonType", "Person")
+                .addElement("CarType", "Car")
                 .build()
                 .asClassObject(strategy));
     }

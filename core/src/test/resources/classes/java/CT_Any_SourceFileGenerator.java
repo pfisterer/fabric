@@ -3,6 +3,7 @@ package classes.java;
 import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
+import fabric.module.typegen.java.JavaMapper;
 
 /**
  * SourceFileGenerator for complexType_any.xsd
@@ -10,15 +11,16 @@ import fabric.module.typegen.java.JavaClassGenerationStrategy;
 public class CT_Any_SourceFileGenerator extends JSourceFileGenerator {
 
     /**
-     * Constructor
-     */
+        * Constructor
+        */
     public CT_Any_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
         super(strategy);
     }
 
-    @Override void generateClasses() throws Exception {
+    @Override
+    void generateClasses() throws Exception {
         /*
-               * PersonType
+               * CarType
                */
         types.add((JClass) AttributeContainer.newBuilder()
                 .setName("CarType")

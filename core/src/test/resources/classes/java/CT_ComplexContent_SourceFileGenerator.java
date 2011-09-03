@@ -17,9 +17,10 @@ public class CT_ComplexContent_SourceFileGenerator extends JSourceFileGenerator 
     }
 
     /**
-     * Generates the JComplexType objects corresponding to the test XSD.
-     */
-    @Override void generateClasses() throws Exception {
+        * Generates the JComplexType objects corresponding to the test XSD.
+        */
+    @Override
+    void generateClasses() throws Exception {
 
         /*
                * Create types
@@ -33,7 +34,6 @@ public class CT_ComplexContent_SourceFileGenerator extends JSourceFileGenerator 
             .asClassObject(strategy));
         types.add(carType);
 
-
         JClass extendedCarType = ((JClass) AttributeContainer.newBuilder()
             .setName("CarExtendedType")
             .addElement("java.math.BigDecimal", "Milage")
@@ -43,13 +43,12 @@ public class CT_ComplexContent_SourceFileGenerator extends JSourceFileGenerator 
         extendedCarType.setExtends(carType);
         types.add(extendedCarType);
 
-
         /*
                * Root
                */
         types.add((JClass) AttributeContainer.newBuilder()
             .setName(ROOT)
-            .addElement("CarExtendedType", "Car")
+            .addElement("CarExtendedType", "ExtendedCar")
             .build()
             .asClassObject(strategy));
     }

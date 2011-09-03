@@ -17,9 +17,10 @@ public class CT_SimpleContent_SourceFileGenerator extends JSourceFileGenerator {
     }
 
     /**
-     * Generates the JComplexType objects corresponding to the test XSD.
-     */
-    @Override void generateClasses() throws Exception {
+        * Generates the JComplexType objects corresponding to the test XSD.
+        */
+    @Override
+    void generateClasses() throws Exception {
 
         JClass shoeType = ((JClass) AttributeContainer.newBuilder()
             .setName("ShoeType")
