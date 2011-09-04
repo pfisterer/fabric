@@ -70,7 +70,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
   @Override
   public WorkspaceElement generateClassObject(final AttributeContainer container) throws Exception
   {
-    return this.generateJClassObject(container, JModifier.PUBLIC);
+    return this.generateJClassObject(container, JModifier.PUBLIC, null);
   }
 
   /**
@@ -89,7 +89,46 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
    */
   public WorkspaceElement generateClassObject(final AttributeContainer container, final int modifiers) throws Exception
   {
-    return this.generateJClassObject(container, modifiers);
+    return this.generateJClassObject(container, modifiers, null);
+  }
+
+  /**
+   * This method returns a class object that can be added to a source
+   * file. Return value should be casted to JClass before further use.
+   * The returned class will be an extended version of the given parent
+   * class.
+   * 
+   * @param container AttributeContainer for conversion
+   * @param parent Name of parent class for the extends-directive
+   *
+   * @return Generated WorkspaceElement object
+   *
+   * @throws Exception Error during class object generation
+   */
+  public WorkspaceElement generateClassObject(final AttributeContainer container, final String parent) throws Exception
+  {
+    return this.generateJClassObject(container, JModifier.PUBLIC, parent);
+  }
+
+  /**
+   * This method returns a class object that can be added to a source
+   * file. Return value should be casted to JClass before further use.
+   * The returned class has custom visibility, depending on modifiers
+   * argument (e.g. JModifier.PUBLIC | JModifier.STATIC for static
+   * nested inner classes). Furthermore the name of the parent class
+   * for the extends-directive can be set.
+   *
+   * @param container AttributeContainer for conversion
+   * @param modifiers Modifiers for class object (e.g. visibility)
+   * @param parent Name of parent class for the extends-directive
+   *
+   * @return Generated WorkspaceElement object
+   *
+   * @throws Exception Error during class object generation
+   */
+  public WorkspaceElement generateClassObject(final AttributeContainer container, final int modifiers, final String parent) throws Exception
+  {
+    return this.generateJClassObject(container, modifiers, parent);
   }
   
   /**
@@ -109,12 +148,14 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
    *
    * @param container AttributeContainer for conversion
    * @param modifiers Modifiers for JClass object (e.g. visibility)
+   * @param parent Parent class name for extends-directive (set to
+   * null or empty string if class has no parent)
    *
    * @return Generated JClass object
    *
    * @throws Exception Error during class object generation
    */
-  private JClass generateJClassObject(final AttributeContainer container, final int modifiers) throws Exception
+  private JClass generateJClassObject(final AttributeContainer container, final int modifiers, final String parent) throws Exception
   {
     /*****************************************************************
      * Create surrounding container class
@@ -125,6 +166,12 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     // Annotation pattern e.g. @Root(name = "value") or @XStreamAlias("value")
     String annotation = this.xmlMapper.getAnnotation("root", this.firstLetterCapital(container.getName()));
     jc.addAnnotation(new JClassAnnotationImpl(annotation));
+
+    // Set extends-directive
+    if (null != parent && parent.length() > 0)
+    {
+      jc.setExtends(parent);
+    }
 
     // Process all members
     Iterator iterator = container.getMembers().entrySet().iterator();

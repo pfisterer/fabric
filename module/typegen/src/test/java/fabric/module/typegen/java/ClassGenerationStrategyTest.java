@@ -34,14 +34,30 @@ public class ClassGenerationStrategyTest
     JClass jClassObject = (JClass)javaStrategy.generateClassObject(AttributeContainer.newBuilder().addAttribute("int", "foo").build());
     assertNotNull("JClass object must not be null.", jClassObject);
     assertFalse("JClass content must not be empty string.", ("").equals(jClassObject.toString()));
-    
-    // Output JClass for debug reasons
     System.out.println(jClassObject.toString());
 
     // Check generateClassObject() with custom modifiers
     int modifiers = JModifier.PUBLIC | JModifier.STATIC;
     jClassObject = (JClass)javaStrategy.generateClassObject(AttributeContainer.newBuilder().addAttribute("int", "foo").build(), modifiers);
     assertNotNull("JClass object with custom modifiers must not be null.", jClassObject);
+    assertTrue("Text representation of JClass object must contain 'public static'.", jClassObject.toString().contains("public static"));
+    System.out.println(jClassObject.toString());
+
+    // Check generateClassObject with extends-directive
+    String parent = "ExtendedClassName";
+    jClassObject = (JClass)javaStrategy.generateClassObject(AttributeContainer.newBuilder().addAttribute("int", "foo").build(), parent);
+    assertNotNull("JClass object with extends-directive must not be null.", jClassObject);
+    assertTrue(String.format("Text representation of JClass object must contain 'extends %s'.", parent),
+            jClassObject.toString().contains(String.format("extends %s", parent)));
+    System.out.println(jClassObject.toString());
+
+    // Check generateClassObject with custom modifiers and extends-directive
+    jClassObject = (JClass)javaStrategy.generateClassObject(AttributeContainer.newBuilder().addAttribute("int", "foo").build(), modifiers, parent);
+    assertNotNull("JClass object with custom modifiers and extends-directive must not be null.", jClassObject);
+    assertTrue("Text representation of JClass object must contain 'public static'.", jClassObject.toString().contains("public static"));
+    assertTrue(String.format("Text representation of JClass object must contain 'extends %s'.", parent),
+            jClassObject.toString().contains(String.format("extends %s", parent)));
+    System.out.println(jClassObject.toString());
 
     // Check getRequiredImports()
     ArrayList<String> imports = javaStrategy.getRequiredDependencies();
