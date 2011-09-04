@@ -290,17 +290,26 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
    */
   private JMethod createSetterMethod(MemberVariable member) throws Exception
   {
+    String methodBody = "";
+
     // Member variable is an array
     String name = member.name;
     if (member instanceof AttributeContainer.ElementArray)
     {
       name = name + "[]";
+
+      methodBody = String.format("if (%s.length < 0 || %s.length > %d)",
+              member.name, member.name, ((AttributeContainer.ElementArray)member).size);
+      methodBody += "\n{";
+      methodBody += String.format("\n\tthrow new IllegalArgumentException(\"Illegal size for array '%s'.\");", member.name);
+      methodBody += "\n}\n\n";
     }
 
     JMethodSignature jms = JMethodSignature.factory.create(JParameter.factory.create(JModifier.FINAL, member.type, name));
     JMethod setter = JMethod.factory.create(JModifier.PUBLIC, "void", "set" + this.firstLetterCapital(member.name), jms);
 
-    setter.getBody().appendSource("this." + member.name + " = " + member.name + ";");
+    methodBody += "this." + member.name + " = " + member.name + ";";
+    setter.getBody().appendSource(methodBody);
     setter.setComment(new JMethodCommentImpl("Set the '" + member.name + "' member variable."));
 
     return setter;

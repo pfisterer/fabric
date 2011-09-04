@@ -321,7 +321,7 @@ public class AttributeContainer
     {
       if (size < 0)
       {
-        throw new IllegalArgumentException("Array size should be positive.");
+        throw new IllegalArgumentException("Array size must be positive.");
       }
 
       this.members.put(name, new AttributeContainer.ElementArray(type, name, size));
