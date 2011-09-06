@@ -5,6 +5,7 @@ import fabric.module.typegen.MapperFactory;
 import fabric.module.typegen.base.TypeGen;
 import fabric.wsdlschemaparser.schema.FComplexType;
 import fabric.wsdlschemaparser.schema.FElement;
+import fabric.wsdlschemaparser.schema.FSchemaType;
 import fabric.wsdlschemaparser.schema.FSimpleType;
 
 /**
@@ -41,4 +42,16 @@ public class CppTypeGen implements TypeGen {
     @Override public void generateNewExtendedClass(String name) throws Exception {
 
     }
+
+  @Override
+  public void generateNewContainer(FSimpleType type)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public void addAttribute(FElement element)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 }

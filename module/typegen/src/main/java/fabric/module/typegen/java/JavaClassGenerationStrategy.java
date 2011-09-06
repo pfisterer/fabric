@@ -402,13 +402,14 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
 
   /**
    * Private helper method to capitalize the first letter of a string.
+   * Function will return null, if argument was null.
    *
    * @param text Text to process
    *
-   * @return Text with first letter capitalized
+   * @return Text with first letter capitalized or null
    */
-  private String firstLetterCapital(final String text)
+  private String firstLetterCapital(final String text) throws Exception
   {
-    return text.substring(0, 1).toUpperCase() + text.substring(1, text.length());
+    return (null == text ? null : text.substring(0, 1).toUpperCase() + text.substring(1, text.length()));
   }
 }

@@ -70,6 +70,8 @@ public class JavaTypeGen implements TypeGen
   public void generateRootContainer()
   {
     incompleteBuilders.push(AttributeContainer.newBuilder().setName(ROOT));
+
+    System.out.println(String.format("Created root container '%s'.", ROOT));
   }
 
   @Override
@@ -78,7 +80,12 @@ public class JavaTypeGen implements TypeGen
     /*
     Add root element as last element to the map.
      */
-    addClassToMap();
+    //addClassToMap(); // TODO seidel: Just called once? Shouldn't we iterate all incomplete classes?
+    while (!incompleteBuilders.empty())
+    {
+      JClass newClass = (JClass)incompleteBuilders.pop().build().asClassObject(strategy);
+      generatedElements.put(newClass.getName(), newClass);
+    }
 
     /*
     Get JavaWorkspace object
@@ -93,7 +100,34 @@ public class JavaTypeGen implements TypeGen
     {
       jsf = jWorkspace.getJSourceFile(PACKAGE, name);
       jsf.add(generatedElements.get(name));
+      
+      System.out.println(String.format("Generated new source file '%s'.", name)); // TODO: Remove
     }
+  }
+
+  @Override
+  public void addAttribute(FElement element)
+  {
+    // TODO: Remove this line and add comment with example of return values
+    // (1 == 2 => XSD base type in 3, 1 != 2 => 2 is name of custom type)
+    System.out.println(element.getName() + element.getSchemaType().getName() + this.getFabricTypeName(element.getSchemaType()));
+    
+    String typeName = "";
+    if (element.getName().equals(element.getSchemaType().getName()))
+    {
+      typeName = mapper.lookup(this.getFabricTypeName(element.getSchemaType()));
+    }
+    else
+    {
+      typeName = element.getSchemaType().getName();
+    }
+
+    AttributeContainer.Builder current = incompleteBuilders.pop();
+    current.addElement(typeName, element.getName());
+    incompleteBuilders.push(current);
+    
+    System.out.println(String.format("Added attribute '%s' of type '%s' to container '%s'.",
+            element.getName(), typeName, current.getName()));
   }
 
   @Override
@@ -104,10 +138,12 @@ public class JavaTypeGen implements TypeGen
      */
     if (generatedElements.containsKey(type.getName()))
     {
+      System.out.println("addSimpleType: SIMPLE TYPE ALREADY EXISTS.");
       // TODO: Was soll passieren, wenn es ein Element dieses Namens bereits gibt?
     }
     else
     {
+      System.out.println("addSimpleType: CREATING NEW SIMPLE TYPE.");
       /*
       Check if type is xs:list
        */
@@ -142,6 +178,22 @@ public class JavaTypeGen implements TypeGen
       incompleteBuilders.push(current);
     }
   }
+
+  // TODO: Remove block
+  public void generateNewContainer(FSimpleType type)
+  {
+    /*
+    Generate new builder for new class
+     */
+    AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
+    newBuilder.addElement(mapper.lookup(this.getFabricTypeName(type)), "value");
+
+    /*
+    Add builder to yet incomplete builders
+     */
+    incompleteBuilders.push(newBuilder);
+  }
+  // TODO: Remove block
 
   @Override
   public void generateNewContainer(FComplexType type)
