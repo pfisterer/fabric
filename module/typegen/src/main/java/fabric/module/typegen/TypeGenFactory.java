@@ -1,5 +1,9 @@
 package fabric.module.typegen;
 
+import java.util.Properties;
+import java.lang.reflect.Constructor;
+
+import de.uniluebeck.sourcegen.Workspace;
 import fabric.module.typegen.base.TypeGen;
 import fabric.module.typegen.exceptions.UnsupportedTypeGenException;
 
@@ -46,20 +50,27 @@ public class TypeGenFactory
    * throw an exception.
    *
    * @param concreteTypeGenName Name of concrete TypeGen class
+   * @param workspace Workspace object for source code write-out
+   * @param properties Properties object with module options
    *
    * @return TypeGen object of desired type
    *
    * @throws Exception Error during class instantiation
    */
-  public TypeGen createTypeGen(String concreteTypeGenName) throws Exception
+  public TypeGen createTypeGen(String concreteTypeGenName, Workspace workspace, Properties properties) throws Exception
   {
     TypeGen concreteTypeGen = null;
 
     try
     {
-      // Try to instantiate concrete TypeGen class
+      // Try to instantiate concrete TypeGen class     
       Class concreteClass = Class.forName(concreteTypeGenName);
-      concreteTypeGen = (TypeGen)concreteClass.newInstance();      
+      Class[] argumentsClass = new Class[] { Workspace.class, Properties.class };
+
+      Constructor constructor = concreteClass.getConstructor(argumentsClass);
+      Object[] arguments = new Object[] { workspace, properties };
+
+      concreteTypeGen = (TypeGen)constructor.newInstance(arguments);
     }
     catch (ClassNotFoundException e)
     {

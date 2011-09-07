@@ -5,7 +5,7 @@ import fabric.wsdlschemaparser.schema.FElement;
 import fabric.wsdlschemaparser.schema.FSimpleType;
 
 import de.uniluebeck.sourcegen.Workspace;
-import fabric.wsdlschemaparser.schema.FSchemaType;
+import java.util.Properties;
 
 /**
  * Public interface for TypeGen implementations.

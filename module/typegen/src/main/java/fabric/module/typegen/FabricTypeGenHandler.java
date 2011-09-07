@@ -39,13 +39,13 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   /**
    * Constructor initializes internal class properties.
    *
-   * @param workspace Workspace for file output
-   * @param properties Properties object with various options
+   * @param workspace Workspace object for source code write-out
+   * @param properties Properties object with module options
    */
   public FabricTypeGenHandler(Workspace workspace, Properties properties) throws Exception
   {
     this.workspace = workspace;
-    this.typeGen = TypeGenFactory.getInstance().createTypeGen(properties.getProperty("typegen.factory_name"));
+    this.typeGen = TypeGenFactory.getInstance().createTypeGen(properties.getProperty("typegen.factory_name"), workspace, properties);
   }
 
   @Override

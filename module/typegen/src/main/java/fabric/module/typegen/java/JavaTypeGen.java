@@ -50,12 +50,17 @@ public class JavaTypeGen implements TypeGen
 
   /**
    * Constructor
+   * 
+   * @param workspace Workspace object for source code write-out
+   * @param properties Properties object with module options
    */
-  public JavaTypeGen()
+  public JavaTypeGen(Workspace workspace, Properties properties) throws Exception
   {
+    // TODO: Copy workspace and properties reference to this class
+    // and access properties instead of ROOT and PACKAGE
     try
     {
-      mapper = MapperFactory.getInstance().createMapper("fabric.module.typegen.java.JavaMapper");
+      mapper = MapperFactory.getInstance().createMapper(properties.getProperty("typegen.mapper_name"));
       strategy = new JavaClassGenerationStrategy(); // TODO: AnnotationMapper übergeben!
       incompleteBuilders = new Stack<AttributeContainer.Builder>();
       generatedElements = new HashMap<String, JComplexType>();
