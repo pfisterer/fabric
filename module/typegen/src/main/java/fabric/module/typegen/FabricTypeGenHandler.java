@@ -67,20 +67,26 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   @Override
   public void startTopLevelElement(FElement element) throws Exception
   {
-    LOGGER.debug(String.format("Called startTopLevelElement(%s).", element.getName()));
-
-    if (element.getSchemaType() instanceof FSequence)
+    if (null != element)
     {
-      return;
+      LOGGER.debug(String.format("Called startTopLevelElement(%s).", element.getName()));
+      
+      if (element.getSchemaType() instanceof FSequence)
+      {
+        return;
+      }
+      
+      typeGen.addAttribute(element); // TODO: Remove
     }
-
-    typeGen.addAttribute(element); // TODO: Remove
   }
 
   @Override
   public void endTopLevelElement(FElement element)
   {
-    LOGGER.debug("Called endTopLevelElement().");
+    if (null != element)
+    {
+      LOGGER.debug("Called endTopLevelElement().");
+    }
 
     // Nothing to do
   }
@@ -101,12 +107,29 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
     // Nothing to do
   }
 
+  /**
+   * An XSD element reference references a global element in another
+   * local element. If several local elements reference the same
+   * global element, the referencing elements are independent instances
+   * of the referenced element.
+   * 
+   * Element references are not supported (yet?), because
+   * org.apache.xmlbeans.impl.values.XmlObjectBase.getQNameValue
+   * throws an exception "Could not get a Java QName type from a Schema
+   * unknown type".
+   * 
+   * @param element
+   * @throws Exception 
+   */
   @Override
   public void startElementReference(FElement element) throws Exception
   {
-    LOGGER.debug("Called startElementReference().");
-
-    // TODO: What is an element reference?
+    if (null != element)
+    {
+      LOGGER.debug(String.format("Called startElementReference(%s).", element.getName()));    
+    }
+    
+    // Element references are not supported by Apache XMLBeans
   }
 
   @Override
@@ -120,10 +143,10 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   @Override
   public void startTopLevelSimpleType(FSimpleType type, FElement parent) throws Exception
   {
-    LOGGER.debug(String.format("Called startTopLevelSimpleType(%s, %s).", type.getName(), parent.getName()));
-
-    if (null != type.getName())
+    if (null != type && null != type.getName())
     {
+      LOGGER.debug(String.format("Called startTopLevelSimpleType(%s, %s).", type.getName(), parent.getName()));
+          
       //typeGen.addSimpleType(type, parent);
       typeGen.generateNewContainer(type); // TODO: Check and remove, if neccessary
     }
@@ -145,7 +168,15 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
 //  @Override
 //  public void startLocalSimpleType(FSimpleType type, FElement parent) throws Exception
-//  {
+//  {       
+//    if (null != type && null != type.getName())
+//    {      
+//      LOGGER.debug(String.format("Called startLocalSimpleType(%s, %s).", type.getName(), parent.getName()));
+//          
+//      //typeGen.addSimpleType(type, parent);
+//      typeGen.generateNewContainer(type); // TODO: Check and remove, if neccessary
+//    }
+//    
 ////    if (null != type.getName())
 ////    {
 ////      // TODO: Soll es in den Klassen einen Unterschied zwischen lokalen und globalen SimpleTypes geben?
@@ -164,10 +195,10 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 //    }
 //    catch (Exception ex)
 //    {
-//      Logger.getLogger(FabricTypeGenHandler.class.getName()).log(Level.SEVERE, null, ex);
+//      LOGGER.error(ex.getMessage());
 //    }
 //  }
-//
+//  
 //  @Override
 //  public void startTopLevelComplexType(FComplexType type, FElement parent) throws Exception
 //  {

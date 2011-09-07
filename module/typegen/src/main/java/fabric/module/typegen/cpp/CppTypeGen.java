@@ -52,11 +52,6 @@ public class CppTypeGen implements TypeGen
   }
 
   @Override
-  public void generateNewExtendedClass(String name) throws Exception
-  {
-  }
-
-  @Override
   public void generateNewContainer(FSimpleType type)
   {
   }
