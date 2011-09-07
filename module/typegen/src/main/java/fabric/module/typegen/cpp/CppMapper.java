@@ -27,6 +27,7 @@ public class CppMapper extends Mapper
     types.put("FShort", "short");
     types.put("FUnsignedShort", "int");
     types.put("FInt", "int");
+    types.put("FInteger", "int");
     // types.put("FPositiveInteger, "java.math.BigInteger");
     types.put("FUnsignedInt", "long");
     types.put("FLong", "long");

@@ -5,7 +5,6 @@ import fabric.wsdlschemaparser.schema.FElement;
 import fabric.wsdlschemaparser.schema.FSimpleType;
 
 import de.uniluebeck.sourcegen.Workspace;
-import java.util.Properties;
 
 /**
  * Public interface for TypeGen implementations.
@@ -30,8 +29,8 @@ public interface TypeGen
    * Adds a variable corresponding to the given
    * FSimpleType object to the current container.
    *
-   * @param type  Current FSimpleType object
-   * @param parent    Parent element of type
+   * @param type Current FSimpleType object
+   * @param parent Parent element of type
    *
    */
   public void addSimpleType(FSimpleType type, FElement parent) throws Exception;
@@ -44,7 +43,7 @@ public interface TypeGen
    * Generates a new container corresponding to the given
    * FComplexType object.
    *
-   * @param type  Current FComplexType object
+   * @param type Current FComplexType object
    */
   public void generateNewContainer(FComplexType type);
 
@@ -55,12 +54,12 @@ public interface TypeGen
    */
   public void generateNewClass() throws Exception;
 
-  /**
-   * Generates a new class corresponding to the last container
-   * that extends the class with the given name.
-   *
-   * @param name  Name of the class to be extended
-   * @throws Exception
-   */
-  public void generateNewExtendedClass(String name) throws Exception;
+//  /**
+//   * Generates a new class corresponding to the last container
+//   * that extends the class with the given name.
+//   *
+//   * @param name Name of the class to be extended
+//   * @throws Exception
+//   */
+//  public void generateNewExtendedClass(String name) throws Exception;
 }
