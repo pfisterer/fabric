@@ -1,4 +1,4 @@
-/** 02.09.2011 01:31:25 */
+/** 09.09.2011 01:28:09 */
 package fabric.module.typegen;
 
 import java.util.Map;
@@ -26,7 +26,7 @@ import fabric.module.typegen.base.ClassGenerationStrategy;
  *                             .addAttribute("String", "manufacturer", "Audi")
  *                             .addAttribute("String", "model", "TT")
  *                             .addElement("String", "color", "red")
- *                             .addElement("int", "maxSpeed", "220")
+ *                             .addConstantElement("int", "maxSpeed", "220")
  *                             .addElementArray("String", "trunkItems")
  *                             .addElementArray("String", "passengers", 2)
  *                             .build();
@@ -180,6 +180,11 @@ public class AttributeContainer
         AttributeContainer.Element e = (AttributeContainer.Element)master;
         copy = new AttributeContainer.Element(e.type, e.name, e.value);
       }
+      else if (master instanceof AttributeContainer.ConstantElement)
+      {
+        AttributeContainer.ConstantElement e = (AttributeContainer.ConstantElement)master;
+        copy = new AttributeContainer.ConstantElement(e.type, e.name, e.value);
+      }
       else if (master instanceof AttributeContainer.ElementArray)
       {
         AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)master;
@@ -300,6 +305,24 @@ public class AttributeContainer
     public Builder addElement(final String type, final String name)
     {
       this.members.put(name, new AttributeContainer.Element(type, name));
+
+      return this;
+    }
+    
+    /**
+     * Add constant XML element to container. The value of this
+     * element is fixed and cannot be changed. Existing entries
+     * will be overridden by new element definition.
+     *
+     * @param type Type of member variable
+     * @param name Name of member variable
+     * @param value Fixed value of member variable
+     *
+     * @return Builder object
+     */
+    public Builder addConstantElement(final String type, final String name, final String value)
+    {
+      this.members.put(name, new AttributeContainer.ConstantElement(type, name, value));
 
       return this;
     }
@@ -433,6 +456,26 @@ public class AttributeContainer
     public Element(final String type, final String name)
     {
       this(type, name, "");
+    }
+  }
+
+  public static class ConstantElement extends MemberVariable
+  {
+    /** Value of constant XML element */
+    public String value;
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML element
+     * @param name Name of XML element
+     * @param value Fixed value of XML element
+     */
+    public ConstantElement(final String type, final String name, final String value)
+    {
+      this.type = type;
+      this.name = name;
+      this.value = value;
     }
   }
 

@@ -179,7 +179,7 @@ public class AttributeContainerTest
                                   .addAttribute("String", "manufacturer", "Audi")
                                   .addAttribute("String", "model", "TT")
                                   .addElement("String", "color", "red")
-                                  .addElement("int", "maxSpeed", "220")
+                                  .addConstantElement("int", "maxSpeed", "220")
                                   .addElementArray("TrunkItem", "trunkItems")
                                   .addElementArray("String", "passengers", 2)
                                   .build();

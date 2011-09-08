@@ -290,6 +290,28 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     }
 
     /*****************************************************************
+     * Handle constant XML elements
+     *****************************************************************/
+    else if (member instanceof AttributeContainer.ConstantElement)
+    {
+      AttributeContainer.ConstantElement a = (AttributeContainer.ConstantElement)member;
+
+      // Add quotation marks to value, if type is String
+      String value = a.value;
+      if (("String").equals(a.type))
+      {
+        value = "\"" + value + "\"";
+      }
+
+      jf = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC | JModifier.FINAL, a.type, a.name, value);
+      jf.setComment(new JFieldCommentImpl("The '" + a.name + "' constant."));
+
+      // Annotation pattern e.g. @Element or @XStreamAlias("value")
+      String annotation = this.xmlMapper.getAnnotation("element", a.name);
+      jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+    }
+
+    /*****************************************************************
      * Handle XML element arrays
      *****************************************************************/
     else if (member instanceof AttributeContainer.ElementArray)
@@ -327,16 +349,23 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
 
   /**
    * Private helper method to create setter methods. This function
-   * will create a JMethod object with a comment.
+   * will create a JMethod object with a comment or return null,
+   * if member variable is a constant.
    *
    * @param member MemberVariable object for creation
    *
-   * @return Generated JMethod object
+   * @return Generated JMethod object or null
    *
    * @throws Exception Error during JMethod creation
    */
   private JMethod createSetterMethod(MemberVariable member) throws Exception
   {
+    // No setter for constants
+    if (member instanceof AttributeContainer.ConstantElement)
+    {
+      return null;
+    }
+
     String methodBody = "";
 
     // Member variable is an array
