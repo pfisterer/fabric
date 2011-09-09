@@ -2,14 +2,14 @@ package fabric.module.typegen.cpp;
 
 import java.util.Properties;
 
+import de.uniluebeck.sourcegen.Workspace;
+
 import fabric.wsdlschemaparser.schema.FComplexType;
 import fabric.wsdlschemaparser.schema.FElement;
 import fabric.wsdlschemaparser.schema.FSimpleType;
 
-import de.uniluebeck.sourcegen.Workspace;
-
-import fabric.module.typegen.MapperFactory;
 import fabric.module.typegen.base.TypeGen;
+import fabric.module.typegen.MapperFactory;
 
 /**
  * Type generator for C++.
@@ -19,7 +19,6 @@ import fabric.module.typegen.base.TypeGen;
 public class CppTypeGen implements TypeGen
 {
   // TODO: Sort methods according to JavaTypeGen.java
-
   private MapperFactory mapperFactory;
 
   public CppTypeGen(Workspace workspace, Properties properties) throws Exception
@@ -27,37 +26,38 @@ public class CppTypeGen implements TypeGen
   }
 
   @Override
-  public void generateRootContainer()
+  public void createRootContainer()
   {
+    throw new UnsupportedOperationException("Not supported yet.");
   }
 
   @Override
-  public void generateSourceFiles(Workspace workspace)
+  public void writeSourceFiles() throws Exception
   {
+    throw new UnsupportedOperationException("Not supported yet.");
   }
 
   @Override
-  public void addSimpleType(FSimpleType type, FElement parent)
+  public void createNewContainer(FSimpleType type)
   {
+    throw new UnsupportedOperationException("Not supported yet.");
   }
 
   @Override
-  public void generateNewContainer(FComplexType type)
+  public void createNewContainer(FComplexType type)
   {
+    throw new UnsupportedOperationException("Not supported yet.");
   }
 
   @Override
-  public void generateNewClass() throws Exception
+  public void addMemberVariable(FElement element)
   {
+    throw new UnsupportedOperationException("Not supported yet.");
   }
 
   @Override
-  public void generateNewContainer(FSimpleType type)
+  public void buildCurrentContainer() throws Exception
   {
-  }
-
-  @Override
-  public void addAttribute(FElement element)
-  {
+    throw new UnsupportedOperationException("Not supported yet.");
   }
 }

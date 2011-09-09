@@ -33,9 +33,6 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   /** TypeGen object for type class generation */
   private TypeGen typeGen;
 
-  /** Workspace object for source file write-out */
-  private Workspace workspace;
-
   /**
    * Constructor initializes internal class properties.
    *
@@ -44,8 +41,8 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
    */
   public FabricTypeGenHandler(Workspace workspace, Properties properties) throws Exception
   {
-    this.workspace = workspace;
-    this.typeGen = TypeGenFactory.getInstance().createTypeGen(properties.getProperty("typegen.factory_name"), workspace, properties);
+    this.typeGen = TypeGenFactory.getInstance().createTypeGen(
+            properties.getProperty("typegen.factory_name"), workspace, properties);
   }
 
   @Override
@@ -53,7 +50,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called startSchema().");
 
-    typeGen.generateRootContainer();
+    typeGen.createRootContainer();
   }
 
   @Override
@@ -61,32 +58,30 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called endSchema().");
 
-    typeGen.generateSourceFiles(workspace);
+    typeGen.writeSourceFiles();
   }
 
   @Override
   public void startTopLevelElement(FElement element) throws Exception
   {
+    LOGGER.debug("Called startTopLevelElement().");
+
     if (null != element)
     {
-      LOGGER.debug(String.format("Called startTopLevelElement(%s).", element.getName()));
-      
+      // TODO: Handle FSequence
       if (element.getSchemaType() instanceof FSequence)
       {
         return;
       }
-      
-      typeGen.addAttribute(element); // TODO: Remove
+
+      typeGen.addMemberVariable(element);
     }
   }
 
   @Override
   public void endTopLevelElement(FElement element)
   {
-    if (null != element)
-    {
-      LOGGER.debug("Called endTopLevelElement().");
-    }
+    LOGGER.debug("Called endTopLevelElement().");
 
     // Nothing to do
   }
@@ -94,8 +89,9 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   @Override
   public void startLocalElement(FElement element, FComplexType parent) throws Exception
   {
-    LOGGER.debug(String.format("Called startLocalElement(%s, %s).", element.getName(), parent.getName()));
+    LOGGER.debug("Called startLocalElement().");
 
+    // TODO: addMemberVariable?
     //typeGen.addAttribute(element.getSchemaType()); // TODO: Remove
   }
 
@@ -124,11 +120,11 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   @Override
   public void startElementReference(FElement element) throws Exception
   {
-    if (null != element)
-    {
-      LOGGER.debug(String.format("Called startElementReference(%s).", element.getName()));    
-    }
-    
+    LOGGER.debug("Called startElementReference().");
+
+    // TODO: Check why Apache XMLBeans crashes here
+    // TODO: addMemberVariable?
+
     // Element references are not supported by Apache XMLBeans
   }
 
@@ -143,62 +139,56 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   @Override
   public void startTopLevelSimpleType(FSimpleType type, FElement parent) throws Exception
   {
-    if (null != type && null != type.getName())
+    LOGGER.debug("Called startTopLevelSimpleType().");
+
+    if (null != type) // TODO Remove: && null != type.getName())
     {
-      LOGGER.debug(String.format("Called startTopLevelSimpleType(%s, %s).", type.getName(), parent.getName()));
-          
-      //typeGen.addSimpleType(type, parent);
-      typeGen.generateNewContainer(type); // TODO: Check and remove, if neccessary
+      //typeGen.addSimpleType(type, parent); // TODO: Remove
+      typeGen.createNewContainer(type);
     }
   }
 
   @Override
   public void endTopLevelSimpleType(FSimpleType type, FElement parent)
   {
+    LOGGER.debug("Called endTopLevelSimpleType().");
+
     try
     {
-      // Nothing to do
-      typeGen.generateNewClass();
+      typeGen.buildCurrentContainer();
     }
-    catch (Exception ex)
+    catch (Exception e)
     {
-      LOGGER.error(ex.getMessage());
+      // TODO: Log exception
     }
   }
 
-//  @Override
-//  public void startLocalSimpleType(FSimpleType type, FElement parent) throws Exception
-//  {       
-//    if (null != type && null != type.getName())
-//    {      
-//      LOGGER.debug(String.format("Called startLocalSimpleType(%s, %s).", type.getName(), parent.getName()));
-//          
-//      //typeGen.addSimpleType(type, parent);
-//      typeGen.generateNewContainer(type); // TODO: Check and remove, if neccessary
-//    }
-//    
-////    if (null != type.getName())
-////    {
-////      // TODO: Soll es in den Klassen einen Unterschied zwischen lokalen und globalen SimpleTypes geben?
-////      typeGen.addSimpleType(type, parent);
-////      typeGen.generateNewContainer(type); // TODO: Check and remove, if neccessary
-////    }
-//  }
-//
-//  @Override
-//  public void endLocalSimpleType(FSimpleType type, FElement parent)
-//  {
-//    try
-//    {
-//      // Nothing to do
-//      typeGen.generateNewClass();
-//    }
-//    catch (Exception ex)
-//    {
-//      LOGGER.error(ex.getMessage());
-//    }
-//  }
-//  
+  /**
+   * Local simple types are added to the parent container as a
+   * new member variable e.g. in startTopLevelElement(), so we
+   * do not need to do anything here.
+   *
+   * @param type
+   * @param parent
+   *
+   * @throws Exception
+   */
+  @Override
+  public void startLocalSimpleType(FSimpleType type, FElement parent) throws Exception
+  {
+    LOGGER.debug("Called startLocalSimpleType().");
+
+    // Nothing to do
+  }
+
+  @Override
+  public void endLocalSimpleType(FSimpleType type, FElement parent)
+  {
+    LOGGER.debug("Called endLocalSimpleType().");
+
+    // Nothing to do
+  }
+
 //  @Override
 //  public void startTopLevelComplexType(FComplexType type, FElement parent) throws Exception
 //  {

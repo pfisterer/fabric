@@ -1,21 +1,20 @@
 package fabric.module.typegen.java;
 
 import fabric.module.typegen.base.Mapper;
-import fabric.wsdlschemaparser.schema.FSchemaTypeFactory;
 
 /**
-* LanguageMapper implementation for Java. This class will map
-* Fabric's XSD built-in datatypes to its Java equivalents.
-*
-* @author seidel
-*/
+ * LanguageMapper implementation for Java. This class will map
+ * Fabric's XSD built-in datatypes to its Java equivalents.
+ *
+ * @author seidel
+ */
 public class JavaMapper extends Mapper
 {
   /**
-* This method populates the map for the datatype mapping with the
-* Java type names. Non-standard datatypes must be fully qualified
-* (e.g. javax.xml.namespace.QName instead of QName).
-*/
+   * This method populates the map for the datatype mapping with the
+   * Java type names. Non-standard datatypes must be fully qualified
+   * (e.g. javax.xml.namespace.QName instead of QName).
+   */
   @Override
   public void createMapping()
   {

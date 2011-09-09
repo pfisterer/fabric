@@ -4,13 +4,12 @@ import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.java.*;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.MapperFactory;
-import fabric.module.typegen.base.ClassGenerationStrategy;
 import fabric.module.typegen.base.Mapper;
 import fabric.module.typegen.base.TypeGen;
 import fabric.wsdlschemaparser.schema.*;
-import org.apache.xmlbeans.SchemaType; // TODO seidel: Is this import correct? Doesn't Fabric have its own facet-enum?
 
 import java.util.*;
+import org.apache.xmlbeans.SchemaType;
 
 /**
  * Type generator for Java.
@@ -25,14 +24,9 @@ public class JavaTypeGen implements TypeGen
   
   private Mapper mapper;
 
-  /**
-   * Stack with yet incomplete AttributeContainer.Builder objects.
-   */
   private Stack<AttributeContainer.Builder> incompleteBuilders;
 
-  /**
-   * Map with already generated JComplexType objects (e.g. JClass, JEnum, ...).
-   */
+  /** JClass, JEnum and others */
   private HashMap<String, JComplexType> generatedElements;
 
   /**
@@ -60,7 +54,7 @@ public class JavaTypeGen implements TypeGen
   }
 
   @Override
-  public void generateRootContainer()
+  public void createRootContainer()
   {
     String rootContainerName = this.properties.getProperty("typegen.main_class_name");
     incompleteBuilders.push(AttributeContainer.newBuilder().setName(rootContainerName));
@@ -69,11 +63,11 @@ public class JavaTypeGen implements TypeGen
   }
 
   @Override
-  public void generateSourceFiles(Workspace workspace) throws Exception
+  public void writeSourceFiles() throws Exception
   {
     JavaClassGenerationStrategy strategy = null;
     
-    // Build all incomplete containers
+    // Build root container (and other incomplete containers, but there shouldn't be any here)
     while (!incompleteBuilders.empty())
     {
       AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));      
@@ -81,12 +75,14 @@ public class JavaTypeGen implements TypeGen
       
       JClass newClass = (JClass)incompleteBuilders.pop().build().asClassObject(strategy);
       generatedElements.put(newClass.getName(), newClass);
+
+      System.out.println(String.format("Built incomplete container '%s'.", newClass.getName()));
     }
 
     /*
     Get JavaWorkspace object
      */
-    JavaWorkspace jWorkspace = workspace.getJava();
+    JavaWorkspace jWorkspace = this.workspace.getJava();
     JSourceFile jsf = null;
 
     /*
@@ -113,100 +109,62 @@ public class JavaTypeGen implements TypeGen
   }
 
   @Override
-  public void addAttribute(FElement element)
+  public void addMemberVariable(FElement element)
   {
     // TODO: Remove this line and add comment with example of return values
     // (1 == 2 => XSD base type in 3, 1 != 2 => 2 is name of custom type)
     System.out.println(element.getName() + element.getSchemaType().getName() + this.getFabricTypeName(element.getSchemaType()));
-    
-    // Determine element type
-    String typeName = "";
-    if (element.getName().equals(element.getSchemaType().getName()))
+
+    if (!this.incompleteBuilders.empty())
     {
-      typeName = mapper.lookup(this.getFabricTypeName(element.getSchemaType()));
-    }
-    else
-    {
-      typeName = element.getSchemaType().getName();
-    }
-
-    // Create new container class
-    AttributeContainer.Builder current = incompleteBuilders.pop();
-    current.addElement(typeName, element.getName());
-    incompleteBuilders.push(current);
-    
-    System.out.println(String.format("Added attribute '%s' of type '%s' to container '%s'.",
-            element.getName(), typeName, current.getName()));
-  }
-
-  @Override
-  public void addSimpleType(FSimpleType type, FElement parent) throws Exception
-  {
-    /*
-    Check if element with given name already exists in the map
-     */
-    if (generatedElements.containsKey(type.getName()))
-    {
-      System.out.println("addSimpleType: SIMPLE TYPE ALREADY EXISTS.");
-      // TODO: Was soll passieren, wenn es ein Element dieses Namens bereits gibt?
-    }
-    else
-    {
-      System.out.println("addSimpleType: CREATING NEW SIMPLE TYPE.");
-      /*
-      Check if type is xs:list
-       */
-      // TODO: in Fabric not supported yet!
-
-      /*
-      Check restrictions
-       */
-      // HIER checkRestrictions(type);    // TODO: Einschränkungen müssen in den Container übernommen werden!
-
-      /*
-      Check if type has a default or a fixed value
-       */
-      // TODO: in Fabric not supported yet!
-
-      /*
-      Add variable to current AttributeContainer.Builder object
-       */
-      AttributeContainer.Builder current = incompleteBuilders.pop();
-      if (FSchemaTypeHelper.isArray(parent))
-      {  // Element is an array
-        current.addElementArray(mapper.lookup(this.getFabricTypeName(type)), type.getName(), parent.getMaxOccurs());
+      // Determine element type
+      String typeName = "";
+      if (element.getName().equals(element.getSchemaType().getName()))
+      {
+        typeName = mapper.lookup(this.getFabricTypeName(element.getSchemaType()));
       }
-//            else if (FSchemaTypeHelper.isEnum(type)) {    // Element is an enum
-//                // TODO: Wie soll die Enum-Variable genannt werden?
-//                current.addElement(type.getName(), type.getName().toLowerCase());
-//            }
       else
-      {    // Element is a variable of a simple datatype
-        current.addElement(mapper.lookup(this.getFabricTypeName(type)), type.getName());
+      {
+        typeName = element.getSchemaType().getName();
+      }
+
+      // Create new container class
+      AttributeContainer.Builder current = incompleteBuilders.pop();
+      if (FSchemaTypeHelper.isArray(element))
+      {
+        current.addElementArray(typeName, element.getName(), element.getMaxOccurs());
+      }
+      // TODO: Uncomment, as soon as default and fixed values are implemented in Fabric
+      else if(FSchemaTypeHelper.hasDefaultValue(element))
+      {
+        current.addElement(typeName, element.getName(), element.getDefaultValue());
+      }
+      else if (FSchemaTypeHelper.hasFixedValue(element))
+      {
+        current.addConstantElement(typeName, element.getName(), element.getFixedValue());
+      }
+      else
+      {
+        current.addElement(typeName, element.getName());
       }
       incompleteBuilders.push(current);
+
+      System.out.println(String.format("Added attribute '%s' of type '%s' to container '%s'.",
+              element.getName(), typeName, current.getName()));
     }
   }
 
-  // TODO: Remove block
   @Override
-  public void generateNewContainer(FSimpleType type)
+  public void createNewContainer(FSimpleType type)
   {
-    /*
-    Generate new builder for new class
-     */
+    // Create new container for simple type (may not contain array as value)
     AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
     newBuilder.addElement(mapper.lookup(this.getFabricTypeName(type)), "value");
-
-    /*
-    Add builder to yet incomplete builders
-     */
     incompleteBuilders.push(newBuilder);
   }
-  // TODO: Remove block
 
   @Override
-  public void generateNewContainer(FComplexType type)
+  public void createNewContainer(FComplexType type)
   {
     /*
     Generate new builder for new class
@@ -230,6 +188,74 @@ public class JavaTypeGen implements TypeGen
     incompleteBuilders.push(newBuilder);
   }
 
+  @Override
+  public void buildCurrentContainer() throws Exception
+  {
+    AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
+    JavaClassGenerationStrategy javaStrategy = new JavaClassGenerationStrategy(xmlMapper);
+
+    // TODO: Secure pop() with !empty()
+    JClass classObject = (JClass)this.incompleteBuilders.pop().build().asClassObject(javaStrategy);
+    this.generatedElements.put(classObject.getName(), classObject);
+
+    System.out.println(String.format("Built current container '%s'.", classObject.getName()));
+  }
+
+  // TODO: Add documentation
+  private String getFabricTypeName(final FSchemaType typeObject)
+  {
+    return typeObject.getClass().getSimpleName();
+  }
+  
+//  @Override
+//  public void addSimpleType(FSimpleType type, FElement parent) throws Exception
+//  {
+//    /*
+//    Check if element with given name already exists in the map
+//     */
+//    if (generatedElements.containsKey(type.getName()))
+//    {
+//      System.out.println("addSimpleType: SIMPLE TYPE ALREADY EXISTS.");
+//      // TODO: Was soll passieren, wenn es ein Element dieses Namens bereits gibt?
+//    }
+//    else
+//    {
+//      System.out.println("addSimpleType: CREATING NEW SIMPLE TYPE.");
+//      /*
+//      Check if type is xs:list
+//       */
+//      // TODO: in Fabric not supported yet!
+//
+//      /*
+//      Check restrictions
+//       */
+//      // HIER checkRestrictions(type);    // TODO: Einschränkungen müssen in den Container übernommen werden!
+//
+//      /*
+//      Check if type has a default or a fixed value
+//       */
+//      // TODO: in Fabric not supported yet!
+//
+//      /*
+//      Add variable to current AttributeContainer.Builder object
+//       */
+//      AttributeContainer.Builder current = incompleteBuilders.pop();
+//      if (FSchemaTypeHelper.isArray(parent))
+//      {  // Element is an array
+//        current.addElementArray(mapper.lookup(this.getFabricTypeName(type)), type.getName(), parent.getMaxOccurs());
+//      }
+////            else if (FSchemaTypeHelper.isEnum(type)) {    // Element is an enum
+////                // TODO: Wie soll die Enum-Variable genannt werden?
+////                current.addElement(type.getName(), type.getName().toLowerCase());
+////            }
+//      else
+//      {    // Element is a variable of a simple datatype
+//        current.addElement(mapper.lookup(this.getFabricTypeName(type)), type.getName());
+//      }
+//      incompleteBuilders.push(current);
+//    }
+//  }
+
 //  @Override
 //  public void generateNewClass() throws Exception
 //  {
@@ -237,33 +263,26 @@ public class JavaTypeGen implements TypeGen
 //  }
 
   
-  /**
-   * Generates a JClass object corresponding to the last builder in the
-   * stack of incomplete builders and adds it to the map containing the
-   * already generated classes.
-   *
-   * @throws Exception
-   */
-  @Override
-  public void generateNewClass() throws Exception
-  {
-    AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
-    JavaClassGenerationStrategy strategy = new JavaClassGenerationStrategy(xmlMapper);
-    
-    JClass newClass = (JClass)incompleteBuilders.pop().build().asClassObject(strategy);
-//    for (String extendedClass: extendedClasses)
-//    {
-//      newClass.setExtends(extendedClass);
-//    }
-    generatedElements.put(newClass.getName(), newClass);
-  }
-
-
-  // TODO: Add documentation
-  private String getFabricTypeName(final FSchemaType typeObject)
-  {
-    return typeObject.getClass().getSimpleName();
-  }
+//  /**
+//   * Generates a JClass object corresponding to the last builder in the
+//   * stack of incomplete builders and adds it to the map containing the
+//   * already generated classes.
+//   *
+//   * @throws Exception
+//   */
+////  @Override
+//  public void generateNewClass() throws Exception
+//  {
+//    AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
+//    JavaClassGenerationStrategy strategy = new JavaClassGenerationStrategy(xmlMapper);
+//
+//    JClass newClass = (JClass)incompleteBuilders.pop().build().asClassObject(strategy);
+////    for (String extendedClass: extendedClasses)
+////    {
+////      newClass.setExtends(extendedClass);
+////    }
+//    generatedElements.put(newClass.getName(), newClass);
+//  }
   
 //  /**
 //   * Generates a JClass object corresponding to the last builder in the
