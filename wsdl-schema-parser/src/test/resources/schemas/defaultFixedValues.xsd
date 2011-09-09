@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        <xs:element name="OtherColor" type="xs:string"/>
+	<xs:element name="ForegroundColor" type="xs:string" default="red"/>
+	<xs:element name="BackgroundColor" type="xs:string" fixed="white"/>
+</xs:schema>

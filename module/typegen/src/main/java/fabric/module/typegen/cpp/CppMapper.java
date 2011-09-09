@@ -22,18 +22,18 @@ public class CppMapper extends Mapper
     types.put("FBoolean", "bool");
     types.put("FFloat", "float");
     types.put("FDouble", "double");
-    types.put("FByte", "byte");
-    types.put("FUnsignedByte", "short");
-    types.put("FShort", "short");
-    types.put("FUnsignedShort", "int");
-    types.put("FInt", "int");
-    // types.put("FPositiveInteger, "java.math.BigInteger");
-    types.put("FUnsignedInt", "long");
-    types.put("FLong", "long");
-    // types.put("FUnsignedLong, "java.math.BigDecimal");
-    // types.put("FDecimal, "java.math.BigDecimal");
-    /*
-    types.put("FString", "String");
+    types.put("FByte", "int8");
+    types.put("FUnsignedByte", "uint8");
+    types.put("FShort", "int32");
+    types.put("FUnsignedShort", "uint16");
+    types.put("FInt", "int32");
+    types.put("FPositiveInteger", "char*");
+    types.put("FUnsignedInt", "uint32");
+    types.put("FLong", "int64");
+    types.put("FUnsignedLong", "uint64");
+    types.put("FDecimal", "char*");
+    types.put("FString", "char*");
+      /*
     types.put("FHexBinary", "byte[]");
     types.put("FBase64Binary", "byte[]");
     types.put("FDateTime", "javax.xml.datatype.XMLGregorianCalendar");
@@ -47,7 +47,8 @@ public class CppMapper extends Mapper
     types.put("FDuration", "javax.xml.datatype.Duration");
     types.put("FNOTATION", "javax.xml.namespace.QName");
     types.put("FQName", "javax.xml.namespace.QName");
-    types.put("FAnyURI", "String");
-     */
+    */
+    types.put("FAnyURI", "char*");
+      types.put("FAny", "char*");
   }
 }
