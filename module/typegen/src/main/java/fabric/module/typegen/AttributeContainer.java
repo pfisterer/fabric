@@ -1,4 +1,4 @@
-/** 09.09.2011 01:28:09 */
+/** 10.09.2011 01:16 */
 package fabric.module.typegen;
 
 import java.util.Map;
@@ -170,22 +170,22 @@ public class AttributeContainer
     {
       MemberVariable copy = null;
 
-      if (master instanceof AttributeContainer.Attribute)
-      {
-        AttributeContainer.Attribute a = (AttributeContainer.Attribute)master;
-        copy = new AttributeContainer.Attribute(a.type, a.name, a.value);
-      }
-      else if (master instanceof AttributeContainer.Element)
+      if (master.getClass() == AttributeContainer.Element.class)
       {
         AttributeContainer.Element e = (AttributeContainer.Element)master;
         copy = new AttributeContainer.Element(e.type, e.name, e.value);
       }
-      else if (master instanceof AttributeContainer.ConstantElement)
+      else if (master.getClass() == AttributeContainer.ConstantElement.class)
       {
-        AttributeContainer.ConstantElement e = (AttributeContainer.ConstantElement)master;
-        copy = new AttributeContainer.ConstantElement(e.type, e.name, e.value);
+        AttributeContainer.ConstantElement c = (AttributeContainer.ConstantElement)master;
+        copy = new AttributeContainer.ConstantElement(c.type, c.name, c.value);
       }
-      else if (master instanceof AttributeContainer.ElementArray)
+      else if (master.getClass() == AttributeContainer.Attribute.class)
+      {
+        AttributeContainer.Attribute a = (AttributeContainer.Attribute)master;
+        copy = new AttributeContainer.Attribute(a.type, a.name, a.value);
+      }
+      else if (master.getClass() == AttributeContainer.ElementArray.class)
       {
         AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)master;
         copy = new AttributeContainer.ElementArray(ea.type, ea.name, ea.size);
@@ -397,37 +397,6 @@ public class AttributeContainer
     public String name;
   }
 
-  public static class Attribute extends MemberVariable
-  {
-    /** Value of XML attribute */
-    public String value;
-
-    /**
-     * Parameterized constructor.
-     *
-     * @param type Type of XML attribute
-     * @param name Name of XML attribute
-     * @param value Initial value of XML attribute
-     */
-    public Attribute(final String type, final String name, final String value)
-    {
-      this.type = type;
-      this.name = name;
-      this.value = value;
-    }
-
-    /**
-     * Parameterized constructor.
-     *
-     * @param type Type of XML attribute
-     * @param name Name of XML attribute
-     */
-    public Attribute(final String type, final String name)
-    {
-      this(type, name, "");
-    }
-  }
-
   public static class Element extends MemberVariable
   {
     /** Value of XML element */
@@ -459,11 +428,8 @@ public class AttributeContainer
     }
   }
 
-  public static class ConstantElement extends MemberVariable
+  public static class ConstantElement extends Element
   {
-    /** Value of constant XML element */
-    public String value;
-
     /**
      * Parameterized constructor.
      *
@@ -473,9 +439,33 @@ public class AttributeContainer
      */
     public ConstantElement(final String type, final String name, final String value)
     {
-      this.type = type;
-      this.name = name;
-      this.value = value;
+      super(type, name, value);
+    }
+  }
+
+  public static class Attribute extends Element
+  {
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML attribute
+     * @param name Name of XML attribute
+     * @param value Initial value of XML attribute
+     */
+    public Attribute(final String type, final String name, final String value)
+    {
+      super(type, name, value);
+    }
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML attribute
+     * @param name Name of XML attribute
+     */
+    public Attribute(final String type, final String name)
+    {
+      this(type, name, "");
     }
   }
 

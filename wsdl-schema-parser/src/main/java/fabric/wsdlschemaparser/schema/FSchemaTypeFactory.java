@@ -308,14 +308,14 @@ public class FSchemaTypeFactory {
 		}
 		FElement schemaElement = new FElement(elemName, ftype);
 		
-		// check the element for minOccurs...
+		// check the element for minOccurs, ...
 		if (elem.isSetMinOccurs()) {
 			Object o = elem.getMinOccurs();
 			if (o instanceof Number)
 				schemaElement.setMinOccurs(((Number) o).intValue());
 		}
 		
-		// ... and maxOccurs
+		// ... maxOccurs, ...
 		if (elem.isSetMaxOccurs()) {
 			Object o = elem.getMaxOccurs();
 			if (o instanceof Number)
@@ -323,6 +323,16 @@ public class FSchemaTypeFactory {
 			else if (o instanceof String && ((String) o).equals("unbounded"))
 				schemaElement.setMaxOccursUnbounded();
 		}
+
+                // ... fixed value ...
+                if (elem.isSetFixed()) {
+                    schemaElement.setFixedValue(elem.getFixed());
+                }
+
+                // ... and default value
+                else if (elem.isSetDefault()) {
+                    schemaElement.setDefaultValue(elem.getDefault());
+                }
 
 		if (elem.isSetRef()) {
 			schemaElement.setReference(true);

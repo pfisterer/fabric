@@ -2,6 +2,7 @@ package fabric.core;
 
 import classes.java.*;
 import de.uniluebeck.sourcegen.SourceFile;
+import de.uniluebeck.sourcegen.java.JSourceFile;
 import fabric.Main;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 import de.uniluebeck.sourcegen.Workspace;

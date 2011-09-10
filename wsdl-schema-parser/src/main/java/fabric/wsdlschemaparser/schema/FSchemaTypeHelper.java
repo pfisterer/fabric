@@ -111,6 +111,26 @@ public final class FSchemaTypeHelper {
     	return hasEnum;
     }
 
+    /**
+     * Returns whether the given element has a default value.
+     *
+     * @param e FElement object
+     * @return True, if the element has a default value, false otherwise.
+     */
+    public static boolean hasDefaultValue(FElement e) {
+        return e.getDefaultValue() != null;
+    }
+
+    /**
+     * Returns whether the given element has a fixed value.
+     *
+     * @param e FElement object
+     * @return True, if the element has a fixed value, false otherwise.
+     */
+    public static boolean hasFixedValue(FElement e) {
+        return e.getFixedValue() != null;
+    }
+
     // --------------------------------------------------------------------
 
     public static Object[] extractEnumArray(FSimpleType st) {

@@ -226,41 +226,9 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     JField jf = null;
 
     /*****************************************************************
-     * Handle XML attributes
-     *****************************************************************/
-    if (member instanceof AttributeContainer.Attribute)
-    {
-      AttributeContainer.Attribute a = (AttributeContainer.Attribute)member;
-
-      // No initial value set
-      if (("").equals(a.value))
-      {
-        jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name);
-      }
-      // Initial value is set
-      else
-      {
-        // Add quotation marks to initial value, if type is String
-        String value = a.value;
-        if (("String").equals(a.type))
-        {
-          value = "\"" + value + "\"";
-        }
-
-        jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name, value);
-      }
-
-      jf.setComment(new JFieldCommentImpl("The '" + a.name + "' attribute."));
-
-      // Annotation pattern e.g. @Attribute or @XStreamAsAttribute
-      String annotation = this.xmlMapper.getAnnotation("attribute", a.name);
-      jf.addAnnotation(new JFieldAnnotationImpl(annotation));
-    }
-
-    /*****************************************************************
      * Handle XML elements
      *****************************************************************/
-    else if (member instanceof AttributeContainer.Element)
+    if (member.getClass() == AttributeContainer.Element.class)
     {
       AttributeContainer.Element a = (AttributeContainer.Element)member;
 
@@ -292,7 +260,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     /*****************************************************************
      * Handle constant XML elements
      *****************************************************************/
-    else if (member instanceof AttributeContainer.ConstantElement)
+    else if (member.getClass() == AttributeContainer.ConstantElement.class)
     {
       AttributeContainer.ConstantElement a = (AttributeContainer.ConstantElement)member;
 
@@ -312,9 +280,41 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     }
 
     /*****************************************************************
+     * Handle XML attributes
+     *****************************************************************/
+    else if (member.getClass() == AttributeContainer.Attribute.class)
+    {
+      AttributeContainer.Attribute a = (AttributeContainer.Attribute)member;
+
+      // No initial value set
+      if (("").equals(a.value))
+      {
+        jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name);
+      }
+      // Initial value is set
+      else
+      {
+        // Add quotation marks to initial value, if type is String
+        String value = a.value;
+        if (("String").equals(a.type))
+        {
+          value = "\"" + value + "\"";
+        }
+
+        jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name, value);
+      }
+
+      jf.setComment(new JFieldCommentImpl("The '" + a.name + "' attribute."));
+
+      // Annotation pattern e.g. @Attribute or @XStreamAsAttribute
+      String annotation = this.xmlMapper.getAnnotation("attribute", a.name);
+      jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+    }
+
+    /*****************************************************************
      * Handle XML element arrays
      *****************************************************************/
-    else if (member instanceof AttributeContainer.ElementArray)
+    else if (member.getClass() == AttributeContainer.ElementArray.class)
     {
       AttributeContainer.ElementArray a = (AttributeContainer.ElementArray)member;
 
@@ -361,7 +361,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
   private JMethod createSetterMethod(MemberVariable member) throws Exception
   {
     // No setter for constants
-    if (member instanceof AttributeContainer.ConstantElement)
+    if (member.getClass() == AttributeContainer.ConstantElement.class)
     {
       return null;
     }
@@ -370,7 +370,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
 
     // Member variable is an array
     String name = member.name;
-    if (member instanceof AttributeContainer.ElementArray)
+    if (member.getClass() == AttributeContainer.ElementArray.class)
     {
       name = name + "[]";
 
@@ -405,7 +405,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
   {
     // Member variable is an array
     String type = member.type;
-    if (member instanceof AttributeContainer.ElementArray)
+    if (member.getClass() == AttributeContainer.ElementArray.class)
     {
       type = type + "[]";
     }
