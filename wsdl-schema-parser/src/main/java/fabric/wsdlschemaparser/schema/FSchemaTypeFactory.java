@@ -21,9 +21,6 @@
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-/**
- *
- */
 package fabric.wsdlschemaparser.schema;
 
 import java.util.ArrayList;
@@ -324,15 +321,15 @@ public class FSchemaTypeFactory {
 				schemaElement.setMaxOccursUnbounded();
 		}
 
-                // ... fixed value ...
-                if (elem.isSetFixed()) {
-                    schemaElement.setFixedValue(elem.getFixed());
-                }
-
-                // ... and default value
-                else if (elem.isSetDefault()) {
-                    schemaElement.setDefaultValue(elem.getDefault());
-                }
+    // ... fixed value ...
+    if (elem.isSetFixed()) {
+      schemaElement.setFixedValue(elem.getFixed());
+    }
+    
+    // ... and default value
+    if (elem.isSetDefault()) {
+      schemaElement.setDefaultValue(elem.getDefault());
+    }
 
 		if (elem.isSetRef()) {
 			schemaElement.setReference(true);

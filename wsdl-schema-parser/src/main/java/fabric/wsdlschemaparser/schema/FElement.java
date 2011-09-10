@@ -175,6 +175,8 @@ public class FElement extends FSchemaObject {
         return maxOccurs;
     }
 
+    // --------------------------------------------------------------------
+
     /**
      * Sets the fixed value of this element.
      *
@@ -182,7 +184,12 @@ public class FElement extends FSchemaObject {
      * null if this element has no fixed value.
      */
     public void setFixedValue(String value) {
-        if(schemaType.isSimple() && defaultValue==null) {
+        if (null != defaultValue) {
+            throw new IllegalStateException("Cannot set fixed value. Default "
+                    + "value already set. Options are mutually exclusive.");
+        }
+
+        if (schemaType.isSimple()) {
             fixedValue = value;
         }
     }
@@ -195,6 +202,8 @@ public class FElement extends FSchemaObject {
         return fixedValue;
     }
 
+    // --------------------------------------------------------------------
+
     /**
      * Sets the default value of this element.
      *
@@ -202,7 +211,12 @@ public class FElement extends FSchemaObject {
      * null if element has no default value.
      */
     public void setDefaultValue(String value) {
-        if (schemaType.isSimple() && fixedValue==null) {
+        if (null != fixedValue) {
+            throw new IllegalStateException("Cannot set default value. Fixed "
+                    + "value already set. Options are mutually exclusive.");
+        }
+
+        if (schemaType.isSimple()) {
             defaultValue = value;
         }
     }
@@ -214,6 +228,8 @@ public class FElement extends FSchemaObject {
     public String getDefaultValue() {
         return defaultValue;
     }
+
+    // --------------------------------------------------------------------
 
     public FElement getReferencedTopLevelElement() {
         if (isReference()) {
