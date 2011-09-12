@@ -51,6 +51,8 @@ public class FSchemaTypeFactoryTest {
         FSchemaType intList    = objectList.getTopLevelElement("IntList").getSchemaType();
         FSchemaType intValue   = objectList.getTopLevelElement("IntValue").getSchemaType();
         FSchemaType intList2   = objectList.getTopLevelElement("AnotherIntList").getSchemaType();
+        FSchemaType restrictedList
+                = objectList.getTopLevelElement("IntListWithRestriction").getSchemaType();
 
         /*
         Tests
@@ -61,5 +63,8 @@ public class FSchemaTypeFactoryTest {
                 intValue.isSimple() && !((FSimpleType) intValue).isList());
         assertTrue("AnotherIntList has to be a xs:list of type xs:integer.",
                 intList2.isSimple() && ((FSimpleType) intList2).isList());
+        assertTrue("IntListWithRestriction has to be a xs:list of type IntListType.",
+                restrictedList.isSimple() && ((FSimpleType) restrictedList).isList()
+                && restrictedList instanceof FInteger);
     }
 }

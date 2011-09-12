@@ -146,18 +146,24 @@ public class FSchemaTypeFactory {
             }
         }
 
+        /*
+        Check for restrictions
+         */
         FSimpleType fst = null;
         if (stype.isSetRestriction()) {
             fst = generateSimpleRestrictionType(stype.getRestriction());
         }
-
-        if (stype.isSetList()) {
+        /*
+        Check if simple type is a xs:list
+         */
+        else if (stype.isSetList()) {
             fst = generateSimpleListType(stype);
         }
 
         if (fst != null) {
             fst.setName(name);
             fst.setTopLevel(true);
+            fst.setIsList(stype.isSetList());
 
             addTopLevelType(fst);
 
@@ -280,30 +286,7 @@ public class FSchemaTypeFactory {
                 }
             }
         } else {
-            // try to get a top-level type...
-            String typeName = type.getLocalPart();
-            ftype = getTopLevelType(typeName);
-            // if that has not been successful, then generate a new one
-            if (ftype == null) {
-                if (schemaHelper.isXMLSchemaName(type)) {
-                    SchemaType st = SchemaHelper.getSchemaType(type);
-                    if (st.getSimpleVariety() == SchemaType.ATOMIC) {
-                        ftype = generateSimpleTypeFromBTC(st.getBuiltinTypeCode());
-                    } else {
-                        throw new UnhandledSimpleVarietyException(
-                                "SimpleVariety not handled: " + st.getSimpleVariety());
-                    }
-                } else {
-                    XmlObject xo = schemaHelper.getByName(type);
-                    if (xo instanceof SimpleType) {
-                        ftype = generate((TopLevelSimpleType) xo);
-                    } else if (xo instanceof ComplexType) {
-                        ftype = generate((TopLevelComplexType) xo);
-                    } else {
-                        throw new RuntimeException();
-                    }
-                }
-            }
+            ftype = createTopLevelType(type);
         }
 
         if (ftype == null) {
@@ -349,6 +332,42 @@ public class FSchemaTypeFactory {
 
         initObject(schemaElement);
         return schemaElement;
+    }
+
+    /**
+     * Tries to get a top level type with the given QName. If this
+     * is not successful then it generates a new top level type.
+     *
+     * @param type QName of the type
+     * @return FSchemaType object
+     */
+    private FSchemaType createTopLevelType(QName type) {
+        // try to get a top-level type...
+        String typeName = type.getLocalPart();
+        FSchemaType ftype = getTopLevelType(typeName);
+        // if that has not been successful, then generate a new one
+        if (ftype == null) {
+            if (schemaHelper.isXMLSchemaName(type)) {
+                SchemaType st = SchemaHelper.getSchemaType(type);
+                if (st.getSimpleVariety() == SchemaType.ATOMIC) {
+                    ftype = generateSimpleTypeFromBTC(st.getBuiltinTypeCode());
+                } else {
+                    throw new UnhandledSimpleVarietyException(
+                            "SimpleVariety not handled: " + st.getSimpleVariety());
+                }
+            } else {
+                XmlObject xo = schemaHelper.getByName(type);
+                if (xo instanceof SimpleType) {
+                    ftype = generate((TopLevelSimpleType) xo);
+                } else if (xo instanceof ComplexType) {
+                    ftype = generate((TopLevelComplexType) xo);
+                } else {
+                    throw new RuntimeException();
+                }
+            }
+        }
+
+        return ftype;
     }
 
     /**
@@ -459,6 +478,7 @@ public class FSchemaTypeFactory {
     private FSimpleType generateLocalSimpleType(LocalSimpleType stype) {
         FSimpleType fst = null;
         log.debug("Generating LocalSimpleType");
+
         /*
         Check for restrictions
          */
@@ -469,7 +489,7 @@ public class FSchemaTypeFactory {
         /*
         Check for xs:list
          */
-        if (stype.isSetList()) {
+        else if (stype.isSetList()) {
             fst = generateSimpleListType(stype);
         }
 
@@ -484,8 +504,7 @@ public class FSchemaTypeFactory {
      */
     private FSimpleType generateSimpleListType(SimpleType stype) {
         QName itemType = stype.getList().getItemType();
-        SchemaType st_itemType = SchemaHelper.getSchemaType(itemType);
-        FSimpleType fst = generateSimpleTypeFromBTC(st_itemType.getBuiltinTypeCode());
+        FSimpleType fst = (FSimpleType) createTopLevelType(itemType);
         fst.setIsList(true);
         return fst;
     }
@@ -497,8 +516,7 @@ public class FSchemaTypeFactory {
     private FSimpleType generateSimpleRestrictionType(Restriction restriction) {
         QName base = restriction.getBase();
         System.out.println(base);
-        SchemaType st_base = SchemaHelper.getSchemaType(base);
-        FSimpleType fst = generateSimpleTypeFromBTC(st_base.getBuiltinTypeCode());
+        FSimpleType fst = (FSimpleType) createTopLevelType(base);
         fst.getRestrictions().parse(restriction);
         return fst;
     }
@@ -513,8 +531,7 @@ public class FSchemaTypeFactory {
             throws UnsupportedRestrictionException {
         QName base = restriction.getBase();
         System.out.println(base);
-        SchemaType st_base = SchemaHelper.getSchemaType(base);
-        FSimpleType fst = generateSimpleTypeFromBTC(st_base.getBuiltinTypeCode());
+        FSimpleType fst = (FSimpleType) createTopLevelType(base);
         fst.getRestrictions().parse(restriction);
         return fst;
     }
