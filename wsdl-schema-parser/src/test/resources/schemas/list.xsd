@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="IntList" type="IntListType"/>
+        <xs:simpleType name="IntListType">
+  		<xs:list itemType="xs:integer"/>
+	</xs:simpleType>
+
+        <xs:element name="IntValue" type="xs:integer"/>
+</xs:schema>
