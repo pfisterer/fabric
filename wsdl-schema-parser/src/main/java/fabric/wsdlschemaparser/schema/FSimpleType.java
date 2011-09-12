@@ -33,6 +33,11 @@ package fabric.wsdlschemaparser.schema;
  */
 public abstract class FSimpleType extends FSchemaType {
 
+    /**
+     * Stores whether this simple type is a xs:list or not.
+     */
+    private boolean isList;
+
     // --------------------------------------------------------------------
     // Constructors and object initialisation
     // --------------------------------------------------------------------
@@ -77,4 +82,20 @@ public abstract class FSimpleType extends FSchemaType {
 			getRestrictions().equals(((FSimpleType)other).getRestrictions());
 		
 	}
+
+    /**
+     * Sets whether this simple type is a xs:list.
+     *
+     * @param b True, if simple type is a xs:list; false, otherwise.
+     */
+    public final void setIsList(boolean b) {
+        isList = b;
+    }
+
+    /**
+     * @return True, if simple type is a xs:list; false, otherwise.
+     */
+    public final boolean isList() {
+        return isList;
+    }
 }

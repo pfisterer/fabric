@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.io.File;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class FSchemaTypeFactoryTest {
     static{
@@ -17,7 +18,7 @@ public class FSchemaTypeFactoryTest {
     }
 
     @Test
-    public void testDefaultValue() throws Exception {
+    public void testDefaultAndFixedValue() throws Exception {
         File file = new File("src/test/resources/schemas/defaultFixedValues.xsd");
         FSchema schema = new FSchema(file);
         FTopLevelObjectList objectList = schema.getTopLevelObjectList();
@@ -40,5 +41,25 @@ public class FSchemaTypeFactoryTest {
                 backgroundColor.getDefaultValue());
         assertEquals("Fixed value of ForegroundColor must be \"white\".",
                 "white", backgroundColor.getFixedValue());
+    }
+
+    @Test
+    public void testList() throws Exception {
+        File file = new File("src/test/resources/schemas/list.xsd");
+        FSchema schema = new FSchema(file);
+        FTopLevelObjectList objectList = schema.getTopLevelObjectList();
+        FSchemaType intList    = objectList.getTopLevelElement("IntList").getSchemaType();
+        FSchemaType intValue   = objectList.getTopLevelElement("IntValue").getSchemaType();
+        FSchemaType intList2   = objectList.getTopLevelElement("AnotherIntList").getSchemaType();
+
+        /*
+        Tests
+         */
+        assertTrue("IntList has to be a xs:list of type xs:integer.",
+                intList.isSimple() && ((FSimpleType) intList).isList());
+        assertTrue("IntValue has to be a single value of type xs:integer.",
+                intValue.isSimple() && !((FSimpleType) intValue).isList());
+        assertTrue("AnotherIntList has to be a xs:list of type xs:integer.",
+                intList2.isSimple() && ((FSimpleType) intList2).isList());
     }
 }
