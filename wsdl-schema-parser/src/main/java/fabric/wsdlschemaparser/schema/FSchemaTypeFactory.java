@@ -163,7 +163,7 @@ public class FSchemaTypeFactory {
         if (fst != null) {
             fst.setName(name);
             fst.setTopLevel(true);
-            fst.setIsList(stype.isSetList());
+            //fst.setIsList(stype.isSetList());
 
             addTopLevelType(fst);
 
@@ -502,11 +502,12 @@ public class FSchemaTypeFactory {
      * @param stype
      * @return FSimpleType object
      */
-    private FSimpleType generateSimpleListType(SimpleType stype) {
+    private FList generateSimpleListType(SimpleType stype) {
+        FList fl = new FList();
         QName itemType = stype.getList().getItemType();
         FSimpleType fst = (FSimpleType) createTopLevelType(itemType);
-        fst.setIsList(true);
-        return fst;
+        fl.setItemType(fst);
+        return fl;
     }
 
     /**
