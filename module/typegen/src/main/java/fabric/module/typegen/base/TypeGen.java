@@ -1,6 +1,5 @@
 package fabric.module.typegen.base;
 
-import fabric.wsdlschemaparser.schema.FComplexType;
 import fabric.wsdlschemaparser.schema.FElement;
 import fabric.wsdlschemaparser.schema.FSimpleType;
 
@@ -15,7 +14,7 @@ public interface TypeGen
   public void writeSourceFiles() throws Exception;
 
   public void createNewContainer(FSimpleType type);
-  public void createNewContainer(FComplexType type);
+  //public void createNewContainer(FComplexType type);
   public void addMemberVariable(FElement element);
 
   public void buildCurrentContainer() throws Exception;

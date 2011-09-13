@@ -134,8 +134,7 @@ public class JavaTypeGen implements TypeGen
       {
         current.addElementArray(typeName, element.getName(), element.getMaxOccurs());
       }
-      // TODO: Uncomment, as soon as default and fixed values are implemented in Fabric
-      else if(FSchemaTypeHelper.hasDefaultValue(element))
+      else if (FSchemaTypeHelper.hasDefaultValue(element))
       {
         current.addElement(typeName, element.getName(), element.getDefaultValue());
       }
@@ -159,34 +158,34 @@ public class JavaTypeGen implements TypeGen
   {
     // Create new container for simple type (may not contain array as value)
     AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
-    newBuilder.addElement(mapper.lookup(this.getFabricTypeName(type)), "value");
+    newBuilder.addElement(mapper.lookup(this.getFabricTypeName(type)), "value", this.createRestrictions(type)); // TODO: Remove checkRestrictions()
     incompleteBuilders.push(newBuilder);
   }
 
-  @Override
-  public void createNewContainer(FComplexType type)
-  {
-    /*
-    Generate new builder for new class
-     */
-    AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
-
-    /*
-    Add all attributes of the ComplexType to the builder
-     */
-    List<FSchemaAttribute> attributes = type.getAttributes();
-    for (FSchemaAttribute attr: attributes)
-    {
-      System.out.println(attr.getName() + ": " + this.getFabricTypeName(attr.getSchemaType())); // TODO: Remove this line!
-
-      newBuilder.addAttribute(mapper.lookup(this.getFabricTypeName(attr.getSchemaType())), attr.getName());
-    }
-
-    /*
-    Add builder to yet incomplete builders
-     */
-    incompleteBuilders.push(newBuilder);
-  }
+//  @Override
+//  public void createNewContainer(FComplexType type)
+//  {
+//    /*
+//    Generate new builder for new class
+//     */
+//    AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
+//
+//    /*
+//    Add all attributes of the ComplexType to the builder
+//     */
+//    List<FSchemaAttribute> attributes = type.getAttributes();
+//    for (FSchemaAttribute attr: attributes)
+//    {
+//      System.out.println(attr.getName() + ": " + this.getFabricTypeName(attr.getSchemaType())); // TODO: Remove this line!
+//
+//      newBuilder.addAttribute(mapper.lookup(this.getFabricTypeName(attr.getSchemaType())), attr.getName());
+//    }
+//
+//    /*
+//    Add builder to yet incomplete builders
+//     */
+//    incompleteBuilders.push(newBuilder);
+//  }
 
   @Override
   public void buildCurrentContainer() throws Exception
@@ -199,6 +198,75 @@ public class JavaTypeGen implements TypeGen
     this.generatedElements.put(classObject.getName(), classObject);
 
     System.out.println(String.format("Built current container '%s'.", classObject.getName()));
+  }
+
+  // TODO: Add documentation
+  private AttributeContainer.Restriction createRestrictions(FSimpleType type)
+  {
+    AttributeContainer.Restriction restrictions = new AttributeContainer.Restriction();
+
+    FSchemaRestrictions schemaRestrictions = type.getRestrictions();
+    List<Integer> validFacets = type.getValidFacets();
+
+    for (Integer facet: validFacets)
+    {
+      switch (facet)
+      {
+        case SchemaType.FACET_LENGTH:
+          if (schemaRestrictions.hasRestriction(facet))
+          {
+            restrictions.length = schemaRestrictions.getStringValue(facet);
+          }
+          break;
+
+        case SchemaType.FACET_MIN_LENGTH:
+          if (schemaRestrictions.hasRestriction(facet))
+          {
+            restrictions.minLength = schemaRestrictions.getStringValue(facet);
+          }
+          break;
+
+        case SchemaType.FACET_MAX_LENGTH:
+          if (schemaRestrictions.hasRestriction(facet))
+          {
+            restrictions.maxLength = schemaRestrictions.getStringValue(facet);
+          }
+          break;
+
+        case SchemaType.FACET_MIN_INCLUSIVE:
+          if (schemaRestrictions.hasRestriction(facet))
+          {
+            restrictions.minInclusive = schemaRestrictions.getStringValue(facet);
+          }
+          break;
+
+        case SchemaType.FACET_MAX_INCLUSIVE:
+          if (schemaRestrictions.hasRestriction(facet))
+          {
+            restrictions.maxInclusive = schemaRestrictions.getStringValue(facet);
+          }
+          break;
+
+        case SchemaType.FACET_MIN_EXCLUSIVE:
+          if (schemaRestrictions.hasRestriction(facet))
+          {
+            restrictions.minExclusive = schemaRestrictions.getStringValue(facet);
+          }
+          break;
+
+        case SchemaType.FACET_MAX_EXCLUSIVE:
+          if (schemaRestrictions.hasRestriction(facet))
+          {
+            restrictions.maxExclusive = schemaRestrictions.getStringValue(facet);
+          }
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    return restrictions;
   }
 
   // TODO: Add documentation

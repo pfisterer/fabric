@@ -25,6 +25,8 @@ public class JavaMapper extends Mapper
     types.put("FUnsignedByte", "short");
     types.put("FShort", "short");
     types.put("FUnsignedShort", "int");
+    types.put("FInt", "int");
+    types.put("FInteger", "java.math.BigDecimal");
     types.put("FPositiveInteger", "java.math.BigInteger");
     types.put("FUnsignedInt", "long");
     types.put("FLong", "long");
@@ -45,8 +47,6 @@ public class JavaMapper extends Mapper
     types.put("FNOTATION", "javax.xml.namespace.QName");
     types.put("FQName", "javax.xml.namespace.QName");
     types.put("FAnyURI", "String");
-    types.put("FInt", "int");
-    types.put("FInteger", "java.math.BigDecimal");
     types.put("FName", "String");
     types.put("FNCName", "String");
     types.put("FNegativeInteger", "java.math.BigDecimal");

@@ -69,7 +69,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
     if (null != element)
     {
       // TODO: Handle FSequence
-      if (element.getSchemaType() instanceof FSequence)
+      if (element.getSchemaType().getClass() == FSequence.class)
       {
         return;
       }

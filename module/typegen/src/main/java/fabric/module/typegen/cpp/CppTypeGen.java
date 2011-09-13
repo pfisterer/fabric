@@ -43,11 +43,11 @@ public class CppTypeGen implements TypeGen
     throw new UnsupportedOperationException("Not supported yet.");
   }
 
-  @Override
-  public void createNewContainer(FComplexType type)
-  {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+//  @Override
+//  public void createNewContainer(FComplexType type)
+//  {
+//    throw new UnsupportedOperationException("Not supported yet.");
+//  }
 
   @Override
   public void addMemberVariable(FElement element)

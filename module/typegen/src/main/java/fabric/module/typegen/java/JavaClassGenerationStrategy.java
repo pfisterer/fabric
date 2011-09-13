@@ -367,18 +367,23 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     }
 
     String methodBody = "";
-
-    // Member variable is an array
     String name = member.name;
-    if (member.getClass() == AttributeContainer.ElementArray.class)
+    
+    // Member variable is an element or attribute
+    if (member.getClass() == AttributeContainer.Element.class || member.getClass() == AttributeContainer.Attribute.class)
+    {
+      // Create code to check restrictions
+      methodBody += this.generateRestrictionChecks(member);
+    }
+    // Member variable is an array    
+    else if (member.getClass() == AttributeContainer.ElementArray.class)
     {
       name = name + "[]";
 
-      methodBody = String.format("if (%s.length < 0 || %s.length > %d)",
-              member.name, member.name, ((AttributeContainer.ElementArray)member).size);
-      methodBody += "\n{";
-      methodBody += String.format("\n\tthrow new IllegalArgumentException(\"Illegal size for array '%s'.\");", member.name);
-      methodBody += "\n}\n\n";
+      // Create code to check array length
+      methodBody += this.createCheckString(
+              String.format("%s.length < 0 || %s.length > %d", member.name, member.name, ((AttributeContainer.ElementArray)member).size),
+              String.format("Illegal size for array '%s'.", member.name));
     }
 
     JMethodSignature jms = JMethodSignature.factory.create(JParameter.factory.create(JModifier.FINAL, member.type, name));
@@ -389,6 +394,101 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     setter.setComment(new JMethodCommentImpl("Set the '" + member.name + "' member variable."));
 
     return setter;
+  }
+
+  /**
+   * Private helper method to create code for restriction checking.
+   * The function determines, if any restrictions are set on the
+   * given member variable, and generates check-code accordingly.
+   *
+   * @param member MemberVariable object with restrictions
+   *
+   * @return String with code that includes restriction checks
+   */
+  private String generateRestrictionChecks(AttributeContainer.MemberVariable member)
+  {
+    String result = "";
+    
+    // Create code to check restrictions
+    AttributeContainer.Element e = (AttributeContainer.Element)member;
+    AttributeContainer.Restriction r = e.restrictions;
+    String message = "Restriction '%s' violated for member variable '%s'.";
+
+    if (e.isLengthRestricted())
+    {
+      result += this.createCheckString(
+              String.format("%s.length() != %d", member.name, Integer.parseInt(r.length)),
+              String.format(message, "length", member.name));
+    }
+
+    if (e.isMinLengthRestricted())
+    {
+      result += this.createCheckString(
+              String.format("%s.length() < %d", member.name, Integer.parseInt(r.minLength)),
+              String.format(message, "minLength", member.name));
+    }
+
+    if (e.isMaxLengthRestricted())
+    {
+      result += this.createCheckString(
+              String.format("%s.length() > %d", member.name, Integer.parseInt(r.maxLength)),
+              String.format(message, "maxLength", member.name));
+    }
+
+    if (e.isMinInclusiveRestricted())
+    {
+      result += this.createCheckString(
+              String.format("%s < %d", member.name, Integer.parseInt(r.minInclusive)),
+              String.format(message, "minInclusive", member.name));
+    }
+
+    if (e.isMaxInclusiveRestricted())
+    {
+      result += this.createCheckString(
+              String.format("%s > %d", member.name, Integer.parseInt(r.maxInclusive)),
+              String.format(message, "maxInclusive", member.name));
+    }
+
+    if (e.isMinExclusiveRestricted())
+    {
+      result += this.createCheckString(
+              String.format("%s <= %d", member.name, Integer.parseInt(r.minExclusive)),
+              String.format(message, "minExclusive", member.name));
+    }
+
+    if (e.isMaxExclusiveRestricted())
+    {
+      result += this.createCheckString(
+              String.format("%s >= %d", member.name, Integer.parseInt(r.maxExclusive)),
+              String.format(message, "maxExclusive", member.name));
+    }
+
+    return result;
+  }
+
+  /**
+   * Private helper method to create a string that checks a boolean
+   * expression and throws an IllegalArgumentException with predefined
+   * message on failure.
+   *
+   * This function is used to add parameter and restriction checks
+   * to setter methods.
+   *
+   * @param expression Boolean expression for if-statement
+   * @param message Error message to show in exception
+   *
+   * @return String with parameter check code
+   */
+  private String createCheckString(final String expression, final String message)
+  {
+    String result;
+
+    result = String.format("if (%s)", expression);
+    result += "\n{";
+    result += String.format("\n\tthrow new IllegalArgumentException(\"%s\");", message);
+    result += "\n}\n\n";
+
+    return result;
   }
 
   /**

@@ -1,4 +1,4 @@
-/** 10.09.2011 01:16 */
+/** 12.09.2011 21:42 */
 package fabric.module.typegen;
 
 import java.util.Map;
@@ -43,7 +43,7 @@ public class AttributeContainer
     /** Name of the container class */
     private String name;
 
-    /** Member variables (e.g. attributes, elements or arrays) */
+    /** Member variables (e.g. attributes, elements, constants or arrays) */
     private Map<String, MemberVariable> members;
 
     /**
@@ -173,7 +173,7 @@ public class AttributeContainer
       if (master.getClass() == AttributeContainer.Element.class)
       {
         AttributeContainer.Element e = (AttributeContainer.Element)master;
-        copy = new AttributeContainer.Element(e.type, e.name, e.value);
+        copy = new AttributeContainer.Element(e.type, e.name, e.value, e.restrictions.clone());
       }
       else if (master.getClass() == AttributeContainer.ConstantElement.class)
       {
@@ -183,7 +183,7 @@ public class AttributeContainer
       else if (master.getClass() == AttributeContainer.Attribute.class)
       {
         AttributeContainer.Attribute a = (AttributeContainer.Attribute)master;
-        copy = new AttributeContainer.Attribute(a.type, a.name, a.value);
+        copy = new AttributeContainer.Attribute(a.type, a.name, a.value, a.restrictions.clone());
       }
       else if (master.getClass() == AttributeContainer.ElementArray.class)
       {
@@ -243,35 +243,19 @@ public class AttributeContainer
     }
 
     /**
-     * Add XML attribute to container. Initial value can be predefined.
-     * Existing entries will be overridden by new attribute definition.
+     * Add XML element to container. Initial value can be predefined.
+     * Existing entries will be overridden by new element definition.
      *
      * @param type Type of member variable
      * @param name Name of member variable
      * @param value Initial value of member variable
+     * @param restrictions Restrictions on element content
      *
      * @return Builder object
      */
-    public Builder addAttribute(final String type, final String name, final String value)
+    public Builder addElement(final String type, final String name, final String value, final Restriction restrictions)
     {
-      // Member class Attribute cannot exist without instance of outer class AttributeContainer
-      this.members.put(name, new AttributeContainer.Attribute(type, name, value));
-
-      return this;
-    }
-
-    /**
-     * Add XML attribute to container. Existing entries will be
-     * overridden by new attribute definition.
-     *
-     * @param type Type of member variable
-     * @param name Name of member variable
-     *
-     * @return Builder object
-     */
-    public Builder addAttribute(final String type, final String name)
-    {
-      this.members.put(name, new AttributeContainer.Attribute(type, name));
+      this.members.put(name, new AttributeContainer.Element(type, name, value, restrictions));
 
       return this;
     }
@@ -289,6 +273,23 @@ public class AttributeContainer
     public Builder addElement(final String type, final String name, final String value)
     {
       this.members.put(name, new AttributeContainer.Element(type, name, value));
+
+      return this;
+    }
+
+    /**
+     * Add XML element to container. Existing entries will be
+     * overridden by new element definition.
+     *
+     * @param type Type of member variable
+     * @param name Name of member variable
+     * @param restrictions Restrictions on element content
+     *
+     * @return Builder object
+     */
+    public Builder addElement(final String type, final String name, final Restriction restrictions)
+    {
+      this.members.put(name, new AttributeContainer.Element(type, name, restrictions));
 
       return this;
     }
@@ -323,6 +324,75 @@ public class AttributeContainer
     public Builder addConstantElement(final String type, final String name, final String value)
     {
       this.members.put(name, new AttributeContainer.ConstantElement(type, name, value));
+
+      return this;
+    }
+
+    /**
+     * Add XML attribute to container. Initial value can be predefined.
+     * Existing entries will be overridden by new attribute definition.
+     *
+     * @param type Type of member variable
+     * @param name Name of member variable
+     * @param value Initial value of member variable
+     * @param restrictions Restrictions on attribute content
+     *
+     * @return Builder object
+     */
+    public Builder addAttribute(final String type, final String name, final String value, final Restriction restrictions)
+    {
+      this.members.put(name, new AttributeContainer.Attribute(type, name, value, restrictions));
+
+      return this;
+    }
+
+    /**
+     * Add XML attribute to container. Initial value can be predefined.
+     * Existing entries will be overridden by new attribute definition.
+     *
+     * @param type Type of member variable
+     * @param name Name of member variable
+     * @param value Initial value of member variable
+     *
+     * @return Builder object
+     */
+    public Builder addAttribute(final String type, final String name, final String value)
+    {
+      // Member class Attribute cannot exist without instance of outer class AttributeContainer
+      this.members.put(name, new AttributeContainer.Attribute(type, name, value));
+
+      return this;
+    }
+
+    /**
+     * Add XML attribute to container. Existing entries will be
+     * overridden by new attribute definition.
+     *
+     * @param type Type of member variable
+     * @param name Name of member variable
+     * @param restrictions Restrictions on attribute content
+     *
+     * @return Builder object
+     */
+    public Builder addAttribute(final String type, final String name, final Restriction restrictions)
+    {
+      this.members.put(name, new AttributeContainer.Attribute(type, name, restrictions));
+
+      return this;
+    }
+
+    /**
+     * Add XML attribute to container. Existing entries will be
+     * overridden by new attribute definition.
+     *
+     * @param type Type of member variable
+     * @param name Name of member variable
+     *
+     * @return Builder object
+     */
+    public Builder addAttribute(final String type, final String name)
+    {
+      this.members.put(name, new AttributeContainer.Attribute(type, name));
 
       return this;
     }
@@ -402,6 +472,25 @@ public class AttributeContainer
     /** Value of XML element */
     public String value;
 
+    /** Restrictions on element value */
+    public Restriction restrictions;
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML element
+     * @param name Name of XML element
+     * @param value Initial value of XML element
+     * @param restrictions Restrictions on XML element
+     */
+    public Element(final String type, final String name, final String value, final Restriction restrictions)
+    {
+      this.type = type;
+      this.name = name;
+      this.value = value;
+      this.restrictions = restrictions;
+    }
+
     /**
      * Parameterized constructor.
      *
@@ -411,9 +500,19 @@ public class AttributeContainer
      */
     public Element(final String type, final String name, final String value)
     {
-      this.type = type;
-      this.name = name;
-      this.value = value;
+      this(type, name, value, new Restriction());
+    }
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML element
+     * @param name Name of XML element
+     * @param restrictions Restrictions on XML element
+     */
+    public Element(final String type, final String name, final Restriction restrictions)
+    {
+      this(type, name, "", restrictions);
     }
 
     /**
@@ -424,12 +523,82 @@ public class AttributeContainer
      */
     public Element(final String type, final String name)
     {
-      this(type, name, "");
+      this(type, name, "", new Restriction());
+    }
+
+    /**
+     * Check 'length' restriction for element.
+     *
+     * @return True or false
+     */
+    public boolean isLengthRestricted()
+    {
+      return (null != this.restrictions.length && Integer.parseInt(this.restrictions.length) >= 0);
+    }
+
+    /**
+     * Check 'minLength' restriction for element.
+     *
+     * @return True or false
+     */
+    public boolean isMinLengthRestricted()
+    {
+      return (null != this.restrictions.minLength && Integer.parseInt(this.restrictions.minLength) >= 0);
+    }
+
+    /**
+     * Check 'maxLength' restriction for element.
+     *
+     * @return True or false
+     */
+    public boolean isMaxLengthRestricted()
+    {
+      return (null != this.restrictions.maxLength && Integer.parseInt(this.restrictions.maxLength) >= 0);
+    }
+
+    /**
+     * Check 'minInclusive' restriction for element.
+     *
+     * @return True or false
+     */
+    public boolean isMinInclusiveRestricted()
+    {
+      return (null != this.restrictions.minInclusive);
+    }
+
+    /**
+     * Check 'maxInclusive' restriction for element.
+     *
+     * @return True or false
+     */
+    public boolean isMaxInclusiveRestricted()
+    {
+      return (null != this.restrictions.maxInclusive);
+    }
+
+    /**
+     * Check 'minExclusive' restriction for element.
+     *
+     * @return True or false
+     */
+    public boolean isMinExclusiveRestricted()
+    {
+      return (null != this.restrictions.minExclusive);
+    }
+
+    /**
+     * Check 'maxExclusive' restriction for element.
+     *
+     * @return True or false
+     */
+    public boolean isMaxExclusiveRestricted()
+    {
+      return (null != this.restrictions.maxExclusive);
     }
   }
 
   public static class ConstantElement extends Element
-  {
+  {    
     /**
      * Parameterized constructor.
      *
@@ -451,6 +620,19 @@ public class AttributeContainer
      * @param type Type of XML attribute
      * @param name Name of XML attribute
      * @param value Initial value of XML attribute
+     * @param restrictions Restrictions on XML element
+     */
+    public Attribute(final String type, final String name, final String value, final Restriction restrictions)
+    {
+      super(type, name, value, restrictions);
+    }
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML attribute
+     * @param name Name of XML attribute
+     * @param value Initial value of XML attribute
      */
     public Attribute(final String type, final String name, final String value)
     {
@@ -462,10 +644,22 @@ public class AttributeContainer
      *
      * @param type Type of XML attribute
      * @param name Name of XML attribute
+     * @param restrictions Restrictions on XML element
+     */
+    public Attribute(final String type, final String name, final Restriction restrictions)
+    {
+      super(type, name, "", restrictions);
+    }
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML attribute
+     * @param name Name of XML attribute
      */
     public Attribute(final String type, final String name)
     {
-      this(type, name, "");
+      super(type, name, "");
     }
   }
 
@@ -497,6 +691,112 @@ public class AttributeContainer
     public ElementArray(final String type, final String name)
     {
       this(type, name, Integer.MAX_VALUE);
+    }
+  }
+  
+  /*****************************************************************
+   * Restriction internal class
+   *****************************************************************/
+
+  public static class Restriction
+  {
+    /** Length of content (e.g. amount of characters) or null */
+    public String length;
+
+    /** Minimal content length or null */
+    public String minLength;
+
+    /** Maximum content length or null */
+    public String maxLength;
+
+    /** Lower bound on element value (including boundary) or null */
+    public String minInclusive;
+
+    /** Upper bound on element value (including boundary) or null */
+    public String maxInclusive;
+
+    /** Lower bound on element value (excluding boundary) or null */
+    public String minExclusive;
+
+    /** Upper bound on element value (excluding boundary) or null */
+    public String maxExclusive;
+
+    /**
+     * Parameterless constructor. Member variable value of 'null'
+     * means that the restriction is not set at all. Value of 'length',
+     * 'minLength' and 'maxLength' must not be negative. The remaining
+     * boundaries can either be negative, zero or positive integer values.
+     */
+    public Restriction()
+    {
+      this.length = null;
+      this.minLength = null;
+      this.maxLength = null;
+
+      this.minInclusive = null;
+      this.maxInclusive = null;
+      this.minExclusive = null;
+      this.maxExclusive = null;
+    }
+
+    /**
+     * Parameterized constructor. Values must not be negative.
+     * A value of 'null' means that the restriction is not set.
+     *
+     * @param length Length of element content
+     * @param minLength Minimal content length
+     * @param maxLength Maximal content length
+     */
+    public Restriction(final String length, final String minLength, final String maxLength)
+    {
+      this.length = length;
+      this.minLength = minLength;
+      this.maxLength = maxLength;
+    }
+
+    /**
+     * Parameterized constructor. Values must either be negative,
+     * zero or positive integers. A value of 'null' means that the
+     * restriction is not set.
+     *
+     * @param lowerBound Lower bound on element value
+     * @param upperBound Upper bound on element value
+     * @param includeBound Flag to include or exclude boundary
+     */
+    public Restriction(final String lowerBound, final String upperBound, final boolean includeBound)
+    {
+      if (includeBound)
+      {
+        this.minInclusive = lowerBound;
+        this.maxInclusive = upperBound;
+      }
+      else
+      {
+        this.minExclusive = lowerBound;
+        this.maxExclusive = upperBound;
+      }
+    }
+
+    /**
+     * Clone Restriction object and return a deep copy.
+     *
+     * @return Cloned Restriction object
+     */
+    @Override
+    public Restriction clone()
+    {
+      Restriction clone = new Restriction();
+
+      clone.length = this.length;
+      clone.minLength = this.minLength;
+      clone.maxLength = this.maxLength;
+
+      clone.minInclusive = this.minInclusive;
+      clone.maxInclusive = this.maxInclusive;
+      clone.minExclusive = this.minExclusive;
+      clone.maxExclusive = this.maxExclusive;
+
+      return clone;
     }
   }
 
