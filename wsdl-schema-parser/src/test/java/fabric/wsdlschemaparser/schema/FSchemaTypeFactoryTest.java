@@ -1,11 +1,13 @@
 package fabric.wsdlschemaparser.schema;
 
 import org.apache.log4j.*;
+import org.apache.xmlbeans.SchemaType;
+import org.apache.xmlbeans.impl.xb.xsdschema.Facet;
+import org.apache.xmlbeans.impl.xb.xsdschema.RestrictionType;
 import org.junit.Test;
 import java.io.File;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.Assert.*;
 
 public class FSchemaTypeFactoryTest {
     static{
@@ -58,13 +60,23 @@ public class FSchemaTypeFactoryTest {
         Tests
          */
         assertTrue("IntList has to be a xs:list of type xs:integer.",
-                intList.isSimple() && ((FSimpleType) intList).isList());
+                intList.isSimple()
+                && ((FSimpleType) intList).isList()
+                && ((FList)intList).getItemType() instanceof FInteger);
         assertTrue("IntValue has to be a single value of type xs:integer.",
-                intValue.isSimple() && !((FSimpleType) intValue).isList());
+                intValue.isSimple()
+                && !((FSimpleType) intValue).isList()
+                && intValue instanceof FInteger);
         assertTrue("AnotherIntList has to be a xs:list of type xs:integer.",
-                intList2.isSimple() && ((FSimpleType) intList2).isList());
+                intList2.isSimple()
+                && ((FSimpleType) intList2).isList()
+                && ((FList)intList2).getItemType() instanceof FInteger);
         assertTrue("IntListWithRestriction has to be a xs:list of type IntListType.",
-                restrictedList.isSimple() && ((FSimpleType) restrictedList).isList()
-                && restrictedList instanceof FInteger);
+                restrictedList.isSimple()
+                && ((FSimpleType) restrictedList).isList()
+                && ((FList)restrictedList).getItemType() instanceof FInteger);
+        assertTrue("Length of IntListWithRestriction has to be restricted to 6.",
+                ((FSimpleType) restrictedList).getRestrictions()
+                        .getIntegerValue(SchemaType.FACET_LENGTH) == 6);
     }
 }
