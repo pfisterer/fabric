@@ -77,4 +77,8 @@ public abstract class FSimpleType extends FSchemaType {
 			getRestrictions().equals(((FSimpleType)other).getRestrictions());
 		
 	}
+
+    public boolean isList() {
+        return false;
+    }
 }
