@@ -27,6 +27,11 @@
 package fabric.wsdlschemaparser.schema;
 
 
+import org.apache.xmlbeans.SchemaType;
+
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * This class represents the Fabric variation of a boolean value declaration, as
  * specified by xs:boolean in XML Schema.
@@ -55,5 +60,17 @@ public class FBoolean extends FSimpleType {
 	 */
 	public FBoolean(String typeName) {
 		super(typeName);
+            addRestriction(SchemaType.FACET_WHITE_SPACE, SchemaType.WS_COLLAPSE);
+	}
+
+    /**
+	 * @see fabric.wsdlschemaparser.schema.FSchemaType#getValidFacets()
+	 */
+	@Override
+	public List<Integer> getValidFacets( ) {
+		return Arrays.asList(new Integer[]{
+                        SchemaType.FACET_WHITE_SPACE,
+                        SchemaType.FACET_PATTERN
+                });
 	}
 }

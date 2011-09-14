@@ -1,5 +1,6 @@
 package fabric.module.typegen.java;
 
+import fabric.wsdlschemaparser.schema.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,16 +16,13 @@ import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JComplexType;
 import de.uniluebeck.sourcegen.java.JSourceFile;
 import de.uniluebeck.sourcegen.java.JavaWorkspace;
-import fabric.wsdlschemaparser.schema.FElement;
-import fabric.wsdlschemaparser.schema.FSchemaRestrictions;
-import fabric.wsdlschemaparser.schema.FSchemaType;
-import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
-import fabric.wsdlschemaparser.schema.FSimpleType;
 
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.base.TypeGen;
 import fabric.module.typegen.base.Mapper;
 import fabric.module.typegen.MapperFactory;
+
+import javax.xml.validation.Schema;
 
 /**
  * Type generator for Java. This class handles various calls from
@@ -150,13 +148,38 @@ public class JavaTypeGen implements TypeGen
     // Create new container for simple type (may not contain array
     // as value, but member variable may be restricted in some way)
     AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
-    newBuilder.addElement(this.mapper.lookup(this.getFabricTypeName(type)), "value", this.createRestrictions(type));
+
+      // Simple type is of type xs:list
+      if (type.isList()) {
+          FList listType = (FList) type;
+        int length = FSchemaTypeHelper.getMaximalSizeOfList(listType);
+          // The length of the list must not be restricted
+          if (length < 0) {
+              newBuilder.addElementArray(
+                      mapper.lookup(getFabricTypeName(listType.getItemType())),
+                      "values");
+          }
+          // The length of the list has to be restricted to the given size
+          else {
+              newBuilder.addElementArray(
+                      mapper.lookup(getFabricTypeName(listType.getItemType())),
+                      "values",
+                      length);
+          }
+      }
+
+      // Simple type has only a single value
+      else {
+        newBuilder.addElement(this.mapper.lookup(this.getFabricTypeName(type)), "value", this.createRestrictions(type));
+      }
+
+      // Add new builder to the list of incomplete builders
     this.incompleteBuilders.push(newBuilder);
 
     LOGGER.debug(String.format("Created new container '%s'.", type.getName()));
   }
 
-  /**
+    /**
    * Add a member variable to the current container class.
    * Type, name, initial value and restrictions of the
    * element will be mapped to Java where applicable.
@@ -189,6 +212,18 @@ public class JavaTypeGen implements TypeGen
       if (FSchemaTypeHelper.isArray(element))
       {
         current.addElementArray(typeName, element.getName(), element.getMaxOccurs());
+      }
+      // Element is a list
+      else if (FSchemaTypeHelper.isList(element)) {
+          int length = FSchemaTypeHelper.getMaximalSizeOfList((FList)element.getSchemaType());
+          // The length of the list must not be restricted
+          if (length < 0) {
+            current.addElementArray(typeName, element.getName());
+          }
+          // The length of the list has to be restricted to the given size
+          else {
+            current.addElementArray(typeName, element.getName(), length);
+          }
       }
       // Element has a default value
       else if (FSchemaTypeHelper.hasDefaultValue(element))
@@ -342,7 +377,6 @@ public class JavaTypeGen implements TypeGen
   {
     return type.getClass().getSimpleName();
   }
-
 
 
 // TODO: Remove the following lines before release:
