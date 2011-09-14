@@ -100,6 +100,13 @@ public final class FSchemaTypeHelper {
 
     // --------------------------------------------------------------------
 
+    public static boolean isList(FElement e) {
+        FSchemaType type = e.getSchemaType();
+    	return (type.isSimple() && ((FSimpleType) type).isList());
+    }
+
+    // --------------------------------------------------------------------
+
     public static boolean isEnum(FSchemaType ft) {
     	boolean hasEnum = false;
     	if (ft.isSimple( )) {
@@ -133,6 +140,25 @@ public final class FSchemaTypeHelper {
      */
     public static boolean hasFixedValue(FElement e) {
         return e.getFixedValue() != null;
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Returns the maximal size of the given FList object.
+     *
+     * @param list FList object
+     * @return value of the maximum size of the type object of type xs:list;
+     *  Integer.MAX_VALUE, if neither xs:length nor xs:maxLength is set
+     */
+    public static int getMaxLength(FList list) {
+        FSchemaRestrictions restrictions = list.getRestrictions();
+        if (restrictions.hasRestriction(SchemaType.FACET_LENGTH)) {
+            return restrictions.getIntegerValue(SchemaType.FACET_LENGTH);
+        } else if (restrictions.hasRestriction(SchemaType.FACET_MAX_LENGTH)) {
+            return restrictions.getIntegerValue(SchemaType.FACET_MAX_LENGTH);
+        }
+        return Integer.MAX_VALUE;
     }
 
     // --------------------------------------------------------------------

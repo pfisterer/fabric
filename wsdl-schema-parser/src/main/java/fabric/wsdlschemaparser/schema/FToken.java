@@ -52,35 +52,6 @@ public class FToken extends FNormalizedString {
 	 */
 	public FToken(String typeName) {
 		super(typeName);
-		initialize( );
+		addRestriction(SchemaType.FACET_WHITE_SPACE, SchemaType.WS_COLLAPSE);
 	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Initialises the string. Mostly here the initial restrictions are being
-	 * set.
-	 */
-	private void initialize( ) {
-		addRestriction(SchemaType.FACET_MIN_LENGTH, 0);
-		addRestriction(SchemaType.FACET_MAX_LENGTH, MAX_LENGTH);
-	}
-
-	// --------------------------------------------------------------------
-   // Methods
-   // --------------------------------------------------------------------
-	
-	/**
-	 * @see fabric.wsdlschemaparser.schema.FSchemaType#getValidFacets()
-	 */
-	@Override
-	public List<Integer> getValidFacets( ) {
-		return Arrays.asList(new Integer[] {
-               SchemaType.FACET_LENGTH,
-               SchemaType.FACET_MIN_LENGTH,
-               SchemaType.FACET_MAX_LENGTH,
-               SchemaType.FACET_ENUMERATION
-       });
-	}
-
 }

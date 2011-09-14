@@ -1,5 +1,6 @@
 package fabric.module.typegen.java;
 
+import fabric.wsdlschemaparser.schema.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,16 +19,13 @@ import de.uniluebeck.sourcegen.java.JEnum;
 import de.uniluebeck.sourcegen.java.JModifier;
 import de.uniluebeck.sourcegen.java.JSourceFile;
 import de.uniluebeck.sourcegen.java.JavaWorkspace;
-import fabric.wsdlschemaparser.schema.FElement;
-import fabric.wsdlschemaparser.schema.FSchemaRestrictions;
-import fabric.wsdlschemaparser.schema.FSchemaType;
-import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
-import fabric.wsdlschemaparser.schema.FSimpleType;
 
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.base.TypeGen;
 import fabric.module.typegen.base.Mapper;
 import fabric.module.typegen.MapperFactory;
+
+import javax.xml.validation.Schema;
 
 /**
  * Type generator for Java. This class handles various calls from
@@ -152,6 +150,7 @@ public class JavaTypeGen implements TypeGen
   @Override
   public void createNewContainer(FSimpleType type)
   {
+    // TODO: Type is a top-level enum
     if (null != type && FSchemaTypeHelper.isEnum(type)) // TODO: Check and remove
     {
       try
@@ -162,22 +161,35 @@ public class JavaTypeGen implements TypeGen
       {
         LOGGER.error(String.format("Failed creating enum '%s'.", type.getName()));
       }
-      
-      LOGGER.debug(String.format("Created new enum '%s'.", type.getName()));      
+
+      LOGGER.debug(String.format("Created new enum '%s'.", type.getName()));
     }
     else
     {
       // Create new container for simple type (may not contain array
       // as value, but member variable may be restricted in some way)
       AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
-      newBuilder.addElement(this.mapper.lookup(this.getFabricTypeName(type)), "value", this.createRestrictions(type));
+      
+      // TODO Check this block
+      // Type is a list
+      if (type.isList())
+      {
+        FList listType = (FList)type;
+        newBuilder.addElementArray(mapper.lookup(getFabricTypeName(listType.getItemType())), "values", FSchemaTypeHelper.getMaxLength(listType));
+      }
+      // Type is an atomic one
+      else
+      {
+        newBuilder.addElement(this.mapper.lookup(this.getFabricTypeName(type)), "value", this.createRestrictions(type));
+      }
+
       this.incompleteBuilders.push(newBuilder);
 
       LOGGER.debug(String.format("Created new container '%s'.", type.getName()));
     }
   }
 
-  /**
+    /**
    * Add a member variable to the current container class.
    * Type, name, initial value and restrictions of the
    * element will be mapped to Java where applicable.
@@ -217,6 +229,11 @@ public class JavaTypeGen implements TypeGen
         Object[] constants = FSchemaTypeHelper.extractEnumArray((FSimpleType)element.getSchemaType());
         String[] enumConstants = Arrays.copyOf(constants, constants.length, String[].class);
         current.addEnumElement(element.getName() + "Enum", element.getName(), enumConstants);
+      }
+      // Element is a list
+      else if (FSchemaTypeHelper.isList(element))
+      {
+        current.addElementArray(typeName, element.getName(), FSchemaTypeHelper.getMaxLength((FList)element.getSchemaType()));
       }
       // Element has a default value
       else if (FSchemaTypeHelper.hasDefaultValue(element))
