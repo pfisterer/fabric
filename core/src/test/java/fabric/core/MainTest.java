@@ -6,10 +6,15 @@ import de.uniluebeck.sourcegen.java.JSourceFile;
 import fabric.Main;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 import de.uniluebeck.sourcegen.Workspace;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.w3c.dom.stylesheets.LinkStyle;
+
 import static org.junit.Assert.assertTrue;
 import java.io.FileInputStream;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Properties;
 
@@ -70,20 +75,25 @@ public class MainTest {
     /**
      * Workspace
      */
-    private Workspace workspace;
+    private static Workspace workspace;
 
     /**
      * JavaClassGenerationStrategy
      */
-    private JavaClassGenerationStrategy javaStrategy;
+    private static JavaClassGenerationStrategy javaStrategy;
 
-    @Before
-    public void setUpWorkspace() throws Exception {
+    @BeforeClass
+    public static void setUpWorkspace() throws Exception {
         FileInputStream propInFile = new FileInputStream(PROPERTIES);
         Properties properties = new Properties();
         properties.load(propInFile);
         workspace = new Workspace(properties);
         javaStrategy = new JavaClassGenerationStrategy();  // TODO: Annotation Mapper?
+    }
+
+    @After
+    public void wipeWorkspace() {
+        workspace.getSourceFiles().clear();
     }
 
     @Test
@@ -294,8 +304,28 @@ public class MainTest {
      * @param xsd Name of the XSD file (without ending ".xsd")
      */
     private List<SourceFile> generateSourceFilesAutomatically(String xsd) {
+        List<SourceFile> ret = null;
         String[] params = {"-x", SCHEMAS + xsd + ENDING_XSD, "-p", PROPERTIES, "-m", USE_TYPE_GEN, "-v"};
-        Main.main(params);
-        return workspace.getSourceFiles();
+        Main core = new Main(params);
+
+        Class c = core.getClass();
+        Field refWorkspace = null;
+
+        try {
+            refWorkspace = c.getDeclaredField("workspace");
+            refWorkspace.setAccessible(true);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Object objWorkspace = refWorkspace.get(core);
+            Workspace w = (Workspace) objWorkspace;
+            ret = w.getSourceFiles();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+        return ret;
     }
 }

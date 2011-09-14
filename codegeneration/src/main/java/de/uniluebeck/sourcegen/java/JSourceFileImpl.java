@@ -185,4 +185,29 @@ public class JSourceFileImpl extends JElemImpl implements JSourceFile {
 		return null;
 	}
 
+    public boolean equals(Object o) {
+        boolean ret = false;
+
+        if(o instanceof JSourceFileImpl) {
+            JSourceFileImpl sf = (JSourceFileImpl) o;
+
+            // Check name
+            ret = fileName.equals(sf.fileName);
+
+            // Check name
+            //ret = ret && packageName.equals(sf.packageName);
+
+            // Check imports (ignoring order)
+            //ret = ret && imports.containsAll(sf.imports) && sf.imports.containsAll(imports);
+
+            // Check complex imports (ignoring order)
+            //ret = ret && importsComplex.containsAll(sf.importsComplex) && sf.importsComplex.containsAll(importsComplex);
+
+            // Check types (ignoring order)
+            //ret = ret && types.containsAll(sf.types) && sf.types.containsAll(types);
+        }
+
+        return ret;
+    }
+
 }
