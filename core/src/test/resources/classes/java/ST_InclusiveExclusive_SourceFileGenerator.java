@@ -1,7 +1,10 @@
 package classes.java;
 
+import org.apache.xmlbeans.impl.xb.xsdschema.impl.RestrictionDocumentImpl;
+
 import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
+import fabric.module.typegen.AttributeContainer.Restriction;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 /**
@@ -20,20 +23,23 @@ public class ST_InclusiveExclusive_SourceFileGenerator extends JSourceFileGenera
      * Generates the JComplexType objects corresponding to the test XSD.
      */
     @Override void generateClasses() throws Exception {
-    	    	
+    	    
+    	Restriction digitTypeRestriction = new Restriction();
+    	digitTypeRestriction.minInclusive = "0";
+    	digitTypeRestriction.maxInclusive = "9";
     	JClass digitType = ((JClass) AttributeContainer.newBuilder()
             .setName("DigitType")
-            .addAttribute("int", "minInclusive", "0")  //TODO inclusives correctly implmented?
-            .addAttribute("int", "maxInclusive", "9")
+            .addAttribute("int", "value", digitTypeRestriction)
             .build()
             .asClassObject(strategy));
         types.add(digitType); 
     	
-    	
+        Restriction positiveDigitTypeRestriction = new Restriction();
+        positiveDigitTypeRestriction.minExclusive = "0";
+        positiveDigitTypeRestriction.maxExclusive = "9";
     	JClass positiveDigitType = ((JClass) AttributeContainer.newBuilder()
             .setName("PositiveDigitType")
-            .addAttribute("int", "minExclusive", "0")  //TODO exclusives correctly implmented?
-            .addAttribute("int", "maxExclusive", "9")
+            .addAttribute("int", "value", positiveDigitTypeRestriction)
             .build()
             .asClassObject(strategy));
         types.add(positiveDigitType); 

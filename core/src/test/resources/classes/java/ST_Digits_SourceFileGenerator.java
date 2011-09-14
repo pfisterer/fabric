@@ -1,7 +1,10 @@
 package classes.java;
 
+import org.apache.xmlbeans.impl.xb.xsdschema.impl.RestrictionDocumentImpl;
+
 import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
+import fabric.module.typegen.AttributeContainer.Restriction;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 /**
@@ -21,22 +24,24 @@ public class ST_Digits_SourceFileGenerator extends JSourceFileGenerator {
         */
     @Override
     void generateClasses() throws Exception {
-        JClass totalType = ((JClass) AttributeContainer.newBuilder()
+
+    	Restriction totalTypeRestriction = new Restriction();
+    	totalTypeRestriction.totalDigits = "6";
+    	JClass totalType = ((JClass) AttributeContainer.newBuilder()
             .setName("TotalType")
-            .addElement("java.math.BigDecimal", "no_name")   // TODO doesn't have a name
-                                                             // TODO include restriction 6 digits
+            .addElement("java.math.BigDecimal", "value", totalTypeRestriction)
             .build()
             .asClassObject(strategy));
         types.add(totalType);
-
+        
+        Restriction fractionTypeRestriction = new Restriction();
+        fractionTypeRestriction.fractionDigits = "2";
         JClass fractionType = ((JClass) AttributeContainer.newBuilder()
             .setName("FractionType")
-            .addElement("java.math.BigDecimal", "no_name")   // TODO doesn't have a name
-                                                             // TODO include restriction 2 digits
+            .addElement("java.math.BigDecimal", "value", fractionTypeRestriction)
             .build()
             .asClassObject(strategy));
         types.add(totalType);
-
 
         JClass root = ((JClass) AttributeContainer.newBuilder()
             .setName(ROOT)
