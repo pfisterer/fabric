@@ -1,15 +1,17 @@
 package fabric.module.typegen.cpp;
 
+import java.util.Stack;
+import java.util.HashMap;
 import java.util.Properties;
 
 import de.uniluebeck.sourcegen.Workspace;
-
-import fabric.wsdlschemaparser.schema.FComplexType;
+import de.uniluebeck.sourcegen.c.CComplexType;
 import fabric.wsdlschemaparser.schema.FElement;
 import fabric.wsdlschemaparser.schema.FSimpleType;
 
 import fabric.module.typegen.base.TypeGen;
-import fabric.module.typegen.MapperFactory;
+import fabric.module.typegen.base.Mapper;
+import fabric.module.typegen.AttributeContainer;
 
 /**
  * Type generator for C++.
@@ -19,10 +21,20 @@ import fabric.module.typegen.MapperFactory;
 public class CppTypeGen implements TypeGen
 {
   // TODO: Sort methods according to JavaTypeGen.java
-  private MapperFactory mapperFactory;
+  
+  private Workspace workspace;
+
+  private Properties properties;
+
+  private Mapper mapper;
+
+  private Stack<AttributeContainer.Builder> incompleteBuilders;
+
+  private HashMap<String, CComplexType> generatedElements;
 
   public CppTypeGen(Workspace workspace, Properties properties) throws Exception
   {
+    throw new UnsupportedOperationException("Not supported yet.");
   }
 
   @Override
@@ -42,12 +54,6 @@ public class CppTypeGen implements TypeGen
   {
     throw new UnsupportedOperationException("Not supported yet.");
   }
-
-//  @Override
-//  public void createNewContainer(FComplexType type)
-//  {
-//    throw new UnsupportedOperationException("Not supported yet.");
-//  }
 
   @Override
   public void addMemberVariable(FElement element)

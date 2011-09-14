@@ -31,7 +31,7 @@ abstract public class Mapper
    *
    * @throws IllegalArgumentException No matching mapping found
    */
-  public String lookup(String type) throws IllegalArgumentException
+  public String lookup(final String type) throws IllegalArgumentException
   {
     if (types.containsKey(type))
     {

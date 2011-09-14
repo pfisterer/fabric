@@ -1,100 +1,125 @@
 package fabric.module.typegen.java;
 
-import de.uniluebeck.sourcegen.Workspace;
-import de.uniluebeck.sourcegen.java.*;
-import fabric.module.typegen.AttributeContainer;
-import fabric.module.typegen.MapperFactory;
-import fabric.module.typegen.base.Mapper;
-import fabric.module.typegen.base.TypeGen;
-import fabric.wsdlschemaparser.schema.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.List;
+import java.util.Stack;
+import java.util.HashMap;
+import java.util.Properties;
+
 import org.apache.xmlbeans.SchemaType;
 
+import de.uniluebeck.sourcegen.Workspace;
+import de.uniluebeck.sourcegen.java.JClass;
+import de.uniluebeck.sourcegen.java.JComplexType;
+import de.uniluebeck.sourcegen.java.JSourceFile;
+import de.uniluebeck.sourcegen.java.JavaWorkspace;
+import fabric.wsdlschemaparser.schema.FElement;
+import fabric.wsdlschemaparser.schema.FSchemaRestrictions;
+import fabric.wsdlschemaparser.schema.FSchemaType;
+import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
+import fabric.wsdlschemaparser.schema.FSimpleType;
+
+import fabric.module.typegen.AttributeContainer;
+import fabric.module.typegen.base.TypeGen;
+import fabric.module.typegen.base.Mapper;
+import fabric.module.typegen.MapperFactory;
+
 /**
- * Type generator for Java.
+ * Type generator for Java. This class handles various calls from
+ * the FabricTypeGenHandler class to create Java representations
+ * of the data types, which were defined in the XML schema.
  *
- * @author seidel
+ * @author reichart, seidel
  */
 public class JavaTypeGen implements TypeGen
-{ 
+{
+  /** Logger object */
+  private static final Logger LOGGER = LoggerFactory.getLogger(JavaTypeGen.class);
+
+  /** Workspace object for source code write-out */
   private Workspace workspace;
-  
+
+  /** Properties object with module configuration */
   private Properties properties;
-  
+
+  /** Mapper object for simple data types */
   private Mapper mapper;
 
+  /** Stack of incomplete container classes */
   private Stack<AttributeContainer.Builder> incompleteBuilders;
 
-  /** JClass, JEnum and others */
+  /** Map of finished data type objects (e.g. JClass, JEnum and others) */
   private HashMap<String, JComplexType> generatedElements;
 
   /**
-   * Constructor
-   * 
+   * Constructor creates mapper for simple data types and initializes
+   * various member variables.
+   *
    * @param workspace Workspace object for source code write-out
    * @param properties Properties object with module options
    */
   public JavaTypeGen(Workspace workspace, Properties properties) throws Exception
   {
-    try
-    {
-      mapper = MapperFactory.getInstance().createMapper(properties.getProperty("typegen.mapper_name"));
-      
-      this.workspace = workspace;
-      this.properties = properties;
-      
-      incompleteBuilders = new Stack<AttributeContainer.Builder>();
-      generatedElements = new HashMap<String, JComplexType>();
-    }
-    catch (Exception e)
-    {
-      e.printStackTrace(); // TODO: Log exception
-    }
-  }
+    mapper = MapperFactory.getInstance().createMapper(properties.getProperty("typegen.mapper_name"));
 
+    this.workspace = workspace;
+    this.properties = properties;
+
+    incompleteBuilders = new Stack<AttributeContainer.Builder>();
+    generatedElements = new HashMap<String, JComplexType>();
+  }
+  
+  /**
+   * Create root container, which corresponds to the top-level
+   * XML schema document.
+   */
   @Override
   public void createRootContainer()
   {
     String rootContainerName = this.properties.getProperty("typegen.main_class_name");
     incompleteBuilders.push(AttributeContainer.newBuilder().setName(rootContainerName));
 
-    System.out.println(String.format("Created root container '%s'.", rootContainerName));
+    LOGGER.debug(String.format("Created root container '%s'.", rootContainerName));
   }
 
+  /**
+   * Build all incomplete container classes and write them to
+   * source files in the language-specific workspace.
+   *
+   * @throws Exception Error during source file write-out
+   */
   @Override
   public void writeSourceFiles() throws Exception
   {
     JavaClassGenerationStrategy strategy = null;
     
-    // Build root container (and other incomplete containers, but there shouldn't be any here)
+    // Build root container (and other incomplete containers, but when
+    // we reach this point, there should not be any left)
     while (!incompleteBuilders.empty())
     {
-      AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));      
+      // Create mapper for XML framework annotations and strategy
+      AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
       strategy = new JavaClassGenerationStrategy(xmlMapper);
       
       JClass newClass = (JClass)incompleteBuilders.pop().build().asClassObject(strategy);
       generatedElements.put(newClass.getName(), newClass);
-
-      System.out.println(String.format("Built incomplete container '%s'.", newClass.getName()));
+      
+      LOGGER.debug(String.format("Built incomplete container '%s'.", newClass.getName()));
     }
-
-    /*
-    Get JavaWorkspace object
-     */
-    JavaWorkspace jWorkspace = this.workspace.getJava();
+    
+    JavaWorkspace javaWorkspace = this.workspace.getJava();
     JSourceFile jsf = null;
-
-    /*
-    Generate one source file in the workspace for each JComplexType object in the map.
-     */
+    
+    // Create new source file for every container
     for (String name: generatedElements.keySet())
     {
-      jsf = jWorkspace.getJSourceFile(this.properties.getProperty("typegen.java.package_name"), name);
-      
+      jsf = javaWorkspace.getJSourceFile(this.properties.getProperty("typegen.java.package_name"), name);
+
       // Add container to source file
       jsf.add(generatedElements.get(name));
-      
+
       // Add imports to source file
       if (null != strategy)
       {
@@ -103,65 +128,219 @@ public class JavaTypeGen implements TypeGen
           jsf.addImport(requiredImport);
         }
       }
-      
-      System.out.println(String.format("Generated new source file '%s'.", name)); // TODO: Remove
+
+      LOGGER.debug(String.format("Generated new source file '%s'.", name));
     }
   }
 
+  /**
+   * Create a new container class that represents a simple type
+   * of the XML schema document. All elements and attributes that
+   * belong to this type should be added to the container as
+   * member variables.
+   *
+   * @param type FSimpleType object
+   */
+  @Override
+  public void createNewContainer(FSimpleType type)
+  {
+    // Create new container for simple type (may not contain array as
+    // value, but member variable may be restricted in some way)
+    AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
+    newBuilder.addElement(mapper.lookup(this.getFabricTypeName(type)), "value", this.createRestrictions(type));
+    incompleteBuilders.push(newBuilder);
+
+    LOGGER.debug(String.format("Created new container '%s'.", type.getName()));
+  }
+
+  /**
+   * Add a member variable to the current container class.
+   * Type, name, initial value and restrictions of the
+   * element will be mapped to Java where applicable.
+   *
+   * @param element FElement object
+   */
   @Override
   public void addMemberVariable(FElement element)
   {
-    // TODO: Remove this line and add comment with example of return values
-    // (1 == 2 => XSD base type in 3, 1 != 2 => 2 is name of custom type)
-    System.out.println(element.getName() + element.getSchemaType().getName() + this.getFabricTypeName(element.getSchemaType()));
-
     if (!this.incompleteBuilders.empty())
     {
       // Determine element type
       String typeName = "";
+
+      // Element is XSD base type (e.g. xs:string, xs:short, ...)
       if (element.getName().equals(element.getSchemaType().getName()))
       {
         typeName = mapper.lookup(this.getFabricTypeName(element.getSchemaType()));
       }
+      // Element is custom type (e.g. some XSD base type itm:Simple02)
       else
       {
         typeName = element.getSchemaType().getName();
       }
 
-      // Create new container class
+      // Add member variable to current incomplete container
       AttributeContainer.Builder current = incompleteBuilders.pop();
+
+      // Element is an array
       if (FSchemaTypeHelper.isArray(element))
       {
         current.addElementArray(typeName, element.getName(), element.getMaxOccurs());
       }
+      // Element has a default value
       else if (FSchemaTypeHelper.hasDefaultValue(element))
       {
         current.addElement(typeName, element.getName(), element.getDefaultValue());
       }
+      // Element has a fixed value
       else if (FSchemaTypeHelper.hasFixedValue(element))
       {
         current.addConstantElement(typeName, element.getName(), element.getFixedValue());
       }
+      // Element is a common member variable
       else
       {
         current.addElement(typeName, element.getName());
       }
       incompleteBuilders.push(current);
-
-      System.out.println(String.format("Added attribute '%s' of type '%s' to container '%s'.",
+      
+      LOGGER.debug(String.format("Added member variable '%s' of type '%s' to container '%s'.",
               element.getName(), typeName, current.getName()));
     }
   }
 
+  /**
+   * Finish the construction of the current container class by
+   * building it. As soon as a container is built, no more new
+   * member variables can be added to it. This function is usually
+   * called, when the closing XML tag of a type definition is reached.
+   *
+   * @throws Exception Error while building container
+   */
   @Override
-  public void createNewContainer(FSimpleType type)
+  public void buildCurrentContainer() throws Exception
   {
-    // Create new container for simple type (may not contain array as value)
-    AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
-    newBuilder.addElement(mapper.lookup(this.getFabricTypeName(type)), "value", this.createRestrictions(type)); // TODO: Remove checkRestrictions()
-    incompleteBuilders.push(newBuilder);
+    // Build current container
+    if (!this.incompleteBuilders.empty())
+    {
+      // Create mapper for XML framework annotations and strategy
+      AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
+      JavaClassGenerationStrategy javaStrategy = new JavaClassGenerationStrategy(xmlMapper);
+
+      JClass classObject = (JClass)this.incompleteBuilders.pop().build().asClassObject(javaStrategy);
+      this.generatedElements.put(classObject.getName(), classObject);
+
+      LOGGER.debug(String.format("Built current container '%s'.", classObject.getName()));
+    }
   }
 
+  /**
+   * Create an AttributeContainer.Restriction object accorting to
+   * the restrictions, which are set in the provided type object.
+   * This way we can add restrictions to a container class and
+   * take them into account, when we do the source code write-out.
+   *
+   * @param type FSimpleType object (may be restricted)
+   *
+   * @return Restriction object for AttributeContainer
+   */
+  private AttributeContainer.Restriction createRestrictions(FSimpleType type)
+  {
+    AttributeContainer.Restriction restrictions = new AttributeContainer.Restriction();
+    
+    // Determine restrictions, which are currently set on the type object
+    FSchemaRestrictions schemaRestrictions = type.getRestrictions();
+    List<Integer> validFacets = type.getValidFacets();
+
+    // Iterate all possible restrictions...
+    for (Integer facet: validFacets)
+    {
+      // ... and check which are set
+      switch (facet)
+      {
+        // Type object is length restricted
+        case SchemaType.FACET_LENGTH:
+          if (schemaRestrictions.hasRestriction(facet))
+          {
+            restrictions.length = schemaRestrictions.getStringValue(facet);
+          }
+          break;
+
+        // Type object is minLength restricted
+        case SchemaType.FACET_MIN_LENGTH:
+          if (schemaRestrictions.hasRestriction(facet))
+          {
+            restrictions.minLength = schemaRestrictions.getStringValue(facet);
+          }
+          break;
+
+        // Type object is maxLength restricted
+        case SchemaType.FACET_MAX_LENGTH:
+          if (schemaRestrictions.hasRestriction(facet))
+          {
+            restrictions.maxLength = schemaRestrictions.getStringValue(facet);
+          }
+          break;
+
+        // Type object is minInclusive restricted
+        case SchemaType.FACET_MIN_INCLUSIVE:
+          if (schemaRestrictions.hasRestriction(facet))
+          {
+            restrictions.minInclusive = schemaRestrictions.getStringValue(facet);
+          }
+          break;
+
+        // Type object is maxInclusive restricted
+        case SchemaType.FACET_MAX_INCLUSIVE:
+          if (schemaRestrictions.hasRestriction(facet))
+          {
+            restrictions.maxInclusive = schemaRestrictions.getStringValue(facet);
+          }
+          break;
+
+        // Type object is minExclusive restricted
+        case SchemaType.FACET_MIN_EXCLUSIVE:
+          if (schemaRestrictions.hasRestriction(facet))
+          {
+            restrictions.minExclusive = schemaRestrictions.getStringValue(facet);
+          }
+          break;
+
+        // Type object is maxExclusive restricted
+        case SchemaType.FACET_MAX_EXCLUSIVE:
+          if (schemaRestrictions.hasRestriction(facet))
+          {
+            restrictions.maxExclusive = schemaRestrictions.getStringValue(facet);
+          }
+          break;
+
+        // Type object is not restricted
+        default:
+          break;
+      }
+    }
+
+    return restrictions;
+  }
+
+  /**
+   * Return simple class name of the Fabric FSchemaType object.
+   * This is used for the internal mapping of the basic XSD
+   * data types (i.e. xs:string, xs:short, ...).
+   *
+   * @param type FSchemaType object
+   *
+   * @return Simple class name of type object
+   */
+  private String getFabricTypeName(final FSchemaType type)
+  {
+    return type.getClass().getSimpleName();
+  }
+
+
+
+// TODO: Remove the following lines before release:
+//
 //  @Override
 //  public void createNewContainer(FComplexType type)
 //  {
@@ -186,95 +365,7 @@ public class JavaTypeGen implements TypeGen
 //     */
 //    incompleteBuilders.push(newBuilder);
 //  }
-
-  @Override
-  public void buildCurrentContainer() throws Exception
-  {
-    AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
-    JavaClassGenerationStrategy javaStrategy = new JavaClassGenerationStrategy(xmlMapper);
-
-    // TODO: Secure pop() with !empty()
-    JClass classObject = (JClass)this.incompleteBuilders.pop().build().asClassObject(javaStrategy);
-    this.generatedElements.put(classObject.getName(), classObject);
-
-    System.out.println(String.format("Built current container '%s'.", classObject.getName()));
-  }
-
-  // TODO: Add documentation
-  private AttributeContainer.Restriction createRestrictions(FSimpleType type)
-  {
-    AttributeContainer.Restriction restrictions = new AttributeContainer.Restriction();
-
-    FSchemaRestrictions schemaRestrictions = type.getRestrictions();
-    List<Integer> validFacets = type.getValidFacets();
-
-    for (Integer facet: validFacets)
-    {
-      switch (facet)
-      {
-        case SchemaType.FACET_LENGTH:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.length = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        case SchemaType.FACET_MIN_LENGTH:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.minLength = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        case SchemaType.FACET_MAX_LENGTH:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.maxLength = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        case SchemaType.FACET_MIN_INCLUSIVE:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.minInclusive = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        case SchemaType.FACET_MAX_INCLUSIVE:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.maxInclusive = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        case SchemaType.FACET_MIN_EXCLUSIVE:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.minExclusive = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        case SchemaType.FACET_MAX_EXCLUSIVE:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.maxExclusive = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        default:
-          break;
-      }
-    }
-
-    return restrictions;
-  }
-
-  // TODO: Add documentation
-  private String getFabricTypeName(final FSchemaType typeObject)
-  {
-    return typeObject.getClass().getSimpleName();
-  }
-  
+//
 //  @Override
 //  public void addSimpleType(FSimpleType type, FElement parent) throws Exception
 //  {
@@ -291,16 +382,6 @@ public class JavaTypeGen implements TypeGen
 //      System.out.println("addSimpleType: CREATING NEW SIMPLE TYPE.");
 //      /*
 //      Check if type is xs:list
-//       */
-//      // TODO: in Fabric not supported yet!
-//
-//      /*
-//      Check restrictions
-//       */
-//      // HIER checkRestrictions(type);    // TODO: Einschränkungen müssen in den Container übernommen werden!
-//
-//      /*
-//      Check if type has a default or a fixed value
 //       */
 //      // TODO: in Fabric not supported yet!
 //
@@ -322,62 +403,8 @@ public class JavaTypeGen implements TypeGen
 //      }
 //      incompleteBuilders.push(current);
 //    }
-//  }
-
-//  @Override
-//  public void generateNewClass() throws Exception
-//  {
-//    addClassToMap();
-//  }
-
-  
-//  /**
-//   * Generates a JClass object corresponding to the last builder in the
-//   * stack of incomplete builders and adds it to the map containing the
-//   * already generated classes.
-//   *
-//   * @throws Exception
-//   */
-////  @Override
-//  public void generateNewClass() throws Exception
-//  {
-//    AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
-//    JavaClassGenerationStrategy strategy = new JavaClassGenerationStrategy(xmlMapper);
+//  } 
 //
-//    JClass newClass = (JClass)incompleteBuilders.pop().build().asClassObject(strategy);
-////    for (String extendedClass: extendedClasses)
-////    {
-////      newClass.setExtends(extendedClass);
-////    }
-//    generatedElements.put(newClass.getName(), newClass);
-//  }
-  
-//  /**
-//   * Generates a JClass object corresponding to the last builder in the
-//   * stack of incomplete builders and adds it to the map containing the
-//   * already generated classes.
-//   *
-//   * @throws Exception
-//   */
-//  private void addClassToMap(String... extendedClasses) throws Exception
-//  {
-//    AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
-//    JavaClassGenerationStrategy strategy = new JavaClassGenerationStrategy(xmlMapper);
-//    
-//    JClass newClass = (JClass)incompleteBuilders.pop().build().asClassObject(strategy);
-//    for (String extendedClass: extendedClasses)
-//    {
-//      newClass.setExtends(extendedClass);
-//    }
-//    generatedElements.put(newClass.getName(), newClass);
-//  }
-  
-//  @Override
-//  public void generateNewExtendedClass(String name) throws Exception
-//  {
-//    addClassToMap(name);
-//  }
-
 //  /**
 //   * This method restricts the values of the class variable according to the restrictions of the
 //   * corresponding FSimpleType object.
@@ -428,30 +455,6 @@ public class JavaTypeGen implements TypeGen
 //          break;
 //
 //        /*
-//        Check for xs:length
-//         */
-//        case SchemaType.FACET_LENGTH:
-//          // TODO: Hier muss die Länge der Variable im Setter überprüft werden!
-//          // length = restrictions.getIntegerValue(facet);
-//          break;
-//
-//        /*
-//        Check for xs:minLength
-//         */
-//        case SchemaType.FACET_MIN_LENGTH:
-//          // TODO: Hier muss die Länge der Variable im Setter überprüft werden!
-//          // minLength = restrictions.getIntegerValue(facet);
-//          break;
-//
-//        /*
-//        Check for xs:maxLength
-//         */
-//        case SchemaType.FACET_MAX_LENGTH:
-//          // TODO: Hier muss die Länge der Variable im Setter überprüft werden!
-//          // maxLength = restrictions.getIntegerValue(facet);
-//          break;
-//
-//        /*
 //        Check for xs:totalDigits
 //         */
 //        case SchemaType.FACET_TOTAL_DIGITS:
@@ -469,52 +472,6 @@ public class JavaTypeGen implements TypeGen
 //          {
 //            // TODO: in Fabric not supported yet!
 //          }
-//          break;
-//
-//        /*
-//        Check for xs:minInclusive
-//         */
-//        case SchemaType.FACET_MIN_INCLUSIVE:
-//          if (restrictions.hasRestriction(facet))
-//          {
-//            // TODO: Hier muss der Wert der numerischen Variable im Setter überprüft werden!
-//          }
-//          break;
-//
-//        /*
-//        Check for xs:minExclusive
-//         */
-//        case SchemaType.FACET_MAX_INCLUSIVE:
-//          if (restrictions.hasRestriction((facet)))
-//          {
-//            // TODO: Hier muss der Wert der numerischen Variable im Setter überprüft werden!
-//          }
-//          break;
-//
-//        /*
-//        Check for xs:maxInclusive
-//         */
-//        case SchemaType.FACET_MIN_EXCLUSIVE:
-//          if (restrictions.hasRestriction(facet))
-//          {
-//            // TODO: Hier muss der Wert der numerischen Variable im Setter überprüft werden!
-//          }
-//          break;
-//
-//        /*
-//        Check for xs:maxExclusive
-//         */
-//        case SchemaType.FACET_MAX_EXCLUSIVE:
-//          if (restrictions.hasRestriction(facet))
-//          {
-//            // TODO: Hier muss der Wert der numerischen Variable im Setter überprüft werden!
-//          }
-//          break;
-//
-//        /*
-//        Not a valid restriction
-//         */
-//        default:
 //          break;
 //      }
 //    }

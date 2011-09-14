@@ -521,7 +521,6 @@ public class FSchemaTypeFactory {
      * @param restriction
      * @return
      * @throws UnsupportedRestrictionException
-     *
      */
     private FSimpleType generateSimpleRestrictionType(RestrictionType restriction)
             throws UnsupportedRestrictionException {
