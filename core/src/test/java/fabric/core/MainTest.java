@@ -265,7 +265,22 @@ public class MainTest {
          Generate SourceFiles manually.
          */
         List<SourceFile> sourceFilesMan = sourceFileGenerator.getSourceFiles();
-
+        
+        
+        System.out.println("**********************************************************************");
+        System.out.println("TESTING FILE: " + xsd);
+        System.out.println("AutoFileCount: " + sourceFilesAuto.size());
+        System.out.println("ManuFileCount: " + sourceFilesMan.size());
+        for (SourceFile sourceFile : sourceFilesAuto) {
+        	System.out.println("TEST_FILE_AUTO: " + sourceFile.getFileName());
+		}
+        
+        for (SourceFile sourceFile : sourceFilesMan) {
+        	System.out.println("TEST_FILE_MANU: " + sourceFile.getFileName());
+		}
+        System.out.println("**********************************************************************");
+        
+        
         /*
          True if all source files exist and if there are not too many source files
          */

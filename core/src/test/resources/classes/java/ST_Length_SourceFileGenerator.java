@@ -1,5 +1,7 @@
 package classes.java;
 
+import de.uniluebeck.sourcegen.java.JClass;
+import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 /**
@@ -18,6 +20,19 @@ public class ST_Length_SourceFileGenerator extends JSourceFileGenerator {
      * Generates the JComplexType objects corresponding to the test XSD.
      */
     @Override void generateClasses() throws Exception {
-        // TODO: Implement me!
+    		
+    		JClass passwordType = ((JClass) AttributeContainer.newBuilder()
+                    .setName("PasswordType")
+                    .build()
+                    .asClassObject(strategy));
+                types.add(passwordType);
+            
+    		JClass root = ((JClass) AttributeContainer.newBuilder()
+                .setName(ROOT)
+                .addElement("UsernameType", "UsernameType")
+                .addElement("Password", "PasswordType")
+                .build()
+                .asClassObject(strategy));
+            types.add(root);    	
     }
 }
