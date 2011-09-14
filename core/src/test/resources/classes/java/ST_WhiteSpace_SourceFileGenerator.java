@@ -43,9 +43,9 @@ public class ST_WhiteSpace_SourceFileGenerator extends JSourceFileGenerator {
 	    		
 		JClass root = ((JClass) AttributeContainer.newBuilder()
             .setName(ROOT)
-            .addElement("Address1", "Address1Type")
-            .addElement("Address2", "Address2Type")
-            .addElement("Address3", "Address3Type")
+            .addElement("Address1Type", "Address1")
+            .addElement("Address2Type", "Address2")
+            .addElement("Address3Type", "Address3")
             .build()
             .asClassObject(strategy));
         types.add(root);    	
