@@ -1,5 +1,8 @@
-/** 14.09.2011 16:19 */
+/** 14.09.2011 19:32 */
 package fabric.module.typegen;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -8,6 +11,7 @@ import java.util.Iterator;
 
 import de.uniluebeck.sourcegen.WorkspaceElement;
 import fabric.module.typegen.base.ClassGenerationStrategy;
+import fabric.module.typegen.exceptions.FabricTypeGenException;
 
 /**
  * The AttributeContainer class provides a high-level, language
@@ -113,9 +117,16 @@ public class AttributeContainer
       Iterator iterator = this.members.entrySet().iterator();
       while (iterator.hasNext())
       {
-        Map.Entry<String, MemberVariable> member = (Map.Entry)iterator.next();
+        try
+        {
+          Map.Entry<String, MemberVariable> member = (Map.Entry)iterator.next();
 
-        result.members.put(member.getKey(), this.copyOf(member.getValue()));
+          result.members.put(member.getKey(), this.copyOf(member.getValue()));
+        }
+        catch (Exception e)
+        {
+          LOGGER.error(e.getMessage());
+        }
       }
 
       return result;
@@ -150,9 +161,16 @@ public class AttributeContainer
           Iterator iterator = otherContainer.getMembers().entrySet().iterator();
           while (iterator.hasNext())
           {
-            Map.Entry<String, MemberVariable> member = (Map.Entry)iterator.next();
+            try
+            {
+              Map.Entry<String, MemberVariable> member = (Map.Entry)iterator.next();
 
-            this.members.put(member.getKey(), this.copyOf(member.getValue()));
+              this.members.put(member.getKey(), this.copyOf(member.getValue()));
+            }
+            catch (Exception e)
+            {
+              LOGGER.error(e.getMessage());
+            }
           }
         }
       }
@@ -166,8 +184,10 @@ public class AttributeContainer
      * @param master Master copy with data
      *
      * @return New MemberVariable object with copy of the data
+     *
+     * @throws Error while creating copy of member variable
      */
-    private MemberVariable copyOf(MemberVariable master)
+    private MemberVariable copyOf(MemberVariable master) throws Exception
     {
       MemberVariable copy = null;
 
@@ -195,6 +215,10 @@ public class AttributeContainer
       {
         AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)master;
         copy = new AttributeContainer.ElementArray(ea.type, ea.name, ea.size);
+      }
+      else
+      {
+        throw new FabricTypeGenException("Cannot copy member variable, because it has unknown type.");
       }
 
       return copy;
@@ -625,6 +649,40 @@ public class AttributeContainer
     {
       return (null != this.restrictions.maxExclusive);
     }
+    
+    /**
+     * Check 'pattern' restriction for element.
+     * 
+     * @return True or false
+     */
+    public boolean isPatternRestricted()
+    {
+      return (null != this.restrictions.pattern);
+    }
+
+    /**
+     * Check 'whiteSpace' restriction for element.
+     */
+    public boolean isWhiteSpaceRestricted()
+    {
+      return (null != this.restrictions.whiteSpace);
+    }
+
+    /**
+     * Check 'totalDigits' restriction for element.
+     */
+    public boolean isTotalDigitsRestricted()
+    {
+      return (null != this.restrictions.totalDigits && Integer.parseInt(this.restrictions.totalDigits) >= 0);
+    }
+
+    /**
+     * Check 'fractionDigits' restriction for element.
+     */
+    public boolean isFractionDigitsRestricted()
+    {
+      return (null != this.restrictions.fractionDigits && Integer.parseInt(this.restrictions.fractionDigits) >= 0);
+    }
   }
 
   public static class ConstantElement extends Element
@@ -771,25 +829,25 @@ public class AttributeContainer
     /** Upper bound on element value (excluding boundary) or null */
     public String maxExclusive;
 
-      /** Pattern of content or null */
-      public String pattern;
+    /** Pattern of content or null */
+    public String pattern;
 
-      /** Handling of whitespaces in content or null */
-      public String whiteSpace;
+    /** Handling of whitespaces in content or null */
+    public String whiteSpace;
 
-      /** Number of digits of numeric content */
-      public String totalDigits;
+    /** Number of digits for numeric content */
+    public String totalDigits;
 
-      /** Number of decimal places of numeric content  */
-      public String fractionDigits;
+    /** Number of fractional digits for numeric content  */
+    public String fractionDigits;
 
     /**
      * Parameterless constructor. Member variable value of 'null'
      * means that the restriction is not set at all. Value of 'length',
      * 'minLength', 'maxLength', 'totalDigits' and 'fractionDigits' must
-     * not be negative. Value of 'pattern' and 'whiteSpace' are strings.
-     * The remaining boundaries can either be negative, zero or positive
-     * integer values.
+     * not be negative. The remaining boundaries can either be negative,
+     * zero or positive integer values. The values of 'pattern' and
+     * 'whiteSpace' are strings.
      */
     public Restriction()
     {
@@ -802,11 +860,11 @@ public class AttributeContainer
       this.minExclusive = null;
       this.maxExclusive = null;
 
-        this.pattern = null;
-        this.whiteSpace = null;
+      this.pattern = null;
+      this.whiteSpace = null;
 
-        this.totalDigits = null;
-        this.fractionDigits = null;
+      this.totalDigits = null;
+      this.fractionDigits = null;
     }
 
     /**
@@ -866,11 +924,11 @@ public class AttributeContainer
       clone.minExclusive = this.minExclusive;
       clone.maxExclusive = this.maxExclusive;
 
-        clone.pattern = this.pattern;
-        clone.whiteSpace = this.whiteSpace;
+      clone.pattern = this.pattern;
+      clone.whiteSpace = this.whiteSpace;
 
-        clone.totalDigits = this.totalDigits;
-        clone.fractionDigits = this.fractionDigits;
+      clone.totalDigits = this.totalDigits;
+      clone.fractionDigits = this.fractionDigits;
 
       return clone;
     }
@@ -879,6 +937,9 @@ public class AttributeContainer
   /*****************************************************************
    * AttributeContainer outer class
    *****************************************************************/
+
+  /** Logger object */
+  private static final Logger LOGGER = LoggerFactory.getLogger(AttributeContainer.class);
 
   /** Constant for default container name */
   private static final String DEFAULT_CONTAINER_NAME = "DefaultAttributeContainer";

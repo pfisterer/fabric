@@ -1,3 +1,4 @@
+/** 14.09.2011 19:32 */
 package fabric.module.typegen;
 
 import org.slf4j.Logger;

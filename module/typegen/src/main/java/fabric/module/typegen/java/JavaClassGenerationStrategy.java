@@ -163,7 +163,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
      * Create surrounding container class
      *****************************************************************/
     JClass jc = JClass.factory.create(modifiers, this.firstLetterCapital(container.getName()));
-    jc.setComment(new JClassCommentImpl("The '" + container.getName() + "' container class."));
+    jc.setComment(new JClassCommentImpl(String.format("The '%s' container class.", container.getName())));
 
     // Annotation pattern e.g. @Root(name = "value") or @XStreamAlias("value")
     String annotation = this.xmlMapper.getAnnotation("root", this.firstLetterCapital(container.getName()));
@@ -199,7 +199,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
         AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)member;
         
         JEnum je = JEnum.factory.create(JModifier.PRIVATE, ee.type, ee.enumConstants);
-        je.setComment(new JEnumCommentImpl("The '" + ee.type + "' enumeration."));
+        je.setComment(new JEnumCommentImpl(String.format("The '%s' enumeration.", ee.type)));
         jc.add(je);
       }
 
@@ -264,7 +264,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
         jf = JField.factory.create(JModifier.PRIVATE, e.type, e.name, value);
       }
 
-      jf.setComment(new JFieldCommentImpl("The '" + e.name + "' element."));
+      jf.setComment(new JFieldCommentImpl(String.format("The '%s' element.", e.name)));
 
       // Annotation pattern e.g. @Element or @XStreamAlias("value")
       String annotation = this.xmlMapper.getAnnotation("element", e.name);
@@ -286,7 +286,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       }
 
       jf = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC | JModifier.FINAL, ce.type, ce.name, value);
-      jf.setComment(new JFieldCommentImpl("The '" + ce.name + "' constant."));
+      jf.setComment(new JFieldCommentImpl(String.format("The '%s' constant.", ce.name)));
 
       // Annotation pattern e.g. @Element or @XStreamAlias("value")
       String annotation = this.xmlMapper.getAnnotation("element", ce.name);
@@ -318,7 +318,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
         jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name, value);
       }
 
-      jf.setComment(new JFieldCommentImpl("The '" + a.name + "' attribute."));
+      jf.setComment(new JFieldCommentImpl(String.format("The '%s' attribute.", a.name)));
 
       // Annotation pattern e.g. @Attribute or @XStreamAsAttribute
       String annotation = this.xmlMapper.getAnnotation("attribute", a.name);
@@ -333,7 +333,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)member;
       
       jf = JField.factory.create(JModifier.PRIVATE, ee.type, ee.name);
-      jf.setComment(new JFieldCommentImpl("The '" + ee.name + "' enum element."));
+      jf.setComment(new JFieldCommentImpl(String.format("The '%s' enum element.", ee.name)));
       
       // Annotation pattern e.g. @XmlEnum
       String annotation = this.xmlMapper.getAnnotation("element", ee.name); // TODO: Change key to enum
@@ -358,7 +358,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
         jf = JField.factory.create(JModifier.PRIVATE, ea.type, ea.name + "[]", "new " + ea.type + "[" + ea.size + "]");
       }
 
-      jf.setComment(new JFieldCommentImpl("The '" + ea.name + "' element array."));
+      jf.setComment(new JFieldCommentImpl(String.format("The '%s' element array.", ea.name)));
 
       // Annotation pattern e.g. @ElementArray or @XStreamImplicit(itemFieldName="value")
       String annotation = this.xmlMapper.getAnnotation("elementArray", ea.name);
@@ -420,7 +420,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
 
     methodBody += "this." + member.name + " = " + member.name + ";";
     setter.getBody().appendSource(methodBody);
-    setter.setComment(new JMethodCommentImpl("Set the '" + member.name + "' member variable."));
+    setter.setComment(new JMethodCommentImpl(String.format("Set the '%s' member variable.", member.name)));
 
     return setter;
   }
@@ -542,7 +542,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     JMethod getter = JMethod.factory.create(JModifier.PUBLIC, type, "get" + this.firstLetterCapital(member.name));
 
     getter.getBody().appendSource("return this." + member.name + ";");
-    getter.setComment(new JMethodCommentImpl("Get the '" + member.name + "' member variable."));
+    getter.setComment(new JMethodCommentImpl(String.format("Get the '%s' member variable.", member.name)));
 
     return getter;
   }
