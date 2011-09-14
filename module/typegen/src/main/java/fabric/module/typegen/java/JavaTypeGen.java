@@ -67,8 +67,8 @@ public class JavaTypeGen implements TypeGen
     this.workspace = workspace;
     this.properties = properties;
 
-    incompleteBuilders = new Stack<AttributeContainer.Builder>();
-    generatedElements = new HashMap<String, JComplexType>();
+    this.incompleteBuilders = new Stack<AttributeContainer.Builder>();
+    this.generatedElements = new HashMap<String, JComplexType>();
   }
   
   /**
@@ -79,7 +79,7 @@ public class JavaTypeGen implements TypeGen
   public void createRootContainer()
   {
     String rootContainerName = this.properties.getProperty("typegen.main_class_name");
-    incompleteBuilders.push(AttributeContainer.newBuilder().setName(rootContainerName));
+    this.incompleteBuilders.push(AttributeContainer.newBuilder().setName(rootContainerName));
 
     LOGGER.debug(String.format("Created root container '%s'.", rootContainerName));
   }
@@ -97,28 +97,31 @@ public class JavaTypeGen implements TypeGen
     
     // Build root container (and other incomplete containers, but when
     // we reach this point, there should not be any left)
-    while (!incompleteBuilders.empty())
+    while (!this.incompleteBuilders.empty())
     {
       // Create mapper for XML framework annotations and strategy
       AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
       strategy = new JavaClassGenerationStrategy(xmlMapper);
       
-      JClass newClass = (JClass)incompleteBuilders.pop().build().asClassObject(strategy);
-      generatedElements.put(newClass.getName(), newClass);
+      JClass classObject = (JClass)this.incompleteBuilders.pop().build().asClassObject(strategy);      
+      if (!this.generatedElements.containsKey(classObject.getName()))
+      {
+        this.generatedElements.put(classObject.getName(), classObject);
+      }
       
-      LOGGER.debug(String.format("Built incomplete container '%s'.", newClass.getName()));
+      LOGGER.debug(String.format("Built incomplete container '%s'.", classObject.getName()));
     }
     
     JavaWorkspace javaWorkspace = this.workspace.getJava();
     JSourceFile jsf = null;
     
     // Create new source file for every container
-    for (String name: generatedElements.keySet())
+    for (String name: this.generatedElements.keySet())
     {
       jsf = javaWorkspace.getJSourceFile(this.properties.getProperty("typegen.java.package_name"), name);
 
       // Add container to source file
-      jsf.add(generatedElements.get(name));
+      jsf.add(this.generatedElements.get(name));
 
       // Add imports to source file
       if (null != strategy)
@@ -144,11 +147,11 @@ public class JavaTypeGen implements TypeGen
   @Override
   public void createNewContainer(FSimpleType type)
   {
-    // Create new container for simple type (may not contain array as
-    // value, but member variable may be restricted in some way)
+    // Create new container for simple type (may not contain array
+    // as value, but member variable may be restricted in some way)
     AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
-    newBuilder.addElement(mapper.lookup(this.getFabricTypeName(type)), "value", this.createRestrictions(type));
-    incompleteBuilders.push(newBuilder);
+    newBuilder.addElement(this.mapper.lookup(this.getFabricTypeName(type)), "value", this.createRestrictions(type));
+    this.incompleteBuilders.push(newBuilder);
 
     LOGGER.debug(String.format("Created new container '%s'.", type.getName()));
   }
@@ -171,7 +174,7 @@ public class JavaTypeGen implements TypeGen
       // Element is XSD base type (e.g. xs:string, xs:short, ...)
       if (element.getName().equals(element.getSchemaType().getName()))
       {
-        typeName = mapper.lookup(this.getFabricTypeName(element.getSchemaType()));
+        typeName = this.mapper.lookup(this.getFabricTypeName(element.getSchemaType()));
       }
       // Element is custom type (e.g. some XSD base type itm:Simple02)
       else
@@ -180,7 +183,7 @@ public class JavaTypeGen implements TypeGen
       }
 
       // Add member variable to current incomplete container
-      AttributeContainer.Builder current = incompleteBuilders.pop();
+      AttributeContainer.Builder current = this.incompleteBuilders.pop();
 
       // Element is an array
       if (FSchemaTypeHelper.isArray(element))
@@ -202,7 +205,7 @@ public class JavaTypeGen implements TypeGen
       {
         current.addElement(typeName, element.getName());
       }
-      incompleteBuilders.push(current);
+      this.incompleteBuilders.push(current);
       
       LOGGER.debug(String.format("Added member variable '%s' of type '%s' to container '%s'.",
               element.getName(), typeName, current.getName()));
@@ -228,7 +231,10 @@ public class JavaTypeGen implements TypeGen
       JavaClassGenerationStrategy javaStrategy = new JavaClassGenerationStrategy(xmlMapper);
 
       JClass classObject = (JClass)this.incompleteBuilders.pop().build().asClassObject(javaStrategy);
-      this.generatedElements.put(classObject.getName(), classObject);
+      if (!this.generatedElements.containsKey(classObject.getName()))
+      {
+        this.generatedElements.put(classObject.getName(), classObject);
+      }
 
       LOGGER.debug(String.format("Built current container '%s'.", classObject.getName()));
     }
