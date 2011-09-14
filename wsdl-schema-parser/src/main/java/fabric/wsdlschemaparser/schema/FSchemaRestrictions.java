@@ -518,6 +518,22 @@ public class FSchemaRestrictions extends FSchemaObject {
             case SchemaType.FACET_ENUMERATION:
                 facets = restriction.getEnumerationArray( );
                 break;
+
+            case SchemaType.FACET_WHITE_SPACE:
+                facets = restriction.getWhiteSpaceArray( );
+                break;
+
+            case SchemaType.FACET_PATTERN:
+                facets = restriction.getPatternArray( );
+                break;
+
+            case SchemaType.FACET_TOTAL_DIGITS:
+                facets = restriction.getTotalDigitsArray( );
+                break;
+
+            case SchemaType.FACET_FRACTION_DIGITS:
+                facets = restriction.getFractionDigitsArray( );
+                break;
         }
 
         return facets;
@@ -621,7 +637,7 @@ public class FSchemaRestrictions extends FSchemaObject {
     }
 
     /**
-     * @param restriction
+     * @param r
      */
     public void parse(Restriction r) {
         List<Integer> validFacets = type.getValidFacets( );
@@ -648,8 +664,8 @@ public class FSchemaRestrictions extends FSchemaObject {
     }
 
     /**
-     * @param r
-     * @param fcode
+     * @param restriction
+     * @param facetCode
      * @return
      */
     private Facet[] getRestriction(Restriction restriction, int facetCode) {
@@ -687,6 +703,22 @@ public class FSchemaRestrictions extends FSchemaObject {
 
             case SchemaType.FACET_ENUMERATION:
                 facets = restriction.getEnumerationArray( );
+                break;
+
+            case SchemaType.FACET_WHITE_SPACE:
+                facets = restriction.getWhiteSpaceArray( );
+                break;
+
+            case SchemaType.FACET_PATTERN:
+                facets = restriction.getPatternArray( );
+                break;
+
+            case SchemaType.FACET_TOTAL_DIGITS:
+                facets = restriction.getTotalDigitsArray( );
+                break;
+
+            case SchemaType.FACET_FRACTION_DIGITS:
+                facets = restriction.getFractionDigitsArray( );
                 break;
 
             default:

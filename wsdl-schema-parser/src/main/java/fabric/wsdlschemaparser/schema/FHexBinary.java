@@ -13,14 +13,21 @@ public class FHexBinary extends FSimpleType {
 
     public FHexBinary(String typeName) {
         super(typeName);
+        addRestriction(SchemaType.FACET_WHITE_SPACE, SchemaType.WS_COLLAPSE);
     }
 
     @Override
     public List<Integer> getValidFacets() {
 
-        return Arrays.asList(new Integer[] { SchemaType.FACET_LENGTH, SchemaType.FACET_MIN_LENGTH,
-                SchemaType.FACET_MAX_LENGTH, SchemaType.FACET_PATTERN, SchemaType.FACET_ENUMERATION,
-                SchemaType.FACET_WHITE_SPACE });
+        return Arrays.asList(new Integer[] {
+                SchemaType.FACET_LENGTH,
+                SchemaType.FACET_MIN_LENGTH,
+                SchemaType.FACET_MAX_LENGTH,
+                SchemaType.FACET_PATTERN,
+                SchemaType.FACET_ENUMERATION,
+                SchemaType.FACET_WHITE_SPACE,
+                SchemaType.FACET_PATTERN
+        });
 
     }
 

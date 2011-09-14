@@ -721,11 +721,25 @@ public class AttributeContainer
     /** Upper bound on element value (excluding boundary) or null */
     public String maxExclusive;
 
+      /** Pattern of content or null */
+      public String pattern;
+
+      /** Handling of whitespaces in content or null */
+      public String whiteSpace;
+
+      /** Number of digits of numeric content */
+      public String totalDigits;
+
+      /** Number of decimal places of numeric content  */
+      public String fractionDigits;
+
     /**
      * Parameterless constructor. Member variable value of 'null'
      * means that the restriction is not set at all. Value of 'length',
-     * 'minLength' and 'maxLength' must not be negative. The remaining
-     * boundaries can either be negative, zero or positive integer values.
+     * 'minLength', 'maxLength', 'totalDigits' and 'fractionDigits' must
+     * not be negative. Value of 'pattern' and 'whiteSpace' are strings.
+     * The remaining boundaries can either be negative, zero or positive
+     * integer values.
      */
     public Restriction()
     {
@@ -737,6 +751,12 @@ public class AttributeContainer
       this.maxInclusive = null;
       this.minExclusive = null;
       this.maxExclusive = null;
+
+        this.pattern = null;
+        this.whiteSpace = null;
+
+        this.totalDigits = null;
+        this.fractionDigits = null;
     }
 
     /**
@@ -795,6 +815,12 @@ public class AttributeContainer
       clone.maxInclusive = this.maxInclusive;
       clone.minExclusive = this.minExclusive;
       clone.maxExclusive = this.maxExclusive;
+
+        clone.pattern = this.pattern;
+        clone.whiteSpace = this.whiteSpace;
+
+        clone.totalDigits = this.totalDigits;
+        clone.fractionDigits = this.fractionDigits;
 
       return clone;
     }

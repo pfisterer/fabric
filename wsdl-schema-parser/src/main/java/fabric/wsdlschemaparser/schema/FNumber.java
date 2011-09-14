@@ -46,6 +46,7 @@ public abstract class FNumber extends FSimpleType {
 	 */
 	public FNumber(String typeName) {
 		super(typeName);
+                addRestriction(SchemaType.FACET_WHITE_SPACE, SchemaType.WS_COLLAPSE);
 	}
 
     // --------------------------------------------------------------------
@@ -60,7 +61,9 @@ public abstract class FNumber extends FSimpleType {
 				SchemaType.FACET_MIN_EXCLUSIVE,
 				SchemaType.FACET_MAX_INCLUSIVE,
 				SchemaType.FACET_MAX_EXCLUSIVE,
-				SchemaType.FACET_ENUMERATION
+				SchemaType.FACET_ENUMERATION,
+                                SchemaType.FACET_WHITE_SPACE,
+                                SchemaType.FACET_PATTERN
 		});
 	}
 }

@@ -79,4 +79,77 @@ public class FSchemaTypeFactoryTest {
                 ((FSimpleType) restrictedList).getRestrictions()
                         .getIntegerValue(SchemaType.FACET_LENGTH) == 6);
     }
+
+    @Test
+    public void testWhiteSpace() throws Exception {
+        File file = new File("src/test/resources/schemas/whiteSpace.xsd");
+        FSchema schema = new FSchema(file);
+        FTopLevelObjectList objectList = schema.getTopLevelObjectList();
+        FSchemaRestrictions address    = objectList.getTopLevelElement("Address")
+                .getSchemaType().getRestrictions();
+        FSchemaRestrictions address2   = objectList.getTopLevelElement("Address2")
+                .getSchemaType().getRestrictions();
+        FSchemaRestrictions address3   = objectList.getTopLevelElement("Address3")
+                .getSchemaType().getRestrictions();
+
+        /*
+        Tests
+         */
+        assertTrue("Address has to be xs:whiteSpace restricted.",
+                address.hasRestriction(SchemaType.FACET_WHITE_SPACE));
+        assertTrue("Address2 has to be xs:whiteSpace restricted.",
+                address2.hasRestriction(SchemaType.FACET_WHITE_SPACE));
+        assertTrue("Address3 has to be xs:whiteSpace restricted.",
+                address3.hasRestriction(SchemaType.FACET_WHITE_SPACE));
+        assertEquals("Value of xs:whiteSpace in Address has to be 'preserve'.",
+                "preserve",
+                address.getStringValue(SchemaType.FACET_WHITE_SPACE));
+        assertEquals("Value of xs:whiteSpace in Address2 has to be 'replace'.",
+                "replace",
+                address2.getStringValue(SchemaType.FACET_WHITE_SPACE));
+        assertEquals("Value of xs:whiteSpace in Address3 has to be 'collapse'.",
+                "collapse",
+                address3.getStringValue(SchemaType.FACET_WHITE_SPACE));
+    }
+
+    @Test
+    public void testPattern() throws Exception {
+        File file = new File("src/test/resources/schemas/pattern.xsd");
+        FSchema schema = new FSchema(file);
+        FTopLevelObjectList objectList = schema.getTopLevelObjectList();
+        FSchemaRestrictions initials = objectList.getTopLevelElement("Initials")
+                .getSchemaType().getRestrictions();
+
+        /*
+        Tests
+         */
+        assertTrue("Initials has to be xs:pattern restricted.",
+                initials.hasRestriction(SchemaType.FACET_PATTERN));
+        assertEquals("Value of xs:pattern in Initials has to be '[A-Z][A-Z][A-Z]'.",
+                "[A-Z][A-Z][A-Z]",
+                initials.getStringValue(SchemaType.FACET_PATTERN));
+    }
+
+    @Test
+    public void testDigit() throws Exception {
+        File file = new File("src/test/resources/schemas/digit.xsd");
+        FSchema schema = new FSchema(file);
+        FTopLevelObjectList objectList = schema.getTopLevelObjectList();
+        FSchemaRestrictions temperature = objectList.getTopLevelElement("Temperature")
+                .getSchemaType().getRestrictions();
+
+        /*
+        Tests
+         */
+        assertTrue("Temperature has to be xs:totalDigits restricted.",
+                temperature.hasRestriction(SchemaType.FACET_TOTAL_DIGITS));
+        assertTrue("Temperature has to be xs:fractionDigits restricted.",
+                temperature.hasRestriction(SchemaType.FACET_FRACTION_DIGITS));
+        assertEquals("Value of xs:totalDigits in Temperature has to be 3.",
+                3,
+                temperature.getIntegerValue(SchemaType.FACET_TOTAL_DIGITS));
+        assertEquals("Value of xs:fractionDigits in Temperature has to be 1.",
+                1,
+                temperature.getIntegerValue(SchemaType.FACET_FRACTION_DIGITS));
+    }
 }
