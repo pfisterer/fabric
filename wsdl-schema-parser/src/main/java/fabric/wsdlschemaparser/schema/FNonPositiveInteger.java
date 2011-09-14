@@ -59,16 +59,7 @@ public class FNonPositiveInteger extends FInteger {
 	 */
 	public FNonPositiveInteger(String typeName) {
 		super(typeName);
-		initialize( );
-	}
-
-    // --------------------------------------------------------------------
-
-	/**
-	 * Initialises this value, mostly the initial facets being set.
-	 */
-	private void initialize( ) {
 		addRestriction(SchemaType.FACET_MAX_INCLUSIVE, BigInteger.ZERO);
-        addRestriction(SchemaType.FACET_MIN_INCLUSIVE, BigInteger.valueOf(Long.MIN_VALUE));
+                addRestriction(SchemaType.FACET_MIN_INCLUSIVE, BigInteger.valueOf(Long.MIN_VALUE));
 	}
 }

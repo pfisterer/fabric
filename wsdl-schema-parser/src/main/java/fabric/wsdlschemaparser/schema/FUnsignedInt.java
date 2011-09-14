@@ -61,7 +61,7 @@ public class FUnsignedInt extends FUnsignedLong {
 	}
 
     // --------------------------------------------------------------------
-	
+
 	/**
 	 * Initialises this value, mostly the initial facets being set.
 	 */

@@ -61,7 +61,7 @@ public class FShort extends FInt {
 	}
 
     // --------------------------------------------------------------------
-	
+
 	/**
 	 * Initialising this value. Mostly the initial facets are being set.
 	 */

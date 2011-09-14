@@ -61,11 +61,11 @@ public class FInt extends FLong {
 	}
 
     // --------------------------------------------------------------------
-	
+
 	/**
 	 * Initialising this value. Mostly the initial facets are being set.
 	 */
 	private void initialize( ) {
-		initializeInteger(SchemaType.SIZE_INT, true);
+
 	}
 }

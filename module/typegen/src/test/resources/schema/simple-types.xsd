@@ -14,7 +14,7 @@
   </xs:simpleType>
 
   <!--
-    Simple type with both iclusive and exclusive boundaries.
+    Simple type with both inclusive and exclusive boundaries.
   -->
   <xs:simpleType name="Simple02">
     <xs:restriction base="xs:unsignedByte">
@@ -68,6 +68,29 @@
         <xs:element name="cont03" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
       </xs:sequence>
     </xs:complexType>
+  </xs:element>
+
+  <!--
+    Simple type with xs:list.
+  -->
+  <xs:simpleType name="Simple07">
+    <xs:list itemType="xs:integer"/>
+  </xs:simpleType>
+
+  <!--
+    Element of top-level simple type with xs:list.
+  -->
+  <xs:element name="SimpleList" type="Simple07"/>
+
+  <!--
+    Element of local simple type with xs:list with length restriction.
+  -->
+  <xs:element name="SimpleRestrictedList">
+    <xs:simpleType>
+        <xs:restriction base="Simple07">
+            <xs:length value="6"/>
+        </xs:restriction>
+    </xs:simpleType>
   </xs:element>
 
 </xs:schema>

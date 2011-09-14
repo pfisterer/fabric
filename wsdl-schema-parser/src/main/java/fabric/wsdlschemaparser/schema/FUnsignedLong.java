@@ -61,11 +61,11 @@ public class FUnsignedLong extends FNonNegativeInteger {
 	}
 
     // --------------------------------------------------------------------
-	
+
 	/**
 	 * Initialises this value, mostly the initial facets being set.
 	 */
 	private void initialize( ) {
-		initializeInteger(SchemaType.SIZE_LONG, false);
+
 	}
 }
