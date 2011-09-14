@@ -24,6 +24,17 @@
   </xs:simpleType>
 
   <!--
+    Simple type with global enumeration.
+  -->
+  <xs:simpleType name="CarEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Audi" />
+      <xs:enumeration value="Golf" />
+      <xs:enumeration value="BMW" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!--
     Element of built-in type.
   -->
   <xs:element name="Simple03" type="xs:short" />
@@ -53,7 +64,27 @@
   -->
   <xs:element name="Simple06">
     <xs:simpleType>
-      <xs:restriction base="xs:string" />
+      <xs:restriction base="xs:string">
+        <xs:minExclusive value="127" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+
+  <!--
+    Element of enum type.
+  -->
+  <xs:element name="Simple07" type="itm:CarEnum" />
+  
+  <!--
+    Element of a local enum type.
+  -->
+  <xs:element name="Simple08">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="Januar" />
+        <xs:enumeration value="Mai" />
+        <xs:enumeration value="Dezember" />
+      </xs:restriction>
     </xs:simpleType>
   </xs:element>
 

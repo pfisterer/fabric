@@ -8,6 +8,8 @@ import de.uniluebeck.sourcegen.WorkspaceElement;
 import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JClassAnnotationImpl;
 import de.uniluebeck.sourcegen.java.JClassCommentImpl;
+import de.uniluebeck.sourcegen.java.JEnum;
+import de.uniluebeck.sourcegen.java.JEnumCommentImpl;
 import de.uniluebeck.sourcegen.java.JField;
 import de.uniluebeck.sourcegen.java.JFieldAnnotationImpl;
 import de.uniluebeck.sourcegen.java.JFieldCommentImpl;
@@ -190,6 +192,18 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       }
 
       /*****************************************************************
+       * Create enum type
+       *****************************************************************/
+      if (member.getClass() == AttributeContainer.EnumElement.class)
+      {
+        AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)member;
+        
+        JEnum je = JEnum.factory.create(JModifier.PRIVATE, ee.type, ee.enumConstants);
+        je.setComment(new JEnumCommentImpl("The '" + ee.type + "' enumeration."));
+        jc.add(je);
+      }
+
+      /*****************************************************************
        * Create setter
        *****************************************************************/
       JMethod setter = this.createSetterMethod(member);
@@ -230,30 +244,30 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
      *****************************************************************/
     if (member.getClass() == AttributeContainer.Element.class)
     {
-      AttributeContainer.Element a = (AttributeContainer.Element)member;
+      AttributeContainer.Element e = (AttributeContainer.Element)member;
 
       // No initial value set
-      if (("").equals(a.value))
+      if (("").equals(e.value))
       {
-        jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name);
+        jf = JField.factory.create(JModifier.PRIVATE, e.type, e.name);
       }
       // Initial value is set
       else
       {
         // Add quotation marks to initial value, if type is String
-        String value = a.value;
-        if (("String").equals(a.type))
+        String value = e.value;
+        if (("String").equals(e.type))
         {
           value = "\"" + value + "\"";
         }
 
-        jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name, value);
+        jf = JField.factory.create(JModifier.PRIVATE, e.type, e.name, value);
       }
 
-      jf.setComment(new JFieldCommentImpl("The '" + a.name + "' element."));
+      jf.setComment(new JFieldCommentImpl("The '" + e.name + "' element."));
 
       // Annotation pattern e.g. @Element or @XStreamAlias("value")
-      String annotation = this.xmlMapper.getAnnotation("element", a.name);
+      String annotation = this.xmlMapper.getAnnotation("element", e.name);
       jf.addAnnotation(new JFieldAnnotationImpl(annotation));
     }
 
@@ -262,20 +276,20 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
      *****************************************************************/
     else if (member.getClass() == AttributeContainer.ConstantElement.class)
     {
-      AttributeContainer.ConstantElement a = (AttributeContainer.ConstantElement)member;
+      AttributeContainer.ConstantElement ce = (AttributeContainer.ConstantElement)member;
 
       // Add quotation marks to value, if type is String
-      String value = a.value;
-      if (("String").equals(a.type))
+      String value = ce.value;
+      if (("String").equals(ce.type))
       {
         value = "\"" + value + "\"";
       }
 
-      jf = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC | JModifier.FINAL, a.type, a.name, value);
-      jf.setComment(new JFieldCommentImpl("The '" + a.name + "' constant."));
+      jf = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC | JModifier.FINAL, ce.type, ce.name, value);
+      jf.setComment(new JFieldCommentImpl("The '" + ce.name + "' constant."));
 
       // Annotation pattern e.g. @Element or @XStreamAlias("value")
-      String annotation = this.xmlMapper.getAnnotation("element", a.name);
+      String annotation = this.xmlMapper.getAnnotation("element", ce.name);
       jf.addAnnotation(new JFieldAnnotationImpl(annotation));
     }
 
@@ -312,27 +326,42 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     }
 
     /*****************************************************************
+     * Handle XML element of type enum
+     *****************************************************************/
+    else if (member.getClass() == AttributeContainer.EnumElement.class)
+    {
+      AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)member;
+      
+      jf = JField.factory.create(JModifier.PRIVATE, ee.type, ee.name);
+      jf.setComment(new JFieldCommentImpl("The '" + ee.name + "' enum element."));
+      
+      // Annotation pattern e.g. @XmlEnum
+      String annotation = this.xmlMapper.getAnnotation("element", ee.name); // TODO: Change key to enum
+      jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+    }
+
+    /*****************************************************************
      * Handle XML element arrays
      *****************************************************************/
     else if (member.getClass() == AttributeContainer.ElementArray.class)
     {
-      AttributeContainer.ElementArray a = (AttributeContainer.ElementArray)member;
+      AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
 
       // No array size is given
-      if (a.size == Integer.MAX_VALUE)
+      if (ea.size == Integer.MAX_VALUE)
       {
-        jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name + "[]");
+        jf = JField.factory.create(JModifier.PRIVATE, ea.type, ea.name + "[]");
       }
       // Array size is given
       else
       {
-        jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name + "[]", "new " + a.type + "[" + a.size + "]");
+        jf = JField.factory.create(JModifier.PRIVATE, ea.type, ea.name + "[]", "new " + ea.type + "[" + ea.size + "]");
       }
 
-      jf.setComment(new JFieldCommentImpl("The '" + a.name + "' element array."));
+      jf.setComment(new JFieldCommentImpl("The '" + ea.name + "' element array."));
 
       // Annotation pattern e.g. @ElementArray or @XStreamImplicit(itemFieldName="value")
-      String annotation = this.xmlMapper.getAnnotation("elementArray", a.name);
+      String annotation = this.xmlMapper.getAnnotation("elementArray", ea.name);
       jf.addAnnotation(new JFieldAnnotationImpl(annotation));
     }
 

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Stack;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -13,6 +14,8 @@ import org.apache.xmlbeans.SchemaType;
 import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JComplexType;
+import de.uniluebeck.sourcegen.java.JEnum;
+import de.uniluebeck.sourcegen.java.JModifier;
 import de.uniluebeck.sourcegen.java.JSourceFile;
 import de.uniluebeck.sourcegen.java.JavaWorkspace;
 import fabric.wsdlschemaparser.schema.FElement;
@@ -35,6 +38,8 @@ import fabric.module.typegen.MapperFactory;
  */
 public class JavaTypeGen implements TypeGen
 {
+  // TODO: Restrictions for local simple types!
+  
   /** Logger object */
   private static final Logger LOGGER = LoggerFactory.getLogger(JavaTypeGen.class);
 
@@ -147,13 +152,29 @@ public class JavaTypeGen implements TypeGen
   @Override
   public void createNewContainer(FSimpleType type)
   {
-    // Create new container for simple type (may not contain array
-    // as value, but member variable may be restricted in some way)
-    AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
-    newBuilder.addElement(this.mapper.lookup(this.getFabricTypeName(type)), "value", this.createRestrictions(type));
-    this.incompleteBuilders.push(newBuilder);
+    if (null != type && FSchemaTypeHelper.isEnum(type)) // TODO: Check and remove
+    {
+      try
+      {
+        this.generatedElements.put(type.getName(), this.createEnum(type));
+      }
+      catch (Exception e)
+      {
+        LOGGER.error(String.format("Failed creating enum '%s'.", type.getName()));
+      }
+      
+      LOGGER.debug(String.format("Created new enum '%s'.", type.getName()));      
+    }
+    else
+    {
+      // Create new container for simple type (may not contain array
+      // as value, but member variable may be restricted in some way)
+      AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
+      newBuilder.addElement(this.mapper.lookup(this.getFabricTypeName(type)), "value", this.createRestrictions(type));
+      this.incompleteBuilders.push(newBuilder);
 
-    LOGGER.debug(String.format("Created new container '%s'.", type.getName()));
+      LOGGER.debug(String.format("Created new container '%s'.", type.getName()));
+    }
   }
 
   /**
@@ -189,6 +210,13 @@ public class JavaTypeGen implements TypeGen
       if (FSchemaTypeHelper.isArray(element))
       {
         current.addElementArray(typeName, element.getName(), element.getMaxOccurs());
+      }
+      // Element is an enum
+      else if (FSchemaTypeHelper.isEnum(element.getSchemaType()))
+      {
+        Object[] constants = FSchemaTypeHelper.extractEnumArray((FSimpleType)element.getSchemaType());
+        String[] enumConstants = Arrays.copyOf(constants, constants.length, String[].class);
+        current.addEnumElement(element.getName() + "Enum", element.getName(), enumConstants);
       }
       // Element has a default value
       else if (FSchemaTypeHelper.hasDefaultValue(element))
@@ -250,7 +278,7 @@ public class JavaTypeGen implements TypeGen
    *
    * @return Restriction object for AttributeContainer
    */
-  private AttributeContainer.Restriction createRestrictions(FSimpleType type)
+  private AttributeContainer.Restriction createRestrictions(final FSimpleType type)
   {
     AttributeContainer.Restriction restrictions = new AttributeContainer.Restriction();
     
@@ -342,11 +370,29 @@ public class JavaTypeGen implements TypeGen
   {
     return type.getClass().getSimpleName();
   }
-
-
+  
+  // TODO: Check and add comments
+  private JEnum createEnum(final FSimpleType type) throws Exception
+  {
+    JEnum javaEnum = null;
+    
+    if (null != type && FSchemaTypeHelper.isEnum(type))
+    {
+      Object[] constants = FSchemaTypeHelper.extractEnumArray(type);
+      String[] constantsAsString = Arrays.copyOf(constants, constants.length, String[].class);
+      
+      if (!this.generatedElements.containsKey(type.getName()))
+      {
+        javaEnum = JEnum.factory.create(JModifier.PUBLIC, type.getName(), constantsAsString);
+        this.generatedElements.put(type.getName(), javaEnum);
+      }
+    }
+    
+    return javaEnum;
+  }
 
 // TODO: Remove the following lines before release:
-//
+//  
 //  @Override
 //  public void createNewContainer(FComplexType type)
 //  {
@@ -381,15 +427,10 @@ public class JavaTypeGen implements TypeGen
 //    if (generatedElements.containsKey(type.getName()))
 //    {
 //      System.out.println("addSimpleType: SIMPLE TYPE ALREADY EXISTS.");
-//      // TODO: Was soll passieren, wenn es ein Element dieses Namens bereits gibt?
 //    }
 //    else
 //    {
 //      System.out.println("addSimpleType: CREATING NEW SIMPLE TYPE.");
-//      /*
-//      Check if type is xs:list
-//       */
-//      // TODO: in Fabric not supported yet!
 //
 //      /*
 //      Add variable to current AttributeContainer.Builder object
@@ -400,7 +441,6 @@ public class JavaTypeGen implements TypeGen
 //        current.addElementArray(mapper.lookup(this.getFabricTypeName(type)), type.getName(), parent.getMaxOccurs());
 //      }
 ////            else if (FSchemaTypeHelper.isEnum(type)) {    // Element is an enum
-////                // TODO: Wie soll die Enum-Variable genannt werden?
 ////                current.addElement(type.getName(), type.getName().toLowerCase());
 ////            }
 //      else
@@ -481,29 +521,5 @@ public class JavaTypeGen implements TypeGen
 //          break;
 //      }
 //    }
-//  }
-//
-//  /**
-//   * This methods creates a JEnum object corresponding to the FSimpleType object.
-//   * Please make sure that the given FSimpleType object is an enum!
-//   *
-//   * @param type FSimpleType object with restriction xs:enumeration
-//   */
-//  private void createEnum(FSimpleType type) throws Exception
-//  {
-//    /*
-//    Get enumeration constants
-//     */
-//    Object[] constants = FSchemaTypeHelper.extractEnumArray(type);
-//    String[] constantsAsString = Arrays.copyOf(constants,
-//            constants.length,
-//            String[].class);
-//    /*
-//    Create JEnum source file in workspace
-//     */
-//    generatedElements.put(type.getName(),
-//            JEnum.factory.create(JModifier.PUBLIC,
-//            type.getName(),
-//            constantsAsString));
 //  }
 }
