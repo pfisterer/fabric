@@ -26,6 +26,11 @@
  */
 package fabric.wsdlschemaparser.schema;
 
+import org.apache.xmlbeans.SchemaType;
+
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Marco Wegner
  */
@@ -43,5 +48,23 @@ public class FDecimal extends FNumber {
 	 */
 	public FDecimal(String typeName) {
 		super(typeName);
+	}
+
+    /**
+	 * @see fabric.wsdlschemaparser.schema.FSchemaType#getValidFacets()
+	 */
+	@Override
+	public List<Integer> getValidFacets( ) {
+		return Arrays.asList(new Integer[]{
+                        SchemaType.FACET_MIN_INCLUSIVE,
+                        SchemaType.FACET_MIN_EXCLUSIVE,
+                        SchemaType.FACET_MAX_INCLUSIVE,
+                        SchemaType.FACET_MAX_EXCLUSIVE,
+                        SchemaType.FACET_ENUMERATION,
+                        SchemaType.FACET_WHITE_SPACE,
+                        SchemaType.FACET_PATTERN,
+                        SchemaType.FACET_TOTAL_DIGITS,
+                        SchemaType.FACET_FRACTION_DIGITS
+                });
 	}
 }

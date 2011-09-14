@@ -1,4 +1,4 @@
-/** 02.09.2011 01:31:25 */
+/** 02.09.2011 01:31 */
 package fabric.module.typegen.java;
 
 import java.util.Map;

@@ -69,16 +69,6 @@ public class FString extends FSimpleType {
 	 */
 	public FString(String typeName) {
 		super(typeName);
-		initialize( );
-	}
-
-    // --------------------------------------------------------------------
-
-	/**
-	 * Initialises the string. Mostly here the initial restrictions are being
-	 * set.
-	 */
-	private void initialize( ) {
 		addRestriction(SchemaType.FACET_MIN_LENGTH, 0);
 		addRestriction(SchemaType.FACET_MAX_LENGTH, MAX_LENGTH);
 	}
@@ -86,7 +76,7 @@ public class FString extends FSimpleType {
     // --------------------------------------------------------------------
     // Methods
     // --------------------------------------------------------------------
-	
+
 	/**
 	 * @see fabric.wsdlschemaparser.schema.FSchemaType#getValidFacets()
 	 */
@@ -96,7 +86,9 @@ public class FString extends FSimpleType {
                 SchemaType.FACET_LENGTH,
                 SchemaType.FACET_MIN_LENGTH,
                 SchemaType.FACET_MAX_LENGTH,
-                SchemaType.FACET_ENUMERATION
+                SchemaType.FACET_ENUMERATION,
+                SchemaType.FACET_WHITE_SPACE,
+                SchemaType.FACET_PATTERN
         });
 	}
 }

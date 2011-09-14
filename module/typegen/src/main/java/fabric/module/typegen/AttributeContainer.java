@@ -1,8 +1,9 @@
-/** 12.09.2011 21:42 */
+/** 14.09.2011 16:19 */
 package fabric.module.typegen;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import de.uniluebeck.sourcegen.WorkspaceElement;
@@ -184,6 +185,11 @@ public class AttributeContainer
       {
         AttributeContainer.Attribute a = (AttributeContainer.Attribute)master;
         copy = new AttributeContainer.Attribute(a.type, a.name, a.value, a.restrictions.clone());
+      }
+      else if (master.getClass() == AttributeContainer.EnumElement.class)
+      {
+        AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)master;
+        copy = new AttributeContainer.EnumElement(ee.type, ee.name, ee.enumConstants);
       }
       else if (master.getClass() == AttributeContainer.ElementArray.class)
       {
@@ -394,6 +400,30 @@ public class AttributeContainer
     {
       this.members.put(name, new AttributeContainer.Attribute(type, name));
 
+      return this;
+    }
+
+    /**
+     * Add XML element and enum type to container. Existing entries will
+     * be overridden by new element definitions.
+     * 
+     * @param type Name of XML enum type (e.g. MyEnumType)
+     * @param name Name of XML enum element
+     * @param enumConstants Array if enum constants
+     * 
+     * @return Builder object
+     *
+     * @throws IllegalArgumentException Enum array is empty
+     */
+    public Builder addEnumElement(final String type, final String name, final String[] enumConstants) throws IllegalArgumentException
+    {
+      if (null != enumConstants && enumConstants.length < 1)
+      {
+        throw new IllegalArgumentException("Enum must at least contain one element.");
+      }
+      
+      this.members.put(name, new AttributeContainer.EnumElement(type, name, enumConstants));
+      
       return this;
     }
 
@@ -662,6 +692,26 @@ public class AttributeContainer
       super(type, name, "");
     }
   }
+  
+  public static class EnumElement extends MemberVariable
+  { 
+    /** Constants of the enumeration */
+    public String[] enumConstants;
+    
+    /**
+     * Parameterized constructor.
+     * 
+     * @param type Name of XML enum type (e.g. MyEnumType)
+     * @param name Name of XML enum element
+     * @param enumConstants Array if enum constants
+     */
+    public EnumElement(final String type, final String name, final String[] enumConstants)
+    {
+      this.type = type;
+      this.name = name;
+      this.enumConstants = Arrays.copyOf(enumConstants, enumConstants.length, String[].class);
+    }
+  }
 
   public static class ElementArray extends MemberVariable
   {
@@ -673,7 +723,7 @@ public class AttributeContainer
      *
      * @param type Type of XML element array
      * @param name Name of XML element array
-     * @param size of XML element array
+     * @param size Size of XML element array
      */
     public ElementArray(final String type, final String name, final int size)
     {
@@ -721,11 +771,25 @@ public class AttributeContainer
     /** Upper bound on element value (excluding boundary) or null */
     public String maxExclusive;
 
+      /** Pattern of content or null */
+      public String pattern;
+
+      /** Handling of whitespaces in content or null */
+      public String whiteSpace;
+
+      /** Number of digits of numeric content */
+      public String totalDigits;
+
+      /** Number of decimal places of numeric content  */
+      public String fractionDigits;
+
     /**
      * Parameterless constructor. Member variable value of 'null'
      * means that the restriction is not set at all. Value of 'length',
-     * 'minLength' and 'maxLength' must not be negative. The remaining
-     * boundaries can either be negative, zero or positive integer values.
+     * 'minLength', 'maxLength', 'totalDigits' and 'fractionDigits' must
+     * not be negative. Value of 'pattern' and 'whiteSpace' are strings.
+     * The remaining boundaries can either be negative, zero or positive
+     * integer values.
      */
     public Restriction()
     {
@@ -737,6 +801,12 @@ public class AttributeContainer
       this.maxInclusive = null;
       this.minExclusive = null;
       this.maxExclusive = null;
+
+        this.pattern = null;
+        this.whiteSpace = null;
+
+        this.totalDigits = null;
+        this.fractionDigits = null;
     }
 
     /**
@@ -795,6 +865,12 @@ public class AttributeContainer
       clone.maxInclusive = this.maxInclusive;
       clone.minExclusive = this.minExclusive;
       clone.maxExclusive = this.maxExclusive;
+
+        clone.pattern = this.pattern;
+        clone.whiteSpace = this.whiteSpace;
+
+        clone.totalDigits = this.totalDigits;
+        clone.fractionDigits = this.fractionDigits;
 
       return clone;
     }

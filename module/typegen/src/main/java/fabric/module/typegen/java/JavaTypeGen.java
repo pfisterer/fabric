@@ -1,10 +1,12 @@
 package fabric.module.typegen.java;
 
+import fabric.wsdlschemaparser.schema.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Stack;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -13,18 +15,17 @@ import org.apache.xmlbeans.SchemaType;
 import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JComplexType;
+import de.uniluebeck.sourcegen.java.JEnum;
+import de.uniluebeck.sourcegen.java.JModifier;
 import de.uniluebeck.sourcegen.java.JSourceFile;
 import de.uniluebeck.sourcegen.java.JavaWorkspace;
-import fabric.wsdlschemaparser.schema.FElement;
-import fabric.wsdlschemaparser.schema.FSchemaRestrictions;
-import fabric.wsdlschemaparser.schema.FSchemaType;
-import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
-import fabric.wsdlschemaparser.schema.FSimpleType;
 
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.base.TypeGen;
 import fabric.module.typegen.base.Mapper;
 import fabric.module.typegen.MapperFactory;
+
+import javax.xml.validation.Schema;
 
 /**
  * Type generator for Java. This class handles various calls from
@@ -35,6 +36,8 @@ import fabric.module.typegen.MapperFactory;
  */
 public class JavaTypeGen implements TypeGen
 {
+  // TODO: Restrictions for local simple types!
+  
   /** Logger object */
   private static final Logger LOGGER = LoggerFactory.getLogger(JavaTypeGen.class);
 
@@ -67,8 +70,8 @@ public class JavaTypeGen implements TypeGen
     this.workspace = workspace;
     this.properties = properties;
 
-    incompleteBuilders = new Stack<AttributeContainer.Builder>();
-    generatedElements = new HashMap<String, JComplexType>();
+    this.incompleteBuilders = new Stack<AttributeContainer.Builder>();
+    this.generatedElements = new HashMap<String, JComplexType>();
   }
   
   /**
@@ -79,7 +82,7 @@ public class JavaTypeGen implements TypeGen
   public void createRootContainer()
   {
     String rootContainerName = this.properties.getProperty("typegen.main_class_name");
-    incompleteBuilders.push(AttributeContainer.newBuilder().setName(rootContainerName));
+    this.incompleteBuilders.push(AttributeContainer.newBuilder().setName(rootContainerName));
 
     LOGGER.debug(String.format("Created root container '%s'.", rootContainerName));
   }
@@ -97,28 +100,31 @@ public class JavaTypeGen implements TypeGen
     
     // Build root container (and other incomplete containers, but when
     // we reach this point, there should not be any left)
-    while (!incompleteBuilders.empty())
+    while (!this.incompleteBuilders.empty())
     {
       // Create mapper for XML framework annotations and strategy
       AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
       strategy = new JavaClassGenerationStrategy(xmlMapper);
       
-      JClass newClass = (JClass)incompleteBuilders.pop().build().asClassObject(strategy);
-      generatedElements.put(newClass.getName(), newClass);
+      JClass classObject = (JClass)this.incompleteBuilders.pop().build().asClassObject(strategy);      
+      if (!this.generatedElements.containsKey(classObject.getName()))
+      {
+        this.generatedElements.put(classObject.getName(), classObject);
+      }
       
-      LOGGER.debug(String.format("Built incomplete container '%s'.", newClass.getName()));
+      LOGGER.debug(String.format("Built incomplete container '%s'.", classObject.getName()));
     }
     
     JavaWorkspace javaWorkspace = this.workspace.getJava();
     JSourceFile jsf = null;
     
     // Create new source file for every container
-    for (String name: generatedElements.keySet())
+    for (String name: this.generatedElements.keySet())
     {
       jsf = javaWorkspace.getJSourceFile(this.properties.getProperty("typegen.java.package_name"), name);
 
       // Add container to source file
-      jsf.add(generatedElements.get(name));
+      jsf.add(this.generatedElements.get(name));
 
       // Add imports to source file
       if (null != strategy)
@@ -144,16 +150,46 @@ public class JavaTypeGen implements TypeGen
   @Override
   public void createNewContainer(FSimpleType type)
   {
-    // Create new container for simple type (may not contain array as
-    // value, but member variable may be restricted in some way)
-    AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
-    newBuilder.addElement(mapper.lookup(this.getFabricTypeName(type)), "value", this.createRestrictions(type));
-    incompleteBuilders.push(newBuilder);
+    // TODO: Type is a top-level enum
+    if (null != type && FSchemaTypeHelper.isEnum(type)) // TODO: Check and remove
+    {
+      try
+      {
+        this.generatedElements.put(type.getName(), this.createEnum(type));
+      }
+      catch (Exception e)
+      {
+        LOGGER.error(String.format("Failed creating enum '%s'.", type.getName()));
+      }
 
-    LOGGER.debug(String.format("Created new container '%s'.", type.getName()));
+      LOGGER.debug(String.format("Created new enum '%s'.", type.getName()));
+    }
+    else
+    {
+      // Create new container for simple type (may not contain array
+      // as value, but member variable may be restricted in some way)
+      AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
+      
+      // TODO Check this block
+      // Type is a list
+      if (type.isList())
+      {
+        FList listType = (FList)type;
+        newBuilder.addElementArray(mapper.lookup(getFabricTypeName(listType.getItemType())), "values", FSchemaTypeHelper.getMaxLength(listType));
+      }
+      // Type is an atomic one
+      else
+      {
+        newBuilder.addElement(this.mapper.lookup(this.getFabricTypeName(type)), "value", this.createRestrictions(type));
+      }
+
+      this.incompleteBuilders.push(newBuilder);
+
+      LOGGER.debug(String.format("Created new container '%s'.", type.getName()));
+    }
   }
 
-  /**
+    /**
    * Add a member variable to the current container class.
    * Type, name, initial value and restrictions of the
    * element will be mapped to Java where applicable.
@@ -171,7 +207,7 @@ public class JavaTypeGen implements TypeGen
       // Element is XSD base type (e.g. xs:string, xs:short, ...)
       if (element.getName().equals(element.getSchemaType().getName()))
       {
-        typeName = mapper.lookup(this.getFabricTypeName(element.getSchemaType()));
+        typeName = this.mapper.lookup(this.getFabricTypeName(element.getSchemaType()));
       }
       // Element is custom type (e.g. some XSD base type itm:Simple02)
       else
@@ -180,12 +216,24 @@ public class JavaTypeGen implements TypeGen
       }
 
       // Add member variable to current incomplete container
-      AttributeContainer.Builder current = incompleteBuilders.pop();
+      AttributeContainer.Builder current = this.incompleteBuilders.pop();
 
       // Element is an array
       if (FSchemaTypeHelper.isArray(element))
       {
         current.addElementArray(typeName, element.getName(), element.getMaxOccurs());
+      }
+      // Element is an enum
+      else if (FSchemaTypeHelper.isEnum(element.getSchemaType()))
+      {
+        Object[] constants = FSchemaTypeHelper.extractEnumArray((FSimpleType)element.getSchemaType());
+        String[] enumConstants = Arrays.copyOf(constants, constants.length, String[].class);
+        current.addEnumElement(element.getName() + "Enum", element.getName(), enumConstants);
+      }
+      // Element is a list
+      else if (FSchemaTypeHelper.isList(element))
+      {
+        current.addElementArray(typeName, element.getName(), FSchemaTypeHelper.getMaxLength((FList)element.getSchemaType()));
       }
       // Element has a default value
       else if (FSchemaTypeHelper.hasDefaultValue(element))
@@ -202,7 +250,7 @@ public class JavaTypeGen implements TypeGen
       {
         current.addElement(typeName, element.getName());
       }
-      incompleteBuilders.push(current);
+      this.incompleteBuilders.push(current);
       
       LOGGER.debug(String.format("Added member variable '%s' of type '%s' to container '%s'.",
               element.getName(), typeName, current.getName()));
@@ -228,7 +276,10 @@ public class JavaTypeGen implements TypeGen
       JavaClassGenerationStrategy javaStrategy = new JavaClassGenerationStrategy(xmlMapper);
 
       JClass classObject = (JClass)this.incompleteBuilders.pop().build().asClassObject(javaStrategy);
-      this.generatedElements.put(classObject.getName(), classObject);
+      if (!this.generatedElements.containsKey(classObject.getName()))
+      {
+        this.generatedElements.put(classObject.getName(), classObject);
+      }
 
       LOGGER.debug(String.format("Built current container '%s'.", classObject.getName()));
     }
@@ -244,7 +295,7 @@ public class JavaTypeGen implements TypeGen
    *
    * @return Restriction object for AttributeContainer
    */
-  private AttributeContainer.Restriction createRestrictions(FSimpleType type)
+  private AttributeContainer.Restriction createRestrictions(final FSimpleType type)
   {
     AttributeContainer.Restriction restrictions = new AttributeContainer.Restriction();
     
@@ -336,11 +387,29 @@ public class JavaTypeGen implements TypeGen
   {
     return type.getClass().getSimpleName();
   }
-
-
+  
+  // TODO: Check and add comments
+  private JEnum createEnum(final FSimpleType type) throws Exception
+  {
+    JEnum javaEnum = null;
+    
+    if (null != type && FSchemaTypeHelper.isEnum(type))
+    {
+      Object[] constants = FSchemaTypeHelper.extractEnumArray(type);
+      String[] constantsAsString = Arrays.copyOf(constants, constants.length, String[].class);
+      
+      if (!this.generatedElements.containsKey(type.getName()))
+      {
+        javaEnum = JEnum.factory.create(JModifier.PUBLIC, type.getName(), constantsAsString);
+        this.generatedElements.put(type.getName(), javaEnum);
+      }
+    }
+    
+    return javaEnum;
+  }
 
 // TODO: Remove the following lines before release:
-//
+//  
 //  @Override
 //  public void createNewContainer(FComplexType type)
 //  {
@@ -375,15 +444,10 @@ public class JavaTypeGen implements TypeGen
 //    if (generatedElements.containsKey(type.getName()))
 //    {
 //      System.out.println("addSimpleType: SIMPLE TYPE ALREADY EXISTS.");
-//      // TODO: Was soll passieren, wenn es ein Element dieses Namens bereits gibt?
 //    }
 //    else
 //    {
 //      System.out.println("addSimpleType: CREATING NEW SIMPLE TYPE.");
-//      /*
-//      Check if type is xs:list
-//       */
-//      // TODO: in Fabric not supported yet!
 //
 //      /*
 //      Add variable to current AttributeContainer.Builder object
@@ -394,7 +458,6 @@ public class JavaTypeGen implements TypeGen
 //        current.addElementArray(mapper.lookup(this.getFabricTypeName(type)), type.getName(), parent.getMaxOccurs());
 //      }
 ////            else if (FSchemaTypeHelper.isEnum(type)) {    // Element is an enum
-////                // TODO: Wie soll die Enum-Variable genannt werden?
 ////                current.addElement(type.getName(), type.getName().toLowerCase());
 ////            }
 //      else
@@ -475,29 +538,5 @@ public class JavaTypeGen implements TypeGen
 //          break;
 //      }
 //    }
-//  }
-//
-//  /**
-//   * This methods creates a JEnum object corresponding to the FSimpleType object.
-//   * Please make sure that the given FSimpleType object is an enum!
-//   *
-//   * @param type FSimpleType object with restriction xs:enumeration
-//   */
-//  private void createEnum(FSimpleType type) throws Exception
-//  {
-//    /*
-//    Get enumeration constants
-//     */
-//    Object[] constants = FSchemaTypeHelper.extractEnumArray(type);
-//    String[] constantsAsString = Arrays.copyOf(constants,
-//            constants.length,
-//            String[].class);
-//    /*
-//    Create JEnum source file in workspace
-//     */
-//    generatedElements.put(type.getName(),
-//            JEnum.factory.create(JModifier.PUBLIC,
-//            type.getName(),
-//            constantsAsString));
 //  }
 }
