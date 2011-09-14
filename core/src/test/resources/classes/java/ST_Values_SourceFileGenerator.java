@@ -1,5 +1,7 @@
 package classes.java;
 
+import de.uniluebeck.sourcegen.java.JClass;
+import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 /**
@@ -18,6 +20,13 @@ public class ST_Values_SourceFileGenerator extends JSourceFileGenerator {
      * Generates the JComplexType objects corresponding to the test XSD.
      */
     @Override void generateClasses() throws Exception {
-        // TODO: Implement me!
+    	
+    	JClass root = ((JClass) AttributeContainer.newBuilder()
+            .setName(ROOT)
+            .addElement("String", "ForegroundColor", "red")  //default value already implemented
+        //TODO fixed value   .addConstantElement("String", "BackgroundColor", "white")  
+            .build()
+            .asClassObject(strategy));
+        types.add(root);    	
     }
 }
