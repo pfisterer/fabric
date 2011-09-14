@@ -511,7 +511,7 @@ public class FSchemaTypeFactory {
      */
     private FSimpleType generateSimpleRestrictionType(Restriction restriction) {
         QName base = restriction.getBase();
-        System.out.println(base);
+        log.debug("Generating SimpleType with base: " + base);
         FSimpleType fst = (FSimpleType) createTopLevelType(base);
         fst.getRestrictions().parse(restriction);
         return fst;
@@ -525,7 +525,7 @@ public class FSchemaTypeFactory {
     private FSimpleType generateSimpleRestrictionType(RestrictionType restriction)
             throws UnsupportedRestrictionException {
         QName base = restriction.getBase();
-        System.out.println(base);
+        log.debug("Generating SimpleType with base: " + base);
         FSimpleType fst = (FSimpleType) createTopLevelType(base);
         fst.getRestrictions().parse(restriction);
         return fst;
