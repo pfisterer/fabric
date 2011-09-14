@@ -111,6 +111,8 @@ public final class FSchemaTypeHelper {
     	return hasEnum;
     }
 
+    // --------------------------------------------------------------------
+
     /**
      * Returns whether the given element has a default value.
      *
@@ -120,6 +122,8 @@ public final class FSchemaTypeHelper {
     public static boolean hasDefaultValue(FElement e) {
         return e.getDefaultValue() != null;
     }
+    
+    // --------------------------------------------------------------------
 
     /**
      * Returns whether the given element has a fixed value.

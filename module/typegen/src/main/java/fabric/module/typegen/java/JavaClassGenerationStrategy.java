@@ -226,41 +226,9 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     JField jf = null;
 
     /*****************************************************************
-     * Handle XML attributes
-     *****************************************************************/
-    if (member instanceof AttributeContainer.Attribute)
-    {
-      AttributeContainer.Attribute a = (AttributeContainer.Attribute)member;
-
-      // No initial value set
-      if (("").equals(a.value))
-      {
-        jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name);
-      }
-      // Initial value is set
-      else
-      {
-        // Add quotation marks to initial value, if type is String
-        String value = a.value;
-        if (("String").equals(a.type))
-        {
-          value = "\"" + value + "\"";
-        }
-
-        jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name, value);
-      }
-
-      jf.setComment(new JFieldCommentImpl("The '" + a.name + "' attribute."));
-
-      // Annotation pattern e.g. @Attribute or @XStreamAsAttribute
-      String annotation = this.xmlMapper.getAnnotation("attribute", a.name);
-      jf.addAnnotation(new JFieldAnnotationImpl(annotation));
-    }
-
-    /*****************************************************************
      * Handle XML elements
      *****************************************************************/
-    else if (member instanceof AttributeContainer.Element)
+    if (member.getClass() == AttributeContainer.Element.class)
     {
       AttributeContainer.Element a = (AttributeContainer.Element)member;
 
@@ -290,9 +258,63 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     }
 
     /*****************************************************************
+     * Handle constant XML elements
+     *****************************************************************/
+    else if (member.getClass() == AttributeContainer.ConstantElement.class)
+    {
+      AttributeContainer.ConstantElement a = (AttributeContainer.ConstantElement)member;
+
+      // Add quotation marks to value, if type is String
+      String value = a.value;
+      if (("String").equals(a.type))
+      {
+        value = "\"" + value + "\"";
+      }
+
+      jf = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC | JModifier.FINAL, a.type, a.name, value);
+      jf.setComment(new JFieldCommentImpl("The '" + a.name + "' constant."));
+
+      // Annotation pattern e.g. @Element or @XStreamAlias("value")
+      String annotation = this.xmlMapper.getAnnotation("element", a.name);
+      jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+    }
+
+    /*****************************************************************
+     * Handle XML attributes
+     *****************************************************************/
+    else if (member.getClass() == AttributeContainer.Attribute.class)
+    {
+      AttributeContainer.Attribute a = (AttributeContainer.Attribute)member;
+
+      // No initial value set
+      if (("").equals(a.value))
+      {
+        jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name);
+      }
+      // Initial value is set
+      else
+      {
+        // Add quotation marks to initial value, if type is String
+        String value = a.value;
+        if (("String").equals(a.type))
+        {
+          value = "\"" + value + "\"";
+        }
+
+        jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name, value);
+      }
+
+      jf.setComment(new JFieldCommentImpl("The '" + a.name + "' attribute."));
+
+      // Annotation pattern e.g. @Attribute or @XStreamAsAttribute
+      String annotation = this.xmlMapper.getAnnotation("attribute", a.name);
+      jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+    }
+
+    /*****************************************************************
      * Handle XML element arrays
      *****************************************************************/
-    else if (member instanceof AttributeContainer.ElementArray)
+    else if (member.getClass() == AttributeContainer.ElementArray.class)
     {
       AttributeContainer.ElementArray a = (AttributeContainer.ElementArray)member;
 
@@ -327,29 +349,41 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
 
   /**
    * Private helper method to create setter methods. This function
-   * will create a JMethod object with a comment.
+   * will create a JMethod object with a comment or return null,
+   * if member variable is a constant.
    *
    * @param member MemberVariable object for creation
    *
-   * @return Generated JMethod object
+   * @return Generated JMethod object or null
    *
    * @throws Exception Error during JMethod creation
    */
   private JMethod createSetterMethod(MemberVariable member) throws Exception
   {
-    String methodBody = "";
+    // No setter for constants
+    if (member.getClass() == AttributeContainer.ConstantElement.class)
+    {
+      return null;
+    }
 
-    // Member variable is an array
+    String methodBody = "";
     String name = member.name;
-    if (member instanceof AttributeContainer.ElementArray)
+    
+    // Member variable is an element or attribute
+    if (member.getClass() == AttributeContainer.Element.class || member.getClass() == AttributeContainer.Attribute.class)
+    {
+      // Create code to check restrictions
+      methodBody += this.generateRestrictionChecks(member);
+    }
+    // Member variable is an array    
+    else if (member.getClass() == AttributeContainer.ElementArray.class)
     {
       name = name + "[]";
 
-      methodBody = String.format("if (%s.length < 0 || %s.length > %d)",
-              member.name, member.name, ((AttributeContainer.ElementArray)member).size);
-      methodBody += "\n{";
-      methodBody += String.format("\n\tthrow new IllegalArgumentException(\"Illegal size for array '%s'.\");", member.name);
-      methodBody += "\n}\n\n";
+      // Create code to check array length
+      methodBody += this.createCheckString(
+              String.format("%s.length < 0 || %s.length > %d", member.name, member.name, ((AttributeContainer.ElementArray)member).size),
+              String.format("Illegal size for array '%s'.", member.name));
     }
 
     JMethodSignature jms = JMethodSignature.factory.create(JParameter.factory.create(JModifier.FINAL, member.type, name));
@@ -360,6 +394,101 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     setter.setComment(new JMethodCommentImpl("Set the '" + member.name + "' member variable."));
 
     return setter;
+  }
+
+  /**
+   * Private helper method to create code for restriction checking.
+   * The function determines, if any restrictions are set on the
+   * given member variable, and generates check-code accordingly.
+   *
+   * @param member MemberVariable object with restrictions
+   *
+   * @return String with code that includes restriction checks
+   */
+  private String generateRestrictionChecks(AttributeContainer.MemberVariable member)
+  {
+    String result = "";
+    
+    // Create code to check restrictions
+    AttributeContainer.Element e = (AttributeContainer.Element)member;
+    AttributeContainer.Restriction r = e.restrictions;
+    String message = "Restriction '%s' violated for member variable '%s'.";
+
+    if (e.isLengthRestricted())
+    {
+      result += this.createCheckString(
+              String.format("%s.length() != %d", member.name, Integer.parseInt(r.length)),
+              String.format(message, "length", member.name));
+    }
+
+    if (e.isMinLengthRestricted())
+    {
+      result += this.createCheckString(
+              String.format("%s.length() < %d", member.name, Integer.parseInt(r.minLength)),
+              String.format(message, "minLength", member.name));
+    }
+
+    if (e.isMaxLengthRestricted())
+    {
+      result += this.createCheckString(
+              String.format("%s.length() > %d", member.name, Integer.parseInt(r.maxLength)),
+              String.format(message, "maxLength", member.name));
+    }
+
+    if (e.isMinInclusiveRestricted())
+    {
+      result += this.createCheckString(
+              String.format("%s < %d", member.name, Integer.parseInt(r.minInclusive)),
+              String.format(message, "minInclusive", member.name));
+    }
+
+    if (e.isMaxInclusiveRestricted())
+    {
+      result += this.createCheckString(
+              String.format("%s > %d", member.name, Integer.parseInt(r.maxInclusive)),
+              String.format(message, "maxInclusive", member.name));
+    }
+
+    if (e.isMinExclusiveRestricted())
+    {
+      result += this.createCheckString(
+              String.format("%s <= %d", member.name, Integer.parseInt(r.minExclusive)),
+              String.format(message, "minExclusive", member.name));
+    }
+
+    if (e.isMaxExclusiveRestricted())
+    {
+      result += this.createCheckString(
+              String.format("%s >= %d", member.name, Integer.parseInt(r.maxExclusive)),
+              String.format(message, "maxExclusive", member.name));
+    }
+
+    return result;
+  }
+
+  /**
+   * Private helper method to create a string that checks a boolean
+   * expression and throws an IllegalArgumentException with predefined
+   * message on failure.
+   *
+   * This function is used to add parameter and restriction checks
+   * to setter methods.
+   *
+   * @param expression Boolean expression for if-statement
+   * @param message Error message to show in exception
+   *
+   * @return String with parameter check code
+   */
+  private String createCheckString(final String expression, final String message)
+  {
+    String result;
+
+    result = String.format("if (%s)", expression);
+    result += "\n{";
+    result += String.format("\n\tthrow new IllegalArgumentException(\"%s\");", message);
+    result += "\n}\n\n";
+
+    return result;
   }
 
   /**
@@ -376,7 +505,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
   {
     // Member variable is an array
     String type = member.type;
-    if (member instanceof AttributeContainer.ElementArray)
+    if (member.getClass() == AttributeContainer.ElementArray.class)
     {
       type = type + "[]";
     }
@@ -402,13 +531,14 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
 
   /**
    * Private helper method to capitalize the first letter of a string.
+   * Function will return null, if argument was null.
    *
    * @param text Text to process
    *
-   * @return Text with first letter capitalized
+   * @return Text with first letter capitalized or null
    */
-  private String firstLetterCapital(final String text)
+  private String firstLetterCapital(final String text) throws Exception
   {
-    return text.substring(0, 1).toUpperCase() + text.substring(1, text.length());
+    return (null == text ? null : text.substring(0, 1).toUpperCase() + text.substring(1, text.length()));
   }
 }

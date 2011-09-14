@@ -1,11 +1,19 @@
 package fabric.module.typegen;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Properties;
 
+import fabric.wsdlschemaparser.schema.FComplexType;
+import fabric.wsdlschemaparser.schema.FElement;
+import fabric.wsdlschemaparser.schema.FSchema;
+import fabric.wsdlschemaparser.schema.FSimpleType;
 import de.uniluebeck.sourcegen.Workspace;
 import fabric.module.api.FabricDefaultHandler;
+
 import fabric.module.typegen.base.TypeGen;
-import fabric.wsdlschemaparser.schema.*;
+import fabric.wsdlschemaparser.schema.FSequence;
 
 /**
  * Fabric handler class for the type generator module. This class
@@ -14,170 +22,308 @@ import fabric.wsdlschemaparser.schema.*;
  * acts upon those function calls and generates corresponding type
  * classes in the workspace for a specific programming language.
  *
- * @author seidel
+ * @author seidel, reichart
  */
 public class FabricTypeGenHandler extends FabricDefaultHandler
 {
-    /**
-     * TypeGen
-     */
-    private TypeGen typeGen;
+  /** Logger object */
+  private static final Logger LOGGER = LoggerFactory.getLogger(FabricTypeGenHandler.class);
 
-    /**
-     * Workspace
-     */
-    private Workspace workspace;
+  /** TypeGen object for type class generation */
+  private TypeGen typeGenerator;
 
-   /**
-    * Constructor initializes internal class properties.
-    *
-    * @param workspace Workspace for file output
-    * @param properties Properties object with various options
-    */
-    public FabricTypeGenHandler(Workspace workspace, Properties properties) {
-        try {
-            // TODO: Hier muss auf die Properties zugegriffen werden!
-            typeGen = TypeGenFactory.getInstance().createTypeGen("fabric.module.typegen.java.JavaTypeGen");
-            this.workspace = workspace;
-        } catch (Exception e) {
-            e.printStackTrace(); // TODO: Remove this!
-        }
-    }
+  /**
+   * Constructor initializes the language-specific type generator.
+   *
+   * @param workspace Workspace object for source code write-out
+   * @param properties Properties object with module options
+   */
+  public FabricTypeGenHandler(Workspace workspace, Properties properties) throws Exception
+  {
+    this.typeGenerator = TypeGenFactory.getInstance().createTypeGen(
+            properties.getProperty("typegen.factory_name"), workspace, properties);
+  }
 
-    @Override
-    public void startSchema(FSchema schema) throws Exception {
-        typeGen.generateRootContainer();
-    }
+  /**
+   * Handle start of an XML schema document.
+   *
+   * @param schema FSchema object
+   *
+   * @throws Exception Error during processing
+   */
+  @Override
+  public void startSchema(FSchema schema) throws Exception
+  {
+    LOGGER.debug("Called startSchema().");
 
-    @Override
-    public void endSchema(FSchema schema) throws Exception {
-        typeGen.generateSourceFiles(workspace);
-    }
+    typeGenerator.createRootContainer();
+  }
 
-    @Override
-    public void startTopLevelElement(FElement element) throws Exception {
-        /**
-         * Nothing to do.
-         */
-    }
+  /**
+   * Handle end of an XML schema document.
+   *
+   * @param schema FSchema object
+   *
+   * @throws Exception Error during processing
+   */
+  @Override
+  public void endSchema(FSchema schema) throws Exception
+  {
+    LOGGER.debug("Called endSchema().");
 
-    @Override
-    public void endTopLevelElement(FElement element) {
-        /**
-         * Nothing to do.
-         */
-    }
+    typeGenerator.writeSourceFiles();
+  }
 
-    @Override
-    public void startTopLevelSimpleType(FSimpleType type, FElement parent) throws Exception {
-        typeGen.addSimpleType(type, parent);
-    }
+  /**
+   * Handle start of a top-level schema element. Each top-level
+   * element is equivalent to a member variable in the corresponding
+   * container class.
+   *
+   * @param element FElement object
+   *
+   * @throws Exception Error during processing
+   */
+  @Override
+  public void startTopLevelElement(FElement element) throws Exception
+  {
+    LOGGER.debug("Called startTopLevelElement().");
 
-    @Override
-    public void endTopLevelSimpleType(FSimpleType type, FElement parent) {
-        /**
-         * Nothing to do.
-         */
-    }
-
-    @Override
-    public void startLocalSimpleType(FSimpleType type, FElement parent) throws Exception {
-        // TODO: Soll es in den Klassen einen Unterschied zwischen lokalen und globalen SimpleTypes geben?
-        typeGen.addSimpleType(type, parent);
-    }
-
-    @Override
-    public void endLocalSimpleType(FSimpleType type, FElement parent) {
-        /**
-         * Nothing to do.
-         */
-    }
-
-    @Override
-    public void startTopLevelComplexType(FComplexType type, FElement parent) throws Exception {
-        typeGen.generateNewContainer(type);
-    }
-
-    @Override
-    public void endTopLevelComplexType(FComplexType type, FElement parent) {
-
-      try {
-          /*
-          Check for xs:simpleContent with xs:restriction
-           */
-          if (type.isSimpleContent() && type.getRestrictions().getCount() > 0) {
-              typeGen.generateNewExtendedClass(((FSimpleType) type.getChildObjects().get(0)).getName());
-          } else {
-              typeGen.generateNewClass();
-          }
-
-          /*
-          Check for xs:complexContent
-           */
-          // TODO: in Fabric not supported yet!
-      }
-      catch (Exception e)
+    if (null != element)
+    {
+      // TODO: Handle FSequence
+      if (element.getSchemaType().getClass() == FSequence.class)
       {
-        // TODO: Log exception
+        return;
+      }
+
+      typeGenerator.addMemberVariable(element);
+    }
+  }
+
+  /**
+   * Handle end of a top-level schema element.
+   *
+   * @param element FElement object
+   */
+  @Override
+  public void endTopLevelElement(FElement element)
+  {
+    LOGGER.debug("Called endTopLevelElement().");
+
+    // Nothing to do
+  }
+
+  /**
+   * Handle start of a local schema element. Local elements only
+   * apply to complex types, which are currently not supported
+   * by the Fabric type generator module.
+   * 
+   * @param element FElement object
+   * @param parent Parent FComplexType object
+   * 
+   * @throws Exception Error during processing
+   */
+  @Override
+  public void startLocalElement(FElement element, FComplexType parent) throws Exception
+  {
+    LOGGER.debug("Called startLocalElement().");
+
+    // TODO: Handle complex types
+  }
+
+  /**
+   * Handle end of a local schema element.
+   *
+   * @param element FElement object
+   * @param parent Parent FComplexType object
+   */
+  @Override
+  public void endLocalElement(FElement element, FComplexType parent)
+  {
+    LOGGER.debug("Called endLocalElement().");
+
+    // Nothing to do
+  }
+
+  /**
+   * Handle start of a schema element reference. Element references
+   * are part of XSD complex types, which are currently not supported
+   * by the Fabric type generator module. Multiple local elements may
+   * reference a global element for reuse. If several local elements
+   * refer to the same global element, the referencing elements are
+   * independent instances of the referenced element. They do not
+   * share the same data, only structural information (type definition).
+   *
+   * @param element FElement object
+   *
+   * @throws Exception Error during processing
+   */
+  @Override
+  public void startElementReference(FElement element) throws Exception
+  {
+    LOGGER.debug("Called startElementReference().");
+
+    // TODO: Handle complex types
+  }
+
+  /**
+   * Handle end of a schema element reference.
+   *
+   * @param element FElement object
+   *
+   * @throws Exception Error during processing
+   */
+  @Override
+  public void endElementReference(FElement element) throws Exception
+  {
+    LOGGER.debug("Called endElementReference().");
+
+    // Nothing to do
+  }
+
+  /**
+   * Handle start of a top-level simple type. Each schema simple type
+   * corresponds to its own container class. The container on its
+   * part may enforce various restrictions on the type's value.
+   *
+   * @param type FSimpleType object
+   * @param parent Parent FElement object
+   *
+   * @throws Exception Error during processing
+   */
+  @Override
+  public void startTopLevelSimpleType(FSimpleType type, FElement parent) throws Exception
+  {
+    LOGGER.debug("Called startTopLevelSimpleType().");
+
+    if (null != type)
+    {
+      typeGenerator.createNewContainer(type);
+    }
+  }
+
+  /**
+   * Handle end of a top-level simple type. As soon as the construction
+   * of a simple type is finished, we can close the current container
+   * by building it.
+   *
+   * @param type FSimpleType object
+   * @param parent Parent FElement object
+   */
+  @Override
+  public void endTopLevelSimpleType(FSimpleType type, FElement parent)
+  {
+    LOGGER.debug("Called endTopLevelSimpleType().");
+
+    try
+    {
+      typeGenerator.buildCurrentContainer();
+    }
+    catch (Exception e)
+    {
+      if (null != type && null != type.getName())
+      {
+        LOGGER.error(String.format("Failed building container for type '%s'.", type.getName()));
+      }
+      else
+      {
+        LOGGER.error("Failed building current container.");
       }
     }
+  }
 
-    @Override
-    public void startLocalElement(FElement element, FComplexType parent) throws Exception {
-        /**
-         * Nothing to do.
-         */
-    }
+  /**
+   * Handle start of a local simple type. Local simple types are added
+   * to the parent container as a new member variable. This happens
+   * in startTopLevelElement(), so we do not need to do anything here.
+   *
+   * @param type FSimpleType object
+   * @param parent Parent FElement object
+   *
+   * @throws Exception Error during processing
+   */
+  @Override
+  public void startLocalSimpleType(FSimpleType type, FElement parent) throws Exception
+  {
+    LOGGER.debug("Called startLocalSimpleType().");
 
-    @Override
-    public void endLocalElement(FElement element, FComplexType parent) {
-        /**
-         * Nothing to do.
-         */
-    }
+    // Nothing to do
+  }
 
-    @Override
-    public void startLocalComplexType(FComplexType type, FElement parent) throws Exception {
-        // TODO: Soll es in den Klassen einen Unterschied zwischen lokalen und globalen ComplexTypes geben?
-        typeGen.generateNewContainer(type);
-    }
+  /**
+   * Handle end of a local simple type.
+   *
+   * @param type FSimpleType object
+   * @param parent Parent FElement object
+   */
+  @Override
+  public void endLocalSimpleType(FSimpleType type, FElement parent)
+  {
+    LOGGER.debug("Called endLocalSimpleType().");
 
-    @Override
-    public void endLocalComplexType(FComplexType type, FElement parent) {
-        // TODO: Soll es in den Klassen einen Unterschied zwischen lokalen und globalen ComplexTypes geben?
-        
-        try {
-          /*
-          Check for xs:simpleContent with xs:restriction
-           */
-          if (type.isSimpleContent() && type.getRestrictions().getCount() > 0) {
-              typeGen.generateNewExtendedClass(((FSimpleType) type.getChildObjects().get(0)).getName());
-          } else {
-              typeGen.generateNewClass();
-          }
-        }
-        catch (Exception e)
-        {
-          // TODO: Log exception
-        }
-        
-        /*
-        Check for xs:complexContent
-         */
-        // TODO: in Fabric not supported yet!
-    }
+    // Nothing to do
+  }
 
-    @Override
-    public void startElementReference(FElement element) throws Exception {
-        /**
-         * TODO: Was soll hier passieren?
-         */
-    }
+  /**
+   * Handle start of a top-level complex type. Complex types are currently
+   * not supported by the Fabric type generator module.
+   * 
+   * @param type FComplexType object
+   * @param parent Parent FElement object
+   * 
+   * @throws Exception Error during processing
+   */
+  @Override
+  public void startTopLevelComplexType(FComplexType type, FElement parent) throws Exception
+  {
+    LOGGER.debug("Called startTopLevelComplexType().");
 
-    @Override
-    public void endElementReference(FElement element) throws Exception {
-        /**
-         * TODO: Was soll hier passieren?
-         */
-    }
+    // TODO: Handle complex types
+  }
+
+  /**
+   * Handle end of a top-level complex type.
+   *
+   * @param type FComplexType object
+   * @param parent Parent FElement object
+   */
+  @Override
+  public void endTopLevelComplexType(FComplexType type, FElement parent)
+  {
+    LOGGER.debug("Called endTopLevelComplexType().");
+
+    // TODO: Handle complex types
+  }
+
+  /**
+   * Handle start of a local complex type. Complex types are currently
+   * not supported by the Fabric type generator module.
+   * 
+   * @param type FComplexType object
+   * @param parent Parent FElement object
+   * 
+   * @throws Exception Error during processing
+   */
+  @Override
+  public void startLocalComplexType(FComplexType type, FElement parent) throws Exception
+  {
+    LOGGER.debug("Called startLocalComplexType().");
+
+    // TODO: Handle complex types
+  }
+
+  /**
+   * Handle end of a local complex type. Complex types are currently
+   * not supported by the Fabric type generator module.
+   *
+   * @param type FComplexType object
+   * @param parent Parent FElement object
+   */
+  @Override
+  public void endLocalComplexType(FComplexType type, FElement parent)
+  {
+    LOGGER.debug("Called endLocalComplexType().");
+
+    // TODO: Handle complex types
+  }
 }

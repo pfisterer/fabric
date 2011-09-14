@@ -27,6 +27,7 @@ public class CppMapper extends Mapper
     types.put("FShort", "int32");
     types.put("FUnsignedShort", "uint16");
     types.put("FInt", "int32");
+    // FInteger missing
     types.put("FPositiveInteger", "char*");
     types.put("FUnsignedInt", "uint32");
     types.put("FLong", "int64");
@@ -49,6 +50,7 @@ public class CppMapper extends Mapper
     types.put("FQName", "javax.xml.namespace.QName");
     */
     types.put("FAnyURI", "char*");
-      types.put("FAny", "char*");
+    // Further types derived from String and Integer missing
+    types.put("FAny", "char*");
   }
 }

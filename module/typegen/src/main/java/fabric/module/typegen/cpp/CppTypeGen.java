@@ -1,44 +1,69 @@
 package fabric.module.typegen.cpp;
 
+import java.util.Stack;
+import java.util.HashMap;
+import java.util.Properties;
+
 import de.uniluebeck.sourcegen.Workspace;
-import fabric.module.typegen.MapperFactory;
-import fabric.module.typegen.base.TypeGen;
-import fabric.wsdlschemaparser.schema.FComplexType;
+import de.uniluebeck.sourcegen.c.CComplexType;
 import fabric.wsdlschemaparser.schema.FElement;
 import fabric.wsdlschemaparser.schema.FSimpleType;
+
+import fabric.module.typegen.base.TypeGen;
+import fabric.module.typegen.base.Mapper;
+import fabric.module.typegen.AttributeContainer;
 
 /**
  * Type generator for C++.
  *
  * @author seidel
  */
-public class CppTypeGen implements TypeGen {
-    /**
-     * MapperFactory to create CppMapper object
-     */
-    private MapperFactory mapperFactory;
+public class CppTypeGen implements TypeGen
+{
+  // TODO: Sort methods according to JavaTypeGen.java
+  
+  private Workspace workspace;
 
-    @Override public void generateRootContainer() {
+  private Properties properties;
 
-    }
+  private Mapper mapper;
 
-    @Override public void generateSourceFiles(Workspace workspace) {
+  private Stack<AttributeContainer.Builder> incompleteBuilders;
 
-    }
+  private HashMap<String, CComplexType> generatedElements;
 
-    @Override public void addSimpleType(FSimpleType type, FElement parent) {
+  public CppTypeGen(Workspace workspace, Properties properties) throws Exception
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 
-    }
+  @Override
+  public void createRootContainer()
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 
-    @Override public void generateNewContainer(FComplexType type) {
+  @Override
+  public void writeSourceFiles() throws Exception
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 
-    }
+  @Override
+  public void createNewContainer(FSimpleType type)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 
-    @Override public void generateNewClass() throws Exception {
+  @Override
+  public void addMemberVariable(FElement element)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 
-    }
-
-    @Override public void generateNewExtendedClass(String name) throws Exception {
-
-    }
+  @Override
+  public void buildCurrentContainer() throws Exception
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 }

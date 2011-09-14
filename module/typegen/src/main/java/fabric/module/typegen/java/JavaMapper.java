@@ -1,21 +1,20 @@
 package fabric.module.typegen.java;
 
 import fabric.module.typegen.base.Mapper;
-import fabric.wsdlschemaparser.schema.FSchemaTypeFactory;
 
 /**
-* LanguageMapper implementation for Java. This class will map
-* Fabric's XSD built-in datatypes to its Java equivalents.
-*
-* @author seidel
-*/
+ * LanguageMapper implementation for Java. This class will map
+ * Fabric's XSD built-in datatypes to its Java equivalents.
+ *
+ * @author seidel
+ */
 public class JavaMapper extends Mapper
 {
   /**
-* This method populates the map for the datatype mapping with the
-* Java type names. Non-standard datatypes must be fully qualified
-* (e.g. javax.xml.namespace.QName instead of QName).
-*/
+   * This method populates the map for the datatype mapping with the
+   * Java type names. Non-standard datatypes must be fully qualified
+   * (e.g. javax.xml.namespace.QName instead of QName).
+   */
   @Override
   public void createMapping()
   {
@@ -26,6 +25,8 @@ public class JavaMapper extends Mapper
     types.put("FUnsignedByte", "short");
     types.put("FShort", "short");
     types.put("FUnsignedShort", "int");
+    types.put("FInt", "int");
+    types.put("FInteger", "java.math.BigDecimal");
     types.put("FPositiveInteger", "java.math.BigInteger");
     types.put("FUnsignedInt", "long");
     types.put("FLong", "long");
@@ -46,8 +47,6 @@ public class JavaMapper extends Mapper
     types.put("FNOTATION", "javax.xml.namespace.QName");
     types.put("FQName", "javax.xml.namespace.QName");
     types.put("FAnyURI", "String");
-    types.put("FInt", "int");
-    types.put("FInteger", "java.math.BigDecimal");
     types.put("FName", "String");
     types.put("FNCName", "String");
     types.put("FNegativeInteger", "java.math.BigDecimal");

@@ -87,7 +87,7 @@ public class AttributeContainerTest
    * to AttributeContainer class (through inner Builder class).
    */
   @Test(timeout = 1000)
-  public void testBuilderAttributes()
+  public void testMemberVariables()
   {
     // Create builder
     AttributeContainer.Builder testBuilder = AttributeContainer.newBuilder();
@@ -135,6 +135,62 @@ public class AttributeContainerTest
   }
 
   /**
+   * Test adding, reading and cloning restrictions on elements
+   * in the AttributeContainer class.
+   */
+  @Test(timeout = 1000)
+  public void testRestrictions()
+  {
+    // Create builder
+    AttributeContainer.Builder testBuilder = AttributeContainer.newBuilder();
+    
+    // Check addElement() with empty restrictions
+    testBuilder = testBuilder.clear().addElement("String", "foo", new AttributeContainer.Restriction());
+    AttributeContainer.Restriction restrictions = ((AttributeContainer.Element)testBuilder.getMembers().get("foo")).restrictions;
+    assertNull("Restriction on 'length' must not be set.", restrictions.length);
+    assertNull("Restriction on 'minLength' must not be set.", restrictions.minLength);
+    assertNull("Restriction on 'maxLength' must not be set.", restrictions.maxLength);
+    assertNull("Restriction on 'minInclusive' must not be set.", restrictions.minInclusive);
+    assertNull("Restriction on 'maxInclusive' must not be set.", restrictions.maxInclusive);
+    assertNull("Restriction on 'minExclusive' must not be set.", restrictions.minExclusive);
+    assertNull("Restriction on 'maxExclusive' must not be set.", restrictions.maxExclusive);
+
+    // Check addElement() with restrictions on content length
+    testBuilder = testBuilder.clear().addElement("String", "bar", new AttributeContainer.Restriction("1", "2", "3"));
+    restrictions = ((AttributeContainer.Element)testBuilder.getMembers().get("bar")).restrictions;
+    assertEquals("Restriction on 'length' must be '1'.", "1", restrictions.length);
+    assertEquals("Restriction on 'minLength' must be '2'.", "2", restrictions.minLength);
+    assertEquals("Restriction on 'maxLength' must be '3'.", "3", restrictions.maxLength);
+    assertNull("Restrictions on value boundary must not be set.", restrictions.minInclusive);
+
+    // Check addElement() with restrictions on element value (including boundary)
+    testBuilder = testBuilder.clear().addElement("String", "inclusive", new AttributeContainer.Restriction("-5", "5", true));
+    restrictions = ((AttributeContainer.Element)testBuilder.getMembers().get("inclusive")).restrictions;
+    assertNull("Restriction on 'length' must not be set.", restrictions.length);
+    assertEquals("Restriction on 'minInclusive' must be '-5'.", "-5", restrictions.minInclusive);
+    assertEquals("Restriction on 'maxInclusive' must be '5'.", "5", restrictions.maxInclusive);
+    assertNull("Restriction on 'minExclusive' must not be set.", restrictions.minExclusive);
+    assertNull("Restriction on 'maxExclusive' must not be set.", restrictions.maxExclusive);
+    
+    // Check addElement() with restrictions on element value (excluding boundary)
+    testBuilder = testBuilder.clear().addElement("String", "exclusive", new AttributeContainer.Restriction("-3", "7", false));
+    restrictions = ((AttributeContainer.Element)testBuilder.getMembers().get("exclusive")).restrictions;
+    assertNull("Restriction on 'length' must not be set.", restrictions.length);
+    assertNull("Restriction on 'minInclusive' must not be set.", restrictions.minInclusive);
+    assertNull("Restriction on 'maxInclusive' must not be set.", restrictions.maxInclusive);
+    assertEquals("Restriction on 'minExclusive' must be '-3'.", "-3", restrictions.minExclusive);
+    assertEquals("Restriction on 'maxExclusive' must be '7'.", "7", restrictions.maxExclusive);
+
+    // Check cloning of Restriction objects
+    restrictions = new AttributeContainer.Restriction("5", null, null);
+    AttributeContainer.Restriction clonedRestrictions = restrictions.clone();
+    assertEquals("Restrictions in cloned object must match original.", restrictions.length, clonedRestrictions.length);
+    assertFalse("Cloned object reference must not equal original object reference.", clonedRestrictions == restrictions);
+    clonedRestrictions.length = "10";
+    assertFalse("Restrictions in original and cloned object must not match anymore.", restrictions.length.equals(clonedRestrictions.length));
+  }
+
+  /**
    * Test class generation with ClassGenerationStrategy interface
    * and AnnotationMapper implementation for Java.
    */
@@ -179,7 +235,7 @@ public class AttributeContainerTest
                                   .addAttribute("String", "manufacturer", "Audi")
                                   .addAttribute("String", "model", "TT")
                                   .addElement("String", "color", "red")
-                                  .addElement("int", "maxSpeed", "220")
+                                  .addConstantElement("int", "maxSpeed", "220")
                                   .addElementArray("TrunkItem", "trunkItems")
                                   .addElementArray("String", "passengers", 2)
                                   .build();
