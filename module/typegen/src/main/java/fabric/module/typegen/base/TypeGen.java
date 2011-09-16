@@ -17,8 +17,8 @@ public interface TypeGen
   public void createRootContainer();
 
   /**
-   * Build all incomplete container classes and write them to
-   * source files in the language-specific workspace.
+   * Create source files from container classes and
+   * write them to the language-specific workspace.
    * 
    * @throws Exception Error during source file write-out
    */

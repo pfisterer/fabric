@@ -1,4 +1,4 @@
-/** 14.09.2011 19:32 */
+/** 16.09.2011 01:58 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -17,6 +17,7 @@ import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JComplexType;
 import de.uniluebeck.sourcegen.java.JEnum;
+import de.uniluebeck.sourcegen.java.JEnumAnnotationImpl;
 import de.uniluebeck.sourcegen.java.JEnumCommentImpl;
 import de.uniluebeck.sourcegen.java.JModifier;
 import de.uniluebeck.sourcegen.java.JSourceFile;
@@ -48,7 +49,7 @@ public class JavaTypeGen implements TypeGen
    * SourceFileData inner class
    *****************************************************************/
 
-  public static final class SourceFileData
+  private static final class SourceFileData
   {
     /** Data type object (e.g. JClass or JEnum) */
     private JComplexType typeObject;
@@ -123,36 +124,17 @@ public class JavaTypeGen implements TypeGen
   }
 
   /**
-   * Build all incomplete container classes and write them to
-   * source files in the language-specific workspace.
+   * Create source files from container classes and
+   * write them to the language-specific workspace.
    *
    * @throws Exception Error during source file write-out
    */
   @Override
   public void writeSourceFiles() throws Exception
   {
-    // TODO: This code is never called, so we can probably remove it
-    
-    // Build root container (and other incomplete containers, but when
-    // we reach this point, there should not be any left)
-//    while (!this.incompleteBuilders.empty())
-//    {
-//      // Create mapper for XML framework annotations and strategy
-//      AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
-//      strategy = new JavaClassGenerationStrategy(xmlMapper);
-//
-//      JClass classObject = (JClass)this.incompleteBuilders.pop().build().asClassObject(strategy);
-//      if (!this.generatedElements.containsKey(classObject.getName()))
-//      {
-//        this.generatedElements.put(classObject.getName(), classObject);
-//      }
-//
-//      LOGGER.debug(String.format("Built incomplete container '%s'.", classObject.getName()));
-//    }
-    
     JavaWorkspace javaWorkspace = this.workspace.getJava();
     JSourceFile jsf = null;
-    
+
     // Create new source file for every container
     for (String name: this.generatedElements.keySet())
     {
@@ -190,8 +172,7 @@ public class JavaTypeGen implements TypeGen
       {
         try
         {
-          this.createEnum(type);
-          // TODO: Remove this.generatedElements.put(type.getName(), this.createEnum(type));
+          this.createTopLevelEnum(type);
         }
         catch (Exception e)
         {
@@ -207,10 +188,10 @@ public class JavaTypeGen implements TypeGen
         AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
 
         // Type either is a list...
-        if (type.isList()) // TODO: Why is there no proper FSchemaTypeHelper.isList(FSimpleType)?
+        if (FSchemaTypeHelper.isList(type))
         {
           FList listType = (FList)type;
-          newBuilder.addElementArray(mapper.lookup(getFabricTypeName(listType.getItemType())),
+          newBuilder.addElementArray(this.mapper.lookup(this.getFabricTypeName(listType.getItemType())),
                   "values", FSchemaTypeHelper.getMaxLength(listType));
         }
         // ... or a single value
@@ -219,7 +200,6 @@ public class JavaTypeGen implements TypeGen
           newBuilder.addElement(this.mapper.lookup(this.getFabricTypeName(type)),
                   "value", this.createRestrictions(type));
         }
-
         this.incompleteBuilders.push(newBuilder);
 
         LOGGER.debug(String.format("Created new container '%s'.", type.getName()));
@@ -447,6 +427,39 @@ public class JavaTypeGen implements TypeGen
   }
 
   /**
+   * Create top-level JEnum from type object and add it to the
+   * generated elements. A top-level enum must be written to
+   * its own source file, so we bypass the AttributeContainer
+   * mechanism here.
+   *
+   * @param type FSimpleType object (with enum restriction)
+   *
+   * @throws Exception Error during enum generation
+   */
+  private void createTopLevelEnum(final FSimpleType type) throws Exception
+  {
+    if (null != type && FSchemaTypeHelper.isEnum(type))
+    {
+      // Get enum constants and convert them to String array
+      Object[] constants = FSchemaTypeHelper.extractEnumArray(type);
+      String[] constantsAsString = Arrays.copyOf(constants, constants.length, String[].class);
+      
+      // Create enum and add it to generated elements
+      if (!this.generatedElements.containsKey(type.getName()))
+      {
+        AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
+        JEnum javaEnum = JEnum.factory.create(JModifier.PUBLIC, type.getName(), constantsAsString);
+
+        javaEnum.setComment(new JEnumCommentImpl(String.format("The '%s' enumeration.", type.getName())));
+        javaEnum.addAnnotation(new JEnumAnnotationImpl(xmlMapper.getAnnotation("attribute"))); // TODO: Change key to enum
+
+        this.generatedElements.put(type.getName(),
+                new JavaTypeGen.SourceFileData(javaEnum, xmlMapper.getUsedImports()));
+      }
+    }
+  }
+
+  /**
    * Return simple class name of the Fabric FSchemaType object.
    * This is used for the internal mapping of the basic XSD
    * data types (i.e. xs:string, xs:short, ...).
@@ -458,35 +471,6 @@ public class JavaTypeGen implements TypeGen
   private String getFabricTypeName(final FSchemaType type)
   {
     return type.getClass().getSimpleName();
-  }
-  
-  // TODO: Check and add comments
-  private JEnum createEnum(final FSimpleType type) throws Exception
-  {
-    JEnum javaEnum = null;
-    
-    if (null != type && FSchemaTypeHelper.isEnum(type))
-    {
-      Object[] constants = FSchemaTypeHelper.extractEnumArray(type);
-      String[] constantsAsString = Arrays.copyOf(constants, constants.length, String[].class);
-
-      // TODO: Why do we add the enum to generatedElements here? We should simply return javaEnum
-      if (!this.generatedElements.containsKey(type.getName()))
-      {
-        // Create enum
-        javaEnum = JEnum.factory.create(JModifier.PUBLIC, type.getName(), constantsAsString);
-        javaEnum.setComment(new JEnumCommentImpl(String.format("The '%s' enumeration.", type.getName())));
-
-        // Create list of required Java imports
-        AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
-        ArrayList<String> requiredImports = new ArrayList<String>();
-        requiredImports.add(xmlMapper.getAnnotation("attribute")); // TODO: Change key to enum
-
-        this.generatedElements.put(type.getName(), new JavaTypeGen.SourceFileData(javaEnum, requiredImports));
-      }
-    }
-    
-    return javaEnum;
   }
 
 

@@ -2,7 +2,6 @@ package fabric.wsdlschemaparser.schema;
 
 import org.apache.xmlbeans.SchemaType;
 
-import javax.xml.validation.Schema;
 import java.util.Arrays;
 import java.util.List;
 

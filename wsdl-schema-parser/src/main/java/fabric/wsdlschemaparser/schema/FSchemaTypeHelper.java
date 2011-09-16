@@ -105,6 +105,10 @@ public final class FSchemaTypeHelper {
     	return (type.isSimple() && ((FSimpleType) type).isList());
     }
 
+    public static boolean isList(FSimpleType st) {
+      return st.isList();
+    }
+
     // --------------------------------------------------------------------
 
     public static boolean isEnum(FSchemaType ft) {
