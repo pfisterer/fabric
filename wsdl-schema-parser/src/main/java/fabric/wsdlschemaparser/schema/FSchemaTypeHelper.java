@@ -149,6 +149,21 @@ public final class FSchemaTypeHelper {
     // --------------------------------------------------------------------
 
     /**
+     * Returns the minimum size of the given FList object.
+     *
+     * @param list FList object
+     * @return value of the minumum size of the type object of type xs:list;
+     *  0, if no xs:minLength is set
+     */
+    public static int getMinLength(FList list) {
+      FSchemaRestrictions restrictions = list.getRestrictions();
+      if (restrictions.hasRestriction(SchemaType.FACET_MIN_LENGTH)) {
+        return restrictions.getIntegerValue(SchemaType.FACET_MIN_LENGTH);
+      }
+      return 0;
+    }
+
+    /**
      * Returns the maximal size of the given FList object.
      *
      * @param list FList object

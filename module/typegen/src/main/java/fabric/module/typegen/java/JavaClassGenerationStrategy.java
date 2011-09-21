@@ -412,7 +412,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       methodBody += JavaRestrictionHelper.createCheckCode(
               String.format("%s.length < %d || %s.length > %d", member.name, ea.minSize, member.name,ea.maxSize),
               String.format("Illegal size for array '%s'.", member.name),
-              "Check the 'minOccurs/maxOccurs' indicator");
+              "Check the occurrence indicators");
     }
 
     JMethodSignature jms = JMethodSignature.factory.create(JParameter.factory.create(modifiers, member.type, name));

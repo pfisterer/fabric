@@ -44,7 +44,6 @@ import fabric.module.typegen.MapperFactory;
 public class JavaTypeGen implements TypeGen
 {
   // TODO: Fix restrictions for local simple types
-  // TODO: Add support for minOccurs to list implementation (should be 2x addElementArray() calls)
 
   /*****************************************************************
    * SourceFileData inner class
@@ -201,8 +200,9 @@ public class JavaTypeGen implements TypeGen
         if (FSchemaTypeHelper.isList(type))
         {
           FList listType = (FList)type;
-          newBuilder.addElementArray(this.mapper.lookup(this.getFabricTypeName(listType.getItemType())),
-                  "values", FSchemaTypeHelper.getMaxLength(listType));
+          newBuilder.addElementArray(
+                  this.mapper.lookup(this.getFabricTypeName(listType.getItemType())), "values",
+                  FSchemaTypeHelper.getMinLength(listType), FSchemaTypeHelper.getMaxLength(listType));
         }
         // ... or a single value
         else
@@ -262,6 +262,7 @@ public class JavaTypeGen implements TypeGen
       else if (FSchemaTypeHelper.isList(element))
       {
         current.addElementArray(typeName, element.getName(),
+                FSchemaTypeHelper.getMinLength((FList)element.getSchemaType()),
                 FSchemaTypeHelper.getMaxLength((FList)element.getSchemaType()));
       }
       // Element has a default value
