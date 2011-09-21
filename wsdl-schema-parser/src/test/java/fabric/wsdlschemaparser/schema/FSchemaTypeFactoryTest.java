@@ -62,7 +62,7 @@ public class FSchemaTypeFactoryTest {
         assertTrue("IntList has to be a xs:list of type xs:integer.",
                 intList.isSimple()
                 && ((FSimpleType) intList).isList()
-                && ((FList)intList).getItemType() instanceof FInteger);
+                && ((FList) intList).getItemType() instanceof FInteger);
         assertTrue("IntValue has to be a single value of type xs:integer.",
                 intValue.isSimple()
                 && !((FSimpleType) intValue).isList()
@@ -70,14 +70,16 @@ public class FSchemaTypeFactoryTest {
         assertTrue("AnotherIntList has to be a xs:list of type xs:integer.",
                 intList2.isSimple()
                 && ((FSimpleType) intList2).isList()
-                && ((FList)intList2).getItemType() instanceof FInteger);
+                && ((FList) intList2).getItemType() instanceof FInteger);
         assertTrue("IntListWithRestriction has to be a xs:list of type IntListType.",
                 restrictedList.isSimple()
                 && ((FSimpleType) restrictedList).isList()
-                && ((FList)restrictedList).getItemType() instanceof FInteger);
-        assertTrue("Length of IntListWithRestriction has to be restricted to 6.",
-                ((FSimpleType) restrictedList).getRestrictions()
-                        .getIntegerValue(SchemaType.FACET_LENGTH) == 6);
+                && ((FList) restrictedList).getItemType() instanceof FInteger);
+        assertEquals("Length of IntListWithRestriction has to be restricted to 6.",
+                restrictedList.getRestrictions()
+                        .getIntegerValue(SchemaType.FACET_LENGTH), 6);
+        assertFalse("Length of IntList must not be restricted.",
+                intList.getRestrictions().hasRestriction(SchemaType.FACET_LENGTH));
     }
 
     @Test

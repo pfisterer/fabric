@@ -35,22 +35,11 @@ import javax.xml.namespace.QName;
 
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.impl.xb.xsdschema.*;
 import org.apache.xmlbeans.impl.xb.xsdschema.AnyDocument.Any;
-import org.apache.xmlbeans.impl.xb.xsdschema.Attribute;
-import org.apache.xmlbeans.impl.xb.xsdschema.ComplexType;
-import org.apache.xmlbeans.impl.xb.xsdschema.Element;
-import org.apache.xmlbeans.impl.xb.xsdschema.ExplicitGroup;
-import org.apache.xmlbeans.impl.xb.xsdschema.LocalSimpleType;
 import org.apache.xmlbeans.impl.xb.xsdschema.RestrictionDocument.Restriction;
-import org.apache.xmlbeans.impl.xb.xsdschema.RestrictionType;
 import org.apache.xmlbeans.impl.xb.xsdschema.SchemaDocument.Schema;
 import org.apache.xmlbeans.impl.xb.xsdschema.SimpleContentDocument.SimpleContent;
-import org.apache.xmlbeans.impl.xb.xsdschema.SimpleExtensionType;
-import org.apache.xmlbeans.impl.xb.xsdschema.SimpleRestrictionType;
-import org.apache.xmlbeans.impl.xb.xsdschema.SimpleType;
-import org.apache.xmlbeans.impl.xb.xsdschema.TopLevelComplexType;
-import org.apache.xmlbeans.impl.xb.xsdschema.TopLevelElement;
-import org.apache.xmlbeans.impl.xb.xsdschema.TopLevelSimpleType;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -68,6 +57,8 @@ public class FSchemaTypeFactory {
     private SchemaHelper schemaHelper;
 
     private List<FSchemaType> topLevelTypes;
+
+    private Collection<FElement> list = new ArrayList<FElement>();;
 
     /**
      * The backtrace of complex types. It is used for detecting cyclic dependencies in the Schema files. Stored in this
@@ -113,6 +104,7 @@ public class FSchemaTypeFactory {
 
         FElement element = generateElement(elem);
         FSchemaType schemaType = element.getSchemaType();
+
         if (!schemaType.isTopLevel()) {
             schemaType.setName(name);
         }
@@ -141,10 +133,11 @@ public class FSchemaTypeFactory {
             }
         }
 
+        FSimpleType fst = null;
+
         /*
         Check for restrictions
          */
-        FSimpleType fst = null;
         if (stype.isSetRestriction()) {
             fst = generateSimpleRestrictionType(stype.getRestriction());
         }
@@ -159,7 +152,6 @@ public class FSchemaTypeFactory {
         if (fst != null) {
             fst.setName(name);
             fst.setTopLevel(true);
-            //fst.setIsList(stype.isSetList());
 
             addTopLevelType(fst);
 
@@ -211,7 +203,7 @@ public class FSchemaTypeFactory {
     }
 
     public Collection<FElement> generateAll(TopLevelElement[] elements) {
-        Collection<FElement> list = new ArrayList<FElement>();
+        //Collection<FSimpleType> list = new ArrayList<FElement>();
         for (TopLevelElement elem : elements) {
             elem.setName(ReservedNames.instance().getNewName(elem.getName()));
             FElement tle = generate(elem);
@@ -780,7 +772,7 @@ public class FSchemaTypeFactory {
         if (topLevelTypes != null) {
             for (FSchemaType f : topLevelTypes) {
                 if (f.getName().equals(typeName)) {
-                    ftype = f;
+                    ftype = f.clone();
                     break;
                 }
             }

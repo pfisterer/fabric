@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Marco Wegner
  */
-public class FSchemaRestrictions extends FSchemaObject {
+public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     private final org.slf4j.Logger log = LoggerFactory.getLogger(FSchemaTypeFactory.class);
     
@@ -726,5 +726,17 @@ public class FSchemaRestrictions extends FSchemaObject {
         }
 
         return facets;
+    }
+
+    public FSchemaRestrictions clone(FSchemaType fst) {
+        FSchemaRestrictions ret = null;
+        try {
+            ret = (FSchemaRestrictions) super.clone();
+            ret.restrictions = (HashMap<Integer, Object>) restrictions.clone();
+            ret.type = fst;
+        } catch (CloneNotSupportedException e) {
+            log.error("Unable to clone FSchemaRestrictions object " + this.toString());
+        }
+        return ret;
     }
 }

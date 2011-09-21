@@ -26,21 +26,25 @@
  */
 package fabric.wsdlschemaparser.schema;
 
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 /**
  * @author Marco Wegner
  */
-public abstract class FSchemaType extends FSchemaObject {
+public abstract class FSchemaType extends FSchemaObject implements Cloneable {
 
     // --------------------------------------------------------------------
     // Static attributes
     // --------------------------------------------------------------------
 
+    private final org.slf4j.Logger log = LoggerFactory.getLogger(FSchemaTypeFactory.class);
+
     /**
      * This type's restrictions.
      */
-    private final FSchemaRestrictions restrictions = new FSchemaRestrictions(this);
+    private FSchemaRestrictions restrictions = new FSchemaRestrictions(this);
 
     // --------------------------------------------------------------------
 
@@ -138,4 +142,17 @@ public abstract class FSchemaType extends FSchemaObject {
     public String toString() {
         return "[" + getClass().getSimpleName() + "]";
     }
+
+    @Override
+    public FSchemaType clone() {
+        FSchemaType ret = null;
+        try {
+            ret = (FSchemaType) super.clone();
+            ret.restrictions = restrictions.clone(ret);
+        } catch (CloneNotSupportedException e) {
+            log.error("Unable to clone FSchemaType object " + this.toString());
+        }
+        return ret;
+    }
+
 }
