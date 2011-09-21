@@ -22,7 +22,6 @@
   <xs:element name="SimpleRestrictedList">
     <xs:simpleType>
       <xs:restriction base="ListItemType">
-        <xs:minLength value="3" />
         <xs:length value="6" />
       </xs:restriction>
     </xs:simpleType>

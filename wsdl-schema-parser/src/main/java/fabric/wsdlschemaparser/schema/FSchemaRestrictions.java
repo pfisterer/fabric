@@ -21,9 +21,6 @@
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-/**
- *
- */
 package fabric.wsdlschemaparser.schema;
 
 import java.math.BigDecimal;
@@ -466,11 +463,11 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
             } else if (facetCode == SchemaType.FACET_MAX_EXCLUSIVE) {
                 removeRestriction(SchemaType.FACET_MAX_INCLUSIVE);
             }
-        } else if (type instanceof FString) {
+        } else if (type instanceof FString || type instanceof FList) {
             if (facetCode == SchemaType.FACET_LENGTH) {
                 removeRestriction(SchemaType.FACET_MIN_LENGTH);
                 removeRestriction(SchemaType.FACET_MAX_LENGTH);
-            } else {
+            } else if (facetCode == SchemaType.FACET_MIN_LENGTH || facetCode == SchemaType.FACET_MAX_LENGTH) {
                 removeRestriction(SchemaType.FACET_LENGTH);
             }
         }

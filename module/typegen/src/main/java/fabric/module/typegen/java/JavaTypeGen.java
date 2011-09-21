@@ -1,4 +1,4 @@
-/** 21.09.2011 02:03 */
+/** 21.09.2011 16:56 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -33,6 +33,7 @@ import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.base.TypeGen;
 import fabric.module.typegen.base.Mapper;
 import fabric.module.typegen.MapperFactory;
+import fabric.wsdlschemaparser.schema.FComplexType;
 
 /**
  * Type generator for Java. This class handles various calls from
@@ -43,8 +44,6 @@ import fabric.module.typegen.MapperFactory;
  */
 public class JavaTypeGen implements TypeGen
 {
-  // TODO: Fix restrictions for local simple types
-
   /*****************************************************************
    * SourceFileData inner class
    *****************************************************************/
@@ -203,7 +202,7 @@ public class JavaTypeGen implements TypeGen
           newBuilder.addElementArray(
                   this.mapper.lookup(this.getFabricTypeName(listType.getItemType())), "values",
                   FSchemaTypeHelper.getMinLength(listType), FSchemaTypeHelper.getMaxLength(listType));
-        }
+        }    
         // ... or a single value
         else
         {
@@ -212,9 +211,20 @@ public class JavaTypeGen implements TypeGen
         }
         this.incompleteBuilders.push(newBuilder);
 
-        LOGGER.debug(String.format("Created new container '%s'.", type.getName()));
+        LOGGER.debug(String.format("Created new container '%s' for simple type.", type.getName()));
       }
     }
+  }
+  
+  // TODO: Check and add comment
+  @Override
+  public void createNewContainer(FComplexType type)
+  {
+    // Create new container for complex type
+    AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
+    this.incompleteBuilders.push(newBuilder);
+
+    LOGGER.debug(String.format("Created new container '%s' for complex type.", type.getName()));
   }
 
   /**
@@ -242,33 +252,28 @@ public class JavaTypeGen implements TypeGen
       {
         typeName = element.getSchemaType().getName();
       }
-
+      
       // Add member variable to current incomplete container
       AttributeContainer.Builder current = this.incompleteBuilders.pop();
-
-      // Element is an array
-      if (FSchemaTypeHelper.isArray(element))
+      
+      // Enforce restrictions for local simple types or extensions of existing types
+      AttributeContainer.Restriction restrictions = new AttributeContainer.Restriction();
+      if ((element.getSchemaType().isSimple() && !element.getSchemaType().isTopLevel()) || this.generatedElements.containsKey(typeName))
       {
-        current.addElementArray(typeName, element.getName(), element.getMinOccurs(), element.getMaxOccurs());
+        restrictions = this.createRestrictions((FSimpleType)(element.getSchemaType()));
       }
+      
       // Element is an enum
-      else if (FSchemaTypeHelper.isEnum(element.getSchemaType()))
+      if (!element.getSchemaType().isTopLevel() && FSchemaTypeHelper.isEnum(element.getSchemaType()))
       {
         Object[] constants = FSchemaTypeHelper.extractEnumArray((FSimpleType)element.getSchemaType());
         String[] enumConstants = Arrays.copyOf(constants, constants.length, String[].class);
         current.addEnumElement(element.getName() + "Enum", element.getName(), enumConstants);
       }
-      // Element is a list
-      else if (FSchemaTypeHelper.isList(element))
-      {
-        current.addElementArray(typeName, element.getName(),
-                FSchemaTypeHelper.getMinLength((FList)element.getSchemaType()),
-                FSchemaTypeHelper.getMaxLength((FList)element.getSchemaType()));
-      }
       // Element has a default value
       else if (FSchemaTypeHelper.hasDefaultValue(element))
       {
-        current.addElement(typeName, element.getName(), element.getDefaultValue());
+        current.addElement(typeName, element.getName(), element.getDefaultValue(), restrictions);
       }
       // Element has a fixed value
       else if (FSchemaTypeHelper.hasFixedValue(element))
@@ -278,8 +283,9 @@ public class JavaTypeGen implements TypeGen
       // Element is a common member variable
       else
       {
-        current.addElement(typeName, element.getName());
+        current.addElement(typeName, element.getName(), restrictions);
       }
+      
       this.incompleteBuilders.push(current);
       
       LOGGER.debug(String.format("Added member variable '%s' of type '%s' to container '%s'.",
@@ -409,7 +415,7 @@ public class JavaTypeGen implements TypeGen
           if (schemaRestrictions.hasRestriction(facet))
           {
             restrictions.whiteSpace = this.translateWhiteSpaceRestriction(
-                    schemaRestrictions.getIntegerValue(facet));
+                    schemaRestrictions.getStringValue(facet));
           }
           break;
 
@@ -486,35 +492,37 @@ public class JavaTypeGen implements TypeGen
   }
 
   /**
-   * Translate identifiers for 'whiteSpace' restriction from
-   * XMLBeans constants to textual representations (e.g.
-   * 'preserve' instead of Schema.WS_PRESERVE).
+   * Translate identifiers for 'whiteSpace' restriction from weird
+   * XMLBeans values to proper textual representation. XMLBeans may
+   * either deliver strings or numeric identifiers, when we call
+   * schemaRestrictions.getStringValue(facet), so we need this rather
+   * dirty hack to get a clean textual representation of the current
+   * 'whiteSpace' value.
+   * 
+   * @param xmlBeansConstant XMLBeans identifier for 'whiteSpace' value
    *
-   * @param xmlBeansConstant XMLBeans constant
-   *
-   * @return String representation of identifier
+   * @return Proper string representation of identifier or 'null', if
+   * 'whiteSpace' restriction is not set or has unknown value
    */
-  private String translateWhiteSpaceRestriction(final int xmlBeansConstant)
+  private String translateWhiteSpaceRestriction(final String xmlBeansConstant)
   {
     String result = "";
 
-    switch (xmlBeansConstant)
+    if (("preserve").equals(xmlBeansConstant) || ("1").equals(xmlBeansConstant))
     {
-      case SchemaType.WS_PRESERVE:
-        result = "preserve";
-        break;
-
-      case SchemaType.WS_REPLACE:
-        result = "replace";
-        break;
-
-      case SchemaType.WS_COLLAPSE:
-        result = "collapse";
-        break;
-
-      default:
-        result = null;
-        break;
+      result = "preserve";
+    }
+    else if (("replace").equals(xmlBeansConstant) || ("2").equals(xmlBeansConstant))
+    {
+      result = "replace";
+    }
+    else if (("collapse").equals(xmlBeansConstant) || ("3").equals(xmlBeansConstant))
+    {
+      result = "collapse";
+    }
+    else
+    {
+      result = null;
     }
 
     return result;

@@ -1,4 +1,4 @@
-/** 21.09.2011 02:06 */
+/** 21.09.2011 16:56 */
 package fabric.module.typegen;
 
 import org.slf4j.Logger;
@@ -14,6 +14,7 @@ import de.uniluebeck.sourcegen.Workspace;
 import fabric.module.api.FabricDefaultHandler;
 
 import fabric.module.typegen.base.TypeGen;
+import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
 import fabric.wsdlschemaparser.schema.FSequence;
 
 /**
@@ -95,7 +96,8 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
       // TODO: Handle FSequence
       if (element.getSchemaType().getClass() == FSequence.class)
       {
-        return;
+        LOGGER.debug("Beware! We are currently skipping sequences!"); // TODO: Remove
+        //return;
       }
 
       typeGenerator.addMemberVariable(element);
@@ -130,7 +132,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called startLocalElement().");
 
-    // TODO: Handle complex types
+    // TODO: Handle complex types    
   }
 
   /**
@@ -221,14 +223,18 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
     try
     {
-      typeGenerator.buildCurrentContainer();
+      // TODO: Check this out
+      if (!FSchemaTypeHelper.isEnum(type))
+      {
+        typeGenerator.buildCurrentContainer();
+      }
     }
     catch (Exception e)
     {
       // Write message to logger and re-throw exception
       if (null != type && null != type.getName())
       {
-        LOGGER.error(String.format("Failed building container for type '%s'.", type.getName()));
+        LOGGER.error(String.format("Failed building container for simple type '%s'.", type.getName()));
       }
       else
       {
@@ -284,8 +290,11 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   public void startTopLevelComplexType(FComplexType type, FElement parent) throws Exception
   {
     LOGGER.debug("Called startTopLevelComplexType().");
-
-    // TODO: Handle complex types
+    
+    if (null != type)
+    {
+      typeGenerator.createNewContainer(type);
+    }
   }
 
   /**
@@ -293,13 +302,32 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
    *
    * @param type FComplexType object
    * @param parent Parent FElement object
+   * 
+   * @throws Exception Error during processing* 
    */
   @Override
-  public void endTopLevelComplexType(FComplexType type, FElement parent)
+  public void endTopLevelComplexType(FComplexType type, FElement parent) throws Exception
   {
     LOGGER.debug("Called endTopLevelComplexType().");
 
-    // TODO: Handle complex types
+    try
+    {
+      typeGenerator.buildCurrentContainer();
+    }
+    catch (Exception e)
+    {
+      // Write message to logger and re-throw exception
+      if (null != type && null != type.getName())
+      {
+        LOGGER.error(String.format("Failed building container for complex type '%s'.", type.getName()));
+      }
+      else
+      {
+        LOGGER.error("Failed building current container.");
+      }
+
+      throw e;
+    }
   }
 
   /**

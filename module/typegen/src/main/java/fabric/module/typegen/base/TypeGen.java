@@ -2,6 +2,7 @@ package fabric.module.typegen.base;
 
 import fabric.wsdlschemaparser.schema.FElement;
 import fabric.wsdlschemaparser.schema.FSimpleType;
+import fabric.wsdlschemaparser.schema.FComplexType;
 
 /**
  * Public interface for TypeGen implementations.
@@ -33,6 +34,9 @@ public interface TypeGen
    * @param type FSimpleType object
    */
   public void createNewContainer(FSimpleType type);
+  
+  // TODO: Add comment
+  public void createNewContainer(FComplexType type);
 
   /**
    * Add a member variable to the current container class.

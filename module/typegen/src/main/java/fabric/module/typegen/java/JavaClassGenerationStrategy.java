@@ -479,6 +479,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
 
     if (member.isMaxInclusiveRestricted())
     {
+      // TODO: Check why uninizialized value may cause error here
       result += JavaRestrictionHelper.createCheckCode(
               String.format("%s > %d", member.name, Integer.parseInt(r.maxInclusive)),
               String.format(message, "maxInclusive", member.name),

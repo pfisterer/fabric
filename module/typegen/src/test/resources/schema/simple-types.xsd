@@ -5,11 +5,19 @@
 <xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
   <!--
+    Alias for built-in type xs:string.
+  -->
+  <xs:simpleType name="MyString">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+
+  <!--
     Simple type with length restriction.
   -->
   <xs:simpleType name="LengthRestrictedType">
     <xs:restriction base="xs:string">
       <xs:length value="15" />
+      <xs:whiteSpace value="preserve" />
     </xs:restriction>
   </xs:simpleType>
 
@@ -30,7 +38,7 @@
     <xs:restriction base="xs:string">
       <xs:length value="6" />
       <xs:pattern value="(SS|WS)20[0-9][0-9]" />
-      <xs:whiteSpace value="collapse" />
+      <xs:whiteSpace value="replace" />
     </xs:restriction>
   </xs:simpleType>
 
@@ -38,7 +46,7 @@
     Simple type with digits restriction.
   -->
   <xs:simpleType name="DigitsRestrictedType">
-    <xs:restriction base="xs:double">
+    <xs:restriction base="xs:short">
       <xs:totalDigits value="5" />
       <xs:fractionDigits value="2" />
     </xs:restriction>
@@ -84,8 +92,8 @@
   -->
   <xs:element name="SimpleLocal">
     <xs:simpleType>
-      <xs:restriction base="xs:string">
-        <xs:minExclusive value="127" />
+      <xs:restriction base="itm:MyString">
+        <xs:length value="127" />
       </xs:restriction>
     </xs:simpleType>
   </xs:element>
