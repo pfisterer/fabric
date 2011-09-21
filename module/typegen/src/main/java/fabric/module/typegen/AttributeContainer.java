@@ -1,4 +1,4 @@
-/** 14.09.2011 19:32 */
+/** 21.09.2011 00:02 */
 package fabric.module.typegen;
 
 import org.slf4j.Logger;
@@ -673,7 +673,7 @@ public class AttributeContainer
      */
     public boolean isTotalDigitsRestricted()
     {
-      return (null != this.restrictions.totalDigits && Integer.parseInt(this.restrictions.totalDigits) >= 0);
+      return (null != this.restrictions.totalDigits && Integer.parseInt(this.restrictions.totalDigits) >= 1); // Value must be positive integer
     }
 
     /**
@@ -903,6 +903,28 @@ public class AttributeContainer
         this.minExclusive = lowerBound;
         this.maxExclusive = upperBound;
       }
+    }
+
+    /**
+     * Parameterized constructor. Value of 'pattern' must be a valid
+     * XML schema regular expression. Value of 'whiteSpace' must be
+     * one of 'preserve', 'replace' or 'collapse'. Value of parameter
+     * 'totalDigits' must be positive integer. Value of 'fractionDigits'
+     * must be either zero or positive integers. A value of 'null'
+     * means that the restriction is not set.
+     *
+     * @param pattern Pattern with XML schema regular expression
+     * @param whiteSpace Handling of white space characters
+     * @param totalDigits Maximum number of total digits
+     * @param fractionDigits Maximum number of fraction digits
+     */
+    public Restriction(final String pattern, final String whiteSpace, final String totalDigits, final String fractionDigits)
+    {
+      this.pattern = pattern;
+      this.whiteSpace = whiteSpace;
+      
+      this.totalDigits = totalDigits;
+      this.fractionDigits = fractionDigits;
     }
 
     /**

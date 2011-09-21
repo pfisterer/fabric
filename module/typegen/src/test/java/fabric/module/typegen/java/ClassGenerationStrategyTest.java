@@ -89,6 +89,12 @@ public class ClassGenerationStrategyTest
     restrictions.put("maxInclusive", new AttributeContainer.Restriction(null, "50", true));
     restrictions.put("minExclusive", new AttributeContainer.Restriction("110", null, false));
     restrictions.put("maxExclusive", new AttributeContainer.Restriction(null, "150", false));
+    restrictions.put("pattern", new AttributeContainer.Restriction("(SS|WS)20[0-9][0-9]", null, null, null));
+    restrictions.put(/* whiteSpace */"preserve", new AttributeContainer.Restriction(null, "preserve", null, null));
+    restrictions.put(/* whiteSpace */"replace", new AttributeContainer.Restriction(null, "replace", null, null));
+    restrictions.put(/* whiteSpace */"collapse", new AttributeContainer.Restriction(null, "collapse", null, null));
+    restrictions.put("totalDigits", new AttributeContainer.Restriction(null, null, "5", null));
+    restrictions.put("fractionDigits", new AttributeContainer.Restriction(null, null, null, "2"));
 
     // Check generateClassObject() for all restrictions
     Iterator iterator = restrictions.entrySet().iterator();

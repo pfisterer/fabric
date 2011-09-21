@@ -1,4 +1,4 @@
-/** 16.09.2011 01:58 */
+/** 21.09.2011 02:03 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -132,6 +132,15 @@ public class JavaTypeGen implements TypeGen
   @Override
   public void writeSourceFiles() throws Exception
   {
+    // This guard should never trigger! -- But never say never...
+    if (!this.incompleteBuilders.empty())
+    {
+      LOGGER.error(String.format("End of schema reached, but not all containers were built (%d remained).",
+              this.incompleteBuilders.size()));
+      
+      throw new IllegalStateException("JavaTypeGen reached an illegal state. Lapidate the programmer.");
+    }
+
     JavaWorkspace javaWorkspace = this.workspace.getJava();
     JSourceFile jsf = null;
 
@@ -397,7 +406,8 @@ public class JavaTypeGen implements TypeGen
         case SchemaType.FACET_WHITE_SPACE:
           if (schemaRestrictions.hasRestriction(facet))
           {
-            restrictions.whiteSpace = schemaRestrictions.getStringValue(facet);
+            restrictions.whiteSpace = this.translateWhiteSpaceRestriction(
+                    schemaRestrictions.getIntegerValue(facet));
           }
           break;
 
@@ -473,33 +483,38 @@ public class JavaTypeGen implements TypeGen
     return type.getClass().getSimpleName();
   }
 
+  /**
+   * Translate identifiers for 'whiteSpace' restriction from
+   * XMLBeans constants to textual representations (e.g.
+   * 'preserve' instead of Schema.WS_PRESERVE).
+   *
+   * @param xmlBeansConstant XMLBeans constant
+   *
+   * @return String representation of identifier
+   */
+  private String translateWhiteSpaceRestriction(final int xmlBeansConstant)
+  {
+    String result = "";
 
+    switch (xmlBeansConstant)
+    {
+      case SchemaType.WS_PRESERVE:
+        result = "preserve";
+        break;
 
-// TODO: Remove the following lines before release:
-//  
-//  @Override
-//  public void createNewContainer(FComplexType type)
-//  {
-//    /*
-//    Generate new builder for new class
-//     */
-//    AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
-//
-//    /*
-//    Add all attributes of the ComplexType to the builder
-//     */
-//    List<FSchemaAttribute> attributes = type.getAttributes();
-//    for (FSchemaAttribute attr: attributes)
-//    {
-//      System.out.println(attr.getName() + ": " + this.getFabricTypeName(attr.getSchemaType()));
-//
-//      newBuilder.addAttribute(mapper.lookup(this.getFabricTypeName(attr.getSchemaType())), attr.getName());
-//    }
-//
-//    /*
-//    Add builder to yet incomplete builders
-//     */
-//    incompleteBuilders.push(newBuilder);
-//  }
-//
+      case SchemaType.WS_REPLACE:
+        result = "replace";
+        break;
+
+      case SchemaType.WS_COLLAPSE:
+        result = "collapse";
+        break;
+
+      default:
+        result = null;
+        break;
+    }
+
+    return result;
+  }
 }
