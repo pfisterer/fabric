@@ -44,6 +44,7 @@ import fabric.module.typegen.MapperFactory;
 public class JavaTypeGen implements TypeGen
 {
   // TODO: Fix restrictions for local simple types
+  // TODO: Add support for minOccurs to list implementation (should be 2x addElementArray() calls)
 
   /*****************************************************************
    * SourceFileData inner class
@@ -248,7 +249,7 @@ public class JavaTypeGen implements TypeGen
       // Element is an array
       if (FSchemaTypeHelper.isArray(element))
       {
-        current.addElementArray(typeName, element.getName(), element.getMaxOccurs());
+        current.addElementArray(typeName, element.getName(), element.getMinOccurs(), element.getMaxOccurs());
       }
       // Element is an enum
       else if (FSchemaTypeHelper.isEnum(element.getSchemaType()))

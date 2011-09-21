@@ -1,4 +1,4 @@
-/** 21.09.2011 00:02 */
+/** 21.09.2011 02:57 */
 package fabric.module.typegen;
 
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ import fabric.module.typegen.exceptions.FabricTypeGenException;
  *                             .addElement("String", "color", "red")
  *                             .addConstantElement("int", "maxSpeed", "220")
  *                             .addElementArray("String", "trunkItems")
- *                             .addElementArray("String", "passengers", 2)
+ *                             .addElementArray("String", "passengers", 1, 2)
  *                             .build();
  *
  * @author seidel
@@ -214,7 +214,7 @@ public class AttributeContainer
       else if (master.getClass() == AttributeContainer.ElementArray.class)
       {
         AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)master;
-        copy = new AttributeContainer.ElementArray(ea.type, ea.name, ea.size);
+        copy = new AttributeContainer.ElementArray(ea.type, ea.name, ea.minSize, ea.maxSize);
       }
       else
       {
@@ -452,28 +452,45 @@ public class AttributeContainer
     }
 
     /**
-     * Add XML element array to container. Size of the array can be
-     * predefined. Existing entries will be overridden by new array
-     * definition.
+     * Add XML element array to container. Minimum and maximum size of
+     * the array can be predefined. Existing entries will be overridden
+     * by new array definition.
      *
      * @param type Type of member variable
      * @param name Name of member variable
-     * @param size Size of array
+     * @param minSize Minimal size of array
+     * @param maxSize Maximum size of array
      *
      * @return Builder object
      *
      * @throws IllegalArgumentException Invalid array size provided
      */
-    public Builder addElementArray(final String type, final String name, final int size) throws IllegalArgumentException
+    public Builder addElementArray(final String type, final String name, final int minSize, final int maxSize) throws IllegalArgumentException
     {
-      if (size < 0)
+      if (maxSize < 0)
       {
         throw new IllegalArgumentException("Array size must be positive.");
       }
 
-      this.members.put(name, new AttributeContainer.ElementArray(type, name, size));
+      this.members.put(name, new AttributeContainer.ElementArray(type, name, minSize, maxSize));
 
       return this;
+    }
+
+    /**
+     * Add XML element array to container. Maximum size of the array
+     * can be predefined. Existing entries will be overridden by new
+     * array definition.
+     *
+     * @param type Type of member variable
+     * @param name Name of member variable
+     * @param maxSize Maximum size of array
+     *
+     * @return Builder object
+     */
+    public Builder addElementArray(final String type, final String name, final int maxSize)
+    {
+      return this.addElementArray(type, name, 0, maxSize);
     }
 
     /**
@@ -773,21 +790,26 @@ public class AttributeContainer
 
   public static class ElementArray extends MemberVariable
   {
-    /** Size of XML element array */
-    public int size;
+    /** Minimum size of XML element array */
+    public int minSize;
+
+    /** Maximum size of XML element array */
+    public int maxSize;
 
     /**
      * Parameterized constructor.
      *
      * @param type Type of XML element array
      * @param name Name of XML element array
-     * @param size Size of XML element array
+     * @param minSize Minimum size of XML element array
+     * @param maxSize Maximum size of XML element array
      */
-    public ElementArray(final String type, final String name, final int size)
+    public ElementArray(final String type, final String name, final int minSize, final int maxSize)
     {
       this.type = type;
       this.name = name;
-      this.size = size;
+      this.minSize = minSize;
+      this.maxSize = maxSize;
     }
 
     /**
@@ -798,7 +820,7 @@ public class AttributeContainer
      */
     public ElementArray(final String type, final String name)
     {
-      this(type, name, Integer.MAX_VALUE);
+      this(type, name, 0, Integer.MAX_VALUE);
     }
   }
   

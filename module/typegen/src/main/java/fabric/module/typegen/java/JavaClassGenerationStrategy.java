@@ -1,4 +1,4 @@
-/** 21.09.2011 02:15 */
+/** 21.09.2011 02:58 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
@@ -336,15 +336,15 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     {
       AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
 
-      // No array size is given
-      if (ea.size == Integer.MAX_VALUE)
+      // No array maxSize is given
+      if (ea.maxSize == Integer.MAX_VALUE)
       {
         jf = JField.factory.create(JModifier.PRIVATE, ea.type, ea.name + "[]");
       }
-      // Array size is given
+      // Array maxSize is given
       else
       {
-        jf = JField.factory.create(JModifier.PRIVATE, ea.type, ea.name + "[]", "new " + ea.type + "[" + ea.size + "]");
+        jf = JField.factory.create(JModifier.PRIVATE, ea.type, ea.name + "[]", "new " + ea.type + "[" + ea.maxSize + "]");
       }
 
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' element array.", ea.name)));
@@ -405,11 +405,12 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     // Member variable is an array    
     else if (member.getClass() == AttributeContainer.ElementArray.class)
     {
+      AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
       name = name + "[]";
 
       // Create code to check array length
       methodBody += JavaRestrictionHelper.createCheckCode(
-              String.format("%s.length < 0 || %s.length > %d", member.name, member.name, ((AttributeContainer.ElementArray)member).size),
+              String.format("%s.length < %d || %s.length > %d", member.name, ea.minSize, member.name,ea.maxSize),
               String.format("Illegal size for array '%s'.", member.name),
               "Check the 'minOccurs/maxOccurs' indicator");
     }
