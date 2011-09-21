@@ -24,7 +24,7 @@ public class AnnotationMapper
    * XMLFramework inner class
    *****************************************************************/
 
-  public static final class XMLFramework
+  private static final class XMLFramework
   {
     /** Name of the framework */
     public String name;

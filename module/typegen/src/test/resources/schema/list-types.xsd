@@ -1,0 +1,31 @@
+<!--
+  Schema test file for type generator.
+-->
+
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <!--
+    Simple type for xs:list.
+  -->
+  <xs:simpleType name="ListItemType">
+    <xs:list itemType="xs:integer"/>
+  </xs:simpleType>
+
+  <!--
+    Element of top-level simple type with xs:list.
+  -->
+  <xs:element name="SimpleList" type="ListItemType" />
+
+  <!--
+    Element of local simple type with restricted xs:list.
+  -->
+  <xs:element name="SimpleRestrictedList">
+    <xs:simpleType>
+      <xs:restriction base="ListItemType">
+        <xs:minLength value="3" />
+        <xs:length value="6" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+
+</xs:schema>

@@ -1,3 +1,4 @@
+/** 21.09.2011 02:06 */
 package fabric.module.typegen;
 
 import org.slf4j.Logger;
@@ -71,6 +72,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called endSchema().");
 
+    typeGenerator.buildCurrentContainer(); // Build root container
     typeGenerator.writeSourceFiles();
   }
 
@@ -209,9 +211,11 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
    *
    * @param type FSimpleType object
    * @param parent Parent FElement object
+   *
+   * @throws Exception Error during processing
    */
   @Override
-  public void endTopLevelSimpleType(FSimpleType type, FElement parent)
+  public void endTopLevelSimpleType(FSimpleType type, FElement parent) throws Exception
   {
     LOGGER.debug("Called endTopLevelSimpleType().");
 
@@ -221,6 +225,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
     }
     catch (Exception e)
     {
+      // Write message to logger and re-throw exception
       if (null != type && null != type.getName())
       {
         LOGGER.error(String.format("Failed building container for type '%s'.", type.getName()));
@@ -229,6 +234,8 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
       {
         LOGGER.error("Failed building current container.");
       }
+      
+      throw e;
     }
   }
 

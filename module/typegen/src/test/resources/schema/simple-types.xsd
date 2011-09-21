@@ -2,12 +2,12 @@
   Schema test file for type generator.
 -->
 
-<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fabric="http://www.coalesenses.com/fabric/v2" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
   <!--
     Simple type with length restriction.
   -->
-  <xs:simpleType name="Simple01">
+  <xs:simpleType name="LengthRestrictedType">
     <xs:restriction base="xs:string">
       <xs:length value="15" />
     </xs:restriction>
@@ -16,7 +16,7 @@
   <!--
     Simple type with both inclusive and exclusive boundaries.
   -->
-  <xs:simpleType name="Simple02">
+  <xs:simpleType name="BoundaryRestrictedType">
     <xs:restriction base="xs:unsignedByte">
       <xs:minExclusive value="127" />
       <xs:maxInclusive value="255" />
@@ -24,20 +24,50 @@
   </xs:simpleType>
 
   <!--
-    Simple type with global enumeration.
+    Simple type with pattern restriction.
   -->
-  <xs:simpleType name="CarEnum">
+  <xs:simpleType name="PatternRestrictedType">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="Audi" />
-      <xs:enumeration value="Golf" />
-      <xs:enumeration value="BMW" />
+      <xs:length value="6" />
+      <xs:pattern value="(SS|WS)20[0-9][0-9]" />
+      <xs:whiteSpace value="collapse" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!--
+    Simple type with digits restriction.
+  -->
+  <xs:simpleType name="DigitsRestrictedType">
+    <xs:restriction base="xs:double">
+      <xs:totalDigits value="5" />
+      <xs:fractionDigits value="2" />
     </xs:restriction>
   </xs:simpleType>
 
   <!--
     Element of built-in type.
   -->
-  <xs:element name="Simple03" type="xs:short" />
+  <xs:element name="SimpleBuiltIn" type="xs:short" />
+
+  <!--
+    Element of top-level simple type.
+  -->
+  <xs:element name="SimpleLength" type="itm:LengthRestrictedType" />
+
+  <!--
+    Another element of a top-level simple type.
+  -->
+  <xs:element name="SimpleBoundary" type="itm:BoundaryRestrictedType" />
+
+  <!--
+    Another element of top-level simple type with pattern and whiteSpace restriction.
+  -->
+  <xs:element name="Semester" type="itm:PatternRestrictedType" />
+
+  <!--
+    And another one with digits restriction.
+  -->
+  <xs:element name="Price" type="itm:DigitsRestrictedType" />
 
   <!--
     Element with default value.
@@ -50,40 +80,12 @@
   <xs:element name="SimpleFixed" type="xs:string" fixed="Bar" />
 
   <!--
-    Element of top-level simple type.
-  -->
-  <xs:element name="Simple04" type="itm:Simple01" />
-
-  <!--
-    Another element of a top-level simple type.
-  -->
-  <xs:element name="Simple05" type="itm:Simple02" />
-
-  <!--
     Element of a local simple-type.
   -->
-  <xs:element name="Simple06">
+  <xs:element name="SimpleLocal">
     <xs:simpleType>
       <xs:restriction base="xs:string">
         <xs:minExclusive value="127" />
-      </xs:restriction>
-    </xs:simpleType>
-  </xs:element>
-
-  <!--
-    Element of enum type.
-  -->
-  <xs:element name="Simple07" type="itm:CarEnum" />
-  
-  <!--
-    Element of a local enum type.
-  -->
-  <xs:element name="Simple08">
-    <xs:simpleType>
-      <xs:restriction base="xs:string">
-        <xs:enumeration value="Januar" />
-        <xs:enumeration value="Mai" />
-        <xs:enumeration value="Dezember" />
       </xs:restriction>
     </xs:simpleType>
   </xs:element>
@@ -94,34 +96,11 @@
   <xs:element name="Container">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="cont01" type="xs:int" minOccurs="3" maxOccurs="7" />
-        <xs:element name="cont02" type="xs:byte" maxOccurs="11" />
-        <xs:element name="cont03" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element name="Item01" type="xs:int" minOccurs="3" maxOccurs="7" />
+        <xs:element name="Item02" type="xs:byte" maxOccurs="11" />
+        <xs:element name="Item03" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
       </xs:sequence>
     </xs:complexType>
-  </xs:element>
-
-  <!--
-    Simple type with xs:list.
-  -->
-  <xs:simpleType name="Simple07">
-    <xs:list itemType="xs:integer"/>
-  </xs:simpleType>
-
-  <!--
-    Element of top-level simple type with xs:list.
-  -->
-  <xs:element name="SimpleList" type="Simple07"/>
-
-  <!--
-    Element of local simple type with xs:list with length restriction.
-  -->
-  <xs:element name="SimpleRestrictedList">
-    <xs:simpleType>
-        <xs:restriction base="Simple07">
-            <xs:length value="6"/>
-        </xs:restriction>
-    </xs:simpleType>
   </xs:element>
 
 </xs:schema>

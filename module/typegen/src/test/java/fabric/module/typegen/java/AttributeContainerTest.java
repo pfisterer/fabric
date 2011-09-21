@@ -109,13 +109,21 @@ public class AttributeContainerTest
     testBuilder = testBuilder.clear().addElementArray("int", "numbers");
     assertTrue("Container must contain one attribute array.", testBuilder.build().getMembers().size() == 1);
     assertTrue("Element 'numbers' must be instance of AttributeContainer.ElementArray.", testBuilder.build().getMembers().get("numbers") instanceof AttributeContainer.ElementArray);
-    assertTrue("Attribute array must be unbounded.", ((AttributeContainer.ElementArray)(testBuilder.build().getMembers().get("numbers"))).size == Integer.MAX_VALUE);
+    assertTrue("Attribute array must be unbounded.", ((AttributeContainer.ElementArray)(testBuilder.build().getMembers().get("numbers"))).maxSize == Integer.MAX_VALUE);
 
-    // Check bounded addElementArray()
+    // Check max bounded addElementArray()
     testBuilder = testBuilder.clear().addElementArray("String", "names", 5);
     assertTrue("Container must contain one attribute array.", testBuilder.build().getMembers().size() == 1);
     assertTrue("Element 'names' must be instance of AttributeContainer.ElementArray.", testBuilder.build().getMembers().get("names") instanceof AttributeContainer.ElementArray);
-    assertTrue("Attribute array must be bounded to a size of 5.", ((AttributeContainer.ElementArray)(testBuilder.build().getMembers().get("names"))).size == 5);
+    assertTrue("Attribute array must be bounded to a size of 5.", ((AttributeContainer.ElementArray)(testBuilder.build().getMembers().get("names"))).maxSize == 5);
+
+    // Check min and max bounded addElementArray()
+    testBuilder = testBuilder.clear().addElementArray("String", "addresses", 1, 5);
+    assertTrue("Container must contain one attribute array.", testBuilder.build().getMembers().size() == 1);
+    assertTrue("Element 'addresses' must be instance of AttributeContainer.ElementArray.", testBuilder.build().getMembers().get("addresses") instanceof AttributeContainer.ElementArray);
+    assertTrue("Attribute array must be bound to a size of [1..5].",
+            ((AttributeContainer.ElementArray)(testBuilder.build().getMembers().get("addresses"))).minSize == 1 &&
+            ((AttributeContainer.ElementArray)(testBuilder.build().getMembers().get("addresses"))).maxSize == 5);
 
     // Check deleteMember()
     testBuilder = testBuilder.clear().addElement("int", "foo").addElement("boolean", "bar");
@@ -237,7 +245,7 @@ public class AttributeContainerTest
                                   .addElement("String", "color", "red")
                                   .addConstantElement("int", "maxSpeed", "220")
                                   .addElementArray("TrunkItem", "trunkItems")
-                                  .addElementArray("String", "passengers", 2)
+                                  .addElementArray("String", "passengers", 1, 2)
                                   .build();
 
     return result;
