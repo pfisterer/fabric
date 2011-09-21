@@ -28,6 +28,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.impl.xb.xsdschema.Facet;
@@ -126,9 +127,13 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
      * @return
      * @throws UnsupportedRestrictionException
      */
-    public boolean hasRestriction(int facetCode)
-            throws UnsupportedRestrictionException {
-        checkValidFacet(facetCode);
+    public boolean hasRestriction(int facetCode) {
+        try {
+            checkValidFacet(facetCode);
+        } catch (UnsupportedRestrictionException ex) {
+            return false;
+        }
+
         return restrictions.containsKey(facetCode);
     }
 

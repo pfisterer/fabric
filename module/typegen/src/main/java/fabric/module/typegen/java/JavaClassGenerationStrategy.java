@@ -448,7 +448,8 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isLengthRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s.length() != %d", member.name, Integer.parseInt(r.length)),
+              //String.format("%s.length() != %d", member.name, Integer.parseInt(r.length)),
+              String.format("%s.length() != %d", member.name, Long.parseLong(r.length)),
               String.format(message, "length", member.name),
               String.format(comment, "length"));
     }
@@ -456,7 +457,8 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMinLengthRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s.length() < %d", member.name, Integer.parseInt(r.minLength)),
+              //String.format("%s.length() < %d", member.name, Integer.parseInt(r.minLength)),
+              String.format("%s.length() < %d", member.name, Long.parseLong(r.minLength)),
               String.format(message, "minLength", member.name),
               String.format(comment, "minLength"));
     }
@@ -464,7 +466,8 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMaxLengthRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s.length() > %d", member.name, Integer.parseInt(r.maxLength)),
+              //String.format("%s.length() > %d", member.name, Integer.parseInt(r.maxLength)),
+              String.format("%s.length() > %d", member.name, Long.parseLong(r.maxLength)),
               String.format(message, "maxLength", member.name),
               String.format(comment, "maxLength"));
     }
@@ -472,7 +475,8 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMinInclusiveRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s < %d", member.name, Integer.parseInt(r.minInclusive)),
+              //String.format("%s < %d", member.name, Integer.parseInt(r.minInclusive)),
+              String.format("%s < %d", member.name, Long.parseLong(r.minInclusive)),
               String.format(message, "minInclusive", member.name),
               String.format(comment, "minInclusive"));
     }
@@ -481,7 +485,8 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     {
       // TODO: Check why uninizialized value may cause error here
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s > %d", member.name, Integer.parseInt(r.maxInclusive)),
+              //String.format("%s > %d", member.name, Integer.parseInt(r.maxInclusive)),
+              String.format("%s > %d", member.name, Long.parseLong(r.maxInclusive)),
               String.format(message, "maxInclusive", member.name),
               String.format(comment, "maxInclusive"));
     }
@@ -489,7 +494,8 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMinExclusiveRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s <= %d", member.name, Integer.parseInt(r.minExclusive)),
+              //String.format("%s <= %d", member.name, Integer.parseInt(r.minExclusive)),
+              String.format("%s <= %d", member.name, Long.parseLong(r.minExclusive)),
               String.format(message, "minExclusive", member.name),
               String.format(comment, "minExclusive"));
     }
@@ -497,7 +503,8 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMaxExclusiveRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s >= %d", member.name, Integer.parseInt(r.maxExclusive)),
+              //String.format("%s >= %d", member.name, Integer.parseInt(r.maxExclusive)),
+              String.format("%s >= %d", member.name, Long.parseLong(r.maxExclusive)),
               String.format(message, "maxExclusive", member.name),
               String.format(comment, "maxExclusive"));
     }

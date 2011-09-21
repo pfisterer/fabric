@@ -15,7 +15,6 @@ import fabric.module.api.FabricDefaultHandler;
 
 import fabric.module.typegen.base.TypeGen;
 import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
-import fabric.wsdlschemaparser.schema.FSequence;
 
 /**
  * Fabric handler class for the type generator module. This class
@@ -93,13 +92,6 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
     if (null != element)
     {
-      // TODO: Handle FSequence
-      if (element.getSchemaType().getClass() == FSequence.class)
-      {
-        LOGGER.debug("Beware! We are currently skipping sequences!"); // TODO: Remove
-        //return;
-      }
-
       typeGenerator.addMemberVariable(element);
     }
   }
@@ -132,7 +124,10 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called startLocalElement().");
 
-    // TODO: Handle complex types    
+    if (null != element)
+    {
+        typeGenerator.addMemberVariable(element);
+    }
   }
 
   /**
@@ -344,7 +339,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called startLocalComplexType().");
 
-    // TODO: Handle complex types
+    // TODO: Handle local complex types
   }
 
   /**
@@ -359,6 +354,6 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called endLocalComplexType().");
 
-    // TODO: Handle complex types
+    // TODO: Handle local complex types
   }
 }

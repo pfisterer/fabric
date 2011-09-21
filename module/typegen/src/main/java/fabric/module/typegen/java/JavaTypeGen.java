@@ -216,7 +216,14 @@ public class JavaTypeGen implements TypeGen
     }
   }
   
-  // TODO: Check and add comment
+  /**
+   * Create a new container class that represents a complex type
+   * of the XML schema document. All elements and attributes that
+   * belong to this type should be added to the container as
+   * member variables.
+   *
+   * @param type FComplexType object
+   */
   @Override
   public void createNewContainer(FComplexType type)
   {
@@ -241,11 +248,15 @@ public class JavaTypeGen implements TypeGen
     {
       // Determine element type
       String typeName = "";
+      String fName = getFabricTypeName(element.getSchemaType());
+
+      // TODO: Changed condition, please check!
+      // if (element.getName().equals(element.getSchemaType().getName()))
 
       // Element is XSD base type (e.g. xs:string, xs:short, ...)
-      if (element.getName().equals(element.getSchemaType().getName()))
+        if (null != fName && element.getSchemaType().isSimple())
       {
-        typeName = this.mapper.lookup(this.getFabricTypeName(element.getSchemaType()));
+        typeName = this.mapper.lookup(fName);
       }
       // Element is custom type (e.g. some XSD base type itm:Simple02)
       else

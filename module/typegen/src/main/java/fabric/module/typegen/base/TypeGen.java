@@ -35,7 +35,14 @@ public interface TypeGen
    */
   public void createNewContainer(FSimpleType type);
   
-  // TODO: Add comment
+  /**
+   * Create a new container class that represents a complex type
+   * of the XML schema document. All elements and attributes that
+   * belong to this type should be added to the container as
+   * member variables.
+   *
+   * @param type FComplexType object
+   */
   public void createNewContainer(FComplexType type);
 
   /**
