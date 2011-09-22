@@ -27,6 +27,19 @@ public interface ClassGenerationStrategy
   public WorkspaceElement generateClassObject(AttributeContainer container) throws Exception;
 
   /**
+   * Generate language-specific class object from AttributeContainer with given modifiers.
+   *
+   * @param container AttributeContainer for class creation
+   * @param modifiers modifiers for language-specific class object
+   *
+   * @return Created class object (WorkspaceElement is base type
+   * of both JClass and CppClass)
+   *
+   * @throws Exception Error during class object creation
+   */
+  public WorkspaceElement generateClassObject(AttributeContainer container, int modifiers) throws Exception;
+
+  /**
    * Get list of dependencies that are required to save the class
    * object as a valid source file. Depending on the implementation,
    * the method may return imports (Java) or includes (C++), for

@@ -28,6 +28,20 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     }
 
     /**
+     * Generate language-specific class object from AttributeContainer with given modifiers.
+     *
+     * @param container AttributeContainer for class creation
+     * @param modifiers modifiers for language-specific class object
+     * @return Created class object (WorkspaceElement is base type
+     *         of both JClass and CppClass)
+     * @throws Exception Error during class object creation
+     */
+    @Override public WorkspaceElement generateClassObject(AttributeContainer container, int modifiers)
+            throws Exception {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
      * Get list of dependencies that are required to save the class
      * object as a valid source file. Depending on the implementation,
      * the method may return imports (Java) or includes (C++), for

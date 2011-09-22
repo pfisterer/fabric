@@ -92,7 +92,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
     if (null != element)
     {
-      typeGenerator.addMemberVariable(element);
+      typeGenerator.addMemberVariable(element, true);
     }
   }
 
@@ -126,7 +126,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
     if (null != element)
     {
-        typeGenerator.addMemberVariable(element);
+        typeGenerator.addMemberVariable(element, parent.isTopLevel());
     }
   }
 
@@ -340,6 +340,10 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
     LOGGER.debug("Called startLocalComplexType().");
 
     // TODO: Handle local complex types
+    if (null != type)
+    {
+      typeGenerator.createNewContainer(type);
+    }
   }
 
   /**

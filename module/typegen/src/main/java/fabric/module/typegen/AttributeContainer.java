@@ -1084,6 +1084,24 @@ public class AttributeContainer
   }
 
   /**
+   * Return content of AttributeContainer as class object with given modifiers.
+   * Return value is of type WorkspaceElement and should be casted before further use
+   * (e.g. to JClass or CppClass, depending on ClassGenerationStrategy).
+   *
+   * @param strategy Strategy object for external class generation
+   * @param modifiers Modifiers for the class object
+   *
+   * @return Class object (as WorkspaceElement)
+   *
+   * @throws Exception Error during class object creation
+   */
+  // TODO: Added this because of the need for generation of inner classes. You might want to check that and improve it.
+  public WorkspaceElement asClassObject(ClassGenerationStrategy strategy, int modifiers) throws Exception
+  {
+    return strategy.generateClassObject(this, modifiers);
+  }
+
+  /**
    * Get the name of the container class.
    *
    * @return Container name

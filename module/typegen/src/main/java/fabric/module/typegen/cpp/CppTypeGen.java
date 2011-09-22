@@ -63,7 +63,7 @@ public class CppTypeGen implements TypeGen
   }
   
   @Override
-  public void addMemberVariable(FElement element)
+  public void addMemberVariable(FElement element, boolean topLevel)
   {
     throw new UnsupportedOperationException("Not supported yet.");
   }

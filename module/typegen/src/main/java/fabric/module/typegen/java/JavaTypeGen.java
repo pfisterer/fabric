@@ -88,6 +88,9 @@ public class JavaTypeGen implements TypeGen
   /** Stack of incomplete container classes */
   private Stack<AttributeContainer.Builder> incompleteBuilders;
 
+  /** Stack of incomplete local container classes */
+  private Stack<AttributeContainer.Builder> incompleteLocalBuilders;
+
   /** Map of finished data type objects */
   private HashMap<String, SourceFileData> generatedElements;
 
@@ -106,6 +109,7 @@ public class JavaTypeGen implements TypeGen
     this.properties = properties;
 
     this.incompleteBuilders = new Stack<AttributeContainer.Builder>();
+    this.incompleteLocalBuilders = new Stack<AttributeContainer.Builder>();
     this.generatedElements = new HashMap<String, SourceFileData>();
   }
   
@@ -227,11 +231,18 @@ public class JavaTypeGen implements TypeGen
   @Override
   public void createNewContainer(FComplexType type)
   {
-    // Create new container for complex type
-    AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
-    this.incompleteBuilders.push(newBuilder);
+      // Create new container for complex type
+      AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
 
-    LOGGER.debug(String.format("Created new container '%s' for complex type.", type.getName()));
+      if (type.isTopLevel()) {
+        // Top-level complex type
+        incompleteBuilders.push(newBuilder);
+        LOGGER.debug(String.format("Created new container '%s' for top-level complex type.", type.getName()));
+      } else {
+          // Local complex type
+          incompleteLocalBuilders.push(newBuilder);
+          LOGGER.debug(String.format("Created new container '%s' for local complex type.", type.getName()));
+      }
   }
 
   /**
@@ -240,9 +251,11 @@ public class JavaTypeGen implements TypeGen
    * element will be mapped to Java where applicable.
    *
    * @param element FElement object
+   * @param topLevel True, if the element is top-level or part of a top-level complex type,
+   *  false, if the element is part of a local complex type.
    */
   @Override
-  public void addMemberVariable(FElement element)
+  public void addMemberVariable(FElement element, boolean topLevel)
   {
     if (!this.incompleteBuilders.empty())
     {
@@ -263,9 +276,9 @@ public class JavaTypeGen implements TypeGen
       {
         typeName = element.getSchemaType().getName();
       }
-      
+
       // Add member variable to current incomplete container
-      AttributeContainer.Builder current = this.incompleteBuilders.pop();
+      AttributeContainer.Builder current = (topLevel ? this.incompleteBuilders.pop() : incompleteLocalBuilders.pop());
       
       // Enforce restrictions for local simple types or extensions of existing types
       AttributeContainer.Restriction restrictions = new AttributeContainer.Restriction();
@@ -296,8 +309,12 @@ public class JavaTypeGen implements TypeGen
       {
         current.addElement(typeName, element.getName(), restrictions);
       }
-      
-      this.incompleteBuilders.push(current);
+
+        if (topLevel) {
+             this.incompleteBuilders.push(current);
+        } else {
+             this.incompleteLocalBuilders.push(current);
+        }
       
       LOGGER.debug(String.format("Added member variable '%s' of type '%s' to container '%s'.",
               element.getName(), typeName, current.getName()));
@@ -323,6 +340,15 @@ public class JavaTypeGen implements TypeGen
       JavaClassGenerationStrategy javaStrategy = new JavaClassGenerationStrategy(xmlMapper);
 
       JClass classObject = (JClass)this.incompleteBuilders.pop().build().asClassObject(javaStrategy);
+
+        // Build current local container
+        if (!incompleteLocalBuilders.empty()) {
+            // TODO: I don't know if this is the best solution to deal with inner classes... Ideas?
+            JClass innerClassObject = (JClass)incompleteLocalBuilders.pop().build()
+                    .asClassObject(javaStrategy, JModifier.NONE);
+            classObject.add(innerClassObject);
+        }
+
       if (!this.generatedElements.containsKey(classObject.getName()))
       {
         this.generatedElements.put(classObject.getName(),
