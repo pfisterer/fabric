@@ -338,7 +338,7 @@ public class FSchemaTypeFactory {
             if (schemaHelper.isXMLSchemaName(type)) {
                 SchemaType st = SchemaHelper.getSchemaType(type);
                 if (st.getSimpleVariety() == SchemaType.ATOMIC) {
-                    ftype = generateSimpleTypeFromBTC(st.getBuiltinTypeCode());
+                    ftype = generateSimpleTypeFromBTC(st.getBuiltinTypeCode(), type.getNamespaceURI(), type.getLocalPart());
                 } else {
                     throw new UnhandledSimpleVarietyException("SimpleVariety not handled: " + st.getSimpleVariety());
                 }
@@ -672,10 +672,11 @@ public class FSchemaTypeFactory {
     private void handleComplexTypeAttributes(FComplexType fct, Attribute[] attributes) {
         for (Attribute attr : attributes) {
             SchemaType st = SchemaHelper.getSchemaType(attr.getType());
+            QName type = attr.getType();
 
             FSchemaType ft;
             if (st.getSimpleVariety() == SchemaType.ATOMIC) {
-                ft = generateSimpleTypeFromBTC(st.getBuiltinTypeCode());
+                ft = generateSimpleTypeFromBTC(st.getBuiltinTypeCode(), type.getNamespaceURI(), type.getLocalPart());
             } else {
                 throw new UnhandledSimpleVarietyException("SimpleVariety not handled: " + st.getSimpleVariety());
             }
@@ -716,7 +717,9 @@ public class FSchemaTypeFactory {
         FComplexType fct = new FSequence();
         SimpleExtensionType extension = simpleContent.getExtension();
         SchemaType st_base = SchemaHelper.getSchemaType(extension.getBase());
-        FSimpleType fst = generateSimpleTypeFromBTC(st_base.getBuiltinTypeCode());
+        QName type = extension.getBase();
+
+        FSimpleType fst = generateSimpleTypeFromBTC(st_base.getBuiltinTypeCode(), type.getNamespaceURI(), type.getLocalPart());
         fct.addChildObject(initObject(new FElement("value", fst)));
 
         if (extension.sizeOfAttributeArray() > 0) {
@@ -771,7 +774,7 @@ public class FSchemaTypeFactory {
         FSchemaType ftype = null;
         if (topLevelTypes != null) {
             for (FSchemaType f : topLevelTypes) {
-                if (f.getName().equals(typeName)) {
+                if (f.getName().equals(typeName)) {                  
                     ftype = f.clone();
                     break;
                 }
@@ -804,7 +807,12 @@ public class FSchemaTypeFactory {
         return count;
     }
 
-    public FSimpleType generateSimpleTypeFromBTC(int builtinTypeCode) {
+    /**
+     * seidel: Added arguments 'namespace' and 'name' to this method
+     * and all calls, because otherwise FSimpleType objects created
+     * by this method would not have any valid value for these fiels.
+     */
+    public FSimpleType generateSimpleTypeFromBTC(int builtinTypeCode, String namespace, String name) {
         FSimpleType fst = null;
 
         switch (builtinTypeCode) {
@@ -963,6 +971,10 @@ public class FSchemaTypeFactory {
         }
 
         initObject(fst);
+
+        // seidel: Added these two lines
+        fst.setNamespace(namespace);
+        fst.setName(name);
 
         return fst;
     }

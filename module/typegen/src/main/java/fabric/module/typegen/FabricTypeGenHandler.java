@@ -1,4 +1,4 @@
-/** 21.09.2011 16:56 */
+/** 22.09.2011 19:21 */
 package fabric.module.typegen;
 
 import org.slf4j.Logger;
@@ -111,9 +111,9 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
   /**
    * Handle start of a local schema element. Local elements only
-   * apply to complex types, which are currently not supported
-   * by the Fabric type generator module.
-   * 
+   * apply to complex types. Each local element is equivalent to
+   * a member variable in the corresponding container class.
+   *
    * @param element FElement object
    * @param parent Parent FComplexType object
    * 
@@ -126,7 +126,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
     if (null != element)
     {
-        typeGenerator.addMemberVariable(element);
+      typeGenerator.addMemberVariable(element);
     }
   }
 
@@ -285,7 +285,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   public void startTopLevelComplexType(FComplexType type, FElement parent) throws Exception
   {
     LOGGER.debug("Called startTopLevelComplexType().");
-    
+
     if (null != type)
     {
       typeGenerator.createNewContainer(type);

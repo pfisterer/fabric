@@ -2,8 +2,6 @@ package fabric.wsdlschemaparser.schema;
 
 import org.apache.log4j.*;
 import org.apache.xmlbeans.SchemaType;
-import org.apache.xmlbeans.impl.xb.xsdschema.Facet;
-import org.apache.xmlbeans.impl.xb.xsdschema.RestrictionType;
 import org.junit.Test;
 import java.io.File;
 

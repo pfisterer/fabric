@@ -34,7 +34,7 @@ public interface TypeGen
    * @param type FSimpleType object
    */
   public void createNewContainer(FSimpleType type);
-  
+
   /**
    * Create a new container class that represents a complex type
    * of the XML schema document. All elements and attributes that

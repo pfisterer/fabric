@@ -28,7 +28,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.impl.xb.xsdschema.Facet;
@@ -125,7 +124,6 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
     /**
      * @param facetCode
      * @return
-     * @throws UnsupportedRestrictionException
      */
     public boolean hasRestriction(int facetCode) {
         try {
@@ -569,8 +567,7 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
             return false;
 
         for (Object o : restrictions.keySet( )) {
-            if (!equalsArrayRecursive(restrictions.get(o),
-                    otherRes.restrictions.get(o))) {
+            if (!equalsArrayRecursive(restrictions.get(o), otherRes.restrictions.get(o))) {
                 return false;
             }
         }

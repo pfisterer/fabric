@@ -1,4 +1,4 @@
-/** 21.09.2011 16:56 */
+/** 23.09.2011 02:26 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -25,15 +25,16 @@ import de.uniluebeck.sourcegen.java.JavaWorkspace;
 import fabric.wsdlschemaparser.schema.FElement;
 import fabric.wsdlschemaparser.schema.FList;
 import fabric.wsdlschemaparser.schema.FSchemaRestrictions;
+import fabric.wsdlschemaparser.schema.SchemaHelper;
 import fabric.wsdlschemaparser.schema.FSchemaType;
 import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
 import fabric.wsdlschemaparser.schema.FSimpleType;
+import fabric.wsdlschemaparser.schema.FComplexType;
 
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.base.TypeGen;
 import fabric.module.typegen.base.Mapper;
 import fabric.module.typegen.MapperFactory;
-import fabric.wsdlschemaparser.schema.FComplexType;
 
 /**
  * Type generator for Java. This class handles various calls from
@@ -248,20 +249,18 @@ public class JavaTypeGen implements TypeGen
     {
       // Determine element type
       String typeName = "";
-      String fName = getFabricTypeName(element.getSchemaType());
-
-      // TODO: Changed condition, please check!
-      // if (element.getName().equals(element.getSchemaType().getName()))
-
+      
       // Element is XSD base type (e.g. xs:string, xs:short, ...)
-        if (null != fName && element.getSchemaType().isSimple())
+      if (SchemaHelper.isBuiltinTypedElement(element))
       {
-        typeName = this.mapper.lookup(fName);
+        typeName = this.mapper.lookup(this.getFabricTypeName(element.getSchemaType()));
+        LOGGER.debug(String.format("Type '%s' is an XSD built-in type.", typeName));
       }
       // Element is custom type (e.g. some XSD base type itm:Simple02)
       else
       {
         typeName = element.getSchemaType().getName();
+        LOGGER.debug(String.format("Type '%s' is a custom type.", typeName));
       }
       
       // Add member variable to current incomplete container
@@ -299,8 +298,8 @@ public class JavaTypeGen implements TypeGen
       
       this.incompleteBuilders.push(current);
       
-      LOGGER.debug(String.format("Added member variable '%s' of type '%s' to container '%s'.",
-              element.getName(), typeName, current.getName()));
+      LOGGER.debug(String.format("Added member variable '%s' of %s '%s' to container '%s'.", element.getName(),
+              (SchemaHelper.isBuiltinTypedElement(element) ? "built-in " : "") + "type", typeName, current.getName()));
     }
   }
 
