@@ -278,15 +278,16 @@ public class MainTest {
         
         
         System.out.println("**********************************************************************");
-        System.out.println("TESTING FILE: " + xsd);
-        System.out.println("AutoFileCount: " + sourceFilesAuto.size());
-        System.out.println("ManuFileCount: " + sourceFilesMan.size());
+        System.out.println(" UNIT TEST " +xsd);
+        System.out.println("**********************************************************************");
+        System.out.println("Generated files auto/manu: " + sourceFilesAuto.size() + "/" +sourceFilesMan.size());
+
         for (SourceFile sourceFile : sourceFilesAuto) {
-        	System.out.println("TEST_FILE_AUTO: " + sourceFile.getFileName());
+        	System.out.println("Automatically generated file: " + sourceFile.getFileName());
 		}
         
         for (SourceFile sourceFile : sourceFilesMan) {
-        	System.out.println("TEST_FILE_MANU: " + sourceFile.getFileName());
+        	System.out.println("Manually generated file: " + sourceFile.getFileName());
 		}
         System.out.println("**********************************************************************");
         
