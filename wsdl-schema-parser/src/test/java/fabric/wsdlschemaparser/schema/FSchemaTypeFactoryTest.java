@@ -2,8 +2,6 @@ package fabric.wsdlschemaparser.schema;
 
 import org.apache.log4j.*;
 import org.apache.xmlbeans.SchemaType;
-import org.apache.xmlbeans.impl.xb.xsdschema.Facet;
-import org.apache.xmlbeans.impl.xb.xsdschema.RestrictionType;
 import org.junit.Test;
 import java.io.File;
 
@@ -55,6 +53,8 @@ public class FSchemaTypeFactoryTest {
         FSchemaType intList2   = objectList.getTopLevelElement("AnotherIntList").getSchemaType();
         FSchemaType restrictedList
                 = objectList.getTopLevelElement("IntListWithRestriction").getSchemaType();
+        FSchemaType restrictedString
+                = objectList.getTopLevelElement("TopLevelStringWithRestriction").getSchemaType();
 
         /*
         Tests
@@ -62,22 +62,61 @@ public class FSchemaTypeFactoryTest {
         assertTrue("IntList has to be a xs:list of type xs:integer.",
                 intList.isSimple()
                 && ((FSimpleType) intList).isList()
-                && ((FList)intList).getItemType() instanceof FInteger);
+                && ((FList) intList).getItemType() instanceof FInteger);
+
         assertTrue("IntValue has to be a single value of type xs:integer.",
                 intValue.isSimple()
                 && !((FSimpleType) intValue).isList()
                 && intValue instanceof FInteger);
+
         assertTrue("AnotherIntList has to be a xs:list of type xs:integer.",
                 intList2.isSimple()
                 && ((FSimpleType) intList2).isList()
-                && ((FList)intList2).getItemType() instanceof FInteger);
+                && ((FList) intList2).getItemType() instanceof FInteger);
+
         assertTrue("IntListWithRestriction has to be a xs:list of type IntListType.",
                 restrictedList.isSimple()
                 && ((FSimpleType) restrictedList).isList()
-                && ((FList)restrictedList).getItemType() instanceof FInteger);
-        assertTrue("Length of IntListWithRestriction has to be restricted to 6.",
-                ((FSimpleType) restrictedList).getRestrictions()
-                        .getIntegerValue(SchemaType.FACET_LENGTH) == 6);
+                && ((FList) restrictedList).getItemType() instanceof FInteger);
+
+        assertTrue("TopLevelStringWithRestriction has to be a single value of type StringWithRestriction.",
+                restrictedString.isSimple()
+                && !((FSimpleType) restrictedString).isList()
+                && restrictedString instanceof FString);
+
+        assertEquals("Length of IntListWithRestriction has to be restricted to 6.",
+                6,
+                restrictedList.getRestrictions()
+                        .getIntegerValue(SchemaType.FACET_LENGTH));
+
+        assertEquals("Pattern of IntListWithRestriction has to be restricted to '[1-9]'.",
+                "[1-9]",
+                restrictedList.getRestrictions()
+                        .getStringValue(SchemaType.FACET_PATTERN));
+
+        assertEquals("Whitespaces of IntListWithRestriction have to be restricted to 'collapse'.",
+                "collapse",
+                restrictedList.getRestrictions()
+                        .getStringValue(SchemaType.FACET_WHITE_SPACE));
+
+        assertEquals("Length of StringWithRestriction has to be restricted to 6.",
+                6,
+                restrictedString.getRestrictions()
+                        .getIntegerValue(SchemaType.FACET_MIN_LENGTH));
+
+        assertEquals("Pattern of StringWithRestriction has to be restricted to '[A-Z]'.",
+                "[A-Z]",
+                restrictedString.getRestrictions()
+                        .getStringValue(SchemaType.FACET_PATTERN));
+
+        assertEquals("Whitespaces of StringWithRestriction have to be restricted to 'collapse'.",
+                "collapse",
+                restrictedString.getRestrictions()
+                        .getStringValue(SchemaType.FACET_WHITE_SPACE));
+
+        assertFalse("Length of IntList must not be restricted.",
+                intList.getRestrictions().hasRestriction(SchemaType.FACET_LENGTH));
+
     }
 
     @Test

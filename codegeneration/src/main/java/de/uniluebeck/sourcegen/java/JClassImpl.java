@@ -203,13 +203,15 @@ class JClassImpl extends JComplexTypeImpl implements JClass {
 		}
 
 		// write annotations if there are any
-                for (JClassAnnotation ann : this.annotations) {
-                    ann.toString(buffer, tabCount);
-                }
-
-		if (toStringModifiers(buffer, tabCount, modifiers))
+    for (JClassAnnotation ann: this.annotations) {
+      ann.toString(buffer, tabCount);
+    }
+		
+    if (toStringModifiers(buffer, tabCount, modifiers))
 			buffer.append(" ");
-		buffer.append("class ");
+    else
+      indent(buffer, tabCount); // seidel: Added else-branch for correct indention of inner classes with no modifier.
+    buffer.append("class ");
 		buffer.append(className);
 		if (extendedClass != null) {
 			buffer.append(" extends ");
@@ -260,7 +262,7 @@ class JClassImpl extends JComplexTypeImpl implements JClass {
 
 		}
 
-		buffer.append("\n");
+		// buffer.append("\n"); // seidel: Removed this line for symmetric output.
 		indent(buffer, tabCount);
 		buffer.append("}");
 	}

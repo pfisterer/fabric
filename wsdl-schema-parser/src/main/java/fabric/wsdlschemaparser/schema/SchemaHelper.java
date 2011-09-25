@@ -132,6 +132,54 @@ public class SchemaHelper {
 		return getSimpleTypeByName(name) != null;
 	}
 
+  // -------------------------------------------------------
+
+  /**
+   * This method checks, whether a FSchemaType object is of a
+   * built-in XML schema type (i.e. xs:string or xs:short).
+   * However, this is only possible, if a valid namespace
+   * and name are set for the type object. Otherwise the
+   * function will return 'false'.
+   *
+   * @param type FSchemaType object
+   *
+   * @return True if object is of built-in type, false otherwise
+   */
+  public static boolean isBuiltinType(FSchemaType type) {
+    if (null == type || null == type.getNamespace() || null == type.getName()) {
+      return false;
+    }
+
+    QName typeName = new QName(type.getNamespace(), type.getName());
+    SchemaType st = XmlBeans.getContextTypeLoader().findType(typeName);
+
+    return (null == st ? false : st.isBuiltinType());
+  }
+
+  // -------------------------------------------------------
+
+  /**
+   * This method checks, whether an element is of a local,
+   * simple, built-in type (e.g. xs:string or xs:short).
+   * A return value of 'true' requires that the element's
+   * type is simple and either built-in or the name of the
+   * element and it's type's name match (because local
+   * built-in types are named after their parent elements).
+   *
+   * The function will for example return 'true' on this:
+   * <xs:element name="SimpleBuiltIn" type="xs:short" />
+   *
+   * @param element FElement object
+   *
+   * @return True if element's type is built-in, else false
+   */
+  public static boolean isBuiltinTypedElement(FElement element) {
+    return (null != element &&
+            element.getSchemaType().isSimple() &&
+            (SchemaHelper.isBuiltinType(element.getSchemaType()) ||
+            element.getName().equals(element.getSchemaType().getName())));
+  }
+
 	// -------------------------------------------------------
 	/**
 	 * 

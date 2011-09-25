@@ -1,4 +1,4 @@
-/** 02.09.2011 01:31:25 */
+/** 25.09.2011 19:01 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
@@ -24,7 +24,7 @@ public class AnnotationMapper
    * XMLFramework inner class
    *****************************************************************/
 
-  public static final class XMLFramework
+  private static final class XMLFramework
   {
     /** Name of the framework */
     public String name;
@@ -133,12 +133,14 @@ public class AnnotationMapper
     imports.put("attribute", "org.simpleframework.xml.Attribute");
     imports.put("element", "org.simpleframework.xml.Element");
     imports.put("elementArray", "org.simpleframework.xml.ElementArray");
+    imports.put("enum", "org.simpleframework.xml.Element");
 
     HashMap<String, String> annotations = new HashMap<String, String>();
     annotations.put("root", "Root(name = \"%s\")");
     annotations.put("attribute", "Attribute");
     annotations.put("element", "Element");
     annotations.put("elementArray", "ElementArray");
+    annotations.put("enum", "Element");
 
     return new AnnotationMapper.XMLFramework("Simple", imports, annotations);
   }
@@ -157,12 +159,14 @@ public class AnnotationMapper
     imports.put("attribute", "com.thoughtworks.xstream.annotations.XStreamAsAttribute");
     imports.put("element", "com.thoughtworks.xstream.annotations.XStreamAlias");
     imports.put("elementArray", "com.thoughtworks.xstream.annotations.XStreamImplicit");
+    imports.put("enum", "com.thoughtworks.xstream.annotations.XStreamAlias");
 
     HashMap<String, String> annotations = new HashMap<String, String>();
     annotations.put("root", "XStreamAlias(\"%s\")");
     annotations.put("attribute", "XStreamAsAttribute");
     annotations.put("element", "XStreamAlias(\"%s\")");
     annotations.put("elementArray", "XStreamImplicit(itemFieldName=\"%s\")");
+    annotations.put("enum", "XStreamAlias(\"%s\")");
 
     return new AnnotationMapper.XMLFramework("XStream", imports, annotations);
   }
@@ -181,12 +185,14 @@ public class AnnotationMapper
     imports.put("attribute", "javax.xml.bind.annotation.XmlAttribute");
     imports.put("element", "javax.xml.bind.annotation.XmlElement");
     imports.put("elementArray", "javax.xml.bind.annotation.XmlList");
+    imports.put("enum", "javax.xml.bind.annotation.XmlEnum");
 
     HashMap<String, String> annotations = new HashMap<String, String>();
     annotations.put("root", "XmlRootElement(name = \"%s\")");
     annotations.put("attribute", "XmlAttribute");
     annotations.put("element", "XmlElement");
     annotations.put("elementArray", "XmlList");
+    annotations.put("enum", "XmlEnum");
 
     return new AnnotationMapper.XMLFramework("JAXB", imports, annotations);
   }
@@ -214,7 +220,7 @@ public class AnnotationMapper
   /**
    * Look-up framework-specific Java annotation for the given, general
    * annotation key. Valid keys are for example "root", "attribute",
-   * "element" and "elementArray" (others may follow).
+   * "element", "elementArray" and "enum" (others may follow).
    *
    * @param key General key for annotation look-up
    *

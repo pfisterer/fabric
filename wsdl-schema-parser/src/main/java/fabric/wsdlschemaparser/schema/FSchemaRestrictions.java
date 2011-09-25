@@ -21,9 +21,6 @@
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-/**
- *
- */
 package fabric.wsdlschemaparser.schema;
 
 import java.math.BigDecimal;
@@ -44,7 +41,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Marco Wegner
  */
-public class FSchemaRestrictions extends FSchemaObject {
+public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     private final org.slf4j.Logger log = LoggerFactory.getLogger(FSchemaTypeFactory.class);
     
@@ -127,11 +124,14 @@ public class FSchemaRestrictions extends FSchemaObject {
     /**
      * @param facetCode
      * @return
-     * @throws UnsupportedRestrictionException
      */
-    public boolean hasRestriction(int facetCode)
-            throws UnsupportedRestrictionException {
-        checkValidFacet(facetCode);
+    public boolean hasRestriction(int facetCode) {
+        try {
+            checkValidFacet(facetCode);
+        } catch (UnsupportedRestrictionException ex) {
+            return false;
+        }
+
         return restrictions.containsKey(facetCode);
     }
 
@@ -466,11 +466,11 @@ public class FSchemaRestrictions extends FSchemaObject {
             } else if (facetCode == SchemaType.FACET_MAX_EXCLUSIVE) {
                 removeRestriction(SchemaType.FACET_MAX_INCLUSIVE);
             }
-        } else if (type instanceof FString) {
+        } else if (type instanceof FString || type instanceof FList) {
             if (facetCode == SchemaType.FACET_LENGTH) {
                 removeRestriction(SchemaType.FACET_MIN_LENGTH);
                 removeRestriction(SchemaType.FACET_MAX_LENGTH);
-            } else {
+            } else if (facetCode == SchemaType.FACET_MIN_LENGTH || facetCode == SchemaType.FACET_MAX_LENGTH) {
                 removeRestriction(SchemaType.FACET_LENGTH);
             }
         }
@@ -567,8 +567,7 @@ public class FSchemaRestrictions extends FSchemaObject {
             return false;
 
         for (Object o : restrictions.keySet( )) {
-            if (!equalsArrayRecursive(restrictions.get(o),
-                    otherRes.restrictions.get(o))) {
+            if (!equalsArrayRecursive(restrictions.get(o), otherRes.restrictions.get(o))) {
                 return false;
             }
         }
@@ -726,5 +725,17 @@ public class FSchemaRestrictions extends FSchemaObject {
         }
 
         return facets;
+    }
+
+    public FSchemaRestrictions clone(FSchemaType fst) {
+        FSchemaRestrictions ret = null;
+        try {
+            ret = (FSchemaRestrictions) super.clone();
+            ret.restrictions = (HashMap<Integer, Object>) restrictions.clone();
+            ret.type = fst;
+        } catch (CloneNotSupportedException e) {
+            log.error("Unable to clone FSchemaRestrictions object " + this.toString());
+        }
+        return ret;
     }
 }

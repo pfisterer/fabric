@@ -1,3 +1,4 @@
+/** 25.09.2011 19:21 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
@@ -5,17 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import de.uniluebeck.sourcegen.WorkspaceElement;
-import de.uniluebeck.sourcegen.java.JClass;
-import de.uniluebeck.sourcegen.java.JClassAnnotationImpl;
-import de.uniluebeck.sourcegen.java.JClassCommentImpl;
-import de.uniluebeck.sourcegen.java.JField;
-import de.uniluebeck.sourcegen.java.JFieldAnnotationImpl;
-import de.uniluebeck.sourcegen.java.JFieldCommentImpl;
-import de.uniluebeck.sourcegen.java.JMethod;
-import de.uniluebeck.sourcegen.java.JMethodCommentImpl;
-import de.uniluebeck.sourcegen.java.JMethodSignature;
-import de.uniluebeck.sourcegen.java.JModifier;
-import de.uniluebeck.sourcegen.java.JParameter;
+import de.uniluebeck.sourcegen.java.*;
 
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.AttributeContainer.MemberVariable;
@@ -161,7 +152,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
      * Create surrounding container class
      *****************************************************************/
     JClass jc = JClass.factory.create(modifiers, this.firstLetterCapital(container.getName()));
-    jc.setComment(new JClassCommentImpl("The '" + container.getName() + "' container class."));
+    jc.setComment(new JClassCommentImpl(String.format("The '%s' container class.", container.getName())));
 
     // Annotation pattern e.g. @Root(name = "value") or @XStreamAlias("value")
     String annotation = this.xmlMapper.getAnnotation("root", this.firstLetterCapital(container.getName()));
@@ -187,6 +178,19 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       if (null != jf)
       {
         jc.add(jf);
+      }
+
+      /*****************************************************************
+       * Create enum type (optional)
+       *****************************************************************/
+      if (member.getClass() == AttributeContainer.EnumElement.class)
+      {
+        AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)member;
+        
+        JEnum je = JEnum.factory.create(JModifier.PRIVATE, ee.type, ee.enumConstants);
+        je.setComment(new JEnumCommentImpl(String.format("The '%s' enumeration.", ee.type)));
+        je.addAnnotation(new JEnumAnnotationImpl(this.xmlMapper.getAnnotation("enum", ee.type)));
+        jc.add(je);
       }
 
       /*****************************************************************
@@ -230,30 +234,30 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
      *****************************************************************/
     if (member.getClass() == AttributeContainer.Element.class)
     {
-      AttributeContainer.Element a = (AttributeContainer.Element)member;
+      AttributeContainer.Element e = (AttributeContainer.Element)member;
 
       // No initial value set
-      if (("").equals(a.value))
+      if (("").equals(e.value))
       {
-        jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name);
+        jf = JField.factory.create(JModifier.PRIVATE, e.type, e.name);
       }
       // Initial value is set
       else
       {
         // Add quotation marks to initial value, if type is String
-        String value = a.value;
-        if (("String").equals(a.type))
+        String value = e.value;
+        if (("String").equals(e.type))
         {
           value = "\"" + value + "\"";
         }
 
-        jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name, value);
+        jf = JField.factory.create(JModifier.PRIVATE, e.type, e.name, value);
       }
 
-      jf.setComment(new JFieldCommentImpl("The '" + a.name + "' element."));
+      jf.setComment(new JFieldCommentImpl(String.format("The '%s' element.", e.name)));
 
       // Annotation pattern e.g. @Element or @XStreamAlias("value")
-      String annotation = this.xmlMapper.getAnnotation("element", a.name);
+      String annotation = this.xmlMapper.getAnnotation("element", e.name);
       jf.addAnnotation(new JFieldAnnotationImpl(annotation));
     }
 
@@ -262,20 +266,20 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
      *****************************************************************/
     else if (member.getClass() == AttributeContainer.ConstantElement.class)
     {
-      AttributeContainer.ConstantElement a = (AttributeContainer.ConstantElement)member;
+      AttributeContainer.ConstantElement ce = (AttributeContainer.ConstantElement)member;
 
       // Add quotation marks to value, if type is String
-      String value = a.value;
-      if (("String").equals(a.type))
+      String value = ce.value;
+      if (("String").equals(ce.type))
       {
         value = "\"" + value + "\"";
       }
 
-      jf = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC | JModifier.FINAL, a.type, a.name, value);
-      jf.setComment(new JFieldCommentImpl("The '" + a.name + "' constant."));
+      jf = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC | JModifier.FINAL, ce.type, ce.name, value);
+      jf.setComment(new JFieldCommentImpl(String.format("The '%s' constant.", ce.name)));
 
       // Annotation pattern e.g. @Element or @XStreamAlias("value")
-      String annotation = this.xmlMapper.getAnnotation("element", a.name);
+      String annotation = this.xmlMapper.getAnnotation("element", ce.name);
       jf.addAnnotation(new JFieldAnnotationImpl(annotation));
     }
 
@@ -304,10 +308,25 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
         jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name, value);
       }
 
-      jf.setComment(new JFieldCommentImpl("The '" + a.name + "' attribute."));
+      jf.setComment(new JFieldCommentImpl(String.format("The '%s' attribute.", a.name)));
 
       // Annotation pattern e.g. @Attribute or @XStreamAsAttribute
       String annotation = this.xmlMapper.getAnnotation("attribute", a.name);
+      jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+    }
+
+    /*****************************************************************
+     * Handle XML element of type enum
+     *****************************************************************/
+    else if (member.getClass() == AttributeContainer.EnumElement.class)
+    {
+      AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)member;
+      
+      jf = JField.factory.create(JModifier.PRIVATE, ee.type, ee.name);
+      jf.setComment(new JFieldCommentImpl(String.format("The '%s' enum element.", ee.name)));
+      
+      // Annotation pattern e.g. @XmlEnum
+      String annotation = this.xmlMapper.getAnnotation("enum", ee.name);
       jf.addAnnotation(new JFieldAnnotationImpl(annotation));
     }
 
@@ -316,23 +335,23 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
      *****************************************************************/
     else if (member.getClass() == AttributeContainer.ElementArray.class)
     {
-      AttributeContainer.ElementArray a = (AttributeContainer.ElementArray)member;
+      AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
 
-      // No array size is given
-      if (a.size == Integer.MAX_VALUE)
+      // No array maxSize is given
+      if (ea.maxSize == Integer.MAX_VALUE)
       {
-        jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name + "[]");
+        jf = JField.factory.create(JModifier.PRIVATE, ea.type, ea.name + "[]");
       }
-      // Array size is given
+      // Array maxSize is given
       else
       {
-        jf = JField.factory.create(JModifier.PRIVATE, a.type, a.name + "[]", "new " + a.type + "[" + a.size + "]");
+        jf = JField.factory.create(JModifier.PRIVATE, ea.type, ea.name + "[]", "new " + ea.type + "[" + ea.maxSize + "]");
       }
 
-      jf.setComment(new JFieldCommentImpl("The '" + a.name + "' element array."));
+      jf.setComment(new JFieldCommentImpl(String.format("The '%s' element array.", ea.name)));
 
       // Annotation pattern e.g. @ElementArray or @XStreamImplicit(itemFieldName="value")
-      String annotation = this.xmlMapper.getAnnotation("elementArray", a.name);
+      String annotation = this.xmlMapper.getAnnotation("elementArray", ea.name);
       jf.addAnnotation(new JFieldAnnotationImpl(annotation));
     }
 
@@ -368,30 +387,41 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
 
     String methodBody = "";
     String name = member.name;
+    int modifiers = JModifier.FINAL;
     
     // Member variable is an element or attribute
     if (member.getClass() == AttributeContainer.Element.class || member.getClass() == AttributeContainer.Attribute.class)
     {
+      AttributeContainer.Element e = (AttributeContainer.Element)member;
+
       // Create code to check restrictions
-      methodBody += this.generateRestrictionChecks(member);
+      methodBody += this.generateRestrictionChecks(e);
+
+      // Remove 'final' modifier, if member variable has 'whiteSpace' restriction
+      if (e.isWhiteSpaceRestricted())
+      {
+        modifiers &= ~JModifier.FINAL;
+      }
     }
     // Member variable is an array    
     else if (member.getClass() == AttributeContainer.ElementArray.class)
     {
+      AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
       name = name + "[]";
 
       // Create code to check array length
-      methodBody += this.createCheckString(
-              String.format("%s.length < 0 || %s.length > %d", member.name, member.name, ((AttributeContainer.ElementArray)member).size),
-              String.format("Illegal size for array '%s'.", member.name));
+      methodBody += JavaRestrictionHelper.createCheckCode(
+              String.format("%s.length < %d || %s.length > %d", member.name, ea.minSize, member.name,ea.maxSize),
+              String.format("Illegal size for array '%s'.", member.name),
+              "Check the occurrence indicators");
     }
 
-    JMethodSignature jms = JMethodSignature.factory.create(JParameter.factory.create(JModifier.FINAL, member.type, name));
+    JMethodSignature jms = JMethodSignature.factory.create(JParameter.factory.create(modifiers, member.type, name));
     JMethod setter = JMethod.factory.create(JModifier.PUBLIC, "void", "set" + this.firstLetterCapital(member.name), jms);
 
-    methodBody += "this." + member.name + " = " + member.name + ";";
+    methodBody += String.format("this.%s = %s;", member.name, member.name);
     setter.getBody().appendSource(methodBody);
-    setter.setComment(new JMethodCommentImpl("Set the '" + member.name + "' member variable."));
+    setter.setComment(new JMethodCommentImpl(String.format("Set the '%s' member variable.", member.name)));
 
     return setter;
   }
@@ -401,92 +431,105 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
    * The function determines, if any restrictions are set on the
    * given member variable, and generates check-code accordingly.
    *
-   * @param member MemberVariable object with restrictions
+   * @param member Element object with restrictions
    *
    * @return String with code that includes restriction checks
+   *
+   * @throws Exception Error during check code generation
    */
-  private String generateRestrictionChecks(AttributeContainer.MemberVariable member)
+  private String generateRestrictionChecks(AttributeContainer.Element member) throws Exception
   {
     String result = "";
-    
+
     // Create code to check restrictions
-    AttributeContainer.Element e = (AttributeContainer.Element)member;
-    AttributeContainer.Restriction r = e.restrictions;
+    AttributeContainer.Restriction r = member.restrictions;
     String message = "Restriction '%s' violated for member variable '%s'.";
+    String comment = "Check the '%s' restriction";
 
-    if (e.isLengthRestricted())
+    if (member.isLengthRestricted())
     {
-      result += this.createCheckString(
-              String.format("%s.length() != %d", member.name, Integer.parseInt(r.length)),
-              String.format(message, "length", member.name));
+      result += JavaRestrictionHelper.createCheckCode(
+              String.format("%s.length() != %d", member.name, Long.parseLong(r.length)),
+              String.format(message, "length", member.name),
+              String.format(comment, "length"));
     }
 
-    if (e.isMinLengthRestricted())
+    if (member.isMinLengthRestricted())
     {
-      result += this.createCheckString(
-              String.format("%s.length() < %d", member.name, Integer.parseInt(r.minLength)),
-              String.format(message, "minLength", member.name));
+      result += JavaRestrictionHelper.createCheckCode(
+              String.format("%s.length() < %d", member.name, Long.parseLong(r.minLength)),
+              String.format(message, "minLength", member.name),
+              String.format(comment, "minLength"));
     }
 
-    if (e.isMaxLengthRestricted())
+    if (member.isMaxLengthRestricted())
     {
-      result += this.createCheckString(
-              String.format("%s.length() > %d", member.name, Integer.parseInt(r.maxLength)),
-              String.format(message, "maxLength", member.name));
+      result += JavaRestrictionHelper.createCheckCode(
+              String.format("%s.length() > %d", member.name, Long.parseLong(r.maxLength)),
+              String.format(message, "maxLength", member.name),
+              String.format(comment, "maxLength"));
     }
 
-    if (e.isMinInclusiveRestricted())
+    if (member.isMinInclusiveRestricted())
     {
-      result += this.createCheckString(
-              String.format("%s < %d", member.name, Integer.parseInt(r.minInclusive)),
-              String.format(message, "minInclusive", member.name));
+      result += JavaRestrictionHelper.createCheckCode(
+              String.format("%s < %d", member.name, Long.parseLong(r.minInclusive)),
+              String.format(message, "minInclusive", member.name),
+              String.format(comment, "minInclusive"));
     }
 
-    if (e.isMaxInclusiveRestricted())
+    if (member.isMaxInclusiveRestricted())
     {
-      result += this.createCheckString(
-              String.format("%s > %d", member.name, Integer.parseInt(r.maxInclusive)),
-              String.format(message, "maxInclusive", member.name));
+      result += JavaRestrictionHelper.createCheckCode(
+              String.format("%s > %d", member.name, Long.parseLong(r.maxInclusive)),
+              String.format(message, "maxInclusive", member.name),
+              String.format(comment, "maxInclusive"));
     }
 
-    if (e.isMinExclusiveRestricted())
+    if (member.isMinExclusiveRestricted())
     {
-      result += this.createCheckString(
-              String.format("%s <= %d", member.name, Integer.parseInt(r.minExclusive)),
-              String.format(message, "minExclusive", member.name));
+      result += JavaRestrictionHelper.createCheckCode(
+              String.format("%s <= %d", member.name, Long.parseLong(r.minExclusive)),
+              String.format(message, "minExclusive", member.name),
+              String.format(comment, "minExclusive"));
     }
 
-    if (e.isMaxExclusiveRestricted())
+    if (member.isMaxExclusiveRestricted())
     {
-      result += this.createCheckString(
-              String.format("%s >= %d", member.name, Integer.parseInt(r.maxExclusive)),
-              String.format(message, "maxExclusive", member.name));
+      result += JavaRestrictionHelper.createCheckCode(
+              String.format("%s >= %d", member.name, Long.parseLong(r.maxExclusive)),
+              String.format(message, "maxExclusive", member.name),
+              String.format(comment, "maxExclusive"));
     }
 
-    return result;
-  }
+    if (member.isPatternRestricted())
+    {
+      result += JavaRestrictionHelper.createPatternCheckCode(
+              member.name,
+              r.pattern,
+              String.format(message, "pattern", member.name));
+    }
 
-  /**
-   * Private helper method to create a string that checks a boolean
-   * expression and throws an IllegalArgumentException with predefined
-   * message on failure.
-   *
-   * This function is used to add parameter and restriction checks
-   * to setter methods.
-   *
-   * @param expression Boolean expression for if-statement
-   * @param message Error message to show in exception
-   *
-   * @return String with parameter check code
-   */
-  private String createCheckString(final String expression, final String message)
-  {
-    String result;
+    if (member.isWhiteSpaceRestricted())
+    {
+      result += JavaRestrictionHelper.createWhiteSpaceCheckCode(
+              member.name,
+              r.whiteSpace);
+    }
 
-    result = String.format("if (%s)", expression);
-    result += "\n{";
-    result += String.format("\n\tthrow new IllegalArgumentException(\"%s\");", message);
-    result += "\n}\n\n";
+    if (member.isTotalDigitsRestricted())
+    {
+      result += JavaRestrictionHelper.createTotalDigitsCheckCode(
+              member.name,
+              r.totalDigits);
+    }
+
+    if (member.isFractionDigitsRestricted())
+    {
+      result += JavaRestrictionHelper.createFractionDigitsCheckCode(
+              member.name,
+              r.fractionDigits);
+    }
 
     return result;
   }
@@ -512,8 +555,8 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
 
     JMethod getter = JMethod.factory.create(JModifier.PUBLIC, type, "get" + this.firstLetterCapital(member.name));
 
-    getter.getBody().appendSource("return this." + member.name + ";");
-    getter.setComment(new JMethodCommentImpl("Get the '" + member.name + "' member variable."));
+    getter.getBody().appendSource(String.format("return this.%s;", member.name));
+    getter.setComment(new JMethodCommentImpl(String.format("Get the '%s' member variable.", member.name)));
 
     return getter;
   }

@@ -35,22 +35,11 @@ import javax.xml.namespace.QName;
 
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.impl.xb.xsdschema.*;
 import org.apache.xmlbeans.impl.xb.xsdschema.AnyDocument.Any;
-import org.apache.xmlbeans.impl.xb.xsdschema.Attribute;
-import org.apache.xmlbeans.impl.xb.xsdschema.ComplexType;
-import org.apache.xmlbeans.impl.xb.xsdschema.Element;
-import org.apache.xmlbeans.impl.xb.xsdschema.ExplicitGroup;
-import org.apache.xmlbeans.impl.xb.xsdschema.LocalSimpleType;
 import org.apache.xmlbeans.impl.xb.xsdschema.RestrictionDocument.Restriction;
-import org.apache.xmlbeans.impl.xb.xsdschema.RestrictionType;
 import org.apache.xmlbeans.impl.xb.xsdschema.SchemaDocument.Schema;
 import org.apache.xmlbeans.impl.xb.xsdschema.SimpleContentDocument.SimpleContent;
-import org.apache.xmlbeans.impl.xb.xsdschema.SimpleExtensionType;
-import org.apache.xmlbeans.impl.xb.xsdschema.SimpleRestrictionType;
-import org.apache.xmlbeans.impl.xb.xsdschema.SimpleType;
-import org.apache.xmlbeans.impl.xb.xsdschema.TopLevelComplexType;
-import org.apache.xmlbeans.impl.xb.xsdschema.TopLevelElement;
-import org.apache.xmlbeans.impl.xb.xsdschema.TopLevelSimpleType;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -68,6 +57,8 @@ public class FSchemaTypeFactory {
     private SchemaHelper schemaHelper;
 
     private List<FSchemaType> topLevelTypes;
+
+    private Collection<FElement> list = new ArrayList<FElement>();;
 
     /**
      * The backtrace of complex types. It is used for detecting cyclic dependencies in the Schema files. Stored in this
@@ -113,6 +104,7 @@ public class FSchemaTypeFactory {
 
         FElement element = generateElement(elem);
         FSchemaType schemaType = element.getSchemaType();
+
         if (!schemaType.isTopLevel()) {
             schemaType.setName(name);
         }
@@ -141,10 +133,11 @@ public class FSchemaTypeFactory {
             }
         }
 
+        FSimpleType fst = null;
+
         /*
         Check for restrictions
          */
-        FSimpleType fst = null;
         if (stype.isSetRestriction()) {
             fst = generateSimpleRestrictionType(stype.getRestriction());
         }
@@ -159,7 +152,6 @@ public class FSchemaTypeFactory {
         if (fst != null) {
             fst.setName(name);
             fst.setTopLevel(true);
-            //fst.setIsList(stype.isSetList());
 
             addTopLevelType(fst);
 
@@ -211,7 +203,7 @@ public class FSchemaTypeFactory {
     }
 
     public Collection<FElement> generateAll(TopLevelElement[] elements) {
-        Collection<FElement> list = new ArrayList<FElement>();
+        //Collection<FSimpleType> list = new ArrayList<FElement>();
         for (TopLevelElement elem : elements) {
             elem.setName(ReservedNames.instance().getNewName(elem.getName()));
             FElement tle = generate(elem);
@@ -346,7 +338,7 @@ public class FSchemaTypeFactory {
             if (schemaHelper.isXMLSchemaName(type)) {
                 SchemaType st = SchemaHelper.getSchemaType(type);
                 if (st.getSimpleVariety() == SchemaType.ATOMIC) {
-                    ftype = generateSimpleTypeFromBTC(st.getBuiltinTypeCode());
+                    ftype = generateSimpleTypeFromBTC(st.getBuiltinTypeCode(), type.getNamespaceURI(), type.getLocalPart());
                 } else {
                     throw new UnhandledSimpleVarietyException("SimpleVariety not handled: " + st.getSimpleVariety());
                 }
@@ -511,7 +503,7 @@ public class FSchemaTypeFactory {
      */
     private FSimpleType generateSimpleRestrictionType(Restriction restriction) {
         QName base = restriction.getBase();
-        System.out.println(base);
+        log.debug("Generating SimpleType with base: " + base);
         FSimpleType fst = (FSimpleType) createTopLevelType(base);
         fst.getRestrictions().parse(restriction);
         return fst;
@@ -525,7 +517,7 @@ public class FSchemaTypeFactory {
     private FSimpleType generateSimpleRestrictionType(RestrictionType restriction)
             throws UnsupportedRestrictionException {
         QName base = restriction.getBase();
-        System.out.println(base);
+        log.debug("Generating SimpleType with base: " + base);
         FSimpleType fst = (FSimpleType) createTopLevelType(base);
         fst.getRestrictions().parse(restriction);
         return fst;
@@ -680,10 +672,11 @@ public class FSchemaTypeFactory {
     private void handleComplexTypeAttributes(FComplexType fct, Attribute[] attributes) {
         for (Attribute attr : attributes) {
             SchemaType st = SchemaHelper.getSchemaType(attr.getType());
+            QName type = attr.getType();
 
             FSchemaType ft;
             if (st.getSimpleVariety() == SchemaType.ATOMIC) {
-                ft = generateSimpleTypeFromBTC(st.getBuiltinTypeCode());
+                ft = generateSimpleTypeFromBTC(st.getBuiltinTypeCode(), type.getNamespaceURI(), type.getLocalPart());
             } else {
                 throw new UnhandledSimpleVarietyException("SimpleVariety not handled: " + st.getSimpleVariety());
             }
@@ -724,7 +717,9 @@ public class FSchemaTypeFactory {
         FComplexType fct = new FSequence();
         SimpleExtensionType extension = simpleContent.getExtension();
         SchemaType st_base = SchemaHelper.getSchemaType(extension.getBase());
-        FSimpleType fst = generateSimpleTypeFromBTC(st_base.getBuiltinTypeCode());
+        QName type = extension.getBase();
+
+        FSimpleType fst = generateSimpleTypeFromBTC(st_base.getBuiltinTypeCode(), type.getNamespaceURI(), type.getLocalPart());
         fct.addChildObject(initObject(new FElement("value", fst)));
 
         if (extension.sizeOfAttributeArray() > 0) {
@@ -779,8 +774,8 @@ public class FSchemaTypeFactory {
         FSchemaType ftype = null;
         if (topLevelTypes != null) {
             for (FSchemaType f : topLevelTypes) {
-                if (f.getName().equals(typeName)) {
-                    ftype = f;
+                if (f.getName().equals(typeName)) {                  
+                    ftype = f.clone();
                     break;
                 }
             }
@@ -812,7 +807,12 @@ public class FSchemaTypeFactory {
         return count;
     }
 
-    public FSimpleType generateSimpleTypeFromBTC(int builtinTypeCode) {
+    /**
+     * seidel: Added arguments 'namespace' and 'name' to this method
+     * and all calls, because otherwise FSimpleType objects created
+     * by this method would not have any valid value for these fiels.
+     */
+    public FSimpleType generateSimpleTypeFromBTC(int builtinTypeCode, String namespace, String name) {
         FSimpleType fst = null;
 
         switch (builtinTypeCode) {
@@ -971,6 +971,10 @@ public class FSchemaTypeFactory {
         }
 
         initObject(fst);
+
+        // seidel: Added these two lines
+        fst.setNamespace(namespace);
+        fst.setName(name);
 
         return fst;
     }

@@ -8,5 +8,5 @@
    			<xs:enumeration value="Golf"/>
    			<xs:enumeration value="BMW"/>
     	</xs:restriction>
-  	</xs:simpleType>
+  </xs:simpleType>
 </xs:schema>

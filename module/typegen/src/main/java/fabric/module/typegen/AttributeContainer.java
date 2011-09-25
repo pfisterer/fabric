@@ -1,12 +1,17 @@
-/** 12.09.2011 21:42 */
+/** 25.09.2011 01:50 */
 package fabric.module.typegen;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import de.uniluebeck.sourcegen.WorkspaceElement;
 import fabric.module.typegen.base.ClassGenerationStrategy;
+import fabric.module.typegen.exceptions.FabricTypeGenException;
 
 /**
  * The AttributeContainer class provides a high-level, language
@@ -28,7 +33,7 @@ import fabric.module.typegen.base.ClassGenerationStrategy;
  *                             .addElement("String", "color", "red")
  *                             .addConstantElement("int", "maxSpeed", "220")
  *                             .addElementArray("String", "trunkItems")
- *                             .addElementArray("String", "passengers", 2)
+ *                             .addElementArray("String", "passengers", 1, 2)
  *                             .build();
  *
  * @author seidel
@@ -112,9 +117,16 @@ public class AttributeContainer
       Iterator iterator = this.members.entrySet().iterator();
       while (iterator.hasNext())
       {
-        Map.Entry<String, MemberVariable> member = (Map.Entry)iterator.next();
+        try
+        {
+          Map.Entry<String, MemberVariable> member = (Map.Entry)iterator.next();
 
-        result.members.put(member.getKey(), this.copyOf(member.getValue()));
+          result.members.put(member.getKey(), this.copyOf(member.getValue()));
+        }
+        catch (Exception e)
+        {
+          LOGGER.error(e.getMessage());
+        }
       }
 
       return result;
@@ -149,9 +161,16 @@ public class AttributeContainer
           Iterator iterator = otherContainer.getMembers().entrySet().iterator();
           while (iterator.hasNext())
           {
-            Map.Entry<String, MemberVariable> member = (Map.Entry)iterator.next();
+            try
+            {
+              Map.Entry<String, MemberVariable> member = (Map.Entry)iterator.next();
 
-            this.members.put(member.getKey(), this.copyOf(member.getValue()));
+              this.members.put(member.getKey(), this.copyOf(member.getValue()));
+            }
+            catch (Exception e)
+            {
+              LOGGER.error(e.getMessage());
+            }
           }
         }
       }
@@ -165,8 +184,10 @@ public class AttributeContainer
      * @param master Master copy with data
      *
      * @return New MemberVariable object with copy of the data
+     *
+     * @throws Error while creating copy of member variable
      */
-    private MemberVariable copyOf(MemberVariable master)
+    private MemberVariable copyOf(MemberVariable master) throws Exception
     {
       MemberVariable copy = null;
 
@@ -185,10 +206,19 @@ public class AttributeContainer
         AttributeContainer.Attribute a = (AttributeContainer.Attribute)master;
         copy = new AttributeContainer.Attribute(a.type, a.name, a.value, a.restrictions.clone());
       }
+      else if (master.getClass() == AttributeContainer.EnumElement.class)
+      {
+        AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)master;
+        copy = new AttributeContainer.EnumElement(ee.type, ee.name, ee.enumConstants);
+      }
       else if (master.getClass() == AttributeContainer.ElementArray.class)
       {
         AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)master;
-        copy = new AttributeContainer.ElementArray(ea.type, ea.name, ea.size);
+        copy = new AttributeContainer.ElementArray(ea.type, ea.name, ea.minSize, ea.maxSize);
+      }
+      else
+      {
+        throw new FabricTypeGenException("Cannot copy member variable, because it has unknown type.");
       }
 
       return copy;
@@ -398,28 +428,69 @@ public class AttributeContainer
     }
 
     /**
-     * Add XML element array to container. Size of the array can be
-     * predefined. Existing entries will be overridden by new array
-     * definition.
+     * Add XML element and enum type to container. Existing entries will
+     * be overridden by new element definitions.
+     * 
+     * @param type Name of XML enum type (e.g. MyEnumType)
+     * @param name Name of XML enum element
+     * @param enumConstants Array if enum constants
+     * 
+     * @return Builder object
+     *
+     * @throws IllegalArgumentException Enum array is empty
+     */
+    public Builder addEnumElement(final String type, final String name, final String[] enumConstants) throws IllegalArgumentException
+    {
+      if (null != enumConstants && enumConstants.length < 1)
+      {
+        throw new IllegalArgumentException("Enum must at least contain one element.");
+      }
+      
+      this.members.put(name, new AttributeContainer.EnumElement(type, name, enumConstants));
+      
+      return this;
+    }
+
+    /**
+     * Add XML element array to container. Minimum and maximum size of
+     * the array can be predefined. Existing entries will be overridden
+     * by new array definition.
      *
      * @param type Type of member variable
      * @param name Name of member variable
-     * @param size Size of array
+     * @param minSize Minimal size of array
+     * @param maxSize Maximum size of array
      *
      * @return Builder object
      *
      * @throws IllegalArgumentException Invalid array size provided
      */
-    public Builder addElementArray(final String type, final String name, final int size) throws IllegalArgumentException
+    public Builder addElementArray(final String type, final String name, final int minSize, final int maxSize) throws IllegalArgumentException
     {
-      if (size < 0)
+      if (maxSize < 0)
       {
         throw new IllegalArgumentException("Array size must be positive.");
       }
 
-      this.members.put(name, new AttributeContainer.ElementArray(type, name, size));
+      this.members.put(name, new AttributeContainer.ElementArray(type, name, minSize, maxSize));
 
       return this;
+    }
+
+    /**
+     * Add XML element array to container. Maximum size of the array
+     * can be predefined. Existing entries will be overridden by new
+     * array definition.
+     *
+     * @param type Type of member variable
+     * @param name Name of member variable
+     * @param maxSize Maximum size of array
+     *
+     * @return Builder object
+     */
+    public Builder addElementArray(final String type, final String name, final int maxSize)
+    {
+      return this.addElementArray(type, name, 0, maxSize);
     }
 
     /**
@@ -595,6 +666,40 @@ public class AttributeContainer
     {
       return (null != this.restrictions.maxExclusive);
     }
+    
+    /**
+     * Check 'pattern' restriction for element.
+     * 
+     * @return True or false
+     */
+    public boolean isPatternRestricted()
+    {
+      return (null != this.restrictions.pattern);
+    }
+
+    /**
+     * Check 'whiteSpace' restriction for element.
+     */
+    public boolean isWhiteSpaceRestricted()
+    {
+      return (null != this.restrictions.whiteSpace);
+    }
+
+    /**
+     * Check 'totalDigits' restriction for element.
+     */
+    public boolean isTotalDigitsRestricted()
+    {
+      return (null != this.restrictions.totalDigits && Integer.parseInt(this.restrictions.totalDigits) >= 1); // Value must be positive integer
+    }
+
+    /**
+     * Check 'fractionDigits' restriction for element.
+     */
+    public boolean isFractionDigitsRestricted()
+    {
+      return (null != this.restrictions.fractionDigits && Integer.parseInt(this.restrictions.fractionDigits) >= 0);
+    }
   }
 
   public static class ConstantElement extends Element
@@ -662,24 +767,49 @@ public class AttributeContainer
       super(type, name, "");
     }
   }
+  
+  public static class EnumElement extends MemberVariable
+  { 
+    /** Constants of the enumeration */
+    public String[] enumConstants;
+    
+    /**
+     * Parameterized constructor.
+     * 
+     * @param type Name of XML enum type (e.g. MyEnumType)
+     * @param name Name of XML enum element
+     * @param enumConstants Array if enum constants
+     */
+    public EnumElement(final String type, final String name, final String[] enumConstants)
+    {
+      this.type = type;
+      this.name = name;
+      this.enumConstants = Arrays.copyOf(enumConstants, enumConstants.length, String[].class);
+    }
+  }
 
   public static class ElementArray extends MemberVariable
   {
-    /** Size of XML element array */
-    public int size;
+    /** Minimum size of XML element array */
+    public int minSize;
+
+    /** Maximum size of XML element array */
+    public int maxSize;
 
     /**
      * Parameterized constructor.
      *
      * @param type Type of XML element array
      * @param name Name of XML element array
-     * @param size of XML element array
+     * @param minSize Minimum size of XML element array
+     * @param maxSize Maximum size of XML element array
      */
-    public ElementArray(final String type, final String name, final int size)
+    public ElementArray(final String type, final String name, final int minSize, final int maxSize)
     {
       this.type = type;
       this.name = name;
-      this.size = size;
+      this.minSize = minSize;
+      this.maxSize = maxSize;
     }
 
     /**
@@ -690,7 +820,7 @@ public class AttributeContainer
      */
     public ElementArray(final String type, final String name)
     {
-      this(type, name, Integer.MAX_VALUE);
+      this(type, name, 0, Integer.MAX_VALUE);
     }
   }
   
@@ -721,25 +851,25 @@ public class AttributeContainer
     /** Upper bound on element value (excluding boundary) or null */
     public String maxExclusive;
 
-      /** Pattern of content or null */
-      public String pattern;
+    /** Pattern of content or null */
+    public String pattern;
 
-      /** Handling of whitespaces in content or null */
-      public String whiteSpace;
+    /** Handling of whitespaces in content or null */
+    public String whiteSpace;
 
-      /** Number of digits of numeric content */
-      public String totalDigits;
+    /** Number of digits for numeric content */
+    public String totalDigits;
 
-      /** Number of decimal places of numeric content  */
-      public String fractionDigits;
+    /** Number of fractional digits for numeric content  */
+    public String fractionDigits;
 
     /**
      * Parameterless constructor. Member variable value of 'null'
      * means that the restriction is not set at all. Value of 'length',
      * 'minLength', 'maxLength', 'totalDigits' and 'fractionDigits' must
-     * not be negative. Value of 'pattern' and 'whiteSpace' are strings.
-     * The remaining boundaries can either be negative, zero or positive
-     * integer values.
+     * not be negative. The remaining boundaries can either be negative,
+     * zero or positive integer values. The values of 'pattern' and
+     * 'whiteSpace' are strings.
      */
     public Restriction()
     {
@@ -752,11 +882,11 @@ public class AttributeContainer
       this.minExclusive = null;
       this.maxExclusive = null;
 
-        this.pattern = null;
-        this.whiteSpace = null;
+      this.pattern = null;
+      this.whiteSpace = null;
 
-        this.totalDigits = null;
-        this.fractionDigits = null;
+      this.totalDigits = null;
+      this.fractionDigits = null;
     }
 
     /**
@@ -798,6 +928,28 @@ public class AttributeContainer
     }
 
     /**
+     * Parameterized constructor. Value of 'pattern' must be a valid
+     * XML schema regular expression. Value of 'whiteSpace' must be
+     * one of 'preserve', 'replace' or 'collapse'. Value of parameter
+     * 'totalDigits' must be positive integer. Value of 'fractionDigits'
+     * must be either zero or positive integers. A value of 'null'
+     * means that the restriction is not set.
+     *
+     * @param pattern Pattern with XML schema regular expression
+     * @param whiteSpace Handling of white space characters
+     * @param totalDigits Maximum number of total digits
+     * @param fractionDigits Maximum number of fraction digits
+     */
+    public Restriction(final String pattern, final String whiteSpace, final String totalDigits, final String fractionDigits)
+    {
+      this.pattern = pattern;
+      this.whiteSpace = whiteSpace;
+      
+      this.totalDigits = totalDigits;
+      this.fractionDigits = fractionDigits;
+    }
+
+    /**
      * Clone Restriction object and return a deep copy.
      *
      * @return Cloned Restriction object
@@ -816,11 +968,11 @@ public class AttributeContainer
       clone.minExclusive = this.minExclusive;
       clone.maxExclusive = this.maxExclusive;
 
-        clone.pattern = this.pattern;
-        clone.whiteSpace = this.whiteSpace;
+      clone.pattern = this.pattern;
+      clone.whiteSpace = this.whiteSpace;
 
-        clone.totalDigits = this.totalDigits;
-        clone.fractionDigits = this.fractionDigits;
+      clone.totalDigits = this.totalDigits;
+      clone.fractionDigits = this.fractionDigits;
 
       return clone;
     }
@@ -829,6 +981,9 @@ public class AttributeContainer
   /*****************************************************************
    * AttributeContainer outer class
    *****************************************************************/
+
+  /** Logger object */
+  private static final Logger LOGGER = LoggerFactory.getLogger(AttributeContainer.class);
 
   /** Constant for default container name */
   private static final String DEFAULT_CONTAINER_NAME = "DefaultAttributeContainer";

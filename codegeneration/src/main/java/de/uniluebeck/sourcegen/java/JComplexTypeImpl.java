@@ -67,6 +67,15 @@ abstract class JComplexTypeImpl extends JElemImpl implements JComplexType {
 		return sourceFile;
 	}
 	
-	
+	public boolean equals(Object o) {
+        boolean ret = false;
+
+        if(o instanceof JComplexTypeImpl) {
+            JComplexTypeImpl ct = (JComplexTypeImpl) o;
+            ret = getFullyQualifiedName().equals(ct.getFullyQualifiedName());
+        }
+
+        return ret;
+    }
 
 }
