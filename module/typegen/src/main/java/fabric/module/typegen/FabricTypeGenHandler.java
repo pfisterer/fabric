@@ -1,4 +1,4 @@
-/** 22.09.2011 19:21 */
+/** 25.09.2011 02:19 */
 package fabric.module.typegen;
 
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
 /**
  * Fabric handler class for the type generator module. This class
  * defines a couple of callback methods which get called by the
- * treewalker while processing the XSD file. The FabricTypeGenHandler
+ * treewalker while processing an XSD file. The FabricTypeGenHandler
  * acts upon those function calls and generates corresponding type
  * classes in the workspace for a specific programming language.
  *
@@ -46,7 +46,8 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   }
 
   /**
-   * Handle start of an XML schema document.
+   * Handle start of an XML schema document. Here we create the root
+   * container, which corresponds to the entire XSD document.
    *
    * @param schema FSchema object
    *
@@ -61,7 +62,8 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   }
 
   /**
-   * Handle end of an XML schema document.
+   * Handle end of an XML schema document. Here we build the root
+   * container and write all source files to the workspace.
    *
    * @param schema FSchema object
    *
@@ -92,7 +94,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
     if (null != element)
     {
-      typeGenerator.addMemberVariable(element);
+      typeGenerator.addMemberVariable(element, true);
     }
   }
 
@@ -126,7 +128,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
     if (null != element)
     {
-      typeGenerator.addMemberVariable(element);
+      typeGenerator.addMemberVariable(element, parent.isTopLevel());
     }
   }
 
@@ -146,8 +148,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
   /**
    * Handle start of a schema element reference. Element references
-   * are part of XSD complex types, which are currently not supported
-   * by the Fabric type generator module. Multiple local elements may
+   * are only part of XSD complex types. Multiple local elements may
    * reference a global element for reuse. If several local elements
    * refer to the same global element, the referencing elements are
    * independent instances of the referenced element. They do not
@@ -162,7 +163,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called startElementReference().");
 
-    // TODO: Handle complex types
+    // TODO: Handle element references
   }
 
   /**
@@ -218,7 +219,9 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
     try
     {
-      // TODO: Check this out
+      // Top-level enums are created without AttributeContainer class,
+      // so we have to skip building here (otherwise we would build
+      // a container that is not yet complete)
       if (!FSchemaTypeHelper.isEnum(type))
       {
         typeGenerator.buildCurrentContainer();
@@ -235,7 +238,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
       {
         LOGGER.error("Failed building current container.");
       }
-      
+
       throw e;
     }
   }
@@ -273,9 +276,10 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   }
 
   /**
-   * Handle start of a top-level complex type. Complex types are currently
-   * not supported by the Fabric type generator module.
-   * 
+   * Handle start of a top-level complex type. Each top-level complex
+   * type corresponds to its own container class. The container on
+   * its part may enforce various restrictions on the type's value.
+   *
    * @param type FComplexType object
    * @param parent Parent FElement object
    * 
@@ -293,12 +297,14 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   }
 
   /**
-   * Handle end of a top-level complex type.
+   * Handle end of a top-level complex type. As soon as the construction
+   * of a complex type is finished, we can close the current container
+   * by building it.
    *
    * @param type FComplexType object
    * @param parent Parent FElement object
    * 
-   * @throws Exception Error during processing* 
+   * @throws Exception Error during processing
    */
   @Override
   public void endTopLevelComplexType(FComplexType type, FElement parent) throws Exception
@@ -326,9 +332,13 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   }
 
   /**
-   * Handle start of a local complex type. Complex types are currently
-   * not supported by the Fabric type generator module.
-   * 
+   * Handle start of a local complex type. Each local complex type
+   * corresponds to its own container class. But since local types
+   * are anonymous and only defined in local scope, we map them on
+   * an inner class of the parent container. The creation of the
+   * inner class, however, is similar to the creation of any other
+   * top-level container (except for the final write-out).
+   *
    * @param type FComplexType object
    * @param parent Parent FElement object
    * 
@@ -339,12 +349,14 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called startLocalComplexType().");
 
-    // TODO: Handle local complex types
+    if (null != type)
+    {
+      typeGenerator.createNewContainer(type);
+    }
   }
 
   /**
-   * Handle end of a local complex type. Complex types are currently
-   * not supported by the Fabric type generator module.
+   * Handle end of a local complex type.
    *
    * @param type FComplexType object
    * @param parent Parent FElement object
@@ -354,6 +366,6 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called endLocalComplexType().");
 
-    // TODO: Handle local complex types
+    // Nothing to do
   }
 }

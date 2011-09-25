@@ -1,0 +1,31 @@
+<!--
+  Schema test file for type generator.
+-->
+
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <xs:complexType name="GlobalSequenceType">
+    <xs:sequence>
+      <xs:element name="NormalElement" type="xs:string" />
+      <xs:element name="ArrayElement" type="xs:string" maxOccurs="5" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--
+    Element of a global complex type.
+  -->
+  <xs:element name="GlobalComplex" type="itm:GlobalSequenceType" />
+
+  <!--
+    Element of a local complex type.
+  -->
+  <xs:element name="LocalComplex">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="LocalElement" type="xs:string" />
+        <xs:element name="LocalArray" type="xs:string" minOccurs="5" maxOccurs="15" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

@@ -1,4 +1,4 @@
-/** 23.09.2011 02:26 */
+/** 25.09.2011 15:54 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -88,6 +88,9 @@ public class JavaTypeGen implements TypeGen
 
   /** Stack of incomplete container classes */
   private Stack<AttributeContainer.Builder> incompleteBuilders;
+  
+  /** Incomplete container for inner class of local complex type */
+  private AttributeContainer.Builder incompleteLocalBuilder;
 
   /** Map of finished data type objects */
   private HashMap<String, SourceFileData> generatedElements;
@@ -107,6 +110,7 @@ public class JavaTypeGen implements TypeGen
     this.properties = properties;
 
     this.incompleteBuilders = new Stack<AttributeContainer.Builder>();
+    this.incompleteLocalBuilder = null;
     this.generatedElements = new HashMap<String, SourceFileData>();
   }
   
@@ -229,10 +233,20 @@ public class JavaTypeGen implements TypeGen
   public void createNewContainer(FComplexType type)
   {
     // Create new container for complex type
-    AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
-    this.incompleteBuilders.push(newBuilder);
+    AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder();
 
-    LOGGER.debug(String.format("Created new container '%s' for complex type.", type.getName()));
+    // Type is a top-level complex type
+    if (type.isTopLevel())
+    {
+      this.incompleteBuilders.push(newBuilder.setName(type.getName()));
+      LOGGER.debug(String.format("Created new container '%s' for top-level complex type.", type.getName()));
+    }
+    // Type is a local complex type
+    else
+    {
+      this.incompleteLocalBuilder = newBuilder.setName(type.getName() + "Type");
+      LOGGER.debug(String.format("Created new container '%s' for local complex type.", type.getName()));
+    }
   }
 
   /**
@@ -241,9 +255,12 @@ public class JavaTypeGen implements TypeGen
    * element will be mapped to Java where applicable.
    *
    * @param element FElement object
+   * @param isTopLevel True if the element is a top-level element
+   * or part of a top-level complex type; false if the element is
+   * part of a local complex type
    */
   @Override
-  public void addMemberVariable(FElement element)
+  public void addMemberVariable(FElement element, boolean isTopLevel)
   {
     if (!this.incompleteBuilders.empty())
     {
@@ -261,10 +278,16 @@ public class JavaTypeGen implements TypeGen
       {
         typeName = element.getSchemaType().getName();
         LOGGER.debug(String.format("Type '%s' is a custom type.", typeName));
+
+        // Create artificial name for local complex type (i.e. an inner class)
+        if (isTopLevel && !element.getSchemaType().isSimple())
+        {
+          typeName += "Type";
+        }
       }
-      
+
       // Add member variable to current incomplete container
-      AttributeContainer.Builder current = this.incompleteBuilders.pop();
+      AttributeContainer.Builder current = (isTopLevel ? this.incompleteBuilders.pop() : this.incompleteLocalBuilder);
       
       // Enforce restrictions for local simple types or extensions of existing types
       AttributeContainer.Restriction restrictions = new AttributeContainer.Restriction();
@@ -279,6 +302,11 @@ public class JavaTypeGen implements TypeGen
         Object[] constants = FSchemaTypeHelper.extractEnumArray((FSimpleType)element.getSchemaType());
         String[] enumConstants = Arrays.copyOf(constants, constants.length, String[].class);
         current.addEnumElement(element.getName() + "Enum", element.getName(), enumConstants);
+      }
+      // Element is an array
+      else if (FSchemaTypeHelper.isArray(element))
+      {
+        current.addElementArray(typeName, element.getName(), element.getMinOccurs(), element.getMaxOccurs());
       }
       // Element has a default value
       else if (FSchemaTypeHelper.hasDefaultValue(element))
@@ -295,8 +323,15 @@ public class JavaTypeGen implements TypeGen
       {
         current.addElement(typeName, element.getName(), restrictions);
       }
-      
-      this.incompleteBuilders.push(current);
+
+      if (isTopLevel)
+      {
+        this.incompleteBuilders.push(current);
+      }
+      else
+      {
+        this.incompleteLocalBuilder = current;
+      }
       
       LOGGER.debug(String.format("Added member variable '%s' of %s '%s' to container '%s'.", element.getName(),
               (SchemaHelper.isBuiltinTypedElement(element) ? "built-in " : "") + "type", typeName, current.getName()));
@@ -322,6 +357,20 @@ public class JavaTypeGen implements TypeGen
       JavaClassGenerationStrategy javaStrategy = new JavaClassGenerationStrategy(xmlMapper);
 
       JClass classObject = (JClass)this.incompleteBuilders.pop().build().asClassObject(javaStrategy);
+
+      // Build current local container
+      if (null != this.incompleteLocalBuilder)
+      {        
+        // Here we can reuse javaStrategy with stateful xmlMapper, because inner class is nested in outer container
+        JClass innerClassObject = (JClass)this.incompleteLocalBuilder.build().asClassObject(javaStrategy);
+        classObject.add(innerClassObject);
+        
+        // Important: Reset incomplete local builder!
+        this.incompleteLocalBuilder = null;
+
+        LOGGER.debug(String.format("Built inner class '%s' for current container '%s'.", innerClassObject.getName(), classObject.getName()));
+      }
+
       if (!this.generatedElements.containsKey(classObject.getName()))
       {
         this.generatedElements.put(classObject.getName(),

@@ -52,8 +52,11 @@ public interface TypeGen
    * where applicable.
    *
    * @param element FElement object
+   * @param isTopLevel True if the element is a top-level element
+   * or part of a top-level complex type; false if the element is
+   * part of a local complex type
    */
-  public void addMemberVariable(FElement element);
+  public void addMemberVariable(FElement element, boolean isTopLevel);
 
   /**
    * Finish the construction of the current container class by

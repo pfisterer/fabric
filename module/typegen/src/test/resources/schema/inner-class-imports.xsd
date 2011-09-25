@@ -1,0 +1,24 @@
+<!--
+  Schema test file for type generator.
+-->
+
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <!--
+    Element of built-in type.
+  -->
+  <xs:element name="SimpleBuiltIn" type="xs:short" />
+
+  <!--
+    Element of a local complex type.
+  -->
+  <xs:element name="Container">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="ArrayElement" type="xs:int" minOccurs="3" maxOccurs="7" />
+        <xs:element name="NormalElement" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
