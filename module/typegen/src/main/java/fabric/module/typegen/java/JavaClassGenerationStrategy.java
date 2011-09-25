@@ -1,4 +1,4 @@
-/** 22.09.2011 19:25 */
+/** 25.09.2011 19:21 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
@@ -189,6 +189,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
         
         JEnum je = JEnum.factory.create(JModifier.PRIVATE, ee.type, ee.enumConstants);
         je.setComment(new JEnumCommentImpl(String.format("The '%s' enumeration.", ee.type)));
+        je.addAnnotation(new JEnumAnnotationImpl(this.xmlMapper.getAnnotation("enum", ee.type)));
         jc.add(je);
       }
 
@@ -325,7 +326,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' enum element.", ee.name)));
       
       // Annotation pattern e.g. @XmlEnum
-      String annotation = this.xmlMapper.getAnnotation("element", ee.name); // TODO: Change key to enum
+      String annotation = this.xmlMapper.getAnnotation("enum", ee.name);
       jf.addAnnotation(new JFieldAnnotationImpl(annotation));
     }
 

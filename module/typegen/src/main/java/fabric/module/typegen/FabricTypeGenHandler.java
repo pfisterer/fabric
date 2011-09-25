@@ -1,4 +1,4 @@
-/** 25.09.2011 02:19 */
+/** 25.09.2011 19:45 */
 package fabric.module.typegen;
 
 import org.slf4j.Logger;
@@ -163,7 +163,10 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called startElementReference().");
 
-    // TODO: Handle element references
+    if (null != element)
+    {
+      typeGenerator.addMemberVariable(element, true);
+    }
   }
 
   /**

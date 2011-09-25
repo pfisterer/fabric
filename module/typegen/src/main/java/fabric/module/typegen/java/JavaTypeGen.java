@@ -1,4 +1,4 @@
-/** 25.09.2011 15:54 */
+/** 25.09.2011 19:46 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -280,7 +280,7 @@ public class JavaTypeGen implements TypeGen
         LOGGER.debug(String.format("Type '%s' is a custom type.", typeName));
 
         // Create artificial name for local complex type (i.e. an inner class)
-        if (isTopLevel && !element.getSchemaType().isSimple())
+        if (isTopLevel && !element.getSchemaType().isTopLevel() && !element.getSchemaType().isSimple())
         {
           typeName += "Type";
         }
@@ -528,7 +528,7 @@ public class JavaTypeGen implements TypeGen
         JEnum javaEnum = JEnum.factory.create(JModifier.PUBLIC, type.getName(), constantsAsString);
 
         javaEnum.setComment(new JEnumCommentImpl(String.format("The '%s' enumeration.", type.getName())));
-        javaEnum.addAnnotation(new JEnumAnnotationImpl(xmlMapper.getAnnotation("attribute"))); // TODO: Change key to enum
+        javaEnum.addAnnotation(new JEnumAnnotationImpl(xmlMapper.getAnnotation("enum", type.getName())));
 
         this.generatedElements.put(type.getName(),
                 new JavaTypeGen.SourceFileData(javaEnum, xmlMapper.getUsedImports()));
