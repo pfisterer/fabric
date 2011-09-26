@@ -1,7 +1,8 @@
-/** 25.09.2011 19:21 */
+/** 25.09.2011 18:02 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -336,16 +337,17 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     else if (member.getClass() == AttributeContainer.ElementArray.class)
     {
       AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
+      String type = String.format("java.util.ArrayList<%s>", this.fixPrimitiveTypes(ea.type));
 
-      // No array maxSize is given
+      // No array size is given
       if (ea.maxSize == Integer.MAX_VALUE)
       {
-        jf = JField.factory.create(JModifier.PRIVATE, ea.type, ea.name + "[]");
+        jf = JField.factory.create(JModifier.PRIVATE, type, ea.name, "new " + type + "()");
       }
-      // Array maxSize is given
+      // Array size is given
       else
       {
-        jf = JField.factory.create(JModifier.PRIVATE, ea.type, ea.name + "[]", "new " + ea.type + "[" + ea.maxSize + "]");
+        jf = JField.factory.create(JModifier.PRIVATE, type, ea.name, "new " + type + "(" + ea.maxSize + ")");
       }
 
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' element array.", ea.name)));
@@ -386,7 +388,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     }
 
     String methodBody = "";
-    String name = member.name;
+    String type = member.type;
     int modifiers = JModifier.FINAL;
     
     // Member variable is an element or attribute
@@ -407,16 +409,16 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     else if (member.getClass() == AttributeContainer.ElementArray.class)
     {
       AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
-      name = name + "[]";
+      type = String.format("java.util.ArrayList<%s>", this.fixPrimitiveTypes(member.type));
 
       // Create code to check array length
       methodBody += JavaRestrictionHelper.createCheckCode(
-              String.format("%s.length < %d || %s.length > %d", member.name, ea.minSize, member.name,ea.maxSize),
+              String.format("%s.size() < %d || %s.size() > %d", member.name, ea.minSize, member.name, ea.maxSize),
               String.format("Illegal size for array '%s'.", member.name),
               "Check the occurrence indicators");
     }
 
-    JMethodSignature jms = JMethodSignature.factory.create(JParameter.factory.create(modifiers, member.type, name));
+    JMethodSignature jms = JMethodSignature.factory.create(JParameter.factory.create(modifiers, type, member.name));
     JMethod setter = JMethod.factory.create(JModifier.PUBLIC, "void", "set" + this.firstLetterCapital(member.name), jms);
 
     methodBody += String.format("this.%s = %s;", member.name, member.name);
@@ -551,7 +553,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     String type = member.type;
     if (member.getClass() == AttributeContainer.ElementArray.class)
     {
-      type = type + "[]";
+      type = String.format("java.util.ArrayList<%s>", this.fixPrimitiveTypes(member.type));
     }
 
     // Member variable is a constant
@@ -578,6 +580,43 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
   private ArrayList<String> getRequiredImports()
   {
     return this.xmlMapper.getUsedImports();
+  }
+
+  /**
+   * Private helper method to fix Java primitives for ArrayList.
+   * Most Java collections rely on entries to be derived from
+   * Object. Java primitive types (boolean, int etc.), however,
+   * are not. So we use this function to translate Java primitive
+   * types to the corresponding wrapper classes (Boolean, Integer
+   * etc.).
+   *
+   * @param typeName Name of (possibly primitive) type
+   *
+   * @return Type name that is compatible to ArrayList
+   */
+  private String fixPrimitiveTypes(final String typeName)
+  {
+    // Initial assumption: Type is not a Java primitive
+    String result = typeName;
+
+    // Map of wrapper classes for Java primitives
+    HashMap<String, String> wrapperClasses = new HashMap<String, String>();
+    wrapperClasses.put("byte", "Byte");
+    wrapperClasses.put("short", "Short");
+    wrapperClasses.put("int", "Integer");
+    wrapperClasses.put("long", "Long");
+    wrapperClasses.put("float", "Float");
+    wrapperClasses.put("double", "Double");
+    wrapperClasses.put("char", "Character");
+    wrapperClasses.put("boolean", "Boolean");
+
+    // If we have a Java primitive, translate it to wrapper class
+    if (wrapperClasses.containsKey(typeName))
+    {
+      result = wrapperClasses.get(typeName);
+    }
+
+    return result;
   }
 
   /**
