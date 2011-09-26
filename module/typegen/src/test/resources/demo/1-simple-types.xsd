@@ -1,0 +1,36 @@
+
+<!--
+  Schema test file for type generator.
+-->
+
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <!--
+    Alias for built-in type xs:string.
+  -->
+  <xs:simpleType name="MyString">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+
+  <!--
+    Element of built-in type.
+  -->
+  <xs:element name="SimpleBuiltIn" type="xs:string" />
+
+  <!--
+    Element of custom simple type.
+  -->
+  <xs:element name="SimpleCustom" type="itm:MyString" />
+
+  <!--
+    Element of a local simple type.
+  -->
+  <xs:element name="SimpleLocal">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:length value="127" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+
+</xs:schema>

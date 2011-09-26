@@ -1,0 +1,38 @@
+<!--
+  Schema test file for type generator.
+-->
+
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <!--
+    Simple type with both inclusive and exclusive boundary.
+  -->
+  <xs:simpleType name="BoundaryRestrictedType">
+    <xs:restriction base="xs:unsignedByte">
+      <xs:minExclusive value="127" />
+      <xs:maxInclusive value="255" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!--
+    Simple type with pattern restriction.
+  -->
+  <xs:simpleType name="PatternRestrictedType">
+    <xs:restriction base="xs:string">
+      <xs:length value="6" />
+      <xs:pattern value="(SS|WS)20[0-9][0-9]" />
+      <xs:whiteSpace value="replace" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!--
+    Element of a top-level simple type.
+  -->
+  <xs:element name="SimpleBoundary" type="itm:BoundaryRestrictedType" />
+
+  <!--
+    Another element of top-level simple type with pattern and whiteSpace restriction.
+  -->
+  <xs:element name="Semester" type="itm:PatternRestrictedType" />
+
+</xs:schema>

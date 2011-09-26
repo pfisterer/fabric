@@ -1,0 +1,36 @@
+<!--
+  Schema test file for type generator.
+-->
+
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <!--
+    Simple type with global enumeration.
+  -->
+  <xs:simpleType name="CarEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Audi" />
+      <xs:enumeration value="Golf" />
+      <xs:enumeration value="BMW" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!--
+    Element of top-level enum type.
+  -->
+  <xs:element name="GlobalEnum" type="itm:CarEnum" />
+
+  <!--
+    Element of a local enum type.
+  -->
+  <xs:element name="LocalEnum">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="Januar" />
+        <xs:enumeration value="Mai" />
+        <xs:enumeration value="Dezember" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+
+</xs:schema>

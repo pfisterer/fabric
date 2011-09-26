@@ -1,0 +1,17 @@
+<!--
+  Schema test file for type generator.
+-->
+
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <!--
+    Element with default value.
+  -->
+  <xs:element name="SimpleDefault" type="xs:string" default="Foo" />
+
+  <!--
+    Element with fixed value.
+  -->
+  <xs:element name="SimpleFixed" type="xs:string" fixed="Bar" />
+
+</xs:schema>
