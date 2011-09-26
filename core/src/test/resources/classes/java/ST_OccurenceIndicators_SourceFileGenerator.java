@@ -4,6 +4,8 @@ import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
+import java.util.Properties;
+
 /**
  * SourceFileGenerator for simpleType_occurenceIndicators.xsd
  */
@@ -12,8 +14,8 @@ public class ST_OccurenceIndicators_SourceFileGenerator extends JSourceFileGener
     /**
      * Constructor
      */
-    public ST_OccurenceIndicators_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
-        super(strategy);
+    public ST_OccurenceIndicators_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
+        super(strategy, properties);
     }
 
     /**
@@ -33,7 +35,7 @@ public class ST_OccurenceIndicators_SourceFileGenerator extends JSourceFileGener
         types.add(intValuesType); 
 	    		
 		JClass root = ((JClass) AttributeContainer.newBuilder()
-            .setName(ROOT)
+            .setName(rootName)
             .addElement("IntValuesType", "IntValues")
             .build()
             .asClassObject(strategy));

@@ -4,6 +4,8 @@ import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
+import java.util.Properties;
+
 /**
  * SourceFileGenerator for complexType_simpleContent.xsd
  */
@@ -12,8 +14,8 @@ public class CT_SimpleContent_SourceFileGenerator extends JSourceFileGenerator {
     /**
      * Constructor
      */
-    public CT_SimpleContent_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
-        super(strategy);
+    public CT_SimpleContent_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
+        super(strategy, properties);
     }
 
     /**
@@ -31,7 +33,7 @@ public class CT_SimpleContent_SourceFileGenerator extends JSourceFileGenerator {
 
 
         JClass root = ((JClass) AttributeContainer.newBuilder()
-            .setName(ROOT)
+            .setName(rootName)
             .addElement("ShoeType", "Shoe")
             .build()
             .asClassObject(strategy));

@@ -9,26 +9,22 @@ import classes.base.SourceFileGenerator;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Abstract class for generating the expected CppSourceFile objects of a test case.
  */
-public abstract class CppSourceFileGenerator implements SourceFileGenerator {
+public abstract class CppSourceFileGenerator extends SourceFileGenerator {
     /**
      * AttributeContainer objects generated for the test XSD
      */
     List<AttributeContainer> containers;
 
     /**
-     * JavaClassGenerationStrategy
-     */
-    CppClassGenerationStrategy strategy;
-
-    /**
      * Constructor
      */
-    public CppSourceFileGenerator(CppClassGenerationStrategy strategy) {
-        this.strategy = strategy;
+    public CppSourceFileGenerator(CppClassGenerationStrategy strategy, Properties properties) {
+        super(strategy, properties);
         containers = new LinkedList<AttributeContainer>();
         generateClasses();
     }

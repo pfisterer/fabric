@@ -8,11 +8,12 @@ import fabric.module.typegen.java.JavaClassGenerationStrategy;
 import classes.base.SourceFileGenerator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Abstract class for generating the expected JSourceFile objects of a test case.
  */
-public abstract class JSourceFileGenerator implements SourceFileGenerator {
+public abstract class JSourceFileGenerator extends SourceFileGenerator {
 
     /**
      * JComplexType objects (JClass, JEnum, ...) generated for the test XSD
@@ -20,16 +21,17 @@ public abstract class JSourceFileGenerator implements SourceFileGenerator {
     List<JComplexType> types;
 
     /**
-     * JavaClassGenerationStrategy
+     * Package name
      */
-    JavaClassGenerationStrategy strategy;
+    String packageName;
 
     /**
      * Constructor
      */
-    public JSourceFileGenerator(JavaClassGenerationStrategy strategy) {
+    public JSourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
+        super(strategy, properties);
         try {
-            this.strategy = strategy;
+            packageName = properties.getProperty("typegen.java.package_name");
             types = new LinkedList<JComplexType>();
             generateClasses();
         } catch (Exception e) {
@@ -48,7 +50,7 @@ public abstract class JSourceFileGenerator implements SourceFileGenerator {
         JSourceFile file;
         try {
             for (JComplexType type : types) {
-                file = new JSourceFileImpl(type.getPackageName(), type.getName());
+                file = new JSourceFileImpl(packageName, type.getName());
                 files.add(file.add(type));
             }
         } catch (Exception e) {

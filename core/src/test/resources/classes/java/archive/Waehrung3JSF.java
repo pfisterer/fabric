@@ -19,7 +19,7 @@
 //    /**
 //     * Name of XSD root element
 //     */
-//    private static final String ROOT        = "Waehrung3";
+//    private static final String rootName        = "Waehrung3";
 //
 //    /**
 //     * Java file ending
@@ -38,11 +38,11 @@
 //     */
 //    private void buildWaehrung3Java() {
 //        AttributeContainer waehrung3Container = AttributeContainer.newBuilder()
-//                                           .setName(ROOT)
+//                                           .setName(rootName)
 //                                           .addElement("String", "Name")
 //                                           .addAttribute("String", "Waehrungscode")
 //                                           .build();
-//        waehrung3Java = new JSourceFileImpl(ROOT.toLowerCase(), ROOT + ENDING_JAVA);
+//        waehrung3Java = new JSourceFileImpl(rootName.toLowerCase(), rootName + ENDING_JAVA);
 //        waehrung3Java.add(waehrung3Container.asJClass());
 //    }
 //

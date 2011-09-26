@@ -5,6 +5,8 @@ import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.AttributeContainer.Restriction;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
+import java.util.Properties;
+
 /**
  * SourceFileGenerator for simpleType_whiteSpace.xsd
  */
@@ -13,8 +15,8 @@ public class ST_WhiteSpace_SourceFileGenerator extends JSourceFileGenerator {
     /**
      * Constructor
      */
-    public ST_WhiteSpace_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
-        super(strategy);
+    public ST_WhiteSpace_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
+        super(strategy, properties);
     }
 
     /**
@@ -49,7 +51,7 @@ public class ST_WhiteSpace_SourceFileGenerator extends JSourceFileGenerator {
         types.add(address3Type); 
 	    		
 		JClass root = ((JClass) AttributeContainer.newBuilder()
-            .setName(ROOT)
+            .setName(rootName)
             .addElement("Address1Type", "Address1")
             .addElement("Address2Type", "Address2")
             .addElement("Address3Type", "Address3")

@@ -6,6 +6,8 @@ import de.uniluebeck.sourcegen.java.JModifier;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
+import java.util.Properties;
+
 /**
  * SourceFileGenerator for simpleType_enumeration_global.xsd
  */
@@ -13,8 +15,8 @@ public class ST_Enumeration_Global_SourceFileGenerator extends JSourceFileGenera
     /**
      * Constructor
      */
-    public ST_Enumeration_Global_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
-        super(strategy);
+    public ST_Enumeration_Global_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
+        super(strategy, properties);
     }
 
     @Override void generateClasses() throws Exception {
@@ -27,7 +29,7 @@ public class ST_Enumeration_Global_SourceFileGenerator extends JSourceFileGenera
         Root
          */
         types.add((JClass) AttributeContainer.newBuilder()
-                .setName(ROOT)
+                .setName(rootName)
                 .addElement("CarType", "Car")
                 .build()
                 .asClassObject(strategy));

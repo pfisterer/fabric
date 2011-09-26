@@ -5,6 +5,8 @@ import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.AttributeContainer.Restriction;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
+import java.util.Properties;
+
 /**
  * SourceFileGenerator for simpleType_pattern.xsd
  */
@@ -13,8 +15,8 @@ public class ST_Pattern_SourceFileGenerator extends JSourceFileGenerator {
     /**
      * Constructor
      */
-    public ST_Pattern_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
-        super(strategy);
+    public ST_Pattern_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
+        super(strategy, properties);
     }
 
     /**
@@ -31,7 +33,7 @@ public class ST_Pattern_SourceFileGenerator extends JSourceFileGenerator {
         types.add(address1Type); 
         
         JClass root = ((JClass) AttributeContainer.newBuilder()
-            .setName(ROOT)
+            .setName(rootName)
             .addElement("InitialsType", "Initials")
             .build()
             .asClassObject(strategy));

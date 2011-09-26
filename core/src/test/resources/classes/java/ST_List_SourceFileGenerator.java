@@ -4,6 +4,8 @@ import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
+import java.util.Properties;
+
 /**
  * SourceFileGenerator for simpleType_list.xsd
  */
@@ -12,8 +14,8 @@ public class ST_List_SourceFileGenerator extends JSourceFileGenerator {
     /**
      * Constructor
      */
-    public ST_List_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
-        super(strategy);
+    public ST_List_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
+        super(strategy, properties);
     }
 
     /**
@@ -28,7 +30,7 @@ public class ST_List_SourceFileGenerator extends JSourceFileGenerator {
         types.add(intListType); 
 	    		
 		JClass root = ((JClass) AttributeContainer.newBuilder()
-            .setName(ROOT)
+            .setName(rootName)
             .addElement("IntListType", "IntList")
             .build()
             .asClassObject(strategy));

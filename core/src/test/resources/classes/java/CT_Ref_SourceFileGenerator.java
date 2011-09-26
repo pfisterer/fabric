@@ -4,6 +4,8 @@ import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
+import java.util.Properties;
+
 /**
  * SourceFileGenerator for complexType_ref.xsd
  */
@@ -12,8 +14,8 @@ public class CT_Ref_SourceFileGenerator extends JSourceFileGenerator {
     /**
         * Constructor
         */
-    public CT_Ref_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
-        super(strategy);
+    public CT_Ref_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
+        super(strategy, properties);
     }
 
     /**
@@ -21,7 +23,7 @@ public class CT_Ref_SourceFileGenerator extends JSourceFileGenerator {
         */
     @Override void generateClasses() throws Exception {
         JClass root = ((JClass) AttributeContainer.newBuilder()
-            .setName(ROOT)
+            .setName(rootName)
             .addElement("String","Name")
             .addElement("PersonType","Person")
             .build()

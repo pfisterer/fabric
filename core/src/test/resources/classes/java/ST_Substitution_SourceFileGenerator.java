@@ -4,6 +4,8 @@ import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
+import java.util.Properties;
+
 /**
  * SourceFileGenerator for simpleType_substitution.xsd
  */
@@ -12,8 +14,8 @@ public class ST_Substitution_SourceFileGenerator extends JSourceFileGenerator {
     /**
      * Constructor
      */
-    public ST_Substitution_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
-        super(strategy);
+    public ST_Substitution_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
+        super(strategy, properties);
     }
 
     /**
@@ -22,7 +24,7 @@ public class ST_Substitution_SourceFileGenerator extends JSourceFileGenerator {
     @Override void generateClasses() throws Exception {
     	
     	JClass root = ((JClass) AttributeContainer.newBuilder()
-            .setName(ROOT)
+            .setName(rootName)
             .addElement("String", "Name")
          //TODO substitutionGroup   .addElement("Name", "Alias")
          //TODO block attribute with value substitution .addElement("String", "FirstName", "substitution")

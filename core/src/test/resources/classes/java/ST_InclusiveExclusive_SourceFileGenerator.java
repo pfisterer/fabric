@@ -1,11 +1,11 @@
 package classes.java;
 
-import org.apache.xmlbeans.impl.xb.xsdschema.impl.RestrictionDocumentImpl;
-
 import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.AttributeContainer.Restriction;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
+
+import java.util.Properties;
 
 /**
  * SourceFileGenerator for simpleType_inclusiveExclusive.xsd
@@ -15,8 +15,8 @@ public class ST_InclusiveExclusive_SourceFileGenerator extends JSourceFileGenera
     /**
      * Constructor
      */
-    public ST_InclusiveExclusive_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
-        super(strategy);
+    public ST_InclusiveExclusive_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
+        super(strategy, properties);
     }
 
     /**
@@ -45,7 +45,7 @@ public class ST_InclusiveExclusive_SourceFileGenerator extends JSourceFileGenera
         types.add(positiveDigitType); 
 	    		
 		JClass root = ((JClass) AttributeContainer.newBuilder()
-            .setName(ROOT)
+            .setName(rootName)
             .addElement("DigitType", "Digit")
             .addElement("PositiveDigitType", "PositiveDigit")
             .build()

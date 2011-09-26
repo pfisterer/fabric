@@ -1,11 +1,11 @@
 package classes.java;
 
-import org.apache.xmlbeans.impl.xb.xsdschema.impl.RestrictionDocumentImpl;
-
 import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.AttributeContainer.Restriction;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
+
+import java.util.Properties;
 
 /**
  * SourceFileGenerator for simpleType_digits.xsd
@@ -15,8 +15,8 @@ public class ST_Digits_SourceFileGenerator extends JSourceFileGenerator {
     /**
         * Constructor
         */
-    public ST_Digits_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
-        super(strategy);
+    public ST_Digits_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
+        super(strategy, properties);
     }
 
     /**
@@ -41,10 +41,10 @@ public class ST_Digits_SourceFileGenerator extends JSourceFileGenerator {
             .addElement("java.math.BigDecimal", "value", fractionTypeRestriction)
             .build()
             .asClassObject(strategy));
-        types.add(totalType);
+        types.add(fractionType);
 
         JClass root = ((JClass) AttributeContainer.newBuilder()
-            .setName(ROOT)
+            .setName(rootName)
             .addElement("TotalType", "Total")
             .addElement("FractionType", "Fraction")
             .build()

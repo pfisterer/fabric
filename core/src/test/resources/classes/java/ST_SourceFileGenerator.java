@@ -4,6 +4,8 @@ import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
+import java.util.Properties;
+
 /**
  * SourceFileGenerator for simpleTypes.xsd
  */
@@ -12,8 +14,8 @@ public class ST_SourceFileGenerator extends JSourceFileGenerator {
     /**
      * Constructor
      */
-    public ST_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
-        super(strategy);
+    public ST_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
+        super(strategy, properties);
     }
 
     @Override void generateClasses() throws Exception {
@@ -21,7 +23,7 @@ public class ST_SourceFileGenerator extends JSourceFileGenerator {
         Root
          */
         types.add((JClass) AttributeContainer.newBuilder()
-                .setName(ROOT)
+                .setName(rootName)
                 .addElement("boolean", "BooleanValue")
                 .addElement("float", "FloatValue")
                 .addElement("double", "DoubleValue")

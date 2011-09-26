@@ -1,18 +1,18 @@
 package fabric.core;
 
 import classes.java.*;
+import de.uniluebeck.itm.tr.util.FileUtils;
 import de.uniluebeck.sourcegen.SourceFile;
 import de.uniluebeck.sourcegen.java.JSourceFile;
 import fabric.Main;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 import de.uniluebeck.sourcegen.Workspace;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.w3c.dom.stylesheets.LinkStyle;
 
 import static org.junit.Assert.assertTrue;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.Field;
 import java.util.List;
@@ -82,10 +82,15 @@ public class MainTest {
      */
     private static JavaClassGenerationStrategy javaStrategy;
 
+    /**
+     * Properties
+     */
+    private static Properties properties;
+
     @BeforeClass
-    public static void setUpWorkspace() throws Exception {
+    public static void setUp() throws Exception {
         FileInputStream propInFile = new FileInputStream(PROPERTIES);
-        Properties properties = new Properties();
+        properties = new Properties();
         properties.load(propInFile);
         workspace = new Workspace(properties);
         javaStrategy = new JavaClassGenerationStrategy();  // TODO: Annotation Mapper?
@@ -96,164 +101,169 @@ public class MainTest {
         workspace.getSourceFiles().clear();
     }
 
+    @AfterClass
+    public static void tearDown() {
+        FileUtils.deleteDirectory(new File(properties.getProperty("typegen.main_class_name")));
+    }
+
     @Test
     public void test_CT_all() throws Exception {
         assertTrue(
-                testFile(CT_ALL, new CT_All_SourceFileGenerator(javaStrategy))
+                testFile(CT_ALL, new CT_All_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_CT_any() throws Exception {
         assertTrue(
-                testFile(CT_ANY, new CT_Any_SourceFileGenerator(javaStrategy))
+                testFile(CT_ANY, new CT_Any_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_CT_anyAttribute() throws Exception {
         assertTrue(
-                testFile(CT_ANYATTRIBUTE, new CT_AnyAttribute_SourceFileGenerator(javaStrategy))
+                testFile(CT_ANYATTRIBUTE, new CT_AnyAttribute_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_CT_attributes() throws Exception {
         assertTrue(
-                testFile(CT_ATTRIBUTES, new CT_Attributes_SourceFileGenerator(javaStrategy))
+                testFile(CT_ATTRIBUTES, new CT_Attributes_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_CT_choice() throws Exception {
         assertTrue(
-                testFile(CT_CHOICE, new CT_Choice_SourceFileGenerator(javaStrategy))
+                testFile(CT_CHOICE, new CT_Choice_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_CT_complexContent() throws Exception {
         assertTrue(
-                testFile(CT_COMPLEXCONTENT, new CT_ComplexContent_SourceFileGenerator(javaStrategy))
+                testFile(CT_COMPLEXCONTENT, new CT_ComplexContent_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_CT_innerComplexType() throws Exception {
         assertTrue(
-                testFile(CT_INNERCOMPLEXTYPE, new CT_InnerComplexType_SourceFileGenerator(javaStrategy))
+                testFile(CT_INNERCOMPLEXTYPE, new CT_InnerComplexType_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_CT_ref() throws Exception {
         assertTrue(
-                testFile(CT_REF, new CT_Ref_SourceFileGenerator(javaStrategy))
+                testFile(CT_REF, new CT_Ref_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_CT_sequence_global() throws Exception {
         assertTrue(
-                testFile(CT_SEQUENCE_GLOBAL, new CT_Sequence_Global_SourceFileGenerator(javaStrategy))
+                testFile(CT_SEQUENCE_GLOBAL, new CT_Sequence_Global_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_CT_sequence_local() throws Exception {
         assertTrue(
-                testFile(CT_SEQUENCE_LOCAL, new CT_Sequence_Local_SourceFileGenerator(javaStrategy))
+                testFile(CT_SEQUENCE_LOCAL, new CT_Sequence_Local_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_CT_simpleContent() throws Exception {
         assertTrue(
-                testFile(CT_SIMPLECONTENT, new CT_SimpleContent_SourceFileGenerator(javaStrategy))
+                testFile(CT_SIMPLECONTENT, new CT_SimpleContent_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_ST_digits() throws Exception {
         assertTrue(
-                testFile(ST_DIGITS, new ST_Digits_SourceFileGenerator(javaStrategy))
+                testFile(ST_DIGITS, new ST_Digits_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_ST_enumeration_global() throws Exception {
         assertTrue(
-                testFile(ST_ENUMERATION_GLOBAL, new ST_Enumeration_Global_SourceFileGenerator(javaStrategy))
+                testFile(ST_ENUMERATION_GLOBAL, new ST_Enumeration_Global_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_ST_enumeration_local() throws Exception {
         assertTrue(
-                testFile(ST_ENUMERATION_LOCAL, new ST_Enumeration_Local_SourceFileGenerator(javaStrategy))
+                testFile(ST_ENUMERATION_LOCAL, new ST_Enumeration_Local_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_ST_inclusiveExclusive() throws Exception {
         assertTrue(
-                testFile(ST_INCLUSIVEEXCLUSIVE, new ST_InclusiveExclusive_SourceFileGenerator(javaStrategy))
+                testFile(ST_INCLUSIVEEXCLUSIVE, new ST_InclusiveExclusive_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_ST_length() throws Exception {
         assertTrue(
-                testFile(ST_LENGTH, new ST_Length_SourceFileGenerator(javaStrategy))
+                testFile(ST_LENGTH, new ST_Length_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_ST_list() throws Exception {
         assertTrue(
-                testFile(ST_LIST, new ST_List_SourceFileGenerator(javaStrategy))
+                testFile(ST_LIST, new ST_List_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_ST_occurenceIndicators() throws Exception {
         assertTrue(
-                testFile(ST_OCCURENCEINDICATORS, new ST_OccurenceIndicators_SourceFileGenerator(javaStrategy))
+                testFile(ST_OCCURENCEINDICATORS, new ST_OccurenceIndicators_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_ST_pattern() throws Exception {
         assertTrue(
-                testFile(ST_PATTERN, new ST_Pattern_SourceFileGenerator(javaStrategy))
+                testFile(ST_PATTERN, new ST_Pattern_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_ST() throws Exception {
         assertTrue(
-                testFile(ST, new ST_SourceFileGenerator(javaStrategy))
+                testFile(ST, new ST_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_ST_substitution() throws Exception {
         assertTrue(
-                testFile(ST_SUBSTITUTION, new ST_Substitution_SourceFileGenerator(javaStrategy))
+                testFile(ST_SUBSTITUTION, new ST_Substitution_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_ST_values() throws Exception {
         assertTrue(
-                testFile(ST_VALUES, new ST_Values_SourceFileGenerator(javaStrategy))
+                testFile(ST_VALUES, new ST_Values_SourceFileGenerator(javaStrategy, properties))
         );
     }
 
     @Test
     public void test_ST_whiteSpace() throws Exception {
         assertTrue(
-                testFile(ST_WHITESPACE, new ST_WhiteSpace_SourceFileGenerator(javaStrategy))
+                testFile(ST_WHITESPACE, new ST_WhiteSpace_SourceFileGenerator(javaStrategy, properties))
         );
     }
 

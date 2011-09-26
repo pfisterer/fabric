@@ -4,6 +4,8 @@ import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
+import java.util.Properties;
+
 /**
  * SourceFileGenerator for complexType_innerComplexType.xsd
  */
@@ -12,8 +14,8 @@ public class CT_InnerComplexType_SourceFileGenerator extends JSourceFileGenerato
     /**
      * Constructor
      */
-    public CT_InnerComplexType_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
-        super(strategy);
+    public CT_InnerComplexType_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
+        super(strategy, properties);
     }
 
     /**
@@ -48,7 +50,7 @@ public class CT_InnerComplexType_SourceFileGenerator extends JSourceFileGenerato
                * Root
                */
         types.add((JClass) AttributeContainer.newBuilder()
-            .setName(ROOT)
+            .setName(rootName)
             .addElement("CarType", "Car")
             .build()
             .asClassObject(strategy));

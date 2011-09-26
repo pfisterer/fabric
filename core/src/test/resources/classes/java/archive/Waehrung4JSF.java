@@ -26,7 +26,7 @@
 //    /**
 //     * Name of XSD root element
 //     */
-//    private static final String ROOT        = "Waehrung4";
+//    private static final String rootName        = "Waehrung4";
 //
 //    /**
 //     * Java file ending
@@ -46,11 +46,11 @@
 //     */
 //    private void buildWaehrung4Java() {
 //        AttributeContainer waehrung4Container = AttributeContainer.newBuilder()
-//                                           .setName(ROOT)
+//                                           .setName(rootName)
 //                                           .addElement("String", "Name")
 //                                           .addAttribute("Waehrungscodes", "Waehrungscode")
 //                                           .build();
-//        waehrung4Java = new JSourceFileImpl(ROOT.toLowerCase(), ROOT + ENDING_JAVA);
+//        waehrung4Java = new JSourceFileImpl(rootName.toLowerCase(), rootName + ENDING_JAVA);
 //        waehrung4Java.add(waehrung4Container.asJClass());
 //    }
 //
@@ -62,7 +62,7 @@
 //            JEnum codes = JEnum.factory.create( JModifier.PUBLIC, "Waehrungscodes",
 //                                                "AUD", "BRL", "CAD", "CNY", "EUR", "GBP",
 //                                                "INR", "JPY", "RUR", "USD");
-//            codesJava = new JSourceFileImpl(ROOT.toLowerCase(), ROOT + ENDING_JAVA);
+//            codesJava = new JSourceFileImpl(rootName.toLowerCase(), rootName + ENDING_JAVA);
 //            codesJava.add(codes);
 //        } catch (JDuplicateException e) {
 //            e.printStackTrace();

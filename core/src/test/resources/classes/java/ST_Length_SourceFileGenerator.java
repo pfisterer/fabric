@@ -1,11 +1,11 @@
 package classes.java;
 
-import org.apache.xmlbeans.impl.jam.internal.javadoc.JavadocResults;
-
 import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.AttributeContainer.Restriction;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
+
+import java.util.Properties;
 
 /**
  * SourceFileGenerator for simpleType_length.xsd
@@ -15,8 +15,8 @@ public class ST_Length_SourceFileGenerator extends JSourceFileGenerator {
     /**
      * Constructor
      */
-    public ST_Length_SourceFileGenerator(JavaClassGenerationStrategy strategy) {
-        super(strategy);
+    public ST_Length_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
+        super(strategy, properties);
     }
 
     /**
@@ -44,7 +44,7 @@ public class ST_Length_SourceFileGenerator extends JSourceFileGenerator {
             types.add(passwordType);
                          
     		JClass root = ((JClass) AttributeContainer.newBuilder()
-                .setName(ROOT)
+                .setName(rootName)
                 .addElement("UsernameType", "UsernameType")
                 .addElement("Password", "PasswordType")
                 .build()
