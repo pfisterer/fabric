@@ -212,7 +212,7 @@ public class JavaRestrictionHelper
       result += String.format(comment, "totalDigits");
       // Calculate total digits: Take string representation of value,
       // remove all non-numeric characters and determine length
-      result += String.format("\nString %s_totalDigits = String.valueOf(%s)." +
+      result += String.format("\nint %s_totalDigits = String.valueOf(%s)." +
               "replaceAll(\"[^0-9]\", \"\").length();\n\n", memberName, memberName);
       result += JavaRestrictionHelper.createCheckCode(
               String.format("%s_totalDigits > %d", memberName, digits),
@@ -226,8 +226,8 @@ public class JavaRestrictionHelper
       // length; the other stuff is needed to handle integer data types
       // where no decimal point exists; looks weird, but should work for
       // most Java data types (int, double, float, BigDecimal, BigInteger)
-      result += String.format("\nString %s_fractionDigits = " +
-              "(String.valueOf(%s).indexOf(\".\") == -1 ? \"0\" : String.valueOf(String.valueOf(%s)." +
+      result += String.format("\nint %s_fractionDigits = " +
+              "(String.valueOf(%s).indexOf(\".\") == -1 ? 0 : Integer.valueOf(String.valueOf(%s)." +
               "substring(String.valueOf(%s).indexOf(\".\") + 1).length()));\n\n",
               memberName, memberName, memberName, memberName);
       result += JavaRestrictionHelper.createCheckCode(

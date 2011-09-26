@@ -15,7 +15,7 @@ In addition, a number of modules are contained that generate code
 	  ressource-constraint devices [2,3] that generates code for 
 	  Java and C++.
 	  
-	- macroFibre: An XML (de-)serialization scheme for for 
+	- macroFibre: An XML (de-)serialization scheme for
 	  ressource-constraint devices [3] that generates code for 
 	  Java and C++.
 	  

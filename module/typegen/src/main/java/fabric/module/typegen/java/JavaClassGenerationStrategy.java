@@ -205,7 +205,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       /*****************************************************************
        * Create getter
        *****************************************************************/
-      JMethod getter = this.createGetterMethod(member);
+      JMethod getter = this.createGetterMethod(member, container.getName());
       if (null != getter)
       {
         jc.add(getter);
@@ -398,7 +398,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       methodBody += this.generateRestrictionChecks(e);
 
       // Remove 'final' modifier, if member variable has 'whiteSpace' restriction
-      if (e.isWhiteSpaceRestricted())
+      if (e.isWhiteSpaceRestricted() && ("String").equals(e.type)) // Java can only enforce 'whiteSpace' on strings
       {
         modifiers &= ~JModifier.FINAL;
       }
@@ -510,7 +510,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
               String.format(message, "pattern", member.name));
     }
 
-    if (member.isWhiteSpaceRestricted())
+    if (member.isWhiteSpaceRestricted() && ("String").equals(member.type)) // Java can only enforce 'whiteSpace' on strings
     {
       result += JavaRestrictionHelper.createWhiteSpaceCheckCode(
               member.name,
@@ -539,12 +539,13 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
    * will create a JMethod object with a comment.
    *
    * @param member MemberVariable object for creation
+   * @param className Name of surrounding container class
    *
    * @return Generated JMethod object
    *
    * @throws Exception Error during JMethod creation
    */
-  private JMethod createGetterMethod(MemberVariable member) throws Exception
+  private JMethod createGetterMethod(MemberVariable member, String className) throws Exception
   {
     // Member variable is an array
     String type = member.type;
@@ -553,9 +554,16 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       type = type + "[]";
     }
 
+    // Member variable is a constant
+    String reference = "this";
+    if (member.getClass() == AttributeContainer.ConstantElement.class)
+    {
+      reference = className;
+    }
+
     JMethod getter = JMethod.factory.create(JModifier.PUBLIC, type, "get" + this.firstLetterCapital(member.name));
 
-    getter.getBody().appendSource(String.format("return this.%s;", member.name));
+    getter.getBody().appendSource(String.format("return %s.%s;", reference, member.name));
     getter.setComment(new JMethodCommentImpl(String.format("Get the '%s' member variable.", member.name)));
 
     return getter;
