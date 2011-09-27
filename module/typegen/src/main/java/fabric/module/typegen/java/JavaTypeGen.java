@@ -1,4 +1,4 @@
-/** 25.09.2011 19:46 */
+/** 27.09.2011 19:08 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -262,7 +262,8 @@ public class JavaTypeGen implements TypeGen
   @Override
   public void addMemberVariable(FElement element, boolean isTopLevel)
   {
-    if (!this.incompleteBuilders.empty())
+    // Only add member variable, if we have any incomplete container
+    if ((isTopLevel && !this.incompleteBuilders.empty()) || null != this.incompleteLocalBuilder)
     {
       // Determine element type
       String typeName = "";
@@ -288,14 +289,14 @@ public class JavaTypeGen implements TypeGen
 
       // Add member variable to current incomplete container
       AttributeContainer.Builder current = (isTopLevel ? this.incompleteBuilders.pop() : this.incompleteLocalBuilder);
-      
+
       // Enforce restrictions for local simple types or extensions of existing types
       AttributeContainer.Restriction restrictions = new AttributeContainer.Restriction();
-      if ((element.getSchemaType().isSimple() && !element.getSchemaType().isTopLevel()) || this.generatedElements.containsKey(typeName))
+      if (element.getSchemaType().isSimple() && (!element.getSchemaType().isTopLevel() || this.generatedElements.containsKey(typeName)))
       {
         restrictions = this.createRestrictions((FSimpleType)(element.getSchemaType()));
       }
-      
+
       // Element is an enum
       if (!element.getSchemaType().isTopLevel() && FSchemaTypeHelper.isEnum(element.getSchemaType()))
       {

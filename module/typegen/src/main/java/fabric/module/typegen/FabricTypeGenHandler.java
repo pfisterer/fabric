@@ -126,7 +126,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called startLocalElement().");
 
-    if (null != element)
+    if (null != element && null != parent)
     {
       typeGenerator.addMemberVariable(element, parent.isTopLevel());
     }
