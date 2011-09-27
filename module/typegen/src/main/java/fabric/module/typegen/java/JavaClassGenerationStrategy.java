@@ -1,8 +1,9 @@
-/** 25.09.2011 18:02 */
+/** 27.09.2011 22:19 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -188,7 +189,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       {
         AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)member;
         
-        JEnum je = JEnum.factory.create(JModifier.PRIVATE, ee.type, ee.enumConstants);
+        JEnum je = JEnum.factory.create(JModifier.PRIVATE, ee.type, this.fixEnumConstants(ee.enumConstants));
         je.setComment(new JEnumCommentImpl(String.format("The '%s' enumeration.", ee.type)));
         je.addAnnotation(new JEnumAnnotationImpl(this.xmlMapper.getAnnotation("enum", ee.type)));
         jc.add(je);
@@ -617,6 +618,60 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     }
 
     return result;
+  }
+
+  /**
+   * Private helper method to fix the name of enum constants
+   * for Java. XML schema allows names that start with a
+   * number or include dashes, whereas in Java enum constants
+   * must start with a character and must not contain dashes.
+   *
+   * This function replaces all invalid characters and adds
+   * a replace character to the beginning of a name, if it
+   * starts with a non-character.
+   *
+   * To prevent the creation of duplicate names, we always
+   * have to check that a newly created name not already
+   * exists in the enum constants array.
+   *
+   * @param enumConstants Array with XSD enum constant names
+   *
+   * @return Array with cleaned, Java-compatible constant names
+   */
+  private String[] fixEnumConstants(String[] enumConstants)
+  {
+    final char REPLACE_CHAR = '_';
+
+    // Check all enum constants
+    for (int i = 0; i < enumConstants.length; ++i)
+    {
+      String newName = enumConstants[i];
+
+      // First character must not be a number
+      if (newName.substring(0, 1).matches("[0-9]"))
+      {
+        newName = REPLACE_CHAR + newName;
+      }
+
+      // Replace all invalid characters
+      newName = newName.replaceAll("[^A-Za-z0-9]", String.valueOf(REPLACE_CHAR));
+
+      // If name was changed, make sure we created no duplicate
+      if (!newName.equals(enumConstants[i]) && Arrays.asList(enumConstants).contains(newName))
+      {
+        do
+        {
+          // Create new name
+          newName = REPLACE_CHAR + newName;
+
+          // Check again
+        } while (Arrays.asList(enumConstants).contains(newName));
+      }
+
+      enumConstants[i] = newName;
+    }
+
+    return enumConstants;
   }
 
   /**
