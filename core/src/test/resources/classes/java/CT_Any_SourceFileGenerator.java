@@ -2,6 +2,7 @@ package classes.java;
 
 import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
+import fabric.module.typegen.java.AnnotationMapper;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 import java.util.Properties;
@@ -14,31 +15,33 @@ public class CT_Any_SourceFileGenerator extends JSourceFileGenerator {
     /**
         * Constructor
         */
-    public CT_Any_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
-        super(strategy, properties);
+    public CT_Any_SourceFileGenerator(Properties properties) {
+        super(properties);
     }
 
     @Override
     void generateClasses() throws Exception {
         /*
-               * CarType
-               */
-        types.add((JClass) AttributeContainer.newBuilder()
+         * CarType
+         */
+        JavaClassGenerationStrategy strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
+        types.put((JClass) AttributeContainer.newBuilder()
                 .setName("CarType")
                 .addElement("int", "HorsePower")
                 .addElement("String", "LicenseNumber")
                 .addElement("javax.xml.datatype.XMLGregorianCalendar", "ProductionYear")
-                .addElement("String", "anyElement")
+                .addElement("byte[]", "anyElement") // TODO: Check handling of xs:any!
                 .build()
-                .asClassObject(strategy));
+                .asClassObject(strategy), strategy.getRequiredDependencies());
 
         /*
-               * Root
-               */
-        types.add((JClass) AttributeContainer.newBuilder()
+         * Root
+         */
+        strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
+        types.put((JClass) AttributeContainer.newBuilder()
                 .setName(rootName)
                 .addElement("CarType", "Car")
                 .build()
-                .asClassObject(strategy));
+                .asClassObject(strategy), strategy.getRequiredDependencies());
     }
 }

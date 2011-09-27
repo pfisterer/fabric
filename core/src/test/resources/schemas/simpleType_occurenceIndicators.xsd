@@ -5,7 +5,7 @@
 	<xs:complexType name="IntValuesType">
     	<xs:sequence>
 			<xs:element name="IntValue1" type="xs:int" minOccurs="0"/>
-			<xs:element name="IntValue2" type="xs:int" minOccurs="2"/>
+			<xs:element name="IntValue2" type="xs:int" minOccurs="2" maxOccurs="3"/>
 			<xs:element name="IntValue3" type="xs:int" maxOccurs="2"/>
 			<xs:element name="IntValue4" type="xs:int" maxOccurs="unbounded"/>
 			<xs:element name="IntValue5" type="xs:int" minOccurs="0" maxOccurs="0"/>

@@ -4,11 +4,9 @@ import de.uniluebeck.sourcegen.SourceFile;
 import de.uniluebeck.sourcegen.java.JComplexType;
 import de.uniluebeck.sourcegen.java.JSourceFile;
 import de.uniluebeck.sourcegen.java.JSourceFileImpl;
-import fabric.module.typegen.java.JavaClassGenerationStrategy;
 import classes.base.SourceFileGenerator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
+
+import java.util.*;
 
 /**
  * Abstract class for generating the expected JSourceFile objects of a test case.
@@ -16,9 +14,9 @@ import java.util.Properties;
 public abstract class JSourceFileGenerator extends SourceFileGenerator {
 
     /**
-     * JComplexType objects (JClass, JEnum, ...) generated for the test XSD
+     * JComplexType objects (JClass, JEnum, ...) generated for the test XSD with its required imports as a string list
      */
-    List<JComplexType> types;
+    HashMap<JComplexType, ArrayList<String>> types;
 
     /**
      * Package name
@@ -26,13 +24,19 @@ public abstract class JSourceFileGenerator extends SourceFileGenerator {
     String packageName;
 
     /**
+     * XML Framework
+     */
+    String xmlFramework;
+
+    /**
      * Constructor
      */
-    public JSourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
-        super(strategy, properties);
+    public JSourceFileGenerator(Properties properties) {
+        super(properties);
         try {
-            packageName = properties.getProperty("typegen.java.package_name");
-            types = new LinkedList<JComplexType>();
+            packageName     = properties.getProperty("typegen.java.package_name");
+            xmlFramework    = properties.getProperty("typegen.java.xml_framework");
+            types = new HashMap<JComplexType, ArrayList<String>>();
             generateClasses();
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,8 +53,14 @@ public abstract class JSourceFileGenerator extends SourceFileGenerator {
         List<SourceFile> files = new LinkedList<SourceFile>();
         JSourceFile file;
         try {
-            for (JComplexType type : types) {
+            for (JComplexType type : types.keySet()) {
+                // Generate new JSourceFile object
                 file = new JSourceFileImpl(packageName, type.getName());
+                // Add imports to source file
+                for (String requiredImport: types.get(type)) {
+                    file.addImport(requiredImport);
+                }
+                // Add source file to list
                 files.add(file.add(type));
             }
         } catch (Exception e) {

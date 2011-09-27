@@ -19,16 +19,10 @@ public abstract class SourceFileGenerator {
     public static String rootName;
 
     /**
-     * ClassGenerationStrategy
-     */
-    protected ClassGenerationStrategy strategy;
-
-    /**
      * Constructor
      */
-    public SourceFileGenerator(ClassGenerationStrategy strategy, Properties properties) {
+    public SourceFileGenerator(Properties properties) {
         try {
-            this.strategy = strategy;
             rootName = properties.getProperty("typegen.main_class_name");
         } catch (Exception e) {
             e.printStackTrace();

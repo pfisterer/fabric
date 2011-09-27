@@ -3,6 +3,7 @@ package classes.java;
 import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.AttributeContainer.Restriction;
+import fabric.module.typegen.java.AnnotationMapper;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 import java.util.Properties;
@@ -15,28 +16,36 @@ public class ST_Pattern_SourceFileGenerator extends JSourceFileGenerator {
     /**
      * Constructor
      */
-    public ST_Pattern_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
-        super(strategy, properties);
+    public ST_Pattern_SourceFileGenerator(Properties properties) {
+        super(properties);
     }
 
     /**
      * Generates the JComplexType objects corresponding to the test XSD.
      */
     @Override void generateClasses() throws Exception {
-    	Restriction address1TypeTRestriction = new Restriction();
-    	address1TypeTRestriction.pattern = "[A-Z][A-Z][A-Z]";
-    	JClass address1Type = ((JClass) AttributeContainer.newBuilder()
+        /**
+         * InitialsType
+         */
+        JavaClassGenerationStrategy strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
+    	Restriction initialsTypeRestriction = new Restriction();
+    	initialsTypeRestriction.pattern = "[A-Z][A-Z][A-Z]";
+    	JClass initialsType = ((JClass) AttributeContainer.newBuilder()
             .setName("InitialsType")
-            .addAttribute("String", "value", address1TypeTRestriction)
+            .addElement("String", "value", initialsTypeRestriction)
             .build()
             .asClassObject(strategy));
-        types.add(address1Type); 
-        
+        types.put(initialsType, strategy.getRequiredDependencies());
+
+        /**
+         * Root
+         */
+        strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
         JClass root = ((JClass) AttributeContainer.newBuilder()
             .setName(rootName)
             .addElement("InitialsType", "Initials")
             .build()
             .asClassObject(strategy));
-        types.add(root); 
+        types.put(root, strategy.getRequiredDependencies());
     }
 }

@@ -78,11 +78,6 @@ public class MainTest {
     private static Workspace workspace;
 
     /**
-     * JavaClassGenerationStrategy
-     */
-    private static JavaClassGenerationStrategy javaStrategy;
-
-    /**
      * Properties
      */
     private static Properties properties;
@@ -93,7 +88,6 @@ public class MainTest {
         properties = new Properties();
         properties.load(propInFile);
         workspace = new Workspace(properties);
-        javaStrategy = new JavaClassGenerationStrategy();  // TODO: Annotation Mapper?
     }
 
     @After
@@ -109,161 +103,161 @@ public class MainTest {
     @Test
     public void test_CT_all() throws Exception {
         assertTrue(
-                testFile(CT_ALL, new CT_All_SourceFileGenerator(javaStrategy, properties))
+                testFile(CT_ALL, new CT_All_SourceFileGenerator(properties))
         );
     }
 
     @Test
     public void test_CT_any() throws Exception {
         assertTrue(
-                testFile(CT_ANY, new CT_Any_SourceFileGenerator(javaStrategy, properties))
-        );
+                testFile(CT_ANY, new CT_Any_SourceFileGenerator(properties))
+        ); // TODO: Test will fail because there is no support of xs:any yet!
     }
 
     @Test
     public void test_CT_anyAttribute() throws Exception {
         assertTrue(
-                testFile(CT_ANYATTRIBUTE, new CT_AnyAttribute_SourceFileGenerator(javaStrategy, properties))
-        );
+                testFile(CT_ANYATTRIBUTE, new CT_AnyAttribute_SourceFileGenerator(properties))
+        ); // TODO: Test will fail because there is no support of xs:anyAttribute yet!
     }
 
     @Test
     public void test_CT_attributes() throws Exception {
         assertTrue(
-                testFile(CT_ATTRIBUTES, new CT_Attributes_SourceFileGenerator(javaStrategy, properties))
-        );
+                testFile(CT_ATTRIBUTES, new CT_Attributes_SourceFileGenerator(properties))
+        ); // TODO: Test will fail because there is no support of xs:attribute yet!
     }
 
     @Test
     public void test_CT_choice() throws Exception {
         assertTrue(
-                testFile(CT_CHOICE, new CT_Choice_SourceFileGenerator(javaStrategy, properties))
+                testFile(CT_CHOICE, new CT_Choice_SourceFileGenerator(properties))
         );
     }
 
     @Test
     public void test_CT_complexContent() throws Exception {
         assertTrue(
-                testFile(CT_COMPLEXCONTENT, new CT_ComplexContent_SourceFileGenerator(javaStrategy, properties))
-        );
+                testFile(CT_COMPLEXCONTENT, new CT_ComplexContent_SourceFileGenerator(properties))
+        ); // TODO: Test will fail because there is no support of xs:complexContent yet!
     }
 
     @Test
     public void test_CT_innerComplexType() throws Exception {
         assertTrue(
-                testFile(CT_INNERCOMPLEXTYPE, new CT_InnerComplexType_SourceFileGenerator(javaStrategy, properties))
+                testFile(CT_INNERCOMPLEXTYPE, new CT_InnerComplexType_SourceFileGenerator(properties))
         );
     }
 
     @Test
     public void test_CT_ref() throws Exception {
         assertTrue(
-                testFile(CT_REF, new CT_Ref_SourceFileGenerator(javaStrategy, properties))
+                testFile(CT_REF, new CT_Ref_SourceFileGenerator(properties))
         );
     }
 
     @Test
     public void test_CT_sequence_global() throws Exception {
         assertTrue(
-                testFile(CT_SEQUENCE_GLOBAL, new CT_Sequence_Global_SourceFileGenerator(javaStrategy, properties))
+                testFile(CT_SEQUENCE_GLOBAL, new CT_Sequence_Global_SourceFileGenerator(properties))
         );
     }
 
     @Test
     public void test_CT_sequence_local() throws Exception {
         assertTrue(
-                testFile(CT_SEQUENCE_LOCAL, new CT_Sequence_Local_SourceFileGenerator(javaStrategy, properties))
+                testFile(CT_SEQUENCE_LOCAL, new CT_Sequence_Local_SourceFileGenerator(properties))
         );
     }
 
     @Test
     public void test_CT_simpleContent() throws Exception {
         assertTrue(
-                testFile(CT_SIMPLECONTENT, new CT_SimpleContent_SourceFileGenerator(javaStrategy, properties))
-        );
+                testFile(CT_SIMPLECONTENT, new CT_SimpleContent_SourceFileGenerator(properties))
+        ); // TODO: Test will fail because there is no support of xs:simpleContent yet!
     }
 
     @Test
     public void test_ST_digits() throws Exception {
         assertTrue(
-                testFile(ST_DIGITS, new ST_Digits_SourceFileGenerator(javaStrategy, properties))
+                testFile(ST_DIGITS, new ST_Digits_SourceFileGenerator(properties))
         );
     }
 
     @Test
     public void test_ST_enumeration_global() throws Exception {
         assertTrue(
-                testFile(ST_ENUMERATION_GLOBAL, new ST_Enumeration_Global_SourceFileGenerator(javaStrategy, properties))
+                testFile(ST_ENUMERATION_GLOBAL, new ST_Enumeration_Global_SourceFileGenerator(properties))
         );
     }
 
     @Test
     public void test_ST_enumeration_local() throws Exception {
         assertTrue(
-                testFile(ST_ENUMERATION_LOCAL, new ST_Enumeration_Local_SourceFileGenerator(javaStrategy, properties))
+                testFile(ST_ENUMERATION_LOCAL, new ST_Enumeration_Local_SourceFileGenerator(properties))
         );
     }
 
     @Test
     public void test_ST_inclusiveExclusive() throws Exception {
         assertTrue(
-                testFile(ST_INCLUSIVEEXCLUSIVE, new ST_InclusiveExclusive_SourceFileGenerator(javaStrategy, properties))
+                testFile(ST_INCLUSIVEEXCLUSIVE, new ST_InclusiveExclusive_SourceFileGenerator(properties))
         );
     }
 
     @Test
     public void test_ST_length() throws Exception {
         assertTrue(
-                testFile(ST_LENGTH, new ST_Length_SourceFileGenerator(javaStrategy, properties))
+                testFile(ST_LENGTH, new ST_Length_SourceFileGenerator(properties))
         );
     }
 
     @Test
     public void test_ST_list() throws Exception {
         assertTrue(
-                testFile(ST_LIST, new ST_List_SourceFileGenerator(javaStrategy, properties))
+                testFile(ST_LIST, new ST_List_SourceFileGenerator(properties))
         );
     }
 
     @Test
     public void test_ST_occurenceIndicators() throws Exception {
         assertTrue(
-                testFile(ST_OCCURENCEINDICATORS, new ST_OccurenceIndicators_SourceFileGenerator(javaStrategy, properties))
+                testFile(ST_OCCURENCEINDICATORS, new ST_OccurenceIndicators_SourceFileGenerator(properties))
         );
     }
 
     @Test
     public void test_ST_pattern() throws Exception {
         assertTrue(
-                testFile(ST_PATTERN, new ST_Pattern_SourceFileGenerator(javaStrategy, properties))
+                testFile(ST_PATTERN, new ST_Pattern_SourceFileGenerator(properties))
         );
     }
 
     @Test
     public void test_ST() throws Exception {
         assertTrue(
-                testFile(ST, new ST_SourceFileGenerator(javaStrategy, properties))
+                testFile(ST, new ST_SourceFileGenerator(properties))
         );
     }
 
     @Test
     public void test_ST_substitution() throws Exception {
         assertTrue(
-                testFile(ST_SUBSTITUTION, new ST_Substitution_SourceFileGenerator(javaStrategy, properties))
-        );
+                testFile(ST_SUBSTITUTION, new ST_Substitution_SourceFileGenerator(properties))
+        ); // TODO: Test will fail because there is no support of substitution yet!
     }
 
     @Test
     public void test_ST_values() throws Exception {
         assertTrue(
-                testFile(ST_VALUES, new ST_Values_SourceFileGenerator(javaStrategy, properties))
+                testFile(ST_VALUES, new ST_Values_SourceFileGenerator(properties))
         );
     }
 
     @Test
     public void test_ST_whiteSpace() throws Exception {
         assertTrue(
-                testFile(ST_WHITESPACE, new ST_WhiteSpace_SourceFileGenerator(javaStrategy, properties))
+                testFile(ST_WHITESPACE, new ST_WhiteSpace_SourceFileGenerator(properties))
         );
     }
 
@@ -334,7 +328,7 @@ public class MainTest {
             Workspace w = (Workspace) objWorkspace;
             ret = w.getSourceFiles();
         } catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
 
         return ret;

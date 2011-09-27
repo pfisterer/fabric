@@ -4,6 +4,7 @@ import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JEnum;
 import de.uniluebeck.sourcegen.java.JModifier;
 import fabric.module.typegen.AttributeContainer;
+import fabric.module.typegen.java.AnnotationMapper;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 import java.util.Properties;
@@ -16,8 +17,8 @@ public class ST_Enumeration_Local_SourceFileGenerator extends JSourceFileGenerat
     /**
      * Constructor
      */
-    public ST_Enumeration_Local_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
-        super(strategy, properties);
+    public ST_Enumeration_Local_SourceFileGenerator(Properties properties) {
+        super(properties);
     }
 
     /**
@@ -32,12 +33,13 @@ public class ST_Enumeration_Local_SourceFileGenerator extends JSourceFileGenerat
         /*
         Root
          */
+        JavaClassGenerationStrategy strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
         JClass root = (JClass) AttributeContainer.newBuilder()
                 .setName(rootName)
                 .addElement("CarType", "Car")
                 .build()
                 .asClassObject(strategy);
 
-        types.add(root.add(carType));
+        types.put(root.add(carType), strategy.getRequiredDependencies());
     }
 }

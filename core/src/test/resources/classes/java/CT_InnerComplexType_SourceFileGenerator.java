@@ -2,6 +2,7 @@ package classes.java;
 
 import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
+import fabric.module.typegen.java.AnnotationMapper;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 import java.util.Properties;
@@ -14,8 +15,8 @@ public class CT_InnerComplexType_SourceFileGenerator extends JSourceFileGenerato
     /**
      * Constructor
      */
-    public CT_InnerComplexType_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
-        super(strategy, properties);
+    public CT_InnerComplexType_SourceFileGenerator(Properties properties) {
+        super(properties);
     }
 
     /**
@@ -24,8 +25,9 @@ public class CT_InnerComplexType_SourceFileGenerator extends JSourceFileGenerato
     @Override
     void generateClasses() throws Exception {
         /*
-               * PersonType
-               */
+         * CarType
+         */
+        JavaClassGenerationStrategy strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
         JClass carType = ((JClass) AttributeContainer.newBuilder()
             .setName("CarType")
             .addElement("int", "HorsePower")
@@ -35,24 +37,27 @@ public class CT_InnerComplexType_SourceFileGenerator extends JSourceFileGenerato
             .build()
             .asClassObject(strategy));
 
+        /**
+         * Tank
+         */
         JClass tank = ((JClass) AttributeContainer.newBuilder()
             .setName("Tank")
             .addElement("long", "Capacity")
             .addElement("String", "Material")
             .build()
             .asClassObject(strategy));
-
         carType.add(tank);
-        types.add(carType);
+        types.put(carType, strategy.getRequiredDependencies());
 
 
         /*
-               * Root
-               */
-        types.add((JClass) AttributeContainer.newBuilder()
+         * Root
+         */
+        strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
+        types.put((JClass) AttributeContainer.newBuilder()
             .setName(rootName)
             .addElement("CarType", "Car")
             .build()
-            .asClassObject(strategy));
+            .asClassObject(strategy), strategy.getRequiredDependencies());
     }
 }

@@ -2,6 +2,7 @@ package classes.java;
 
 import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
+import fabric.module.typegen.java.AnnotationMapper;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 import java.util.Properties;
@@ -14,8 +15,8 @@ public class CT_SimpleContent_SourceFileGenerator extends JSourceFileGenerator {
     /**
      * Constructor
      */
-    public CT_SimpleContent_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
-        super(strategy, properties);
+    public CT_SimpleContent_SourceFileGenerator(Properties properties) {
+        super(properties);
     }
 
     /**
@@ -24,20 +25,28 @@ public class CT_SimpleContent_SourceFileGenerator extends JSourceFileGenerator {
     @Override
     void generateClasses() throws Exception {
 
+        /**
+         * ShoeType
+         */
+        JavaClassGenerationStrategy strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
         JClass shoeType = ((JClass) AttributeContainer.newBuilder()
             .setName("ShoeType")
             .addElement("int", "this_name_should_be_removed")   // TODO remove name
             .addAttribute("String", "Country")
             .build()
             .asClassObject(strategy));
+        types.put(shoeType, strategy.getRequiredDependencies());
 
-
+        /**
+         * Root
+         */
+        strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
         JClass root = ((JClass) AttributeContainer.newBuilder()
             .setName(rootName)
             .addElement("ShoeType", "Shoe")
             .build()
-            .asClassObject(strategy));
+            .asClassObject(new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework))));
 
-        types.add(root);
+        types.put(root, strategy.getRequiredDependencies());
     }
 }

@@ -2,6 +2,7 @@ package classes.java;
 
 import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
+import fabric.module.typegen.java.AnnotationMapper;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 import java.util.Properties;
@@ -14,8 +15,8 @@ public class CT_ComplexContent_SourceFileGenerator extends JSourceFileGenerator 
     /**
      * Constructor
      */
-    public CT_ComplexContent_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
-        super(strategy, properties);
+    public CT_ComplexContent_SourceFileGenerator(Properties properties) {
+        super(properties);
     }
 
     /**
@@ -25,8 +26,9 @@ public class CT_ComplexContent_SourceFileGenerator extends JSourceFileGenerator 
     void generateClasses() throws Exception {
 
         /*
-               * Create types
-               */
+         * CarType
+         */
+        JavaClassGenerationStrategy strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
         JClass carType = ((JClass) AttributeContainer.newBuilder()
             .setName("CarType")
             .addElement("int", "HorsePower")
@@ -34,8 +36,12 @@ public class CT_ComplexContent_SourceFileGenerator extends JSourceFileGenerator 
             .addElement("javax.xml.datatype.XMLGregorianCalendar", "ProductionYear")
             .build()
             .asClassObject(strategy));
-        types.add(carType);
+        types.put(carType, strategy.getRequiredDependencies());
 
+        /**
+         * CarExtendedType
+         */
+        strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
         JClass extendedCarType = ((JClass) AttributeContainer.newBuilder()
             .setName("CarExtendedType")
             .addElement("java.math.BigDecimal", "Milage")
@@ -43,15 +49,16 @@ public class CT_ComplexContent_SourceFileGenerator extends JSourceFileGenerator 
             .build()
             .asClassObject(strategy));
         extendedCarType.setExtends(carType);
-        types.add(extendedCarType);
+        types.put(extendedCarType, strategy.getRequiredDependencies());
 
         /*
-               * Root
-               */
-        types.add((JClass) AttributeContainer.newBuilder()
+         * Root
+         */
+        strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
+        types.put((JClass) AttributeContainer.newBuilder()
             .setName(rootName)
             .addElement("CarExtendedType", "ExtendedCar")
             .build()
-            .asClassObject(strategy));
+            .asClassObject(strategy), strategy.getRequiredDependencies());
     }
 }

@@ -2,6 +2,7 @@ package classes.java;
 
 import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
+import fabric.module.typegen.java.AnnotationMapper;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 import java.util.Properties;
@@ -14,28 +15,32 @@ public class CT_All_SourceFileGenerator extends JSourceFileGenerator {
     /**
         * Constructor
         */
-    public CT_All_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
-        super(strategy, properties);
+    public CT_All_SourceFileGenerator(Properties properties) {
+        super(properties);
     }
 
     @Override
     void generateClasses() throws Exception {
+
         /*
-               * PersonType
-               */
-        types.add((JClass) AttributeContainer.newBuilder()
+         * PersonType
+         */
+        JavaClassGenerationStrategy strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
+        types.put((JClass) AttributeContainer.newBuilder()
                 .setName("PersonType")
                 .addElement("String", "FirstName")
                 .addElement("String", "LastName")
                 .build()
-                .asClassObject(strategy));
+                .asClassObject(strategy), strategy.getRequiredDependencies());
+
         /*
-               * Root
-               */
-        types.add((JClass) AttributeContainer.newBuilder()
+         * Root
+         */
+        strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
+        types.put((JClass) AttributeContainer.newBuilder()
                 .setName(rootName)
                 .addElement("PersonType", "Person")
                 .build()
-                .asClassObject(strategy));
+                .asClassObject(strategy), strategy.getRequiredDependencies());
     }
 }

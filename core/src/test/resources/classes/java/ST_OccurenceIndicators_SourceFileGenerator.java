@@ -2,6 +2,7 @@ package classes.java;
 
 import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
+import fabric.module.typegen.java.AnnotationMapper;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 import java.util.Properties;
@@ -14,31 +15,39 @@ public class ST_OccurenceIndicators_SourceFileGenerator extends JSourceFileGener
     /**
      * Constructor
      */
-    public ST_OccurenceIndicators_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
-        super(strategy, properties);
+    public ST_OccurenceIndicators_SourceFileGenerator(Properties properties) {
+        super(properties);
     }
 
     /**
      * Generates the JComplexType objects corresponding to the test XSD.
      */
     @Override void generateClasses() throws Exception {
+        /**
+         * IntValuesType
+         */
+        JavaClassGenerationStrategy strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
     	JClass intValuesType = ((JClass) AttributeContainer.newBuilder()
             .setName("IntValuesType")
-         //TODO minOccurs not supported  .addElementArray("int", "IntValue1", 0)
-         //TODO minOccurs not supported  .addElementArray("int", "IntValue2", 2)
+            .addElementArray("int", "IntValue1", 0, 1)
+            .addElementArray("int", "IntValue2", 2, 3)
             .addElementArray("int", "IntValue3", 2)
             .addElementArray("int", "IntValue4", Integer.MAX_VALUE)
-            .addElementArray("int", "IntValue5", 0)
-            .addElementArray("int", "IntValue6", Integer.MAX_VALUE)
+            .addElementArray("int", "IntValue5", 0, 0)
+            .addElementArray("int", "IntValue6", 0, Integer.MAX_VALUE)
             .build()
             .asClassObject(strategy));
-        types.add(intValuesType); 
-	    		
-		JClass root = ((JClass) AttributeContainer.newBuilder()
+        types.put(intValuesType, strategy.getRequiredDependencies());
+
+        /**
+         * Root
+         */
+        strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
+	JClass root = ((JClass) AttributeContainer.newBuilder()
             .setName(rootName)
             .addElement("IntValuesType", "IntValues")
             .build()
             .asClassObject(strategy));
-        types.add(root);    	
+        types.put(root, strategy.getRequiredDependencies());
     }
 }

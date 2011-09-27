@@ -1,7 +1,9 @@
 package classes.cpp;
 
 import de.uniluebeck.sourcegen.SourceFile;
+import de.uniluebeck.sourcegen.c.CComplexType;
 import de.uniluebeck.sourcegen.c.CppClass;
+import de.uniluebeck.sourcegen.c.CppComplexType;
 import de.uniluebeck.sourcegen.c.CppSourceFileImpl;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.cpp.CppClassGenerationStrategy;
@@ -16,16 +18,16 @@ import java.util.Properties;
  */
 public abstract class CppSourceFileGenerator extends SourceFileGenerator {
     /**
-     * AttributeContainer objects generated for the test XSD
+     * CppClass objects generated for the test XSD
      */
-    List<AttributeContainer> containers;
+    List<CppClass> types;
 
     /**
      * Constructor
      */
-    public CppSourceFileGenerator(CppClassGenerationStrategy strategy, Properties properties) {
-        super(strategy, properties);
-        containers = new LinkedList<AttributeContainer>();
+    public CppSourceFileGenerator(Properties properties) {
+        super(properties);
+        types = new LinkedList<CppClass>();
         generateClasses();
     }
 
@@ -39,9 +41,9 @@ public abstract class CppSourceFileGenerator extends SourceFileGenerator {
         List<SourceFile> files = new LinkedList<SourceFile>();
         CppSourceFileImpl file;
         try {
-            for (AttributeContainer container : containers) {
-                file = new CppSourceFileImpl(container.getName());
-                files.add(file.add((CppClass)container.asClassObject(strategy)));
+            for (CppClass type : types) {
+                file = new CppSourceFileImpl(type.getTypeName());
+                files.add(file.add(type));
             }
         } catch (Exception e) {
             e.printStackTrace();

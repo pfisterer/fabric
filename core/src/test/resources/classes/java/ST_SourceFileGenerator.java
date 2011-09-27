@@ -2,6 +2,7 @@ package classes.java;
 
 import de.uniluebeck.sourcegen.java.JClass;
 import fabric.module.typegen.AttributeContainer;
+import fabric.module.typegen.java.AnnotationMapper;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
 import java.util.Properties;
@@ -14,15 +15,16 @@ public class ST_SourceFileGenerator extends JSourceFileGenerator {
     /**
      * Constructor
      */
-    public ST_SourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
-        super(strategy, properties);
+    public ST_SourceFileGenerator(Properties properties) {
+        super(properties);
     }
 
     @Override void generateClasses() throws Exception {
         /*
         Root
          */
-        types.add((JClass) AttributeContainer.newBuilder()
+        JavaClassGenerationStrategy strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
+        types.put((JClass) AttributeContainer.newBuilder()
                 .setName(rootName)
                 .addElement("boolean", "BooleanValue")
                 .addElement("float", "FloatValue")
@@ -62,6 +64,6 @@ public class ST_SourceFileGenerator extends JSourceFileGenerator {
                 .addElement("String", "NormalizedStringValue")
                 .addElement("String", "TokenValue")
                 .build()
-                .asClassObject(strategy));
+                .asClassObject(strategy), strategy.getRequiredDependencies());
     }
 }
