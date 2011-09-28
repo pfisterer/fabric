@@ -38,7 +38,6 @@ import de.uniluebeck.sourcegen.c.CWorkspace;
 import de.uniluebeck.sourcegen.c.CppHeaderFile;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.dot.DotGraphWorkspace;
-import de.uniluebeck.sourcegen.echo.EchoWorkspace;
 import de.uniluebeck.sourcegen.helloworld.HelloWorldWorkspace;
 import de.uniluebeck.sourcegen.java.JSourceFile;
 import de.uniluebeck.sourcegen.java.JavaWorkspace;
@@ -111,21 +110,6 @@ public class Workspace {
     }
 
     // ###################################################################
-    // Echo workspace
-    // ###################################################################
-
-    private final EchoWorkspace echo;
-
-    /**
-     * Returns the helper for echo file generation in this workspace.
-     *
-     * @return The echo helper instance.
-     */
-    public EchoWorkspace getEchoHelper() {
-        return this.echo;
-    }
-
-    // ###################################################################
     // Hello World workspace
     // ###################################################################
 
@@ -162,7 +146,6 @@ public class Workspace {
         this.c = new CWorkspace(this);
         this.protobuf = new ProtobufWorkspace(this);
         this.dot = new DotGraphWorkspace(this);
-        this.echo = new EchoWorkspace(this);
         this.helloWorld = new HelloWorldWorkspace(this);
     }
 

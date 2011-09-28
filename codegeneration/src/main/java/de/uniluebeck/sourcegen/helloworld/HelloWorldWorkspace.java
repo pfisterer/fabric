@@ -52,7 +52,7 @@ public class HelloWorldWorkspace {
     private final List<SourceFile> sourceFiles;
 
     /**
-     * Constructs a new echo workspace helper.
+     * Constructs a new Hello World workspace helper.
      *
      * @param properties
      */

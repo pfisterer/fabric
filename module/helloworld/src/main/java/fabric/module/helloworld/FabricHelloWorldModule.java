@@ -30,8 +30,7 @@ import fabric.module.api.FabricModule;
 import fabric.module.api.FabricSchemaTreeItemHandler;
 
 /**
- * Fabric module used for creating an echo file of the Schema
- * object tree.
+ * Fabric module used for creating a Hello World application.
  */
 public class FabricHelloWorldModule implements FabricModule {
 

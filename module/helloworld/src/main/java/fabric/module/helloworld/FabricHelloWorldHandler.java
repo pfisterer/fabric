@@ -80,18 +80,6 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
 
     private final JSourceFileImpl helloWorldSource;
 
-   /* private final DGraphFile graphSource;
-
-    {
-        this.topLevelElementAttributes = EchoConstants.DEFAULT_TOP_LEVEL_ELEMENT_ATTRIBUTES;
-        this.localElementAttributes = EchoConstants.DEFAULT_LOCAL_ELEMENT_ATTRIBUTES;
-        this.topLevelSimpleTypeAttributes = EchoConstants.DEFAULT_TOP_LEVEL_SIMPLE_TYPE_ATTRIBUTES;
-        this.localSimpleTypeAttributes = EchoConstants.DEFAULT_LOCAL_SIMPLE_TYPE_ATTRIBUTES;
-        this.topLevelComplexTypeAttributes = EchoConstants.DEFAULT_TOP_LEVEL_COMPLEX_TYPE_ATTRIBUTES;
-        this.localComplexTypeAttributes = EchoConstants.DEFAULT_LOCAL_COMPLEX_TYPE_ATTRIBUTES;
-        this.edgeTopLevelTypeReference = EchoConstants.DEFAULT_EDGE_TOP_LEVEL_TYPE;
-    }*/
-
     /**
      * Constructs a new handler for dot graph generation.
      *
