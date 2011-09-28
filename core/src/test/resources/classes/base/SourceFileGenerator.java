@@ -1,11 +1,6 @@
 package classes.base;
 
 import de.uniluebeck.sourcegen.SourceFile;
-import de.uniluebeck.sourcegen.java.JComplexType;
-import fabric.module.typegen.base.ClassGenerationStrategy;
-import fabric.module.typegen.java.JavaClassGenerationStrategy;
-
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 

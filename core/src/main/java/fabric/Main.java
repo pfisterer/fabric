@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import fabric.module.exi.FabricEXIModule;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -45,7 +46,6 @@ import fabric.module.api.FabricSchemaTreeItemHandler;
 import fabric.module.api.FabricSchemaTreeWalker;
 import fabric.module.api.ModuleRegistry;
 import fabric.module.dot.FabricDotGraphModule;
-import fabric.module.echo.FabricEchoModule;
 import fabric.module.helloworld.FabricHelloWorldModule;
 import fabric.module.typegen.FabricTypeGenModule;
 import fabric.wsdlschemaparser.schema.FSchema;
@@ -168,7 +168,7 @@ public class Main {
     private void registerModules() throws Exception {
         this.registry.register(new FabricDotGraphModule(this.properties));
         this.registry.register(new CppModule(this.properties));
-        this.registry.register(new FabricEchoModule(this.properties));
+        this.registry.register(new FabricEXIModule());
         this.registry.register(new FabricHelloWorldModule(this.properties));
         this.registry.register(new FabricTypeGenModule(this.properties));
     }

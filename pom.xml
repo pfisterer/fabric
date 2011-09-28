@@ -21,7 +21,7 @@
     <module>module/api</module>
     <module>module/typegen</module>
     <module>module/dot</module>
-    <module>module/echo</module>
+    <module>module/exi</module>
     <module>module/helloworld</module>
     <module>module/protobuf</module>
     <module>module/cpp</module>
@@ -80,7 +80,7 @@
       </dependency>
       <dependency>
         <groupId>de.uniluebeck.itm</groupId>
-        <artifactId>fabric.module.echo</artifactId>
+        <artifactId>fabric.module.exi</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
