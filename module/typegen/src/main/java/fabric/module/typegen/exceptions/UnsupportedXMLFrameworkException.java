@@ -1,7 +1,7 @@
 package fabric.module.typegen.exceptions;
 
 /**
- * Custom exception for the AnnotationMapper within the Fabric TypeGen Module.
+ * Custom exception for the AnnotationMapper within the Fabric TypeGen module.
  * This exception can be thrown, when the developer tries to request an XML
  * framework in the AnnotationMapper, that is not supported.
  *

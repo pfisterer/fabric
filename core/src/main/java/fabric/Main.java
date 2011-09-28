@@ -168,7 +168,7 @@ public class Main {
     private void registerModules() throws Exception {
         this.registry.register(new FabricDotGraphModule(this.properties));
         this.registry.register(new CppModule(this.properties));
-        this.registry.register(new FabricEXIModule());
+        this.registry.register(new FabricEXIModule(this.properties));
         this.registry.register(new FabricHelloWorldModule(this.properties));
         this.registry.register(new FabricTypeGenModule(this.properties));
     }

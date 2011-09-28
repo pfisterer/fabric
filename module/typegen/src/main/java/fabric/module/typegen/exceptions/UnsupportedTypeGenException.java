@@ -1,7 +1,7 @@
 package fabric.module.typegen.exceptions;
 
 /**
- * Custom exception for the TypeGenFactory within the Fabric TypeGen Module.
+ * Custom exception for the TypeGenFactory within the Fabric TypeGen module.
  * This exception can be thrown, when the developer tries to instanziate a
  * class with the factory method, that is not a valid TypeGen implementation.
  * 

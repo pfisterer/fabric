@@ -1,4 +1,4 @@
-/** 25.09.2011 19:45 */
+/** 28.09.2011 13:39 */
 package fabric.module.typegen;
 
 import org.slf4j.Logger;
@@ -6,15 +6,16 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
+import de.uniluebeck.sourcegen.Workspace;
+import fabric.module.api.FabricDefaultHandler;
+
 import fabric.wsdlschemaparser.schema.FComplexType;
 import fabric.wsdlschemaparser.schema.FElement;
 import fabric.wsdlschemaparser.schema.FSchema;
 import fabric.wsdlschemaparser.schema.FSimpleType;
-import de.uniluebeck.sourcegen.Workspace;
-import fabric.module.api.FabricDefaultHandler;
+import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
 
 import fabric.module.typegen.base.TypeGen;
-import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
 
 /**
  * Fabric handler class for the type generator module. This class
@@ -38,6 +39,8 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
    *
    * @param workspace Workspace object for source code write-out
    * @param properties Properties object with module options
+   * 
+   * @throws Exception Error during type generator creation
    */
   public FabricTypeGenHandler(Workspace workspace, Properties properties) throws Exception
   {
@@ -58,7 +61,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called startSchema().");
 
-    typeGenerator.createRootContainer();
+    this.typeGenerator.createRootContainer();
   }
 
   /**
@@ -74,8 +77,8 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called endSchema().");
 
-    typeGenerator.buildCurrentContainer(); // Build root container
-    typeGenerator.writeSourceFiles();
+    this.typeGenerator.buildCurrentContainer(); // Build root container
+    this.typeGenerator.writeSourceFiles();
   }
 
   /**
@@ -94,7 +97,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
     if (null != element)
     {
-      typeGenerator.addMemberVariable(element, true);
+      this.typeGenerator.addMemberVariable(element, true);
     }
   }
 
@@ -128,7 +131,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
     if (null != element)
     {
-      typeGenerator.addMemberVariable(element, parent.isTopLevel());
+      this.typeGenerator.addMemberVariable(element, parent.isTopLevel());
     }
   }
 
@@ -165,7 +168,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
     if (null != element)
     {
-      typeGenerator.addMemberVariable(element, true);
+      this.typeGenerator.addMemberVariable(element, true);
     }
   }
 
@@ -201,7 +204,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
     if (null != type)
     {
-      typeGenerator.createNewContainer(type);
+      this.typeGenerator.createNewContainer(type);
     }
   }
 
@@ -227,7 +230,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
       // a container that is not yet complete)
       if (!FSchemaTypeHelper.isEnum(type))
       {
-        typeGenerator.buildCurrentContainer();
+        this.typeGenerator.buildCurrentContainer();
       }
     }
     catch (Exception e)
@@ -295,7 +298,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
     if (null != type)
     {
-      typeGenerator.createNewContainer(type);
+      this.typeGenerator.createNewContainer(type);
     }
   }
 
@@ -316,7 +319,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
     try
     {
-      typeGenerator.buildCurrentContainer();
+      this.typeGenerator.buildCurrentContainer();
     }
     catch (Exception e)
     {
@@ -354,7 +357,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
 
     if (null != type)
     {
-      typeGenerator.createNewContainer(type);
+      this.typeGenerator.createNewContainer(type);
     }
   }
 

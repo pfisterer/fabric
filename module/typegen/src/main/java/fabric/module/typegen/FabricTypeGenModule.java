@@ -75,7 +75,7 @@ public class FabricTypeGenModule implements FabricModule
   {
     return String.format("TypeGen module for generation of XML abstractions. "
             + "Valid options are '%s', '%s', '%s' and '%s'.",
-            TARGET_LANGUAGE_KEY, XML_FRAMEWORK_KEY, MAIN_CLASS_NAME_KEY, PACKAGE_NAME_KEY);
+            TARGET_LANGUAGE_KEY, MAIN_CLASS_NAME_KEY, XML_FRAMEWORK_KEY, PACKAGE_NAME_KEY);
   }
 
   /**
