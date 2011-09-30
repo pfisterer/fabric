@@ -1,4 +1,4 @@
-/** 27.09.2011 19:08 */
+/** 01.10.2011 00:35 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -363,7 +363,8 @@ public class JavaTypeGen implements TypeGen
       if (null != this.incompleteLocalBuilder)
       {        
         // Here we can reuse javaStrategy with stateful xmlMapper, because inner class is nested in outer container
-        JClass innerClassObject = (JClass)this.incompleteLocalBuilder.build().asClassObject(javaStrategy);
+        JClass innerClassObject = (JClass)javaStrategy.generateClassObject(this.incompleteLocalBuilder.build(),
+                JModifier.PUBLIC | JModifier.STATIC);
         classObject.add(innerClassObject);
         
         // Important: Reset incomplete local builder!
