@@ -1,107 +1,119 @@
 ----------------------------------------
-	FABRIC
+  FABRIC
 ----------------------------------------
-Fabric is a framework for code generation based on several scientific 
+Fabric is a framework for code generation based on several scientific
 publications [1,2,3]. It is comprised of components for
-	- parsing XML Schema and WSDL files into a tree, for
-	
-	- a module API to walk the tree for codegeneration, and for 
-	
-	- code generation (C, C++, Java) using simple APIs instead of 
-	  writing to stdout.
+  - parsing XML Schema and WSDL files into a tree, for
+
+  - a module API to walk the tree for codegeneration, and for
+
+  - code generation (C, C++, Java) using simple APIs instead of
+    writing to stdout.
 
 In addition, a number of modules are contained that generate code
-	- microFibre: An XML (de-)compression scheme usable for 
-	  ressource-constraint devices [2,3] that generates code for 
-	  Java and C++.
-	  
-	- macroFibre: An XML (de-)serialization scheme for
-	  ressource-constraint devices [3] that generates code for 
-	  Java and C++.
-	  
-	- XML: XML (de-)serialization for easy conversion from/to 
-	  macroFibre/microFibre
-	  
-	- protobuf: Converts XML Schema files to Google protobuf
-	  (http://code.google.com/p/protobuf/) files.
+  - microFibre: An XML (de-)compression scheme usable for
+    ressource-constraint devices [2,3] that generates code for
+    Java and C++.
+
+  - macroFibre: An XML (de-)serialization scheme for
+    ressource-constraint devices [3] that generates code for
+    Java and C++.
+
+  - XML: XML (de-)serialization for easy conversion from/to
+    macroFibre/microFibre.
+
+  - protobuf: Converts XML Schema files to Google protobuf
+    (http://code.google.com/p/protobuf/) files.
+
+In 2011/12 the Fabric framework was extended by two more modules:
+  - typegen: A generator to create Java bean-like container
+    classes from XML schema documents for both Java and C++.
+
+  - exi: An implementation of the Efficient XML Interchange
+    specification (http://www.w3.org/TR/exi) for XML (de-)
+    compression
 
 Fabric works as follows:
-	1.)	Input files are XML Schema and WSDL files which are parsed 
-		into a tree. This tree contains most information from the schema 
-		but abstracts away from all the nasty details of XML Schema
-		and WSDL. It automatically resolves all imports, references, 
-		etc. and the resulting tree can directly be used for code 
-		generation based on tree-walking.
-		
-	2.)	A so-called workspace is created that can be used for code 
-		generation. A workspace represents a set of files of a certain 
-		language (e.g., Java files) in memory. Users of the workspace use 
-		language-specific APIs to add components to the files (e.g., a 
-		Java class). To such elements, further stuff can be added (e.g., 
-		methods). The benefit over directly writing code to stdout is
-		that code can be added at any time in any order. Once the 
-		generation is done, the workspace can be serialized to the disk.
-		
-	3.)	A set of modules is invoked to handle the parsed tree. Modules are 
-		basically tree-walkers that react to events that are the result 
-		from walking the tree (e.g., handling a root element of a schema).
-		
-	4.)	The workspace is written to the disk.	
+  1.) Input files are XML Schema and WSDL files which are parsed
+    into a tree. This tree contains most information from the schema
+    but abstracts away from all the nasty details of XML Schema
+    and WSDL. It automatically resolves all imports, references,
+    etc. and the resulting tree can directly be used for code
+    generation based on tree-walking.
+
+  2.) A so-called workspace is created that can be used for code
+    generation. A workspace represents a set of files of a certain
+    language (e.g., Java files) in memory. Users of the workspace use
+    language-specific APIs to add components to the files (e.g., a
+    Java class). To such elements, further stuff can be added (e.g.,
+    methods). The benefit over directly writing code to stdout is
+    that code can be added at any time in any order. Once the
+    generation is done, the workspace can be serialized to the disk.
+
+  3.) A set of modules is invoked to handle the parsed tree. Modules are
+    basically tree-walkers that react to events that are the result
+    from walking the tree (e.g., handling a root element of a schema).
+
+  4.) The workspace is written to the disk.
 
 ----------------------------------------
 CONTACT
 ----------------------------------------
 Any feedback will be greatly appreciated, at the GitHub project page
-(https://github.com/pfisterer/fabric) or by contacting 
+(https://github.com/pfisterer/fabric) or by contacting
 Dennis Pfisterer (fabric__A_T__farberg__de).
+
+For feedback on the type generator or EXI module, please visit the
+Fabric fork at https://www.github.com/nepa/fabric and contact one
+of its maintainers.
 
 ----------------------------------------
 INSTALLATION / BUILDING
 ----------------------------------------
 No installation is required. To build fabric, you need Java 6 or higher
- and Maven 2 or higher (http://maven.apache.org/). 
+ and Maven 2 or higher (http://maven.apache.org/).
 
 Before cloning this repository, be sure to enable automatic
-conversion of CRLF/LF on your machine using "git config 
---global core.autocrlf input". For more information, please 
+conversion of CRLF/LF on your machine using "git config
+--global core.autocrlf input". For more information, please
 refer to http://help.github.com/dealing-with-lineendings/
 
-Clone the repository using 
+Clone the repository using
 "git clone git://github.com/pfisterer/fabric.git"
 
-To build, run "mvn install", this will build fabric and place the 
-generated jar file in target/ and in your local Maven repository.  
+To build, run "mvn install", this will build fabric and place the
+generated jar file in target/ and in your local Maven repository.
 
 ----------------------------------------
 USAGE
 ----------------------------------------
 
-	java -jar core/target/fabric.core-1.0.one-jar.jar --help
+  java -jar core/target/fabric.core-1.0.one-jar.jar --help
 
 ----------------------------------------
 LICENSE
 ----------------------------------------
-Fabric is licenced under a BSD license. For details, see 
+Fabric is licenced under a BSD license. For details, see
 src/etc/license-header.txt
 
-If you use Fabric for scientific publications, I appreciate 
+If you use Fabric for scientific publications, I appreciate
 if the papers below are referenced.
 
 ----------------------------------------
 REFERENCES
 ----------------------------------------
-[1]	Dennis Pfisterer, Horst Hellbrueck, and Stefan Fischer. Fabric: 
-	Towards data type-centric middleware synthesis. In Proceedings 
-	of the Euro-American Workshop on Middleware for Sensor Networks 
-	in conjunction with the International Conference on Distributed 
-	Computing (DCOSS 06), 2006.
+[1] Dennis Pfisterer, Horst Hellbrueck, and Stefan Fischer. Fabric:
+  Towards data type-centric middleware synthesis. In Proceedings
+  of the Euro-American Workshop on Middleware for Sensor Networks
+  in conjunction with the International Conference on Distributed
+  Computing (DCOSS 06), 2006.
 
-[2]	Dennis Pfisterer, Marco Wegner, Horst Hellbrueck, Christian Werner, 
-	and Stefan Fischer. Energy-optimized data serialization for 
-	heterogeneous WSNs using middleware synthesis. In Proceedings of 
-	The Sixth Annual Mediterranean Ad Hoc Networking Workshop 
-	(Med-Hoc-Net 2007), pages 180-187, June 2007.
-	
-[3]	Dennis Pfisterer: Comprehensive Development Support for Wireless 
-	Sensor Networks, PhD Thesis, Institute of Telematics, University 
-	of Luebeck, Germany, 2007.
+[2] Dennis Pfisterer, Marco Wegner, Horst Hellbrueck, Christian Werner,
+  and Stefan Fischer. Energy-optimized data serialization for
+  heterogeneous WSNs using middleware synthesis. In Proceedings of
+  The Sixth Annual Mediterranean Ad Hoc Networking Workshop
+  (Med-Hoc-Net 2007), pages 180-187, June 2007.
+
+[3] Dennis Pfisterer: Comprehensive Development Support for Wireless
+  Sensor Networks, PhD Thesis, Institute of Telematics, University
+  of Luebeck, Germany, 2007.
