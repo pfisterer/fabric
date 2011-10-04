@@ -476,7 +476,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMinInclusiveRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s < %d", member.name, Long.parseLong(r.minInclusive)),
+              JavaRestrictionHelper.minInclusiveExpression(member),
               String.format(message, "minInclusive", member.name),
               String.format(comment, "minInclusive"));
     }
@@ -484,7 +484,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMaxInclusiveRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s > %d", member.name, Long.parseLong(r.maxInclusive)),
+              JavaRestrictionHelper.maxInclusiveExpression(member),
               String.format(message, "maxInclusive", member.name),
               String.format(comment, "maxInclusive"));
     }
@@ -492,7 +492,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMinExclusiveRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s <= %d", member.name, Long.parseLong(r.minExclusive)),
+              JavaRestrictionHelper.minExclusiveExpression(member),
               String.format(message, "minExclusive", member.name),
               String.format(comment, "minExclusive"));
     }
@@ -500,7 +500,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMaxExclusiveRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s >= %d", member.name, Long.parseLong(r.maxExclusive)),
+              JavaRestrictionHelper.maxExclusiveExpression(member),
               String.format(message, "maxExclusive", member.name),
               String.format(comment, "maxExclusive"));
     }
