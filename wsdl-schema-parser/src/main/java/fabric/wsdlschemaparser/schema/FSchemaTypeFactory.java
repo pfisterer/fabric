@@ -187,12 +187,11 @@ public class FSchemaTypeFactory {
 
         typeTrace.push(name);
 
-        FComplexType fct = generateComplexType(ctype);
+        FComplexType fct = generateComplexType(ctype, name);
 
         typeTrace.pop();
 
         if (fct != null) {
-            fct.setName(name);
             fct.setTopLevel(true);
             addTopLevelType(fct);
 
@@ -261,9 +260,9 @@ public class FSchemaTypeFactory {
             ftype = getTopLevelType(elemName);
             if (ftype == null) {
                 if (elem.isSetSimpleType()) {
-                    ftype = generateLocalSimpleType(elem.getSimpleType());
+                    ftype = generateLocalSimpleType(elem.getSimpleType(), elemName);
                 } else if (elem.isSetComplexType()) {
-                    ftype = generateComplexType(elem.getComplexType());
+                    ftype = generateComplexType(elem.getComplexType(), elemName);
                 } else if (elem.isSetRef()) {
                     QName ref = elem.getRef();
                     String elemRefName = ref.getLocalPart();
@@ -459,10 +458,11 @@ public class FSchemaTypeFactory {
     }
 
     /**
-     * @param stype
-     * @return
+     * seidel: Added argument 'name' to this method and all calls,
+     * because otherwise FSimpleType objects created by this method
+     * would not have any valid value for this field.
      */
-    private FSimpleType generateLocalSimpleType(LocalSimpleType stype) {
+    private FSimpleType generateLocalSimpleType(LocalSimpleType stype, String name) {
         FSimpleType fst = null;
         log.debug("Generating LocalSimpleType");
 
@@ -479,6 +479,9 @@ public class FSchemaTypeFactory {
         else if (stype.isSetList()) {
             fst = generateSimpleListType(stype);
         }
+
+        // seidel: Added the following line
+        fst.setName(name);
 
         return fst;
     }
@@ -522,18 +525,19 @@ public class FSchemaTypeFactory {
         fst.getRestrictions().parse(restriction);
         return fst;
     }
-
+    
     /**
-     * @param ctype
-     * @return
+     * seidel: Added argument 'name' to this method and all calls,
+     * because otherwise FComplexType objects created by this method
+     * would not have any valid value for this field.
      */
-    private FComplexType generateComplexType(ComplexType ctype) {
+    private FComplexType generateComplexType(ComplexType ctype, String name) {
 
-        String name = ctype.getName();
-        if (name == null) {
+        String typeName = ctype.getName();
+        if (typeName == null) {
             log.debug("Generating LocalComplexType");
         } else {
-            log.debug("Generating ComplexType: " + name);
+            log.debug("Generating ComplexType: " + typeName);
         }
 
         FComplexType fct = null;
@@ -563,6 +567,11 @@ public class FSchemaTypeFactory {
         }
 
         initObject(fct);
+
+        // seidel: Added the following two lines
+        // namespace is set in initObject()
+        fct.setName(name);
+
         return fct;
     }
 
@@ -810,7 +819,7 @@ public class FSchemaTypeFactory {
     /**
      * seidel: Added arguments 'namespace' and 'name' to this method
      * and all calls, because otherwise FSimpleType objects created
-     * by this method would not have any valid value for these fiels.
+     * by this method would not have any valid value for these fields.
      */
     public FSimpleType generateSimpleTypeFromBTC(int builtinTypeCode, String namespace, String name) {
         FSimpleType fst = null;

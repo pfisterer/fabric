@@ -1,4 +1,4 @@
-/** 01.10.2011 00:35 */
+/** 04.10.2011 21:14 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -89,8 +89,8 @@ public class JavaTypeGen implements TypeGen
   /** Stack of incomplete container classes */
   private Stack<AttributeContainer.Builder> incompleteBuilders;
   
-  /** Incomplete container for inner class of local complex type */
-  private AttributeContainer.Builder incompleteLocalBuilder;
+  /** Map with one stack of incomplete local builders per outer class */
+  private HashMap<String, Stack<AttributeContainer.Builder>> incompleteLocalBuilders;
 
   /** Map of finished data type objects */
   private HashMap<String, SourceFileData> generatedElements;
@@ -110,7 +110,7 @@ public class JavaTypeGen implements TypeGen
     this.properties = properties;
 
     this.incompleteBuilders = new Stack<AttributeContainer.Builder>();
-    this.incompleteLocalBuilder = null;
+    this.incompleteLocalBuilders = new HashMap<String, Stack<AttributeContainer.Builder>>();
     this.generatedElements = new HashMap<String, SourceFileData>();
   }
   
@@ -242,10 +242,21 @@ public class JavaTypeGen implements TypeGen
       LOGGER.debug(String.format("Created new container '%s' for top-level complex type.", type.getName()));
     }
     // Type is a local complex type
-    else
+    else if (!this.incompleteBuilders.empty())
     {
-      this.incompleteLocalBuilder = newBuilder.setName(type.getName() + "Type");
-      LOGGER.debug(String.format("Created new container '%s' for local complex type.", type.getName()));
+      String parentContainerName = this.incompleteBuilders.peek().getName();
+      String typeName = type.getName() + "Type";
+
+      Stack<AttributeContainer.Builder> currentStack = this.incompleteLocalBuilders.get(parentContainerName);
+      if (null == currentStack)
+      {
+        // Stack for inner classes was not created yet
+        currentStack = new Stack<AttributeContainer.Builder>();
+      }
+      currentStack.push(newBuilder.setName(typeName));
+
+      this.incompleteLocalBuilders.put(parentContainerName, currentStack);
+      LOGGER.debug(String.format("Created new container '%s' for local complex type.", typeName));
     }
   }
 
@@ -262,8 +273,8 @@ public class JavaTypeGen implements TypeGen
   @Override
   public void addMemberVariable(FElement element, boolean isTopLevel)
   {
-    // Only add member variable, if we have any incomplete container
-    if ((isTopLevel && !this.incompleteBuilders.empty()) || null != this.incompleteLocalBuilder)
+    // Only add member variable, if we have an incomplete top-level or local container
+    if ((isTopLevel && !this.incompleteBuilders.empty()) || this.hasIncompleteLocalBuilders())
     {
       // Determine element type
       String typeName = "";
@@ -281,14 +292,14 @@ public class JavaTypeGen implements TypeGen
         LOGGER.debug(String.format("Type '%s' is a custom type.", typeName));
 
         // Create artificial name for local complex type (i.e. an inner class)
-        if (isTopLevel && !element.getSchemaType().isTopLevel() && !element.getSchemaType().isSimple())
+        if (!element.getSchemaType().isTopLevel() && !element.getSchemaType().isSimple())
         {
           typeName += "Type";
         }
       }
 
       // Add member variable to current incomplete container
-      AttributeContainer.Builder current = (isTopLevel ? this.incompleteBuilders.pop() : this.incompleteLocalBuilder);
+      AttributeContainer.Builder current = (isTopLevel ? this.incompleteBuilders.pop() : this.incompleteLocalBuilders.get(this.incompleteBuilders.peek().getName()).pop());
 
       // Enforce restrictions for local simple types or extensions of existing types
       AttributeContainer.Restriction restrictions = new AttributeContainer.Restriction();
@@ -325,15 +336,27 @@ public class JavaTypeGen implements TypeGen
         current.addElement(typeName, element.getName(), restrictions);
       }
 
+      // Type is a top-level type
       if (isTopLevel)
       {
         this.incompleteBuilders.push(current);
       }
+      // Type is a local complex type
       else
       {
-        this.incompleteLocalBuilder = current;
+        String parentContainerName = this.incompleteBuilders.peek().getName();
+
+        Stack<AttributeContainer.Builder> currentStack = this.incompleteLocalBuilders.get(parentContainerName);
+        if (null == currentStack)
+        {
+          // Stack for inner classes was not created yet
+          currentStack = new Stack<AttributeContainer.Builder>();
+        }
+        currentStack.push(current);
+
+        this.incompleteLocalBuilders.put(parentContainerName, currentStack);
       }
-      
+
       LOGGER.debug(String.format("Added member variable '%s' of %s '%s' to container '%s'.", element.getName(),
               (SchemaHelper.isBuiltinTypedElement(element) ? "built-in " : "") + "type", typeName, current.getName()));
     }
@@ -359,17 +382,13 @@ public class JavaTypeGen implements TypeGen
 
       JClass classObject = (JClass)this.incompleteBuilders.pop().build().asClassObject(javaStrategy);
 
-      // Build current local container
-      if (null != this.incompleteLocalBuilder)
-      {        
-        // Here we can reuse javaStrategy with stateful xmlMapper, because inner class is nested in outer container
-        JClass innerClassObject = (JClass)javaStrategy.generateClassObject(this.incompleteLocalBuilder.build(),
-                JModifier.PUBLIC | JModifier.STATIC);
+      // Build current local containers
+      while (this.stackIsNotEmpty(classObject.getName()))
+      {
+        // Here we can reuse javaStrategy with stateful xmlMapper, because inner classes are nested in outer container
+        JClass innerClassObject = (JClass)javaStrategy.generateClassObject(
+                this.incompleteLocalBuilders.get(classObject.getName()).pop().build(), JModifier.PUBLIC | JModifier.STATIC);
         classObject.add(innerClassObject);
-        
-        // Important: Reset incomplete local builder!
-        this.incompleteLocalBuilder = null;
-
         LOGGER.debug(String.format("Built inner class '%s' for current container '%s'.", innerClassObject.getName(), classObject.getName()));
       }
 
@@ -550,6 +569,41 @@ public class JavaTypeGen implements TypeGen
   private String getFabricTypeName(final FSchemaType type)
   {
     return type.getClass().getSimpleName();
+  }
+
+  /**
+   * Private helper method to check, whether there are any incomplete
+   * local builders for the container class, which has been added to
+   * the top-level incompleteBuilders stack last.
+   *
+   * The boolean expression was moved to this function to increase
+   * code readability at the location where it is being called.
+   *
+   * @return True if incomplete local builders exist, false otherwise
+   */
+  private boolean hasIncompleteLocalBuilders()
+  {
+    return (!this.incompleteBuilders.empty() && !this.incompleteLocalBuilders.isEmpty() && // Stack and Map must not be empty
+            null != this.incompleteLocalBuilders.get(this.incompleteBuilders.peek().getName()) && // Stack must be initialized (not null)
+            !this.incompleteLocalBuilders.get(this.incompleteBuilders.peek().getName()).empty()); // Stack must not be empty
+  }
+
+  /**
+   * Private helper method to check, whether the stack of incomplete
+   * local builders for a given container class is empty or not.
+   *
+   * The boolean expression was moved to this function to increase
+   * code readability in the loop where it is being called.
+   *
+   * @param className Name of outer container class
+   *
+   * @return True while stack is not empty, false otherwise
+   */
+  private boolean stackIsNotEmpty(final String className)
+  {
+    return (this.incompleteLocalBuilders.containsKey(className) && // Map must contain entry for class name
+            null != this.incompleteLocalBuilders.get(className) && // Stack must be initialized (not null)
+            !this.incompleteLocalBuilders.get(className).empty()); // Stack must not be empty
   }
 
   /**
