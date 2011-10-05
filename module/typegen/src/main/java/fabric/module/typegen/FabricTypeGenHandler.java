@@ -1,4 +1,4 @@
-/** 25.09.2011 19:45 */
+/** 05.10.2011 19:43 */
 package fabric.module.typegen;
 
 import org.slf4j.Logger;
@@ -42,7 +42,7 @@ public class FabricTypeGenHandler extends FabricDefaultHandler
   public FabricTypeGenHandler(Workspace workspace, Properties properties) throws Exception
   {
     this.typeGenerator = TypeGenFactory.getInstance().createTypeGen(
-            properties.getProperty("typegen.factory_name"), workspace, properties);
+            properties.getProperty(FabricTypeGenModule.FACTORY_CLASS_KEY), workspace, properties);
   }
 
   /**

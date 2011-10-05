@@ -2,6 +2,7 @@ package classes.base;
 
 import de.uniluebeck.sourcegen.SourceFile;
 import de.uniluebeck.sourcegen.java.JComplexType;
+import fabric.module.typegen.FabricTypeGenModule;
 import fabric.module.typegen.base.ClassGenerationStrategy;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 
@@ -29,7 +30,7 @@ public abstract class SourceFileGenerator {
     public SourceFileGenerator(ClassGenerationStrategy strategy, Properties properties) {
         try {
             this.strategy = strategy;
-            rootName = properties.getProperty("typegen.main_class_name");
+            rootName = properties.getProperty(FabricTypeGenModule.MAIN_CLASS_NAME_KEY);
         } catch (Exception e) {
             e.printStackTrace();
         }

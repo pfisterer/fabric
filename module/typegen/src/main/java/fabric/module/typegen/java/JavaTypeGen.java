@@ -1,4 +1,4 @@
-/** 04.10.2011 21:14 */
+/** 05.10.2011 19:44 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -32,6 +32,7 @@ import fabric.wsdlschemaparser.schema.FSimpleType;
 import fabric.wsdlschemaparser.schema.FComplexType;
 
 import fabric.module.typegen.AttributeContainer;
+import fabric.module.typegen.FabricTypeGenModule;
 import fabric.module.typegen.base.TypeGen;
 import fabric.module.typegen.base.Mapper;
 import fabric.module.typegen.MapperFactory;
@@ -104,7 +105,7 @@ public class JavaTypeGen implements TypeGen
    */
   public JavaTypeGen(Workspace workspace, Properties properties) throws Exception
   {
-    mapper = MapperFactory.getInstance().createMapper(properties.getProperty("typegen.mapper_name"));
+    mapper = MapperFactory.getInstance().createMapper(properties.getProperty(FabricTypeGenModule.MAPPER_CLASS_KEY));
 
     this.workspace = workspace;
     this.properties = properties;
@@ -121,7 +122,7 @@ public class JavaTypeGen implements TypeGen
   @Override
   public void createRootContainer()
   {
-    String rootContainerName = this.properties.getProperty("typegen.main_class_name");
+    String rootContainerName = this.properties.getProperty(FabricTypeGenModule.MAIN_CLASS_NAME_KEY);
     this.incompleteBuilders.push(AttributeContainer.newBuilder().setName(rootContainerName));
 
     LOGGER.debug(String.format("Created root container '%s'.", rootContainerName));
@@ -151,7 +152,7 @@ public class JavaTypeGen implements TypeGen
     // Create new source file for every container
     for (String name: this.generatedElements.keySet())
     {
-      jsf = javaWorkspace.getJSourceFile(this.properties.getProperty("typegen.java.package_name"), name);
+      jsf = javaWorkspace.getJSourceFile(this.properties.getProperty(FabricTypeGenModule.PACKAGE_NAME_KEY), name);
       JavaTypeGen.SourceFileData sourceFileData = this.generatedElements.get(name);
 
       // Add container to source file
@@ -377,7 +378,7 @@ public class JavaTypeGen implements TypeGen
     if (!this.incompleteBuilders.empty())
     {
       // Create mapper for XML framework annotations and strategy
-      AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
+      AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty(FabricTypeGenModule.XML_FRAMEWORK_KEY));
       JavaClassGenerationStrategy javaStrategy = new JavaClassGenerationStrategy(xmlMapper);
 
       JClass classObject = (JClass)this.incompleteBuilders.pop().build().asClassObject(javaStrategy);
@@ -545,7 +546,7 @@ public class JavaTypeGen implements TypeGen
       // Create enum and add it to generated elements
       if (!this.generatedElements.containsKey(type.getName()))
       {
-        AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
+        AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty(FabricTypeGenModule.XML_FRAMEWORK_KEY));
         JEnum javaEnum = JEnum.factory.create(JModifier.PUBLIC, type.getName(), constantsAsString);
 
         javaEnum.setComment(new JEnumCommentImpl(String.format("The '%s' enumeration.", type.getName())));

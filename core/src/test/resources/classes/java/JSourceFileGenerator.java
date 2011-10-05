@@ -6,6 +6,7 @@ import de.uniluebeck.sourcegen.java.JSourceFile;
 import de.uniluebeck.sourcegen.java.JSourceFileImpl;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 import classes.base.SourceFileGenerator;
+import fabric.module.typegen.FabricTypeGenModule;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -31,7 +32,7 @@ public abstract class JSourceFileGenerator extends SourceFileGenerator {
     public JSourceFileGenerator(JavaClassGenerationStrategy strategy, Properties properties) {
         super(strategy, properties);
         try {
-            packageName = properties.getProperty("typegen.java.package_name");
+            packageName = properties.getProperty(FabricTypeGenModule.PACKAGE_NAME_KEY);
             types = new LinkedList<JComplexType>();
             generateClasses();
         } catch (Exception e) {
