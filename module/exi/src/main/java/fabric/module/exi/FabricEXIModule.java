@@ -25,16 +25,28 @@ public class FabricEXIModule implements FabricModule
   private static final Logger LOGGER = LoggerFactory.getLogger(FabricEXIModule.class);
 
   /** Key for target language in properties object */
-  private static final String TARGET_LANGUAGE_KEY = "typegen.target_language";
+  private static final String TARGET_LANGUAGE_KEY = "exi.target_language";
+  
+  /** Alternative key for target language */  
+  private static final String TARGET_LANGUAGE_ALT_KEY = "typegen.target_language";
 
   /** Key for main class name in properties object */
-  private static final String MAIN_CLASS_NAME_KEY = "typegen.main_class_name";
+  private static final String MAIN_CLASS_NAME_KEY = "exi.main_class_name";
+  
+  /** Alternative key for main class name */
+  private static final String MAIN_CLASS_NAME_ALT_KEY = "typegen.main_class_name";  
 
   /** Key for XML framework name in properties object */
-  private static final String XML_FRAMEWORK_KEY = "typegen.java.xml_framework";
+  private static final String XML_FRAMEWORK_KEY = "exi.java.xml_framework";
+  
+  /** Alternative key for XML framework name */
+  private static final String XML_FRAMEWORK_ALT_KEY = "typegen.java.xml_framework";
 
   /** Key for main package name in properties object */
-  private static final String PACKAGE_NAME_KEY = "typegen.java.package_name";
+  private static final String PACKAGE_NAME_KEY = "exi.java.package_name";
+  
+  /** Alternative key for main package name */
+  private static final String PACKAGE_NAME_ALT_KEY = "typegen.java.package_name";
 
   /** Key for the EXI library name in properties object */
   private static final String EXI_LIBRARY_KEY = "exi.java.exi_library";
@@ -75,9 +87,12 @@ public class FabricEXIModule implements FabricModule
   public String getDescription()
   {
     return String.format("Module to generate EXI serializer and deserializer class. "
-            + "Valid options are '%s', '%s', '%s', '%s', '%s' and '%s'.",
+            + "Valid options are '%s', '%s', '%s', '%s', '%s' and '%s'. "
+            + "Alternatively '%s', '%s', '%s' and '%s' can be used.",
             TARGET_LANGUAGE_KEY, MAIN_CLASS_NAME_KEY, XML_FRAMEWORK_KEY,
-            PACKAGE_NAME_KEY, EXI_LIBRARY_KEY, GENERATOR_NAME_KEY);
+            PACKAGE_NAME_KEY, EXI_LIBRARY_KEY, GENERATOR_NAME_KEY,
+            TARGET_LANGUAGE_ALT_KEY, MAIN_CLASS_NAME_ALT_KEY,
+            XML_FRAMEWORK_ALT_KEY, PACKAGE_NAME_ALT_KEY);
   }
 
   /**
@@ -116,6 +131,9 @@ public class FabricEXIModule implements FabricModule
     {
       throw new IllegalStateException("Properties object is null. Maybe it was not initialized properly?");
     }
+    
+    // Check if alternative keys have been used and copy values
+    this.copyAlternativeProperties();
 
     // Check properties
     this.checkTargetLanguage();
@@ -132,6 +150,59 @@ public class FabricEXIModule implements FabricModule
         LOGGER.debug(String.format("Property '%s' has value '%s'.", key, this.properties.getProperty(key)));
       }
     }
+  }
+  
+  /**
+   * Private helper method to determine which properties should be
+   * used. The EXI module can copy properties from TypeGen module,
+   * if appropriate values are set.
+   */
+  private void copyAlternativeProperties()
+  {
+    if (!isSet(TARGET_LANGUAGE_KEY) && isSet(TARGET_LANGUAGE_ALT_KEY))
+    {
+      copyProperty(TARGET_LANGUAGE_ALT_KEY, TARGET_LANGUAGE_KEY);
+    }
+
+    if (!isSet(MAIN_CLASS_NAME_KEY) && isSet(MAIN_CLASS_NAME_ALT_KEY))
+    {
+      copyProperty(MAIN_CLASS_NAME_ALT_KEY, MAIN_CLASS_NAME_KEY);
+    }
+
+    if (!isSet(XML_FRAMEWORK_KEY) && isSet(XML_FRAMEWORK_ALT_KEY))
+    {
+      copyProperty(XML_FRAMEWORK_ALT_KEY, XML_FRAMEWORK_KEY);
+    }
+
+    if (!isSet(PACKAGE_NAME_KEY) && isSet(PACKAGE_NAME_ALT_KEY))
+    {
+      copyProperty(PACKAGE_NAME_ALT_KEY, PACKAGE_NAME_KEY);
+    }
+  }
+  
+  /**
+   * Private helper method to check, whether a value is set for
+   * a certain key in the properties object.
+   * 
+   * @param key Key of property to check
+   * 
+   * @return True if property is set, false otherwise
+   */
+  private boolean isSet(final String key)
+  {
+    return (this.properties.containsKey(key) && !("").equals(this.properties.getProperty(key)));
+  }
+
+  /**
+   * Private helper method to copy property from field with key
+   * 'from' to another field with key 'to'.
+   * 
+   * @param from Key of source property
+   * @param t Key of target property
+   */
+  private void copyProperty(final String from, final String to)
+  {
+    this.properties.setProperty(to, this.properties.getProperty(from));
   }
 
   /**
@@ -198,7 +269,7 @@ public class FabricEXIModule implements FabricModule
     String xmlFramework = this.properties.getProperty(XML_FRAMEWORK_KEY);
 
     // Use Simple as default XML library
-    if (!xmlFramework.equals("Simple") && !xmlFramework.equals("XStream") && !xmlFramework.equals("JAXB"))
+    if (null != xmlFramework && !xmlFramework.equals("Simple") && !xmlFramework.equals("XStream") && !xmlFramework.equals("JAXB"))
     {
       this.properties.setProperty(XML_FRAMEWORK_KEY, "Simple");
     }
@@ -231,7 +302,7 @@ public class FabricEXIModule implements FabricModule
     String xmlFramework = this.properties.getProperty(EXI_LIBRARY_KEY);
 
     // Use EXIficient as default EXI library
-    if (!xmlFramework.equals("EXIficient") && !xmlFramework.equals("OpenEXI"))
+    if (null != xmlFramework && !xmlFramework.equals("EXIficient") && !xmlFramework.equals("OpenEXI"))
     {
       this.properties.setProperty(EXI_LIBRARY_KEY, "EXIficient");
     }
