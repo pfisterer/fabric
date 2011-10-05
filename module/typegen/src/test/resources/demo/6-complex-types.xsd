@@ -11,7 +11,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element name="Item01" type="xs:int" minOccurs="3" maxOccurs="7" />
-        <xs:element name="Item02" type="xs:string" length="5" />
+        <xs:element name="Item02" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

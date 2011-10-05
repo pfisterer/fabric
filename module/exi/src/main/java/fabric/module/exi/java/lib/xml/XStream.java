@@ -9,6 +9,11 @@ package fabric.module.exi.java.lib.xml;
  */
 public class XStream extends XMLFramework
 {
+  public XStream(final String beanClassName) throws Exception
+  {
+    super(beanClassName);
+  }
+    
   /**
    * This method generates code that translates an annotated
    * Java object to a plain XML document.
@@ -16,7 +21,7 @@ public class XStream extends XMLFramework
    * @return String with code for Java to XML conversion
    */
   @Override
-  public String generateJavaToXMLCode()
+  public void generateJavaToXMLCode() throws Exception
   {
     // TODO: Implement method
     throw new UnsupportedOperationException("Not supported yet.");
@@ -29,7 +34,7 @@ public class XStream extends XMLFramework
    * @return String with code for XML to instance conversion
    */
   @Override
-  public String generateXMLToInstanceCode()
+  public void generateXMLToInstanceCode() throws Exception
   {
     // TODO: Implement method
     throw new UnsupportedOperationException("Not supported yet.");

@@ -22,37 +22,42 @@ import fabric.module.exi.exceptions.FabricEXIException;
 public class FabricEXIModule implements FabricModule
 {
   /** Logger object */
-  private static final Logger LOGGER = LoggerFactory.getLogger(FabricEXIModule.class);
+  public static final Logger LOGGER = LoggerFactory.getLogger(FabricEXIModule.class);
 
   /** Key for target language in properties object */
-  private static final String TARGET_LANGUAGE_KEY = "exi.target_language";
+  public static final String TARGET_LANGUAGE_KEY = "exi.target_language";
   
   /** Alternative key for target language */  
-  private static final String TARGET_LANGUAGE_ALT_KEY = "typegen.target_language";
+  public static final String TARGET_LANGUAGE_ALT_KEY = "typegen.target_language";
 
   /** Key for main class name in properties object */
-  private static final String MAIN_CLASS_NAME_KEY = "exi.main_class_name";
+  public static final String MAIN_CLASS_NAME_KEY = "exi.main_class_name";
   
   /** Alternative key for main class name */
-  private static final String MAIN_CLASS_NAME_ALT_KEY = "typegen.main_class_name";  
+  public static final String MAIN_CLASS_NAME_ALT_KEY = "typegen.main_class_name";  
 
   /** Key for XML framework name in properties object */
-  private static final String XML_FRAMEWORK_KEY = "exi.java.xml_framework";
+  public static final String XML_FRAMEWORK_KEY = "exi.java.xml_framework";
   
   /** Alternative key for XML framework name */
-  private static final String XML_FRAMEWORK_ALT_KEY = "typegen.java.xml_framework";
+  public static final String XML_FRAMEWORK_ALT_KEY = "typegen.java.xml_framework";
 
   /** Key for main package name in properties object */
-  private static final String PACKAGE_NAME_KEY = "exi.java.package_name";
+  public static final String PACKAGE_NAME_KEY = "exi.java.package_name";
   
   /** Alternative key for main package name */
-  private static final String PACKAGE_NAME_ALT_KEY = "typegen.java.package_name";
+  public static final String PACKAGE_NAME_ALT_KEY = "typegen.java.package_name";
 
   /** Key for the EXI library name in properties object */
-  private static final String EXI_LIBRARY_KEY = "exi.java.exi_library";
+  public static final String EXI_LIBRARY_KEY = "exi.java.exi_library";
   
-  /** Key for EXICodeGen factory name in properties object */
-  private static final String GENERATOR_NAME_KEY = "exi.generator_name";
+  /** Key for EXICodeGen factory name */
+  public static final String GENERATOR_NAME_KEY = "exi.generator_name";
+  
+  /** Key for XMLFramework factory name */
+  public static final String XML_NAME_KEY = "exi.xml_name";
+  
+  /** 
 
   /** Properties object for module configuration */
   private Properties properties = null;
@@ -266,13 +271,32 @@ public class FabricEXIModule implements FabricModule
    */
   private void checkXMLFramework()
   {
-    String xmlFramework = this.properties.getProperty(XML_FRAMEWORK_KEY);
+    String xmlFramework = this.properties.getProperty(XML_FRAMEWORK_KEY, "Simple");
 
     // Use Simple as default XML library
     if (null != xmlFramework && !xmlFramework.equals("Simple") && !xmlFramework.equals("XStream") && !xmlFramework.equals("JAXB"))
     {
       this.properties.setProperty(XML_FRAMEWORK_KEY, "Simple");
+      xmlFramework = this.properties.getProperty(XML_FRAMEWORK_KEY);
     }
+    
+    // Use Java EXI code generator
+    if (xmlFramework.equals("XStream"))
+    {
+      this.properties.setProperty(XML_NAME_KEY, "fabric.module.exi.java.lib.xml.XStream");
+    }
+    // Use C++ EXI code generator
+    else if (xmlFramework.equals("JAXB"))
+    {
+      this.properties.setProperty(XML_NAME_KEY, "fabric.module.exi.java.lib.xml.JAXB");
+    }
+    // Invalid target language provided
+    else
+    {
+      this.properties.setProperty(XML_NAME_KEY, "fabric.module.exi.java.lib.xml.Simple");
+    }
+
+    this.properties.remove(XML_FRAMEWORK_KEY);
   }
 
   /**

@@ -7,9 +7,11 @@ import java.util.Properties;
 
 import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.java.JClass;
+import de.uniluebeck.sourcegen.java.JModifier;
 import de.uniluebeck.sourcegen.java.JSourceFile;
 import de.uniluebeck.sourcegen.java.JavaWorkspace;
 
+import fabric.module.exi.FabricEXIModule;
 import fabric.module.exi.base.EXICodeGen;
 
 /**
@@ -42,43 +44,45 @@ public class JavaEXICodeGen implements EXICodeGen
   {
     this.workspace = workspace;
     this.properties = properties;
+    
+    this.classObject = JClass.factory.create(JModifier.PUBLIC, "EXIficator"); // TODO: Set proper class name
   }
 
   @Override
   public void generateCode() throws Exception
   {
+    /*****************************************************************
+     * Create class and method calls for XML converter
+     *****************************************************************/
     JavaBeanConverter beanConverter = new JavaBeanConverter(this.properties);
-    JavaEXIConverter exiConverter = new JavaEXIConverter(this.properties);
+    
+    // TODO: Handle return values
+    workspace.getJava().getJSourceFile(
+            this.properties.getProperty(FabricEXIModule.PACKAGE_NAME_KEY),
+            this.properties.getProperty(FabricEXIModule.GENERATOR_NAME_KEY)) // TODO: Create proper file name
+            .add(beanConverter.generateConverterClass());
+    
+    this.classObject.add(beanConverter.generateSerializeCall());
+    this.classObject.add(beanConverter.generateDeserializeCall());
 
     /*****************************************************************
-     * Create code for Java to XML conversion
+     * Create class and method calls for EXI converter
      *****************************************************************/
-    beanConverter.generateXMLToInstanceCode();
-
-    /*****************************************************************
-     * Create code for XML to Java conversion
-     *****************************************************************/
-    beanConverter.generateJavaToXMLCode();
-
-    /*****************************************************************
-     * Create code for EXI serialization
-     *****************************************************************/
-    exiConverter.generateSerializeCode();
-
-    /*****************************************************************
-     * Create code for EXI deserialization
-     *****************************************************************/
-    exiConverter.generateDeserializeCode();
-
-    throw new UnsupportedOperationException("Not supported yet.");
+    // TODO JavaEXIConverter exiConverter = new JavaEXIConverter(this.properties);
+    
+    // TODO: Handle return values
+    // exiConverter.generateSerializeCode();
+    // exiConverter.generateDeserializeCode();
   }
 
   @Override
   public void writeSourceFile() throws Exception
   {
     JavaWorkspace javaWorkspace = this.workspace.getJava();
-    JSourceFile jsf = null;
-
+    JSourceFile jsf = javaWorkspace.getJSourceFile(
+            this.properties.getProperty(FabricEXIModule.PACKAGE_NAME_KEY),
+            "EXIficator"); // TODO: Set proper file name
+    
     jsf.add(this.classObject);
 
     // TODO: Add required imports

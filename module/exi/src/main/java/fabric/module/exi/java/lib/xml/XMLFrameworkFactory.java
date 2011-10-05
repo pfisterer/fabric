@@ -48,13 +48,13 @@ public class XMLFrameworkFactory
    * throw an exception.
    *
    * @param concreteXMLFrameworkName Name of concrete XMLFramework class
-   * @param properties Properties object with module options
+   * @param beanClassName Name of the main Java bean class
    *
    * @return XMLFramework object of desired type
    *
    * @throws Exception Error during class instantiation
    */
-  public XMLFramework createXMLFramework(String concreteXMLFrameworkName, Properties properties) throws Exception
+  public XMLFramework createXMLFramework(String concreteXMLFrameworkName, String beanClassName) throws Exception
   {
     XMLFramework concreteXMLFramework = null;
 
@@ -62,10 +62,10 @@ public class XMLFrameworkFactory
     {
       // Try to instantiate concrete XMLFramework class
       Class concreteClass = Class.forName(concreteXMLFrameworkName);
-      Class[] argumentsClass = new Class[] { Properties.class };
+      Class[] argumentsClass = new Class[] { String.class };
 
       Constructor constructor = concreteClass.getConstructor(argumentsClass);
-      Object[] arguments = new Object[] { properties };
+      Object[] arguments = new Object[] { beanClassName };
 
       concreteXMLFramework = (XMLFramework)constructor.newInstance(arguments);
     }
