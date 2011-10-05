@@ -1,4 +1,4 @@
-/** 27.09.2011 22:19 */
+/** 05.10.2011 18:31 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
@@ -189,7 +189,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       {
         AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)member;
         
-        JEnum je = JEnum.factory.create(JModifier.PRIVATE, ee.type, this.fixEnumConstants(ee.enumConstants));
+        JEnum je = JEnum.factory.create(JModifier.PUBLIC | JModifier.STATIC, ee.type, this.fixEnumConstants(ee.enumConstants));
         je.setComment(new JEnumCommentImpl(String.format("The '%s' enumeration.", ee.type)));
         je.addAnnotation(new JEnumAnnotationImpl(this.xmlMapper.getAnnotation("enum", ee.type)));
         jc.add(je);
