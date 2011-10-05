@@ -164,7 +164,7 @@ public class FabricTypeGenModule implements FabricModule
     // Invalid target language provided
     else
     {
-      throw new FabricTypeGenException(String.format("Invalid target language '%'. Use one of [java, cpp].", targetLanguage));
+      throw new FabricTypeGenException(String.format("Invalid target language '%s'. Use one of [java, cpp].", targetLanguage));
     }
 
     this.properties.remove(TARGET_LANGUAGE_KEY);

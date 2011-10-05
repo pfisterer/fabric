@@ -76,6 +76,13 @@
           <include>**/*.properties</include>
         </includes>
       </resource>
+      <resource>
+        <!-- Include Java code for MainTest from test resources. -->
+        <directory>src/test/resources</directory>
+        <includes>
+          <include>**/*.java</include>
+        </includes>
+      </resource>
     </resources>
   </build>
 
@@ -98,11 +105,11 @@
     </dependency>
     <dependency>
       <groupId>de.uniluebeck.itm</groupId>
-      <artifactId>fabric.module.dot</artifactId>
+      <artifactId>fabric.module.exi</artifactId>
     </dependency>
     <dependency>
       <groupId>de.uniluebeck.itm</groupId>
-      <artifactId>fabric.module.exi</artifactId>
+      <artifactId>fabric.module.dot</artifactId>
     </dependency>
     <dependency>
       <groupId>de.uniluebeck.itm</groupId>

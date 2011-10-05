@@ -133,7 +133,7 @@ public class FabricEXIModule implements FabricModule
       }
     }
   }
-  
+
   /**
    * Check parameter for target language. This property is mandatory
    * and must either be "java" or "cpp". Further target languages
@@ -164,7 +164,7 @@ public class FabricEXIModule implements FabricModule
     // Invalid target language provided
     else
     {
-      throw new FabricEXIException(String.format("Invalid target language '%'. Use one of [java, cpp].", targetLanguage));
+      throw new FabricEXIException(String.format("Invalid target language '%s'. Use one of [java, cpp].", targetLanguage));
     }
 
     this.properties.remove(TARGET_LANGUAGE_KEY);
@@ -219,10 +219,21 @@ public class FabricEXIModule implements FabricModule
       this.properties.setProperty(PACKAGE_NAME_KEY, packageName.toLowerCase());
     }
   }
-  
-  // TODO: Check and add comment
+
+  /**
+   * Check parameter for EXI library. This property is optional,
+   * because it only applies to the EXI code generator for Java.
+   * In case that no library name is provided, the EXIficient
+   * framework is used as default.
+   */
   private void checkEXILibrary()
   {
-    // TODO: Implement
+    String xmlFramework = this.properties.getProperty(EXI_LIBRARY_KEY);
+
+    // Use EXIficient as default EXI library
+    if (!xmlFramework.equals("EXIficient") && !xmlFramework.equals("OpenEXI"))
+    {
+      this.properties.setProperty(EXI_LIBRARY_KEY, "EXIficient");
+    }
   }
 }

@@ -9,8 +9,10 @@ public interface EXICodeGen
 {
   /**
    * Generate a class with EXI serializer and deserializer code.
+   *
+   * @throws Exception Error during code generation
    */
-  public void generateCode();
+  public void generateCode() throws Exception;
 
   /**
    * Create source file and write it to language-specific workspace.

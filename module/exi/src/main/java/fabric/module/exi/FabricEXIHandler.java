@@ -1,4 +1,4 @@
-/** 28.09.2011 14:59 */
+/** 28.09.2011 19:47 */
 package fabric.module.exi;
 
 import org.slf4j.Logger;
@@ -45,26 +45,9 @@ public class FabricEXIHandler extends FabricDefaultHandler
   }
 
   /**
-   * Handle start of an XML schema document. Here we create the entire
-   * EXI serializer and deserializer class, because we do not need any
-   * XML schema-specific information (except for the name of the main
-   * class, which is provided in the properties file).
-   *
-   * @param schema FSchema object
-   *
-   * @throws Exception Error during processing
-   */
-  @Override
-  public void startSchema(FSchema schema) throws Exception
-  {
-    LOGGER.debug("Called startSchema().");
-
-    this.exiGenerator.generateCode();
-  }
-
-  /**
-   * Handle end of an XML schema document. Here we write all
-   * source files to the language-specific workspace.
+   * Handle end of an XML schema document. After processing the
+   * entire XSD file, we create the EXI serializer and deserializer
+   * class and write it to the language-specific workspace.
    *
    * @param schema FSchema object
    *
@@ -75,6 +58,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called endSchema().");
 
+    this.exiGenerator.generateCode();
     this.exiGenerator.writeSourceFile();
   }
 }
