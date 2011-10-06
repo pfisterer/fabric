@@ -36,7 +36,7 @@ public abstract class JSourceFileGenerator extends SourceFileGenerator {
         try {
             packageName     = properties.getProperty("typegen.java.package_name");
             xmlFramework    = properties.getProperty("typegen.java.xml_framework");
-            types = new HashMap<JComplexType, ArrayList<String>>();
+            types           = new HashMap<JComplexType, ArrayList<String>>();
             generateClasses();
         } catch (Exception e) {
             e.printStackTrace();

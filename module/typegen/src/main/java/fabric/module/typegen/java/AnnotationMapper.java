@@ -30,10 +30,10 @@ public class AnnotationMapper
     public String name;
 
     /** Maps general key to required, framework-specific import */
-    public HashMap<String, String> imports;
+    public HashMap<String, String[]> imports;
 
     /** Maps general key to framework-specific annotation */
-    public HashMap<String, String> annotations;
+    public HashMap<String, String[]> annotations;
 
     /**
      * Parameterized constructor.
@@ -42,7 +42,7 @@ public class AnnotationMapper
      * @param imports Map of required imports
      * @param annotations Map of available annotations
      */
-    public XMLFramework(final String name, final HashMap<String, String> imports, final HashMap<String, String> annotations)
+    public XMLFramework(final String name, final HashMap<String, String[]> imports, final HashMap<String, String[]> annotations)
     {
       this.name = name;
       this.imports = imports;
@@ -128,19 +128,19 @@ public class AnnotationMapper
    */
   private static AnnotationMapper.XMLFramework initSimpleFramework()
   {
-    HashMap<String, String> imports = new HashMap<String, String>();
-    imports.put("root", "org.simpleframework.xml.Root");
-    imports.put("attribute", "org.simpleframework.xml.Attribute");
-    imports.put("element", "org.simpleframework.xml.Element");
-    imports.put("elementArray", "org.simpleframework.xml.ElementArray");
-    imports.put("enum", "org.simpleframework.xml.Element");
+    HashMap<String, String[]> imports = new HashMap<String, String[]>();
+    imports.put("root", new String[]{"org.simpleframework.xml.Root"});
+    imports.put("attribute", new String[]{"org.simpleframework.xml.Attribute"});
+    imports.put("element", new String[]{"org.simpleframework.xml.Element"});
+    imports.put("elementArray", new String[]{"org.simpleframework.xml.ElementList"});
+    imports.put("enum", new String[]{"org.simpleframework.xml.Element"});
 
-    HashMap<String, String> annotations = new HashMap<String, String>();
-    annotations.put("root", "Root(name = \"%s\")");
-    annotations.put("attribute", "Attribute");
-    annotations.put("element", "Element");
-    annotations.put("elementArray", "ElementArray");
-    annotations.put("enum", "Element");
+    HashMap<String, String[]> annotations = new HashMap<String, String[]>();
+    annotations.put("root", new String[]{"Root(name = \"%s\")"});
+    annotations.put("attribute", new String[]{"Attribute"});
+    annotations.put("element", new String[]{"Element"});
+    annotations.put("elementArray", new String[]{"ElementList"});
+    annotations.put("enum", new String[]{"Element"});
 
     return new AnnotationMapper.XMLFramework("Simple", imports, annotations);
   }
@@ -154,19 +154,19 @@ public class AnnotationMapper
    */
   private static AnnotationMapper.XMLFramework initXStreamFramework()
   {
-    HashMap<String, String> imports = new HashMap<String, String>();
-    imports.put("root", "com.thoughtworks.xstream.annotations.XStreamAlias");
-    imports.put("attribute", "com.thoughtworks.xstream.annotations.XStreamAsAttribute");
-    imports.put("element", "com.thoughtworks.xstream.annotations.XStreamAlias");
-    imports.put("elementArray", "com.thoughtworks.xstream.annotations.XStreamImplicit");
-    imports.put("enum", "com.thoughtworks.xstream.annotations.XStreamAlias");
+    HashMap<String, String[]> imports = new HashMap<String, String[]>();
+    imports.put("root", new String[]{"com.thoughtworks.xstream.annotations.XStreamAlias"});
+    imports.put("attribute", new String[]{"com.thoughtworks.xstream.annotations.XStreamAsAttribute"});
+    imports.put("element", new String[]{"com.thoughtworks.xstream.annotations.XStreamAlias"});
+    imports.put("elementArray", new String[]{"com.thoughtworks.xstream.annotations.XStreamImplicit"});
+    imports.put("enum", new String[]{"com.thoughtworks.xstream.annotations.XStreamAlias"});
 
-    HashMap<String, String> annotations = new HashMap<String, String>();
-    annotations.put("root", "XStreamAlias(\"%s\")");
-    annotations.put("attribute", "XStreamAsAttribute");
-    annotations.put("element", "XStreamAlias(\"%s\")");
-    annotations.put("elementArray", "XStreamImplicit(itemFieldName=\"%s\")");
-    annotations.put("enum", "XStreamAlias(\"%s\")");
+    HashMap<String, String[]> annotations = new HashMap<String, String[]>();
+    annotations.put("root", new String[]{"XStreamAlias(\"%s\")"});
+    annotations.put("attribute", new String[]{"XStreamAsAttribute"});
+    annotations.put("element", new String[]{"XStreamAlias(\"%s\")"});
+    annotations.put("elementArray", new String[]{"XStreamImplicit(itemFieldName=\"%s\")"});
+    annotations.put("enum", new String[]{"XStreamAlias(\"%s\")"});
 
     return new AnnotationMapper.XMLFramework("XStream", imports, annotations);
   }
@@ -180,19 +180,23 @@ public class AnnotationMapper
    */
   private static AnnotationMapper.XMLFramework initJAXBFramework()
   {
-    HashMap<String, String> imports = new HashMap<String, String>();
-    imports.put("root", "javax.xml.bind.annotation.XmlRootElement");
-    imports.put("attribute", "javax.xml.bind.annotation.XmlAttribute");
-    imports.put("element", "javax.xml.bind.annotation.XmlElement");
-    imports.put("elementArray", "javax.xml.bind.annotation.XmlList");
-    imports.put("enum", "javax.xml.bind.annotation.XmlEnum");
+    HashMap<String, String[]> imports = new HashMap<String, String[]>();
+    imports.put("root", new String[]{   "javax.xml.bind.annotation.XmlRootElement",
+                                        "javax.xml.bind.annotation.XmlAccessType",
+                                        "javax.xml.bind.annotation.XmlAccessorType"});
+    imports.put("attribute", new String[]{"javax.xml.bind.annotation.XmlAttribute"});
+    imports.put("element", new String[]{"javax.xml.bind.annotation.XmlElement"});
+    imports.put("elementArray", new String[]{"javax.xml.bind.annotation.XmlList"});
+    imports.put("enum", new String[]{   "javax.xml.bind.annotation.XmlEnum",
+                                        "javax.xml.bind.annotation.XmlAccessType",
+                                        "javax.xml.bind.annotation.XmlAccessorType"});
 
-    HashMap<String, String> annotations = new HashMap<String, String>();
-    annotations.put("root", "XmlRootElement(name = \"%s\")");
-    annotations.put("attribute", "XmlAttribute");
-    annotations.put("element", "XmlElement");
-    annotations.put("elementArray", "XmlList");
-    annotations.put("enum", "XmlEnum");
+    HashMap<String, String[]> annotations = new HashMap<String, String[]>();
+    annotations.put("root", new String[]{"XmlRootElement(name = \"%s\")", "XmlAccessorType(XmlAccessType.NONE)"});
+    annotations.put("attribute", new String[]{"XmlAttribute"});
+    annotations.put("element", new String[]{"XmlElement"});
+    annotations.put("elementArray", new String[]{"XmlList"});
+    annotations.put("enum", new String[]{"XmlEnum", "XmlAccessorType(XmlAccessType.NONE)"});
 
     return new AnnotationMapper.XMLFramework("JAXB", imports, annotations);
   }
@@ -226,23 +230,27 @@ public class AnnotationMapper
    *
    * @return Framework-specific Java annotation or null
    */
-  public String getAnnotation(final String key)
+  public String[] getAnnotation(final String key)
   {
     // Get framework-specific annotation for general key
-    String annotation = AnnotationMapper.FRAMEWORKS.get(this.usedFramework).annotations.get(key);
+    String[] annotations = AnnotationMapper.FRAMEWORKS.get(this.usedFramework).annotations.get(key);
 
     // Add required import, if this was not done before
-    String requiredImport = AnnotationMapper.FRAMEWORKS.get(this.usedFramework).imports.get(key);
-    if (null != annotation && !this.usedImports.contains(requiredImport))
+    String[] requiredImports = AnnotationMapper.FRAMEWORKS.get(this.usedFramework).imports.get(key);
+    if (null != annotations)
     {
-      this.usedImports.add(requiredImport);
+        for (String requiredImport : requiredImports) {
+            if (!this.usedImports.contains(requiredImport)) {
+                this.usedImports.add(requiredImport);
+            }
+        }
     }
 
-    return annotation;
+    return annotations;
   }
 
   /**
-   * Look-up frameworks-pecific Java annotations for the given, general
+   * Look-up framework-specific Java annotations for the given, general
    * annotation key. The second parameter can be used to pass a variable
    * amount of arguments to replace placeholders in the annotation
    * pattern (e.g. "%s" in "Root(name = "%s")").
@@ -256,21 +264,25 @@ public class AnnotationMapper
    *
    * @return Framework-specific Java annotation or null
    */
-  public String getAnnotation(final String key, final String... arguments)
+  public String[] getAnnotation(final String key, final String... arguments)
   {
-    String annotation = this.getAnnotation(key);
-    
-    // Try to replace any placeholder...
-    try
-    {
-      annotation = String.format(annotation, (Object[])arguments);
-    }
-    // ... and return raw pattern in case of error
-    catch (IllegalFormatException e)
-    {
-      // Exception ignored intentionally
-    }
+    String[] annotations = this.getAnnotation(key);
+      String[] ret = new String[annotations.length];
 
-    return annotation;
+      for (int i = 0; i < annotations.length; i++) {
+        // Try to replace any placeholder...
+        try
+        {
+          ret[i] = String.format(annotations[i], (Object[])arguments);
+        }
+        // ... and return raw pattern in case of error
+        catch (IllegalFormatException e)
+        {
+          // Exception ignored intentionally
+        }
+
+      }
+
+    return ret;
   }
 }

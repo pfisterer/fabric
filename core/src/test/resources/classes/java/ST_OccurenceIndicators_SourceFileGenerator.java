@@ -29,7 +29,7 @@ public class ST_OccurenceIndicators_SourceFileGenerator extends JSourceFileGener
         JavaClassGenerationStrategy strategy = new JavaClassGenerationStrategy(new AnnotationMapper(xmlFramework));
     	JClass intValuesType = ((JClass) AttributeContainer.newBuilder()
             .setName("IntValuesType")
-            .addElementArray("int", "IntValue1", 0, 1)
+            .addElement("int", "IntValue1")
             .addElementArray("int", "IntValue2", 2, 3)
             .addElementArray("int", "IntValue3", 2)
             .addElementArray("int", "IntValue4", Integer.MAX_VALUE)

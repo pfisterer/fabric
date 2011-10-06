@@ -83,6 +83,6 @@ public class AnnotationMapperTest
   public void testAnnotationLookup() throws Exception
   {
     AnnotationMapper mapper = new AnnotationMapper();
-    assertEquals("Returned annotation must be 'Attribute'.", "Attribute", mapper.getAnnotation("attribute"));
+    assertEquals("Returned annotation must be 'Attribute'.", "Attribute", mapper.getAnnotation("attribute")[0]);
   }
 }
