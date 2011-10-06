@@ -1,4 +1,4 @@
-/** 05.10.2011 19:44 */
+/** 06.10.2011 21:27 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -179,46 +179,43 @@ public class JavaTypeGen implements TypeGen
   @Override
   public void createNewContainer(FSimpleType type)
   {
-    if (null != type)
+    // Type is a top-level enum
+    if (FSchemaTypeHelper.isEnum(type))
     {
-      // Type is a top-level enum
-      if (FSchemaTypeHelper.isEnum(type))
+      try
       {
-        try
-        {
-          this.createTopLevelEnum(type);
-        }
-        catch (Exception e)
-        {
-          LOGGER.error(String.format("Failed creating enum '%s'.", type.getName()));
-        }
-
-        LOGGER.debug(String.format("Created new enum '%s'.", type.getName()));
+        this.createTopLevelEnum(type);
       }
-      // Type is a list or single value
+      catch (Exception e)
+      {
+        LOGGER.error(String.format("Failed creating enum '%s'.", type.getName()));
+      }
+
+      LOGGER.debug(String.format("Created new enum '%s'.", type.getName()));
+    }
+    // Type is a list or single value
+    else
+    {
+      // Create new container for simple type
+      AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
+
+      // Type either is a list...
+      if (FSchemaTypeHelper.isList(type))
+      {
+        FList listType = (FList)type;
+        newBuilder.addElementArray(
+                this.mapper.lookup(this.getFabricTypeName(listType.getItemType())), "values",
+                FSchemaTypeHelper.getMinLength(listType), FSchemaTypeHelper.getMaxLength(listType));
+      }
+      // ... or a single value
       else
       {
-        // Create new container for simple type
-        AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
-
-        // Type either is a list...
-        if (FSchemaTypeHelper.isList(type))
-        {
-          FList listType = (FList)type;
-          newBuilder.addElementArray(
-                  this.mapper.lookup(this.getFabricTypeName(listType.getItemType())), "values",
-                  FSchemaTypeHelper.getMinLength(listType), FSchemaTypeHelper.getMaxLength(listType));
-        }    
-        // ... or a single value
-        else
-        {
-          newBuilder.addElement(this.mapper.lookup(this.getFabricTypeName(type)),
-                  "value", this.createRestrictions(type));
-        }
-        this.incompleteBuilders.push(newBuilder);
-
-        LOGGER.debug(String.format("Created new container '%s' for simple type.", type.getName()));
+        newBuilder.addElement(this.mapper.lookup(this.getFabricTypeName(type)),
+                "value", this.createRestrictions(type));
       }
+      this.incompleteBuilders.push(newBuilder);
+
+      LOGGER.debug(String.format("Created new container '%s' for simple type.", type.getName()));
     }
   }
   
@@ -279,7 +276,7 @@ public class JavaTypeGen implements TypeGen
     {
       // Determine element type
       String typeName = "";
-      
+
       // Element is XSD base type (e.g. xs:string, xs:short, ...)
       if (SchemaHelper.isBuiltinTypedElement(element))
       {
@@ -302,9 +299,9 @@ public class JavaTypeGen implements TypeGen
       // Add member variable to current incomplete container
       AttributeContainer.Builder current = (isTopLevel ? this.incompleteBuilders.pop() : this.incompleteLocalBuilders.get(this.incompleteBuilders.peek().getName()).pop());
 
-      // Enforce restrictions for local simple types or extensions of existing types
+      // Enforce restrictions for local simple types
       AttributeContainer.Restriction restrictions = new AttributeContainer.Restriction();
-      if (element.getSchemaType().isSimple() && (!element.getSchemaType().isTopLevel() || this.generatedElements.containsKey(typeName)))
+      if (element.getSchemaType().isSimple() && !element.getSchemaType().isTopLevel())
       {
         restrictions = this.createRestrictions((FSimpleType)(element.getSchemaType()));
       }

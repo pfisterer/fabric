@@ -16,7 +16,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element name="ArrayElement" type="xs:int" minOccurs="3" maxOccurs="7" />
-        <xs:element name="NormalElement" type="xs:int" />
+        <xs:element name="NormalElement" type="xs:positiveInteger" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

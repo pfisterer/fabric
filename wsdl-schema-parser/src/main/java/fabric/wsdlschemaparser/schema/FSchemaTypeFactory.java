@@ -260,7 +260,7 @@ public class FSchemaTypeFactory {
             ftype = getTopLevelType(elemName);
             if (ftype == null) {
                 if (elem.isSetSimpleType()) {
-                    ftype = generateLocalSimpleType(elem.getSimpleType(), elemName);
+                    ftype = generateLocalSimpleType(elem.getSimpleType());
                 } else if (elem.isSetComplexType()) {
                     ftype = generateComplexType(elem.getComplexType(), elemName);
                 } else if (elem.isSetRef()) {
@@ -457,12 +457,7 @@ public class FSchemaTypeFactory {
         return ftype;
     }
 
-    /**
-     * seidel: Added argument 'name' to this method and all calls,
-     * because otherwise FSimpleType objects created by this method
-     * would not have any valid value for this field.
-     */
-    private FSimpleType generateLocalSimpleType(LocalSimpleType stype, String name) {
+    private FSimpleType generateLocalSimpleType(LocalSimpleType stype) {
         FSimpleType fst = null;
         log.debug("Generating LocalSimpleType");
 
@@ -479,9 +474,6 @@ public class FSchemaTypeFactory {
         else if (stype.isSetList()) {
             fst = generateSimpleListType(stype);
         }
-
-        // seidel: Added the following line
-        fst.setName(name);
 
         return fst;
     }
