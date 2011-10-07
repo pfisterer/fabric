@@ -1,4 +1,4 @@
-/** 04.10.2011 22:54 */
+/** 07.10.2011 02:00 */
 package fabric.module.typegen.java;
 
 import fabric.module.typegen.AttributeContainer;
@@ -249,7 +249,7 @@ public class JavaRestrictionHelper
    *
    * @return Expression for restriction check
    */
-  public static String minInclusiveExpression(AttributeContainer.Element member)
+  public static String minInclusiveExpression(AttributeContainer.RestrictedElementBase member)
   {
     String result = "";
 
@@ -276,7 +276,7 @@ public class JavaRestrictionHelper
    *
    * @return Expression for restriction check
    */
-  public static String maxInclusiveExpression(AttributeContainer.Element member)
+  public static String maxInclusiveExpression(AttributeContainer.RestrictedElementBase member)
   {
     String result = "";
 
@@ -303,7 +303,7 @@ public class JavaRestrictionHelper
    *
    * @return Expression for restriction check
    */
-  public static String minExclusiveExpression(AttributeContainer.Element member)
+  public static String minExclusiveExpression(AttributeContainer.RestrictedElementBase member)
   {
     String result = "";
 
@@ -330,7 +330,7 @@ public class JavaRestrictionHelper
    *
    * @return Expression for restriction check
    */
-  public static String maxExclusiveExpression(AttributeContainer.Element member)
+  public static String maxExclusiveExpression(AttributeContainer.RestrictedElementBase member)
   {
     String result = "";
 

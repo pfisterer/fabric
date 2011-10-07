@@ -1,4 +1,4 @@
-/** 05.10.2011 18:31 */
+/** 07.10.2011 02:00 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
@@ -395,7 +395,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     // Member variable is an element or attribute
     if (member.getClass() == AttributeContainer.Element.class || member.getClass() == AttributeContainer.Attribute.class)
     {
-      AttributeContainer.Element e = (AttributeContainer.Element)member;
+      AttributeContainer.RestrictedElementBase e = (AttributeContainer.RestrictedElementBase)member;
 
       // Create code to check restrictions
       methodBody += this.generateRestrictionChecks(e);
@@ -440,7 +440,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
    *
    * @throws Exception Error during check code generation
    */
-  private String generateRestrictionChecks(AttributeContainer.Element member) throws Exception
+  private String generateRestrictionChecks(AttributeContainer.RestrictedElementBase member) throws Exception
   {
     String result = "";
 

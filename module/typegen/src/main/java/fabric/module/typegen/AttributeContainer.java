@@ -1,4 +1,4 @@
-/** 25.09.2011 01:50 */
+/** 07.10.2011 01:41 */
 package fabric.module.typegen;
 
 import org.slf4j.Logger;
@@ -538,11 +538,28 @@ public class AttributeContainer
     public String name;
   }
 
-  public static class Element extends MemberVariable
+  public static abstract class ElementBase extends MemberVariable
   {
     /** Value of XML element */
     public String value;
 
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML element
+     * @param name Name of XML element
+     * @param value Initial value of XML element
+     */
+    public ElementBase(final String type, final String name, final String value)
+    {
+      this.type = type;
+      this.name = name;
+      this.value = value;
+    }
+  }
+
+  public static abstract class RestrictedElementBase extends ElementBase
+  {
     /** Restrictions on element value */
     public Restriction restrictions;
 
@@ -554,47 +571,11 @@ public class AttributeContainer
      * @param value Initial value of XML element
      * @param restrictions Restrictions on XML element
      */
-    public Element(final String type, final String name, final String value, final Restriction restrictions)
+    public RestrictedElementBase(final String type, final String name, final String value, final Restriction restrictions)
     {
-      this.type = type;
-      this.name = name;
-      this.value = value;
+      super(type, name, value);
+
       this.restrictions = restrictions;
-    }
-
-    /**
-     * Parameterized constructor.
-     *
-     * @param type Type of XML element
-     * @param name Name of XML element
-     * @param value Initial value of XML element
-     */
-    public Element(final String type, final String name, final String value)
-    {
-      this(type, name, value, new Restriction());
-    }
-
-    /**
-     * Parameterized constructor.
-     *
-     * @param type Type of XML element
-     * @param name Name of XML element
-     * @param restrictions Restrictions on XML element
-     */
-    public Element(final String type, final String name, final Restriction restrictions)
-    {
-      this(type, name, "", restrictions);
-    }
-
-    /**
-     * Parameterized constructor.
-     *
-     * @param type Type of XML element
-     * @param name Name of XML element
-     */
-    public Element(final String type, final String name)
-    {
-      this(type, name, "", new Restriction());
     }
 
     /**
@@ -666,10 +647,10 @@ public class AttributeContainer
     {
       return (null != this.restrictions.maxExclusive);
     }
-    
+
     /**
      * Check 'pattern' restriction for element.
-     * 
+     *
      * @return True or false
      */
     public boolean isPatternRestricted()
@@ -702,7 +683,58 @@ public class AttributeContainer
     }
   }
 
-  public static class ConstantElement extends Element
+  public static class Element extends RestrictedElementBase
+  {
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML attribute
+     * @param name Name of XML attribute
+     * @param value Initial value of XML attribute
+     * @param restrictions Restrictions on XML element
+     */
+    public Element(final String type, final String name, final String value, final Restriction restrictions)
+    {
+      super(type, name, value, restrictions);
+    }
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML element
+     * @param name Name of XML element
+     * @param value Initial value of XML element
+     */
+    public Element(final String type, final String name, final String value)
+    {
+      this(type, name, value, new Restriction());
+    }
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML element
+     * @param name Name of XML element
+     * @param restrictions Restrictions on XML element
+     */
+    public Element(final String type, final String name, final Restriction restrictions)
+    {
+      this(type, name, "", restrictions);
+    }
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML element
+     * @param name Name of XML element
+     */
+    public Element(final String type, final String name)
+    {
+      this(type, name, "", new Restriction());
+    }
+  }
+
+  public static class ConstantElement extends ElementBase
   {    
     /**
      * Parameterized constructor.
@@ -717,7 +749,7 @@ public class AttributeContainer
     }
   }
 
-  public static class Attribute extends Element
+  public static class Attribute extends RestrictedElementBase
   {
     /**
      * Parameterized constructor.
@@ -741,7 +773,7 @@ public class AttributeContainer
      */
     public Attribute(final String type, final String name, final String value)
     {
-      super(type, name, value);
+      this(type, name, value, new Restriction());
     }
 
     /**
@@ -753,7 +785,7 @@ public class AttributeContainer
      */
     public Attribute(final String type, final String name, final Restriction restrictions)
     {
-      super(type, name, "", restrictions);
+      this(type, name, "", restrictions);
     }
 
     /**
@@ -764,7 +796,7 @@ public class AttributeContainer
      */
     public Attribute(final String type, final String name)
     {
-      super(type, name, "");
+      this(type, name, "", new Restriction());
     }
   }
   
