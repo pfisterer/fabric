@@ -1,4 +1,4 @@
-/** 07.10.2011 02:00 */
+/** 08.10.2011 02:06 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
@@ -157,8 +157,10 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     jc.setComment(new JClassCommentImpl(String.format("The '%s' container class.", container.getName())));
 
     // Annotation pattern e.g. @Root(name = "value") or @XStreamAlias("value")
-    String annotation = this.xmlMapper.getAnnotation("root", this.firstLetterCapital(container.getName()));
-    jc.addAnnotation(new JClassAnnotationImpl(annotation));
+    for (String annotation: this.xmlMapper.getAnnotations("root", this.firstLetterCapital(container.getName())))
+    {
+      jc.addAnnotation(new JClassAnnotationImpl(annotation));
+    }
 
     // Set extends-directive
     if (null != parent && parent.length() > 0)
@@ -191,7 +193,10 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
         
         JEnum je = JEnum.factory.create(JModifier.PUBLIC | JModifier.STATIC, ee.type, this.fixEnumConstants(ee.enumConstants));
         je.setComment(new JEnumCommentImpl(String.format("The '%s' enumeration.", ee.type)));
-        je.addAnnotation(new JEnumAnnotationImpl(this.xmlMapper.getAnnotation("enum", ee.type)));
+        for (String annotation: this.xmlMapper.getAnnotations("enum", ee.type))
+        {
+          je.addAnnotation(new JEnumAnnotationImpl(annotation));
+        }
         jc.add(je);
       }
 
@@ -259,8 +264,10 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' element.", e.name)));
 
       // Annotation pattern e.g. @Element or @XStreamAlias("value")
-      String annotation = this.xmlMapper.getAnnotation("element", e.name);
-      jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+      for (String annotation: this.xmlMapper.getAnnotations("element", e.name))
+      {
+        jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+      }
     }
 
     /*****************************************************************
@@ -281,8 +288,10 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' constant.", ce.name)));
 
       // Annotation pattern e.g. @Element or @XStreamAlias("value")
-      String annotation = this.xmlMapper.getAnnotation("element", ce.name);
-      jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+      for (String annotation: this.xmlMapper.getAnnotations("element", ce.name))
+      {
+        jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+      }
     }
 
     /*****************************************************************
@@ -313,8 +322,10 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' attribute.", a.name)));
 
       // Annotation pattern e.g. @Attribute or @XStreamAsAttribute
-      String annotation = this.xmlMapper.getAnnotation("attribute", a.name);
-      jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+      for (String annotation: this.xmlMapper.getAnnotations("attribute", a.name))
+      {
+        jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+      }
     }
 
     /*****************************************************************
@@ -328,8 +339,10 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' enum element.", ee.name)));
       
       // Annotation pattern e.g. @XmlEnum
-      String annotation = this.xmlMapper.getAnnotation("enum", ee.name);
-      jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+      for (String annotation: this.xmlMapper.getAnnotations("enum", ee.name))
+      {
+        jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+      }
     }
 
     /*****************************************************************
@@ -354,8 +367,10 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' element array.", ea.name)));
 
       // Annotation pattern e.g. @ElementArray or @XStreamImplicit(itemFieldName="value")
-      String annotation = this.xmlMapper.getAnnotation("elementArray", ea.name);
-      jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+      for (String annotation: this.xmlMapper.getAnnotations("elementArray", ea.name))
+      {
+        jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+      }
     }
 
     /*****************************************************************
