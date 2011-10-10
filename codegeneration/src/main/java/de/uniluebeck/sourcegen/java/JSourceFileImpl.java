@@ -152,7 +152,7 @@ public class JSourceFileImpl extends JElemImpl implements JSourceFile {
 				buffer.append(";\n");
 			}
 			
-			if (imports.size() > 0)
+			if (importsComplex.size() > 0)
 				buffer.append("\n");
 			
 			for (String imp : imports) {
