@@ -13,13 +13,13 @@ public class OpenEXI extends EXILibrary
   /**
    * Parameterized constructor.
    *    
-   * @param beanClassName Name of the target Java bean class
+   * @param xsdDocumentPath Path to the input XSD document
    *
    * @throws Exception Error during code generation
    */
-  public OpenEXI(final String beanClassName) throws Exception
+  public OpenEXI(final String xsdDocumentPath) throws Exception
   {
-    super(beanClassName);
+    super(xsdDocumentPath);
   }
 
   /**

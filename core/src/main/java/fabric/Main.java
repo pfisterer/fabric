@@ -126,8 +126,10 @@ public class Main {
                 throw new Exception("Only one of -x or -w is allowed");
             } else if (line.hasOption('x')) {
                 schemaFile = new File(line.getOptionValue('x'));
+                properties.setProperty("fabric.xsd", line.getOptionValue('x')); // Add path of XSD file to properties
             } else if (line.hasOption('w')) {
                 wsdlFile = new File(line.getOptionValue('w'));
+                properties.setProperty("fabric.wsdl", line.getOptionValue('w')); // Add path of WSDL file to properties
             } else {
                 throw new Exception("Supply one of -x or -w");
             }

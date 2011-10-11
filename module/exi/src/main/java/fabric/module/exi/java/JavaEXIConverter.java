@@ -1,4 +1,4 @@
-/** 11.10.2011 14:49 */
+/** 11.10.2011 15:52 */
 package fabric.module.exi.java;
 
 import java.util.Properties;
@@ -28,8 +28,8 @@ public class JavaEXIConverter
   /** Properties object with module configuration */
   private Properties properties;
   
-  /** Name of the Java bean class */
-  private String beanClassName;
+  /** Path to the input XSD document */
+  private String xsdDocumentPath;
   
   /** Name of the EXI de-/serializer class */
   private String serializerClassName;
@@ -44,7 +44,7 @@ public class JavaEXIConverter
   {
     this.properties = properties;
     
-    this.beanClassName = this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY);
+    this.xsdDocumentPath = this.properties.getProperty("fabric.xsd"); // TODO: Check key for property
     
     this.serializerClassName = "EXIConverter"; // TODO: Set proper class name
   }
@@ -68,7 +68,7 @@ public class JavaEXIConverter
       // Create instance of desired EXI library
       EXILibrary exiLibrary = EXILibraryFactory.getInstance().createEXILibrary(
               this.properties.getProperty(FabricEXIModule.EXILIBRARY_NAME_KEY),
-              this.beanClassName);
+              this.xsdDocumentPath);
 
       sourceFile.add(exiLibrary.init());
 

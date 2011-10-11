@@ -47,13 +47,13 @@ public class EXILibraryFactory
    * throw an exception.
    *
    * @param concreteEXILibraryName Name of concrete EXILibrary class
-   * @param beanClassName Name of the main Java bean class
+   * @param xsdDocumentPath Path to the input XSD document
    * 
    * @return EXILibrary object of desired type
    *
    * @throws Exception Error during class instantiation
    */
-  public EXILibrary createEXILibrary(String concreteEXILibraryName, String beanClassName) throws Exception
+  public EXILibrary createEXILibrary(String concreteEXILibraryName, String xsdDocumentPath) throws Exception
   {
     EXILibrary concreteEXILibrary = null;
 
@@ -64,7 +64,7 @@ public class EXILibraryFactory
       Class[] argumentsClass = new Class[] { String.class };
 
       Constructor constructor = concreteClass.getConstructor(argumentsClass);
-      Object[] arguments = new Object[] { beanClassName };
+      Object[] arguments = new Object[] { xsdDocumentPath };
 
       concreteEXILibrary = (EXILibrary)constructor.newInstance(arguments);
     }

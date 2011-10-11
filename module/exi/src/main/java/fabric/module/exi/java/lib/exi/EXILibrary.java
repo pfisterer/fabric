@@ -1,4 +1,4 @@
-/** 11.10.2011 14:08 */
+/** 11.10.2011 15:53 */
 package fabric.module.exi.java.lib.exi;
 
 import java.util.ArrayList;
@@ -23,8 +23,8 @@ abstract public class EXILibrary
   /** Class for EXI serialization and deserialization */
   protected JClass serializerClass;
 
-  /** Name of the target Java bean class */
-  protected String beanClassName;
+  /** Path to the input XSD document */
+  protected String xsdDocumentPath;
   
   /**
    * Default constructor is private. Use parameterized version instead.
@@ -38,18 +38,18 @@ abstract public class EXILibrary
    * Parameterized constructor initializes EXI converter class
    * and sets bean class name.
    * 
-   * @param beanClassName Name of the target Java bean class
+   * @param xsdDocumentPath Path to the input XSD document
    *
    * @throws Exception Error during code generation
    */
-  public EXILibrary(final String beanClassName) throws Exception
+  public EXILibrary(final String xsdDocumentPath) throws Exception
   {
     this.requiredImports = new ArrayList<String>();
 
     this.serializerClass = JClass.factory.create(JModifier.PUBLIC, "EXIConverter");
     this.serializerClass.setComment(new JClassCommentImpl("The EXI de-/serializer class."));
 
-    this.beanClassName = beanClassName;
+    this.xsdDocumentPath = xsdDocumentPath;
   }
   
   /**
