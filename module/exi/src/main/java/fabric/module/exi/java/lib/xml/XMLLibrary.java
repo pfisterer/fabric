@@ -1,10 +1,11 @@
-/** 11.10.2011 02:14 */
+/** 11.10.2011 10:34 */
 package fabric.module.exi.java.lib.xml;
 
 import java.util.ArrayList;
 
 import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JClassCommentImpl;
+import de.uniluebeck.sourcegen.java.JMethod;
 import de.uniluebeck.sourcegen.java.JModifier;
 
 /**
@@ -148,10 +149,50 @@ abstract public class XMLLibrary
    */
   public void generateFixValueCode(final ArrayList<String> affectedElements) throws Exception
   {
+    JMethod removeValueTags = this.generateRemoveValueTags(affectedElements);
+    if (null != removeValueTags)
+    {
+      this.converterClass.add(removeValueTags);
+    }
+
+    JMethod addValueTags = this.generateAddValueTags(affectedElements);
+    if (null != addValueTags)
+    {
+      this.converterClass.add(addValueTags);
+    }
+  }
+  
+  /**
+   * Private helper method to generate code that removes unnecessary
+   * value-tags from XML documents.
+   * 
+   * @param affectedElements List of elements with value-tag
+   *
+   * @throws Exception Error during code generation
+   */
+  private JMethod generateRemoveValueTags(final ArrayList<String> affectedElements) throws Exception
+  {
+    JMethod jm = null;
+
     // TODO: Generate method 'String removeValueTags(final String xmlDocument, final ArrayList<String> affectedElements)'
-    
+
+    return jm;
+  }
+
+  /**
+   * Private helper method to generate code that adds value-tags
+   * to XML documents.
+   * 
+   * @param affectedElements List of elements with value-tag
+   *
+   * @throws Exception Error during code generation
+   */
+  private JMethod generateAddValueTags(final ArrayList<String> affectedElements) throws Exception
+  {
+    JMethod jm = null;
+
     // TODO: Generate method 'String addValueTags(final String xmlDocument, final ArrayList<String> affectedElements)'
 
-    // TODO: Add both methods to 'this.converterClass'
+    return null;
   }
 }
