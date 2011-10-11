@@ -1,3 +1,4 @@
+/** 11.10.2011 11:00 */
 package fabric.module.typegen;
 
 import java.util.Properties;
@@ -166,8 +167,6 @@ public class FabricTypeGenModule implements FabricModule
     {
       throw new FabricTypeGenException(String.format("Invalid target language '%s'. Use one of [java, cpp].", targetLanguage));
     }
-
-    this.properties.remove(TARGET_LANGUAGE_KEY);
   }
 
   /**

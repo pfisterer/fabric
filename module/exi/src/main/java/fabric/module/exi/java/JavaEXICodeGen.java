@@ -1,4 +1,4 @@
-/** 09.10.2011 23:18 */
+/** 11.10.2011 11:47 */
 package fabric.module.exi.java;
 
 import org.slf4j.Logger;
@@ -36,11 +36,14 @@ public class JavaEXICodeGen implements EXICodeGen
   private Properties properties;
   
   /** Name for main application */
-  private String applicationClassName = "Application";
+  private String applicationClassName;
   
   /** Class with EXI serializer and deserializer */
   private JClass applicationClass;
-
+  
+  /** Name of the package in which the bean class resides */
+  private String packageName;
+  
   /** Fully qualified name of the Java bean class (incl. package) */
   private String qualifiedBeanClassName;
 
@@ -59,13 +62,18 @@ public class JavaEXICodeGen implements EXICodeGen
     this.workspace = workspace;
     this.properties = properties;
     
-    // TODO: Set application name
-    // this.applicationName = this.properties.getProperty(FabricEXIModule.APPLICATION_NAME_KEY);
+    this.applicationClassName = this.properties.getProperty(FabricEXIModule.APPLICATION_CLASS_NAME_KEY);
     this.applicationClass = JClass.factory.create(JModifier.PUBLIC, this.applicationClassName);
     this.applicationClass.setComment(new JClassCommentImpl("The application's main class."));
-
+    
+    this.packageName = this.properties.getProperty(FabricEXIModule.PACKAGE_NAME_KEY);
+    if (this.properties.containsKey(FabricEXIModule.PACKAGE_NAME_ALT_KEY))
+    {
+      this.packageName = this.properties.getProperty(FabricEXIModule.PACKAGE_NAME_ALT_KEY);
+    }
+    
     this.qualifiedBeanClassName = String.format("%s.%s",
-            this.properties.getProperty(FabricEXIModule.PACKAGE_NAME_KEY),
+            this.packageName,
             this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY));
 
     this.converterClassName = this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY) + "Converter";
@@ -104,6 +112,7 @@ public class JavaEXICodeGen implements EXICodeGen
 
     // Create XML converter class
     beanConverter.generateConverterClass(jsf);
+    
     // Create method for XML serialization
     JMethod serialize = beanConverter.generateSerializeCall();
     if (null != serialize)
@@ -122,10 +131,9 @@ public class JavaEXICodeGen implements EXICodeGen
      * Create class and method calls for EXI converter
      *****************************************************************/
 
-    // TODO: Create EXIConverter object
-    // JavaEXIConverter exiConverter = new JavaEXIConverter(this.properties);
+    // TODO: JavaEXIConverter exiConverter = new JavaEXIConverter(this.properties);
 
-    // TODO: Generate class
+    // TODO: Create EXI converter class
     // ...
 
     // TODO: Create method calls and handle return values
@@ -147,21 +155,40 @@ public class JavaEXICodeGen implements EXICodeGen
     
     // Add application class
     jsf.add(this.applicationClass);
-
-    // Import bean class
-    jsf.addImport(this.qualifiedBeanClassName);
-
+    
+    // Only import bean class, if it resides in a different package
+    if (!this.properties.getProperty(FabricEXIModule.PACKAGE_NAME_KEY).equals(this.packageName))
+    {
+      jsf.addImport(this.qualifiedBeanClassName);
+    }
+    
     LOGGER.debug(String.format("Generated new source file '%s' for main application.", this.applicationClassName));
   }
 
-  // TODO: Add comment
+  /**
+   * Private helper method to create a main function for the application.
+   * We add some example code here to demonstrate the usage of the XML
+   * converter and the EXI de-/serialization class.
+   * 
+   * @return JMethod with main function
+   * 
+   * @throws Exception Error during code generation
+   */
   private JMethod createMainFunction() throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(JParameter.factory.create("String[]", "args"));
     JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, "void", "main", jms);
 
-    String methodBody = "// TODO: Add code with usage example here.";
-
+    String beanClassName = this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY);
+    
+    // TODO: Add code with usage example here
+    String methodBody = String.format(
+            "// Create instance of the Java bean class\n" +
+            "%s %s = new %s();\n\n" +
+            "// Convert bean instance to XML document\n" +
+            "String xmlDocument = instanceToXML(%s);",
+            beanClassName, beanClassName.toLowerCase(), beanClassName, beanClassName.toLowerCase());
+    
     jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Main function of the application."));
 

@@ -1,3 +1,4 @@
+/** 11.10.2011 11:04 */
 package fabric.module.exi;
 
 import java.util.Properties;
@@ -34,8 +35,11 @@ public class FabricEXIModule implements FabricModule
   public static final String MAIN_CLASS_NAME_KEY = "exi.main_class_name";
   
   /** Alternative key for main class name */
-  public static final String MAIN_CLASS_NAME_ALT_KEY = "typegen.main_class_name";  
-
+  public static final String MAIN_CLASS_NAME_ALT_KEY = "typegen.main_class_name";
+  
+  /** Key for application class name in properties object */
+  public static final String APPLICATION_CLASS_NAME_KEY = "exi.application_class_name";
+  
   /** Key for XML framework name in properties object */
   public static final String XML_FRAMEWORK_KEY = "exi.java.xml_framework";
   
@@ -143,6 +147,7 @@ public class FabricEXIModule implements FabricModule
     // Check properties
     this.checkTargetLanguage();
     this.checkMainClassName();
+    this.checkApplicationClassName();
     this.checkXMLFramework();
     this.checkPackageName();
     this.checkEXILibrary();
@@ -242,8 +247,6 @@ public class FabricEXIModule implements FabricModule
     {
       throw new FabricEXIException(String.format("Invalid target language '%s'. Use one of [java, cpp].", targetLanguage));
     }
-
-    this.properties.remove(TARGET_LANGUAGE_KEY);
   }
 
   /**
@@ -260,6 +263,23 @@ public class FabricEXIModule implements FabricModule
     {
       this.properties.setProperty(MAIN_CLASS_NAME_KEY,
               className.substring(0, 1).toUpperCase() + className.substring(1, className.length()));
+    }
+  }
+  
+  /**
+   * Check parameter for the application class name. This property is
+   * optional. However, it is strongly recommended to provide a value,
+   * because otherwise "Application" is used as default.
+   */
+  private void checkApplicationClassName()
+  {
+    String applicationName = this.properties.getProperty(APPLICATION_CLASS_NAME_KEY, "Application");
+    
+    // Capitalize first letter of class name
+    if (null != applicationName)
+    {
+      this.properties.setProperty(APPLICATION_CLASS_NAME_KEY,
+              applicationName.substring(0, 1).toUpperCase() + applicationName.substring(1, applicationName.length()));
     }
   }
 
@@ -294,8 +314,6 @@ public class FabricEXIModule implements FabricModule
     {
       this.properties.setProperty(XMLLIBRARY_NAME_KEY, "fabric.module.exi.java.lib.xml.Simple");
     }
-
-    this.properties.remove(XML_FRAMEWORK_KEY);
   }
 
   /**
