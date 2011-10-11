@@ -2,14 +2,18 @@ package fabric.module.exi.java;
 
 import java.util.Properties;
 
-import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JMethod;
 import de.uniluebeck.sourcegen.java.JMethodCommentImpl;
+import de.uniluebeck.sourcegen.java.JMethodSignature;
 import de.uniluebeck.sourcegen.java.JModifier;
-import fabric.module.exi.FabricEXIModule;
+import de.uniluebeck.sourcegen.java.JParameter;
+import de.uniluebeck.sourcegen.java.JSourceFile;
 
-import fabric.module.exi.java.lib.xml.XMLFramework;
-import fabric.module.exi.java.lib.xml.XMLFrameworkFactory;
+import fabric.module.exi.FabricEXIModule;
+import fabric.module.exi.exceptions.FabricEXIException;
+
+import fabric.module.exi.java.lib.xml.XMLLibrary;
+import fabric.module.exi.java.lib.xml.XMLLibraryFactory;
 
 /**
  * @author seidel
@@ -18,31 +22,51 @@ public class JavaBeanConverter
 {
   private Properties properties;
 
+  private String beanClassName;
+
+  private String converterClassName;
+
   public JavaBeanConverter(Properties properties) throws Exception
   {
     this.properties = properties;
+    
+    this.beanClassName = this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY);
+
+    this.converterClassName = this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY) + "Converter";
   }
 
   // TODO: Generate class with XML converter and all internal methods
-  public JClass generateConverterClass() throws Exception
+  public void generateConverterClass(JSourceFile sourceFile) throws Exception
   {
-    String beanObjectClassName = String.format("%s.%s",
-            this.properties.getProperty(FabricEXIModule.PACKAGE_NAME_KEY),
-            this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY));
-            
-    XMLFramework xmlFramework = XMLFrameworkFactory.getInstance().createXMLFramework(
-            this.properties.getProperty(FabricEXIModule.XML_NAME_KEY),
-            beanObjectClassName);
+    if (null == sourceFile)
+    {
+      throw new FabricEXIException("Cannot create XML converter class. Source file is null.");
+    }
+    else
+    {
+      XMLLibrary xmlFramework = XMLLibraryFactory.getInstance().createXMLLibrary(
+              this.properties.getProperty(FabricEXIModule.XMLLIBRARY_NAME_KEY),
+              this.beanClassName);
     
-    return xmlFramework.init(null); // TODO: Pass elements to fixes values-problem
+      sourceFile.add(xmlFramework.init(null)); // TODO: Pass elements to fixes values-problem
+      
+      // Add required imports AFTER initialization
+      for (String requiredImport: xmlFramework.getRequiredImports())
+      {
+        sourceFile.addImport(requiredImport);
+      }
+    }
   }
 
   // TODO: Implement call to XML converter class and add comment
   public JMethod generateSerializeCall() throws Exception
   {
-    JMethod jm = JMethod.factory.create(JModifier.PUBLIC, "java.io.File", "toXML");
+    JMethodSignature jms = JMethodSignature.factory.create(
+            JParameter.factory.create(JModifier.FINAL, beanClassName, "beanObject"));
 
-    String methodBody = "return xmlConverter.javaToXML();";
+    JMethod jm = JMethod.factory.create(JModifier.PUBLIC, "String", "toXML", jms, new String[] { "Exception" });
+    
+    String methodBody = String.format("return %s.instanceToXML(beanObject);", this.converterClassName);
 
     jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Convert Java bean object to XML document."));
@@ -53,12 +77,12 @@ public class JavaBeanConverter
   // TODO: Implement call to XML converter class and add comment
   public JMethod generateDeserializeCall() throws Exception
   {
-    String className = String.format("%s.%s",
-            this.properties.getProperty(FabricEXIModule.PACKAGE_NAME_KEY),
-            this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY));
-    JMethod jm = JMethod.factory.create(JModifier.PUBLIC, className, "toInstance");
+    JMethodSignature jms = JMethodSignature.factory.create(
+            JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
 
-    String methodBody = "return xmlConverter.xmlToInstance();";
+    JMethod jm = JMethod.factory.create(JModifier.PUBLIC, beanClassName, "toInstance", jms, new String[] { "Exception" });
+
+    String methodBody = String.format("return %s.xmlToInstance(xmlDocument);", this.converterClassName);
 
     jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Convert XML document to Java bean object."));

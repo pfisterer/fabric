@@ -2,7 +2,7 @@ package fabric.module.exi.java.lib.exi;
 
 /**
  * Public interface for EXI libraries. Implementing classes
- * generate code, to operate a specific external EXI library.
+ * generate code to operate a specific external EXI library.
  *
  * @author seidel
  */

@@ -8,7 +8,7 @@ package fabric.module.exi.base;
 public interface EXICodeGen
 {
   /**
-   * Generate a class with EXI serializer and deserializer code.
+   * Generate code to serialize and deserialize Bean objects with EXI.
    *
    * @throws Exception Error during code generation
    */

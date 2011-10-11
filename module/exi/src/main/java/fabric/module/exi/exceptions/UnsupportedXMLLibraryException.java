@@ -1,18 +1,18 @@
 package fabric.module.exi.exceptions;
 
 /**
- * Custom exception for the XMLFrameworkFactory within the Fabric EXI module.
+ * Custom exception for the XMLLibraryFactory within the Fabric EXI module.
  * This exception can be thrown, when the developer tries to instanziate a
- * class with the factory method, that is not a valid XMLFramework implementation.
+ * class with the factory method, that is not a valid XMLLibrary implementation.
  *
  * @author seidel
  */
-public class UnsupportedXMLFrameworkException extends FabricEXIException
+public class UnsupportedXMLLibraryException extends FabricEXIException
 {
   /**
    * Default constructor for exception.
    */
-  public UnsupportedXMLFrameworkException()
+  public UnsupportedXMLLibraryException()
   {
     // Empty implementation
   }
@@ -22,7 +22,7 @@ public class UnsupportedXMLFrameworkException extends FabricEXIException
    *
    * @param message Error message
    */
-  public UnsupportedXMLFrameworkException(String message)
+  public UnsupportedXMLLibraryException(String message)
   {
     super(message);
   }

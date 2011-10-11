@@ -1,4 +1,4 @@
-/** 28.09.2011 19:47 */
+/** 09.10.2011 22:35 */
 package fabric.module.exi;
 
 import org.slf4j.Logger;
@@ -36,12 +36,12 @@ public class FabricEXIHandler extends FabricDefaultHandler
    * @param workspace Workspace object for source code write-out
    * @param properties Properties object with module options
    * 
-   * @throws Exception  Error during EXI generator creation
+   * @throws Exception Error during EXI generator creation
    */
   public FabricEXIHandler(Workspace workspace, Properties properties) throws Exception
   {
     this.exiGenerator = EXICodeGenFactory.getInstance().createEXICodeGen(
-            properties.getProperty("exi.generator_name"), workspace, properties);
+            properties.getProperty(FabricEXIModule.EXICODEGEN_NAME_KEY), workspace, properties);
   }
 
   /**

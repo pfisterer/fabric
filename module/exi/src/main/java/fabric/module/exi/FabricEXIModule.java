@@ -22,7 +22,7 @@ import fabric.module.exi.exceptions.FabricEXIException;
 public class FabricEXIModule implements FabricModule
 {
   /** Logger object */
-  public static final Logger LOGGER = LoggerFactory.getLogger(FabricEXIModule.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(FabricEXIModule.class);
 
   /** Key for target language in properties object */
   public static final String TARGET_LANGUAGE_KEY = "exi.target_language";
@@ -51,13 +51,13 @@ public class FabricEXIModule implements FabricModule
   /** Key for the EXI library name in properties object */
   public static final String EXI_LIBRARY_KEY = "exi.java.exi_library";
   
-  /** Key for EXICodeGen factory name */
-  public static final String GENERATOR_NAME_KEY = "exi.generator_name";
+  // TODO: Adjust comment and add key to wiki documentation
+  /** Key for class name of for EXICodeGen factory name */
+  public static final String EXICODEGEN_NAME_KEY = "exi.exicodegen_name";
   
-  /** Key for XMLFramework factory name */
-  public static final String XML_NAME_KEY = "exi.xml_name";
-  
-  /** 
+  // TODO: Adjust comment and add key to wiki documentation
+  /** Key for class name of conrete XMLLibrary in factory name */
+  public static final String XMLLIBRARY_NAME_KEY = "exi.xmllibrary_name";
 
   /** Properties object for module configuration */
   private Properties properties = null;
@@ -95,7 +95,7 @@ public class FabricEXIModule implements FabricModule
             + "Valid options are '%s', '%s', '%s', '%s', '%s' and '%s'. "
             + "Alternatively '%s', '%s', '%s' and '%s' can be used.",
             TARGET_LANGUAGE_KEY, MAIN_CLASS_NAME_KEY, XML_FRAMEWORK_KEY,
-            PACKAGE_NAME_KEY, EXI_LIBRARY_KEY, GENERATOR_NAME_KEY,
+            PACKAGE_NAME_KEY, EXI_LIBRARY_KEY, EXICODEGEN_NAME_KEY,
             TARGET_LANGUAGE_ALT_KEY, MAIN_CLASS_NAME_ALT_KEY,
             XML_FRAMEWORK_ALT_KEY, PACKAGE_NAME_ALT_KEY);
   }
@@ -147,7 +147,7 @@ public class FabricEXIModule implements FabricModule
     this.checkPackageName();
     this.checkEXILibrary();
 
-    // Print exi module properties for debug purposes
+    // Print EXI module properties for debug purposes
     for (String key: this.properties.stringPropertyNames())
     {
       if (key.startsWith("exi."))
@@ -203,7 +203,7 @@ public class FabricEXIModule implements FabricModule
    * 'from' to another field with key 'to'.
    * 
    * @param from Key of source property
-   * @param t Key of target property
+   * @param to Key of target property
    */
   private void copyProperty(final String from, final String to)
   {
@@ -230,12 +230,12 @@ public class FabricEXIModule implements FabricModule
     // Use Java EXI code generator
     else if (targetLanguage.toLowerCase().equals("java"))
     {
-      this.properties.setProperty(GENERATOR_NAME_KEY, "fabric.module.exi.java.JavaEXICodeGen");
+      this.properties.setProperty(EXICODEGEN_NAME_KEY, "fabric.module.exi.java.JavaEXICodeGen");
     }
     // Use C++ EXI code generator
     else if (targetLanguage.toLowerCase().equals("cpp"))
     {
-      this.properties.setProperty(GENERATOR_NAME_KEY, "fabric.module.exi.cpp.CppEXICodeGen");
+      this.properties.setProperty(EXICODEGEN_NAME_KEY, "fabric.module.exi.cpp.CppEXICodeGen");
     }
     // Invalid target language provided
     else
@@ -264,10 +264,9 @@ public class FabricEXIModule implements FabricModule
   }
 
   /**
-   * Check parameter for XML framework. This property is optional,
-   * because it only applies to the Java type generator. In case
-   * that no framework name is provided, the Simple XML library is
-   * used as default.
+   * Check parameter for XML framework. This property is optional.
+   * However, it is strongly recommended to provide a value, because
+   * otherwise the Simple XML library is used as default.
    */
   private void checkXMLFramework()
   {
@@ -279,21 +278,21 @@ public class FabricEXIModule implements FabricModule
       this.properties.setProperty(XML_FRAMEWORK_KEY, "Simple");
       xmlFramework = this.properties.getProperty(XML_FRAMEWORK_KEY);
     }
-    
-    // Use Java EXI code generator
+
+    // Use XStream as XML library
     if (xmlFramework.equals("XStream"))
     {
-      this.properties.setProperty(XML_NAME_KEY, "fabric.module.exi.java.lib.xml.XStream");
+      this.properties.setProperty(XMLLIBRARY_NAME_KEY, "fabric.module.exi.java.lib.xml.XStream");
     }
-    // Use C++ EXI code generator
+    // Use JAXB as XML library
     else if (xmlFramework.equals("JAXB"))
     {
-      this.properties.setProperty(XML_NAME_KEY, "fabric.module.exi.java.lib.xml.JAXB");
+      this.properties.setProperty(XMLLIBRARY_NAME_KEY, "fabric.module.exi.java.lib.xml.JAXB");
     }
-    // Invalid target language provided
+    // Use Simple as default XML library
     else
     {
-      this.properties.setProperty(XML_NAME_KEY, "fabric.module.exi.java.lib.xml.Simple");
+      this.properties.setProperty(XMLLIBRARY_NAME_KEY, "fabric.module.exi.java.lib.xml.Simple");
     }
 
     this.properties.remove(XML_FRAMEWORK_KEY);
