@@ -1,29 +1,130 @@
+/** 11.10.2011 14:49 */
 package fabric.module.exi.java;
 
 import java.util.Properties;
+
+import de.uniluebeck.sourcegen.java.JMethod;
+import de.uniluebeck.sourcegen.java.JMethodCommentImpl;
+import de.uniluebeck.sourcegen.java.JMethodSignature;
+import de.uniluebeck.sourcegen.java.JModifier;
+import de.uniluebeck.sourcegen.java.JParameter;
+import de.uniluebeck.sourcegen.java.JSourceFile;
+
+import fabric.module.exi.FabricEXIModule;
+import fabric.module.exi.exceptions.FabricEXIException;
 
 import fabric.module.exi.java.lib.exi.EXILibrary;
 import fabric.module.exi.java.lib.exi.EXILibraryFactory;
 
 /**
+ * JavaEXIConverter class creates the EXI de-/serializer class
+ * and generates methods for the application's main function
+ * to demonstrate the usage of the converter.
+ * 
  * @author seidel
  */
 public class JavaEXIConverter
 {
-  private EXILibrary exiLibrary;
+  /** Properties object with module configuration */
+  private Properties properties;
+  
+  /** Name of the Java bean class */
+  private String beanClassName;
+  
+  /** Name of the EXI de-/serializer class */
+  private String serializerClassName;
 
-  public JavaEXIConverter(Properties properties) throws Exception
+  /**
+   * Parameterized constructor initializes properties object
+   * and various other member variables.
+   * 
+   * @param properties Properties object with module options
+   */
+  public JavaEXIConverter(Properties properties)
   {
-    this.exiLibrary = EXILibraryFactory.getInstance().createEXILibrary(null, properties); // TODO
+    this.properties = properties;
+    
+    this.beanClassName = this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY);
+    
+    this.serializerClassName = "EXIConverter"; // TODO: Set proper class name
   }
-
-  public String generateSerializeCode()
+  
+  /**
+   * Public callback method that generates the EXI de-/serializer class
+   * and adds it to the provided Java source file.
+   * 
+   * @param sourceFile Java source file for code write-out
+   * 
+   * @throws Exception Source file was null or error during code generation
+   */
+  public void generateSerializerClass(final JSourceFile sourceFile) throws Exception
   {
-    return this.exiLibrary.generateSerializeCode();
+    if (null == sourceFile)
+    {
+      throw new FabricEXIException("Cannot create EXI de-/serializer class. Source file is null.");
+    }
+    else
+    {
+      // Create instance of desired EXI library
+      EXILibrary exiLibrary = EXILibraryFactory.getInstance().createEXILibrary(
+              this.properties.getProperty(FabricEXIModule.EXILIBRARY_NAME_KEY),
+              this.beanClassName);
+
+      sourceFile.add(exiLibrary.init());
+
+      // Add required imports AFTER initialization
+      for (String requiredImport: exiLibrary.getRequiredImports())
+      {
+        sourceFile.addImport(requiredImport);
+      }
+    }
   }
-
-  public String generateDeserializeCode()
+  
+  /**
+   * Public callback method that creates code to operate the
+   * EXI de-/serializer class. The generated code demonstrates
+   * how to serialize a plain XML document with EXI.
+   * 
+   * @return JMethod object with serialization code
+   * 
+   * @throws Exception Error during code generation
+   */
+  public JMethod generateSerializeCall() throws Exception
   {
-    return this.exiLibrary.generateDeserializeCode();
+    JMethodSignature jms = JMethodSignature.factory.create(
+            JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
+    
+    JMethod jm = JMethod.factory.create(JModifier.PUBLIC, "byte[]", "toEXIStream", jms, new String[] { "Exception" });
+    
+    String methodBody = String.format("return %s.serialize(xmlDocument);", this.serializerClassName);
+    
+    jm.getBody().appendSource(methodBody);
+    jm.setComment(new JMethodCommentImpl("Serialize XML document to EXI byte stream."));
+    
+    return jm;
+  }
+  
+  /**
+   * Public callback method that creates code to operate the
+   * EXI de-/serializer class. The generated code demonstrates
+   * how to deserialize a byte stream with EXI.
+   * 
+   * @return JMethod object with deserializer code
+   * 
+   * @throws Exception Error during code generation
+   */
+  public JMethod generateDeserializeCall() throws Exception
+  {
+    JMethodSignature jms = JMethodSignature.factory.create(
+            JParameter.factory.create(JModifier.FINAL, "byte[]", "exiStream"));
+    
+    JMethod jm = JMethod.factory.create(JModifier.PUBLIC, "String", "fromEXIStream", jms, new String[] { "Exception" });
+
+    String methodBody = String.format("return %s.deserialize(exiStream);", this.serializerClassName);
+
+    jm.getBody().appendSource(methodBody);
+    jm.setComment(new JMethodCommentImpl("Deserialize EXI byte stream to XML document."));
+
+    return jm;
   }
 }

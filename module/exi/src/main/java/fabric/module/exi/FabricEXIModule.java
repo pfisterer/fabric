@@ -1,4 +1,4 @@
-/** 11.10.2011 11:04 */
+/** 11.10.2011 14:36 */
 package fabric.module.exi;
 
 import java.util.Properties;
@@ -55,14 +55,18 @@ public class FabricEXIModule implements FabricModule
   /** Key for the EXI library name in properties object */
   public static final String EXI_LIBRARY_KEY = "exi.java.exi_library";
   
-  // TODO: Adjust comment and add key to wiki documentation
+  // TODO: Adjust comment
   /** Key for class name of for EXICodeGen factory name */
   public static final String EXICODEGEN_NAME_KEY = "exi.exicodegen_name";
   
-  // TODO: Adjust comment and add key to wiki documentation
+  // TODO: Adjust comment
   /** Key for class name of conrete XMLLibrary in factory name */
   public static final String XMLLIBRARY_NAME_KEY = "exi.xmllibrary_name";
-
+  
+  // TODO: Adjust comment
+  /** Key for class name of concrete EXILibrary in factory name */
+  public static final String EXILIBRARY_NAME_KEY = "exi.exilibrary_name";
+  
   /** Properties object for module configuration */
   private Properties properties = null;
 
@@ -340,12 +344,24 @@ public class FabricEXIModule implements FabricModule
    */
   private void checkEXILibrary()
   {
-    String xmlFramework = this.properties.getProperty(EXI_LIBRARY_KEY);
+    String exiLibrary = this.properties.getProperty(EXI_LIBRARY_KEY, "EXIficient");
 
     // Use EXIficient as default EXI library
-    if (null != xmlFramework && !xmlFramework.equals("EXIficient") && !xmlFramework.equals("OpenEXI"))
+    if (null != exiLibrary && !exiLibrary.equals("EXIficient") && !exiLibrary.equals("OpenEXI"))
     {
       this.properties.setProperty(EXI_LIBRARY_KEY, "EXIficient");
+      exiLibrary = this.properties.getProperty(EXI_LIBRARY_KEY);
+    }
+
+    // Use OpenEXI as EXI library
+    if (exiLibrary.equals("OpenEXI"))
+    {
+      this.properties.setProperty(EXILIBRARY_NAME_KEY, "fabric.module.exi.java.lib.exi.OpenEXI");
+    }
+    // Use EXIficient as default EXI library
+    else
+    {
+      this.properties.setProperty(EXILIBRARY_NAME_KEY, "fabric.module.exi.java.lib.exi.EXIficient");
     }
   }
 }

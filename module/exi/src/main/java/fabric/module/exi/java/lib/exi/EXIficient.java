@@ -1,3 +1,4 @@
+/** 11.10.2011 14:16 */
 package fabric.module.exi.java.lib.exi;
 
 /**
@@ -7,33 +8,45 @@ package fabric.module.exi.java.lib.exi;
  *
  * @author seidel
  */
-public class EXIficient implements EXILibrary
+public class EXIficient extends EXILibrary
 {
+  /**
+   * Parameterized constructor.
+   *    
+   * @param beanClassName Name of the target Java bean class
+   *
+   * @throws Exception Error during code generation
+   */
+  public EXIficient(final String beanClassName) throws Exception
+  {
+    super(beanClassName);
+  }
+
   /**
    * This method generates code to serialize a plain
    * XML document with EXI.
    *
-   * @return String with code for EXI serialization
+   * @throws Exception Error during code generation
    */
   @Override
-  public String generateSerializeCode()
+  public void generateSerializeCode() throws Exception
   {
     // TODO: Implement method
-    throw new UnsupportedOperationException("Not supported yet.");
+    // throw new UnsupportedOperationException("Not supported yet.");
   }
 
   /**
    * This method generates code to deserialize an EXI stream.
-   *
-   * @return String with code for EXI deserialization
+   * 
+   * @throws Exception Error during code generation
    */
   @Override
-  public String generateDeserializeCode()
+  public void generateDeserializeCode() throws Exception
   {
     // TODO: Implement method
-    throw new UnsupportedOperationException("Not supported yet.");
+    // throw new UnsupportedOperationException("Not supported yet.");
   }
-  
+// TODO: Maybe use this code for generation, otherwise delete it  
 //  public JMethod createCodeSchemaLessFunction() throws Exception
 //  {
 //    JMethodSignature jms = JMethodSignature.factory.create(

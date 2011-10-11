@@ -1,6 +1,5 @@
 package fabric.module.exi.java.lib.exi;
 
-import java.util.Properties;
 import java.lang.reflect.Constructor;
 
 import fabric.module.exi.exceptions.UnsupportedEXILibraryException;
@@ -48,13 +47,13 @@ public class EXILibraryFactory
    * throw an exception.
    *
    * @param concreteEXILibraryName Name of concrete EXILibrary class
-   * @param properties Properties object with module options
-   *
+   * @param beanClassName Name of the main Java bean class
+   * 
    * @return EXILibrary object of desired type
    *
    * @throws Exception Error during class instantiation
    */
-  public EXILibrary createEXILibrary(String concreteEXILibraryName, Properties properties) throws Exception
+  public EXILibrary createEXILibrary(String concreteEXILibraryName, String beanClassName) throws Exception
   {
     EXILibrary concreteEXILibrary = null;
 
@@ -62,10 +61,10 @@ public class EXILibraryFactory
     {
       // Try to instantiate concrete EXILibrary class
       Class concreteClass = Class.forName(concreteEXILibraryName);
-      Class[] argumentsClass = new Class[] { Properties.class };
+      Class[] argumentsClass = new Class[] { String.class };
 
       Constructor constructor = concreteClass.getConstructor(argumentsClass);
-      Object[] arguments = new Object[] { properties };
+      Object[] arguments = new Object[] { beanClassName };
 
       concreteEXILibrary = (EXILibrary)constructor.newInstance(arguments);
     }

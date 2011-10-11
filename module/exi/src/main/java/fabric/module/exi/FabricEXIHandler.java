@@ -1,4 +1,4 @@
-/** 09.10.2011 22:35 */
+/** 11.10.2011 13:35 */
 package fabric.module.exi;
 
 import org.slf4j.Logger;
@@ -13,8 +13,6 @@ import fabric.wsdlschemaparser.schema.FSchema;
 
 import fabric.module.exi.base.EXICodeGen;
 import fabric.wsdlschemaparser.schema.FElement;
-import fabric.wsdlschemaparser.schema.FList;
-import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
 import fabric.wsdlschemaparser.schema.FSimpleType;
 import java.util.ArrayList;
 
@@ -56,7 +54,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
 
   /**
    * Handle start of a top-level simple type. We need to collect
-   * the names of all simple types here, to fix the corresponding
+   * the names of all simple types here to fix the corresponding
    * value-tags in the XML document later on.
    *
    * @param type FSimpleType object

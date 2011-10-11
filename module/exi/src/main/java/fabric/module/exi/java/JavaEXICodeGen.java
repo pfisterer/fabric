@@ -1,10 +1,11 @@
-/** 11.10.2011 12:02 */
+/** 11.10.2011 14:53 */
 package fabric.module.exi.java;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
+import java.util.ArrayList;
 
 import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.java.JClass;
@@ -18,7 +19,6 @@ import de.uniluebeck.sourcegen.java.JSourceFile;
 
 import fabric.module.exi.FabricEXIModule;
 import fabric.module.exi.base.EXICodeGen;
-import java.util.ArrayList;
 
 /**
  * EXI code generator for Java.
@@ -50,6 +50,9 @@ public class JavaEXICodeGen implements EXICodeGen
 
   /** Name of the XML converter class */
   private String converterClassName;
+  
+  /** Name of the EXI de-/serializer class */
+  private String serializerClassName;
 
   /**
    * Constructor creates class object for EXI serializer and
@@ -78,6 +81,8 @@ public class JavaEXICodeGen implements EXICodeGen
             this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY));
 
     this.converterClassName = this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY) + "Converter";
+    
+    this.serializerClassName = "EXIConverter"; // TODO: Set proper class name
   }
 
   /**
@@ -117,30 +122,48 @@ public class JavaEXICodeGen implements EXICodeGen
     beanConverter.generateConverterClass(jsf, fixElements);
     
     // Create method for XML serialization
-    JMethod serialize = beanConverter.generateSerializeCall();
-    if (null != serialize)
+    JMethod xmlSerialize = beanConverter.generateSerializeCall();
+    if (null != xmlSerialize)
     {
-      this.applicationClass.add(serialize);
+      this.applicationClass.add(xmlSerialize);
     }
 
     // Create method for XML deserialization
-    JMethod deserialize = beanConverter.generateDeserializeCall();
-    if (null != deserialize)
+    JMethod xmlDeserialize = beanConverter.generateDeserializeCall();
+    if (null != xmlDeserialize)
     {
-      this.applicationClass.add(deserialize);
+      this.applicationClass.add(xmlDeserialize);
     }
 
     /*****************************************************************
      * Create class and method calls for EXI converter
      *****************************************************************/
-
-    // TODO: JavaEXIConverter exiConverter = new JavaEXIConverter(this.properties);
-
-    // TODO: Create EXI converter class
-    // ...
-
-    // TODO: Create method calls and handle return values
-    // ...
+    
+    JavaEXIConverter exiConverter = new JavaEXIConverter(this.properties);
+    
+    // Create source file for the EXI de-/serializer class
+    jsf = workspace.getJava().getJSourceFile(
+            this.properties.getProperty(FabricEXIModule.PACKAGE_NAME_KEY),
+            this.serializerClassName);
+    
+    LOGGER.debug(String.format("Generated new source file '%s' for EXI de-/serializer.", this.serializerClassName));
+    
+    // Create EXI de-/serializer class
+    exiConverter.generateSerializerClass(jsf);
+    
+    // Create method for EXI serialization
+    JMethod exiSerialize = exiConverter.generateSerializeCall();
+    if (null != exiSerialize)
+    {
+      this.applicationClass.add(exiSerialize);
+    }
+    
+    // Create method for EXI deserialization
+    JMethod exiDeserialize = exiConverter.generateDeserializeCall();
+    if (null != exiDeserialize)
+    {
+      this.applicationClass.add(exiDeserialize);      
+    }
   }
 
   /**
@@ -193,6 +216,7 @@ public class JavaEXICodeGen implements EXICodeGen
             "try {\n" +
             "\t// Convert bean instance to XML document\n" +
             "\tString xmlDocument = application.toXML(%s);\n\n" +
+            "\t// Print XML document for debug purposes\n" +
             "\tSystem.out.println(xmlDocument);\n" +
             "}\n" +
             "catch (Exception e) {\n" +
