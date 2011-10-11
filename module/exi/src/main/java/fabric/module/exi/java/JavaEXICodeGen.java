@@ -1,4 +1,4 @@
-/** 11.10.2011 11:47 */
+/** 11.10.2011 12:02 */
 package fabric.module.exi.java;
 
 import org.slf4j.Logger;
@@ -18,6 +18,7 @@ import de.uniluebeck.sourcegen.java.JSourceFile;
 
 import fabric.module.exi.FabricEXIModule;
 import fabric.module.exi.base.EXICodeGen;
+import java.util.ArrayList;
 
 /**
  * EXI code generator for Java.
@@ -81,11 +82,13 @@ public class JavaEXICodeGen implements EXICodeGen
 
   /**
    * Generate code to serialize and deserialize Bean objects with EXI.
+   * 
+   * @param fixElements Elements where value-tags need to be fixed
    *
    * @throws Exception Error during code generation
    */
   @Override
-  public void generateCode() throws Exception
+  public void generateCode(final ArrayList<String> fixElements) throws Exception
   {
     /*****************************************************************
      * Create main function for application
@@ -111,7 +114,7 @@ public class JavaEXICodeGen implements EXICodeGen
     LOGGER.debug(String.format("Generated new source file '%s' for XML converter.", this.converterClassName));
 
     // Create XML converter class
-    beanConverter.generateConverterClass(jsf);
+    beanConverter.generateConverterClass(jsf, fixElements);
     
     // Create method for XML serialization
     JMethod serialize = beanConverter.generateSerializeCall();
@@ -183,10 +186,19 @@ public class JavaEXICodeGen implements EXICodeGen
     
     // TODO: Add code with usage example here
     String methodBody = String.format(
+            "// Instanziate application\n" +
+            "%s application = new %s();\n\n" +
             "// Create instance of the Java bean class\n" +
             "%s %s = new %s();\n\n" +
-            "// Convert bean instance to XML document\n" +
-            "String xmlDocument = instanceToXML(%s);",
+            "try {\n" +
+            "\t// Convert bean instance to XML document\n" +
+            "\tString xmlDocument = application.toXML(%s);\n\n" +
+            "\tSystem.out.println(xmlDocument);\n" +
+            "}\n" +
+            "catch (Exception e) {\n" +
+            "\te.printStackTrace();\n" +
+            "}",
+            applicationClassName, applicationClassName,
             beanClassName, beanClassName.toLowerCase(), beanClassName, beanClassName.toLowerCase());
     
     jm.getBody().appendSource(methodBody);

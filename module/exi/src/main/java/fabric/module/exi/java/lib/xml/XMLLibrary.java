@@ -1,4 +1,4 @@
-/** 11.10.2011 10:34 */
+/** 11.10.2011 11:56 */
 package fabric.module.exi.java.lib.xml;
 
 import java.util.ArrayList;
@@ -93,7 +93,7 @@ abstract public class XMLLibrary
    *
    * @throws Exception Error during code generation
    */
-  public JClass init(ArrayList<String> fixElements) throws Exception
+  public JClass init(final ArrayList<String> fixElements) throws Exception
   {
     // Generate code for XML serialization
     this.generateJavaToXMLCode();
@@ -192,7 +192,7 @@ abstract public class XMLLibrary
     JMethod jm = null;
 
     // TODO: Generate method 'String addValueTags(final String xmlDocument, final ArrayList<String> affectedElements)'
-
+    
     return null;
   }
 }

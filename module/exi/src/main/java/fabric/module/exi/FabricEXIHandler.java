@@ -12,6 +12,11 @@ import fabric.module.api.FabricDefaultHandler;
 import fabric.wsdlschemaparser.schema.FSchema;
 
 import fabric.module.exi.base.EXICodeGen;
+import fabric.wsdlschemaparser.schema.FElement;
+import fabric.wsdlschemaparser.schema.FList;
+import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
+import fabric.wsdlschemaparser.schema.FSimpleType;
+import java.util.ArrayList;
 
 /**
  * Fabric handler class for the EXI module. This class defines
@@ -29,6 +34,9 @@ public class FabricEXIHandler extends FabricDefaultHandler
 
   /** EXICodeGen object for EXI class generation */
   private EXICodeGen exiGenerator;
+  
+  /** List of elements where value-tags need to be fixed */
+  private ArrayList<String> fixElements;
 
   /**
    * Constructor initializes the language-specific EXI code generator.
@@ -42,6 +50,29 @@ public class FabricEXIHandler extends FabricDefaultHandler
   {
     this.exiGenerator = EXICodeGenFactory.getInstance().createEXICodeGen(
             properties.getProperty(FabricEXIModule.EXICODEGEN_NAME_KEY), workspace, properties);
+    
+    this.fixElements = new ArrayList<String>();
+  }
+
+  /**
+   * Handle start of a top-level simple type. We need to collect
+   * the names of all simple types here, to fix the corresponding
+   * value-tags in the XML document later on.
+   *
+   * @param type FSimpleType object
+   * @param parent Parent FElement object
+   *
+   * @throws Exception Error during processing
+   */
+  @Override
+  public void startTopLevelSimpleType(FSimpleType type, FElement parent) throws Exception
+  {
+    LOGGER.debug("Called startTopLevelSimpleType().");
+
+    if (null != type)
+    {
+      this.fixElements.add(type.getName());
+    }
   }
 
   /**
@@ -58,7 +89,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called endSchema().");
 
-    this.exiGenerator.generateCode();
+    this.exiGenerator.generateCode(this.fixElements);
     this.exiGenerator.writeSourceFile();
   }
 }

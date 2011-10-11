@@ -1,7 +1,8 @@
-/** 11.10.2011 11:20 */
+/** 11.10.2011 11:56 */
 package fabric.module.exi.java;
 
 import java.util.Properties;
+import java.util.ArrayList;
 
 import de.uniluebeck.sourcegen.java.JMethod;
 import de.uniluebeck.sourcegen.java.JMethodCommentImpl;
@@ -54,10 +55,11 @@ public class JavaBeanConverter
    * and adds it to the provided Java source file.
    * 
    * @param sourceFile Java source file for code write-out
+   * @param fixElements Elements where value-tags need to be fixed
    * 
    * @throws Exception Source file was null or error during code generation
    */
-  public void generateConverterClass(JSourceFile sourceFile) throws Exception
+  public void generateConverterClass(final JSourceFile sourceFile, final ArrayList<String> fixElements) throws Exception
   {    
     if (null == sourceFile)
     {
@@ -70,7 +72,7 @@ public class JavaBeanConverter
               this.properties.getProperty(FabricEXIModule.XMLLIBRARY_NAME_KEY),
               this.beanClassName);
       
-      sourceFile.add(xmlLibrary.init(null)); // TODO: Pass elements to fixes values-problem
+      sourceFile.add(xmlLibrary.init(fixElements));
       
       // Add required imports AFTER initialization
       for (String requiredImport: xmlLibrary.getRequiredImports())

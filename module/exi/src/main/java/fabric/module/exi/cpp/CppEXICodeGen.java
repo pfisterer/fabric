@@ -1,5 +1,7 @@
 package fabric.module.exi.cpp;
 
+import java.util.ArrayList;
+
 import fabric.module.exi.base.EXICodeGen;
 
 /**
@@ -12,7 +14,7 @@ public class CppEXICodeGen implements EXICodeGen
   // TODO: Sort methods according to JavaEXICodeGen.java
 
   @Override
-  public void generateCode()
+  public void generateCode(final ArrayList<String> fixElements)
   {
     throw new UnsupportedOperationException("Not supported yet.");
   }
