@@ -1,7 +1,8 @@
-/** 11.10.2011 15:53 */
+/** 15.10.2011 23:16 */
 package fabric.module.exi.java.lib.exi;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JClassCommentImpl;
@@ -71,13 +72,15 @@ abstract public class EXILibrary
   }
 
   /**
-   * Helper method to get a list of required imports for the
-   * XML converter class.
+   * Helper method to get a list of required imports
+   * for the XML converter class.
    *
-   * @return List of requires imports
+   * @return List of required imports
    */
   public ArrayList<String> getRequiredImports()
   {
+    Collections.sort(this.requiredImports);
+
     return this.requiredImports;
   }
 

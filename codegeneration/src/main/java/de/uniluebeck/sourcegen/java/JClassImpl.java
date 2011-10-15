@@ -236,8 +236,6 @@ class JClassImpl extends JComplexTypeImpl implements JClass {
 		toString(buffer, tabCount+1, interfaces, true);
 		toString(buffer, tabCount+1, classes, true);
 		toString(buffer, tabCount+1, fields, true);
-		toString(buffer, tabCount+1, constructors, true);
-		toString(buffer, tabCount+1, methods, true);
 
 		if (staticCode.length() > 0) {
 
@@ -258,9 +256,13 @@ class JClassImpl extends JComplexTypeImpl implements JClass {
 			}
 
 			indent(buffer, tabCount+1);
-			buffer.append("}");
+			buffer.append("}\n\n"); // seidel: Added two line breaks here
 
 		}
+
+    // seidel: Moved the following two lines after static initializer
+		toString(buffer, tabCount+1, constructors, true);
+		toString(buffer, tabCount+1, methods, true);
 
 		// buffer.append("\n"); // seidel: Removed this line for symmetric output.
 		indent(buffer, tabCount);

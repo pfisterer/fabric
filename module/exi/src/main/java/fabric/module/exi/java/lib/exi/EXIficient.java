@@ -1,6 +1,8 @@
-/** 11.10.2011 16:09 */
+/** 15.10.2011 23:34 */
 package fabric.module.exi.java.lib.exi;
 
+import de.uniluebeck.sourcegen.java.JField;
+import de.uniluebeck.sourcegen.java.JFieldCommentImpl;
 import de.uniluebeck.sourcegen.java.JMethod;
 import de.uniluebeck.sourcegen.java.JMethodCommentImpl;
 import de.uniluebeck.sourcegen.java.JMethodSignature;
@@ -26,6 +28,55 @@ public class EXIficient extends EXILibrary
   public EXIficient(final String xsdDocumentPath) throws Exception
   {
     super(xsdDocumentPath);
+
+    this.generateEXIFactoryCode();
+  }
+
+  /**
+   * Private helper method to generate code that creates and
+   * initializes the framework-specific EXIFactory object.
+   *
+   * @throws Exception Error during code generation
+   */
+  private void generateEXIFactoryCode() throws Exception
+  {
+    // Create member variable for EXI factory
+    JField exiFactory = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC, "EXIFactory", "exiFactory", "null");
+    exiFactory.setComment(new JFieldCommentImpl("The EXI factory member variable."));
+    this.serializerClass.add(exiFactory);
+
+    // Initialize EXI factory member variable
+    this.serializerClass.appendStaticCode(String.format("%s.setupEXIFactory();", this.serializerClass.getName()));
+
+    // Create method for EXI factory setup
+    JMethod setupEXIFactory = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "setupEXIFactory");
+
+    String methodBody = String.format(
+            "try {\n" +
+            "\t// Create EXI factory\n" +
+            "\t%s.exiFactory = DefaultEXIFactory.newInstance();\n\n" +
+            "\t// Set grammar for current XML schema\n" +
+            "GrammarFactory grammarFactory = GrammarFactory.newInstance();\n" +
+            "\tGrammar grammar = grammarFactory.createGrammar(new FileInputStream(new File(\"%s\")));\n\n" +
+            "\t%s.exiFactory.setGrammar(grammar);\n" +
+            "}\n" +
+            "catch (Exception e) {\n" +
+            "\te.printStackTrace();\n" +
+            "}",
+            this.serializerClass.getName(), xsdDocumentPath, this.serializerClass.getName());
+
+    setupEXIFactory.getBody().appendSource(methodBody);
+    setupEXIFactory.setComment(new JMethodCommentImpl("Setup EXI factory member variable."));
+
+    this.serializerClass.add(setupEXIFactory);
+
+    // Add required Java imports
+    this.addRequiredImport("com.siemens.ct.exi.EXIFactory");
+    this.addRequiredImport("com.siemens.ct.exi.GrammarFactory");
+    this.addRequiredImport("com.siemens.ct.exi.grammar.Grammar");
+    this.addRequiredImport("com.siemens.ct.exi.helpers.DefaultEXIFactory");
+    this.addRequiredImport("java.io.File");
+    this.addRequiredImport("java.io.FileInputStream");
   }
 
   /**
@@ -37,24 +88,41 @@ public class EXIficient extends EXILibrary
   @Override
   public void generateSerializeCode() throws Exception
   {
-    // TODO: Implement method
-    
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
     JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, "byte[]",
             "serialize", jms, new String[] { "Exception" });
 
-    String methodBody =
-            "\n// TODO\n\n" +
-            "return null;";
-    
+    String methodBody = String.format(
+            "// Prepare objects for serialization\n" +
+            "OutputStream exiOS = new ByteArrayOutputStream();\n" +
+            "EXIResult exiResult = new EXIResult(exiOS, %s.exiFactory);\n\n" +
+            "XMLReader xmlReader = XMLReaderFactory.createXMLReader();\n" +
+            "xmlReader.setContentHandler(exiResult.getHandler());\n\n" +
+            "// Parse XML document and serialize\n" +
+            "InputStream xmlIS = new ByteArrayInputStream(xmlDocument.getBytes());\n" +
+            "xmlReader.parse(new InputSource(xmlIS));\n\n" +
+            "// Write output to EXI byte stream\n" +
+            "byte[] result = ((ByteArrayOutputStream)exiOS).toByteArray();\n" +
+            "exiOS.close();\n\n" +
+            "return result;",
+            this.serializerClass.getName());
+
     jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Compress XML document with EXI."));
 
     this.serializerClass.add(jm);
 
-    // Add required Java imports   
-    // TODO ...
+    // Add required Java imports
+    this.addRequiredImport("com.siemens.ct.exi.EXIFactory");
+    this.addRequiredImport("com.siemens.ct.exi.api.sax.EXIResult");
+    this.addRequiredImport("java.io.ByteArrayInputStream");
+    this.addRequiredImport("java.io.ByteArrayOutputStream");
+    this.addRequiredImport("java.io.InputStream");
+    this.addRequiredImport("java.io.OutputStream");
+    this.addRequiredImport("org.xml.sax.InputSource");
+    this.addRequiredImport("org.xml.sax.XMLReader");
+    this.addRequiredImport("org.xml.sax.helpers.XMLReaderFactory");
   }
 
   /**
@@ -65,49 +133,39 @@ public class EXIficient extends EXILibrary
   @Override
   public void generateDeserializeCode() throws Exception
   {
-    // TODO: Check and improve implementation
-    
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "byte[]", "exiStream"));
     JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, "String",
             "deserialize", jms, new String[] { "Exception" });
 
     String methodBody = String.format(
-            "// Create factory and set EXI grammar for current XML schema\n" +
-            "EXIFactory exiFactory = DefaultEXIFactory.newInstance();\n" +
-            "GrammarFactory grammarFactory = GrammarFactory.newInstance();\n" +
-            "Grammar grammar = grammarFactory.createGrammar(new FileInputStream(new File(\"%s\")));\n" +
-            "exiFactory.setGrammar(grammar);\n\n" +
-            "// Decode EXI byte stream\n" +
-            "EXISource saxSource = new EXISource(exiFactory);\n" +
+            "// Prepare objects for deserialization\n" +
+            "EXISource saxSource = new EXISource(%s.exiFactory);\n" +
             "XMLReader xmlReader = saxSource.getXMLReader();\n\n" +
             "TransformerFactory transformerFactory = TransformerFactory.newInstance();\n" +
             "Transformer transformer = transformerFactory.newTransformer();\n\n" +
+            "// Parse EXI stream and deserialize\n" +
             "InputStream exiIS = new ByteArrayInputStream(exiStream);\n" +
             "SAXSource exiSource = new SAXSource(new InputSource(exiIS));\n" +
-            "exiSource.setXMLReader(xmlReader);\n" +
-            "// Parse EXI file and write output\n" +
+            "exiSource.setXMLReader(xmlReader);\n\n" +
+            "// Write output to XML document\n" +
             "OutputStream xmlOS = new ByteArrayOutputStream();\n" +
-            "transformer.transform(exiSource, new StreamResult(xmlOS));\n" +
+            "transformer.transform(exiSource, new StreamResult(xmlOS));\n\n" +
+            "String result = xmlOS.toString();\n" +
             "xmlOS.close();\n\n" +
-            "return xmlOS.toString();",
-            this.xsdDocumentPath);
-    
+            "return result;",
+            this.serializerClass.getName());
+
     jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Uncompress EXI byte stream to XML document."));
 
     this.serializerClass.add(jm);
 
-    // Add required Java imports   
+    // Add required Java imports
     this.addRequiredImport("com.siemens.ct.exi.EXIFactory");
-    this.addRequiredImport("com.siemens.ct.exi.GrammarFactory");
     this.addRequiredImport("com.siemens.ct.exi.api.sax.EXISource");
-    this.addRequiredImport("com.siemens.ct.exi.grammar.Grammar");
-    this.addRequiredImport("com.siemens.ct.exi.helpers.DefaultEXIFactory");
     this.addRequiredImport("java.io.ByteArrayInputStream");
     this.addRequiredImport("java.io.ByteArrayOutputStream");
-    this.addRequiredImport("java.io.FileInputStream");
-    this.addRequiredImport("java.io.File");
     this.addRequiredImport("java.io.InputStream");
     this.addRequiredImport("java.io.OutputStream");
     this.addRequiredImport("javax.xml.transform.Transformer");
