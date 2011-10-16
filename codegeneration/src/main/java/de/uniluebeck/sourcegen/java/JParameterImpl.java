@@ -80,9 +80,19 @@ class JParameterImpl extends JElemImpl implements JParameter {
 		return name.equals(((JParameterImpl) other).name);
 	}
 
+  @Override
+  public boolean nameEquals(String name) {
+    return this.name.equals(name);
+  }
+
 	public boolean typeEquals(JParameter other) {
 		return type.equals(((JParameterImpl) other).type);
 	}
+
+  @Override
+  public boolean typeEquals(String type) {
+    return this.type.equals(type);
+  }
 
 	private void validateModifiers() throws JInvalidModifierException {
 

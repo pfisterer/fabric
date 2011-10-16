@@ -69,6 +69,8 @@ public interface JParameter extends JLangElem {
 	@Deprecated
 	public boolean equals(JParameter other);
 	public boolean nameEquals(JParameter other);
+	public boolean nameEquals(String name);
 	public boolean typeEquals(JParameter other);
+	public boolean typeEquals(String type);
 
 }

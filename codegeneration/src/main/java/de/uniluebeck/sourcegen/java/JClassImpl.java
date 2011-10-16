@@ -434,6 +434,34 @@ class JClassImpl extends JComplexTypeImpl implements JClass {
 		return null;
 	}
 
+  /**
+   * Get a list of all methods with the given name. Due to function
+   * overloading we can have multiple methods with the same name,
+   * but a different signature.
+   *
+   * @param name Method name
+   *
+   * @return List of JMethod objects or null
+   */
+  @Override
+  public List<JMethod> getJMethodsByName(String name) {
+    ArrayList<JMethod> result = null;
+
+    for (JMethod m: this.methods) {
+      // Check if names are equal
+      if (m.getName().equals(name)) {
+        // Initialize list, if not done before
+        if (null == result) {
+          result = new ArrayList<JMethod>();
+        }
+
+        result.add(m);
+      }
+    }
+
+    return result;
+  }
+
 	/* (non-Javadoc)
 	 * @see de.uniluebeck.sourcegen.JClass#setComment(de.uniluebeck.sourcegen.JClassComment)
 	 */

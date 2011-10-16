@@ -76,12 +76,13 @@ public interface JClass extends JComplexType {
 
 	public List<JMethod> 		getMethods						();
 
-	public JConstructor getJConstructorByName			(String name);
-	public JEnum 		getJEnumByName					(String name);
-	public JField 		getJFieldByName					(String name);
-	public JInterface 	getJInterfaceByName				(String name);
-	public JClass 		getJClassByName					(String name);
-	public JInterface 	getImplementedJInterfaceByName	(String name);
+	public JConstructor   getJConstructorByName           (String name);
+	public JEnum          getJEnumByName                	(String name);
+	public JField         getJFieldByName       					(String name);
+	public JInterface     getJInterfaceByName           	(String name);
+	public JClass         getJClassByName             		(String name);
+	public JInterface     getImplementedJInterfaceByName  (String name);
+  public List<JMethod>  getJMethodsByName               (String name);
 
 	public JClass 	setExtends		(JClass extendedClass);
 	public JClass 	setExtends		(String extendedClass);

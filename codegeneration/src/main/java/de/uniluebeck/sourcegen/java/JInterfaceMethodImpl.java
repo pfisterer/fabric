@@ -217,8 +217,19 @@ class JInterfaceMethodImpl extends JElemImpl implements JInterfaceMethod {
 		System.out.print(meth.toString(1));
 	}
 
-	public JMethodSignature getSignature()
-	{
+  @Override
+  public int getModifiers() {
+    return this.modifiers;
+  }
+
+  @Override
+  public String getReturnType() {
+    return this.returnType;
+  }
+
+  @Override
+	public JMethodSignature getSignature() {
 		return this.signature;
 	}
+
 }

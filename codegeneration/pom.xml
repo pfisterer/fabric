@@ -31,13 +31,6 @@
 
 	<packaging>jar</packaging>
 
-	<dependencies>
-		<dependency>
-			<groupId>de.uniluebeck.itm</groupId>
-			<artifactId>tr.util</artifactId>
-		</dependency>
-	</dependencies>
-	
 	<build>
 		<resources>
 			<resource>
@@ -46,12 +39,24 @@
 			</resource>
       		<resource>
       			<!-- Include property files from 'de.uniluebeck.sourcegen.java'. -->
-        		<directory>src/main/java</directory>        		
+        		<directory>src/main/java</directory>
 		        <includes>
 		        	<include>**/*.properties</include>
-		        </includes>        		
+		        </includes>
       		</resource>
-    	</resources>	
+    	</resources>
 	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>de.uniluebeck.itm</groupId>
+			<artifactId>tr.util</artifactId>
+		</dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+	</dependencies>
 
 </project>

@@ -55,8 +55,12 @@ public interface JInterfaceMethod extends JLangElem {
 
 	public JInterfaceMethod addException		(String... exception) 	throws JDuplicateException;
 	public boolean 			containsException	(String exception)		;
-	public JMethodSignature	getSignature		();
-	public boolean 			equals				(JInterfaceMethod other);
+
+  public int getModifiers();
+  public String getReturnType();
+  public JMethodSignature	getSignature();
+
+  public boolean 			equals				(JInterfaceMethod other);
 
   /**
 	 * Adds an annotation to this method.
