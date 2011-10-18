@@ -1,4 +1,4 @@
-/** 07.10.2011 01:41 */
+/** 17.10.2011 18:00 */
 package fabric.module.typegen;
 
 import org.slf4j.Logger;
@@ -215,6 +215,11 @@ public class AttributeContainer
       {
         AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)master;
         copy = new AttributeContainer.ElementArray(ea.type, ea.name, ea.minSize, ea.maxSize);
+      }
+      else if (master.getClass() == AttributeContainer.ElementList.class)
+      {
+        AttributeContainer.ElementList el = (AttributeContainer.ElementList)master;
+        copy = new AttributeContainer.ElementList(el.type, el.name, el.minSize, el.maxSize);
       }
       else
       {
@@ -505,6 +510,64 @@ public class AttributeContainer
     public Builder addElementArray(final String type, final String name)
     {
       this.members.put(name, new AttributeContainer.ElementArray(type, name));
+
+      return this;
+    }
+
+    /**
+     * Add XML element list to container. Minimum and maximum size of
+     * the list can be predefined. Existing entries will be overridden
+     * by new list definition.
+     *
+     * @param type Type of member variable
+     * @param name Name of member variable
+     * @param minSize Minimal size of list
+     * @param maxSize Maximum size of list
+     *
+     * @return Builder object
+     *
+     * @throws IllegalArgumentException Invalid list size provided
+     */
+    public Builder addElementList(final String type, final String name, final int minSize, final int maxSize) throws IllegalArgumentException
+    {
+      if (maxSize < 0)
+      {
+        throw new IllegalArgumentException("List size must be positive.");
+      }
+
+      this.members.put(name, new AttributeContainer.ElementList(type, name, minSize, maxSize));
+
+      return this;
+    }
+
+    /**
+     * Add XML element list to container. Maximum size of the list
+     * can be predefined. Existing entries will be overridden by new
+     * list definition.
+     *
+     * @param type Type of member variable
+     * @param name Name of member variable
+     * @param maxSize Maximum size of list
+     *
+     * @return Builder object
+     */
+    public Builder addElementList(final String type, final String name, final int maxSize)
+    {
+      return this.addElementList(type, name, 0, maxSize);
+    }
+
+    /**
+     * Add XML element list to container. Existing entries will be
+     * overridden by new list definition.
+     *
+     * @param type Type of member variable
+     * @param name Name of member variable
+     *
+     * @return Builder object
+     */
+    public Builder addElementList(final String type, final String name)
+    {
+      this.members.put(name, new AttributeContainer.ElementList(type, name));
 
       return this;
     }
@@ -820,14 +883,18 @@ public class AttributeContainer
     }
   }
 
-  public static class ElementArray extends MemberVariable
+  public static abstract class ElementCollection extends MemberVariable
   {
-    /** Minimum size of XML element array */
+    /** Minimum size of XML element collection */
     public int minSize;
 
-    /** Maximum size of XML element array */
+    /** Maximum size of XML element collection */
     public int maxSize;
 
+  }
+
+  public static class ElementArray extends ElementCollection
+  {
     /**
      * Parameterized constructor.
      *
@@ -851,6 +918,36 @@ public class AttributeContainer
      * @param name Name of XML element array
      */
     public ElementArray(final String type, final String name)
+    {
+      this(type, name, 0, Integer.MAX_VALUE);
+    }
+  }
+
+  public static class ElementList extends ElementCollection
+  {
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML element list
+     * @param name Name of XML element list
+     * @param minSize Minimum size of XML element list
+     * @param maxSize Maximum size of XML element list
+     */
+    public ElementList(final String type, final String name, final int minSize, final int maxSize)
+    {
+      this.type = type;
+      this.name = name;
+      this.minSize = minSize;
+      this.maxSize = maxSize;
+    }
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML element list
+     * @param name Name of XML element list
+     */
+    public ElementList(final String type, final String name)
     {
       this(type, name, 0, Integer.MAX_VALUE);
     }

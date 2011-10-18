@@ -1,4 +1,4 @@
-/** 08.10.2011 01:41 */
+/** 17.10.2011 18:23 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
@@ -132,14 +132,16 @@ public class AnnotationMapper
     imports.put("root", new String[] { "org.simpleframework.xml.Root" });
     imports.put("attribute", new String[] { "org.simpleframework.xml.Attribute" });
     imports.put("element", new String[] { "org.simpleframework.xml.Element" });
-    imports.put("elementArray", new String[] { "org.simpleframework.xml.ElementArray" });
+    imports.put("elementArray", new String[] { "org.simpleframework.xml.ElementList" });
+    imports.put("elementList", new String[] { "org.simpleframework.xml.ElementList" });
     imports.put("enum", new String[] { "org.simpleframework.xml.Element" });
 
     HashMap<String, String[]> annotations = new HashMap<String, String[]>();
     annotations.put("root", new String[] { "Root(name = \"%s\")" });
     annotations.put("attribute", new String[] { "Attribute" });
     annotations.put("element", new String[] { "Element" });
-    annotations.put("elementArray", new String[] { "ElementArray" });
+    annotations.put("elementArray", new String[] { "ElementList(inline = true, entry = \"%s\")" });
+    annotations.put("elementList", new String[] { "ElementList" });
     annotations.put("enum", new String[] { "Element" });
 
     return new AnnotationMapper.XMLFramework("Simple", imports, annotations);
@@ -159,13 +161,15 @@ public class AnnotationMapper
     imports.put("attribute", new String[] { "com.thoughtworks.xstream.annotations.XStreamAsAttribute" });
     imports.put("element", new String[] { "com.thoughtworks.xstream.annotations.XStreamAlias" });
     imports.put("elementArray", new String[] { "com.thoughtworks.xstream.annotations.XStreamImplicit" });
+    imports.put("elementList", new String[] { "com.thoughtworks.xstream.annotations.XStreamImplicit" });
     imports.put("enum", new String[] { "com.thoughtworks.xstream.annotations.XStreamAlias" });
 
     HashMap<String, String[]> annotations = new HashMap<String, String[]>();
     annotations.put("root", new String[] { "XStreamAlias(\"%s\")" });
     annotations.put("attribute", new String[] { "XStreamAsAttribute" });
     annotations.put("element", new String[] { "XStreamAlias(\"%s\")" });
-    annotations.put("elementArray", new String[] { "XStreamImplicit(itemFieldName=\"%s\")" });
+    annotations.put("elementArray", new String[] { "XStreamImplicit(itemFieldName = \"%s\")" });
+    annotations.put("elementList", new String[] { "XStreamImplicit(itemFieldName = \"%s\")" });
     annotations.put("enum", new String[] { "XStreamAlias(\"%s\")" });
 
     return new AnnotationMapper.XMLFramework("XStream", imports, annotations);
@@ -189,6 +193,7 @@ public class AnnotationMapper
     imports.put("attribute", new String[] { "javax.xml.bind.annotation.XmlAttribute" });
     imports.put("element", new String[] { "javax.xml.bind.annotation.XmlElement" });
     imports.put("elementArray", new String[] { "javax.xml.bind.annotation.XmlList" });
+    imports.put("elementList", new String[] { "javax.xml.bind.annotation.XmlList" });
     imports.put("enum", new String[] {
       "javax.xml.bind.annotation.XmlEnum",
       "javax.xml.bind.annotation.XmlAccessorType",
@@ -202,7 +207,8 @@ public class AnnotationMapper
     });
     annotations.put("attribute", new String[] { "XmlAttribute" });
     annotations.put("element", new String[] { "XmlElement" });
-    annotations.put("elementArray", new String[] { "XmlList" });
+    annotations.put("elementArray", new String[] { "XmlElements(value = @XmlElement(name = \"%s\"))" });
+    annotations.put("elementList", new String[] { "XmlList" });
     annotations.put("enum", new String[] {
       "XmlEnum",
       "XmlAccessorType(XmlAccessType.NONE)"
@@ -234,7 +240,7 @@ public class AnnotationMapper
   /**
    * Look-up framework-specific Java annotations for the given, general
    * annotation key. Valid keys are for example "root", "attribute",
-   * "element", "elementArray" and "enum" (others may follow).
+   * "element", "elementArray", "elementList" and "enum" (others may follow).
    *
    * @param key General key for annotation look-up
    *

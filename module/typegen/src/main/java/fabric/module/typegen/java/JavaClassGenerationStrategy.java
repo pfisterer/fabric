@@ -1,4 +1,4 @@
-/** 08.10.2011 02:06 */
+/** 17.10.2011 21:46 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
@@ -366,8 +366,36 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
 
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' element array.", ea.name)));
 
-      // Annotation pattern e.g. @ElementArray or @XStreamImplicit(itemFieldName="value")
+      // Annotation pattern e.g. @ElementArray or @XStreamImplicit(itemFieldName = "value")
       for (String annotation: this.xmlMapper.getAnnotations("elementArray", ea.name))
+      {
+        jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+      }
+    }
+
+    /*****************************************************************
+     * Handle XML element lists
+     *****************************************************************/
+    else if (member.getClass() == AttributeContainer.ElementList.class)
+    {
+      AttributeContainer.ElementList el = (AttributeContainer.ElementList)member;
+      String type = String.format("java.util.ArrayList<%s>", this.fixPrimitiveTypes(el.type));
+
+      // No list size is given
+      if (el.maxSize == Integer.MAX_VALUE)
+      {
+        jf = JField.factory.create(JModifier.PRIVATE, type, el.name, "new " + type + "()");
+      }
+      // List size is given
+      else
+      {
+        jf = JField.factory.create(JModifier.PRIVATE, type, el.name, "new " + type + "(" + el.maxSize + ")");
+      }
+
+      jf.setComment(new JFieldCommentImpl(String.format("The '%s' element list.", el.name)));
+
+      // Annotation pattern e.g. @ElementList or @XStreamImplicit(itemFieldName = "value")
+      for (String annotation: this.xmlMapper.getAnnotations("elementList", el.name))
       {
         jf.addAnnotation(new JFieldAnnotationImpl(annotation));
       }
@@ -421,15 +449,15 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
         modifiers &= ~JModifier.FINAL;
       }
     }
-    // Member variable is an array    
-    else if (member.getClass() == AttributeContainer.ElementArray.class)
+    // Member variable is an ElementArray or ElementList
+    else if (member instanceof AttributeContainer.ElementCollection)
     {
-      AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
+      AttributeContainer.ElementCollection ec = (AttributeContainer.ElementCollection)member;
       type = String.format("java.util.ArrayList<%s>", this.fixPrimitiveTypes(member.type));
 
-      // Create code to check array length
+      // Create code to check array or list size
       methodBody += JavaRestrictionHelper.createCheckCode(
-              String.format("%s.size() < %d || %s.size() > %d", member.name, ea.minSize, member.name, ea.maxSize),
+              String.format("%s.size() < %d || %s.size() > %d", member.name, ec.minSize, member.name, ec.maxSize),
               String.format("Illegal size for array '%s'.", member.name),
               "Check the occurrence indicators");
     }
@@ -565,9 +593,9 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
    */
   private JMethod createGetterMethod(MemberVariable member, String className) throws Exception
   {
-    // Member variable is an array
+    // Member variable is an ElementArray or ElementList
     String type = member.type;
-    if (member.getClass() == AttributeContainer.ElementArray.class)
+    if (member instanceof AttributeContainer.ElementCollection)
     {
       type = String.format("java.util.ArrayList<%s>", this.fixPrimitiveTypes(member.type));
     }

@@ -159,7 +159,7 @@ public class SchemaHelper {
   // -------------------------------------------------------
 
   /**
-   * This method checks, whether an element is of a local,
+   * This method checks whether an element is of a local,
    * simple, built-in type (e.g. xs:string or xs:short).
    * A return value of 'true' requires that the element's
    * type is simple and either built-in or the name of the
@@ -176,6 +176,7 @@ public class SchemaHelper {
   public static boolean isBuiltinTypedElement(FElement element) {
     return (null != element &&
             element.getSchemaType().isSimple() &&
+            !FSchemaTypeHelper.isList(element) &&
             (SchemaHelper.isBuiltinType(element.getSchemaType()) ||
             element.getName().equals(element.getSchemaType().getName())));
   }
