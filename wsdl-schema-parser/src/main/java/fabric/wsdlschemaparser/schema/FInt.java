@@ -66,6 +66,8 @@ public class FInt extends FLong {
 	 * Initialising this value. Mostly the initial facets are being set.
 	 */
 	private void initialize( ) {
-
+    // Set boundaries as defined in XML schema specification
+    addRestriction(SchemaType.FACET_MIN_INCLUSIVE, Integer.valueOf(-2147483648));
+    addRestriction(SchemaType.FACET_MAX_INCLUSIVE, Integer.valueOf(2147483647));
 	}
 }

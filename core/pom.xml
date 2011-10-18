@@ -76,6 +76,13 @@
           <include>**/*.properties</include>
         </includes>
       </resource>
+      <resource>
+        <!-- Include Java code for MainTest from test resources. -->
+        <directory>src/test/resources</directory>
+        <includes>
+          <include>**/*.java</include>
+        </includes>
+      </resource>
     </resources>
   </build>
 

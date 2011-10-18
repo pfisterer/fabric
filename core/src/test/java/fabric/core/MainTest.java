@@ -7,6 +7,7 @@ import de.uniluebeck.sourcegen.java.JSourceFile;
 import fabric.Main;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
 import de.uniluebeck.sourcegen.Workspace;
+import fabric.module.typegen.FabricTypeGenModule;
 import org.junit.*;
 import org.w3c.dom.stylesheets.LinkStyle;
 
@@ -97,7 +98,7 @@ public class MainTest {
 
     @AfterClass
     public static void tearDown() {
-        FileUtils.deleteDirectory(new File(properties.getProperty("typegen.main_class_name")));
+        FileUtils.deleteDirectory(new File(properties.getProperty(FabricTypeGenModule.MAIN_CLASS_NAME_KEY)));
     }
 
     @Test

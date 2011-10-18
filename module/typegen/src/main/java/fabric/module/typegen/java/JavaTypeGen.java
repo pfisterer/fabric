@@ -1,4 +1,4 @@
-/** 25.09.2011 19:46 */
+/** 18.10.2011 00:59 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -32,6 +32,7 @@ import fabric.wsdlschemaparser.schema.FSimpleType;
 import fabric.wsdlschemaparser.schema.FComplexType;
 
 import fabric.module.typegen.AttributeContainer;
+import fabric.module.typegen.FabricTypeGenModule;
 import fabric.module.typegen.base.TypeGen;
 import fabric.module.typegen.base.Mapper;
 import fabric.module.typegen.MapperFactory;
@@ -89,8 +90,8 @@ public class JavaTypeGen implements TypeGen
   /** Stack of incomplete container classes */
   private Stack<AttributeContainer.Builder> incompleteBuilders;
   
-  /** Incomplete container for inner class of local complex type */
-  private AttributeContainer.Builder incompleteLocalBuilder;
+  /** Map with one stack of incomplete local builders per outer class */
+  private HashMap<String, Stack<AttributeContainer.Builder>> incompleteLocalBuilders;
 
   /** Map of finished data type objects */
   private HashMap<String, SourceFileData> generatedElements;
@@ -104,13 +105,13 @@ public class JavaTypeGen implements TypeGen
    */
   public JavaTypeGen(Workspace workspace, Properties properties) throws Exception
   {
-    mapper = MapperFactory.getInstance().createMapper(properties.getProperty("typegen.mapper_name"));
+    mapper = MapperFactory.getInstance().createMapper(properties.getProperty(FabricTypeGenModule.MAPPER_CLASS_KEY));
 
     this.workspace = workspace;
     this.properties = properties;
 
     this.incompleteBuilders = new Stack<AttributeContainer.Builder>();
-    this.incompleteLocalBuilder = null;
+    this.incompleteLocalBuilders = new HashMap<String, Stack<AttributeContainer.Builder>>();
     this.generatedElements = new HashMap<String, SourceFileData>();
   }
   
@@ -121,7 +122,7 @@ public class JavaTypeGen implements TypeGen
   @Override
   public void createRootContainer()
   {
-    String rootContainerName = this.properties.getProperty("typegen.main_class_name");
+    String rootContainerName = this.properties.getProperty(FabricTypeGenModule.MAIN_CLASS_NAME_KEY);
     this.incompleteBuilders.push(AttributeContainer.newBuilder().setName(rootContainerName));
 
     LOGGER.debug(String.format("Created root container '%s'.", rootContainerName));
@@ -151,7 +152,7 @@ public class JavaTypeGen implements TypeGen
     // Create new source file for every container
     for (String name: this.generatedElements.keySet())
     {
-      jsf = javaWorkspace.getJSourceFile(this.properties.getProperty("typegen.java.package_name"), name);
+      jsf = javaWorkspace.getJSourceFile(this.properties.getProperty(FabricTypeGenModule.PACKAGE_NAME_KEY), name);
       JavaTypeGen.SourceFileData sourceFileData = this.generatedElements.get(name);
 
       // Add container to source file
@@ -178,46 +179,43 @@ public class JavaTypeGen implements TypeGen
   @Override
   public void createNewContainer(FSimpleType type)
   {
-    if (null != type)
+    // Type is a top-level enum
+    if (FSchemaTypeHelper.isEnum(type))
     {
-      // Type is a top-level enum
-      if (FSchemaTypeHelper.isEnum(type))
+      try
       {
-        try
-        {
-          this.createTopLevelEnum(type);
-        }
-        catch (Exception e)
-        {
-          LOGGER.error(String.format("Failed creating enum '%s'.", type.getName()));
-        }
-
-        LOGGER.debug(String.format("Created new enum '%s'.", type.getName()));
+        this.createTopLevelEnum(type);
       }
-      // Type is a list or single value
+      catch (Exception e)
+      {
+        LOGGER.error(String.format("Failed creating enum '%s'.", type.getName()));
+      }
+
+      LOGGER.debug(String.format("Created new enum '%s'.", type.getName()));
+    }
+    // Type is a list or single value
+    else
+    {
+      // Create new container for simple type
+      AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
+
+      // Type either is a list...
+      if (FSchemaTypeHelper.isList(type))
+      {
+        FList listType = (FList)type;
+        newBuilder.addElementList(
+                this.mapper.lookup(this.getFabricTypeName(listType.getItemType())), "values",
+                FSchemaTypeHelper.getMinLength(listType), FSchemaTypeHelper.getMaxLength(listType));
+      }
+      // ... or a single value
       else
       {
-        // Create new container for simple type
-        AttributeContainer.Builder newBuilder = AttributeContainer.newBuilder().setName(type.getName());
-
-        // Type either is a list...
-        if (FSchemaTypeHelper.isList(type))
-        {
-          FList listType = (FList)type;
-          newBuilder.addElementArray(
-                  this.mapper.lookup(this.getFabricTypeName(listType.getItemType())), "values",
-                  FSchemaTypeHelper.getMinLength(listType), FSchemaTypeHelper.getMaxLength(listType));
-        }    
-        // ... or a single value
-        else
-        {
-          newBuilder.addElement(this.mapper.lookup(this.getFabricTypeName(type)),
-                  "value", this.createRestrictions(type));
-        }
-        this.incompleteBuilders.push(newBuilder);
-
-        LOGGER.debug(String.format("Created new container '%s' for simple type.", type.getName()));
+        newBuilder.addElement(this.mapper.lookup(this.getFabricTypeName(type)),
+                "value", this.createRestrictions(type));
       }
+      this.incompleteBuilders.push(newBuilder);
+
+      LOGGER.debug(String.format("Created new container '%s' for simple type.", type.getName()));
     }
   }
   
@@ -242,10 +240,21 @@ public class JavaTypeGen implements TypeGen
       LOGGER.debug(String.format("Created new container '%s' for top-level complex type.", type.getName()));
     }
     // Type is a local complex type
-    else
+    else if (!this.incompleteBuilders.empty())
     {
-      this.incompleteLocalBuilder = newBuilder.setName(type.getName() + "Type");
-      LOGGER.debug(String.format("Created new container '%s' for local complex type.", type.getName()));
+      String parentContainerName = this.incompleteBuilders.peek().getName();
+      String typeName = type.getName() + "Type";
+
+      Stack<AttributeContainer.Builder> currentStack = this.incompleteLocalBuilders.get(parentContainerName);
+      if (null == currentStack)
+      {
+        // Stack for inner classes was not created yet
+        currentStack = new Stack<AttributeContainer.Builder>();
+      }
+      currentStack.push(newBuilder.setName(typeName));
+
+      this.incompleteLocalBuilders.put(parentContainerName, currentStack);
+      LOGGER.debug(String.format("Created new container '%s' for local complex type.", typeName));
     }
   }
 
@@ -262,11 +271,12 @@ public class JavaTypeGen implements TypeGen
   @Override
   public void addMemberVariable(FElement element, boolean isTopLevel)
   {
-    if (!this.incompleteBuilders.empty())
+    // Only add member variable, if we have an incomplete top-level or local container
+    if ((isTopLevel && !this.incompleteBuilders.empty()) || this.hasIncompleteLocalBuilders())
     {
       // Determine element type
       String typeName = "";
-      
+
       // Element is XSD base type (e.g. xs:string, xs:short, ...)
       if (SchemaHelper.isBuiltinTypedElement(element))
       {
@@ -280,22 +290,22 @@ public class JavaTypeGen implements TypeGen
         LOGGER.debug(String.format("Type '%s' is a custom type.", typeName));
 
         // Create artificial name for local complex type (i.e. an inner class)
-        if (isTopLevel && !element.getSchemaType().isTopLevel() && !element.getSchemaType().isSimple())
+        if (!element.getSchemaType().isTopLevel() && !element.getSchemaType().isSimple())
         {
           typeName += "Type";
         }
       }
 
       // Add member variable to current incomplete container
-      AttributeContainer.Builder current = (isTopLevel ? this.incompleteBuilders.pop() : this.incompleteLocalBuilder);
-      
-      // Enforce restrictions for local simple types or extensions of existing types
+      AttributeContainer.Builder current = (isTopLevel ? this.incompleteBuilders.pop() : this.incompleteLocalBuilders.get(this.incompleteBuilders.peek().getName()).pop());
+
+      // Enforce restrictions for local simple types
       AttributeContainer.Restriction restrictions = new AttributeContainer.Restriction();
-      if ((element.getSchemaType().isSimple() && !element.getSchemaType().isTopLevel()) || this.generatedElements.containsKey(typeName))
+      if (element.getSchemaType().isSimple() && !element.getSchemaType().isTopLevel())
       {
         restrictions = this.createRestrictions((FSimpleType)(element.getSchemaType()));
       }
-      
+
       // Element is an enum
       if (!element.getSchemaType().isTopLevel() && FSchemaTypeHelper.isEnum(element.getSchemaType()))
       {
@@ -324,15 +334,27 @@ public class JavaTypeGen implements TypeGen
         current.addElement(typeName, element.getName(), restrictions);
       }
 
+      // Type is a top-level type
       if (isTopLevel)
       {
         this.incompleteBuilders.push(current);
       }
+      // Type is a local complex type
       else
       {
-        this.incompleteLocalBuilder = current;
+        String parentContainerName = this.incompleteBuilders.peek().getName();
+
+        Stack<AttributeContainer.Builder> currentStack = this.incompleteLocalBuilders.get(parentContainerName);
+        if (null == currentStack)
+        {
+          // Stack for inner classes was not created yet
+          currentStack = new Stack<AttributeContainer.Builder>();
+        }
+        currentStack.push(current);
+
+        this.incompleteLocalBuilders.put(parentContainerName, currentStack);
       }
-      
+
       LOGGER.debug(String.format("Added member variable '%s' of %s '%s' to container '%s'.", element.getName(),
               (SchemaHelper.isBuiltinTypedElement(element) ? "built-in " : "") + "type", typeName, current.getName()));
     }
@@ -353,21 +375,18 @@ public class JavaTypeGen implements TypeGen
     if (!this.incompleteBuilders.empty())
     {
       // Create mapper for XML framework annotations and strategy
-      AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
+      AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty(FabricTypeGenModule.XML_FRAMEWORK_KEY));
       JavaClassGenerationStrategy javaStrategy = new JavaClassGenerationStrategy(xmlMapper);
 
       JClass classObject = (JClass)this.incompleteBuilders.pop().build().asClassObject(javaStrategy);
 
-      // Build current local container
-      if (null != this.incompleteLocalBuilder)
-      {        
-        // Here we can reuse javaStrategy with stateful xmlMapper, because inner class is nested in outer container
-        JClass innerClassObject = (JClass)this.incompleteLocalBuilder.build().asClassObject(javaStrategy);
+      // Build current local containers
+      while (this.stackIsNotEmpty(classObject.getName()))
+      {
+        // Here we can reuse javaStrategy with stateful xmlMapper, because inner classes are nested in outer container
+        JClass innerClassObject = (JClass)javaStrategy.generateClassObject(
+                this.incompleteLocalBuilders.get(classObject.getName()).pop().build(), JModifier.PUBLIC | JModifier.STATIC);
         classObject.add(innerClassObject);
-        
-        // Important: Reset incomplete local builder!
-        this.incompleteLocalBuilder = null;
-
         LOGGER.debug(String.format("Built inner class '%s' for current container '%s'.", innerClassObject.getName(), classObject.getName()));
       }
 
@@ -524,11 +543,14 @@ public class JavaTypeGen implements TypeGen
       // Create enum and add it to generated elements
       if (!this.generatedElements.containsKey(type.getName()))
       {
-        AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty("typegen.java.xml_framework"));
+        AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty(FabricTypeGenModule.XML_FRAMEWORK_KEY));
         JEnum javaEnum = JEnum.factory.create(JModifier.PUBLIC, type.getName(), constantsAsString);
 
         javaEnum.setComment(new JEnumCommentImpl(String.format("The '%s' enumeration.", type.getName())));
-        javaEnum.addAnnotation(new JEnumAnnotationImpl(xmlMapper.getAnnotation("enum", type.getName())));
+        for (String annotation: xmlMapper.getAnnotations("enum", type.getName()))
+        {
+          javaEnum.addAnnotation(new JEnumAnnotationImpl(annotation));
+        }
 
         this.generatedElements.put(type.getName(),
                 new JavaTypeGen.SourceFileData(javaEnum, xmlMapper.getUsedImports()));
@@ -548,6 +570,41 @@ public class JavaTypeGen implements TypeGen
   private String getFabricTypeName(final FSchemaType type)
   {
     return type.getClass().getSimpleName();
+  }
+
+  /**
+   * Private helper method to check, whether there are any incomplete
+   * local builders for the container class, which has been added to
+   * the top-level incompleteBuilders stack last.
+   *
+   * The boolean expression was moved to this function to increase
+   * code readability at the location where it is being called.
+   *
+   * @return True if incomplete local builders exist, false otherwise
+   */
+  private boolean hasIncompleteLocalBuilders()
+  {
+    return (!this.incompleteBuilders.empty() && !this.incompleteLocalBuilders.isEmpty() && // Stack and Map must not be empty
+            null != this.incompleteLocalBuilders.get(this.incompleteBuilders.peek().getName()) && // Stack must be initialized (not null)
+            !this.incompleteLocalBuilders.get(this.incompleteBuilders.peek().getName()).empty()); // Stack must not be empty
+  }
+
+  /**
+   * Private helper method to check, whether the stack of incomplete
+   * local builders for a given container class is empty or not.
+   *
+   * The boolean expression was moved to this function to increase
+   * code readability in the loop where it is being called.
+   *
+   * @param className Name of outer container class
+   *
+   * @return True while stack is not empty, false otherwise
+   */
+  private boolean stackIsNotEmpty(final String className)
+  {
+    return (this.incompleteLocalBuilders.containsKey(className) && // Map must contain entry for class name
+            null != this.incompleteLocalBuilders.get(className) && // Stack must be initialized (not null)
+            !this.incompleteLocalBuilders.get(className).empty()); // Stack must not be empty
   }
 
   /**
