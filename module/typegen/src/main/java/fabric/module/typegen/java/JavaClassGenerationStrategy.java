@@ -1,8 +1,9 @@
-/** 25.09.2011 18:02 */
+/** 19.10.2011 20:34 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -156,9 +157,10 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     jc.setComment(new JClassCommentImpl(String.format("The '%s' container class.", container.getName())));
 
     // Annotation pattern e.g. @Root(name = "value") or @XStreamAlias("value")
-      for (String annotation : this.xmlMapper.getAnnotation("root", this.firstLetterCapital(container.getName()))) {
-        jc.addAnnotation(new JClassAnnotationImpl(annotation));
-      }
+    for (String annotation: this.xmlMapper.getAnnotations("root", this.firstLetterCapital(container.getName())))
+    {
+      jc.addAnnotation(new JClassAnnotationImpl(annotation));
+    }
 
     // Set extends-directive
     if (null != parent && parent.length() > 0)
@@ -188,11 +190,12 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       if (member.getClass() == AttributeContainer.EnumElement.class)
       {
         AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)member;
-        
-        JEnum je = JEnum.factory.create(JModifier.PUBLIC, ee.type, ee.enumConstants);
+
+        JEnum je = JEnum.factory.create(JModifier.PUBLIC | JModifier.STATIC, ee.type, this.fixEnumConstants(ee.enumConstants));
         je.setComment(new JEnumCommentImpl(String.format("The '%s' enumeration.", ee.type)));
-        for (String annotation : this.xmlMapper.getAnnotation("enum", ee.type)) {
-            je.addAnnotation(new JEnumAnnotationImpl(annotation));
+        for (String annotation: this.xmlMapper.getAnnotations("enum", ee.type))
+        {
+          je.addAnnotation(new JEnumAnnotationImpl(annotation));
         }
         jc.add(je);
       }
@@ -261,7 +264,8 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' element.", e.name)));
 
       // Annotation pattern e.g. @Element or @XStreamAlias("value")
-      for (String annotation : this.xmlMapper.getAnnotation("element", e.name)) {
+      for (String annotation: this.xmlMapper.getAnnotations("element", e.name))
+      {
         jf.addAnnotation(new JFieldAnnotationImpl(annotation));
       }
     }
@@ -284,7 +288,8 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' constant.", ce.name)));
 
       // Annotation pattern e.g. @Element or @XStreamAlias("value")
-      for (String annotation : this.xmlMapper.getAnnotation("element", ce.name)) {
+      for (String annotation: this.xmlMapper.getAnnotations("element", ce.name))
+      {
         jf.addAnnotation(new JFieldAnnotationImpl(annotation));
       }
     }
@@ -317,7 +322,8 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' attribute.", a.name)));
 
       // Annotation pattern e.g. @Attribute or @XStreamAsAttribute
-      for (String annotation : this.xmlMapper.getAnnotation("attribute", a.name)) {
+      for (String annotation: this.xmlMapper.getAnnotations("attribute", a.name))
+      {
         jf.addAnnotation(new JFieldAnnotationImpl(annotation));
       }
     }
@@ -333,7 +339,8 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' enum element.", ee.name)));
       
       // Annotation pattern e.g. @XmlEnum
-      for (String annotation : this.xmlMapper.getAnnotation("element", ee.name)) {
+      for (String annotation: this.xmlMapper.getAnnotations("enum", ee.name))
+      {
         jf.addAnnotation(new JFieldAnnotationImpl(annotation));
       }
     }
@@ -359,8 +366,37 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
 
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' element array.", ea.name)));
 
-      // Annotation pattern e.g. @ElementArray or @XStreamImplicit(itemFieldName="value")
-      for (String annotation : this.xmlMapper.getAnnotation("elementArray", ea.name)) {
+      // Annotation pattern e.g. @ElementArray or @XStreamImplicit(itemFieldName = "value")
+      for (String annotation: this.xmlMapper.getAnnotations("elementArray", ea.name))
+      {
+        jf.addAnnotation(new JFieldAnnotationImpl(annotation));
+      }
+    }
+
+    /*****************************************************************
+     * Handle XML element lists
+     *****************************************************************/
+    else if (member.getClass() == AttributeContainer.ElementList.class)
+    {
+      AttributeContainer.ElementList el = (AttributeContainer.ElementList)member;
+      String type = String.format("java.util.ArrayList<%s>", this.fixPrimitiveTypes(el.type));
+
+      // No list size is given
+      if (el.maxSize == Integer.MAX_VALUE)
+      {
+        jf = JField.factory.create(JModifier.PRIVATE, type, el.name, "new " + type + "()");
+      }
+      // List size is given
+      else
+      {
+        jf = JField.factory.create(JModifier.PRIVATE, type, el.name, "new " + type + "(" + el.maxSize + ")");
+      }
+
+      jf.setComment(new JFieldCommentImpl(String.format("The '%s' element list.", el.name)));
+
+      // Annotation pattern e.g. @ElementList or @XStreamImplicit(itemFieldName = "value")
+      for (String annotation: this.xmlMapper.getAnnotations("elementList", el.name))
+      {
         jf.addAnnotation(new JFieldAnnotationImpl(annotation));
       }
     }
@@ -402,7 +438,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     // Member variable is an element or attribute
     if (member.getClass() == AttributeContainer.Element.class || member.getClass() == AttributeContainer.Attribute.class)
     {
-      AttributeContainer.Element e = (AttributeContainer.Element)member;
+      AttributeContainer.RestrictedElementBase e = (AttributeContainer.RestrictedElementBase)member;
 
       // Create code to check restrictions
       methodBody += this.generateRestrictionChecks(e);
@@ -413,15 +449,15 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
         modifiers &= ~JModifier.FINAL;
       }
     }
-    // Member variable is an array    
-    else if (member.getClass() == AttributeContainer.ElementArray.class)
+    // Member variable is an ElementArray or ElementList
+    else if (member instanceof AttributeContainer.ElementCollection)
     {
-      AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
+      AttributeContainer.ElementCollection ec = (AttributeContainer.ElementCollection)member;
       type = String.format("java.util.ArrayList<%s>", this.fixPrimitiveTypes(member.type));
 
-      // Create code to check array length
+      // Create code to check array or list size
       methodBody += JavaRestrictionHelper.createCheckCode(
-              String.format("%s.size() < %d || %s.size() > %d", member.name, ea.minSize, member.name, ea.maxSize),
+              String.format("%s.size() < %d || %s.size() > %d", member.name, ec.minSize, member.name, ec.maxSize),
               String.format("Illegal size for array '%s'.", member.name),
               "Check the occurrence indicators");
     }
@@ -447,7 +483,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
    *
    * @throws Exception Error during check code generation
    */
-  private String generateRestrictionChecks(AttributeContainer.Element member) throws Exception
+  private String generateRestrictionChecks(AttributeContainer.RestrictedElementBase member) throws Exception
   {
     String result = "";
 
@@ -483,7 +519,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMinInclusiveRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s < %d", member.name, Long.parseLong(r.minInclusive)),
+              JavaRestrictionHelper.minInclusiveExpression(member),
               String.format(message, "minInclusive", member.name),
               String.format(comment, "minInclusive"));
     }
@@ -491,7 +527,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMaxInclusiveRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s > %d", member.name, Long.parseLong(r.maxInclusive)),
+              JavaRestrictionHelper.maxInclusiveExpression(member),
               String.format(message, "maxInclusive", member.name),
               String.format(comment, "maxInclusive"));
     }
@@ -499,7 +535,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMinExclusiveRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s <= %d", member.name, Long.parseLong(r.minExclusive)),
+              JavaRestrictionHelper.minExclusiveExpression(member),
               String.format(message, "minExclusive", member.name),
               String.format(comment, "minExclusive"));
     }
@@ -507,7 +543,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMaxExclusiveRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s >= %d", member.name, Long.parseLong(r.maxExclusive)),
+              JavaRestrictionHelper.maxExclusiveExpression(member),
               String.format(message, "maxExclusive", member.name),
               String.format(comment, "maxExclusive"));
     }
@@ -557,9 +593,9 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
    */
   private JMethod createGetterMethod(MemberVariable member, String className) throws Exception
   {
-    // Member variable is an array
+    // Member variable is an ElementArray or ElementList
     String type = member.type;
-    if (member.getClass() == AttributeContainer.ElementArray.class)
+    if (member instanceof AttributeContainer.ElementCollection)
     {
       type = String.format("java.util.ArrayList<%s>", this.fixPrimitiveTypes(member.type));
     }
@@ -625,6 +661,60 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     }
 
     return result;
+  }
+
+  /**
+   * Private helper method to fix the name of enum constants
+   * for Java. XML schema allows names that start with a
+   * number or include dashes, whereas in Java enum constants
+   * must start with a character and must not contain dashes.
+   *
+   * This function replaces all invalid characters and adds
+   * a replace character to the beginning of a name, if it
+   * starts with a non-character.
+   *
+   * To prevent the creation of duplicate names, we always
+   * have to check that a newly created name not already
+   * exists in the enum constants array.
+   *
+   * @param enumConstants Array with XSD enum constant names
+   *
+   * @return Array with cleaned, Java-compatible constant names
+   */
+  private String[] fixEnumConstants(String[] enumConstants)
+  {
+    final char REPLACE_CHAR = '_';
+
+    // Check all enum constants
+    for (int i = 0; i < enumConstants.length; ++i)
+    {
+      String newName = enumConstants[i];
+
+      // First character must not be a number
+      if (newName.substring(0, 1).matches("[0-9]"))
+      {
+        newName = REPLACE_CHAR + newName;
+      }
+
+      // Replace all invalid characters
+      newName = newName.replaceAll("[^A-Za-z0-9]", String.valueOf(REPLACE_CHAR));
+
+      // If name was changed, make sure we created no duplicate
+      if (!newName.equals(enumConstants[i]) && Arrays.asList(enumConstants).contains(newName))
+      {
+        do
+        {
+          // Create new name
+          newName = REPLACE_CHAR + newName;
+
+          // Check again
+        } while (Arrays.asList(enumConstants).contains(newName));
+      }
+
+      enumConstants[i] = newName;
+    }
+
+    return enumConstants;
   }
 
   /**

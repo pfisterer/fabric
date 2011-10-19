@@ -1,4 +1,4 @@
-/** 11.10.2011 11:00 */
+/** 19.10.2011 11:59 */
 package fabric.module.typegen;
 
 import java.util.Properties;
@@ -25,22 +25,22 @@ public class FabricTypeGenModule implements FabricModule
   private static final Logger LOGGER = LoggerFactory.getLogger(FabricTypeGenModule.class);
 
   /** Key for target language in properties object */
-  private static final String TARGET_LANGUAGE_KEY = "typegen.target_language";
+  public static final String TARGET_LANGUAGE_KEY = "typegen.target_language";
 
   /** Key for main class name in properties object */
-  private static final String MAIN_CLASS_NAME_KEY = "typegen.main_class_name";
+  public static final String MAIN_CLASS_NAME_KEY = "typegen.main_class_name";
 
   /** Key for XML framework name in properties object */
-  private static final String XML_FRAMEWORK_KEY = "typegen.java.xml_framework";
+  public static final String XML_FRAMEWORK_KEY = "typegen.java.xml_framework";
 
   /** Key for main package name in properties object */
-  private static final String PACKAGE_NAME_KEY = "typegen.java.package_name";
+  public static final String PACKAGE_NAME_KEY = "typegen.java.package_name";
 
-  /** Key for TypeGen factory name in properties object */
-  private static final String FACTORY_NAME_KEY = "typegen.factory_name";
+  /** Key for name of TypeGen class used in TypeGenFactory */
+  public static final String FACTORY_CLASS_KEY = "typegen.typegen_name";
 
-  /** Key for Mapper factory name in properties object */
-  private static final String MAPPER_NAME_KEY = "typegen.mapper_name";
+  /** Key for name of Mapper class used in MapperFactory */
+  public static final String MAPPER_CLASS_KEY = "typegen.mapper_name";
 
   /** Properties object for module configuration */
   private Properties properties = null;
@@ -153,14 +153,14 @@ public class FabricTypeGenModule implements FabricModule
     // Use Java type generator
     else if (targetLanguage.toLowerCase().equals("java"))
     {
-      this.properties.setProperty(FACTORY_NAME_KEY, "fabric.module.typegen.java.JavaTypeGen");
-      this.properties.setProperty(MAPPER_NAME_KEY, "fabric.module.typegen.java.JavaMapper");
+      this.properties.setProperty(FACTORY_CLASS_KEY, "fabric.module.typegen.java.JavaTypeGen");
+      this.properties.setProperty(MAPPER_CLASS_KEY, "fabric.module.typegen.java.JavaMapper");
     }
     // Use C++ type generator
     else if (targetLanguage.toLowerCase().equals("cpp"))
     {
-      this.properties.setProperty(FACTORY_NAME_KEY, "fabric.module.typegen.cpp.CppTypeGen");
-      this.properties.setProperty(MAPPER_NAME_KEY, "fabric.module.typegen.cpp.CppMapper");
+      this.properties.setProperty(FACTORY_CLASS_KEY, "fabric.module.typegen.cpp.CppTypeGen");
+      this.properties.setProperty(MAPPER_CLASS_KEY, "fabric.module.typegen.cpp.CppMapper");
     }
     // Invalid target language provided
     else
@@ -194,10 +194,10 @@ public class FabricTypeGenModule implements FabricModule
    */
   private void checkXMLFramework()
   {
-    String xmlFramework = this.properties.getProperty(XML_FRAMEWORK_KEY);
+    String xmlFramework = this.properties.getProperty(XML_FRAMEWORK_KEY, "Simple");
 
     // Use Simple as default XML library
-    if (!xmlFramework.equals("Simple") && !xmlFramework.equals("XStream") && !xmlFramework.equals("JAXB"))
+    if (null != xmlFramework && !xmlFramework.equals("Simple") && !xmlFramework.equals("XStream") && !xmlFramework.equals("JAXB"))
     {
       this.properties.setProperty(XML_FRAMEWORK_KEY, "Simple");
     }

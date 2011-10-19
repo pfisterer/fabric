@@ -61,18 +61,18 @@ public class AnnotationMapperTest
     ArrayList<String> imports = mapper.getUsedImports();
 
     // Check general import return
-    mapper.getAnnotation("root");
+    mapper.getAnnotations("root");
     assertTrue("One import must be required.", imports.size() == 1);
     assertTrue("Imports must contain 'org.simpleframework.xml.Root'.", imports.contains("org.simpleframework.xml.Root"));
 
     // Check requirement-based import return
-    mapper.getAnnotation("attribute");
+    mapper.getAnnotations("attribute");
     assertTrue("Two imports must be required.", imports.size() == 2);
     assertTrue("Imports must still contain 'org.simpleframework.xml.Root'.", imports.contains("org.simpleframework.xml.Root"));
     assertTrue("Imports must also contain 'org.simpleframework.xml.Attribute'.", imports.contains("org.simpleframework.xml.Attribute"));
 
     // Check that no imports are added twice
-    mapper.getAnnotation("attribute");
+    mapper.getAnnotations("attribute");
     assertTrue("Still only two imports must be required.", imports.size() == 2);
   }
 
@@ -83,6 +83,6 @@ public class AnnotationMapperTest
   public void testAnnotationLookup() throws Exception
   {
     AnnotationMapper mapper = new AnnotationMapper();
-    assertEquals("Returned annotation must be 'Attribute'.", "Attribute", mapper.getAnnotation("attribute")[0]);
+    assertEquals("Returned annotation must be 'Attribute'.", "Attribute", mapper.getAnnotations("attribute")[0]);
   }
 }

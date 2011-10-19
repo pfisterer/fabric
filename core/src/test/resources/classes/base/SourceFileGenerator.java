@@ -1,8 +1,11 @@
 package classes.base;
 
-import de.uniluebeck.sourcegen.SourceFile;
 import java.util.List;
 import java.util.Properties;
+
+import de.uniluebeck.sourcegen.SourceFile;
+
+import fabric.module.typegen.FabricTypeGenModule;
 
 /**
  * Interface for classes generating the expected SourceFile objects of a test case.
@@ -18,7 +21,7 @@ public abstract class SourceFileGenerator {
      */
     public SourceFileGenerator(Properties properties) {
         try {
-            rootName = properties.getProperty("typegen.main_class_name");
+            rootName = properties.getProperty(FabricTypeGenModule.MAIN_CLASS_NAME_KEY);
         } catch (Exception e) {
             e.printStackTrace();
         }

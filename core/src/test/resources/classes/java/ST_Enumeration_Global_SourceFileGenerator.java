@@ -1,15 +1,15 @@
 package classes.java;
 
+import java.util.Properties;
+
 import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JEnum;
 import de.uniluebeck.sourcegen.java.JEnumAnnotationImpl;
 import de.uniluebeck.sourcegen.java.JModifier;
+
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.java.AnnotationMapper;
 import fabric.module.typegen.java.JavaClassGenerationStrategy;
-
-import java.util.ArrayList;
-import java.util.Properties;
 
 /**
  * SourceFileGenerator for simpleType_enumeration_global.xsd
@@ -28,7 +28,7 @@ public class ST_Enumeration_Global_SourceFileGenerator extends JSourceFileGenera
          */
         AnnotationMapper mapper = new AnnotationMapper(xmlFramework);
         JEnum carType = JEnum.factory.create(JModifier.PUBLIC, "CarType", "Audi", "Golf", "BMW");
-        for (String annotation : mapper.getAnnotation("enum", carType.getName())) {
+        for (String annotation: mapper.getAnnotations("enum", carType.getName())) {
             carType.addAnnotation(new JEnumAnnotationImpl(annotation));
         }
         types.put(JEnum.factory.create(JModifier.PUBLIC, "CarType", "Audi", "Golf", "BMW"), mapper.getUsedImports());

@@ -1,6 +1,7 @@
-/** 21.09.2011 02:19 */
+/** 07.10.2011 02:00 */
 package fabric.module.typegen.java;
 
+import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.exceptions.FabricTypeGenException;
 
 /**
@@ -233,6 +234,114 @@ public class JavaRestrictionHelper
       result += JavaRestrictionHelper.createCheckCode(
               String.format("%s_fractionDigits > %d", memberName, digits),
               String.format(message, "fractionDigits", memberName));
+    }
+
+    return result;
+  }
+
+  /**
+   * Build expression to check the 'minInclusive' restriction, depending
+   * on the data type of the member variable. BigInteger and BigDecimal
+   * values require special treatment when comparing them. The function
+   * at hand takes care of all necessary provisions.
+   *
+   * @param member Member variable for comparision in expression
+   *
+   * @return Expression for restriction check
+   */
+  public static String minInclusiveExpression(AttributeContainer.RestrictedElementBase member)
+  {
+    String result = "";
+
+    if (member.type.endsWith("BigInteger") || member.type.endsWith("BigDecimal"))
+    {
+      result = String.format("%s.compareTo(new %s(\"%d\")) < 0", member.name, member.type,
+              Long.parseLong(member.restrictions.minInclusive));
+    }
+    else
+    {
+      result = String.format("%s < %d", member.name, Long.parseLong(member.restrictions.minInclusive));
+    }
+
+    return result;
+  }
+
+  /**
+   * Build expression to check the 'maxInclusive' restriction, depending
+   * on the data type of the member variable. BigInteger and BigDecimal
+   * values require special treatment when comparing them. The function
+   * at hand takes care of all necessary provisions.
+   *
+   * @param member Member variable for comparision in expression
+   *
+   * @return Expression for restriction check
+   */
+  public static String maxInclusiveExpression(AttributeContainer.RestrictedElementBase member)
+  {
+    String result = "";
+
+    if (member.type.endsWith("BigInteger") || member.type.endsWith("BigDecimal"))
+    {
+      result = String.format("%s.compareTo(new %s(\"%d\")) > 0", member.name, member.type,
+              Long.parseLong(member.restrictions.maxInclusive));
+    }
+    else
+    {
+      result = String.format("%s > %d", member.name, Long.parseLong(member.restrictions.maxInclusive));
+    }
+
+    return result;
+  }
+
+  /**
+   * Build expression to check the 'minExclusive' restriction, depending
+   * on the data type of the member variable. BigInteger and BigDecimal
+   * values require special treatment when comparing them. The function
+   * at hand takes care of all necessary provisions.
+   *
+   * @param member Member variable for comparision in expression
+   *
+   * @return Expression for restriction check
+   */
+  public static String minExclusiveExpression(AttributeContainer.RestrictedElementBase member)
+  {
+    String result = "";
+
+    if (member.type.endsWith("BigInteger") || member.type.endsWith("BigDecimal"))
+    {
+      result = String.format("%s.compareTo(new %s(\"%d\")) <= 0", member.name, member.type,
+              Long.parseLong(member.restrictions.minExclusive));
+    }
+    else
+    {
+      result = String.format("%s <= %d", member.name, Long.parseLong(member.restrictions.minExclusive));
+    }
+
+    return result;
+  }
+
+  /**
+   * Build expression to check the 'maxExclusive' restriction, depending
+   * on the data type of the member variable. BigInteger and BigDecimal
+   * values require special treatment when comparing them. The function
+   * at hand takes care of all necessary provisions.
+   *
+   * @param member Member variable for comparision in expression
+   *
+   * @return Expression for restriction check
+   */
+  public static String maxExclusiveExpression(AttributeContainer.RestrictedElementBase member)
+  {
+    String result = "";
+
+    if (member.type.endsWith("BigInteger") || member.type.endsWith("BigDecimal"))
+    {
+      result = String.format("%s.compareTo(new %s(\"%d\")) >= 0", member.name, member.type,
+              Long.parseLong(member.restrictions.maxExclusive));
+    }
+    else
+    {
+      result = String.format("%s >= %d", member.name, Long.parseLong(member.restrictions.maxExclusive));
     }
 
     return result;

@@ -1,4 +1,4 @@
-/** 25.09.2011 01:50 */
+/** 17.10.2011 18:00 */
 package fabric.module.typegen;
 
 import org.slf4j.Logger;
@@ -215,6 +215,11 @@ public class AttributeContainer
       {
         AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)master;
         copy = new AttributeContainer.ElementArray(ea.type, ea.name, ea.minSize, ea.maxSize);
+      }
+      else if (master.getClass() == AttributeContainer.ElementList.class)
+      {
+        AttributeContainer.ElementList el = (AttributeContainer.ElementList)master;
+        copy = new AttributeContainer.ElementList(el.type, el.name, el.minSize, el.maxSize);
       }
       else
       {
@@ -510,6 +515,64 @@ public class AttributeContainer
     }
 
     /**
+     * Add XML element list to container. Minimum and maximum size of
+     * the list can be predefined. Existing entries will be overridden
+     * by new list definition.
+     *
+     * @param type Type of member variable
+     * @param name Name of member variable
+     * @param minSize Minimal size of list
+     * @param maxSize Maximum size of list
+     *
+     * @return Builder object
+     *
+     * @throws IllegalArgumentException Invalid list size provided
+     */
+    public Builder addElementList(final String type, final String name, final int minSize, final int maxSize) throws IllegalArgumentException
+    {
+      if (maxSize < 0)
+      {
+        throw new IllegalArgumentException("List size must be positive.");
+      }
+
+      this.members.put(name, new AttributeContainer.ElementList(type, name, minSize, maxSize));
+
+      return this;
+    }
+
+    /**
+     * Add XML element list to container. Maximum size of the list
+     * can be predefined. Existing entries will be overridden by new
+     * list definition.
+     *
+     * @param type Type of member variable
+     * @param name Name of member variable
+     * @param maxSize Maximum size of list
+     *
+     * @return Builder object
+     */
+    public Builder addElementList(final String type, final String name, final int maxSize)
+    {
+      return this.addElementList(type, name, 0, maxSize);
+    }
+
+    /**
+     * Add XML element list to container. Existing entries will be
+     * overridden by new list definition.
+     *
+     * @param type Type of member variable
+     * @param name Name of member variable
+     *
+     * @return Builder object
+     */
+    public Builder addElementList(final String type, final String name)
+    {
+      this.members.put(name, new AttributeContainer.ElementList(type, name));
+
+      return this;
+    }
+
+    /**
      * Delete member variable from container class. Member name acts
      * as a key for deletion here.
      *
@@ -538,11 +601,28 @@ public class AttributeContainer
     public String name;
   }
 
-  public static class Element extends MemberVariable
+  public static abstract class ElementBase extends MemberVariable
   {
     /** Value of XML element */
     public String value;
 
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML element
+     * @param name Name of XML element
+     * @param value Initial value of XML element
+     */
+    public ElementBase(final String type, final String name, final String value)
+    {
+      this.type = type;
+      this.name = name;
+      this.value = value;
+    }
+  }
+
+  public static abstract class RestrictedElementBase extends ElementBase
+  {
     /** Restrictions on element value */
     public Restriction restrictions;
 
@@ -554,47 +634,11 @@ public class AttributeContainer
      * @param value Initial value of XML element
      * @param restrictions Restrictions on XML element
      */
-    public Element(final String type, final String name, final String value, final Restriction restrictions)
+    public RestrictedElementBase(final String type, final String name, final String value, final Restriction restrictions)
     {
-      this.type = type;
-      this.name = name;
-      this.value = value;
+      super(type, name, value);
+
       this.restrictions = restrictions;
-    }
-
-    /**
-     * Parameterized constructor.
-     *
-     * @param type Type of XML element
-     * @param name Name of XML element
-     * @param value Initial value of XML element
-     */
-    public Element(final String type, final String name, final String value)
-    {
-      this(type, name, value, new Restriction());
-    }
-
-    /**
-     * Parameterized constructor.
-     *
-     * @param type Type of XML element
-     * @param name Name of XML element
-     * @param restrictions Restrictions on XML element
-     */
-    public Element(final String type, final String name, final Restriction restrictions)
-    {
-      this(type, name, "", restrictions);
-    }
-
-    /**
-     * Parameterized constructor.
-     *
-     * @param type Type of XML element
-     * @param name Name of XML element
-     */
-    public Element(final String type, final String name)
-    {
-      this(type, name, "", new Restriction());
     }
 
     /**
@@ -666,10 +710,10 @@ public class AttributeContainer
     {
       return (null != this.restrictions.maxExclusive);
     }
-    
+
     /**
      * Check 'pattern' restriction for element.
-     * 
+     *
      * @return True or false
      */
     public boolean isPatternRestricted()
@@ -702,7 +746,58 @@ public class AttributeContainer
     }
   }
 
-  public static class ConstantElement extends Element
+  public static class Element extends RestrictedElementBase
+  {
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML attribute
+     * @param name Name of XML attribute
+     * @param value Initial value of XML attribute
+     * @param restrictions Restrictions on XML element
+     */
+    public Element(final String type, final String name, final String value, final Restriction restrictions)
+    {
+      super(type, name, value, restrictions);
+    }
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML element
+     * @param name Name of XML element
+     * @param value Initial value of XML element
+     */
+    public Element(final String type, final String name, final String value)
+    {
+      this(type, name, value, new Restriction());
+    }
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML element
+     * @param name Name of XML element
+     * @param restrictions Restrictions on XML element
+     */
+    public Element(final String type, final String name, final Restriction restrictions)
+    {
+      this(type, name, "", restrictions);
+    }
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML element
+     * @param name Name of XML element
+     */
+    public Element(final String type, final String name)
+    {
+      this(type, name, "", new Restriction());
+    }
+  }
+
+  public static class ConstantElement extends ElementBase
   {    
     /**
      * Parameterized constructor.
@@ -717,7 +812,7 @@ public class AttributeContainer
     }
   }
 
-  public static class Attribute extends Element
+  public static class Attribute extends RestrictedElementBase
   {
     /**
      * Parameterized constructor.
@@ -741,7 +836,7 @@ public class AttributeContainer
      */
     public Attribute(final String type, final String name, final String value)
     {
-      super(type, name, value);
+      this(type, name, value, new Restriction());
     }
 
     /**
@@ -753,7 +848,7 @@ public class AttributeContainer
      */
     public Attribute(final String type, final String name, final Restriction restrictions)
     {
-      super(type, name, "", restrictions);
+      this(type, name, "", restrictions);
     }
 
     /**
@@ -764,7 +859,7 @@ public class AttributeContainer
      */
     public Attribute(final String type, final String name)
     {
-      super(type, name, "");
+      this(type, name, "", new Restriction());
     }
   }
   
@@ -788,14 +883,18 @@ public class AttributeContainer
     }
   }
 
-  public static class ElementArray extends MemberVariable
+  public static abstract class ElementCollection extends MemberVariable
   {
-    /** Minimum size of XML element array */
+    /** Minimum size of XML element collection */
     public int minSize;
 
-    /** Maximum size of XML element array */
+    /** Maximum size of XML element collection */
     public int maxSize;
 
+  }
+
+  public static class ElementArray extends ElementCollection
+  {
     /**
      * Parameterized constructor.
      *
@@ -819,6 +918,36 @@ public class AttributeContainer
      * @param name Name of XML element array
      */
     public ElementArray(final String type, final String name)
+    {
+      this(type, name, 0, Integer.MAX_VALUE);
+    }
+  }
+
+  public static class ElementList extends ElementCollection
+  {
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML element list
+     * @param name Name of XML element list
+     * @param minSize Minimum size of XML element list
+     * @param maxSize Maximum size of XML element list
+     */
+    public ElementList(final String type, final String name, final int minSize, final int maxSize)
+    {
+      this.type = type;
+      this.name = name;
+      this.minSize = minSize;
+      this.maxSize = maxSize;
+    }
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param type Type of XML element list
+     * @param name Name of XML element list
+     */
+    public ElementList(final String type, final String name)
     {
       this(type, name, 0, Integer.MAX_VALUE);
     }

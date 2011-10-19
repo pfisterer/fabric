@@ -59,8 +59,8 @@ public class FInteger extends FDecimal {
 	public FInteger(String typeName) {
 		super(typeName);
 		addRestriction(SchemaType.FACET_MIN_INCLUSIVE, BigInteger.valueOf(Long.MIN_VALUE));
-                addRestriction(SchemaType.FACET_MAX_INCLUSIVE, BigInteger.valueOf(Long.MAX_VALUE));
-                addRestriction(SchemaType.FACET_FRACTION_DIGITS, 0);
+    addRestriction(SchemaType.FACET_MAX_INCLUSIVE, BigInteger.valueOf(Long.MAX_VALUE));
+    addRestriction(SchemaType.FACET_FRACTION_DIGITS, 0);
 	}
 
     // --------------------------------------------------------------------

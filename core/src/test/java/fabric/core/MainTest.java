@@ -5,6 +5,7 @@ import de.uniluebeck.itm.tr.util.FileUtils;
 import de.uniluebeck.sourcegen.SourceFile;
 import fabric.Main;
 import de.uniluebeck.sourcegen.Workspace;
+import fabric.module.typegen.FabricTypeGenModule;
 import org.junit.*;
 
 import static org.junit.Assert.assertTrue;
@@ -94,7 +95,7 @@ public class MainTest {
 
     @AfterClass
     public static void tearDown() {
-        FileUtils.deleteDirectory(new File(properties.getProperty("typegen.main_class_name")));
+        FileUtils.deleteDirectory(new File(properties.getProperty(FabricTypeGenModule.MAIN_CLASS_NAME_KEY)));
     }
 
     @Test

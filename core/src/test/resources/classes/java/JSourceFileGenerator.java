@@ -1,12 +1,14 @@
 package classes.java;
 
+import java.util.*;
+
 import de.uniluebeck.sourcegen.SourceFile;
 import de.uniluebeck.sourcegen.java.JComplexType;
 import de.uniluebeck.sourcegen.java.JSourceFile;
 import de.uniluebeck.sourcegen.java.JSourceFileImpl;
-import classes.base.SourceFileGenerator;
 
-import java.util.*;
+import classes.base.SourceFileGenerator;
+import fabric.module.typegen.FabricTypeGenModule;
 
 /**
  * Abstract class for generating the expected JSourceFile objects of a test case.
@@ -34,8 +36,8 @@ public abstract class JSourceFileGenerator extends SourceFileGenerator {
     public JSourceFileGenerator(Properties properties) {
         super(properties);
         try {
-            packageName     = properties.getProperty("typegen.java.package_name");
-            xmlFramework    = properties.getProperty("typegen.java.xml_framework");
+            packageName     = properties.getProperty(FabricTypeGenModule.PACKAGE_NAME_KEY);
+            xmlFramework    = properties.getProperty(FabricTypeGenModule.XML_FRAMEWORK_KEY);
             types           = new HashMap<JComplexType, ArrayList<String>>();
             generateClasses();
         } catch (Exception e) {
