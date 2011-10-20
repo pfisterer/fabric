@@ -38,7 +38,7 @@ public class Simple extends XMLLibrary
   public void generateJavaToXMLCode() throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
-            JParameter.factory.create(JModifier.FINAL, beanClassName, "beanObject"));
+            JParameter.factory.create(JModifier.FINAL, this.beanClassName, "beanObject"));
     JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, "String",
             "instanceToXML", jms, new String[] { "Exception" });
 
@@ -72,7 +72,7 @@ public class Simple extends XMLLibrary
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
-    JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, beanClassName,
+    JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, this.beanClassName,
             "xmlToInstance", jms, new String[] { "Exception" });
     
     String methodBody =
@@ -80,7 +80,7 @@ public class Simple extends XMLLibrary
             "%s beanObject = serializer.read(%s.class, xmlDocument);\n\n" +
             "return beanObject;";
     
-    jm.getBody().appendSource(String.format(methodBody, beanClassName, beanClassName));
+    jm.getBody().appendSource(String.format(methodBody, this.beanClassName, this.beanClassName));
     jm.setComment(new JMethodCommentImpl("Deserialize XML document to bean object."));
     
     this.converterClass.add(jm);
