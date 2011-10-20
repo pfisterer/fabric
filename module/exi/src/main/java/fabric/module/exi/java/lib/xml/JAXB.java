@@ -1,4 +1,4 @@
-/** 20.10.2011 15:54 */
+/** 20.10.2011 16:42 */
 package fabric.module.exi.java.lib.xml;
 
 import de.uniluebeck.sourcegen.java.JMethod;
@@ -45,10 +45,11 @@ public class JAXB extends XMLLibrary
     String methodBody =
             "JAXBContext context = JAXBContext.newInstance(%s.class);\n" +
             "Marshaller marshaller = context.createMarshaller();\n" +
+            "marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);\n" +
             "marshaller.setProperty(Marshaller.JAXB_ENCODING, \"UTF-8\");\n" +
-            "marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);\n" +
-            "StringWriter xmlDocument = new StringWriter();\n\n" +
-            "marshaller.marshal(beanObject, xmlDocument);\n" +
+            "marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);\n\n" +
+            "StringWriter xmlDocument = new StringWriter();\n" +
+            "marshaller.marshal(beanObject, xmlDocument);\n\n" +
             "return xmlDocument.toString();";
 
     jm.getBody().appendSource(String.format(methodBody, this.beanClassName));
@@ -78,7 +79,7 @@ public class JAXB extends XMLLibrary
 
     String methodBody =
             "JAXBContext context = JAXBContext.newInstance(%s.class);\n" +
-            "Unmarshaller unmarshaller = context.createUnmarshaller();\n" +
+            "Unmarshaller unmarshaller = context.createUnmarshaller();\n\n" +
             "return (%s)unmarshaller.unmarshal(new InputSource(new ByteArrayInputStream(xmlDocument.getBytes())));";
 
     jm.getBody().appendSource(String.format(methodBody, this.beanClassName, this.beanClassName));

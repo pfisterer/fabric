@@ -1,4 +1,4 @@
-/** 11.10.2011 15:52 */
+/** 20.10.2011 16:05 */
 package fabric.module.exi.java;
 
 import java.util.Properties;
@@ -44,7 +44,7 @@ public class JavaEXIConverter
   {
     this.properties = properties;
     
-    this.xsdDocumentPath = this.properties.getProperty("fabric.xsd"); // TODO: Check key for property
+    this.xsdDocumentPath = this.properties.getProperty(FabricEXIModule.XSD_DOCUMENT_PATH_KEY);
     
     this.serializerClassName = "EXIConverter"; // TODO: Set proper class name
   }
