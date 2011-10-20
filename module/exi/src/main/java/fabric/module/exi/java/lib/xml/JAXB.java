@@ -1,4 +1,4 @@
-/** 11.10.2011 02:47 */
+/** 20.10.2011 15:54 */
 package fabric.module.exi.java.lib.xml;
 
 import de.uniluebeck.sourcegen.java.JMethod;
@@ -37,28 +37,29 @@ public class JAXB extends XMLLibrary
   @Override
   public void generateJavaToXMLCode() throws Exception
   {
-	  JMethodSignature jms = JMethodSignature.factory.create(
-			  JParameter.factory.create(JModifier.FINAL, this.beanClassName, "beanObject"));
-	  JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, "String",
-			  "instanceToXML", jms, new String[] { "Exception" });
+    JMethodSignature jms = JMethodSignature.factory.create(
+            JParameter.factory.create(JModifier.FINAL, this.beanClassName, "beanObject"));
+    JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, "String",
+            "instanceToXML", jms, new String[] { "Exception" });
 
-	  String methodBody =
-              "JAXBContext context = JAXBContext.newInstance(%s.class);\n" +
-              "Marshaller marshaller = context.createMarshaller();\n" +
-              "marshaller.setProperty(Marshaller.JAXB_ENCODING, \"UTF-8\");\n" +
-              "StringWriter xmlDocument = new StringWriter();\n\n" +
-              "marshaller.marshal(beanObject, xmlDocument);\n" +
-              "return xmlDocument;";
+    String methodBody =
+            "JAXBContext context = JAXBContext.newInstance(%s.class);\n" +
+            "Marshaller marshaller = context.createMarshaller();\n" +
+            "marshaller.setProperty(Marshaller.JAXB_ENCODING, \"UTF-8\");\n" +
+            "marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);\n" +
+            "StringWriter xmlDocument = new StringWriter();\n\n" +
+            "marshaller.marshal(beanObject, xmlDocument);\n" +
+            "return xmlDocument.toString();";
 
-	  jm.getBody().appendSource(String.format(methodBody, this.beanClassName.toLowerCase(), this.beanClassName));
-	  jm.setComment(new JMethodCommentImpl("Serialize bean object to XML document."));
+    jm.getBody().appendSource(String.format(methodBody, this.beanClassName));
+    jm.setComment(new JMethodCommentImpl("Serialize bean object to XML document."));
 
-	  this.converterClass.add(jm);
+    this.converterClass.add(jm);
 
-	  // Add required Java imports
-	  this.addRequiredImport("javax.xml.bind.JAXBContext");
-	  this.addRequiredImport("javax.xml.bind.Marshaller");
-	  this.addRequiredImport("java.io.StringWriter");
+    // Add required Java imports
+    this.addRequiredImport("javax.xml.bind.JAXBContext");
+    this.addRequiredImport("javax.xml.bind.Marshaller");
+    this.addRequiredImport("java.io.StringWriter");
   }
 
   /**
@@ -70,24 +71,25 @@ public class JAXB extends XMLLibrary
   @Override
   public void generateXMLToInstanceCode() throws Exception
   {
-	  JMethodSignature jms = JMethodSignature.factory.create(
-			  JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
-	  JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, this.beanClassName,
-			  "xmlToInstance", jms, new String[] { "Exception" });
+    JMethodSignature jms = JMethodSignature.factory.create(
+            JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
+    JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, this.beanClassName,
+            "xmlToInstance", jms, new String[] { "Exception" });
 
-	  String methodBody =
-		  	  "JAXBContext context = JAXBContext.newInstance(%s.class);\n" +
-		  	  "Unmarshaller unmarshaller = context.createUnmarshaller();\n" +
-		  	  "%s beanObject = (%s) unmarshaller.unmarshal(xmlDocument);\n" +
-		  	  "return beanObject;";
+    String methodBody =
+            "JAXBContext context = JAXBContext.newInstance(%s.class);\n" +
+            "Unmarshaller unmarshaller = context.createUnmarshaller();\n" +
+            "return (%s)unmarshaller.unmarshal(new InputSource(new ByteArrayInputStream(xmlDocument.getBytes())));";
 
-	  jm.getBody().appendSource(String.format(methodBody, this.beanClassName, this.beanClassName));
-	  jm.setComment(new JMethodCommentImpl("Deserialize XML document to bean object."));
+    jm.getBody().appendSource(String.format(methodBody, this.beanClassName, this.beanClassName));
+    jm.setComment(new JMethodCommentImpl("Deserialize XML document to bean object."));
 
-	  this.converterClass.add(jm);
+    this.converterClass.add(jm);
 
-	  // Add required Java imports
-	  this.addRequiredImport("oavax.xml.bind.JAXBContext");
-	  this.addRequiredImport("javax.xml.bind.Unmarshaller");
+    // Add required Java imports
+    this.addRequiredImport("javax.xml.bind.JAXBContext");
+    this.addRequiredImport("javax.xml.bind.Unmarshaller");
+    this.addRequiredImport("org.xml.sax.InputSource");
+    this.addRequiredImport("java.io.ByteArrayInputStream");
   }
 }
