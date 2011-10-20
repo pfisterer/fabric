@@ -1,4 +1,4 @@
-/** 11.10.2011 02:18 */
+/** 20.10.2011 16:02 */
 package fabric.module.exi.java.lib.xml;
 
 import de.uniluebeck.sourcegen.java.JMethod;
@@ -50,13 +50,6 @@ public class XStream extends XMLLibrary
             "serializer.write(stream.toXML(beanObject));\n" +
             "serializer.close();\n\n" +
             "return xmlDocument.toString();";
-
-// TODO: Remove this code    
-//            "Format xmlHeader = new Format(\"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\");\n" +
-//            "Serializer serializer = new Persister(xmlHeader);\n" +
-//            "StringWriter xmlDocument = new StringWriter();\n\n" +
-//            "serializer.write(beanObject, xmlDocument);\n\n" +
-//            "return xmlDocument.toString();";
     
     jm.getBody().appendSource(String.format(methodBody, this.beanClassName.toLowerCase(), this.beanClassName));
     jm.setComment(new JMethodCommentImpl("Serialize bean object to XML document."));
@@ -64,7 +57,6 @@ public class XStream extends XMLLibrary
     this.converterClass.add(jm);
 
     // Add required Java imports
-    // TODO: Check required imports independently
     this.addRequiredImport("com.thoughtworks.xstream.XStream");
     this.addRequiredImport("com.thoughtworks.xstream.converters.reflection.Sun14ReflectionProvider");
     this.addRequiredImport("java.io.BufferedWriter");
@@ -90,18 +82,12 @@ public class XStream extends XMLLibrary
             "stream.alias(\"%s\", %s.class);\n\n" +
             "return (%s)stream.fromXML(xmlDocument);";
     
-// TODO: Remove this code
-//            "Serializer serializer = new Persister();\n" +
-//            "%s beanObject = serializer.read(%s.class, xmlDocument);\n\n" +
-//            "return beanObject;";
-    
     jm.getBody().appendSource(String.format(methodBody, this.beanClassName.toLowerCase(), this.beanClassName, this.beanClassName));
     jm.setComment(new JMethodCommentImpl("Deserialize XML document to bean object."));
     
     this.converterClass.add(jm);
 
     // Add required Java imports
-    // TODO: Check required imports independently
     this.addRequiredImport("com.thoughtworks.xstream.XStream");
     this.addRequiredImport("com.thoughtworks.xstream.converters.reflection.Sun14ReflectionProvider");
   }

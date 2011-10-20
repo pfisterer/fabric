@@ -4,6 +4,7 @@ package fabric.module.exi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Properties;
 
 import de.uniluebeck.sourcegen.Workspace;
@@ -13,8 +14,8 @@ import fabric.wsdlschemaparser.schema.FSchema;
 
 import fabric.module.exi.base.EXICodeGen;
 import fabric.wsdlschemaparser.schema.FElement;
+import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
 import fabric.wsdlschemaparser.schema.FSimpleType;
-import java.util.ArrayList;
 
 /**
  * Fabric handler class for the EXI module. This class defines
@@ -67,7 +68,8 @@ public class FabricEXIHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called startTopLevelSimpleType().");
 
-    if (null != type)
+    // TODO: Check second condition
+    if (null != type && !FSchemaTypeHelper.isList(type))
     {
       this.fixElements.add(type.getName());
     }

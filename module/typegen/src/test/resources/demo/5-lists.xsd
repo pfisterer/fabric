@@ -16,4 +16,13 @@
   -->
   <xs:element name="SimpleList" type="ListItemType" />
 
+  <!--
+    Element of local simple type with xs:list.
+  -->
+  <xs:element name="SimpleLocalList">
+    <xs:simpleType>
+      <xs:list itemType="xs:integer"/>
+    </xs:simpleType>
+  </xs:element>
+
 </xs:schema>
