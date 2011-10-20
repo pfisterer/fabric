@@ -1,4 +1,4 @@
-/** 19.10.2011 20:37 */
+/** 20.10.2011 15:20 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
@@ -249,7 +249,7 @@ public class AnnotationMapper
   public String[] getAnnotations(final String key)
   {
     // Get framework-specific annotations for general key
-    String[] annotations = AnnotationMapper.FRAMEWORKS.get(this.usedFramework).annotations.get(key).clone();
+    String[] annotations = AnnotationMapper.FRAMEWORKS.get(this.usedFramework).annotations.get(key).clone(); // TODO: Added clone()
 
     // Add required imports, if this was not done before
     String requiredImports[] = AnnotationMapper.FRAMEWORKS.get(this.usedFramework).imports.get(key);

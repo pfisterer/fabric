@@ -1,4 +1,4 @@
-/** 19.10.2011 20:38 */
+/** 20.10.2011 15:16 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -303,6 +303,12 @@ public class JavaTypeGen implements TypeGen
       else if (FSchemaTypeHelper.isArray(element))
       {
         current.addElementArray(typeName, element.getName(), element.getMinOccurs(), element.getMaxOccurs());
+      }
+      // Element is a list
+      else if (FSchemaTypeHelper.isList(element))
+      {
+        FList listType = (FList)element.getSchemaType();
+        current.addElementList(typeName, element.getName(), FSchemaTypeHelper.getMinLength(listType), FSchemaTypeHelper.getMaxLength(listType));
       }
       // Element has a default value
       else if (FSchemaTypeHelper.hasDefaultValue(element))

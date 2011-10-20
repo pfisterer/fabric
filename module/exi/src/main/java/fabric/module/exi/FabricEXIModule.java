@@ -1,4 +1,4 @@
-/** 11.10.2011 14:36 */
+/** 20.10.2011 16:08 */
 package fabric.module.exi;
 
 import java.util.Properties;
@@ -54,19 +54,19 @@ public class FabricEXIModule implements FabricModule
 
   /** Key for the EXI library name in properties object */
   public static final String EXI_LIBRARY_KEY = "exi.java.exi_library";
-  
-  // TODO: Adjust comment
-  /** Key for class name of for EXICodeGen factory name */
+
+  /** Key for name of EXICodeGen class used in EXICodeGenFactory */
   public static final String EXICODEGEN_NAME_KEY = "exi.exicodegen_name";
-  
-  // TODO: Adjust comment
-  /** Key for class name of conrete XMLLibrary in factory name */
+
+  /** Key for name of XMLLibrary class used in XMLLibraryFactory */
   public static final String XMLLIBRARY_NAME_KEY = "exi.xmllibrary_name";
-  
-  // TODO: Adjust comment
-  /** Key for class name of concrete EXILibrary in factory name */
+
+  /** Key for name of EXILibrary class used in EXILibraryFactory */
   public static final String EXILIBRARY_NAME_KEY = "exi.exilibrary_name";
-  
+
+  /** Key for XSD document path read from commandline */
+  public static final String XSD_DOCUMENT_PATH_KEY = "fabric.xsd";
+
   /** Properties object for module configuration */
   private Properties properties = null;
 

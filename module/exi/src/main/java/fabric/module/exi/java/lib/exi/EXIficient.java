@@ -1,4 +1,4 @@
-/** 15.10.2011 23:34 */
+/** 20.10.2011 15:50 */
 package fabric.module.exi.java.lib.exi;
 
 import de.uniluebeck.sourcegen.java.JField;
@@ -56,7 +56,7 @@ public class EXIficient extends EXILibrary
             "\t// Create EXI factory\n" +
             "\t%s.exiFactory = DefaultEXIFactory.newInstance();\n\n" +
             "\t// Set grammar for current XML schema\n" +
-            "GrammarFactory grammarFactory = GrammarFactory.newInstance();\n" +
+            "\tGrammarFactory grammarFactory = GrammarFactory.newInstance();\n" +
             "\tGrammar grammar = grammarFactory.createGrammar(new FileInputStream(new File(\"%s\")));\n\n" +
             "\t%s.exiFactory.setGrammar(grammar);\n" +
             "}\n" +
