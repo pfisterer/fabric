@@ -48,9 +48,9 @@ public class JAXB extends XMLLibrary
               "marshaller.setProperty(Marshaller.JAXB_ENCODING, \"UTF-8\");\n" +
               "StringWriter xmlDocument = new StringWriter();\n\n" +
               "marshaller.marshal(beanObject, xmlDocument);\n" +
-              "return xmlDocument;";
+              "return xmlDocument.toString();";
 
-	  jm.getBody().appendSource(String.format(methodBody, this.beanClassName.toLowerCase(), this.beanClassName));
+	  jm.getBody().appendSource(String.format(methodBody, this.beanClassName));
 	  jm.setComment(new JMethodCommentImpl("Serialize bean object to XML document."));
 
 	  this.converterClass.add(jm);
@@ -78,8 +78,7 @@ public class JAXB extends XMLLibrary
 	  String methodBody =
 		  	  "JAXBContext context = JAXBContext.newInstance(%s.class);\n" +
 		  	  "Unmarshaller unmarshaller = context.createUnmarshaller();\n" +
-		  	  "%s beanObject = (%s) unmarshaller.unmarshal(xmlDocument);\n" +
-		  	  "return beanObject;";
+		  	  "return (%s) unmarshaller.unmarshal(xmlDocument);";
 
 	  jm.getBody().appendSource(String.format(methodBody, this.beanClassName, this.beanClassName));
 	  jm.setComment(new JMethodCommentImpl("Deserialize XML document to bean object."));
@@ -87,7 +86,7 @@ public class JAXB extends XMLLibrary
 	  this.converterClass.add(jm);
 
 	  // Add required Java imports
-	  this.addRequiredImport("oavax.xml.bind.JAXBContext");
+	  this.addRequiredImport("javax.xml.bind.JAXBContext");
 	  this.addRequiredImport("javax.xml.bind.Unmarshaller");
   }
 }
