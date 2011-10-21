@@ -105,6 +105,15 @@ abstract public class EXILibrary
   }
   
   /**
+   * Helper method to generate code that creates and
+   * initializes framework-specific schema factory objects for the
+   * underlying EXI library, as e.g. EXIFicient or OpenEXI
+   *
+   * @throws Exception Error during code generation
+   */
+  abstract public void generateSchemaFactoryCode() throws Exception;
+  
+  /**
    * Method that creates code to serialize an XML document with EXI.
    *
    * @throws Exception Error during code generation

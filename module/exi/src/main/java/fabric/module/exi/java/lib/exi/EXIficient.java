@@ -29,7 +29,7 @@ public class EXIficient extends EXILibrary
   {
     super(xsdDocumentPath);
 
-    this.generateEXIFactoryCode();
+    this.generateSchemaFactoryCode();
   }
 
   /**
@@ -38,7 +38,7 @@ public class EXIficient extends EXILibrary
    *
    * @throws Exception Error during code generation
    */
-  private void generateEXIFactoryCode() throws Exception
+  public void generateSchemaFactoryCode() throws Exception
   {
     // Create member variable for EXI factory
     JField exiFactory = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC, "EXIFactory", "exiFactory", "null");
