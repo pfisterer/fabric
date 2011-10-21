@@ -4,7 +4,7 @@ package fabric.module.exi.java.lib.xml;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.sun.tools.internal.ws.processor.model.java.JavaParameter;
+//import com.sun.tools.internal.ws.processor.model.java.JavaParameter;
 import de.uniluebeck.sourcegen.java.*;
 
 /**
