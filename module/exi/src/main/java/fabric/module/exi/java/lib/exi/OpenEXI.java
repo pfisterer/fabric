@@ -88,6 +88,7 @@ public class OpenEXI extends EXILibrary
     // Add required Java imports
     this.addRequiredImport("java.io.File");
     this.addRequiredImport("java.io.FileInputStream");
+    this.addRequiredImport("java.io.InputStream");
     this.addRequiredImport("org.openexi.fujitsu.schema.EXISchema");
     this.addRequiredImport("org.openexi.fujitsu.scomp.EXISchemaFactory");
     this.addRequiredImport("org.openexi.fujitsu.proc.grammars.GrammarCache");
@@ -109,10 +110,10 @@ public class OpenEXI extends EXILibrary
 	  
 	  String methodBody = String.format(
 			  "// Prepare objects for serialization\n" +
-			  "OutputStream exiOS = new ByteArrayOutputStream();\n" +
+			  "OutputStream os = new ByteArrayOutputStream();\n" +
 			  "// Parse XML document and serialize\n" +
 			  "try {\n" +
-			  "\t%s.transmogrifier.setOutputStream(exiOS);\n\n" +
+			  "\t%s.transmogrifier.setOutputStream(os);\n\n" +
 			  "\t// Parse XML document and serialize\n" +
 			  "\tInputSource is = new InputSource(new InputStream( new ByteArrayInputStream(xmlDocument.getBytes())));\n" +
 			  "\t%s.transmogrifier.encode(is);\n" +
@@ -121,8 +122,8 @@ public class OpenEXI extends EXILibrary
 			  "\te.printStackTrace();\n" +
 			  "}\n" +
 			  "// Write output to EXI byte stream\n" +
-			  "byte[] result = ((ByteArrayOutputStream)exiOS).toByteArray();\n" +
-			  "exiOS.close();\n\n" +
+			  "byte[] result = ((ByteArrayOutputStream)os).toByteArray();\n" +
+			  "os.close();\n\n" +
 			  "return result;",
 			  this.serializerClass.getName(), this.serializerClass.getName());
 
@@ -132,7 +133,6 @@ public class OpenEXI extends EXILibrary
 	    this.serializerClass.add(jm);
 
 	    // Add required Java imports
-	    this.addRequiredImport("java.io.InputStream");
 	    this.addRequiredImport("java.io.OutputStream");
 	    this.addRequiredImport("java.io.ByteArrayInputStream");
 	    this.addRequiredImport("java.io.ByteArrayOutputStream");
