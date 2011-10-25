@@ -1,4 +1,4 @@
-/** 15.10.2011 23:13 */
+/** 25.10.2011 22:26 */
 package fabric.module.exi.java.lib.xml;
 
 import java.util.ArrayList;
@@ -177,6 +177,7 @@ abstract public class XMLLibrary
             JParameter.factory.create(JModifier.FINAL, "ArrayList<String>", "affectedElements"));
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE, "String",
             "removeValueTags", jms);
+
     String methodBody =
             "try {\n" +
             "\t// Create document\n" +
@@ -227,6 +228,7 @@ abstract public class XMLLibrary
     jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Remove unnecessary value-tags from the XML document."));
 
+    // Add required Java imports
     addRequiredImport("java.io.ByteArrayInputStream");
     addRequiredImport("java.io.StringWriter");
     addRequiredImport("java.util.ArrayList");
@@ -261,6 +263,7 @@ abstract public class XMLLibrary
             JParameter.factory.create(JModifier.FINAL, "ArrayList<String>", "affectedLists"));
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE, "String",
             "addValueTags", jms);
+
     String methodBody =
             "try {\n" +
             "\t// Create document\n" +
@@ -317,6 +320,7 @@ abstract public class XMLLibrary
     jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Add value-tags to the XML document."));
 
+    // Add required Java imports
     addRequiredImport("java.io.ByteArrayInputStream");
     addRequiredImport("java.io.StringWriter");
     addRequiredImport("java.util.ArrayList");
@@ -332,6 +336,6 @@ abstract public class XMLLibrary
     addRequiredImport("org.w3c.dom.Element");
     addRequiredImport("org.w3c.dom.NodeList");
     
-    return null;
+    return jm;
   }
 }

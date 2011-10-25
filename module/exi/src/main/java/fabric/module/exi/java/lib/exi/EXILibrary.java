@@ -103,7 +103,7 @@ abstract public class EXILibrary
 
     return this.serializerClass;
   }
-  
+
   /**
    * Method that creates code to serialize an XML document with EXI.
    *

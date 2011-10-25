@@ -1,4 +1,4 @@
-/** 11.10.2011 14:12 */
+/** 25.10.2011 22:42 */
 package fabric.module.exi.java.lib.exi;
 
 import de.uniluebeck.sourcegen.java.JField;
@@ -13,8 +13,8 @@ import de.uniluebeck.sourcegen.java.JParameter;
  * EXI converter class for the OpenEXI library. This class
  * provides means to create code that de-/serializes XML
  * documents with EXI.
- *
- * @author seidel, widderich
+ * 
+ * @author widderich
  */
 public class OpenEXI extends EXILibrary
 {
@@ -29,7 +29,7 @@ public class OpenEXI extends EXILibrary
   {
     super(xsdDocumentPath);
     
-    this.generateExiSchemaFactoryCode();    
+    this.generateEXISchemaFactoryCode();
   }
 
   /**
@@ -38,19 +38,19 @@ public class OpenEXI extends EXILibrary
    *
    * @throws Exception Error during code generation
    */
-  private void generateExiSchemaFactoryCode() throws Exception
+  private void generateEXISchemaFactoryCode() throws Exception
   {
     // Create member variable for OpenEXI schema factory
     JField schemaFactory = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC, "EXISchemaFactory", "exiSchemaFactory", "new EXISchemaFactory()");
     schemaFactory.setComment(new JFieldCommentImpl("The OpenEXI schema factory member variable."));
     this.serializerClass.add(schemaFactory);
 
-    // Create member variable for OpenExi Transmogrifier
+    // Create member variable for OpenEXI transmogrifier
     JField transmogrifier = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC, "Transmogifier", "transmogifier", "new Transmogifier()");
     transmogrifier.setComment(new JFieldCommentImpl("The OpenEXI transmogifier member variable."));
     this.serializerClass.add(transmogrifier);
     
-    // Create member variable for OpenExi schema
+    // Create member variable for OpenEXI schema
     JField exiSchema = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC, "EXISchema", "exiSchema", "new EXISchema()");
     exiSchema.setComment(new JFieldCommentImpl("The OpenEXI schema member variable."));
     this.serializerClass.add(exiSchema);
@@ -63,7 +63,7 @@ public class OpenEXI extends EXILibrary
     // Initialize OpenEXI schema factory member variable
     this.serializerClass.appendStaticCode(String.format("%s.setupOpenEXISchemaFactory();", this.serializerClass.getName()));
 
-    // Create method for EXI factory setup
+    // Create method for OpenEXI schema factory setup
     JMethod setupOpenEXISchemaFactory = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "setupOpenEXISchemaFactory");
 
     String methodBody = String.format(
@@ -89,12 +89,11 @@ public class OpenEXI extends EXILibrary
     this.addRequiredImport("java.io.File");
     this.addRequiredImport("java.io.FileInputStream");
     this.addRequiredImport("java.io.InputStream");
-    this.addRequiredImport("org.xml.sax.InputSource");
     this.addRequiredImport("org.openexi.fujitsu.schema.EXISchema");
     this.addRequiredImport("org.openexi.fujitsu.scomp.EXISchemaFactory");
     this.addRequiredImport("org.openexi.fujitsu.proc.grammars.GrammarCache");
   }
-  
+
   /**
    * This method generates code to serialize a plain
    * XML document with EXI.
@@ -111,18 +110,22 @@ public class OpenEXI extends EXILibrary
 	  
 	  String methodBody = String.format(
 			  "// Prepare objects for serialization\n" +
-			  "OutputStream exiOS = new ByteArrayOutputStream();\n" +
+			  "OutputStream os = new ByteArrayOutputStream();\n" +
 			  "// Parse XML document and serialize\n" +
-			  "%s.transmogrifier.setOutputStream(exiOS);" +
-			  
-			  
-			  "InputStream xmlIS = new ByteArrayInputStream(xmlDocument.getBytes());\n" +
-	            "xmlReader.parse(new InputSource(xmlIS));\n\n" +
-	            "// Write output to EXI byte stream\n" +
-	            "byte[] result = ((ByteArrayOutputStream)exiOS).toByteArray();\n" +
-	            "exiOS.close();\n\n" +
-	            "return result;",
-	            this.serializerClass.getName());
+			  "try {\n" +
+			  "\t%s.transmogrifier.setOutputStream(os);\n\n" +
+			  "\t// Parse XML document and serialize\n" +
+			  "\tInputSource is = new InputSource(new InputStream( new ByteArrayInputStream(xmlDocument.getBytes())));\n" +
+			  "\t%s.transmogrifier.encode(is);\n" +
+			  "}\n" +
+			  "catch (Exception e) {\n" +
+			  "\te.printStackTrace();\n" +
+			  "}\n" +
+			  "// Write output to EXI byte stream\n" +
+			  "byte[] result = ((ByteArrayOutputStream)os).toByteArray();\n" +
+			  "os.close();\n\n" +
+			  "return result;",
+			  this.serializerClass.getName(), this.serializerClass.getName());
 
 	    jm.getBody().appendSource(methodBody);
 	    jm.setComment(new JMethodCommentImpl("Compress XML document with EXI."));
@@ -130,7 +133,10 @@ public class OpenEXI extends EXILibrary
 	    this.serializerClass.add(jm);
 
 	    // Add required Java imports
-	    this.addRequiredImport("com.siemens.ct.exi.EXIFactory");
+	    this.addRequiredImport("java.io.OutputStream");
+	    this.addRequiredImport("java.io.ByteArrayInputStream");
+	    this.addRequiredImport("java.io.ByteArrayOutputStream");
+	    this.addRequiredImport("org.xml.sax.InputSource");
   }
 
   /**

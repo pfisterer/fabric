@@ -1,4 +1,4 @@
-/** 20.10.2011 15:50 */
+/** 25.10.2011 22:35 */
 package fabric.module.exi.java.lib.exi;
 
 import de.uniluebeck.sourcegen.java.JField;
