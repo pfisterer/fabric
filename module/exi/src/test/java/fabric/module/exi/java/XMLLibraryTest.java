@@ -1,7 +1,6 @@
 package fabric.module.exi.java;
 
 import org.junit.Test;
-import org.junit.Ignore; // TODO: Remove import when unused
 import static org.junit.Assert.*;
 
 import de.uniluebeck.sourcegen.java.JClass;
@@ -43,7 +42,6 @@ public class XMLLibraryTest
    * Test XMLLibrary implementation for the XStream library.
    */
   @Test(timeout = 1000)
-  @Ignore // TODO: Remove line, when XSteam implementation is ready
   public void testXStreamLibrary() throws Exception
   {
     this.testXMLLibrary("fabric.module.exi.java.lib.xml.XStream");
@@ -53,7 +51,6 @@ public class XMLLibraryTest
    * Test XMLLibrary implementation for the JAXB library.
    */
   @Test(timeout = 1000)
-  @Ignore // TODO: Remove line, when JAXB implementation is ready
   public void testJAXBLibrary() throws Exception
   {
     this.testXMLLibrary("fabric.module.exi.java.lib.xml.JAXB");
