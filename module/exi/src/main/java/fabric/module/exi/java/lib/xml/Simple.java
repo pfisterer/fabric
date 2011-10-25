@@ -1,4 +1,4 @@
-/** 20.10.2011 16:42 */
+/** 20.10.2011 23:39 */
 package fabric.module.exi.java.lib.xml;
 
 import de.uniluebeck.sourcegen.java.JMethod;
@@ -75,12 +75,13 @@ public class Simple extends XMLLibrary
     JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, this.beanClassName,
             "xmlToInstance", jms, new String[] { "Exception" });
     
-    String methodBody =
+    String methodBody = String.format(
             "Serializer serializer = new Persister();\n" +
             "%s beanObject = serializer.read(%s.class, xmlDocument);\n\n" +
-            "return beanObject;";
-    
-    jm.getBody().appendSource(String.format(methodBody, this.beanClassName, this.beanClassName));
+            "return beanObject;",
+            this.beanClassName, this.beanClassName);
+
+    jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Deserialize XML document to bean object."));
     
     this.converterClass.add(jm);

@@ -1,4 +1,4 @@
-/** 20.10.2011 16:42 */
+/** 20.10.2011 23:40 */
 package fabric.module.exi.java.lib.xml;
 
 import de.uniluebeck.sourcegen.java.JMethod;
@@ -42,7 +42,7 @@ public class JAXB extends XMLLibrary
     JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, "String",
             "instanceToXML", jms, new String[] { "Exception" });
 
-    String methodBody =
+    String methodBody = String.format(
             "JAXBContext context = JAXBContext.newInstance(%s.class);\n" +
             "Marshaller marshaller = context.createMarshaller();\n" +
             "marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);\n" +
@@ -50,9 +50,10 @@ public class JAXB extends XMLLibrary
             "marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);\n\n" +
             "StringWriter xmlDocument = new StringWriter();\n" +
             "marshaller.marshal(beanObject, xmlDocument);\n\n" +
-            "return xmlDocument.toString();";
+            "return xmlDocument.toString();",
+            this.beanClassName);
 
-    jm.getBody().appendSource(String.format(methodBody, this.beanClassName));
+    jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Serialize bean object to XML document."));
 
     this.converterClass.add(jm);
@@ -77,12 +78,13 @@ public class JAXB extends XMLLibrary
     JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, this.beanClassName,
             "xmlToInstance", jms, new String[] { "Exception" });
 
-    String methodBody =
+    String methodBody = String.format(
             "JAXBContext context = JAXBContext.newInstance(%s.class);\n" +
             "Unmarshaller unmarshaller = context.createUnmarshaller();\n\n" +
-            "return (%s)unmarshaller.unmarshal(new InputSource(new ByteArrayInputStream(xmlDocument.getBytes())));";
+            "return (%s)unmarshaller.unmarshal(new InputSource(new ByteArrayInputStream(xmlDocument.getBytes())));",
+            this.beanClassName, this.beanClassName);
 
-    jm.getBody().appendSource(String.format(methodBody, this.beanClassName, this.beanClassName));
+    jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Deserialize XML document to bean object."));
 
     this.converterClass.add(jm);
