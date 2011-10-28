@@ -24,7 +24,8 @@ public class AnnotationMapper
    * XMLFramework inner class
    *****************************************************************/
 
-  private static final class XMLFramework
+  // TODO: Test implementation and change comments
+  private static abstract class XMLFramework
   {
     /** Name of the framework */
     public String name;
@@ -35,20 +36,56 @@ public class AnnotationMapper
     /** Maps general key to framework-specific annotations */
     public HashMap<String, String[]> annotations;
 
-    /**
-     * Parameterized constructor.
-     *
-     * @param name Name of the framework
-     * @param imports Map of required imports
-     * @param annotations Map of available annotations
-     */
-    public XMLFramework(final String name, final HashMap<String, String[]> imports, final HashMap<String, String[]> annotations)
-    {
-      this.name = name;
-      this.imports = imports;
-      this.annotations = annotations;
-    }
+    // TODO: Change order, so that it complies with order in AttributeContainer
+    abstract public String getRootAnnotation(final String rootName);
+
+    abstract public String getElementAnnotation(final String elementName);
+
+    abstract public String getAttributeAnnotation(final String attributeName);
+
+    abstract public String getEnumAnnotation(final String enumName);
+
+    abstract public String getMainClassListAnnotation(final String listName, final String itemName, final String itemClassName);
+
+    abstract public String getLinkedClassListAnnotation(final String listName, final String listClassName, final String itemName, final String itemClassName);
+
+    abstract public String getArrayAnnotation(final String arrayName, final String arrayClassName, final String itemName, final String itemClassName);
   }
+
+  // TODO: Add comments
+  private static class Simple extends XMLFramework
+  {
+  }
+
+// TODO: Remove when refactoring is done
+//  private static final class XMLFramework
+//  {
+//    /** Name of the framework */
+//    public String name;
+//
+//    /** Maps general key to required, framework-specific imports */
+//    public HashMap<String, String[]> imports;
+//
+//    /** Maps general key to framework-specific annotations */
+//    public HashMap<String, String[]> annotations;
+//
+//    /**
+//     * Parameterized constructor.
+//     *
+//     * @param name Name of the framework
+//     * @param imports Map of required imports
+//     * @param annotations Map of available annotations
+//     */
+//    public XMLFramework(final String name, final HashMap<String, String[]> imports, final HashMap<String, String[]> annotations)
+//    {
+//      this.name = name;
+//      this.imports = imports;
+//      this.annotations = annotations;
+//    }
+//  }
+
+
+  // TODO: Define constants for keys used for annotation lookup
 
   /*****************************************************************
    * AnnotationMapper outer class
@@ -94,128 +131,142 @@ public class AnnotationMapper
     this.usedImports = new ArrayList<String>();
   }
 
-  /**
-   * Static method to initialize map of XML frameworks.
-   *
-   * @return Map of XML frameworks
-   */
   private static Map<String, XMLFramework> initFrameworks()
   {
-    Map<String, XMLFramework> frameworks = new HashMap<String, XMLFramework>();
+    // TODO: Implement method and add comment
 
-    // Add Simple XML library
-    AnnotationMapper.XMLFramework simple = AnnotationMapper.initSimpleFramework();
-    frameworks.put(simple.name, simple);
+    // TODO: Create instance of class Simple and add it to Map
 
-    // Add XStream library
-    AnnotationMapper.XMLFramework xstream = AnnotationMapper.initXStreamFramework();
-    frameworks.put(xstream.name, xstream);
+    // TODO: Do the same for XStream
 
-    // Add JAXB library
-    AnnotationMapper.XMLFramework jaxb = AnnotationMapper.initJAXBFramework();
-    frameworks.put(jaxb.name, jaxb);
+    // TODO: And JAXB
 
-    // Return wrapped map that is unmodifiable
-    return Collections.unmodifiableMap(frameworks);
+    return null; // TODO: Return Map, not null
   }
 
-  /**
-   * Static method to initialize mapping for Simple XML library.
-   *
-   * Link: http://simple.sourceforge.net
-   *
-   * @return Mapping for Simple XML library
-   */
-  private static AnnotationMapper.XMLFramework initSimpleFramework()
-  {
-    HashMap<String, String[]> imports = new HashMap<String, String[]>();
-    imports.put("root", new String[] { "org.simpleframework.xml.Root" });
-    imports.put("attribute", new String[] { "org.simpleframework.xml.Attribute" });
-    imports.put("element", new String[] { "org.simpleframework.xml.Element" });
-    imports.put("elementArray", new String[] { "org.simpleframework.xml.ElementList" });
-    imports.put("elementList", new String[] { "org.simpleframework.xml.ElementList" });
-    imports.put("enum", new String[] { "org.simpleframework.xml.Element" });
-
-    HashMap<String, String[]> annotations = new HashMap<String, String[]>();
-    annotations.put("root", new String[] { "Root(name = \"%s\")" });
-    annotations.put("attribute", new String[] { "Attribute" });
-    annotations.put("element", new String[] { "Element" });
-    annotations.put("elementArray", new String[] { "ElementList(inline = true, entry = \"%s\")" });
-    annotations.put("elementList", new String[] { "ElementList" });
-    annotations.put("enum", new String[] { "Element" });
-
-    return new AnnotationMapper.XMLFramework("Simple", imports, annotations);
-  }
-
-  /**
-   * Static method to initialize mapping for XStream XML library.
-   *
-   * Link: http://xstream.codehaus.org
-   *
-   * @return Mapping for XStream XML library
-   */
-  private static AnnotationMapper.XMLFramework initXStreamFramework()
-  {
-    HashMap<String, String[]> imports = new HashMap<String, String[]>();
-    imports.put("root", new String[] { "com.thoughtworks.xstream.annotations.XStreamAlias" });
-    imports.put("attribute", new String[] { "com.thoughtworks.xstream.annotations.XStreamAsAttribute" });
-    imports.put("element", new String[] { "com.thoughtworks.xstream.annotations.XStreamAlias" });
-    imports.put("elementArray", new String[] { "com.thoughtworks.xstream.annotations.XStreamImplicit" });
-    imports.put("elementList", new String[] { "com.thoughtworks.xstream.annotations.XStreamImplicit" });
-    imports.put("enum", new String[] { "com.thoughtworks.xstream.annotations.XStreamAlias" });
-
-    HashMap<String, String[]> annotations = new HashMap<String, String[]>();
-    annotations.put("root", new String[] { "XStreamAlias(\"%s\")" });
-    annotations.put("attribute", new String[] { "XStreamAsAttribute" });
-    annotations.put("element", new String[] { "XStreamAlias(\"%s\")" });
-    annotations.put("elementArray", new String[] { "XStreamImplicit(itemFieldName = \"%s\")" });
-    annotations.put("elementList", new String[] { "XStreamImplicit(itemFieldName = \"%s\")" });
-    annotations.put("enum", new String[] { "XStreamAlias(\"%s\")" });
-
-    return new AnnotationMapper.XMLFramework("XStream", imports, annotations);
-  }
-
-  /**
-   * Static method to initialize mapping for JAXB XML library.
-   *
-   * Link: http://jaxb.java.net
-   *
-   * @return Mapping for JAXB XML library
-   */
-  private static AnnotationMapper.XMLFramework initJAXBFramework()
-  {
-    HashMap<String, String[]> imports = new HashMap<String, String[]>();
-    imports.put("root", new String[] {
-      "javax.xml.bind.annotation.XmlRootElement",
-      "javax.xml.bind.annotation.XmlAccessorType",
-      "javax.xml.bind.annotation.XmlAccessType"
-    });
-    imports.put("attribute", new String[] { "javax.xml.bind.annotation.XmlAttribute" });
-    imports.put("element", new String[] { "javax.xml.bind.annotation.XmlElement" });
-    imports.put("elementArray", new String[] { "javax.xml.bind.annotation.XmlList" });
-    imports.put("elementList", new String[] { "javax.xml.bind.annotation.XmlList" });
-    imports.put("enum", new String[] {
-      "javax.xml.bind.annotation.XmlEnum",
-      "javax.xml.bind.annotation.XmlAccessorType",
-      "javax.xml.bind.annotation.XmlAccessType"
-    });
-
-    HashMap<String, String[]> annotations = new HashMap<String, String[]>();
-    annotations.put("root", new String[] {
-      "XmlRootElement(name = \"%s\")",
-      "XmlAccessorType(XmlAccessType.NONE)"
-    });
-    annotations.put("attribute", new String[] { "XmlAttribute" });
-    annotations.put("element", new String[] { "XmlElement" });
-    annotations.put("elementArray", new String[] { "XmlElements(value = @XmlElement(name = \"%s\"))" });
-    annotations.put("elementList", new String[] { "XmlList" });
-    annotations.put("enum", new String[] {
-      "XmlEnum",
-      "XmlAccessorType(XmlAccessType.NONE)"
-    });
-
-    return new AnnotationMapper.XMLFramework("JAXB", imports, annotations);
-  }
+// TODO: Remove unused code later
+//  /**
+//   * Static method to initialize map of XML frameworks.
+//   *
+//   * @return Map of XML frameworks
+//   */
+//  private static Map<String, XMLFramework> initFrameworks()
+//  {
+//    Map<String, XMLFramework> frameworks = new HashMap<String, XMLFramework>();
+//
+//    // Add Simple XML library
+//    AnnotationMapper.XMLFramework simple = AnnotationMapper.initSimpleFramework();
+//    frameworks.put(simple.name, simple);
+//
+//    // Add XStream library
+//    AnnotationMapper.XMLFramework xstream = AnnotationMapper.initXStreamFramework();
+//    frameworks.put(xstream.name, xstream);
+//
+//    // Add JAXB library
+//    AnnotationMapper.XMLFramework jaxb = AnnotationMapper.initJAXBFramework();
+//    frameworks.put(jaxb.name, jaxb);
+//
+//    // Return wrapped map that is unmodifiable
+//    return Collections.unmodifiableMap(frameworks);
+//  }
+//
+//  /**
+//   * Static method to initialize mapping for Simple XML library.
+//   *
+//   * Link: http://simple.sourceforge.net
+//   *
+//   * @return Mapping for Simple XML library
+//   */
+//  private static AnnotationMapper.XMLFramework initSimpleFramework()
+//  {
+//    HashMap<String, String[]> imports = new HashMap<String, String[]>();
+//    imports.put("root", new String[] { "org.simpleframework.xml.Root" });
+//    imports.put("attribute", new String[] { "org.simpleframework.xml.Attribute" });
+//    imports.put("element", new String[] { "org.simpleframework.xml.Element" });
+//    imports.put("elementArray", new String[] { "org.simpleframework.xml.ElementList" });
+//    imports.put("elementList", new String[] { "org.simpleframework.xml.ElementList" });
+//    imports.put("enum", new String[] { "org.simpleframework.xml.Element" });
+//
+//    HashMap<String, String[]> annotations = new HashMap<String, String[]>();
+//    annotations.put("root", new String[] { "Root(name = \"%s\")" });
+//    annotations.put("attribute", new String[] { "Attribute" });
+//    annotations.put("element", new String[] { "Element" });
+//    annotations.put("elementArray", new String[] { "ElementList(inline = true, entry = \"%s\")" });
+//    annotations.put("elementList", new String[] { "ElementList" });
+//    annotations.put("enum", new String[] { "Element" });
+//
+//    return new AnnotationMapper.XMLFramework("Simple", imports, annotations);
+//  }
+//
+//  /**
+//   * Static method to initialize mapping for XStream XML library.
+//   *
+//   * Link: http://xstream.codehaus.org
+//   *
+//   * @return Mapping for XStream XML library
+//   */
+//  private static AnnotationMapper.XMLFramework initXStreamFramework()
+//  {
+//    HashMap<String, String[]> imports = new HashMap<String, String[]>();
+//    imports.put("root", new String[] { "com.thoughtworks.xstream.annotations.XStreamAlias" });
+//    imports.put("attribute", new String[] { "com.thoughtworks.xstream.annotations.XStreamAsAttribute" });
+//    imports.put("element", new String[] { "com.thoughtworks.xstream.annotations.XStreamAlias" });
+//    imports.put("elementArray", new String[] { "com.thoughtworks.xstream.annotations.XStreamImplicit" });
+//    imports.put("elementList", new String[] { "com.thoughtworks.xstream.annotations.XStreamImplicit" });
+//    imports.put("enum", new String[] { "com.thoughtworks.xstream.annotations.XStreamAlias" });
+//
+//    HashMap<String, String[]> annotations = new HashMap<String, String[]>();
+//    annotations.put("root", new String[] { "XStreamAlias(\"%s\")" });
+//    annotations.put("attribute", new String[] { "XStreamAsAttribute" });
+//    annotations.put("element", new String[] { "XStreamAlias(\"%s\")" });
+//    annotations.put("elementArray", new String[] { "XStreamImplicit(itemFieldName = \"%s\")" });
+//    annotations.put("elementList", new String[] { "XStreamImplicit(itemFieldName = \"%s\")" });
+//    annotations.put("enum", new String[] { "XStreamAlias(\"%s\")" });
+//
+//    return new AnnotationMapper.XMLFramework("XStream", imports, annotations);
+//  }
+//
+//  /**
+//   * Static method to initialize mapping for JAXB XML library.
+//   *
+//   * Link: http://jaxb.java.net
+//   *
+//   * @return Mapping for JAXB XML library
+//   */
+//  private static AnnotationMapper.XMLFramework initJAXBFramework()
+//  {
+//    HashMap<String, String[]> imports = new HashMap<String, String[]>();
+//    imports.put("root", new String[] {
+//      "javax.xml.bind.annotation.XmlRootElement",
+//      "javax.xml.bind.annotation.XmlAccessorType",
+//      "javax.xml.bind.annotation.XmlAccessType"
+//    });
+//    imports.put("attribute", new String[] { "javax.xml.bind.annotation.XmlAttribute" });
+//    imports.put("element", new String[] { "javax.xml.bind.annotation.XmlElement" });
+//    imports.put("elementArray", new String[] { "javax.xml.bind.annotation.XmlList" });
+//    imports.put("elementList", new String[] { "javax.xml.bind.annotation.XmlList" });
+//    imports.put("enum", new String[] {
+//      "javax.xml.bind.annotation.XmlEnum",
+//      "javax.xml.bind.annotation.XmlAccessorType",
+//      "javax.xml.bind.annotation.XmlAccessType"
+//    });
+//
+//    HashMap<String, String[]> annotations = new HashMap<String, String[]>();
+//    annotations.put("root", new String[] {
+//      "XmlRootElement(name = \"%s\")",
+//      "XmlAccessorType(XmlAccessType.NONE)"
+//    });
+//    annotations.put("attribute", new String[] { "XmlAttribute" });
+//    annotations.put("element", new String[] { "XmlElement" });
+//    annotations.put("elementArray", new String[] { "XmlElements(value = @XmlElement(name = \"%s\"))" });
+//    annotations.put("elementList", new String[] { "XmlList" });
+//    annotations.put("enum", new String[] {
+//      "XmlEnum",
+//      "XmlAccessorType(XmlAccessType.NONE)"
+//    });
+//
+//    return new AnnotationMapper.XMLFramework("JAXB", imports, annotations);
+//  }
 
   /**
    * Get name of XML framework that is currently being used.
