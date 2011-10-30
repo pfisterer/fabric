@@ -1,4 +1,4 @@
-/** 30.10.2011 02:32 */
+/** 30.10.2011 19:11 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
@@ -339,14 +339,10 @@ public class AnnotationMapper
     public AnnotationData[] createListAnnotations(String listName, String itemName, String itemClassName)
     {
       AnnotationData listAnnotation = new AnnotationData(
-              new String[] { "javax.xml.bind.annotation.XmlElement" },
-              String.format("XmlElement(name = \"%s\")", itemName));
-
-      AnnotationData elementWrapperAnnotation = new AnnotationData(
-              new String[] { "	 javax.xml.bind.annotation.XmlElementWrapper" },
-              String.format("XmlElementWrapper(name = \"%s\")", listName));
-
-      return new AnnotationData[] { listAnnotation, elementWrapperAnnotation };
+              new String[] { "javax.xml.bind.annotation.XmlList" },
+              "XmlList");
+      
+      return new AnnotationData[] { listAnnotation };
     }
   }
 
