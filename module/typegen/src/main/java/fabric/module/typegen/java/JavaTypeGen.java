@@ -1,4 +1,4 @@
-/** 20.10.2011 15:16 */
+/** 30.10.2011 02:33 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -539,7 +539,9 @@ public class JavaTypeGen implements TypeGen
         JEnum javaEnum = JEnum.factory.create(JModifier.PUBLIC, type.getName(), constantsAsString);
 
         javaEnum.setComment(new JEnumCommentImpl(String.format("The '%s' enumeration.", type.getName())));
-        for (String annotation: xmlMapper.getAnnotations("enum", type.getName()))
+        
+        // Add annotations
+        for (String annotation: xmlMapper.getEnumAnnotations(type.getName()))
         {
           javaEnum.addAnnotation(new JEnumAnnotationImpl(annotation));
         }

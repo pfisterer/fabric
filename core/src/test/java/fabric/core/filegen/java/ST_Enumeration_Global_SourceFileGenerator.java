@@ -28,7 +28,7 @@ public class ST_Enumeration_Global_SourceFileGenerator extends JSourceFileGenera
          */
         AnnotationMapper mapper = new AnnotationMapper(xmlFramework);
         JEnum carType = JEnum.factory.create(JModifier.PUBLIC, "CarType", "Audi", "Golf", "BMW");
-        for (String annotation: mapper.getAnnotations("enum", carType.getName())) {
+        for (String annotation: mapper.getEnumAnnotations(carType.getName())) {
             carType.addAnnotation(new JEnumAnnotationImpl(annotation));
         }
         types.put(JEnum.factory.create(JModifier.PUBLIC, "CarType", "Audi", "Golf", "BMW"), mapper.getUsedImports());

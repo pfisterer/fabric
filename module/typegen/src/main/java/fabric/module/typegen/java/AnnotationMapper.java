@@ -1,4 +1,4 @@
-/** 20.10.2011 15:20 */
+/** 30.10.2011 02:32 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import java.util.IllegalFormatException;
 import fabric.module.typegen.exceptions.UnsupportedXMLFrameworkException;
 
 /**
@@ -21,32 +20,333 @@ import fabric.module.typegen.exceptions.UnsupportedXMLFrameworkException;
 public class AnnotationMapper
 {
   /*****************************************************************
+   * AnnotationData inner class
+   *****************************************************************/
+  
+  private static final class AnnotationData
+  {
+    /** Required Java imports */
+    private String[] requiredImports;
+
+    /** Textual representation of the annotation */
+    private String annotation;
+    
+    /**
+     * Parameterized constructor.
+     *
+     * @param requiredImports Array of required Java imports
+     * @param annotation Textual representation of the annotation
+     */
+    public AnnotationData(final String[] requiredImports, final String annotation)
+    {
+      this.requiredImports = requiredImports;
+      this.annotation = annotation;
+    }
+  }
+
+  /*****************************************************************
    * XMLFramework inner class
    *****************************************************************/
 
-  private static final class XMLFramework
+  private static abstract class XMLFramework
   {
     /** Name of the framework */
     public String name;
 
-    /** Map general key to required, framework-specific imports */
-    public HashMap<String, String[]> imports;
-
-    /** Map general key to framework-specific annotations */
-    public HashMap<String, String[]> annotations;
+    /**
+     * Create annotation for root of XML document.
+     *
+     * @param rootName Name of the XML root element
+     *
+     * @return AnnotationData for XML root element
+     */
+    abstract public AnnotationData[] createRootAnnotations(final String rootName);
 
     /**
-     * Parameterized constructor.
+     * Create annotation for XML elements.
      *
-     * @param name Name of the framework
-     * @param imports Map of required imports
-     * @param annotations Map of available annotations
+     * @param elementName Name of the XML element
+     *
+     * @return AnnotationData for XML element
      */
-    public XMLFramework(final String name, final HashMap<String, String[]> imports, final HashMap<String, String[]> annotations)
+    abstract public AnnotationData[] createElementAnnotations(final String elementName);
+
+    /**
+     * Create annotation for XML attributes.
+     *
+     * @param attributeName Name of the XML attribute
+     *
+     * @return AnnotationData for XML attribute
+     */
+    abstract public AnnotationData[] createAttributeAnnotations(final String attributeName);
+
+    /**
+     * Create annotation for XML enumeration.
+     *
+     * @param enumName Name of the XML enumeration
+     *
+     * @return AnnotationData for XML enumeration
+     */
+    abstract public AnnotationData[] createEnumAnnotations(final String enumName);
+
+    /**
+     * Create annotation for XML array.
+     *
+     * @param arrayName Name of the XML array
+     * @param arrayClassName Data type of XML array
+     * @param itemName Name of array items (e.g. "value" or "item")
+     * @param itemClassName Data type of array items (usually equal to arrayClassName)
+     *
+     * @return AnnotationData for XML array
+     */
+    abstract public AnnotationData[] createArrayAnnotations(final String arrayName, final String arrayClassName, final String itemName, final String itemClassName);
+
+    /**
+     * Create annotation for XML list.
+     *
+     * @param listName Name of the XML list
+     * @param itemName Name of list item (e.g. "values" or "items")
+     * @param itemClassName Data type of list items
+     *
+     * @return AnnotationData for XML list
+     */
+    abstract public AnnotationData[] createListAnnotations(final String listName, final String itemName, final String itemClassName);
+  }
+
+  /*****************************************************************
+   * Inner class for the Simple XML library
+   *****************************************************************/
+
+  private static class Simple extends XMLFramework
+  {
+    public Simple()
     {
-      this.name = name;
-      this.imports = imports;
-      this.annotations = annotations;
+      this.name = "Simple";
+    }
+    
+    @Override
+    public AnnotationData[] createRootAnnotations(String rootName)
+    {
+      AnnotationData rootAnnotation = new AnnotationData(
+              new String[] { "org.simpleframework.xml.Root" },
+              String.format("Root(name = \"%s\")", rootName));
+      
+      return new AnnotationData[] { rootAnnotation };
+    }
+
+    @Override
+    public AnnotationData[] createElementAnnotations(String elementName)
+    {
+      AnnotationData elementAnnotation = new AnnotationData(
+              new String[] { "org.simpleframework.xml.Element" },
+              "Element");
+      
+      return new AnnotationData[] { elementAnnotation };
+    }
+
+    @Override
+    public AnnotationData[] createAttributeAnnotations(String attributeName)
+    {
+      AnnotationData attributeAnnotation = new AnnotationData(
+              new String[] { "org.simpleframework.xml.Attribute" },
+              "Attribute");
+      
+      return new AnnotationData[] { attributeAnnotation };
+    }
+
+    @Override
+    public AnnotationData[] createEnumAnnotations(String enumName)
+    {
+      AnnotationData enumAnnotation = new AnnotationData(
+              new String[] { "org.simpleframework.xml.Element" },
+              "Element");
+      
+      return new AnnotationData[] { enumAnnotation };
+    }
+    
+    @Override
+    public AnnotationData[] createArrayAnnotations(String arrayName, String arrayClassName, String itemName, String itemClassName)
+    {
+      AnnotationData arrayAnnotation = new AnnotationData(
+              new String[] { "org.simpleframework.xml.ElementList" },
+              String.format("ElementList(inline = true, entry = \"%s\")", itemName));
+
+      return new AnnotationData[] { arrayAnnotation };
+    }
+
+    @Override
+    public AnnotationData[] createListAnnotations(String listName, String itemName, String itemClassName)
+    {
+      AnnotationData listAnnotation = new AnnotationData(
+              new String[] { "org.simpleframework.xml.ElementList" },
+              String.format("ElementList(entry = \"%s\")", itemName));
+      
+      return new AnnotationData[] { listAnnotation };
+    }
+  }
+
+  /*****************************************************************
+   * Inner class for the XStream XML library
+   *****************************************************************/
+  
+  private static class XStream extends XMLFramework
+  {
+    public XStream()
+    {
+      this.name = "XStream";
+    }
+    
+    @Override
+    public AnnotationData[] createRootAnnotations(String rootName)
+    {
+      AnnotationData rootAnnotation = new AnnotationData(
+              new String[] { "com.thoughtworks.xstream.annotations.XStreamAlias" },
+              String.format("XStreamAlias(\"%s\")", rootName));
+      
+      return new AnnotationData[] { rootAnnotation };
+    }
+
+    @Override
+    public AnnotationData[] createElementAnnotations(String elementName)
+    {
+      AnnotationData elementAnnotation = new AnnotationData(
+              new String[] { "com.thoughtworks.xstream.annotations.XStreamAlias" },
+              String.format("XStreamAlias(\"%s\")", elementName));
+      
+      return new AnnotationData[] { elementAnnotation };
+    }
+
+    @Override
+    public AnnotationData[] createAttributeAnnotations(String attributeName)
+    {
+      AnnotationData attributeAnnotation = new AnnotationData(
+              new String[] { "com.thoughtworks.xstream.annotations.XStreamAsAttribute" },
+              "XStreamAsAttribute");
+      
+      return new AnnotationData[] { attributeAnnotation };
+    }
+
+    @Override
+    public AnnotationData[] createEnumAnnotations(String enumName)
+    {
+      AnnotationData enumAnnotation = new AnnotationData(
+              new String[] { "com.thoughtworks.xstream.annotations.XStreamAlias" },
+              String.format("XStreamAlias(\"%s\")", enumName));
+      
+      return new AnnotationData[] { enumAnnotation };
+    }
+
+    @Override
+    public AnnotationData[] createArrayAnnotations(String arrayName, String arrayClassName, String itemName, String itemClassName)
+    {
+      AnnotationData arrayAnnotation = new AnnotationData(
+              new String[] { "com.thoughtworks.xstream.annotations.XStreamImplicit" },
+              "XStreamImplicit");
+      
+      return new AnnotationData[] { arrayAnnotation };
+    }
+    
+    @Override
+    public AnnotationData[] createListAnnotations(String listName, String itemName, String itemClassName)
+    {
+      AnnotationData listAnnotation = new AnnotationData(
+              new String[] { "com.thoughtworks.xstream.annotations.XStreamImplicit" },
+              "XStreamImplicit");
+
+      return new AnnotationData[] { listAnnotation };
+    }
+  }
+
+  /*****************************************************************
+   * Inner class for the JAXB XML library
+   *****************************************************************/
+
+  private static class JAXB extends XMLFramework
+  {
+    public JAXB()
+    {
+      this.name = "JAXB";
+    }
+    
+    @Override
+    public AnnotationData[] createRootAnnotations(String rootName)
+    {
+      AnnotationData rootElementAnnotation = new AnnotationData(
+              new String[] { "javax.xml.bind.annotation.XmlRootElement" },
+              String.format("XmlRootElement(name = \"%s\")", rootName));
+
+      // This will make JAXB ignore setter/getter methods, because
+      // otherwise all data would show up twice in the output
+      AnnotationData accessorTypeAnnotation = new AnnotationData(
+              new String[] {
+                "javax.xml.bind.annotation.XmlAccessorType",
+                "javax.xml.bind.annotation.XmlAccessType"
+              },
+              "XmlAccessorType(XmlAccessType.NONE)");
+
+      return new AnnotationData[] { rootElementAnnotation, accessorTypeAnnotation };
+    }
+
+    @Override
+    public AnnotationData[] createElementAnnotations(String elementName)
+    {
+      AnnotationData elementAnnotation = new AnnotationData(
+              new String[] { "javax.xml.bind.annotation.XmlElement" },
+              "XmlElement");
+      
+      return new AnnotationData[] { elementAnnotation };
+    }
+
+    @Override
+    public AnnotationData[] createAttributeAnnotations(String attributeName)
+    {
+      AnnotationData attributeAnnotation = new AnnotationData(
+              new String[] { "javax.xml.bind.annotation.XmlAttribute" },
+              "XmlAttribute");
+      
+      return new AnnotationData[] { attributeAnnotation };
+    }
+
+    @Override
+    public AnnotationData[] createEnumAnnotations(String enumName)
+    {
+      AnnotationData enumAnnotation = new AnnotationData(
+              new String[] { "javax.xml.bind.annotation.XmlEnum" },
+              "XmlEnum");
+      
+      // This will prevent JAXB from printing data twice
+      AnnotationData accessorTypeAnnotation = new AnnotationData(
+              new String[] {
+                "javax.xml.bind.annotation.XmlAccessorType",
+                "javax.xml.bind.annotation.XmlAccessType"
+              },
+              "XmlAccessorType(XmlAccessType.NONE)");
+      
+      return new AnnotationData[] { enumAnnotation, accessorTypeAnnotation };
+    }
+
+    @Override
+    public AnnotationData[] createArrayAnnotations(String arrayName, String arrayClassName, String itemName, String itemClassName)
+    {
+      AnnotationData arrayAnnotation = new AnnotationData(
+              new String[] { "javax.xml.bind.annotation.XmlElement" },
+              String.format("XmlElement(name = \"%s\")", itemName));
+      
+      return new AnnotationData[] { arrayAnnotation };
+    }
+    
+    @Override
+    public AnnotationData[] createListAnnotations(String listName, String itemName, String itemClassName)
+    {
+      AnnotationData listAnnotation = new AnnotationData(
+              new String[] { "javax.xml.bind.annotation.XmlElement" },
+              String.format("XmlElement(name = \"%s\")", itemName));
+
+      AnnotationData elementWrapperAnnotation = new AnnotationData(
+              new String[] { "	 javax.xml.bind.annotation.XmlElementWrapper" },
+              String.format("XmlElementWrapper(name = \"%s\")", listName));
+
+      return new AnnotationData[] { listAnnotation, elementWrapperAnnotation };
     }
   }
 
@@ -93,7 +393,7 @@ public class AnnotationMapper
     this.usedFramework = usedFramework;
     this.usedImports = new ArrayList<String>();
   }
-
+  
   /**
    * Static method to initialize map of XML frameworks.
    *
@@ -104,117 +404,19 @@ public class AnnotationMapper
     Map<String, XMLFramework> frameworks = new HashMap<String, XMLFramework>();
 
     // Add Simple XML library
-    AnnotationMapper.XMLFramework simple = AnnotationMapper.initSimpleFramework();
+    AnnotationMapper.XMLFramework simple = new AnnotationMapper.Simple();
     frameworks.put(simple.name, simple);
 
     // Add XStream library
-    AnnotationMapper.XMLFramework xstream = AnnotationMapper.initXStreamFramework();
+    AnnotationMapper.XMLFramework xstream = new AnnotationMapper.XStream();
     frameworks.put(xstream.name, xstream);
 
     // Add JAXB library
-    AnnotationMapper.XMLFramework jaxb = AnnotationMapper.initJAXBFramework();
+    AnnotationMapper.XMLFramework jaxb = new AnnotationMapper.JAXB();
     frameworks.put(jaxb.name, jaxb);
 
     // Return wrapped map that is unmodifiable
     return Collections.unmodifiableMap(frameworks);
-  }
-
-  /**
-   * Static method to initialize mapping for Simple XML library.
-   *
-   * Link: http://simple.sourceforge.net
-   *
-   * @return Mapping for Simple XML library
-   */
-  private static AnnotationMapper.XMLFramework initSimpleFramework()
-  {
-    HashMap<String, String[]> imports = new HashMap<String, String[]>();
-    imports.put("root",         new String[] {  "org.simpleframework.xml.Root"          });
-    imports.put("attribute",    new String[] {  "org.simpleframework.xml.Attribute"     });
-    imports.put("element",      new String[] {  "org.simpleframework.xml.Element"       });
-    imports.put("elementArray", new String[] {  "org.simpleframework.xml.ElementList"   });
-    imports.put("mainClassList", new String[] {  "org.simpleframework.xml.ElementList"   });
-    imports.put("linkedClassList", new String[] {  "org.simpleframework.xml.ElementList"   });
-    imports.put("enum",         new String[] {  "org.simpleframework.xml.Element"       });
-
-    HashMap<String, String[]> annotations = new HashMap<String, String[]>();
-    annotations.put("root",         new String[] {  "Root(name = \"%s\")"                           });
-    annotations.put("attribute",    new String[] {  "Attribute"                                     });
-    annotations.put("element",      new String[] {  "Element"                                       });
-    annotations.put("elementArray", new String[] {  "ElementList(inline = true, entry = \"%s\")"    });
-    annotations.put("mainClassList", new String[] {  "ElementList(entry = \"value\")"                });
-    annotations.put("linkedClassList", new String[] {  "ElementList(inline = true, entry = \"value\")" });
-    annotations.put("enum",         new String[] {  "Element"                                       });
-
-    return new AnnotationMapper.XMLFramework("Simple", imports, annotations);
-  }
-
-  /**
-   * Static method to initialize mapping for XStream XML library.
-   *
-   * Link: http://xstream.codehaus.org
-   *
-   * @return Mapping for XStream XML library
-   */
-  private static AnnotationMapper.XMLFramework initXStreamFramework()
-  {
-    HashMap<String, String[]> imports = new HashMap<String, String[]>();
-    imports.put("root",             new String[] {  "com.thoughtworks.xstream.annotations.XStreamAlias"         });
-    imports.put("attribute",        new String[] {  "com.thoughtworks.xstream.annotations.XStreamAsAttribute"   });
-    imports.put("element",          new String[] {  "com.thoughtworks.xstream.annotations.XStreamAlias"         });
-    imports.put("elementArray",     new String[] {  "com.thoughtworks.xstream.annotations.XStreamImplicit"      });
-    imports.put("mainClassList",    new String[] {  "com.thoughtworks.xstream.annotations.XStreamImplicit"      });
-    imports.put("linkedClassList",  new String[] {  "com.thoughtworks.xstream.annotations.XStreamImplicit"      });
-    imports.put("enum",             new String[] {  "com.thoughtworks.xstream.annotations.XStreamAlias"         });
-
-    HashMap<String, String[]> annotations = new HashMap<String, String[]>();
-    annotations.put("root",             new String[] {  "XStreamAlias(\"%s\")"                      });
-    annotations.put("attribute",        new String[] {  "XStreamAsAttribute"                        });
-    annotations.put("element",          new String[] {  "XStreamAlias(\"%s\")"                      });
-    annotations.put("elementArray",     new String[] {  "XStreamImplicit(itemFieldName = \"%s\")"   });
-    annotations.put("mainClassList",    new String[] {  "XStreamImplicit(itemFieldName = \"%s\")"   });
-    annotations.put("linkedClassList",  new String[] {  "XStreamImplicit(itemFieldName = \"%s\")"   });
-    annotations.put("enum",             new String[] {  "XStreamAlias(\"%s\")"                      });
-
-    return new AnnotationMapper.XMLFramework("XStream", imports, annotations);
-  }
-
-  /**
-   * Static method to initialize mapping for JAXB XML library.
-   *
-   * Link: http://jaxb.java.net
-   *
-   * @return Mapping for JAXB XML library
-   */
-  private static AnnotationMapper.XMLFramework initJAXBFramework()
-  {
-    HashMap<String, String[]> imports = new HashMap<String, String[]>();
-    imports.put("root",             new String[] {  "javax.xml.bind.annotation.XmlRootElement",
-                                                    "javax.xml.bind.annotation.XmlAccessorType",
-                                                    "javax.xml.bind.annotation.XmlAccessType"       });
-    imports.put("attribute",        new String[] {  "javax.xml.bind.annotation.XmlAttribute"        });
-    imports.put("element",          new String[] {  "javax.xml.bind.annotation.XmlElement"          });
-    imports.put("elementArray",     new String[] {  "javax.xml.bind.annotation.XmlList"             });
-    imports.put("mainClassList",    new String[] {  "javax.xml.bind.annotation.XmlElementWrapper",
-                                                    "javax.xml.bind.annotation.XmlElement"          });
-    imports.put("linkedClassList",  new String[] {  "javax.xml.bind.annotation.XmlElement"          });
-    imports.put("enum",             new String[] {  "javax.xml.bind.annotation.XmlEnum",
-                                                    "javax.xml.bind.annotation.XmlAccessorType",
-                                                    "javax.xml.bind.annotation.XmlAccessType"       });
-
-    HashMap<String, String[]> annotations = new HashMap<String, String[]>();
-    annotations.put("root",             new String[] {  "XmlRootElement(name = \"%s\")",
-                                                        "XmlAccessorType(XmlAccessType.NONE)"       });
-    annotations.put("attribute",        new String[] {  "XmlAttribute"                              });
-    annotations.put("element",          new String[] {  "XmlElement"                                });
-    annotations.put("elementArray",     new String[] {  "XmlElement(name = \"%s\")"                 });
-    annotations.put("mainClassList",    new String[] {  "XmlElementWrapper(name = \"%s\")",
-                                                        "XmlElement(name = \"value\")"              });
-    annotations.put("linkedClassList",  new String[] {  "XmlElement(name = \"value\")"              });
-    annotations.put("enum",             new String[] {  "XmlEnum",
-                                                        "XmlAccessorType(XmlAccessType.NONE)"       });
-
-    return new AnnotationMapper.XMLFramework("JAXB", imports, annotations);
   }
 
   /**
@@ -236,31 +438,66 @@ public class AnnotationMapper
   {
     return this.usedImports;
   }
-
+  
   /**
-   * Look-up framework-specific Java annotations for the given, general
-   * annotation key. Valid keys are for example "root", "attribute",
-   * "element", "elementArray", "elementList" and "enum" (others may follow).
+   * Private helper method to add a single package to the
+   * list of required Java imports.
    *
-   * @param key General key for annotation look-up
-   *
-   * @return Framework-specific Java annotations or null
+   * @param requiredImport Required Java import
    */
-  public String[] getAnnotations(final String key)
+  private void addUsedImport(final String requiredImport)
   {
-    // Get framework-specific annotations for general key
-    String[] annotations = AnnotationMapper.FRAMEWORKS.get(this.usedFramework).annotations.get(key).clone(); // TODO: Added clone()
-
-    // Add required imports, if this was not done before
-    String requiredImports[] = AnnotationMapper.FRAMEWORKS.get(this.usedFramework).imports.get(key);
+    // Add required import, if this was not done before
+    if (!this.usedImports.contains(requiredImport))
+    {
+      this.usedImports.add(requiredImport);
+    }
+  }
+  
+  /**
+   * Private helper method to add multiple packages to
+   * the list of required Java imports.
+   *
+   * @param requiredImports Array of required Java imports
+   */
+  private void addUsedImports(final String[] requiredImports)
+  {
+    // Add multiple required imports
     if (null != requiredImports)
     {
       for (String requiredImport: requiredImports)
       {
-        if (!this.usedImports.contains(requiredImport))
-        {
-          this.usedImports.add(requiredImport);
-        }
+        this.addUsedImport(requiredImport);
+      }
+    }
+  }
+
+  /**
+   * Private helper method to handle the data that is returned
+   * by the implementations of the XMLFramework interface. The
+   * method tries to add all required Java imports to an internal
+   * list and then returns a String array that contains the
+   * textual representation of all requested annotations.
+   *
+   * @param annotationData AnnotationData from XMLFramework implementation
+   *
+   * @return String array with annotations
+   */
+  private String[] handleAnnotationData(AnnotationData[] annotationData)
+  {
+    String[] annotations = null;
+
+    if (null != annotationData)
+    {
+      annotations = new String[annotationData.length];
+
+      for (int i = 0; i < annotationData.length; ++i)
+      {
+        // Collect required Java imports
+        this.addUsedImports(annotationData[i].requiredImports);
+
+        // Extract all annotation strings
+        annotations[i] = annotationData[i].annotation;
       }
     }
 
@@ -268,41 +505,79 @@ public class AnnotationMapper
   }
 
   /**
-   * Look-up framework-specific Java annotations for the given, general
-   * annotation key. The second parameter can be used to pass a variable
-   * amount of arguments to replace placeholders in the annotation
-   * pattern (e.g. "%s" in "Root(name = "%s")").
+   * Get annotations for root of XML document.
    *
-   * The method will try to replace as many placeholders as possible.
-   * However, if an error occurs, the function will return the pattern
-   * without replacing any placeholders.
+   * @param rootName Name of the XML root element
    *
-   * @param key General key for annotation look-up
-   * @param arguments Arguments to replace placeholders
-   *
-   * @return Framework-specific Java annotations or null
+   * @return Annotations for the XML root element
    */
-  public String[] getAnnotations(final String key, final String... arguments)
+  public String[] getRootAnnotations(final String rootName)
   {
-    String[] annotations = this.getAnnotations(key);
+    return this.handleAnnotationData(AnnotationMapper.FRAMEWORKS.get(this.usedFramework).createRootAnnotations(rootName));
+  }
 
-    if (null != annotations)
-    {
-      for (int i = 0; i < annotations.length; ++i)
-      {
-        // Try to replace any placeholder...
-        try
-        {
-          annotations[i] = String.format(annotations[i], (Object[])arguments);
-        }
-        // ... or return raw pattern in case of error
-        catch (IllegalFormatException e)
-        {
-          // Exception ignored intentionally
-        }
-      }
-    }
+  /**
+   * Get annotations for XML elements.
+   *
+   * @param elementName Name of the XML element
+   *
+   * @return Annotations for the XML element
+   */
+  public String[] getElementAnnotations(final String elementName)
+  {
+    return this.handleAnnotationData(AnnotationMapper.FRAMEWORKS.get(this.usedFramework).createElementAnnotations(elementName));
+  }
 
-    return annotations;
+  /**
+   * Get annotations for XML attributes.
+   *
+   * @param attributeName Name of the XML attribute
+   *
+   * @return Annotations for the XML attribute
+   */
+  public String[] getAttributeAnnotations(final String attributeName)
+  {
+    return this.handleAnnotationData(AnnotationMapper.FRAMEWORKS.get(this.usedFramework).createAttributeAnnotations(attributeName));
+  }
+
+  /**
+   * Get annotations for XML enumerations.
+   *
+   * @param enumName Name of the XML enumeration
+   *
+   * @return Annotations for the XML enumeration
+   */
+  public String[] getEnumAnnotations(final String enumName)
+  {
+    return this.handleAnnotationData(AnnotationMapper.FRAMEWORKS.get(this.usedFramework).createEnumAnnotations(enumName));
+  }
+
+  /**
+   * Get annotations for XML array.
+   *
+   * @param arrayName Name of the XML array
+   * @param arrayClassName Data type of XML array
+   * @param itemName Name of array items (e.g. "value" or "item")
+   * @param itemClassName Data type of array items (usually equal to arrayClassName)
+   * 
+   * @return Annotations for the XML array
+   */
+  public String[] getArrayAnnotations(final String arrayName, final String arrayClassName, final String itemName, final String itemClassName)
+  {
+    return this.handleAnnotationData(AnnotationMapper.FRAMEWORKS.get(this.usedFramework).createArrayAnnotations(arrayName, arrayClassName, itemName, itemClassName));
+  }
+
+  /**
+   * Get annotations for XML lists.
+   *
+   * @param listName Name of the XML list
+   * @param itemName Name of list item (e.g. "values" or "items")
+   * @param itemClassName Data type of list items
+   *
+   * @return Annotations for the XML list
+   */
+  public String[] getListAnnotations(final String listName, final String itemName, final String itemClassName)
+  {
+    return this.handleAnnotationData(AnnotationMapper.FRAMEWORKS.get(this.usedFramework).createListAnnotations(listName, itemName, itemClassName));
   }
 }
