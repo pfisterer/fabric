@@ -369,7 +369,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' element array.", ea.name)));
       
       // Add annotations
-      for (String annotation: this.xmlMapper.getArrayAnnotations(ea.name, ea.type, "values", "ItemType")) // TODO: Check arguments of getArrayAnnotations
+      for (String annotation: this.xmlMapper.getArrayAnnotations(ea.name, ea.type, "value", ea.type))
       {
         jf.addAnnotation(new JFieldAnnotationImpl(annotation));
       }
@@ -397,7 +397,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' element list.", el.name)));
 
       // Add annotations
-      for (String annotation: this.xmlMapper.getMainClassListAnnotations(el.name, "values", "ItemTypeName")) // TODO: Check arguments and handle linkedClassLists as well?
+      for (String annotation: this.xmlMapper.getListAnnotations(el.name, "values", el.type))
       {
         jf.addAnnotation(new JFieldAnnotationImpl(annotation));
       }
