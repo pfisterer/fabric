@@ -8,6 +8,11 @@ import de.uniluebeck.sourcegen.java.JMethodCommentImpl;
 import de.uniluebeck.sourcegen.java.JMethodSignature;
 import de.uniluebeck.sourcegen.java.JModifier;
 import de.uniluebeck.sourcegen.java.JParameter;
+import fabric.module.exi.java.FixValueContainer.ArrayData;
+import fabric.module.exi.java.FixValueContainer.NonSimpleListData;
+import fabric.module.exi.java.FixValueContainer.SimpleListData;
+
+import java.util.ArrayList;
 
 /**
  * Converter class for the XStream XML library. This class
@@ -89,14 +94,31 @@ public class XStream extends XMLLibrary
    * @throws Exception Error during code generation
    */
   @Override
-  public void generateJavaToXMLCode() throws Exception
+  public void generateJavaToXMLCode(final ArrayList<ArrayData> fixArrays,
+                                    final ArrayList<SimpleListData> fixSimpleLists,
+                                    final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, this.beanClassName, "beanObject"));
     JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, "String",
             "instanceToXML", jms, new String[] { "Exception" });
 
-    String methodBody = String.format(
+    String methodBody = "";
+
+    for (ArrayData array : fixArrays) {
+        methodBody += "stream.addImplicitCollection("
+                + array.getArrayType()
+                + ", \"values\", \"value\", "
+                + array.getItemType() + ".class);\n";
+    }
+    for (SimpleListData list : fixSimpleLists) {
+        methodBody += "stream.alias(\"value\", " + list.getItemType() + ".class);\n";
+    }
+    for (NonSimpleListData list : fixNonSimpleLists) {
+        methodBody += "stream.alias(\"value\", " + list.getItemType() + ".class);\n";
+    }
+
+    methodBody += String.format(
             "%s.stream.alias(\"%s\", %s.class);\n\n" +
             "StringWriter xmlDocument = new StringWriter();\n" +
             "BufferedWriter serializer = new BufferedWriter(xmlDocument);\n" +
@@ -123,14 +145,31 @@ public class XStream extends XMLLibrary
    * @throws Exception Error during code generation
    */
   @Override
-  public void generateXMLToInstanceCode() throws Exception
+  public void generateXMLToInstanceCode(final ArrayList<ArrayData> fixArrays,
+                                        final ArrayList<SimpleListData> fixSimpleLists,
+                                        final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
     JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, this.beanClassName,
             "xmlToInstance", jms, new String[] { "Exception" });
+
+    String methodBody = "";
+
+    for (ArrayData array : fixArrays) {
+        methodBody += "stream.addImplicitCollection("
+                + array.getArrayType()
+                + ", \"values\", \"value\", "
+                + array.getItemType() + ".class);\n";
+    }
+    for (SimpleListData list : fixSimpleLists) {
+        methodBody += "stream.alias(\"value\", " + list.getItemType() + ".class);\n";
+    }
+    for (NonSimpleListData list : fixNonSimpleLists) {
+        methodBody += "stream.alias(\"value\", " + list.getItemType() + ".class);\n";
+    }
     
-    String methodBody = String.format(
+    methodBody += String.format(
             "%s.stream.alias(\"%s\", %s.class);\n\n" +
             "return (%s)%s.stream.fromXML(xmlDocument);",
             this.converterClass.getName(), this.beanClassName.toLowerCase(), this.beanClassName, this.beanClassName, this.converterClass.getName());

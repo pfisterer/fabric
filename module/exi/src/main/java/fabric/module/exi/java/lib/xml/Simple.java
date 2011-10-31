@@ -6,6 +6,10 @@ import de.uniluebeck.sourcegen.java.JMethodCommentImpl;
 import de.uniluebeck.sourcegen.java.JMethodSignature;
 import de.uniluebeck.sourcegen.java.JModifier;
 import de.uniluebeck.sourcegen.java.JParameter;
+import fabric.module.exi.java.FixValueContainer.ArrayData;
+import fabric.module.exi.java.FixValueContainer.NonSimpleListData;
+import fabric.module.exi.java.FixValueContainer.SimpleListData;
+import java.util.ArrayList;
 
 /**
  * Converter class for the Simple XML library. This class
@@ -35,7 +39,9 @@ public class Simple extends XMLLibrary
    * @throws Exception Error during code generation
    */
   @Override
-  public void generateJavaToXMLCode() throws Exception
+  public void generateJavaToXMLCode(final ArrayList<ArrayData> fixArrays,
+                                    final ArrayList<SimpleListData> fixSimpleLists,
+                                    final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, this.beanClassName, "beanObject"));
@@ -68,7 +74,9 @@ public class Simple extends XMLLibrary
    * @throws Exception Error during code generation
    */
   @Override
-  public void generateXMLToInstanceCode() throws Exception
+  public void generateXMLToInstanceCode(final ArrayList<ArrayData> fixArrays,
+                                        final ArrayList<SimpleListData> fixSimpleLists,
+                                        final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));

@@ -6,6 +6,10 @@ import de.uniluebeck.sourcegen.java.JMethodCommentImpl;
 import de.uniluebeck.sourcegen.java.JMethodSignature;
 import de.uniluebeck.sourcegen.java.JModifier;
 import de.uniluebeck.sourcegen.java.JParameter;
+import fabric.module.exi.java.FixValueContainer.ArrayData;
+import fabric.module.exi.java.FixValueContainer.NonSimpleListData;
+import fabric.module.exi.java.FixValueContainer.SimpleListData;
+import java.util.ArrayList;
 
 /**
  * Converter class for the JAXB XML library. This class
@@ -35,7 +39,9 @@ public class JAXB extends XMLLibrary
    * @throws Exception Error during code generation
    */
   @Override
-  public void generateJavaToXMLCode() throws Exception
+  public void generateJavaToXMLCode(final ArrayList<ArrayData> fixArrays,
+                                    final ArrayList<SimpleListData> fixSimpleLists,
+                                    final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, this.beanClassName, "beanObject"));
@@ -71,7 +77,9 @@ public class JAXB extends XMLLibrary
    * @throws Exception Error during code generation
    */
   @Override
-  public void generateXMLToInstanceCode() throws Exception
+  public void generateXMLToInstanceCode(final ArrayList<ArrayData> fixArrays,
+                                        final ArrayList<SimpleListData> fixSimpleLists,
+                                        final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
@@ -94,5 +102,78 @@ public class JAXB extends XMLLibrary
     this.addRequiredImport("javax.xml.bind.Unmarshaller");
     this.addRequiredImport("org.xml.sax.InputSource");
     this.addRequiredImport("java.io.ByteArrayInputStream");
+  }
+
+  /**
+   * Private helper method to generate code that removes unnecessary
+   * values-tag and value-tags from a list in an XML document.
+   *
+   * @throws Exception Error during code generation
+   */
+  @Override
+  protected JMethod generateRemoveTagFromList() throws Exception {
+    JMethodSignature jms = JMethodSignature.factory.create(
+            JParameter.factory.create(JModifier.FINAL, "String", "list"),
+            JParameter.factory.create(JModifier.FINAL, "Document", "doc"));
+    JMethod jm = JMethod.factory.create(JModifier.PRIVATE, "void", "removeTagFromList", jms);
+
+    String methodBody_private =
+            "NodeList rootNodes = doc.getElementsByTagName(list);\n" +
+            "for (int i = 0; i < rootNodes.getLength(); i++) {\n" +
+            "\tElement root = (Element) rootNodes.item(i);\n" +
+            "\t// Get all child nodes of root with a value-tag\n" +
+            "\tNodeList children = root.getElementsByTagName(\"values\");\n" +
+            "\tif (children.getLength() == 1) {\n" +
+            "\t\tString newContent = children.item(0).getTextContent();\n"+
+            "\t\t// Remove value-tag from root element\n" +
+            "\t\troot.removeChild(children.item(0));\n" +
+            "\t\troot.setTextContent(newContent);\n" +
+            "\t}\n" +
+            "}";
+
+    jm.getBody().appendSource(methodBody_private);
+    jm.setComment(new JMethodCommentImpl("Remove unnecessary value-tag from the XML element."));
+
+    addRequiredImport("org.w3c.dom.Document");
+    addRequiredImport("org.w3c.dom.Element");
+    addRequiredImport("org.w3c.dom.NodeList");
+
+    return jm;
+  }
+
+  /**
+   * Private helper method to generate code that adds
+   * value-tags to one single list in an XML document.
+   *
+   * @throws Exception Error during code generation
+   */
+  @Override
+  protected JMethod generateAddTagToList() throws Exception {
+    JMethodSignature jms = JMethodSignature.factory.create(
+            JParameter.factory.create(JModifier.FINAL, "String", "list"),
+            JParameter.factory.create(JModifier.FINAL, "Document", "doc"),
+            JParameter.factory.create(JModifier.FINAL, "boolean", "isSimple"));
+    JMethod jm = JMethod.factory.create(JModifier.PRIVATE, "void", "addTagToList", jms);
+
+    String methodBody =
+            "if (! isSimple) {\n" +
+            "\tNodeList rootNodes = doc.getElementsByTagName(list);\n" +
+            "\tfor (int i = 0; i < rootNodes.getLength(); i++) {\n" +
+            "\t\tElement root    = (Element) rootNodes.item(i);\n" +
+            "\t\tElement child   = doc.createElement(\"values\");\n" +
+            "\t\tchild.setTextContent(root.getTextContent());\n" +
+            "\t\troot.removeChild(root.getFirstChild());\n" +
+            "\t\troot.appendChild(child);\n" +
+            "\t}\n"+
+            "}";
+
+    jm.getBody().appendSource(methodBody);
+    jm.setComment(new JMethodCommentImpl("Add values-tag and/or value-tags to the XML list."));
+
+    addRequiredImport("org.w3c.dom.Document");
+    addRequiredImport("org.w3c.dom.Element");
+    addRequiredImport("org.w3c.dom.NodeList");
+
+    return jm;
   }
 }
