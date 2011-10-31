@@ -18,8 +18,9 @@ import de.uniluebeck.sourcegen.java.JParameter;
 public class TestHelper
 {
   /**
-   * Protected helper method to check the existence of a method with
-   * the given properties.
+   * Protected helper method to check the existence of a method with the
+   * given properties. Visibility modifiers must be 'public' and 'static'
+   * on default. Method must throw exception of type 'Exception'.
    *
    * @param classObject JClass object for checking
    * @param methodName Name of method that the class must contain
@@ -28,9 +29,27 @@ public class TestHelper
    */
   protected static void checkMethodExistence(final JClass classObject, final String methodName, final String returnValueType, final String argumentType)
   {
+    TestHelper.checkMethodExistence(classObject, JModifier.PUBLIC | JModifier.STATIC,
+            methodName, returnValueType, argumentType, new String[] { "Exception" });
+  }
+
+  /**
+   * Protected helper method to check the existence of a method with
+   * the given properties.
+   *
+   * @param classObject JClass object for checking
+   * @param modifiers Expected visibility modifiers of method
+   * @param methodName Name of method that the class must contain
+   * @param returnValueType Expected type of return value
+   * @param argumentType Expected type of method argument
+   * @param exceptions Field of expected exceptions that method
+   * throws or null if method does not throw exceptions at all
+   */
+  protected static void checkMethodExistence(final JClass classObject, final int modifiers, final String methodName, final String returnValueType, final String argumentType, final String[] exceptions)
+  {
     // Check if method exists at all
     List<JMethod> methods = classObject.getJMethodsByName(methodName);
-    assertNotNull("List of methods must not be null.", methods);
+    assertNotNull(String.format("Class must contain method with name '%s'.", methodName), methods);
     assertTrue(String.format("Class must contain at least one method named '%s'.", methodName), methods.size() >= 1);
 
     // Check type of method parameter
@@ -41,9 +60,15 @@ public class TestHelper
     assertNotNull("Method parameter must not be null.", parameter);
     assertTrue(String.format("Argument must have type '%s'.", argumentType), parameter.typeEquals(argumentType));
 
-    // Check modifier, return value and throws-statement
-    assertEquals("Modifiers of method must be 'public' and 'static'.", JModifier.PUBLIC | JModifier.STATIC, method.getModifiers());
+    // Check modifiers, return value and throws-statement
+    assertEquals("Modifiers of method must be as expected.", modifiers, method.getModifiers());
     assertEquals(String.format("Type of return value must be '%s'.", returnValueType), returnValueType, method.getReturnType());
-    assertTrue("Method must throw exception of type 'Exception'.", method.containsException("Exception"));
+    if (null != exceptions)
+    {
+      for (String exception: exceptions)
+      {
+        assertTrue(String.format("Method must throw exception of type '%s'.", exception), method.containsException(exception));
+      }
+    }
   }
 }
