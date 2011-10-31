@@ -3,12 +3,17 @@ package fabric.module.exi.java;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JModifier;
+import fabric.module.exi.java.FixValueContainer.ArrayData;
+import fabric.module.exi.java.FixValueContainer.ElementData;
+import fabric.module.exi.java.FixValueContainer.NonSimpleListData;
+import fabric.module.exi.java.FixValueContainer.SimpleListData;
 
 import fabric.module.exi.java.lib.xml.XMLLibrary;
 import fabric.module.exi.java.lib.xml.XMLLibraryFactory;
-import java.util.ArrayList;
 
 /**
  * Unit test for XMLLibrary classes.
@@ -68,10 +73,14 @@ public class XMLLibraryTest
   {
     XMLLibrary xmlLibrary = XMLLibraryFactory.getInstance().createXMLLibrary(xmlLibraryClassName, BEAN_CLASS_NAME);
 
+    // Create empty lists for value-tag fixing
+    ArrayList<ElementData> fixElements = new ArrayList<ElementData>();
+    ArrayList<ArrayData> fixArrays = new ArrayList<ArrayData>();
+    ArrayList<SimpleListData> fixSimpleLists = new ArrayList<SimpleListData>();
+    ArrayList<NonSimpleListData> fixNonSimpleLists = new ArrayList<NonSimpleListData>();
+
     // Check library initialization
-    // TODO: Create lists for all fix*
-    ArrayList<FixValueContainer.ElementData> fixElements = new ArrayList<FixValueContainer.ElementData>();
-    JClass classObject = xmlLibrary.init(fixElements, null, null, null);
+    JClass classObject = xmlLibrary.init(fixElements, fixArrays, fixSimpleLists, fixNonSimpleLists);
     assertNotNull("Returned JClass object must not be null.", classObject);
     assertEquals(String.format("JClass name must be '%sConverter'.", BEAN_CLASS_NAME), BEAN_CLASS_NAME + "Converter", classObject.getName());
 

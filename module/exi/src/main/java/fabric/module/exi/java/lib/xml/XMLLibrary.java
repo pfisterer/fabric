@@ -1,10 +1,15 @@
-/** 25.10.2011 22:26 */
+/** 31.10.2011 19:34 */
 package fabric.module.exi.java.lib.xml;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import de.uniluebeck.sourcegen.java.*;
+
+import fabric.module.exi.java.FixValueContainer.ArrayData;
+import fabric.module.exi.java.FixValueContainer.ElementData;
+import fabric.module.exi.java.FixValueContainer.NonSimpleListData;
+import fabric.module.exi.java.FixValueContainer.SimpleListData;
 
 /**
  * Abstract base class for XML libraries. Derived files
@@ -87,13 +92,21 @@ abstract public class XMLLibrary
    * all methods that the interface defines, in order to create
    * the XML converter class we return eventually.
    *
-   * @param fixElements Elements where value-tags need to be fixed
+   * @param fixElements XML elements, where value-tags need to be fixed
+   * @param fixArrays XML arrays, where value-tags need to be fixed
+   * @param fixSimpleLists XML lists with simple-typed items,
+   * where value-tags need to be fixed
+   * @param fixNonSimpleLists XML lists with non-simple-typed items,
+   * where value-tags need to be fixed
    *
    * @return JClass object with XML converter class
    *
    * @throws Exception Error during code generation
    */
-  public JClass init(final ArrayList<String> fixElements) throws Exception
+  public JClass init(final ArrayList<ElementData> fixElements,
+                     final ArrayList<ArrayData> fixArrays,
+                     final ArrayList<SimpleListData> fixSimpleLists,
+                     final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
   {
     // Generate code for XML serialization
     this.generateJavaToXMLCode();
@@ -102,7 +115,7 @@ abstract public class XMLLibrary
     this.generateXMLToInstanceCode();
 
     // Generate code to fix value-tags
-    this.generateFixValueCode(fixElements);
+    this.generateFixValueCode(fixElements, fixArrays, fixSimpleLists, fixNonSimpleLists);
 
     return this.converterClass;
   }
@@ -143,19 +156,27 @@ abstract public class XMLLibrary
    * So we collect all affected elements while treewalking the
    * XML schema document and only adjust the XML code for those.
    *
-   * @param affectedElements List of elements with value-tag
+   * @param fixElements XML elements, where value-tags need to be fixed
+   * @param fixArrays XML arrays, where value-tags need to be fixed
+   * @param fixSimpleLists XML lists with simple-typed items,
+   * where value-tags need to be fixed
+   * @param fixNonSimpleLists XML lists with non-simple-typed items,
+   * where value-tags need to be fixed
    *
    * @throws Exception Error during code generation
    */
-  public void generateFixValueCode(final ArrayList<String> affectedElements) throws Exception
+  public void generateFixValueCode(final ArrayList<ElementData> fixElements,
+                                   final ArrayList<ArrayData> fixArrays,
+                                   final ArrayList<SimpleListData> fixSimpleLists,
+                                   final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
   {
-    JMethod removeValueTags = this.generateRemoveValueTags(affectedElements);
+    JMethod removeValueTags = this.generateRemoveValueTags(fixElements, fixArrays, fixSimpleLists, fixNonSimpleLists);
     if (null != removeValueTags)
     {
       this.converterClass.add(removeValueTags);
     }
 
-    JMethod addValueTags = this.generateAddValueTags(affectedElements);
+    JMethod addValueTags = this.generateAddValueTags(fixElements, fixArrays, fixSimpleLists, fixNonSimpleLists);
     if (null != addValueTags)
     {
       this.converterClass.add(addValueTags);
@@ -166,12 +187,54 @@ abstract public class XMLLibrary
    * Private helper method to generate code that removes unnecessary
    * value-tags from XML documents.
    * 
-   * @param affectedElements List of elements with value-tag
+   * @param fixElements XML elements, where value-tags need to be fixed
+   * @param fixArrays XML arrays, where value-tags need to be fixed
+   * @param fixSimpleLists XML lists with simple-typed items,
+   * where value-tags need to be fixed
+   * @param fixNonSimpleLists XML lists with non-simple-typed items,
+   * where value-tags need to be fixed
    *
    * @throws Exception Error during code generation
    */
-  private JMethod generateRemoveValueTags(final ArrayList<String> affectedElements) throws Exception
+  private JMethod generateRemoveValueTags(final ArrayList<ElementData> fixElements,
+                                          final ArrayList<ArrayData> fixArrays,
+                                          final ArrayList<SimpleListData> fixSimpleLists,
+                                          final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
   {
+    // TODO: Remove this block after test BEGIN
+    for (ElementData ed: fixElements)
+    {
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> " + ed.getName());
+    }
+
+    for (ArrayData ad: fixArrays)
+    {
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> " +
+              ad.getArrayName() + ", " +
+              ad.getArrayType() + ", " +
+              ad.getItemName() + ", " +
+              ad.getItemType());
+    }
+
+    for (SimpleListData sld: fixSimpleLists)
+    {
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> " +
+              sld.getListName() + ", " +
+              sld.getListType() + ", " +
+              sld.getItemName() + ", " +
+              sld.getItemType());
+    }
+
+    for (NonSimpleListData nsld: fixNonSimpleLists)
+    {
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> " +
+              nsld.getListName() + ", " +
+              nsld.getListType() + ", " +
+              nsld.getItemName() + ", " +
+              nsld.getItemType());
+    }
+    // TODO: Remove this block after test END
+
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"),
             JParameter.factory.create(JModifier.FINAL, "ArrayList<String>", "affectedElements"));
@@ -251,11 +314,19 @@ abstract public class XMLLibrary
    * Private helper method to generate code that adds value-tags
    * to XML documents.
    * 
-   * @param affectedElements List of elements with value-tag
+   * @param fixElements XML elements, where value-tags need to be fixed
+   * @param fixArrays XML arrays, where value-tags need to be fixed
+   * @param fixSimpleLists XML lists with simple-typed items,
+   * where value-tags need to be fixed
+   * @param fixNonSimpleLists XML lists with non-simple-typed items,
+   * where value-tags need to be fixed
    *
    * @throws Exception Error during code generation
    */
-  private JMethod generateAddValueTags(final ArrayList<String> affectedElements) throws Exception
+  private JMethod generateAddValueTags(final ArrayList<ElementData> fixElements,
+                                       final ArrayList<ArrayData> fixArrays,
+                                       final ArrayList<SimpleListData> fixSimpleLists,
+                                       final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"),

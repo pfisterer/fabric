@@ -1,4 +1,4 @@
-/** 11.10.2011 13:35 */
+/** 31.10.2011 19:25 */
 package fabric.module.exi;
 
 import org.slf4j.Logger;
@@ -11,11 +11,15 @@ import de.uniluebeck.sourcegen.Workspace;
 import fabric.module.api.FabricDefaultHandler;
 
 import fabric.wsdlschemaparser.schema.FSchema;
-
-import fabric.module.exi.base.EXICodeGen;
 import fabric.wsdlschemaparser.schema.FElement;
 import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
 import fabric.wsdlschemaparser.schema.FSimpleType;
+
+import fabric.module.exi.base.EXICodeGen;
+import fabric.module.exi.java.FixValueContainer.ArrayData;
+import fabric.module.exi.java.FixValueContainer.ElementData;
+import fabric.module.exi.java.FixValueContainer.NonSimpleListData;
+import fabric.module.exi.java.FixValueContainer.SimpleListData;
 
 /**
  * Fabric handler class for the EXI module. This class defines
@@ -34,8 +38,17 @@ public class FabricEXIHandler extends FabricDefaultHandler
   /** EXICodeGen object for EXI class generation */
   private EXICodeGen exiGenerator;
   
-  /** List of elements where value-tags need to be fixed */
-  private ArrayList<String> fixElements;
+  /** List of XML elements, where value-tags need to be fixed */
+  private ArrayList<ElementData> fixElements;
+  
+  /** List of XML arrays, where value-tags need to be fixed */
+  private ArrayList<ArrayData> fixArrays;
+
+  /** List of XML lists with simple-typed items, where value-tags need to be fixed */
+  private ArrayList<SimpleListData> fixSimpleLists;
+
+  /** List of XML lists with non-simple-typed items, where value-tags need to be fixed */
+  private ArrayList<NonSimpleListData> fixNonSimpleLists;
 
   /**
    * Constructor initializes the language-specific EXI code generator.
@@ -49,8 +62,11 @@ public class FabricEXIHandler extends FabricDefaultHandler
   {
     this.exiGenerator = EXICodeGenFactory.getInstance().createEXICodeGen(
             properties.getProperty(FabricEXIModule.EXICODEGEN_NAME_KEY), workspace, properties);
-    
-    this.fixElements = new ArrayList<String>();
+
+    this.fixElements = new ArrayList<ElementData>();
+    this.fixArrays = new ArrayList<ArrayData>();
+    this.fixSimpleLists = new ArrayList<SimpleListData>();
+    this.fixNonSimpleLists = new ArrayList<NonSimpleListData>();
   }
 
   /**
@@ -71,7 +87,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
     // TODO: Check second condition
     if (null != type && !FSchemaTypeHelper.isList(type))
     {
-      this.fixElements.add(type.getName());
+      this.fixElements.add(new ElementData(type.getName()));
     }
   }
 
@@ -89,7 +105,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called endSchema().");
 
-    this.exiGenerator.generateCode(this.fixElements);
+    this.exiGenerator.generateCode(this.fixElements, this.fixArrays, this.fixSimpleLists, this.fixNonSimpleLists);
     this.exiGenerator.writeSourceFile();
   }
 }

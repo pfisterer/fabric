@@ -19,6 +19,10 @@ import de.uniluebeck.sourcegen.java.JSourceFile;
 
 import fabric.module.exi.FabricEXIModule;
 import fabric.module.exi.base.EXICodeGen;
+import fabric.module.exi.java.FixValueContainer.ArrayData;
+import fabric.module.exi.java.FixValueContainer.ElementData;
+import fabric.module.exi.java.FixValueContainer.NonSimpleListData;
+import fabric.module.exi.java.FixValueContainer.SimpleListData;
 
 /**
  * EXI code generator for Java.
@@ -88,12 +92,20 @@ public class JavaEXICodeGen implements EXICodeGen
   /**
    * Generate code to serialize and deserialize Bean objects with EXI.
    * 
-   * @param fixElements Elements where value-tags need to be fixed
+   * @param fixElements XML elements, where value-tags need to be fixed
+   * @param fixArrays XML arrays, where value-tags need to be fixed
+   * @param fixSimpleLists XML lists with simple-typed items,
+   * where value-tags need to be fixed
+   * @param fixNonSimpleLists XML lists with non-simple-typed items,
+   * where value-tags need to be fixed
    *
    * @throws Exception Error during code generation
    */
   @Override
-  public void generateCode(final ArrayList<String> fixElements) throws Exception
+  public void generateCode(ArrayList<ElementData> fixElements,
+                           ArrayList<ArrayData> fixArrays,
+                           ArrayList<SimpleListData> fixSimpleLists,
+                           ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
   {
     /*****************************************************************
      * Create main function for application
@@ -119,7 +131,7 @@ public class JavaEXICodeGen implements EXICodeGen
     LOGGER.debug(String.format("Generated new source file '%s' for XML converter.", this.converterClassName));
 
     // Create XML converter class
-    beanConverter.generateConverterClass(jsf, fixElements);
+    beanConverter.generateConverterClass(jsf, fixElements, fixArrays, fixSimpleLists, fixNonSimpleLists);
     
     // Create method for XML serialization
     JMethod xmlSerialize = beanConverter.generateSerializeCall();
