@@ -99,7 +99,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
     // Element is of simple type and not a list
     if (null != type && !FSchemaTypeHelper.isList(type))
     {
-      this.fixElements.add(new ElementData(type.getName()));
+      this.fixElements.add(new ElementData(parent.getName()));
     }
   }
 
@@ -190,12 +190,12 @@ public class FabricEXIHandler extends FabricDefaultHandler
         LOGGER.debug("######################################## Fixing array within compley type."); // TODO: Remove
         this.fixArrays.add(new ArrayData(element.getName(), typeName, "values", typeName));
       }
-// TODO: We don't need these, since their are of built-in type?      
-//      else
-//      {
-//        LOGGER.debug("######################################## Fixing local element within complex type."); // TODO: Remove
-//        this.fixElements.add(new ElementData(element.getName()));
-//      }
+      // TODO: Do we need to collect local elements of complex types as well?
+      else
+      {
+        LOGGER.debug("######################################## Fixing local element within complex type."); // TODO: Remove
+        this.fixElements.add(new ElementData(element.getName()));
+      }
     }
   }
 }

@@ -1,4 +1,4 @@
-/** 03.11.2011 13:49 */
+/** 03.11.2011 14:30 */
 package fabric.module.exi.java;
 
 /**
@@ -23,7 +23,7 @@ abstract public class FixValueContainer
     /**
      * Parameterized constructor.
      * 
-     * @param name  Name of the XML element
+     * @param name Name of the XML element
      */
     public ElementData(final String name)
     {
@@ -59,16 +59,16 @@ abstract public class FixValueContainer
   {
     /** Name of the XML array */
     private String arrayName;
-    
+
     /** Type of the XML array */
     private String arrayType;
-    
+
     /** Name of the array items */
     private String itemName;
-    
-    /** Type of the array items (usually equal array type) */
+
+    /** Type of the array items (usually equal to array type) */
     private String itemType;
-    
+
     /**
      * Parameterized constructor.
      * 
@@ -84,7 +84,7 @@ abstract public class FixValueContainer
       this.itemName = itemName;
       this.itemType = itemType;
     }
-    
+
     /**
      * Set name of the XML array.
      * 
@@ -94,7 +94,7 @@ abstract public class FixValueContainer
     {
       this.arrayName = arrayName;
     }
-    
+
     /**
      * Get name of the XML array.
      * 
@@ -104,7 +104,7 @@ abstract public class FixValueContainer
     {
       return arrayName;
     }
-    
+
     /**
      * Set type of the XML array.
      * 
@@ -114,7 +114,7 @@ abstract public class FixValueContainer
     {
       this.arrayType = arrayType;
     }
-    
+
     /**
      * Get type of the XML array.
      * 
@@ -124,7 +124,7 @@ abstract public class FixValueContainer
     {
       return arrayType;
     }
-    
+
     /**
      * Set name of the array items.
      * 
@@ -134,7 +134,7 @@ abstract public class FixValueContainer
     {
       this.itemName = itemName;
     }
-    
+
     /**
      * Get name of the array items.
      * 
@@ -144,7 +144,7 @@ abstract public class FixValueContainer
     {
       return itemName;
     }
-    
+
     /**
      * Set type of the array items (usually equal to array type).
      * 
@@ -154,7 +154,7 @@ abstract public class FixValueContainer
     {
       this.itemType = itemType;
     }
-    
+
     /**
      * Get type of the array items.
      * 
@@ -165,7 +165,7 @@ abstract public class FixValueContainer
       return itemType;
     }
   }
-  
+
   /*****************************************************************
    * ListData inner class
    *****************************************************************/
@@ -174,16 +174,13 @@ abstract public class FixValueContainer
   {
     /** Name of the XML list */
     protected String listName;
-    
+
     /** Type of the XML list */
     protected String listType;
-    
-    /** Name of the list items */
-    protected String itemName; // TODO: Do we need this? Lists don't have item tags.
-    
+
     /** Type of the list items */
     protected String itemType;
-    
+
     /**
      * Set name of the XML list.
      * 
@@ -193,7 +190,7 @@ abstract public class FixValueContainer
     {
       this.listName = listName;
     }
-    
+
     /**
      * Get name of the XML list.
      * 
@@ -203,7 +200,7 @@ abstract public class FixValueContainer
     {
       return listName;
     }
-    
+
     /**
      * Set type of the XML list.
      * 
@@ -213,7 +210,7 @@ abstract public class FixValueContainer
     {
       this.listType = listType;
     }
-    
+
     /**
      * Get type of the XML list.
      * 
@@ -223,41 +220,21 @@ abstract public class FixValueContainer
     {
       return listType;
     }
-    
-    /**
-     * Set name of the list items.
-     * 
-     * @param itemName Name of the list items
-     */
-    public void setItemName(String itemName)
-    {
-      this.itemName = itemName;
-    }
-    
-    /**
-     * Get name of the list items.
-     * 
-     * @return Name of the list items
-     */
-    public String getItemName()
-    {
-      return itemName;
-    }
-    
+
     /**
      * Set type of the list items.
      * 
-     * @param itemType Name of the list items
+     * @param itemType Type of the list items
      */
     public void setItemType(String itemType)
     {
       this.itemType = itemType;
     }
-    
+
     /**
-     * Get name of the list items.
+     * Get type of the list items.
      * 
-     * @return Name of the list items
+     * @return Type of the list items
      */
     public String getItemType()
     {
@@ -269,7 +246,7 @@ abstract public class FixValueContainer
    * SimpleListData inner class
    *****************************************************************/
   
-  // XML list with simple typed elements (e.g. xs:short or xs:string)
+  // XML list with simple-typed items (e.g. xs:short or xs:string)
   public static class SimpleListData extends ListData
   {
     /**
@@ -277,14 +254,12 @@ abstract public class FixValueContainer
      * 
      * @param name Name of the XML list
      * @param type Type of the XML list
-     * @param itemName Name of the list items
      * @param itemType Type of the list items
      */
-    public SimpleListData(final String name, final String type, final String itemName, final String itemType)
+    public SimpleListData(final String name, final String type, final String itemType)
     {
       this.listName = name;
       this.listType = type;
-      this.itemName = itemName;
       this.itemType = itemType;
     }
   }
@@ -293,7 +268,7 @@ abstract public class FixValueContainer
    * NonSimpleListData inner class
    *****************************************************************/
   
-  // XML list with non-simple typed elements (item type has its own class, e.g. MyString)
+  // XML list with non-simple-typed items (item type has its own class, e.g. MyString)
   public static class NonSimpleListData extends ListData
   {
     /**
@@ -301,14 +276,12 @@ abstract public class FixValueContainer
      * 
      * @param name Name of the XML list
      * @param type Type of the XML list
-     * @param itemName Name of the list items
      * @param itemType Type of the list items
      */
-    public NonSimpleListData(final String name, final String type, final String itemName, final String itemType)
+    public NonSimpleListData(final String name, final String type, final String itemType)
     {
       this.listName = name;
       this.listType = type;
-      this.itemName = itemName;
       this.itemType = itemType;
     }
   }

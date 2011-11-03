@@ -233,7 +233,6 @@ abstract public class XMLLibrary
       System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> SimpleList: " +
               sld.getListName() + ", " +
               sld.getListType() + ", " +
-              sld.getItemName() + ", " +
               sld.getItemType());
     }
 
@@ -242,7 +241,6 @@ abstract public class XMLLibrary
       System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> NonSimpleList: " +
               nsld.getListName() + ", " +
               nsld.getListType() + ", " +
-              nsld.getItemName() + ", " +
               nsld.getItemType());
     }
     // TODO: Remove this block after test END
