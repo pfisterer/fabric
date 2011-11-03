@@ -216,12 +216,12 @@ abstract public class XMLLibrary
     // TODO: Remove this block after test BEGIN
     for (ElementData ed: fixElements)
     {
-      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> " + ed.getName());
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> Element: " + ed.getName());
     }
 
     for (ArrayData ad: fixArrays)
     {
-      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> " +
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> Array: " +
               ad.getArrayName() + ", " +
               ad.getArrayType() + ", " +
               ad.getItemName() + ", " +
@@ -230,7 +230,7 @@ abstract public class XMLLibrary
 
     for (SimpleListData sld: fixSimpleLists)
     {
-      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> " +
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> SimpleList: " +
               sld.getListName() + ", " +
               sld.getListType() + ", " +
               sld.getItemName() + ", " +
@@ -239,7 +239,7 @@ abstract public class XMLLibrary
 
     for (NonSimpleListData nsld: fixNonSimpleLists)
     {
-      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> " +
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> NonSimpleList: " +
               nsld.getListName() + ", " +
               nsld.getListType() + ", " +
               nsld.getItemName() + ", " +

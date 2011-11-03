@@ -43,6 +43,7 @@ public class AttributeContainer
   /*****************************************************************
    * Builder inner class
    *****************************************************************/
+  
   public static final class Builder
   {
     /** Name of the container class */

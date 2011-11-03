@@ -1,4 +1,4 @@
-/** 30.10.2011 02:33 */
+/** 03.11.2011 13:25 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -91,7 +91,7 @@ public class JavaTypeGen implements TypeGen
    */
   public JavaTypeGen(Workspace workspace, Properties properties) throws Exception
   {
-    mapper = MapperFactory.getInstance().createMapper(properties.getProperty(FabricTypeGenModule.MAPPER_CLASS_KEY));
+    this.mapper = MapperFactory.getInstance().createMapper(properties.getProperty(FabricTypeGenModule.MAPPER_CLASS_KEY));
 
     this.workspace = workspace;
     this.properties = properties;
@@ -190,13 +190,13 @@ public class JavaTypeGen implements TypeGen
       {
         FList listType = (FList)type;
         newBuilder.addElementList(
-                this.mapper.lookup(this.getFabricTypeName(listType.getItemType())), "values",
+                this.mapper.lookup(JavaTypeGen.getFabricTypeName(listType.getItemType())), "values",
                 FSchemaTypeHelper.getMinLength(listType), FSchemaTypeHelper.getMaxLength(listType));
       }
       // ... or a single value
       else
       {
-        newBuilder.addElement(this.mapper.lookup(this.getFabricTypeName(type)),
+        newBuilder.addElement(this.mapper.lookup(JavaTypeGen.getFabricTypeName(type)),
                 "value", this.createRestrictions(type));
       }
       this.incompleteBuilders.push(newBuilder);
@@ -266,7 +266,7 @@ public class JavaTypeGen implements TypeGen
       // Element is XSD base type (e.g. xs:string, xs:short, ...)
       if (SchemaHelper.isBuiltinTypedElement(element))
       {
-        typeName = this.mapper.lookup(this.getFabricTypeName(element.getSchemaType()));
+        typeName = this.mapper.lookup(JavaTypeGen.getFabricTypeName(element.getSchemaType()));
         LOGGER.debug(String.format("Type '%s' is an XSD built-in type.", typeName));
       }
       // Element is custom type (e.g. some XSD base type itm:Simple02)
@@ -561,7 +561,7 @@ public class JavaTypeGen implements TypeGen
    *
    * @return Simple class name of type object
    */
-  private String getFabricTypeName(final FSchemaType type)
+  public static String getFabricTypeName(final FSchemaType type)
   {
     return type.getClass().getSimpleName();
   }

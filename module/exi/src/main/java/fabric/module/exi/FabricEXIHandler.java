@@ -10,10 +10,17 @@ import java.util.Properties;
 import de.uniluebeck.sourcegen.Workspace;
 import fabric.module.api.FabricDefaultHandler;
 
-import fabric.wsdlschemaparser.schema.FSchema;
+import fabric.wsdlschemaparser.schema.FComplexType;
 import fabric.wsdlschemaparser.schema.FElement;
+import fabric.wsdlschemaparser.schema.FSchema;
 import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
 import fabric.wsdlschemaparser.schema.FSimpleType;
+import fabric.wsdlschemaparser.schema.SchemaHelper;
+
+import fabric.module.typegen.base.Mapper;
+import fabric.module.typegen.MapperFactory;
+import fabric.module.typegen.FabricTypeGenModule;
+import fabric.module.typegen.java.JavaTypeGen;
 
 import fabric.module.exi.base.EXICodeGen;
 import fabric.module.exi.java.FixValueContainer.ArrayData;
@@ -37,10 +44,13 @@ public class FabricEXIHandler extends FabricDefaultHandler
 
   /** EXICodeGen object for EXI class generation */
   private EXICodeGen exiGenerator;
-  
+
+  /** Mapper object for simple data types */
+  private Mapper mapper;
+
   /** List of XML elements, where value-tags need to be fixed */
   private ArrayList<ElementData> fixElements;
-  
+
   /** List of XML arrays, where value-tags need to be fixed */
   private ArrayList<ArrayData> fixArrays;
 
@@ -63,6 +73,8 @@ public class FabricEXIHandler extends FabricDefaultHandler
     this.exiGenerator = EXICodeGenFactory.getInstance().createEXICodeGen(
             properties.getProperty(FabricEXIModule.EXICODEGEN_NAME_KEY), workspace, properties);
 
+    this.mapper = MapperFactory.getInstance().createMapper(properties.getProperty(FabricTypeGenModule.MAPPER_CLASS_KEY));
+
     this.fixElements = new ArrayList<ElementData>();
     this.fixArrays = new ArrayList<ArrayData>();
     this.fixSimpleLists = new ArrayList<SimpleListData>();
@@ -84,7 +96,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called startTopLevelSimpleType().");
 
-    // TODO: Check second condition
+    // Element is of simple type and not a list
     if (null != type && !FSchemaTypeHelper.isList(type))
     {
       this.fixElements.add(new ElementData(type.getName()));
@@ -107,5 +119,83 @@ public class FabricEXIHandler extends FabricDefaultHandler
 
     this.exiGenerator.generateCode(this.fixElements, this.fixArrays, this.fixSimpleLists, this.fixNonSimpleLists);
     this.exiGenerator.writeSourceFile();
+  }
+
+  // TODO: Add comment
+  @Override
+  public void startTopLevelElement(FElement element) throws Exception
+  {
+    LOGGER.debug("Called startTopLevelElement().");
+
+    if (null != element)
+    {
+      this.fixLocalElementsInComplexTypes(element, true);
+    }
+  }
+
+  // TODO: Add comment
+  @Override
+  public void startLocalElement(FElement element, FComplexType parent) throws Exception
+  {
+    LOGGER.debug("Called startLocalElement().");
+
+    if (null != element && null != parent)
+    {
+      this.fixLocalElementsInComplexTypes(element, parent.isTopLevel());
+    }
+  }
+
+  // TODO: Add comment
+  @Override
+  public void startElementReference(FElement element) throws Exception
+  {
+    LOGGER.debug("Called startElementReference().");
+
+    if (null != element)
+    {
+      this.fixLocalElementsInComplexTypes(element, true);
+    }
+  }
+
+  private void fixLocalElementsInComplexTypes(FElement element, boolean isTopLevel)
+  {
+    if (!isTopLevel) // TODO: Use !isTopLevel here?
+    {
+      // Determine element type
+      String typeName = "";
+
+      // Element is XSD base type (e.g. xs:string, xs:short, ...)
+      if (SchemaHelper.isBuiltinTypedElement(element))
+      {
+        typeName = this.mapper.lookup(JavaTypeGen.getFabricTypeName(element.getSchemaType()));
+        LOGGER.debug(String.format("Type '%s' is an XSD built-in type.", typeName));
+      }
+      // Element is custom type (e.g. some XSD base type itm:Simple02)
+      else
+      {
+        typeName = element.getSchemaType().getName();
+        LOGGER.debug(String.format("Type '%s' is a custom type.", typeName));
+
+        // Create artificial name for local complex type (i.e. an inner class)
+        if (!element.getSchemaType().isTopLevel() && !element.getSchemaType().isSimple())
+        {
+          typeName += "Type";
+        }
+      }
+      
+      LOGGER.debug("######################################## Checking " + element.getName() + " for array fixing."); // TODO: Remove
+      
+      if (FSchemaTypeHelper.isArray(element))
+      {
+        LOGGER.debug("######################################## Fixing array within compley type."); // TODO: Remove
+        this.fixArrays.add(new ArrayData(element.getName(), typeName, "values", typeName));
+      }
+// TODO: We don't need these, since their are of built-in type?      
+//      else
+//      {
+//        LOGGER.debug("######################################## Fixing local element within complex type."); // TODO: Remove
+//        this.fixElements.add(new ElementData(element.getName()));
+//      }
+    }
   }
 }
