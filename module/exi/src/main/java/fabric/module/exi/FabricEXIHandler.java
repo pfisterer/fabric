@@ -129,7 +129,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
 
     if (null != element)
     {
-      this.fixLocalElementsInComplexTypes(element, true);
+      this.fixLocalElementsInComplexTypes(element, true); // TODO: Is this call obsolete?
     }
   }
 
@@ -141,7 +141,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
 
     if (null != element && null != parent)
     {
-      this.fixLocalElementsInComplexTypes(element, parent.isTopLevel());
+      this.fixLocalElementsInComplexTypes(element, parent.isTopLevel()); // TODO: Add parent parameter
     }
   }
 
@@ -153,7 +153,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
 
     if (null != element)
     {
-      this.fixLocalElementsInComplexTypes(element, true);
+      this.fixLocalElementsInComplexTypes(element, true); // TODO: Is this call obsolete?
     }
   }
 
@@ -163,6 +163,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
     {
       // Determine element type
       String typeName = "";
+      boolean isCustomType = false;
 
       // Element is XSD base type (e.g. xs:string, xs:short, ...)
       if (SchemaHelper.isBuiltinTypedElement(element))
@@ -181,20 +182,25 @@ public class FabricEXIHandler extends FabricDefaultHandler
         {
           typeName += "Type";
         }
+        
+        isCustomType = true;
       }
       
       LOGGER.debug("######################################## Checking " + element.getName() + " for array fixing."); // TODO: Remove
       
-      if (FSchemaTypeHelper.isArray(element))
+      if (isCustomType)
       {
-        LOGGER.debug("######################################## Fixing array within compley type."); // TODO: Remove
-        this.fixArrays.add(new ArrayData(element.getName(), typeName, "values", typeName));
-      }
-      // TODO: Do we need to collect local elements of complex types as well?
-      else
-      {
-        LOGGER.debug("######################################## Fixing local element within complex type."); // TODO: Remove
-        this.fixElements.add(new ElementData(element.getName()));
+        if (FSchemaTypeHelper.isArray(element))
+        {
+          LOGGER.debug("######################################## Fixing array within compley type."); // TODO: Remove
+          this.fixArrays.add(new ArrayData(element.getName(), typeName, "values", typeName)); // TODO: parent.getName() as first argument
+        }
+        // TODO: Do we need to collect local elements of complex types as well?
+        else
+        {
+          LOGGER.debug("######################################## Fixing local element within complex type."); // TODO: Remove
+          this.fixElements.add(new ElementData(element.getName()));
+        }
       }
     }
   }

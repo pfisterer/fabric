@@ -253,8 +253,7 @@ abstract public class XMLLibrary
     String methodBody =
             "try {\n" +
             "\t// Create document\n" +
-            "\tDocument doc = DocumentBuilderFactory.newInstance()\n" +
-            "\t\t      .newDocumentBuilder().parse(new ByteArrayInputStream(xmlDocument.getBytes()));\n" +
+            "\tDocument doc = DocumentBuilderFactory.newInstance(\"com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl\", null).newDocumentBuilder().parse(new ByteArrayInputStream(xmlDocument.getBytes()));\n" +
             "\t// Fix tags in elements, lists and element arrays\n";
 
     // Remove tag from elements
@@ -305,7 +304,6 @@ abstract public class XMLLibrary
 
     addRequiredImport("java.io.ByteArrayInputStream");
     addRequiredImport("java.io.StringWriter");
-    addRequiredImport("java.util.ArrayList");
     addRequiredImport("javax.xml.parsers.DocumentBuilderFactory");
     addRequiredImport("javax.xml.transform.OutputKeys");
     addRequiredImport("javax.xml.transform.Result");
@@ -424,7 +422,7 @@ abstract public class XMLLibrary
     String methodBody =
             "try {\n" +
             "\t// Create document\n" +
-            "\tDocument doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(xmlDocument.getBytes()));\n" +
+            "\tDocument doc = DocumentBuilderFactory.newInstance(\"com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl\", null).newDocumentBuilder().parse(new ByteArrayInputStream(xmlDocument.getBytes()));\n" +
             "\t// Fix tags in elements\n";
 
     // Add tag to elements
@@ -474,7 +472,6 @@ abstract public class XMLLibrary
 
     addRequiredImport("java.io.ByteArrayInputStream");
     addRequiredImport("java.io.StringWriter");
-    addRequiredImport("java.util.ArrayList");
     addRequiredImport("javax.xml.parsers.DocumentBuilderFactory");
     addRequiredImport("javax.xml.transform.OutputKeys");
     addRequiredImport("javax.xml.transform.Result");

@@ -56,7 +56,7 @@ public class JAXB extends XMLLibrary
             "marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);\n\n" +
             "StringWriter xmlDocument = new StringWriter();\n" +
             "marshaller.marshal(beanObject, xmlDocument);\n\n" +
-            "return xmlDocument.toString();",
+            "return removeValueTags(xmlDocument.toString());",
             this.beanClassName);
 
     jm.getBody().appendSource(methodBody);
@@ -89,7 +89,7 @@ public class JAXB extends XMLLibrary
     String methodBody = String.format(
             "JAXBContext context = JAXBContext.newInstance(%s.class);\n" +
             "Unmarshaller unmarshaller = context.createUnmarshaller();\n\n" +
-            "return (%s)unmarshaller.unmarshal(new InputSource(new ByteArrayInputStream(xmlDocument.getBytes())));",
+            "return (%s)unmarshaller.unmarshal(new InputSource(new ByteArrayInputStream(addValueTags(xmlDocument).getBytes())));",
             this.beanClassName, this.beanClassName);
 
     jm.getBody().appendSource(methodBody);

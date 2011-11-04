@@ -53,7 +53,7 @@ public class Simple extends XMLLibrary
             "Serializer serializer = new Persister(xmlHeader);\n" +
             "StringWriter xmlDocument = new StringWriter();\n\n" +
             "serializer.write(beanObject, xmlDocument);\n\n" +
-            "return xmlDocument.toString();";
+            "return removeValueTags(xmlDocument.toString());";
 
     jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Serialize bean object to XML document."));
@@ -85,7 +85,7 @@ public class Simple extends XMLLibrary
     
     String methodBody = String.format(
             "Serializer serializer = new Persister();\n" +
-            "%s beanObject = serializer.read(%s.class, xmlDocument);\n\n" +
+            "%s beanObject = serializer.read(%s.class, addValueTags(xmlDocument));\n\n" +
             "return beanObject;",
             this.beanClassName, this.beanClassName);
 

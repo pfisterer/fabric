@@ -1,4 +1,4 @@
-/** 30.10.2011 02:32 */
+/** 04.10.2011 16:41 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
@@ -369,7 +369,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' element array.", ea.name)));
       
       // Add annotations
-      for (String annotation: this.xmlMapper.getArrayAnnotations(ea.name, ea.type, "value", ea.type))
+      for (String annotation: this.xmlMapper.getArrayAnnotations(ea.name, ea.type, ea.name, ea.type))
       {
         jf.addAnnotation(new JFieldAnnotationImpl(annotation));
       }

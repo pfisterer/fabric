@@ -124,7 +124,7 @@ public class XStream extends XMLLibrary
             "BufferedWriter serializer = new BufferedWriter(xmlDocument);\n" +
             "serializer.write(%s.stream.toXML(beanObject));\n" +
             "serializer.close();\n\n" +
-            "return xmlDocument.toString();",
+            "return removeValueTags(xmlDocument.toString());",
             this.converterClass.getName(), this.beanClassName.toLowerCase(), this.beanClassName, this.converterClass.getName());
 
     jm.getBody().appendSource(methodBody);
@@ -170,8 +170,8 @@ public class XStream extends XMLLibrary
     }
     
     methodBody += String.format(
-            "%s.stream.alias(\"%s\", %s.class);\n\n" +
-            "return (%s)%s.stream.fromXML(xmlDocument);",
+            "%s.stream.alias(\"%s\", %s.class);\n\n" + // TODO: First letter capital for alias!
+            "return (%s)%s.stream.fromXML(addValueTags(xmlDocument));",
             this.converterClass.getName(), this.beanClassName.toLowerCase(), this.beanClassName, this.beanClassName, this.converterClass.getName());
 
     jm.getBody().appendSource(methodBody);
