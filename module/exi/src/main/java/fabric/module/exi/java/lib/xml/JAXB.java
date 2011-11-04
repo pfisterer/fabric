@@ -115,7 +115,7 @@ public class JAXB extends XMLLibrary
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "list"),
             JParameter.factory.create(JModifier.FINAL, "Document", "doc"));
-    JMethod jm = JMethod.factory.create(JModifier.PRIVATE, "void", "removeTagFromList", jms);
+    JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "removeTagFromList", jms);
 
     String methodBody_private =
             "NodeList rootNodes = doc.getElementsByTagName(list);\n" +
@@ -153,7 +153,7 @@ public class JAXB extends XMLLibrary
             JParameter.factory.create(JModifier.FINAL, "String", "list"),
             JParameter.factory.create(JModifier.FINAL, "Document", "doc"),
             JParameter.factory.create(JModifier.FINAL, "boolean", "isSimple"));
-    JMethod jm = JMethod.factory.create(JModifier.PRIVATE, "void", "addTagToList", jms);
+    JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "addTagToList", jms);
 
     String methodBody =
             "if (! isSimple) {\n" +

@@ -105,16 +105,16 @@ public class XStream extends XMLLibrary
 
     String methodBody = "";
 
-    for (ArrayData array : fixArrays) {
+    for (ArrayData array: fixArrays) {
         methodBody += "stream.addImplicitCollection("
                 + array.getArrayType()
                 + ", \"values\", \"value\", "
                 + array.getItemType() + ".class);\n";
     }
-    for (SimpleListData list : fixSimpleLists) {
+    for (SimpleListData list: fixSimpleLists) {
         methodBody += "stream.alias(\"value\", " + list.getItemType() + ".class);\n";
     }
-    for (NonSimpleListData list : fixNonSimpleLists) {
+    for (NonSimpleListData list: fixNonSimpleLists) {
         methodBody += "stream.alias(\"value\", " + list.getItemType() + ".class);\n";
     }
 
@@ -156,16 +156,16 @@ public class XStream extends XMLLibrary
 
     String methodBody = "";
 
-    for (ArrayData array : fixArrays) {
+    for (ArrayData array: fixArrays) {
         methodBody += "stream.addImplicitCollection("
                 + array.getArrayType()
                 + ", \"values\", \"value\", "
                 + array.getItemType() + ".class);\n";
     }
-    for (SimpleListData list : fixSimpleLists) {
+    for (SimpleListData list: fixSimpleLists) {
         methodBody += "stream.alias(\"value\", " + list.getItemType() + ".class);\n";
     }
-    for (NonSimpleListData list : fixNonSimpleLists) {
+    for (NonSimpleListData list: fixNonSimpleLists) {
         methodBody += "stream.alias(\"value\", " + list.getItemType() + ".class);\n";
     }
     

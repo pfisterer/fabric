@@ -91,9 +91,9 @@ public class XMLLibraryTest
     TestHelper.checkMethodExistence(classObject, "xmlToInstance", BEAN_CLASS_NAME, "String");
 
     // Check existence of method removeValueTags()
-    TestHelper.checkMethodExistence(classObject, JModifier.PRIVATE, "removeValueTags", "String", "String", null);
+    TestHelper.checkMethodExistence(classObject, JModifier.PRIVATE | JModifier.STATIC, "removeValueTags", "String", "String", null);
 
     // Check existence of method addValueTags()
-    TestHelper.checkMethodExistence(classObject, JModifier.PRIVATE, "addValueTags", "String", "String", null);
+    TestHelper.checkMethodExistence(classObject, JModifier.PRIVATE | JModifier.STATIC, "addValueTags", "String", "String", null);
   }
 }

@@ -247,7 +247,7 @@ abstract public class XMLLibrary
 
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
-    JMethod jm = JMethod.factory.create(JModifier.PRIVATE, "String",
+    JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "String",
             "removeValueTags", jms);
 
     String methodBody =
@@ -256,25 +256,27 @@ abstract public class XMLLibrary
             "\tDocument doc = DocumentBuilderFactory.newInstance()\n" +
             "\t\t      .newDocumentBuilder().parse(new ByteArrayInputStream(xmlDocument.getBytes()));\n" +
             "\t// Fix tags in elements, lists and element arrays\n";
+
     // Remove tag from elements
-    for (ElementData element : fixElements) {
-        methodBody += "\tremoveTagFromElement(" + element.getName() + ", doc);\n";
+    for (ElementData element: fixElements) {
+        methodBody += String.format("\tremoveTagFromElement(\"%s\", doc);\n", element.getName());
     }
     // Remove tag from element arrays
     methodBody += "\t// Fix tags in element arrays\n";
-    for (ArrayData array : fixArrays) {
-        methodBody += "\tremoveTagFromElement(" + array.getArrayName() + ", doc);\n";
+    for (ArrayData array: fixArrays) {
+        methodBody += String.format("\tremoveTagFromElement(\"%s\", doc);\n", array.getArrayName());
     }
     // Remove tag from lists of simple type
     methodBody += "\t// Fix tags in lists of simple type\n";
-    for (SimpleListData list : fixSimpleLists) {
-        methodBody += "\tremoveTagFromList(" + list.getListName() + ", doc);\n";
+    for (SimpleListData list: fixSimpleLists) {
+        methodBody += String.format("\tremoveTagFromList(\"%s\", doc);\n", list.getListName());
     }
     // Remove tag from lists of restricted simple type
     methodBody += "\t// Fix tags in lists of restricted simple type\n";
-    for (NonSimpleListData list : fixNonSimpleLists) {
-        methodBody += "\tremoveTagFromList(" + list.getListName() + ", doc);\n";
+    for (NonSimpleListData list: fixNonSimpleLists) {
+        methodBody += String.format("\tremoveTagFromList(\"%s\", doc);\n", list.getListName());
     }
+
     methodBody +=
             "\t// Create instances for writing output\n" +
             "\tSource source               = new DOMSource(doc);\n" +
@@ -330,7 +332,7 @@ abstract public class XMLLibrary
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "element"),
             JParameter.factory.create(JModifier.FINAL, "Document", "doc"));
-    JMethod jm = JMethod.factory.create(JModifier.PRIVATE, "void", "removeTagFromElement", jms);
+    JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "removeTagFromElement", jms);
 
     String methodBody =
             "NodeList rootNodes = doc.getElementsByTagName(element);\n" +
@@ -344,7 +346,7 @@ abstract public class XMLLibrary
             "\t\tElement value = (Element) children.item(0);\n" +
             "\t\tnewContent += value.getTextContent() + \" \";\n" +
             "\t\troot.removeChild(value);\n" +
-            "\t\t}\n" +
+            "\t\t}\n" + // TODO: One of these braces is obsolete!
             "\t\troot.setTextContent(newContent.trim());\n" +
             "\t}\n" +
             "}";
@@ -369,7 +371,7 @@ abstract public class XMLLibrary
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "list"),
             JParameter.factory.create(JModifier.FINAL, "Document", "doc"));
-    JMethod jm = JMethod.factory.create(JModifier.PRIVATE, "void", "removeTagFromList", jms);
+    JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "removeTagFromList", jms);
 
     String methodBody =
             "NodeList rootNodes = doc.getElementsByTagName(list);\n" +
@@ -385,7 +387,7 @@ abstract public class XMLLibrary
             "\t\t}\n" +
             "\t\troot.removeChild(valueList);\n" +
             "\t}\n" +
-            "\tfixElement(list, doc);\n" +
+            "\tfixElement(list, doc);\n" + // TODO: Function fixElement does not exist!?
             "}";
 
     jm.getBody().appendSource(methodBody);
@@ -418,32 +420,32 @@ abstract public class XMLLibrary
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
-    JMethod jm = JMethod.factory.create(JModifier.PRIVATE, "String",
+    JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "String",
             "addValueTags", jms);
     String methodBody =
             "try {\n" +
             "\t// Create document\n" +
-            "\tDocument doc = DocumentBuilderFactory.newInstance()\n" +
-            "\t\t      .newDocumentBuilder().parse(new ByteArrayInputStream(xmlDocument.getBytes()));\n" +
+            "\tDocument doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(xmlDocument.getBytes()));\n" +
             "\t// Fix tags in elements\n";
+
     // Add tag to elements
-    for (ElementData element : fixElements) {
-        methodBody += "\taddTagToElement(" + element.getName() + ", doc);\n";
+    for (ElementData element: fixElements) {
+        methodBody += String.format("\taddTagToElement(\"%s\", doc);\n", element.getName());
     }
     // Add tag to element arrays
     methodBody += "\t// Fix tags in element arrays\n";
-    for (ArrayData array : fixArrays) {
-        methodBody += "\taddTagToElement(" + array.getArrayName() + ", doc);\n";
+    for (ArrayData array: fixArrays) {
+        methodBody += String.format("\taddTagToElement(\"%s\", doc);\n", array.getArrayName());
     }
     // Add tag to lists of simple type
     methodBody += "\t// Fix tags in lists of simple type\n";
-    for (SimpleListData list : fixSimpleLists) {
-        methodBody += "\taddTagToList(" + list.getListName() + ", doc, true);\n";
+    for (SimpleListData list: fixSimpleLists) {
+        methodBody += String.format("\taddTagToList(\"%s\", doc, true);\n", list.getListName());
     }
     // Add tag to lists of restricted simple type
     methodBody += "\t// Fix tags in lists of restricted simple type\n";
-    for (NonSimpleListData list : fixNonSimpleLists) {
-        methodBody += "\taddTagToList(" + list.getListName() + ", doc, false);\n";
+    for (NonSimpleListData list: fixNonSimpleLists) {
+        methodBody += String.format("\taddTagToList(\"%s\", doc, false);\n", list.getListName());
     }
     methodBody +=
             "\t// Create instances for writing output\n" +
@@ -489,7 +491,6 @@ abstract public class XMLLibrary
     return jm;
   }
 
-
   /**
    * Private helper method to generate code that adds
    * value-tags to one single element in an XML document.
@@ -500,7 +501,7 @@ abstract public class XMLLibrary
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "element"),
             JParameter.factory.create(JModifier.FINAL, "Document", "doc"));
-    JMethod jm = JMethod.factory.create(JModifier.PRIVATE, "void", "addTagToElement", jms);
+    JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "addTagToElement", jms);
 
     String methodBody =
             "NodeList rootNodes = doc.getElementsByTagName(element);\n" +
@@ -533,14 +534,14 @@ abstract public class XMLLibrary
             JParameter.factory.create(JModifier.FINAL, "String", "list"),
             JParameter.factory.create(JModifier.FINAL, "Document", "doc"),
             JParameter.factory.create(JModifier.FINAL, "boolean", "isSimple"));
-    JMethod jm = JMethod.factory.create(JModifier.PRIVATE, "void", "addTagToList", jms);
+    JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "addTagToList", jms);
 
     String methodBody =
             "NodeList rootNodes  = doc.getElementsByTagName(list);\n" +
             "for (int i = 0; i < rootNodes.getLength(); i++) {\n" +
             "\tElement root        = (Element) rootNodes.item(i);\n" +
             "\tString[] content    = root.getTextContent().split(\" \");\n" +
-            "\tif (! isSimple) {\n" +
+            "\tif (!isSimple) {\n" +
             "\t\t// Insert values-tag\n" +
             "\t\tElement child = doc.createElement(\"values\");\n" +
             "\t\tchild.setTextContent(root.getTextContent());\n" +
