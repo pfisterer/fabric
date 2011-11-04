@@ -346,9 +346,8 @@ abstract public class XMLLibrary
             "\t\tElement value = (Element) children.item(0);\n" +
             "\t\tnewContent += value.getTextContent() + \" \";\n" +
             "\t\troot.removeChild(value);\n" +
-            "\t\t}\n" + // TODO: One of these braces is obsolete!
-            "\t\troot.setTextContent(newContent.trim());\n" +
             "\t}\n" +
+            "\troot.setTextContent(newContent.trim());\n" +
             "}";
 
     jm.getBody().appendSource(methodBody);
@@ -387,7 +386,7 @@ abstract public class XMLLibrary
             "\t\t}\n" +
             "\t\troot.removeChild(valueList);\n" +
             "\t}\n" +
-            "\tfixElement(list, doc);\n" + // TODO: Function fixElement does not exist!?
+            "\tremoveTagFromElement(list, doc);\n" +
             "}";
 
     jm.getBody().appendSource(methodBody);
