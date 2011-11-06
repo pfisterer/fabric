@@ -238,32 +238,21 @@ abstract public class XMLLibrary
             "\t// Fix tags in elements, lists and element arrays\n";
 
     // Remove tag from elements
-    for (ElementData element: fixElements) {
+    for (ElementData element : fixElements) {
         methodBody += String.format("\tremoveTagFromElement(\"%s\", doc);\n", element.getName());
     }
     // Remove tag from element arrays
     methodBody += "\t// Fix tags in element arrays\n";
-    for (ArrayData array: fixArrays) {
-        methodBody += String.format("\tremoveTagFromElement(\"%s\", doc);\n", array.getArrayName());
+    for (ArrayData array : fixArrays) {
+        if (array.isCustomTyped()) {
+            methodBody += String.format("\tremoveTagFromElement(\"%s\", doc);\n", array.getArrayName());
+        }
     }
-// TODO Block begin
-// TODO: Anne, please refactor this code block.
-    // Remove tag from element lists
+    // Remove tag from lists
     methodBody += "\t// Fix tags in element lists\n";
-    for (ListData list: fixLists) {
+    for (ListData list : fixLists) {
         methodBody += String.format("\tremoveTagFromList(\"%s\", doc);\n", list.getListName());
     }
-//    // Remove tag from lists of simple type
-//    methodBody += "\t// Fix tags in lists of simple type\n";
-//    for (SimpleListData list: fixLists) {
-//        methodBody += String.format("\tremoveTagFromList(\"%s\", doc);\n", list.getListName());
-//    }
-//    // Remove tag from lists of restricted simple type
-//    methodBody += "\t// Fix tags in lists of restricted simple type\n";
-//    for (NonSimpleListData list: fixNonSimpleLists) {
-//        methodBody += String.format("\tremoveTagFromList(\"%s\", doc);\n", list.getListName());
-//    }
-// TODO Block end
 
     methodBody +=
             "\t// Create instances for writing output\n" +
@@ -411,31 +400,21 @@ abstract public class XMLLibrary
             "\t// Fix tags in elements\n";
 
     // Add tag to elements
-    for (ElementData element: fixElements) {
+    for (ElementData element : fixElements) {
         methodBody += String.format("\taddTagToElement(\"%s\", doc);\n", element.getName());
     }
     // Add tag to element arrays
     methodBody += "\t// Fix tags in element arrays\n";
-    for (ArrayData array: fixArrays) {
-        methodBody += String.format("\taddTagToElement(\"%s\", doc);\n", array.getArrayName());
+    for (ArrayData array : fixArrays) {
+        if (array.isCustomTyped()) {
+            methodBody += String.format("\taddTagToElement(\"%s\", doc);\n", array.getArrayName());
+        }
     }
-// TODO: Block begin
-// TODO: Anne, please refactor this code clock as well.
-    // Add tag to element lists
+    // Add tag to lists
     methodBody += "\t// Fix tags in element lists\n";
-    for (ListData list: fixLists) {
-        methodBody += String.format("\taddTagToList(\"%s\", doc, true);\n", list.getListName());
+    for (ListData list : fixLists) {
+        methodBody += String.format("\taddTagToList(\"%s\", doc, %b);\n", list.getListName(), list.isCustomTyped());
     }
-//    methodBody += "\t// Fix tags in lists of simple type\n";
-//    for (SimpleListData list: fixLists) {
-//        methodBody += String.format("\taddTagToList(\"%s\", doc, true);\n", list.getListName());
-//    }
-//    // Add tag to lists of restricted simple type
-//    methodBody += "\t// Fix tags in lists of restricted simple type\n";
-//    for (NonSimpleListData list: fixNonSimpleLists) {
-//        methodBody += String.format("\taddTagToList(\"%s\", doc, false);\n", list.getListName());
-//    }
-// TODO: Block end
 
     methodBody +=
             "\t// Create instances for writing output\n" +
@@ -522,7 +501,7 @@ abstract public class XMLLibrary
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "list"),
             JParameter.factory.create(JModifier.FINAL, "Document", "doc"),
-            JParameter.factory.create(JModifier.FINAL, "boolean", "isSimple"));
+            JParameter.factory.create(JModifier.FINAL, "boolean", "isCustomTyped"));
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "addTagToList", jms);
 
     String methodBody =
@@ -530,7 +509,7 @@ abstract public class XMLLibrary
             "for (int i = 0; i < rootNodes.getLength(); i++) {\n" +
             "\tElement root        = (Element) rootNodes.item(i);\n" +
             "\tString[] content    = root.getTextContent().split(\" \");\n" +
-            "\tif (!isSimple) {\n" +
+            "\tif (isCustomTyped) {\n" +
             "\t\t// Insert values-tag\n" +
             "\t\tElement child = doc.createElement(\"values\");\n" +
             "\t\tchild.setTextContent(root.getTextContent());\n" +

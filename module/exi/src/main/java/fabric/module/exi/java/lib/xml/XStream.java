@@ -3,6 +3,7 @@ package fabric.module.exi.java.lib.xml;
 
 import java.util.ArrayList;
 
+import com.sun.xml.internal.bind.v2.TODO;
 import de.uniluebeck.sourcegen.java.JField;
 import de.uniluebeck.sourcegen.java.JFieldCommentImpl;
 import de.uniluebeck.sourcegen.java.JMethod;
@@ -105,13 +106,12 @@ public class XStream extends XMLLibrary
     String methodBody = "";
 
     for (ArrayData array: fixArrays) {
-        methodBody += "stream.addImplicitCollection("
-                + array.getArrayType()
-                + ", \"values\", \"value\", "
-                + array.getItemType() + ".class);\n";
+        methodBody += String.format("stream.addImplicitCollection(%s, %s, %s, %s.class);\n",
+                array.getArrayType(), array.getArrayName(), array.getItemName(), array.getItemType());
+        // TODO: Change first argument to the container class where the array exists
     }
     for (ListData list: fixLists) {
-        methodBody += "stream.alias(\"value\", " + list.getItemType() + ".class);\n";
+        methodBody += String.format("stream.alias(\"value\", %s.class);\n", list.getItemType());
     }
 
     methodBody += String.format(
@@ -152,19 +152,19 @@ public class XStream extends XMLLibrary
     String methodBody = "";
 
     for (ArrayData array: fixArrays) {
-        methodBody += "stream.addImplicitCollection("
-                + array.getArrayType()
-                + ", \"values\", \"value\", "
-                + array.getItemType() + ".class);\n";
+        methodBody += String.format("stream.addImplicitCollection(%s, %s, %s, %s.class);\n",
+                array.getArrayType(), array.getArrayName(), array.getItemName(), array.getItemType());
+        // TODO: Change first argument to the container class where the array exists
     }
     for (ListData list: fixLists) {
-        methodBody += "stream.alias(\"value\", " + list.getItemType() + ".class);\n";
+        methodBody += String.format("stream.alias(\"value\", %s.class);\n", list.getItemType());
     }
     
     methodBody += String.format(
             "%s.stream.alias(\"%s\", %s.class);\n\n" +
             "return (%s)%s.stream.fromXML(addValueTags(xmlDocument));",
-            this.converterClass.getName(), this.beanClassName, this.beanClassName, this.beanClassName, this.converterClass.getName());
+            this.converterClass.getName(), this.beanClassName, this.beanClassName, this.beanClassName,
+            this.converterClass.getName());
 
     jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Deserialize XML document to bean object."));

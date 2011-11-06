@@ -151,11 +151,11 @@ public class JAXB extends XMLLibrary
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "list"),
             JParameter.factory.create(JModifier.FINAL, "Document", "doc"),
-            JParameter.factory.create(JModifier.FINAL, "boolean", "isSimple"));
+            JParameter.factory.create(JModifier.FINAL, "boolean", "isCustomTyped"));
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "addTagToList", jms);
 
     String methodBody =
-            "if (! isSimple) {\n" +
+            "if (isCustomTyped) {\n" +
             "\tNodeList rootNodes = doc.getElementsByTagName(list);\n" +
             "\tfor (int i = 0; i < rootNodes.getLength(); i++) {\n" +
             "\t\tElement root    = (Element) rootNodes.item(i);\n" +
