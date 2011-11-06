@@ -106,7 +106,7 @@
       <xs:sequence>
         <xs:element name="Item01" type="xs:int" minOccurs="3" maxOccurs="7" />
         <xs:element name="Item02" type="xs:byte" maxOccurs="11" />
-        <xs:element name="Item03" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element name="Item03" type="itm:MyString" minOccurs="0" maxOccurs="unbounded" />
         <xs:element name="Item04" type="xs:int" />
       </xs:sequence>
     </xs:complexType>

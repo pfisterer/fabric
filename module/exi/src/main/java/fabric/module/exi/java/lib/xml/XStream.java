@@ -3,7 +3,6 @@ package fabric.module.exi.java.lib.xml;
 
 import java.util.ArrayList;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import de.uniluebeck.sourcegen.java.JField;
 import de.uniluebeck.sourcegen.java.JFieldCommentImpl;
 import de.uniluebeck.sourcegen.java.JMethod;

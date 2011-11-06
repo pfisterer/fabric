@@ -1,4 +1,4 @@
-/** 06.11.2011 02:40 */
+/** 06.11.2011 18:11 */
 package fabric.module.exi;
 
 import org.slf4j.Logger;
@@ -12,6 +12,7 @@ import fabric.module.api.FabricDefaultHandler;
 
 import fabric.wsdlschemaparser.schema.FComplexType;
 import fabric.wsdlschemaparser.schema.FElement;
+import fabric.wsdlschemaparser.schema.FList;
 import fabric.wsdlschemaparser.schema.FSchema;
 import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
 import fabric.wsdlschemaparser.schema.FSimpleType;
@@ -23,8 +24,8 @@ import fabric.module.typegen.FabricTypeGenModule;
 import fabric.module.typegen.java.JavaTypeGen;
 
 import fabric.module.exi.base.EXICodeGen;
-import fabric.module.exi.java.FixValueContainer.ArrayData;
 import fabric.module.exi.java.FixValueContainer.ElementData;
+import fabric.module.exi.java.FixValueContainer.ArrayData;
 import fabric.module.exi.java.FixValueContainer.ListData;
 
 /**
@@ -92,9 +93,20 @@ public class FabricEXIHandler extends FabricDefaultHandler
     LOGGER.debug("Called startTopLevelSimpleType().");
 
     // Element is of simple type and not a list
-    if (null != type && !FSchemaTypeHelper.isList(type))
+    if (null != type && !FSchemaTypeHelper.isEnum(type))
     {
-      this.fixElements.add(new ElementData(parent.getName()));
+      if (FSchemaTypeHelper.isList(type))
+      {
+        FList listType = (FList)type;
+        String typeName = this.mapper.lookup(JavaTypeGen.getFabricTypeName(listType.getItemType()));
+
+        // TODO: Check Last argument: Simple types are never custom-typed, right?
+        this.fixLists.add(new ListData(type.getName(), typeName, typeName, true));
+      }
+      else
+      {
+        this.fixElements.add(new ElementData(parent.getName()));
+      }
     }
   }
 
@@ -116,17 +128,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
     this.exiGenerator.writeSourceFile();
   }
 
-  // TODO: Add comment
-  @Override
-  public void startTopLevelElement(FElement element) throws Exception
-  {
-    LOGGER.debug("Called startTopLevelElement().");
-
-    if (null != element)
-    {
-      this.fixLocalElementsInComplexTypes(element, true); // TODO: Is this call obsolete?
-    }
-  }
+  // TODO: Also fix lists in topLevelElements?
 
   // TODO: Add comment
   @Override
@@ -136,66 +138,60 @@ public class FabricEXIHandler extends FabricDefaultHandler
 
     if (null != element && null != parent)
     {
-      this.fixLocalElementsInComplexTypes(element, parent.isTopLevel()); // TODO: Add parent parameter
+      this.fixElementsInComplexType(element, parent);
     }
   }
-
+  
   // TODO: Add comment
-  @Override
-  public void startElementReference(FElement element) throws Exception
+  private void fixElementsInComplexType(FElement element, FComplexType parent)
   {
-    LOGGER.debug("Called startElementReference().");
+    // Determine element type
+    String typeName = "";
+    boolean isCustomTyped;
 
-    if (null != element)
+    // Element is XSD base type (e.g. xs:string, xs:short, ...)
+    if (SchemaHelper.isBuiltinTypedElement(element))
     {
-      this.fixLocalElementsInComplexTypes(element, true); // TODO: Is this call obsolete?
+      typeName = this.mapper.lookup(JavaTypeGen.getFabricTypeName(element.getSchemaType()));
+      LOGGER.debug(String.format("Type '%s' is an XSD built-in type.", typeName));
+
+      isCustomTyped = false;
     }
-  }
-
-  private void fixLocalElementsInComplexTypes(FElement element, boolean isTopLevel)
-  {
-    if (!isTopLevel) // TODO: Use !isTopLevel here?
+    // Element is custom type (e.g. some XSD base type itm:Simple02)
+    else
     {
-      // Determine element type
-      String typeName = "";
-      boolean isCustomType = false;
+      typeName = element.getSchemaType().getName();
+      LOGGER.debug(String.format("Type '%s' is a custom type.", typeName));
 
-      // Element is XSD base type (e.g. xs:string, xs:short, ...)
-      if (SchemaHelper.isBuiltinTypedElement(element))
+      // Create artificial name for local complex type (i.e. an inner class)
+      if (!element.getSchemaType().isTopLevel() && !element.getSchemaType().isSimple())
       {
-        typeName = this.mapper.lookup(JavaTypeGen.getFabricTypeName(element.getSchemaType()));
-        LOGGER.debug(String.format("Type '%s' is an XSD built-in type.", typeName));
+        typeName += "Type";
       }
-      // Element is custom type (e.g. some XSD base type itm:Simple02)
-      else
-      {
-        typeName = element.getSchemaType().getName();
-        LOGGER.debug(String.format("Type '%s' is a custom type.", typeName));
 
-        // Create artificial name for local complex type (i.e. an inner class)
-        if (!element.getSchemaType().isTopLevel() && !element.getSchemaType().isSimple())
-        {
-          typeName += "Type";
-        }
-        
-        isCustomType = true;
-      }
-      
-      LOGGER.debug("######################################## Checking " + element.getName() + " for array fixing."); // TODO: Remove
-      
-      if (isCustomType)
+      isCustomTyped = true;
+    }
+
+    LOGGER.debug("######################################## Checking " + element.getName() + " for value-tag fixing."); // TODO: Remove
+
+    // Always fix element arrays
+    if (FSchemaTypeHelper.isArray(element))
+    {
+      LOGGER.debug("######################################## Fixing array within complex type."); // TODO: Remove
+      this.fixArrays.add(new ArrayData(parent.getName(), element.getName(), typeName, "values", typeName, isCustomTyped));
+    }
+    else if (FSchemaTypeHelper.isList(element))
+    {
+      LOGGER.debug("######################################## Fixing list within complex type."); // TODO: Remove
+      this.fixLists.add(new ListData(element.getName(), typeName, typeName, isCustomTyped));
+    }
+    // Only fix custom-typed elements
+    else
+    {
+      if (isCustomTyped)
       {
-        if (FSchemaTypeHelper.isArray(element))
-        {
-          LOGGER.debug("######################################## Fixing array within compley type."); // TODO: Remove
-          this.fixArrays.add(new ArrayData(element.getName(), typeName, "values", typeName, true)); // TODO: parent.getName() as first argument
-        }
-        // TODO: Do we need to collect local elements of complex types as well?
-        else
-        {
-          LOGGER.debug("######################################## Fixing local element within complex type."); // TODO: Remove
-          this.fixElements.add(new ElementData(element.getName()));
-        }
+        LOGGER.debug("######################################## Fixing local element within complex type."); // TODO: Remove
+        this.fixElements.add(new ElementData(element.getName()));
       }
     }
   }
