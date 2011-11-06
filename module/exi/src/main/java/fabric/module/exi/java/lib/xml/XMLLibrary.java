@@ -1,13 +1,14 @@
-/** 31.10.2011 19:34 */
+/** 06.11.2011 02:55 */
 package fabric.module.exi.java.lib.xml;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
 import de.uniluebeck.sourcegen.java.*;
-import fabric.module.exi.java.FixValueContainer.ArrayData;
+
 import fabric.module.exi.java.FixValueContainer.ElementData;
-import fabric.module.exi.java.FixValueContainer.NonSimpleListData;
-import fabric.module.exi.java.FixValueContainer.SimpleListData;
+import fabric.module.exi.java.FixValueContainer.ArrayData;
+import fabric.module.exi.java.FixValueContainer.ListData;
 
 /**
  * Abstract base class for XML libraries. Derived files
@@ -92,10 +93,7 @@ abstract public class XMLLibrary
    *
    * @param fixElements XML elements, where value-tags need to be fixed
    * @param fixArrays XML arrays, where value-tags need to be fixed
-   * @param fixSimpleLists XML lists with simple-typed items,
-   * where value-tags need to be fixed
-   * @param fixNonSimpleLists XML lists with non-simple-typed items,
-   * where value-tags need to be fixed
+   * @param fixLists XML lists, where value-tags need to be fixed
    *
    * @return JClass object with XML converter class
    *
@@ -103,17 +101,16 @@ abstract public class XMLLibrary
    */
   public JClass init(final ArrayList<ElementData> fixElements,
                      final ArrayList<ArrayData> fixArrays,
-                     final ArrayList<SimpleListData> fixSimpleLists,
-                     final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
+                     final ArrayList<ListData> fixLists) throws Exception
   {
     // Generate code for XML serialization
-    this.generateJavaToXMLCode(fixArrays, fixSimpleLists, fixNonSimpleLists);
+    this.generateJavaToXMLCode(fixArrays, fixLists);
 
     // Generate code for XML deserialization
-    this.generateXMLToInstanceCode(fixArrays, fixSimpleLists, fixNonSimpleLists);
+    this.generateXMLToInstanceCode(fixArrays, fixLists);
 
     // Generate code to fix value-tags
-    this.generateFixValueCode(fixElements, fixArrays, fixSimpleLists, fixNonSimpleLists);
+    this.generateFixValueCode(fixElements, fixArrays, fixLists);
 
     return this.converterClass;
   }
@@ -125,8 +122,7 @@ abstract public class XMLLibrary
    * @throws Exception Error during code generation
    */
   abstract public void generateJavaToXMLCode(final ArrayList<ArrayData> fixArrays,
-                                             final ArrayList<SimpleListData> fixSimpleLists,
-                                             final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception;
+                                             final ArrayList<ListData> fixLists) throws Exception;
 
   /**
    * Method that creates code to convert an XML document
@@ -135,8 +131,7 @@ abstract public class XMLLibrary
    * @throws Exception Error during code generation
    */
   abstract public void generateXMLToInstanceCode(final ArrayList<ArrayData> fixArrays,
-                                                 final ArrayList<SimpleListData> fixSimpleLists,
-                                                 final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception;
+                                                 final ArrayList<ListData> fixLists) throws Exception;
 
   /**
    * This method generates code to fix a problem within the
@@ -160,22 +155,19 @@ abstract public class XMLLibrary
    *
    * @param fixElements XML elements, where value-tags need to be fixed
    * @param fixArrays XML arrays, where value-tags need to be fixed
-   * @param fixSimpleLists XML lists with simple-typed items,
-   * where value-tags need to be fixed
-   * @param fixNonSimpleLists XML lists with non-simple-typed items,
-   * where value-tags need to be fixed
+   * @param fixLists XML lists, where value-tags need to be fixed
    *
    * @throws Exception Error during code generation
    */
   public void generateFixValueCode(final ArrayList<ElementData> fixElements,
                                    final ArrayList<ArrayData> fixArrays,
-                                   final ArrayList<SimpleListData> fixSimpleLists,
-                                   final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
+                                   final ArrayList<ListData> fixLists) throws Exception
   {
     // Generate Code for removing unnecessary tags
     JMethod removeTagFromElement    = generateRemoveTagFromElement();
     JMethod removeTagFromList       = generateRemoveTagFromList();
-    JMethod removeValueTags         = generateRemoveValueTags(fixElements,fixArrays,fixSimpleLists,fixNonSimpleLists);
+    JMethod removeValueTags         = generateRemoveValueTags(fixElements, fixArrays, fixLists);
+
     if (null != removeValueTags && null != removeTagFromElement && null != removeTagFromList)
     {
       this.converterClass.add(removeValueTags);
@@ -186,7 +178,7 @@ abstract public class XMLLibrary
     // Generate Code for adding tags
     JMethod addTagToElement = generateAddTagToElement();
     JMethod addTagToList    = generateAddTagToList();
-    JMethod addValueTags    = generateAddValueTags(fixElements, fixArrays, fixSimpleLists, fixNonSimpleLists);
+    JMethod addValueTags    = generateAddValueTags(fixElements, fixArrays, fixLists);
     if (null != addValueTags && null != addTagToElement && null != addTagToList)
     {
       this.converterClass.add(addValueTags);
@@ -201,17 +193,13 @@ abstract public class XMLLibrary
    * 
    * @param fixElements XML elements, where value-tags need to be fixed
    * @param fixArrays XML arrays, where value-tags need to be fixed
-   * @param fixSimpleLists XML lists with simple-typed items,
-   * where value-tags need to be fixed
-   * @param fixNonSimpleLists XML lists with non-simple-typed items,
-   * where value-tags need to be fixed
+   * @param fixLists XML lists, where value-tags need to be fixed
    *
    * @throws Exception Error during code generation
    */
   private JMethod generateRemoveValueTags(final ArrayList<ElementData> fixElements,
                                           final ArrayList<ArrayData> fixArrays,
-                                          final ArrayList<SimpleListData> fixSimpleLists,
-                                          final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
+                                          final ArrayList<ListData> fixLists) throws Exception
   {
     // TODO: Remove this block after test BEGIN
     for (ElementData ed: fixElements)
@@ -228,20 +216,13 @@ abstract public class XMLLibrary
               ad.getItemType());
     }
 
-    for (SimpleListData sld: fixSimpleLists)
+    for (ListData ld: fixLists)
     {
-      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> SimpleList: " +
-              sld.getListName() + ", " +
-              sld.getListType() + ", " +
-              sld.getItemType());
-    }
-
-    for (NonSimpleListData nsld: fixNonSimpleLists)
-    {
-      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> NonSimpleList: " +
-              nsld.getListName() + ", " +
-              nsld.getListType() + ", " +
-              nsld.getItemType());
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> List: " +
+              ld.getListName() + ", " +
+              ld.getListType() + ", " +
+              ld.getItemType() + ", " +
+              ld.isCustomTyped());
     }
     // TODO: Remove this block after test END
 
@@ -265,16 +246,24 @@ abstract public class XMLLibrary
     for (ArrayData array: fixArrays) {
         methodBody += String.format("\tremoveTagFromElement(\"%s\", doc);\n", array.getArrayName());
     }
-    // Remove tag from lists of simple type
-    methodBody += "\t// Fix tags in lists of simple type\n";
-    for (SimpleListData list: fixSimpleLists) {
+// TODO Block begin
+// TODO: Anne, please refactor this code block.
+    // Remove tag from element lists
+    methodBody += "\t// Fix tags in element lists\n";
+    for (ListData list: fixLists) {
         methodBody += String.format("\tremoveTagFromList(\"%s\", doc);\n", list.getListName());
     }
-    // Remove tag from lists of restricted simple type
-    methodBody += "\t// Fix tags in lists of restricted simple type\n";
-    for (NonSimpleListData list: fixNonSimpleLists) {
-        methodBody += String.format("\tremoveTagFromList(\"%s\", doc);\n", list.getListName());
-    }
+//    // Remove tag from lists of simple type
+//    methodBody += "\t// Fix tags in lists of simple type\n";
+//    for (SimpleListData list: fixLists) {
+//        methodBody += String.format("\tremoveTagFromList(\"%s\", doc);\n", list.getListName());
+//    }
+//    // Remove tag from lists of restricted simple type
+//    methodBody += "\t// Fix tags in lists of restricted simple type\n";
+//    for (NonSimpleListData list: fixNonSimpleLists) {
+//        methodBody += String.format("\tremoveTagFromList(\"%s\", doc);\n", list.getListName());
+//    }
+// TODO Block end
 
     methodBody +=
             "\t// Create instances for writing output\n" +
@@ -403,17 +392,13 @@ abstract public class XMLLibrary
    * 
    * @param fixElements XML elements, where value-tags need to be fixed
    * @param fixArrays XML arrays, where value-tags need to be fixed
-   * @param fixSimpleLists XML lists with simple-typed items,
-   * where value-tags need to be fixed
-   * @param fixNonSimpleLists XML lists with non-simple-typed items,
-   * where value-tags need to be fixed
+   * @param fixLists XML lists, where value-tags need to be fixed
    *
    * @throws Exception Error during code generation
    */
   private JMethod generateAddValueTags(final ArrayList<ElementData> fixElements,
                                        final ArrayList<ArrayData> fixArrays,
-                                       final ArrayList<SimpleListData> fixSimpleLists,
-                                       final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
+                                       final ArrayList<ListData> fixLists) throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
@@ -434,16 +419,24 @@ abstract public class XMLLibrary
     for (ArrayData array: fixArrays) {
         methodBody += String.format("\taddTagToElement(\"%s\", doc);\n", array.getArrayName());
     }
-    // Add tag to lists of simple type
-    methodBody += "\t// Fix tags in lists of simple type\n";
-    for (SimpleListData list: fixSimpleLists) {
+// TODO: Block begin
+// TODO: Anne, please refactor this code clock as well.
+    // Add tag to element lists
+    methodBody += "\t// Fix tags in element lists\n";
+    for (ListData list: fixLists) {
         methodBody += String.format("\taddTagToList(\"%s\", doc, true);\n", list.getListName());
     }
-    // Add tag to lists of restricted simple type
-    methodBody += "\t// Fix tags in lists of restricted simple type\n";
-    for (NonSimpleListData list: fixNonSimpleLists) {
-        methodBody += String.format("\taddTagToList(\"%s\", doc, false);\n", list.getListName());
-    }
+//    methodBody += "\t// Fix tags in lists of simple type\n";
+//    for (SimpleListData list: fixLists) {
+//        methodBody += String.format("\taddTagToList(\"%s\", doc, true);\n", list.getListName());
+//    }
+//    // Add tag to lists of restricted simple type
+//    methodBody += "\t// Fix tags in lists of restricted simple type\n";
+//    for (NonSimpleListData list: fixNonSimpleLists) {
+//        methodBody += String.format("\taddTagToList(\"%s\", doc, false);\n", list.getListName());
+//    }
+// TODO: Block end
+
     methodBody +=
             "\t// Create instances for writing output\n" +
             "\tSource source               = new DOMSource(doc);\n" +

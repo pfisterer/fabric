@@ -1,5 +1,7 @@
-/** 25.10.2011 13:01 */
+/** 06.11.2011 02:55 */
 package fabric.module.exi.java.lib.xml;
+
+import java.util.ArrayList;
 
 import de.uniluebeck.sourcegen.java.JField;
 import de.uniluebeck.sourcegen.java.JFieldCommentImpl;
@@ -8,11 +10,9 @@ import de.uniluebeck.sourcegen.java.JMethodCommentImpl;
 import de.uniluebeck.sourcegen.java.JMethodSignature;
 import de.uniluebeck.sourcegen.java.JModifier;
 import de.uniluebeck.sourcegen.java.JParameter;
-import fabric.module.exi.java.FixValueContainer.ArrayData;
-import fabric.module.exi.java.FixValueContainer.NonSimpleListData;
-import fabric.module.exi.java.FixValueContainer.SimpleListData;
 
-import java.util.ArrayList;
+import fabric.module.exi.java.FixValueContainer.ArrayData;
+import fabric.module.exi.java.FixValueContainer.ListData;
 
 /**
  * Converter class for the XStream XML library. This class
@@ -95,8 +95,7 @@ public class XStream extends XMLLibrary
    */
   @Override
   public void generateJavaToXMLCode(final ArrayList<ArrayData> fixArrays,
-                                    final ArrayList<SimpleListData> fixSimpleLists,
-                                    final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
+                                    final ArrayList<ListData> fixLists) throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, this.beanClassName, "beanObject"));
@@ -111,10 +110,7 @@ public class XStream extends XMLLibrary
                 + ", \"values\", \"value\", "
                 + array.getItemType() + ".class);\n";
     }
-    for (SimpleListData list: fixSimpleLists) {
-        methodBody += "stream.alias(\"value\", " + list.getItemType() + ".class);\n";
-    }
-    for (NonSimpleListData list: fixNonSimpleLists) {
+    for (ListData list: fixLists) {
         methodBody += "stream.alias(\"value\", " + list.getItemType() + ".class);\n";
     }
 
@@ -146,8 +142,7 @@ public class XStream extends XMLLibrary
    */
   @Override
   public void generateXMLToInstanceCode(final ArrayList<ArrayData> fixArrays,
-                                        final ArrayList<SimpleListData> fixSimpleLists,
-                                        final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
+                                        final ArrayList<ListData> fixLists) throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
@@ -162,17 +157,14 @@ public class XStream extends XMLLibrary
                 + ", \"values\", \"value\", "
                 + array.getItemType() + ".class);\n";
     }
-    for (SimpleListData list: fixSimpleLists) {
-        methodBody += "stream.alias(\"value\", " + list.getItemType() + ".class);\n";
-    }
-    for (NonSimpleListData list: fixNonSimpleLists) {
+    for (ListData list: fixLists) {
         methodBody += "stream.alias(\"value\", " + list.getItemType() + ".class);\n";
     }
     
     methodBody += String.format(
-            "%s.stream.alias(\"%s\", %s.class);\n\n" + // TODO: First letter capital for alias!
+            "%s.stream.alias(\"%s\", %s.class);\n\n" +
             "return (%s)%s.stream.fromXML(addValueTags(xmlDocument));",
-            this.converterClass.getName(), this.beanClassName.toLowerCase(), this.beanClassName, this.beanClassName, this.converterClass.getName());
+            this.converterClass.getName(), this.beanClassName, this.beanClassName, this.beanClassName, this.converterClass.getName());
 
     jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Deserialize XML document to bean object."));

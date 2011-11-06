@@ -1,4 +1,4 @@
-/** 03.11.2011 14:30 */
+/** 06.11.2011 02:37 */
 package fabric.module.exi.java;
 
 /**
@@ -35,7 +35,7 @@ abstract public class FixValueContainer
      * 
      * @param name Name of the XML element
      */
-    public void setName(String name)
+    public void setName(final String name)
     {
       this.name = name;
     }
@@ -68,6 +68,9 @@ abstract public class FixValueContainer
 
     /** Type of the array items (usually equal to array type) */
     private String itemType;
+    
+    /** Flag to tell whether array is custom-typed or not */
+    private boolean isCustomTyped;
 
     /**
      * Parameterized constructor.
@@ -76,13 +79,15 @@ abstract public class FixValueContainer
      * @param type Type of the XML array
      * @param itemName Name of the array items
      * @param itemType Type of the array items (usually equal to array type)
+     * @param isCustomTyped Flag to tell whether array is custom-typed
      */
-    public ArrayData(final String name, final String type, final String itemName, final String itemType)
+    public ArrayData(final String name, final String type, final String itemName, final String itemType, final boolean isCustomTyped)
     {
       this.arrayName = name;
       this.arrayType = type;
       this.itemName = itemName;
       this.itemType = itemType;
+      this.isCustomTyped = isCustomTyped;
     }
 
     /**
@@ -90,7 +95,7 @@ abstract public class FixValueContainer
      * 
      * @param arrayName Name of the XML array
      */
-    public void setArrayName(String arrayName)
+    public void setArrayName(final String arrayName)
     {
       this.arrayName = arrayName;
     }
@@ -110,7 +115,7 @@ abstract public class FixValueContainer
      * 
      * @param arrayType Type of the XML array
      */
-    public void setArrayType(String arrayType)
+    public void setArrayType(final String arrayType)
     {
       this.arrayType = arrayType;
     }
@@ -130,7 +135,7 @@ abstract public class FixValueContainer
      * 
      * @param itemName Name of the array items
      */
-    public void setItemName(String itemName)
+    public void setItemName(final String itemName)
     {
       this.itemName = itemName;
     }
@@ -150,7 +155,7 @@ abstract public class FixValueContainer
      * 
      * @param itemType Type of the array items
      */
-    public void setItemType(String itemType)
+    public void setItemType(final String itemType)
     {
       this.itemType = itemType;
     }
@@ -164,13 +169,33 @@ abstract public class FixValueContainer
     {
       return itemType;
     }
+
+    /**
+     * Set flag to tell whether array is custom-typed or not.
+     * 
+     * @param isCustomTyped True if custom-typed, false otherwise
+     */
+    public void setIsCustomTyped(boolean isCustomTyped)
+    {
+      this.isCustomTyped = isCustomTyped;
+    }
+
+    /**
+     * Check whether array is custom-typed or not.
+     *
+     * @return True if custom-typed, false otherwise
+     */
+    public boolean isCustomTyped()
+    {
+      return this.isCustomTyped;
+    }
   }
 
   /*****************************************************************
    * ListData inner class
    *****************************************************************/
   
-  private abstract static class ListData
+  public static class ListData
   {
     /** Name of the XML list */
     protected String listName;
@@ -180,13 +205,32 @@ abstract public class FixValueContainer
 
     /** Type of the list items */
     protected String itemType;
+    
+    /** Flag to tell whether list is custom-typed or not */
+    private boolean isCustomTyped;
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param name Name of the XML list
+     * @param type Type of the XML list
+     * @param itemType Type of the list items
+     * @param isCustomTyped Flag to tell whether list is custom-typed
+     */
+    public ListData(final String name, final String type, final String itemType, final boolean isCustomTyped)
+    {
+      this.listName = name;
+      this.listType = type;
+      this.itemType = itemType;
+      this.isCustomTyped = isCustomTyped;
+    }
 
     /**
      * Set name of the XML list.
      * 
      * @param itemName Name of the XML list
      */
-    public void setListName(String listName)
+    public void setListName(final String listName)
     {
       this.listName = listName;
     }
@@ -206,7 +250,7 @@ abstract public class FixValueContainer
      * 
      * @param listType Type of the XML list
      */
-    public void setListType(String listType)
+    public void setListType(final String listType)
     {
       this.listType = listType;
     }
@@ -226,7 +270,7 @@ abstract public class FixValueContainer
      * 
      * @param itemType Type of the list items
      */
-    public void setItemType(String itemType)
+    public void setItemType(final String itemType)
     {
       this.itemType = itemType;
     }
@@ -240,49 +284,25 @@ abstract public class FixValueContainer
     {
       return itemType;
     }
-  }
 
-  /*****************************************************************
-   * SimpleListData inner class
-   *****************************************************************/
-  
-  // XML list with simple-typed items (e.g. xs:short or xs:string)
-  public static class SimpleListData extends ListData
-  {
     /**
-     * Parameterized constructor.
+     * Set flag to tell whether list is custom-typed or not.
      * 
-     * @param name Name of the XML list
-     * @param type Type of the XML list
-     * @param itemType Type of the list items
+     * @param isCustomTyped True if custom-typed, false otherwise
      */
-    public SimpleListData(final String name, final String type, final String itemType)
+    public void setIsCustomTyped(boolean isCustomTyped)
     {
-      this.listName = name;
-      this.listType = type;
-      this.itemType = itemType;
+      this.isCustomTyped = isCustomTyped;
     }
-  }
 
-  /*****************************************************************
-   * NonSimpleListData inner class
-   *****************************************************************/
-  
-  // XML list with non-simple-typed items (item type has its own class, e.g. MyString)
-  public static class NonSimpleListData extends ListData
-  {
     /**
-     * Parameterized constructor.
+     * Check whether list is custom-typed or not.
      * 
-     * @param name Name of the XML list
-     * @param type Type of the XML list
-     * @param itemType Type of the list items
+     * @return True if custom-typed, false otherwise
      */
-    public NonSimpleListData(final String name, final String type, final String itemType)
+    public boolean isCustomTyped()
     {
-      this.listName = name;
-      this.listType = type;
-      this.itemType = itemType;
+      return this.isCustomTyped;
     }
   }
 }

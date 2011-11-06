@@ -1,15 +1,16 @@
-/** 20.10.2011 23:40 */
+/** 06.11.2011 02:57 */
 package fabric.module.exi.java.lib.xml;
+
+import java.util.ArrayList;
 
 import de.uniluebeck.sourcegen.java.JMethod;
 import de.uniluebeck.sourcegen.java.JMethodCommentImpl;
 import de.uniluebeck.sourcegen.java.JMethodSignature;
 import de.uniluebeck.sourcegen.java.JModifier;
 import de.uniluebeck.sourcegen.java.JParameter;
+
 import fabric.module.exi.java.FixValueContainer.ArrayData;
-import fabric.module.exi.java.FixValueContainer.NonSimpleListData;
-import fabric.module.exi.java.FixValueContainer.SimpleListData;
-import java.util.ArrayList;
+import fabric.module.exi.java.FixValueContainer.ListData;
 
 /**
  * Converter class for the JAXB XML library. This class
@@ -40,8 +41,7 @@ public class JAXB extends XMLLibrary
    */
   @Override
   public void generateJavaToXMLCode(final ArrayList<ArrayData> fixArrays,
-                                    final ArrayList<SimpleListData> fixSimpleLists,
-                                    final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
+                                    final ArrayList<ListData> fixLists) throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, this.beanClassName, "beanObject"));
@@ -78,8 +78,7 @@ public class JAXB extends XMLLibrary
    */
   @Override
   public void generateXMLToInstanceCode(final ArrayList<ArrayData> fixArrays,
-                                        final ArrayList<SimpleListData> fixSimpleLists,
-                                        final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
+                                        final ArrayList<ListData> fixLists) throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));

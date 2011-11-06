@@ -1,4 +1,4 @@
-/** 31.10.2011 19:25 */
+/** 06.11.2011 02:40 */
 package fabric.module.exi;
 
 import org.slf4j.Logger;
@@ -25,8 +25,7 @@ import fabric.module.typegen.java.JavaTypeGen;
 import fabric.module.exi.base.EXICodeGen;
 import fabric.module.exi.java.FixValueContainer.ArrayData;
 import fabric.module.exi.java.FixValueContainer.ElementData;
-import fabric.module.exi.java.FixValueContainer.NonSimpleListData;
-import fabric.module.exi.java.FixValueContainer.SimpleListData;
+import fabric.module.exi.java.FixValueContainer.ListData;
 
 /**
  * Fabric handler class for the EXI module. This class defines
@@ -54,11 +53,8 @@ public class FabricEXIHandler extends FabricDefaultHandler
   /** List of XML arrays, where value-tags need to be fixed */
   private ArrayList<ArrayData> fixArrays;
 
-  /** List of XML lists with simple-typed items, where value-tags need to be fixed */
-  private ArrayList<SimpleListData> fixSimpleLists;
-
-  /** List of XML lists with non-simple-typed items, where value-tags need to be fixed */
-  private ArrayList<NonSimpleListData> fixNonSimpleLists;
+  /** List of XML lists, where value-tags need to be fixed */
+  private ArrayList<ListData> fixLists;
 
   /**
    * Constructor initializes the language-specific EXI code generator.
@@ -77,8 +73,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
 
     this.fixElements = new ArrayList<ElementData>();
     this.fixArrays = new ArrayList<ArrayData>();
-    this.fixSimpleLists = new ArrayList<SimpleListData>();
-    this.fixNonSimpleLists = new ArrayList<NonSimpleListData>();
+    this.fixLists = new ArrayList<ListData>();
   }
 
   /**
@@ -117,7 +112,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called endSchema().");
 
-    this.exiGenerator.generateCode(this.fixElements, this.fixArrays, this.fixSimpleLists, this.fixNonSimpleLists);
+    this.exiGenerator.generateCode(this.fixElements, this.fixArrays, this.fixLists);
     this.exiGenerator.writeSourceFile();
   }
 
@@ -193,7 +188,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
         if (FSchemaTypeHelper.isArray(element))
         {
           LOGGER.debug("######################################## Fixing array within compley type."); // TODO: Remove
-          this.fixArrays.add(new ArrayData(element.getName(), typeName, "values", typeName)); // TODO: parent.getName() as first argument
+          this.fixArrays.add(new ArrayData(element.getName(), typeName, "values", typeName, true)); // TODO: parent.getName() as first argument
         }
         // TODO: Do we need to collect local elements of complex types as well?
         else

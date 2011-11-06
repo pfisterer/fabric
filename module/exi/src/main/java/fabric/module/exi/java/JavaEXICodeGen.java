@@ -1,4 +1,4 @@
-/** 16.10.2011 01:10 */
+/** 06.11.2011 02:41 */
 package fabric.module.exi.java;
 
 import org.slf4j.Logger;
@@ -19,10 +19,9 @@ import de.uniluebeck.sourcegen.java.JSourceFile;
 
 import fabric.module.exi.FabricEXIModule;
 import fabric.module.exi.base.EXICodeGen;
-import fabric.module.exi.java.FixValueContainer.ArrayData;
 import fabric.module.exi.java.FixValueContainer.ElementData;
-import fabric.module.exi.java.FixValueContainer.NonSimpleListData;
-import fabric.module.exi.java.FixValueContainer.SimpleListData;
+import fabric.module.exi.java.FixValueContainer.ArrayData;
+import fabric.module.exi.java.FixValueContainer.ListData;
 
 /**
  * EXI code generator for Java.
@@ -94,18 +93,14 @@ public class JavaEXICodeGen implements EXICodeGen
    * 
    * @param fixElements XML elements, where value-tags need to be fixed
    * @param fixArrays XML arrays, where value-tags need to be fixed
-   * @param fixSimpleLists XML lists with simple-typed items,
-   * where value-tags need to be fixed
-   * @param fixNonSimpleLists XML lists with non-simple-typed items,
-   * where value-tags need to be fixed
+   * @param fixLists XML lists, where value-tags need to be fixed
    *
    * @throws Exception Error during code generation
    */
   @Override
   public void generateCode(ArrayList<ElementData> fixElements,
                            ArrayList<ArrayData> fixArrays,
-                           ArrayList<SimpleListData> fixSimpleLists,
-                           ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
+                           ArrayList<ListData> fixLists) throws Exception
   {
     /*****************************************************************
      * Create main function for application
@@ -131,7 +126,7 @@ public class JavaEXICodeGen implements EXICodeGen
     LOGGER.debug(String.format("Generated new source file '%s' for XML converter.", this.converterClassName));
 
     // Create XML converter class
-    beanConverter.generateConverterClass(jsf, fixElements, fixArrays, fixSimpleLists, fixNonSimpleLists);
+    beanConverter.generateConverterClass(jsf, fixElements, fixArrays, fixLists);
     
     // Create method for XML serialization
     JMethod xmlSerialize = beanConverter.generateSerializeCall();

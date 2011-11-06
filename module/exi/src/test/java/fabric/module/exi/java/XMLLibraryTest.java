@@ -7,13 +7,13 @@ import java.util.ArrayList;
 
 import de.uniluebeck.sourcegen.java.JClass;
 import de.uniluebeck.sourcegen.java.JModifier;
-import fabric.module.exi.java.FixValueContainer.ArrayData;
-import fabric.module.exi.java.FixValueContainer.ElementData;
-import fabric.module.exi.java.FixValueContainer.NonSimpleListData;
-import fabric.module.exi.java.FixValueContainer.SimpleListData;
 
 import fabric.module.exi.java.lib.xml.XMLLibrary;
 import fabric.module.exi.java.lib.xml.XMLLibraryFactory;
+
+import fabric.module.exi.java.FixValueContainer.ElementData;
+import fabric.module.exi.java.FixValueContainer.ArrayData;
+import fabric.module.exi.java.FixValueContainer.ListData;
 
 /**
  * Unit test for XMLLibrary classes.
@@ -76,11 +76,10 @@ public class XMLLibraryTest
     // Create empty lists for value-tag fixing
     ArrayList<ElementData> fixElements = new ArrayList<ElementData>();
     ArrayList<ArrayData> fixArrays = new ArrayList<ArrayData>();
-    ArrayList<SimpleListData> fixSimpleLists = new ArrayList<SimpleListData>();
-    ArrayList<NonSimpleListData> fixNonSimpleLists = new ArrayList<NonSimpleListData>();
+    ArrayList<ListData> fixLists = new ArrayList<ListData>();
 
     // Check library initialization
-    JClass classObject = xmlLibrary.init(fixElements, fixArrays, fixSimpleLists, fixNonSimpleLists);
+    JClass classObject = xmlLibrary.init(fixElements, fixArrays, fixLists);
     assertNotNull("Returned JClass object must not be null.", classObject);
     assertEquals(String.format("JClass name must be '%sConverter'.", BEAN_CLASS_NAME), BEAN_CLASS_NAME + "Converter", classObject.getName());
 

@@ -2,10 +2,9 @@ package fabric.module.exi.base;
 
 import java.util.ArrayList;
 
-import fabric.module.exi.java.FixValueContainer.ArrayData;
 import fabric.module.exi.java.FixValueContainer.ElementData;
-import fabric.module.exi.java.FixValueContainer.NonSimpleListData;
-import fabric.module.exi.java.FixValueContainer.SimpleListData;
+import fabric.module.exi.java.FixValueContainer.ArrayData;
+import fabric.module.exi.java.FixValueContainer.ListData;
 
 /**
  * Public interface for EXICodeGen implementations.
@@ -19,17 +18,13 @@ public interface EXICodeGen
    * 
    * @param fixElements XML elements, where value-tags need to be fixed
    * @param fixArrays XML arrays, where value-tags need to be fixed
-   * @param fixSimpleLists XML lists with simple-typed items,
-   * where value-tags need to be fixed
-   * @param fixNonSimpleLists XML lists with non-simple-typed items,
-   * where value-tags need to be fixed
-   *
+   * @param fixLists XML lists, where value-tags need to be fixed
+   * 
    * @throws Exception Error during code generation
    */
   public void generateCode(final ArrayList<ElementData> fixElements,
                            final ArrayList<ArrayData> fixArrays,
-                           final ArrayList<SimpleListData> fixSimpleLists,
-                           final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception;
+                           final ArrayList<ListData> fixLists) throws Exception;
 
   /**
    * Create source file and write it to language-specific workspace.

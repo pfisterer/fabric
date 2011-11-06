@@ -1,4 +1,4 @@
-/** 31.10.2011 19:29 */
+/** 06.11.2011 02:42 */
 package fabric.module.exi.java;
 
 import java.util.Properties;
@@ -14,10 +14,9 @@ import de.uniluebeck.sourcegen.java.JSourceFile;
 import fabric.module.exi.FabricEXIModule;
 import fabric.module.exi.exceptions.FabricEXIException;
 
-import fabric.module.exi.java.FixValueContainer.ArrayData;
 import fabric.module.exi.java.FixValueContainer.ElementData;
-import fabric.module.exi.java.FixValueContainer.NonSimpleListData;
-import fabric.module.exi.java.FixValueContainer.SimpleListData;
+import fabric.module.exi.java.FixValueContainer.ArrayData;
+import fabric.module.exi.java.FixValueContainer.ListData;
 
 import fabric.module.exi.java.lib.xml.XMLLibrary;
 import fabric.module.exi.java.lib.xml.XMLLibraryFactory;
@@ -62,18 +61,14 @@ public class JavaBeanConverter
    * @param sourceFile Java source file for code write-out
    * @param fixElements XML elements, where value-tags need to be fixed
    * @param fixArrays XML arrays, where value-tags need to be fixed
-   * @param fixSimpleLists XML lists with simple-typed items,
-   * where value-tags need to be fixed
-   * @param fixNonSimpleLists XML lists with non-simple-typed items,
-   * where value-tags need to be fixed
+   * @param fixLists XML lists, where value-tags need to be fixed
    * 
    * @throws Exception Source file was null or error during code generation
    */
   public void generateConverterClass(final JSourceFile sourceFile,
                                      final ArrayList<ElementData> fixElements,
                                      final ArrayList<ArrayData> fixArrays,
-                                     final ArrayList<SimpleListData> fixSimpleLists,
-                                     final ArrayList<NonSimpleListData> fixNonSimpleLists) throws Exception
+                                     final ArrayList<ListData> fixLists) throws Exception
   {    
     if (null == sourceFile)
     {
@@ -86,7 +81,7 @@ public class JavaBeanConverter
               this.properties.getProperty(FabricEXIModule.XMLLIBRARY_NAME_KEY),
               this.beanClassName);
       
-      sourceFile.add(xmlLibrary.init(fixElements, fixArrays, fixSimpleLists, fixNonSimpleLists));
+      sourceFile.add(xmlLibrary.init(fixElements, fixArrays, fixLists));
       
       // Add required imports AFTER initialization
       for (String requiredImport: xmlLibrary.getRequiredImports())
