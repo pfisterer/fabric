@@ -11,6 +11,7 @@ import de.uniluebeck.sourcegen.java.JMethodSignature;
 import de.uniluebeck.sourcegen.java.JModifier;
 import de.uniluebeck.sourcegen.java.JParameter;
 
+import fabric.module.exi.java.FixValueContainer;
 import fabric.module.exi.java.FixValueContainer.ArrayData;
 import fabric.module.exi.java.FixValueContainer.ListData;
 
@@ -72,7 +73,8 @@ public class XStream extends XMLLibrary
             "\t\t\tsuper.writeField(object, fieldName, value, definedIn);\n" +
             "\t\t}\n" +
             "\t}\n" +
-            "});",
+            "});\n" +
+            "stream.autodetectAnnotations(true);",
             this.converterClass.getName());
     
     setupStreamObject.getBody().appendSource(methodBody);
@@ -94,26 +96,16 @@ public class XStream extends XMLLibrary
    * @throws Exception Error during code generation
    */
   @Override
-  public void generateJavaToXMLCode(final ArrayList<ArrayData> fixArrays,
-                                    final ArrayList<ListData> fixLists) throws Exception
+  public void generateJavaToXMLCode() throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, this.beanClassName, "beanObject"));
     JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, "String",
             "instanceToXML", jms, new String[] { "Exception" });
 
-    String methodBody = "";
+    //String methodBody = addAliasForLists(fixLists);
 
-    for (ArrayData array: fixArrays) {
-        methodBody += String.format("stream.addImplicitCollection(%s, %s, %s, %s.class);\n",
-                array.getArrayType(), array.getArrayName(), array.getItemName(), array.getItemType());
-        // TODO: Change first argument to the container class where the array exists
-    }
-    for (ListData list: fixLists) {
-        methodBody += String.format("stream.alias(\"value\", %s.class);\n", list.getItemType());
-    }
-
-    methodBody += String.format(
+    String methodBody = String.format(
             "%s.stream.alias(\"%s\", %s.class);\n\n" +
             "StringWriter xmlDocument = new StringWriter();\n" +
             "BufferedWriter serializer = new BufferedWriter(xmlDocument);\n" +
@@ -140,26 +132,16 @@ public class XStream extends XMLLibrary
    * @throws Exception Error during code generation
    */
   @Override
-  public void generateXMLToInstanceCode(final ArrayList<ArrayData> fixArrays,
-                                        final ArrayList<ListData> fixLists) throws Exception
+  public void generateXMLToInstanceCode() throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
     JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, this.beanClassName,
             "xmlToInstance", jms, new String[] { "Exception" });
 
-    String methodBody = "";
-
-    for (ArrayData array: fixArrays) {
-        methodBody += String.format("stream.addImplicitCollection(%s, %s, %s, %s.class);\n",
-                array.getArrayType(), array.getArrayName(), array.getItemName(), array.getItemType());
-        // TODO: Change first argument to the container class where the array exists
-    }
-    for (ListData list: fixLists) {
-        methodBody += String.format("stream.alias(\"value\", %s.class);\n", list.getItemType());
-    }
+    //String methodBody = addAliasForLists(fixLists);
     
-    methodBody += String.format(
+    String methodBody = String.format(
             "%s.stream.alias(\"%s\", %s.class);\n\n" +
             "return (%s)%s.stream.fromXML(addValueTags(xmlDocument));",
             this.converterClass.getName(), this.beanClassName, this.beanClassName, this.beanClassName,
@@ -173,4 +155,106 @@ public class XStream extends XMLLibrary
     // Add required Java imports
     this.addRequiredImport("com.thoughtworks.xstream.XStream");
   }
+
+  /**
+   * Private helper method to generate code that removes unnecessary
+   * values-tag and value-tags from a list in an XML document.
+   *
+   * @throws Exception Error during code generation
+   */
+  @Override
+  protected JMethod generateRemoveTagFromList() throws Exception {
+    JMethodSignature jms = JMethodSignature.factory.create(
+            JParameter.factory.create(JModifier.FINAL, "String", "list"),
+            JParameter.factory.create(JModifier.FINAL, "Document", "doc"),
+            JParameter.factory.create(JModifier.FINAL, "boolean", "isCustomTyped"));
+    JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "removeTagFromList", jms);
+
+    String methodBody =
+            "if (isCustomTyped) {\n" +
+            "\tremoveTagFromElement(list, doc);\n" +
+            "}\n" +
+            "NodeList rootNodes = doc.getElementsByTagName(list);\n" +
+            "if (rootNodes.getLength() > 0) {\n" +
+            "\tElement first = (Element) rootNodes.item(0);\n" +
+            "\tString newContent = first.getTextContent();\n" +
+            "\twhile (rootNodes.getLength() > 1) {\n" +
+             "\t\tElement second = (Element) rootNodes.item(1);\n" +
+             "\t\tnewContent += \" \" + second.getTextContent();\n" +
+             "\t\tsecond.getParentNode().removeChild(second.getNextSibling());\n" +
+             "\t\tsecond.getParentNode().removeChild(second);\n" +
+             "\t}\n" +
+             "\tfirst.setTextContent(newContent.trim());\n" +
+             "};";
+
+    jm.getBody().appendSource(methodBody);
+    jm.setComment(new JMethodCommentImpl("Remove unnecessary value-tag from the XML element."));
+
+    addRequiredImport("org.w3c.dom.Document");
+    addRequiredImport("org.w3c.dom.Element");
+    addRequiredImport("org.w3c.dom.NodeList");
+
+    return jm;
+  }
+
+  /**
+   * Private helper method to generate code that adds
+   * value-tags to one single list in an XML document.
+   *
+   * @throws Exception Error during code generation
+   */
+  @Override
+  protected JMethod generateAddTagToList() throws Exception {
+    JMethodSignature jms = JMethodSignature.factory.create(
+            JParameter.factory.create(JModifier.FINAL, "String", "list"),
+            JParameter.factory.create(JModifier.FINAL, "Document", "doc"),
+            JParameter.factory.create(JModifier.FINAL, "boolean", "isCustomTyped"));
+    JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "addTagToList", jms);
+
+    String methodBody =
+            "NodeList rootNodes = doc.getElementsByTagName(list);\n" +
+	    "for (int i = 0; i < rootNodes.getLength();) {\n" +
+            "\tElement root = (Element) rootNodes.item(i);\n" +
+            "\tString[] content = root.getTextContent().split(\" \");\n" +
+            "\t// Each value has to get its own value-tag\n" +
+            "\tfor (int j = 0; j < content.length; j++, i++) {\n" +
+            "\t\tElement child = doc.createElement(list);\n" +
+            "\t\tchild.appendChild(doc.createTextNode(content[j]));\n" +
+            "\t\troot.getParentNode().insertBefore(child, root);\n" +
+            "\t}\n" +
+            "\troot.getParentNode().removeChild(root);\n" +
+            "\tif (isCustomTyped) {\n" +
+            "\t\taddTagToElement(list, doc);\n" +
+            "\t}\n" +
+	    "}";
+
+    jm.getBody().appendSource(methodBody);
+    jm.setComment(new JMethodCommentImpl("Add values-tag and/or value-tags to the XML list."));
+
+    addRequiredImport("org.w3c.dom.Document");
+    addRequiredImport("org.w3c.dom.Element");
+    addRequiredImport("org.w3c.dom.NodeList");
+
+    return jm;
+  }
+//
+// /**
+//  * Private helper method to generate code of required aliases for XStream.
+//  *
+//  * @param fixLists ArrayList with lists that need an alias in XStream
+//  */
+//  private String addAliasForLists(ArrayList<ListData> fixLists) {
+//    String ret = "";
+//    ArrayList<String> aliases = new ArrayList<String>();
+//    for (ListData list : fixLists) {
+//        if (!aliases.contains(list.getItemType()))
+//        {
+//          aliases.add(list.getItemType());
+//          ret += String.format(
+//                "%s.stream.alias(\"value\", %s.class);\n",
+//                converterClass.getName(), list.getItemType());
+//        }
+//    }
+//    return ret;
+//  }
 }

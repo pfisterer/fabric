@@ -40,8 +40,7 @@ public class JAXB extends XMLLibrary
    * @throws Exception Error during code generation
    */
   @Override
-  public void generateJavaToXMLCode(final ArrayList<ArrayData> fixArrays,
-                                    final ArrayList<ListData> fixLists) throws Exception
+  public void generateJavaToXMLCode() throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, this.beanClassName, "beanObject"));
@@ -77,8 +76,7 @@ public class JAXB extends XMLLibrary
    * @throws Exception Error during code generation
    */
   @Override
-  public void generateXMLToInstanceCode(final ArrayList<ArrayData> fixArrays,
-                                        final ArrayList<ListData> fixLists) throws Exception
+  public void generateXMLToInstanceCode() throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
@@ -113,7 +111,8 @@ public class JAXB extends XMLLibrary
   protected JMethod generateRemoveTagFromList() throws Exception {
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "list"),
-            JParameter.factory.create(JModifier.FINAL, "Document", "doc"));
+            JParameter.factory.create(JModifier.FINAL, "Document", "doc"),
+            JParameter.factory.create(JModifier.FINAL, "boolean", "isCustomTyped"));
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "removeTagFromList", jms);
 
     String methodBody_private =

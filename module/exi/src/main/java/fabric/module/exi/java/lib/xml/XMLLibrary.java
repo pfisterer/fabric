@@ -104,10 +104,10 @@ abstract public class XMLLibrary
                      final ArrayList<ListData> fixLists) throws Exception
   {
     // Generate code for XML serialization
-    this.generateJavaToXMLCode(fixArrays, fixLists);
+    this.generateJavaToXMLCode();
 
     // Generate code for XML deserialization
-    this.generateXMLToInstanceCode(fixArrays, fixLists);
+    this.generateXMLToInstanceCode();
 
     // Generate code to fix value-tags
     this.generateFixValueCode(fixElements, fixArrays, fixLists);
@@ -121,8 +121,7 @@ abstract public class XMLLibrary
    * 
    * @throws Exception Error during code generation
    */
-  abstract public void generateJavaToXMLCode(final ArrayList<ArrayData> fixArrays,
-                                             final ArrayList<ListData> fixLists) throws Exception;
+  abstract public void generateJavaToXMLCode() throws Exception;
 
   /**
    * Method that creates code to convert an XML document
@@ -130,8 +129,7 @@ abstract public class XMLLibrary
    * 
    * @throws Exception Error during code generation
    */
-  abstract public void generateXMLToInstanceCode(final ArrayList<ArrayData> fixArrays,
-                                                 final ArrayList<ListData> fixLists) throws Exception;
+  abstract public void generateXMLToInstanceCode() throws Exception;
 
   /**
    * This method generates code to fix a problem within the
@@ -238,7 +236,7 @@ abstract public class XMLLibrary
             "try {\n" +
             "\t// Create document\n" +
             "\tDocument doc = DocumentBuilderFactory.newInstance(\"com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl\", null).newDocumentBuilder().parse(new ByteArrayInputStream(xmlDocument.getBytes()));\n" +
-            "\t// Fix tags in elements, lists and element arrays\n";
+            "\t// Fix tags in elements\n";
 
     // Remove tag from elements
     for (ElementData element : fixElements) {
@@ -252,9 +250,11 @@ abstract public class XMLLibrary
         }
     }
     // Remove tag from lists
-    methodBody += "\t// Fix tags in element lists\n";
+    methodBody += "\t// Fix tags in lists\n";
     for (ListData list : fixLists) {
-        methodBody += String.format("\tremoveTagFromList(\"%s\", doc);\n", list.getListName());
+        methodBody += String.format(
+                "\tremoveTagFromList(\"%s\", doc, %b);\n",
+                list.getListName(), list.isCustomTyped());
     }
 
     methodBody +=
@@ -345,38 +345,7 @@ abstract public class XMLLibrary
    *
    * @throws Exception Error during code generation
    */
-  protected JMethod generateRemoveTagFromList() throws Exception {
-    JMethodSignature jms = JMethodSignature.factory.create(
-            JParameter.factory.create(JModifier.FINAL, "String", "list"),
-            JParameter.factory.create(JModifier.FINAL, "Document", "doc"));
-    JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "removeTagFromList", jms);
-
-    String methodBody =
-            "NodeList rootNodes = doc.getElementsByTagName(list);\n" +
-            "for (int i = 0; i < rootNodes.getLength(); i++) {\n" +
-            "\tElement root = (Element) rootNodes.item(i);\n" +
-            "\t// Get all child nodes of root with a value-tag\n" +
-            "\tNodeList children = root.getElementsByTagName(\"values\");\n" +
-            "\tif (children.getLength() == 1) {\n" +
-            "\t\tElement valueList = (Element) children.item(0);\n"+
-            "\t\twhile (valueList.hasChildNodes()) {\n" +
-            "\t\t\troot.appendChild(valueList.getFirstChild().cloneNode(true));\n" +
-            "\t\t\tvalueList.removeChild(valueList.getFirstChild());\n" +
-            "\t\t}\n" +
-            "\t\troot.removeChild(valueList);\n" +
-            "\t}\n" +
-            "\tremoveTagFromElement(list, doc);\n" +
-            "}";
-
-    jm.getBody().appendSource(methodBody);
-    jm.setComment(new JMethodCommentImpl("Remove unnecessary value-tag from the XML element."));
-
-    addRequiredImport("org.w3c.dom.Document");
-    addRequiredImport("org.w3c.dom.Element");
-    addRequiredImport("org.w3c.dom.NodeList");
-
-    return jm;
-  }
+  abstract protected JMethod generateRemoveTagFromList() throws Exception;
 
   /**
    * Private helper method to generate code that adds value-tags
@@ -414,9 +383,11 @@ abstract public class XMLLibrary
         }
     }
     // Add tag to lists
-    methodBody += "\t// Fix tags in element lists\n";
+    methodBody += "\t// Fix tags in lists\n";
     for (ListData list : fixLists) {
-        methodBody += String.format("\taddTagToList(\"%s\", doc, %b);\n", list.getListName(), list.isCustomTyped());
+        methodBody += String.format(
+                "\taddTagToList(\"%s\", doc, %b);\n",
+                list.getListName(), list.isCustomTyped());
     }
 
     methodBody +=
@@ -500,42 +471,5 @@ abstract public class XMLLibrary
    *
    * @throws Exception Error during code generation
    */
-  protected JMethod generateAddTagToList() throws Exception {
-    JMethodSignature jms = JMethodSignature.factory.create(
-            JParameter.factory.create(JModifier.FINAL, "String", "list"),
-            JParameter.factory.create(JModifier.FINAL, "Document", "doc"),
-            JParameter.factory.create(JModifier.FINAL, "boolean", "isCustomTyped"));
-    JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "addTagToList", jms);
-
-    String methodBody =
-            "NodeList rootNodes  = doc.getElementsByTagName(list);\n" +
-            "for (int i = 0; i < rootNodes.getLength(); i++) {\n" +
-            "\tElement root        = (Element) rootNodes.item(i);\n" +
-            "\tString[] content    = root.getTextContent().split(\" \");\n" +
-            "\tif (isCustomTyped) {\n" +
-            "\t\t// Insert values-tag\n" +
-            "\t\tElement child = doc.createElement(\"values\");\n" +
-            "\t\tchild.setTextContent(root.getTextContent());\n" +
-            "\t\troot.removeChild(root.getFirstChild());\n" +
-            "\t\troot.appendChild(child);\n" +
-            "\t\troot = child;\n" +
-            "\t}\n" +
-            "\t// Each value has to get its own value-tag\n" +
-            "\tfor (int j = 0; j < content.length; j++) {\n" +
-            "\t\tElement child = doc.createElement(\"value\");\n" +
-            "\t\tchild.appendChild(doc.createTextNode(content[j]));\n" +
-            "\t\troot.appendChild(child);\n" +
-            "\t}\n" +
-            "\troot.removeChild(root.getFirstChild());\n" +
-            "}";
-
-    jm.getBody().appendSource(methodBody);
-    jm.setComment(new JMethodCommentImpl("Add values-tag and/or value-tags to the XML list."));
-
-    addRequiredImport("org.w3c.dom.Document");
-    addRequiredImport("org.w3c.dom.Element");
-    addRequiredImport("org.w3c.dom.NodeList");
-
-    return jm;
-  }
+  abstract protected JMethod generateAddTagToList() throws Exception;
 }
