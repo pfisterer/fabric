@@ -14,6 +14,7 @@ import fabric.wsdlschemaparser.schema.FComplexType;
 import fabric.wsdlschemaparser.schema.FElement;
 import fabric.wsdlschemaparser.schema.FList;
 import fabric.wsdlschemaparser.schema.FSchema;
+import fabric.wsdlschemaparser.schema.FSchemaType;
 import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
 import fabric.wsdlschemaparser.schema.FSimpleType;
 import fabric.wsdlschemaparser.schema.SchemaHelper;
@@ -97,34 +98,34 @@ public class FabricEXIHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called startTopLevelSimpleType().");
 
-    // Element is of simple type and not a list
-    if (null != type && !FSchemaTypeHelper.isEnum(type))
-    {
-      LOGGER.debug("######################################## Checking '" + type.getName() + "' for value-tag fixing."); // TODO: Remove
-
-      if (FSchemaTypeHelper.isList(type))
-      {
-        FList listType = (FList)type;
-        String typeName = this.mapper.lookup(JavaTypeGen.getFabricTypeName(listType.getItemType()));
-
-        // TODO: Check last argument: Simple types are never custom-typed, right?
-        ListData listToFix = new ListData(type.getName(), typeName, typeName, true);
-        if (!this.fixLists.contains(listToFix))
-        {
-          LOGGER.debug("######################################## Fixing list within top-level simple type."); // TODO: Remove
-          this.fixLists.add(listToFix);
-        }
-      }
-      else
-      {
-        ElementData elementToFix = new ElementData(parent.getName());
-        if (!this.fixElements.contains(elementToFix))
-        {
-          LOGGER.debug("######################################## Fixing element within top-level simple type."); // TODO: Remove
-          this.fixElements.add(elementToFix);
-        }
-      }
-    }
+//    // Element is of simple type and not a list
+//    if (null != type && !FSchemaTypeHelper.isEnum(type))
+//    {
+//      LOGGER.debug("######################################## Checking '" + type.getName() + "' for value-tag fixing."); // TODO: Remove
+//
+//      if (FSchemaTypeHelper.isList(type))
+//      {
+//        FList listType = (FList)type;
+//        String typeName = this.mapper.lookup(JavaTypeGen.getFabricTypeName(listType.getItemType()));
+//
+//        // TODO: Check last argument: Simple types are never custom-typed, right?
+//        ListData listToFix = new ListData(type.getName(), typeName, typeName, true);
+//        if (!this.fixLists.contains(listToFix))
+//        {
+//          LOGGER.debug("######################################## Fixing list within top-level simple type."); // TODO: Remove
+//          this.fixLists.add(listToFix);
+//        }
+//      }
+//      else
+//      {
+//        ElementData elementToFix = new ElementData(parent.getName());
+//        if (!this.fixElements.contains(elementToFix))
+//        {
+//          LOGGER.debug("######################################## Fixing element within top-level simple type."); // TODO: Remove
+//          this.fixElements.add(elementToFix);
+//        }
+//      }
+//    }
   }
 
   /**
@@ -144,8 +145,75 @@ public class FabricEXIHandler extends FabricDefaultHandler
     this.exiGenerator.generateCode(this.fixElements, this.fixArrays, this.fixLists);
     this.exiGenerator.writeSourceFile();
   }
-
+  
   // TODO: Also fix lists in topLevelElements?
+  // TODO: Add comment
+  @Override
+  public void startTopLevelElement(FElement element) throws Exception
+  {
+    LOGGER.debug("Called startTopLevelElement().");
+
+    if (null != element)
+    {
+      // Determine element type
+      String typeName = "";
+      boolean isCustomTyped;
+
+      // Element is XSD base type (e.g. xs:string, xs:short, ...)
+      if (SchemaHelper.isBuiltinTypedElement(element))
+      {
+        typeName = this.mapper.lookup(JavaTypeGen.getFabricTypeName(element.getSchemaType()));
+        LOGGER.debug(String.format("Type '%s' is an XSD built-in type.", typeName));
+
+        isCustomTyped = false;
+      }
+      // Element is custom type (e.g. some XSD base type itm:Simple02)
+      else
+      {
+        typeName = element.getSchemaType().getName();
+        LOGGER.debug(String.format("Type '%s' is a custom type.", typeName));
+
+        // Create artificial name for local complex type (i.e. an inner class)
+        if (!element.getSchemaType().isTopLevel() && !element.getSchemaType().isSimple())
+        {
+          typeName += "Type";
+        }
+
+        isCustomTyped = true;
+      }
+
+      // Element is of simple type and not a list
+      if (null != element.getSchemaType() && !FSchemaTypeHelper.isEnum(element.getSchemaType()))
+      {
+        LOGGER.debug("######################################## Checking '" + typeName + "' for value-tag fixing."); // TODO: Remove
+
+        if (FSchemaTypeHelper.isList(element))
+        {
+//        FList listType = (FList)element.getSchemaType();
+//        String typeName = this.mapper.lookup(JavaTypeGen.getFabricTypeName(listType.getItemType()));
+
+          // TODO: Check last argument: Simple types are never custom-typed, right?
+//          ListData listToFix = new ListData(type.getName(), typeName, typeName, true);
+          ListData listToFix = new ListData(element.getName(), typeName, typeName, isCustomTyped);
+          if (!this.fixLists.contains(listToFix))
+          {
+            LOGGER.debug("######################################## Fixing list within top-level simple type."); // TODO: Remove
+            this.fixLists.add(listToFix);
+          }
+        }
+        // Element is simple and custom-typed
+        else if (isCustomTyped && element.getSchemaType().isSimple())
+        {
+          ElementData elementToFix = new ElementData(element.getName());
+          if (!this.fixElements.contains(elementToFix))
+          {
+            LOGGER.debug("######################################## Fixing element within top-level simple type."); // TODO: Remove
+            this.fixElements.add(elementToFix);
+          }
+        }
+      }
+    }
+  }
 
   // TODO: Add comment
   @Override
