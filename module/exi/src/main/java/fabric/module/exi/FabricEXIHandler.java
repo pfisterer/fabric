@@ -117,11 +117,11 @@ public class FabricEXIHandler extends FabricDefaultHandler
       }
       else
       {
-        ElementData elementToFix = new ElementData(type.getName());
+        ElementData elementToFix = new ElementData(parent.getName());
         if (!this.fixElements.contains(elementToFix))
         {
           LOGGER.debug("######################################## Fixing element within top-level simple type."); // TODO: Remove
-          this.fixElements.add(elementToFix); // TODO: Use type.getName() or parent.getName() here?
+          this.fixElements.add(elementToFix);
         }
       }
     }
