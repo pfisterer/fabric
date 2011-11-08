@@ -1,4 +1,4 @@
-/** 06.11.2011 17:46 */
+/** 08.11.2011 14:53 */
 package fabric.module.exi.java;
 
 /**
@@ -48,6 +48,57 @@ abstract public class FixValueContainer
     public String getName()
     {
       return name;
+    }
+
+    /**
+     * Method was overridden to allow equality check on two ElementData
+     * objects. Equality is based on the 'name' member variable, because
+     * element names should be unique.
+     * 
+     * @param object ElementData object for comparision
+     * 
+     * @return True on equality, false otherwise
+     */
+    @Override
+    public boolean equals(Object object)
+    {
+      // Objects can never be equal to null
+      if (null == object)
+      {
+        return false;
+      }
+      
+      // Early exit, if objects are identical
+      if (object == this)
+      {
+        return true;
+      }
+      
+      // Exit, if object types do not match
+      if (!object.getClass().equals(this.getClass()))
+      {
+        return false;
+      }
+      
+      // Now we can be sure to have an ElementData object
+      ElementData otherElement = (ElementData)object;
+
+      // Check equality based on element name
+      return otherElement.name.equals(this.name);
+    }
+
+    /**
+     * Hash code method for equality checking.
+     * 
+     * @return Hash code of ElementData object
+     */
+    @Override
+    public int hashCode()
+    {
+      int hash = 7;
+      hash = 67 * hash + (this.name != null ? this.name.hashCode() : 0);
+      
+      return hash;
     }
   }
 
@@ -215,6 +266,57 @@ abstract public class FixValueContainer
     {
       return this.isCustomTyped;
     }
+
+    /**
+     * Method was overridden to allow equality check on two ArrayData
+     * objects. Equality is based on the 'arrayName' member variable,
+     * because array names should be unique.
+     * 
+     * @param object ArrayData object for comparision
+     * 
+     * @return True on equality, false otherwise
+     */
+    @Override
+    public boolean equals(Object object)
+    {
+      // Objects can never be equal to null
+      if (null == object)
+      {
+        return false;
+      }
+      
+      // Early exit, if objects are identical
+      if (object == this)
+      {
+        return true;
+      }
+      
+      // Exit, if object types do not match
+      if (!object.getClass().equals(this.getClass()))
+      {
+        return false;
+      }
+      
+      // Now we can be sure to have an ArrayData object
+      ArrayData otherArray = (ArrayData)object;
+
+      // Check equality based on element name
+      return otherArray.arrayName.equals(this.arrayName);
+    }
+
+    /**
+     * Hash code method for equality checking.
+     * 
+     * @return Hash code of ArrayData object
+     */
+    @Override
+    public int hashCode()
+    {
+      int hash = 5;
+      hash = 23 * hash + (this.arrayName != null ? this.arrayName.hashCode() : 0);
+      
+      return hash;
+    }
   }
 
   /*****************************************************************
@@ -329,6 +431,57 @@ abstract public class FixValueContainer
     public boolean isCustomTyped()
     {
       return this.isCustomTyped;
+    }
+
+    /**
+     * Method was overridden to allow equality check on two ListData
+     * objects. Equality is based on the 'listName' member variable,
+     * because list names should be unique.
+     * 
+     * @param object ListData object for comparision
+     * 
+     * @return True on equality, false otherwise
+     */
+    @Override
+    public boolean equals(Object object)
+    {
+      // Objects can never be equal to null
+      if (null == object)
+      {
+        return false;
+      }
+      
+      // Early exit, if objects are identical
+      if (object == this)
+      {
+        return true;
+      }
+      
+      // Exit, if object types do not match
+      if (!object.getClass().equals(this.getClass()))
+      {
+        return false;
+      }
+      
+      // Now we can be sure to have an ListData object
+      ListData otherList = (ListData)object;
+
+      // Check equality based on element name
+      return otherList.listName.equals(this.listName);
+    }
+
+    /**
+     * Hash code method for equality checking.
+     * 
+     * @return Hash code of ListData object
+     */
+    @Override
+    public int hashCode()
+    {
+      int hash = 7;
+      hash = 53 * hash + (this.listName != null ? this.listName.hashCode() : 0);
+      
+      return hash;
     }
   }
 }

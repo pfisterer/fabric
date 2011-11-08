@@ -1,4 +1,4 @@
-/** 06.11.2011 18:11 */
+/** 08.11.2011 14:58 */
 package fabric.module.exi;
 
 import org.slf4j.Logger;
@@ -42,6 +42,9 @@ public class FabricEXIHandler extends FabricDefaultHandler
   /** Logger object */
   private static final Logger LOGGER = LoggerFactory.getLogger(FabricEXIHandler.class);
 
+  /** Properties object for module configuration */
+  private Properties properties = null;
+
   /** EXICodeGen object for EXI class generation */
   private EXICodeGen exiGenerator;
 
@@ -67,6 +70,8 @@ public class FabricEXIHandler extends FabricDefaultHandler
    */
   public FabricEXIHandler(Workspace workspace, Properties properties) throws Exception
   {
+    this.properties = properties;
+    
     this.exiGenerator = EXICodeGenFactory.getInstance().createEXICodeGen(
             properties.getProperty(FabricEXIModule.EXICODEGEN_NAME_KEY), workspace, properties);
 
@@ -95,17 +100,29 @@ public class FabricEXIHandler extends FabricDefaultHandler
     // Element is of simple type and not a list
     if (null != type && !FSchemaTypeHelper.isEnum(type))
     {
+      LOGGER.debug("######################################## Checking '" + type.getName() + "' for value-tag fixing."); // TODO: Remove
+
       if (FSchemaTypeHelper.isList(type))
       {
         FList listType = (FList)type;
         String typeName = this.mapper.lookup(JavaTypeGen.getFabricTypeName(listType.getItemType()));
 
-        // TODO: Check Last argument: Simple types are never custom-typed, right?
-        this.fixLists.add(new ListData(type.getName(), typeName, typeName, true));
+        // TODO: Check last argument: Simple types are never custom-typed, right?
+        ListData listToFix = new ListData(type.getName(), typeName, typeName, true);
+        if (!this.fixLists.contains(listToFix))
+        {
+          LOGGER.debug("######################################## Fixing list within top-level simple type."); // TODO: Remove
+          this.fixLists.add(listToFix);
+        }
       }
       else
       {
-        this.fixElements.add(new ElementData(parent.getName()));
+        ElementData elementToFix = new ElementData(type.getName());
+        if (!this.fixElements.contains(elementToFix))
+        {
+          LOGGER.debug("######################################## Fixing element within top-level simple type."); // TODO: Remove
+          this.fixElements.add(elementToFix); // TODO: Use type.getName() or parent.getName() here?
+        }
       }
     }
   }
@@ -172,26 +189,36 @@ public class FabricEXIHandler extends FabricDefaultHandler
       isCustomTyped = true;
     }
 
-    LOGGER.debug("######################################## Checking " + element.getName() + " for value-tag fixing."); // TODO: Remove
+    LOGGER.debug("######################################## Checking '" + element.getName() + "' for value-tag fixing."); // TODO: Remove
 
     // Always fix element arrays
     if (FSchemaTypeHelper.isArray(element))
     {
-      LOGGER.debug("######################################## Fixing array within complex type."); // TODO: Remove
-      this.fixArrays.add(new ArrayData(parent.getName(), element.getName(), typeName, "values", typeName, isCustomTyped));
+      String parentContainerName = String.format("%s.%sType", properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY), parent.getName());
+      ArrayData arrayToFix = new ArrayData(parentContainerName, element.getName(), typeName, "values", typeName, isCustomTyped);
+      if (!this.fixArrays.contains(arrayToFix))
+      {
+        LOGGER.debug("######################################## Fixing array within complex type."); // TODO: Remove
+        this.fixArrays.add(arrayToFix);
+      }
     }
     else if (FSchemaTypeHelper.isList(element))
     {
-      LOGGER.debug("######################################## Fixing list within complex type."); // TODO: Remove
-      this.fixLists.add(new ListData(element.getName(), typeName, typeName, isCustomTyped));
+      ListData listToFix = new ListData(element.getName(), typeName, typeName, isCustomTyped);
+      if (this.fixLists.contains(listToFix))
+      {
+        LOGGER.debug("######################################## Fixing list within complex type."); // TODO: Remove
+        this.fixLists.add(listToFix);
+      }
     }
     // Only fix custom-typed elements
-    else
+    else if (isCustomTyped)
     {
-      if (isCustomTyped)
+      ElementData elementToFix = new ElementData(element.getName());
+      if (!this.fixElements.contains(elementToFix))
       {
         LOGGER.debug("######################################## Fixing local element within complex type."); // TODO: Remove
-        this.fixElements.add(new ElementData(element.getName()));
+        this.fixElements.add(elementToFix);
       }
     }
   }
