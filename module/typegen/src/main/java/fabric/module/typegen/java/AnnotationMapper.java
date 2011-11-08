@@ -241,7 +241,7 @@ public class AnnotationMapper
     {
       AnnotationData arrayAnnotation = new AnnotationData(
               new String[] { "com.thoughtworks.xstream.annotations.XStreamImplicit" },
-              "XStreamImplicit");
+              String.format("XStreamImplicit(itemFieldName = \"%s\")", arrayName));
       
       return new AnnotationData[] { arrayAnnotation };
     }
@@ -251,7 +251,7 @@ public class AnnotationMapper
     {
       AnnotationData listAnnotation = new AnnotationData(
               new String[] { "com.thoughtworks.xstream.annotations.XStreamImplicit" },
-              "XStreamImplicit");
+              String.format("XStreamImplicit(itemFieldName = \"%s\")", listName));
 
       return new AnnotationData[] { listAnnotation };
     }
