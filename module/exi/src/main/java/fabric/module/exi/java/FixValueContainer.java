@@ -1,4 +1,4 @@
-/** 08.11.2011 14:53 */
+/** 09.11.2011 22:58 */
 package fabric.module.exi.java;
 
 /**
@@ -108,9 +108,6 @@ abstract public class FixValueContainer
   
   public static class ArrayData
   {
-    /** Name of the container class in which array resides */
-    private String parentContainerName;
-
     /** Name of the XML array */
     private String arrayName;
 
@@ -129,42 +126,19 @@ abstract public class FixValueContainer
     /**
      * Parameterized constructor.
      *
-     * @param parentContainerName Name of the container class in which array resides
      * @param name Name of the XML array
      * @param type Type of the XML array
      * @param itemName Name of the array items
      * @param itemType Type of the array items (usually equal to array type)
      * @param isCustomTyped Flag to tell whether array is custom-typed
      */
-    public ArrayData(final String parentContainerName, final String name, final String type,
-            final String itemName, final String itemType, final boolean isCustomTyped)
+    public ArrayData(final String name, final String type, final String itemName, final String itemType, final boolean isCustomTyped)
     {
-      this.parentContainerName = parentContainerName;
       this.arrayName = name;
       this.arrayType = type;
       this.itemName = itemName;
       this.itemType = itemType;
       this.isCustomTyped = isCustomTyped;
-    }
-
-    /**
-     * Set name of the parent container class in which array resides.
-     *
-     * @param parentContainerName Name of parent container class
-     */
-    public void setParentContainerName(final String parentContainerName)
-    {
-      this.parentContainerName = parentContainerName;
-    }
-
-    /**
-     * Get name of the parent container class in which array resides.
-     *
-     * @return Name of parent container class
-     */
-    public String getParentContainerName()
-    {
-      return parentContainerName;
     }
 
     /**

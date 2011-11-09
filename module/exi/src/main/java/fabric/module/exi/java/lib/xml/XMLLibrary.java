@@ -1,4 +1,4 @@
-/** 08.11.2011 14:25 */
+/** 09.11.2011 23:30 */
 package fabric.module.exi.java.lib.xml;
 
 import java.util.ArrayList;
@@ -213,8 +213,7 @@ abstract public class XMLLibrary
               ad.getArrayType() + ", " +
               ad.getItemName() + ", " +
               ad.getItemType() + ", " +
-              ad.isCustomTyped() + ", " +
-              ad.getParentContainerName());
+              ad.isCustomTyped());
     }
 
     for (ListData ld: fixLists)

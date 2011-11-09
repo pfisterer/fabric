@@ -176,7 +176,6 @@ public class SchemaHelper {
   public static boolean isBuiltinTypedElement(FElement element) {
     return (null != element &&
             element.getSchemaType().isSimple() &&
-            !FSchemaTypeHelper.isList(element) &&
             (SchemaHelper.isBuiltinType(element.getSchemaType()) ||
             element.getName().equals(element.getSchemaType().getName())));
   }

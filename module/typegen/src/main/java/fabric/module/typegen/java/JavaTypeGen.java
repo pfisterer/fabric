@@ -1,4 +1,4 @@
-/** 03.11.2011 13:25 */
+/** 10.11.2011 00:17 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -263,13 +263,26 @@ public class JavaTypeGen implements TypeGen
       // Determine element type
       String typeName = "";
 
-      // Element is XSD base type (e.g. xs:string, xs:short, ...)
+      // Element is XSD base-typed (e.g. xs:string, xs:short, ...)
       if (SchemaHelper.isBuiltinTypedElement(element))
       {
-        typeName = this.mapper.lookup(JavaTypeGen.getFabricTypeName(element.getSchemaType()));
+        FSchemaType ftype = null;
+
+        // Get item type, if element is a list
+        if (FSchemaTypeHelper.isList(element))
+        {
+          FList listType = (FList)element.getSchemaType();
+          ftype = listType.getItemType();
+        }
+        else
+        {
+          ftype = element.getSchemaType();
+        }
+
+        typeName = this.mapper.lookup(JavaTypeGen.getFabricTypeName(ftype));
         LOGGER.debug(String.format("Type '%s' is an XSD built-in type.", typeName));
       }
-      // Element is custom type (e.g. some XSD base type itm:Simple02)
+      // Element is custom-typed (e.g. itm:Simple02)
       else
       {
         typeName = element.getSchemaType().getName();
