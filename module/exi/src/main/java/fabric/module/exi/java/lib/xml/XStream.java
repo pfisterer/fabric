@@ -171,21 +171,19 @@ public class XStream extends XMLLibrary
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "removeTagFromList", jms);
 
     String methodBody =
-            "if (isCustomTyped) {\n" +
-            "\tremoveTagFromElement(list, doc);\n" +
-            "}\n" +
             "NodeList rootNodes = doc.getElementsByTagName(list);\n" +
             "if (rootNodes.getLength() > 0) {\n" +
             "\tElement first = (Element) rootNodes.item(0);\n" +
-            "\tString newContent = first.getTextContent();\n" +
-            "\twhile (rootNodes.getLength() > 1) {\n" +
-             "\t\tElement second = (Element) rootNodes.item(1);\n" +
-             "\t\tnewContent += \" \" + second.getTextContent();\n" +
-             "\t\tsecond.getParentNode().removeChild(second.getNextSibling());\n" +
-             "\t\tsecond.getParentNode().removeChild(second);\n" +
-             "\t}\n" +
-             "\tfirst.setTextContent(newContent.trim());\n" +
-             "};";
+            "\tNodeList values = (isCustomTyped ? first.getElementsByTagName(\"values\") : rootNodes);\n" +
+            "\tString newContent = values.item(0).getTextContent();\n" +
+            "\twhile (values.getLength() > 1) {\n" +
+            "\t\tElement value = (Element) values.item(1);\n" +
+            "\t\tnewContent += \" \" + value.getTextContent();\n" +
+            "\t\tvalue.getParentNode().removeChild(value.getNextSibling());\n" +
+            "\t\tvalue.getParentNode().removeChild(value);\n" +
+            "\t}\n" +
+            "\tfirst.setTextContent(newContent.trim());\n" +
+            "}";
 
     jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Remove unnecessary value-tag from the XML element."));
@@ -212,21 +210,27 @@ public class XStream extends XMLLibrary
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "addTagToList", jms);
 
     String methodBody =
-            "NodeList rootNodes = doc.getElementsByTagName(list);\n" +
-	    "for (int i = 0; i < rootNodes.getLength();) {\n" +
-            "\tElement root = (Element) rootNodes.item(i);\n" +
-            "\tString[] content = root.getTextContent().split(\" \");\n" +
-            "\t// Each value has to get its own value-tag\n" +
-            "\tfor (int j = 0; j < content.length; j++, i++) {\n" +
-            "\t\tElement child = doc.createElement(list);\n" +
-            "\t\tchild.appendChild(doc.createTextNode(content[j]));\n" +
-            "\t\troot.getParentNode().insertBefore(child, root);\n" +
-            "\t}\n" +
-            "\troot.getParentNode().removeChild(root);\n" +
-            "\tif (isCustomTyped) {\n" +
-            "\t\taddTagToElement(list, doc);\n" +
-            "\t}\n" +
-	    "}";
+                "NodeList rootNodes = doc.getElementsByTagName(list);\n" +
+		"for (int i = 0; i < rootNodes.getLength();) {\n" +
+                "\tElement valueList   = (Element) rootNodes.item(i);\n" +
+                "\tString[] content    = valueList.getTextContent().split(\" \");\n" +
+                "\tif (isCustomTyped) {\n" +
+                "\t\tElement parent = doc.createElement(list);\n" +
+                "\t\tfor (int j = 0; j < content.length; j++, i++) {\n" +
+                "\t\t\tElement child = doc.createElement(\"values\");\n" +
+                "\t\t\tchild.appendChild(doc.createTextNode(content[j]));\n" +
+                "\t\t\tparent.appendChild(child);\n" +
+                "\t\t}\n" +
+                "\t\tvalueList.getParentNode().replaceChild(parent, valueList);\n" +
+                "\t} else {\n" +
+                "\t\tfor (int j = 0; j < content.length; j++, i++) {\n" +
+                "\t\t\tElement child = doc.createElement(list);\n" +
+                "\t\t\tchild.appendChild(doc.createTextNode(content[j]));\n" +
+                "\t\t\tvalueList.getParentNode().insertBefore(child, valueList);\n" +
+                "\t\t}\n" +
+                "\t\tvalueList.getParentNode().removeChild(valueList);\n" +
+                "\t}\n" +
+		"}";
 
     jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Add values-tag and/or value-tags to the XML list."));
@@ -237,24 +241,4 @@ public class XStream extends XMLLibrary
 
     return jm;
   }
-//
-// /**
-//  * Private helper method to generate code of required aliases for XStream.
-//  *
-//  * @param fixLists ArrayList with lists that need an alias in XStream
-//  */
-//  private String addAliasForLists(ArrayList<ListData> fixLists) {
-//    String ret = "";
-//    ArrayList<String> aliases = new ArrayList<String>();
-//    for (ListData list : fixLists) {
-//        if (!aliases.contains(list.getItemType()))
-//        {
-//          aliases.add(list.getItemType());
-//          ret += String.format(
-//                "%s.stream.alias(\"value\", %s.class);\n",
-//                converterClass.getName(), list.getItemType());
-//        }
-//    }
-//    return ret;
-//  }
 }

@@ -341,7 +341,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' enum element.", ee.name)));
       
       // Add annotations
-      for (String annotation: this.xmlMapper.getEnumAnnotations(ee.name))
+      for (String annotation: this.xmlMapper.getElementAnnotations(ee.name))
       {
         jf.addAnnotation(new JFieldAnnotationImpl(annotation));
       }
@@ -397,7 +397,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
       jf.setComment(new JFieldCommentImpl(String.format("The '%s' element list.", el.name)));
 
       // Add annotations
-      for (String annotation: this.xmlMapper.getListAnnotations(el.name, "values", el.type))
+      for (String annotation: this.xmlMapper.getListAnnotations(el.name, "value", el.type))
       {
         jf.addAnnotation(new JFieldAnnotationImpl(annotation));
       }
