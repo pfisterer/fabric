@@ -1,4 +1,4 @@
-/** 10.11.2011 00:17 */
+/** 10.11.2011 12:27 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -262,7 +262,8 @@ public class JavaTypeGen implements TypeGen
     {
       // Determine element type
       String typeName = "";
-
+      boolean isCustomTyped;
+      
       // Element is XSD base-typed (e.g. xs:string, xs:short, ...)
       if (SchemaHelper.isBuiltinTypedElement(element))
       {
@@ -281,6 +282,8 @@ public class JavaTypeGen implements TypeGen
 
         typeName = this.mapper.lookup(JavaTypeGen.getFabricTypeName(ftype));
         LOGGER.debug(String.format("Type '%s' is an XSD built-in type.", typeName));
+        
+        isCustomTyped = false;
       }
       // Element is custom-typed (e.g. itm:Simple02)
       else
@@ -293,6 +296,8 @@ public class JavaTypeGen implements TypeGen
         {
           typeName += "Type";
         }
+        
+        isCustomTyped = true;
       }
 
       // Add member variable to current incomplete container
@@ -318,7 +323,7 @@ public class JavaTypeGen implements TypeGen
         current.addElementArray(typeName, element.getName(), element.getMinOccurs(), element.getMaxOccurs());
       }
       // Element is a list
-      else if (FSchemaTypeHelper.isList(element))
+      else if (FSchemaTypeHelper.isList(element) && !isCustomTyped)
       {
         FList listType = (FList)element.getSchemaType();
         current.addElementList(typeName, element.getName(), FSchemaTypeHelper.getMinLength(listType), FSchemaTypeHelper.getMaxLength(listType));

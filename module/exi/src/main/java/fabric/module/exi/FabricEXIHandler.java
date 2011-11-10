@@ -1,4 +1,4 @@
-/** 10.11.2011 01:16 */
+/** 10.11.2011 12:27 */
 package fabric.module.exi;
 
 import org.slf4j.Logger;
@@ -95,8 +95,17 @@ public class FabricEXIHandler extends FabricDefaultHandler
     this.exiGenerator.generateCode(this.fixElements, this.fixArrays, this.fixLists);
     this.exiGenerator.writeSourceFile();
   }
-  
-  // TODO: Add comment
+
+  /**
+   * Handle start of a top-level schema element. As each top-level
+   * element is equivalent to a member variable in the corresponding
+   * container class, we have to check whether value-tags need to
+   * be fixed for the specific XML element.
+   * 
+   * @param element FElement object
+   *
+   * @throws Exception Error during processing
+   */
   @Override
   public void startTopLevelElement(FElement element) throws Exception
   {
@@ -108,21 +117,45 @@ public class FabricEXIHandler extends FabricDefaultHandler
     }
   }
 
-  // TODO: Add comment
+  /**
+   * Handle start of a local schema element. Local elements only
+   * apply to complex types. Each local element is equivalent to
+   * a member variable in the corresponding container class, so
+   * we have to check whether value-tags need to be fixed for the
+   * specific XML element.
+   *
+   * @param element FElement object
+   * @param parent Parent FComplexType object
+   * 
+   * @throws Exception Error during processing
+   */
   @Override
   public void startLocalElement(FElement element, FComplexType parent) throws Exception
   {
     LOGGER.debug("Called startLocalElement().");
 
-    if (null != element && null != parent)
+    if (null != element)
     {
       this.fixElementIfRequired(element);
     }
   }
-  
-  // TODO: Add comment
-  private void fixElementIfRequired(FElement element)
+
+  /**
+   * This method checks whether value-tags need to be fixed for
+   * a particular XML element or not. In case the element needs
+   * to be fixed, its data is added to the corresponding field
+   * (e.g. fixElements, fixArrays or fixLists) and true is
+   * returned. Otherwise simply nothing happens and the method
+   * will return false.
+   * 
+   * @param element FElement object
+   * 
+   * @return True if element was fixed, false otherwise
+   */
+  private boolean fixElementIfRequired(FElement element)
   {
+    boolean elementWasFixed = false;
+    
     // Determine element type
     String typeName = "";
     boolean isCustomTyped;
@@ -165,9 +198,9 @@ public class FabricEXIHandler extends FabricDefaultHandler
 
       isCustomTyped = true;
     }
-
-    LOGGER.debug("######################################## Checking '" + element.getName() + "' for value-tag fixing."); // TODO: Remove
-
+    
+    LOGGER.debug(String.format("Checking element '%s' for value-tag fixing...", element.getName()));
+    
     if (null != element.getSchemaType() && !FSchemaTypeHelper.isEnum(element.getSchemaType()))
     {
       // Element is an array
@@ -176,8 +209,9 @@ public class FabricEXIHandler extends FabricDefaultHandler
         ArrayData arrayToFix = new ArrayData(element.getName(), typeName, "values", typeName, isCustomTyped);
         if (!this.fixArrays.contains(arrayToFix))
         {
-          LOGGER.debug("######################################## Fixing array within complex type."); // TODO: Remove
+          LOGGER.debug(String.format("Fixing%s array '%s' within complex type.", (isCustomTyped ? " custom-typed" : ""), element.getName()));
           this.fixArrays.add(arrayToFix);
+          elementWasFixed = true;
         }
       }
       // Element is a list
@@ -186,8 +220,9 @@ public class FabricEXIHandler extends FabricDefaultHandler
         ListData listToFix = new ListData(element.getName(), typeName, typeName, isCustomTyped);
         if (!this.fixLists.contains(listToFix))
         {
-          LOGGER.debug("######################################## Fixing list within complex type."); // TODO: Remove
+          LOGGER.debug(String.format("Fixing%s list '%s'.", (isCustomTyped ? " custom-typed" : ""), element.getName()));
           this.fixLists.add(listToFix);
+          elementWasFixed = true;
         }
       }
       // Element is simple and custom-typed
@@ -196,11 +231,14 @@ public class FabricEXIHandler extends FabricDefaultHandler
         ElementData elementToFix = new ElementData(element.getName());
         if (!this.fixElements.contains(elementToFix))
         {
-          LOGGER.debug("######################################## Fixing local element within complex type."); // TODO: Remove
+          LOGGER.debug(String.format("Fixing custom-types element '%s'.", element.getName()));
           this.fixElements.add(elementToFix);
+          elementWasFixed = true;
         }
       }
     }
+    
+    return elementWasFixed;
   }
 
   /**
