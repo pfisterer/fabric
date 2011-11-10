@@ -14,7 +14,7 @@
   <!--
     Element of top-level simple type with xs:list.
   -->
-  <xs:element name="SimpleList" type="ListItemType" />
+  <xs:element name="SimpleList" type="itm:ListItemType" />
 
   <!--
     Element of local simple type with xs:list.
