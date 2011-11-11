@@ -1,4 +1,4 @@
-/** 10.11.2011 12:27 */
+/** 11.11.2011 15:06 */
 package fabric.module.exi;
 
 import org.slf4j.Logger;
@@ -146,7 +146,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
    * to be fixed, its data is added to the corresponding field
    * (e.g. fixElements, fixArrays or fixLists) and true is
    * returned. Otherwise simply nothing happens and the method
-   * will return false.
+   * returns false.
    * 
    * @param element FElement object
    * 
@@ -159,12 +159,12 @@ public class FabricEXIHandler extends FabricDefaultHandler
     // Determine element type
     String typeName = "";
     boolean isCustomTyped;
-
+    
     // Element is XSD base-typed (e.g. xs:string, xs:short, ...)
     if (SchemaHelper.isBuiltinTypedElement(element))
     {
       FSchemaType schemaType = null;
-
+      
       // Get item type, if element is a list
       if (FSchemaTypeHelper.isList(element))
       {
@@ -175,21 +175,21 @@ public class FabricEXIHandler extends FabricDefaultHandler
       {
         schemaType = element.getSchemaType();
       }
-
+      
       typeName = this.mapper.lookup(JavaTypeGen.getFabricTypeName(schemaType));
       LOGGER.debug(String.format("Type '%s' is an XSD built-in type.", typeName));
-
-      isCustomTyped = false;
-
+      
       // Convert Java primitives to belonging wrapper class
       typeName = this.fixPrimitiveTypes(typeName);
+      
+      isCustomTyped = false;
     }
     // Element is custom-typed (e.g. itm:Simple02)
     else
     {
       typeName = element.getSchemaType().getName();
       LOGGER.debug(String.format("Type '%s' is a custom type.", typeName));
-
+      
       // Create artificial name for local complex type (i.e. an inner class)
       if (!element.getSchemaType().isTopLevel() && !element.getSchemaType().isSimple())
       {
@@ -201,6 +201,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
     
     LOGGER.debug(String.format("Checking element '%s' for value-tag fixing...", element.getName()));
     
+    // Save element data for later fixing, if required
     if (null != element.getSchemaType() && !FSchemaTypeHelper.isEnum(element.getSchemaType()))
     {
       // Element is an array
@@ -226,7 +227,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
         }
       }
       // Element is simple and custom-typed
-      else if (isCustomTyped && element.getSchemaType().isSimple())
+      else if (element.getSchemaType().isSimple() && isCustomTyped)
       {
         ElementData elementToFix = new ElementData(element.getName());
         if (!this.fixElements.contains(elementToFix))
@@ -237,7 +238,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
         }
       }
     }
-    
+
     return elementWasFixed;
   }
 

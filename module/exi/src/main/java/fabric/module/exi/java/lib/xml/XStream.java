@@ -103,8 +103,6 @@ public class XStream extends XMLLibrary
     JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, "String",
             "instanceToXML", jms, new String[] { "Exception" });
 
-    //String methodBody = addAliasForLists(fixLists);
-
     String methodBody = String.format(
             "%s.stream.alias(\"%s\", %s.class);\n\n" +
             "StringWriter xmlDocument = new StringWriter();\n" +
@@ -112,7 +110,7 @@ public class XStream extends XMLLibrary
             "serializer.write(%s.stream.toXML(beanObject));\n" +
             "serializer.close();\n\n" +
             "return removeValueTags(xmlDocument.toString());",
-            this.converterClass.getName(), this.beanClassName.toLowerCase(), this.beanClassName, this.converterClass.getName());
+            this.converterClass.getName(), this.beanClassName, this.beanClassName, this.converterClass.getName());
 
     jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Serialize bean object to XML document."));
@@ -138,8 +136,6 @@ public class XStream extends XMLLibrary
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
     JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, this.beanClassName,
             "xmlToInstance", jms, new String[] { "Exception" });
-
-    //String methodBody = addAliasForLists(fixLists);
     
     String methodBody = String.format(
             "%s.stream.alias(\"%s\", %s.class);\n\n" +
