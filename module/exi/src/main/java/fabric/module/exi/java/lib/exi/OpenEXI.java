@@ -2,8 +2,6 @@
 package fabric.module.exi.java.lib.exi;
 
 
-import com.example.car.EXIConverter;
-
 import de.uniluebeck.sourcegen.java.JField;
 import de.uniluebeck.sourcegen.java.JFieldCommentImpl;
 import de.uniluebeck.sourcegen.java.JMethod;
@@ -174,7 +172,7 @@ public class OpenEXI extends EXILibrary
     
     String methodBody = String.format(
             "// The resulting XML string\n" +
-            "String result = \"\";\n\n" +
+            "String result = \"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\";\n" +
     		"// Prepare objects for deserialization\n" +
             "try {\n" +
             "\t// Set grammar cache for the OpenEXI decoder\n" +
