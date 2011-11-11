@@ -2,6 +2,8 @@
 package fabric.module.exi.java.lib.exi;
 
 
+import com.example.car.EXIConverter;
+
 import de.uniluebeck.sourcegen.java.JField;
 import de.uniluebeck.sourcegen.java.JFieldCommentImpl;
 import de.uniluebeck.sourcegen.java.JMethod;
@@ -84,13 +86,15 @@ public class OpenEXI extends EXILibrary
             "\t%s.grammarCache = new GrammarCache(%s.exiSchema);\n\n" +
             "\t// Initialize and set grammar cache for the OpenEXI transmogrifier (encoder)\n" +
             "\t%s.encoder = new Transmogrifier();\n" +
-            "\t%s.encoder.setEXISchema(%s.grammarCache);\n" +
+            "\t%s.encoder.setEXISchema(%s.grammarCache);\n\n" +
+            "\t// Preserve whitspaces contained in the XML documents\n" + 
+            "\t%s.encoder.setPreserveWhitespaces(true);\n" +
             "}\n" +
             "catch (Exception e) {\n" +
             "\te.printStackTrace();\n" +
             "}",
             this.serializerClass.getName(), this.serializerClass.getName(), this.serializerClass.getName(),
-            this.serializerClass.getName(), this.serializerClass.getName(), this.serializerClass.getName());
+            this.serializerClass.getName(), this.serializerClass.getName(), this.serializerClass.getName(), this.serializerClass.getName());
 
     setupOpenEXISchemaFactory.getBody().appendSource(methodBody);
     setupOpenEXISchemaFactory.setComment(new JMethodCommentImpl("Setup OpenEXI schema factory member variable."));
@@ -191,7 +195,7 @@ public class OpenEXI extends EXILibrary
 	        "\tfor(int i=0; i<exiEventList.size(); i++){\n" +
 	        "\t\texiEvent = exiEventList.get(i);\n" +
 	        "\t\teventType = exiEvent.getEventType();\n" +
-	        "\t\t// Start Element\n" +
+	        "\t\t// Start Element\n\n" +
 	        "\t\tif(exiEvent.getEventVariety() == EXIEvent.EVENT_SE){\n" +
 	        "\t\t\tresult += \"<\" + exiEvent.getName();\n" +
 	        "\t\t\tif(eventType.getURI() != null && eventType.getURI() != \"\"){\n" +
