@@ -204,7 +204,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
     if (null != element.getSchemaType() && !FSchemaTypeHelper.isEnum(element.getSchemaType()))
     {
       // Element is an array
-      if (FSchemaTypeHelper.isArray(element))
+      if (FSchemaTypeHelper.isArray(element) && element.getSchemaType().isSimple())
       {
         ArrayData arrayToFix = new ArrayData(element.getName(), typeName, "values", typeName, isCustomTyped);
         if (!this.fixArrays.contains(arrayToFix))
