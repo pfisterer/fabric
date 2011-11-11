@@ -1,6 +1,7 @@
 /** 30.10.2011 18:55 */
 package fabric.module.exi.java.lib.exi;
 
+
 import de.uniluebeck.sourcegen.java.JField;
 import de.uniluebeck.sourcegen.java.JFieldCommentImpl;
 import de.uniluebeck.sourcegen.java.JMethod;
@@ -41,14 +42,14 @@ public class OpenEXI extends EXILibrary
   private void generateEXISchemaFactoryCode() throws Exception
   {
     // Create member variable for OpenEXI schema factory
-    JField exiSchemaFactory = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC, "EXISchemaFactory", "exiSchemaFactory", "new EXISchemaFactory()");
+   /* JField exiSchemaFactory = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC, "EXISchemaFactory", "exiSchemaFactory", "new EXISchemaFactory()");
     exiSchemaFactory.setComment(new JFieldCommentImpl("The OpenEXI schema factory member variable."));
     this.serializerClass.add(exiSchemaFactory);
-
+    */
     // Create member variable for OpenEXI transmogrifier
-    JField transmogrifier = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC, "Transmogrifier", "transmogrifier");
-    transmogrifier.setComment(new JFieldCommentImpl("The OpenEXI transmogrifier member variable."));
-    this.serializerClass.add(transmogrifier);
+    JField encoder = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC, "Transmogrifier", "encoder");
+    encoder.setComment(new JFieldCommentImpl("The OpenEXI encoder member variable."));
+    this.serializerClass.add(encoder);
     
     // Create member variable for OpenEXI schema
     JField exiSchema = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC, "EXISchema", "exiSchema", "new EXISchema()");
@@ -66,9 +67,9 @@ public class OpenEXI extends EXILibrary
     this.serializerClass.add(exiDecoder);
     
     // Create member variable for OpenEXI scanner
-    JField scanner = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC, "Scanner", "scanner");
-    scanner.setComment(new JFieldCommentImpl("The OpenEXI scanner member variable."));
-    this.serializerClass.add(scanner);
+    JField exiScanner = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC, "Scanner", "exiScanner");
+    exiScanner.setComment(new JFieldCommentImpl("The OpenEXI scanner member variable."));
+    this.serializerClass.add(exiScanner);
     
     // Initialize OpenEXI schema factory member variable
     this.serializerClass.appendStaticCode(String.format("%s.setupEXISchemaFactory();", this.serializerClass.getName()));
@@ -78,20 +79,19 @@ public class OpenEXI extends EXILibrary
 
     String methodBody = String.format(
             "try {\n" +
-            "\t// compile and validate input source schema\n" +
-            "\tInputStream inputStream = new FileInputStream(new File(\"%s\"));\n" +
-            "\tInputSource inputSource = new InputSource(inputStream);\n" +
-            "\t%s.exiSchema = %s.exiSchemaFactory.compile(inputSource);\n\n" +
+            "\t%s.exiSchema = EmptySchema.getEXISchema();\n\n" +
             "\t// Set grammar for current XML schema\n" +
             "\t%s.grammarCache = new GrammarCache(%s.exiSchema);\n\n" +
-            "\t// Initialize and set grammar cache for the OpenEXI transmogrifier\n" +
-            "\t%s.transmogrifier = new Transmogrifier();\n" +
-            "\t%s.transmogrifier.setEXISchema(%s.grammarCache);\n" +
+            "\t// Initialize and set grammar cache for the OpenEXI transmogrifier (encoder)\n" +
+            "\t%s.encoder = new Transmogrifier();\n" +
+            "\t%s.encoder.setEXISchema(%s.grammarCache);\n\n" +
+            "\t// Preserve whitspaces contained in the XML documents\n" + 
+            "\t%s.encoder.setPreserveWhitespaces(true);\n" +
             "}\n" +
             "catch (Exception e) {\n" +
             "\te.printStackTrace();\n" +
             "}",
-            xsdDocumentPath, this.serializerClass.getName(), this.serializerClass.getName(), this.serializerClass.getName(),
+            this.serializerClass.getName(), this.serializerClass.getName(), this.serializerClass.getName(),
             this.serializerClass.getName(), this.serializerClass.getName(), this.serializerClass.getName(), this.serializerClass.getName());
 
     setupOpenEXISchemaFactory.getBody().appendSource(methodBody);
@@ -105,7 +105,7 @@ public class OpenEXI extends EXILibrary
     this.addRequiredImport("java.io.InputStream");
     this.addRequiredImport("org.openexi.fujitsu.sax.Transmogrifier");
     this.addRequiredImport("org.openexi.fujitsu.schema.EXISchema");
-    this.addRequiredImport("org.openexi.fujitsu.scomp.EXISchemaFactory");
+    this.addRequiredImport("org.openexi.fujitsu.schema.EmptySchema");
     this.addRequiredImport("org.openexi.fujitsu.proc.grammars.GrammarCache");
     this.addRequiredImport("org.openexi.fujitsu.proc.EXIDecoder");
     this.addRequiredImport("org.openexi.fujitsu.proc.io.Scanner");
@@ -125,24 +125,21 @@ public class OpenEXI extends EXILibrary
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
     JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, "byte[]",
             "serialize", jms, new String[] { "Exception" });
-	  
-	  String methodBody = String.format(
-            "// Prepare objects for serialization\n" +
-            "OutputStream os = new ByteArrayOutputStream();\n" +
+    String methodBody = String.format(
+    		"// Prepare objects for serialization\n" +
+            "ByteArrayOutputStream baos = new ByteArrayOutputStream();\n" +
             "// Parse XML document and serialize\n" +
             "try {\n" +
-            "\t%s.transmogrifier.setOutputStream(os);\n\n" +
+            "\t%s.encoder.setOutputStream(baos);\n\n" +
             "\t// Parse XML document and serialize\n" +
-            "\tInputStream inputStream = new ByteArrayInputStream(xmlDocument.getBytes());\n" +
-            "\tInputSource inputSource = new InputSource(inputStream);\n" +
-            "\t%s.transmogrifier.encode(inputSource);\n" +
+            "\t%s.encoder.encode(new InputSource(new StringReader(xmlDocument)));\n" +
             "}\n" +
             "catch (Exception e) {\n" +
             "\te.printStackTrace();\n" +
             "}\n" +
             "// Write output to EXI byte stream\n" +
-            "byte[] result = ((ByteArrayOutputStream)os).toByteArray();\n" +
-            "os.close();\n\n" +
+            "byte[] result = baos.toByteArray();\n" +
+            "baos.close();\n\n" +
             "return result;",
             this.serializerClass.getName(), this.serializerClass.getName());
 
@@ -154,6 +151,7 @@ public class OpenEXI extends EXILibrary
     // Add required Java imports
     this.addRequiredImport("java.io.InputStream");
     this.addRequiredImport("java.io.OutputStream");
+    this.addRequiredImport("java.io.StringReader");
     this.addRequiredImport("java.io.ByteArrayInputStream");
     this.addRequiredImport("java.io.ByteArrayOutputStream");
     this.addRequiredImport("org.xml.sax.InputSource");
@@ -171,30 +169,55 @@ public class OpenEXI extends EXILibrary
             JParameter.factory.create(JModifier.FINAL, "byte[]", "openEXIStream"));
     JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, "String",
             "deserialize", jms, new String[] { "Exception" });
-
+    
     String methodBody = String.format(
-            "// Prepare objects for deserialization\n" +
+            "// The resulting XML string\n" +
+            "String result = \"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\";\n" +
+    		"// Prepare objects for deserialization\n" +
             "try {\n" +
-            "\t// compile and validate input source schema\n" +
-            "\tInputStream inputStream = new FileInputStream(new File(\"%s\"));\n" +
-            "\tInputSource inputSource = new InputSource(inputStream);\n" +
-            "\t%s.exiSchema = %s.exiSchemaFactory.compile(inputSource);\n\n" +
-            "\t// Set grammar for current XML schema\n" +
-            "\t%s.grammarCache = new GrammarCache(%s.exiSchema);\n\n" +
             "\t// Set grammar cache for the OpenEXI decoder\n" +
             "\t%s.exiDecoder.setEXISchema(%s.grammarCache);\n\n" +
-            "\t// Parse the OpenEXI input stream\n" +
-            "\tInputStream is = new ByteArrayInputStream(openEXIStream);\n\n" +
             "\t// Set the input stream for the OpenEXI Decoder\n" +
-            "\t%s.exiDecoder.setInputStream(is);\n\n" +
+            "\t%s.exiDecoder.setInputStream(new ByteArrayInputStream(openEXIStream));\n\n" +
             "\t// Create the scanner object for deserialization\n" +
             "\t%s.exiScanner = %s.exiDecoder.processHeader();\n\n" +
+            "\t// create the EXIEvent list for later processing\n" +
+            "\tArrayList<EXIEvent> exiEventList = new ArrayList<EXIEvent>();\n" +
+            "\tEXIEvent exiEvent;\n" +
+            "\twhile ((exiEvent = %s.exiScanner.nextEvent()) != null) {\n" +
+  	        "\t\texiEventList.add(exiEvent);\n" +
+  	        "\t}\n" +
+  	        "\tEventType eventType;\n" +
+	        "\tStack<String> s = new Stack<String>();\n\n" +
+	        "\t// Process the event list\n" +
+	        "\tfor(int i=0; i<exiEventList.size(); i++){\n" +
+	        "\t\texiEvent = exiEventList.get(i);\n" +
+	        "\t\teventType = exiEvent.getEventType();\n" +
+	        "\t\t// Start Element\n\n" +
+	        "\t\tif(exiEvent.getEventVariety() == EXIEvent.EVENT_SE){\n" +
+	        "\t\t\tresult += \"<\" + exiEvent.getName();\n" +
+	        "\t\t\tif(eventType.getURI() != null && eventType.getURI() != \"\"){\n" +
+	        "\t\t\t\tresult += \" xmlns=\" + eventType.getURI();\n" +
+	        "\t\t\t}\n" +
+	        "\t\t\tresult += \">\";\n" +
+	        "\t\t\ts.push(exiEvent.getName());\n" +
+	        "\t\t}\n\n" +
+	        "\t\t// Characters between tags\n" +
+	        "\t\tif(exiEvent.getEventVariety() == EXIEvent.EVENT_CH){\n" +
+	        "\t\t\tif(exiEvent.getCharacters() != null){\n" +
+	        "\t\t\t\tresult += exiEvent.getCharacters().makeString();\n" +
+	        "\t\t\t}\n" +
+	        "\t\t}\n\n" +
+	        "\t\t// End Element\n" +
+	        "\t\tif(exiEvent.getEventVariety() == EXIEvent.EVENT_EE){\n" +
+	        "\t\t\tresult += \"</\" + s.pop() + \">\";\n" +
+	        "\t\t}\n" +
+	        "\t}\n" +
             "}\n" +
             "catch (Exception e) {\n" +
             "\te.printStackTrace();\n" +
             "}\n\n" +
-            "return null; // TODO: Return result here",
-            xsdDocumentPath, this.serializerClass.getName(), this.serializerClass.getName(), this.serializerClass.getName(),
+            "return result;",
             this.serializerClass.getName(), this.serializerClass.getName(), this.serializerClass.getName(),
             this.serializerClass.getName(), this.serializerClass.getName(), this.serializerClass.getName());
 
@@ -203,6 +226,9 @@ public class OpenEXI extends EXILibrary
 
     this.serializerClass.add(jm);
     
-    // TODO: Add required Java imports
+    this.addRequiredImport("java.util.ArrayList");
+    this.addRequiredImport("java.util.Stack");
+    this.addRequiredImport("org.openexi.fujitsu.proc.common.EXIEvent");
+    this.addRequiredImport("org.openexi.fujitsu.proc.common.EventType");
   }
 }

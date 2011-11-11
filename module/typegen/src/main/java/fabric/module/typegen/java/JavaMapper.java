@@ -28,8 +28,8 @@ public class JavaMapper extends Mapper
     types.put("FInt", "int");
     types.put("FInteger", "java.math.BigDecimal");
     types.put("FPositiveInteger", "java.math.BigInteger");
-    types.put("FUnsignedInt", "long");
-    types.put("FLong", "long");
+    types.put("FUnsignedInt", "java.math.BigInteger");
+    types.put("FLong", "java.math.BigInteger");
     types.put("FUnsignedLong", "java.math.BigDecimal");
     types.put("FDecimal", "java.math.BigDecimal");
     types.put("FString", "String");
