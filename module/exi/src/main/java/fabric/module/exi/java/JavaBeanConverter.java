@@ -1,4 +1,4 @@
-/** 06.11.2011 02:42 */
+/** 16.11.2011 00:41 */
 package fabric.module.exi.java;
 
 import java.util.Properties;
@@ -32,10 +32,16 @@ public class JavaBeanConverter
 {
   /** Properties object with module configuration */
   private Properties properties;
-  
+
+  /** Name of the package in which the bean class resides */
+  private String packageName;
+
+  /** Fully qualified name of the Java bean class (incl. package) */
+  private String qualifiedBeanClassName;
+
   /** Name of the Java bean class */
   private String beanClassName;
-  
+
   /** Name of the XML converter class */
   private String converterClassName;
   
@@ -48,9 +54,19 @@ public class JavaBeanConverter
   public JavaBeanConverter(Properties properties)
   {
     this.properties = properties;
-    
+
+    this.packageName = this.properties.getProperty(FabricEXIModule.PACKAGE_NAME_KEY);
+    if (this.properties.containsKey(FabricEXIModule.PACKAGE_NAME_ALT_KEY))
+    {
+      this.packageName = this.properties.getProperty(FabricEXIModule.PACKAGE_NAME_ALT_KEY);
+    }
+
+    this.qualifiedBeanClassName = String.format("%s.%s",
+            this.packageName,
+            this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY));
+
     this.beanClassName = this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY);
-    
+
     this.converterClassName = this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY) + "Converter";
   }
   
@@ -87,6 +103,12 @@ public class JavaBeanConverter
       for (String requiredImport: xmlLibrary.getRequiredImports())
       {
         sourceFile.addImport(requiredImport);
+      }
+
+      // Import bean class, if it resides in a different package
+      if (!this.properties.getProperty(FabricEXIModule.PACKAGE_NAME_KEY).equals(this.packageName))
+      {
+        sourceFile.addImport(this.qualifiedBeanClassName);
       }
     }
   }

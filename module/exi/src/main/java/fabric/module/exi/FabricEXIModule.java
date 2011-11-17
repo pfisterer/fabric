@@ -1,4 +1,4 @@
-/** 20.10.2011 16:08 */
+/** 16.11.2011 21:06 */
 package fabric.module.exi;
 
 import java.util.Properties;
@@ -10,6 +10,7 @@ import de.uniluebeck.sourcegen.Workspace;
 import fabric.module.api.FabricModule;
 import fabric.module.api.FabricSchemaTreeItemHandler;
 import fabric.module.exi.exceptions.FabricEXIException;
+import fabric.module.typegen.FabricTypeGenModule;
 
 /**
  * Fabric module for the generation of an XSD-specific EXI serializer
@@ -240,11 +241,13 @@ public class FabricEXIModule implements FabricModule
     else if (targetLanguage.toLowerCase().equals("java"))
     {
       this.properties.setProperty(EXICODEGEN_NAME_KEY, "fabric.module.exi.java.JavaEXICodeGen");
+      this.properties.setProperty(FabricTypeGenModule.MAPPER_CLASS_KEY, "fabric.module.typegen.java.JavaMapper");
     }
     // Use C++ EXI code generator
     else if (targetLanguage.toLowerCase().equals("cpp"))
     {
       this.properties.setProperty(EXICODEGEN_NAME_KEY, "fabric.module.exi.cpp.CppEXICodeGen");
+      this.properties.setProperty(FabricTypeGenModule.MAPPER_CLASS_KEY, "fabric.module.typegen.cpp.CppMapper");
     }
     // Invalid target language provided
     else

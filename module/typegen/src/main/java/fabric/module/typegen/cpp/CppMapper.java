@@ -27,14 +27,14 @@ public class CppMapper extends Mapper
     types.put("FShort", "int32");
     types.put("FUnsignedShort", "uint16");
     types.put("FInt", "int32");
-    // FInteger missing
+    // TODO: FInteger missing
     types.put("FPositiveInteger", "char*");
     types.put("FUnsignedInt", "uint32");
     types.put("FLong", "int64");
     types.put("FUnsignedLong", "uint64");
     types.put("FDecimal", "char*");
     types.put("FString", "char*");
-      /*
+      /* TODO
     types.put("FHexBinary", "byte[]");
     types.put("FBase64Binary", "byte[]");
     types.put("FDateTime", "javax.xml.datatype.XMLGregorianCalendar");
@@ -50,7 +50,7 @@ public class CppMapper extends Mapper
     types.put("FQName", "javax.xml.namespace.QName");
     */
     types.put("FAnyURI", "char*");
-    // Further types derived from String and Integer missing
+    // TODO: Further types derived from String and Integer are missing
     types.put("FAny", "char*");
   }
 }

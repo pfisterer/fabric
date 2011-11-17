@@ -1,7 +1,6 @@
 package fabric.module.exi.java;
 
 import org.junit.Test;
-import org.junit.Ignore; // TODO: Remove import when unused
 import static org.junit.Assert.*;
 
 import de.uniluebeck.sourcegen.java.JClass;
@@ -40,7 +39,6 @@ public class EXILibraryTest
    * Test EXILibrary implementation for the OpenEXI library.
    */
   @Test(timeout = 1000)
-  @Ignore // TODO: Remove line, when OpenEXI implementation is ready
   public void testOpenEXILibrary() throws Exception
   {
     this.testEXILibrary("fabric.module.exi.java.lib.exi.OpenEXI");

@@ -1,4 +1,4 @@
-/** 15.10.2011 23:16 */
+/** 11.11.2011 20:57 */
 package fabric.module.exi.java.lib.exi;
 
 import java.util.ArrayList;
@@ -26,14 +26,6 @@ abstract public class EXILibrary
 
   /** Path to the input XSD document */
   protected String xsdDocumentPath;
-  
-  /**
-   * Default constructor is private. Use parameterized version instead.
-   */
-  private EXILibrary()
-  {
-    // Empty implementation
-  }
 
   /**
    * Parameterized constructor initializes EXI converter class

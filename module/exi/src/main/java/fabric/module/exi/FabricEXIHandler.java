@@ -1,4 +1,4 @@
-/** 11.11.2011 15:06 */
+/** 11.11.2011 20:18 */
 package fabric.module.exi;
 
 import org.slf4j.Logger;
@@ -201,11 +201,11 @@ public class FabricEXIHandler extends FabricDefaultHandler
     
     LOGGER.debug(String.format("Checking element '%s' for value-tag fixing...", element.getName()));
     
-    // Save element data for later fixing, if required
-    if (null != element.getSchemaType() && !FSchemaTypeHelper.isEnum(element.getSchemaType()))
+    // Save data of simple-typed elements for later fixing
+    if (null != element.getSchemaType() && element.getSchemaType().isSimple() && !FSchemaTypeHelper.isEnum(element.getSchemaType()))
     {
       // Element is an array
-      if (FSchemaTypeHelper.isArray(element) && element.getSchemaType().isSimple())
+      if (FSchemaTypeHelper.isArray(element))
       {
         ArrayData arrayToFix = new ArrayData(element.getName(), typeName, "values", typeName, isCustomTyped);
         if (!this.fixArrays.contains(arrayToFix))
@@ -226,8 +226,8 @@ public class FabricEXIHandler extends FabricDefaultHandler
           elementWasFixed = true;
         }
       }
-      // Element is simple and custom-typed
-      else if (element.getSchemaType().isSimple() && isCustomTyped)
+      // Element is custom-typed
+      else if (isCustomTyped)
       {
         ElementData elementToFix = new ElementData(element.getName());
         if (!this.fixElements.contains(elementToFix))

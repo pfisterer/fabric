@@ -1,4 +1,4 @@
-/** 25.10.2011 22:35 */
+/** 12.11.2011 01:31 */
 package fabric.module.exi.java.lib.exi;
 
 import de.uniluebeck.sourcegen.java.JField;
@@ -144,6 +144,12 @@ public class EXIficient extends EXILibrary
             "XMLReader xmlReader = saxSource.getXMLReader();\n\n" +
             "TransformerFactory transformerFactory = TransformerFactory.newInstance();\n" +
             "Transformer transformer = transformerFactory.newTransformer();\n\n" +
+            "transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, \"no\");\n" +
+            "transformer.setOutputProperty(OutputKeys.METHOD, \"xml\");\n" +
+            "transformer.setOutputProperty(OutputKeys.INDENT, \"yes\");\n" +
+            "transformer.setOutputProperty(OutputKeys.STANDALONE, \"no\");\n" +
+            "transformer.setOutputProperty(OutputKeys.ENCODING, \"UTF-8\");\n" +
+            "transformer.setOutputProperty(\"{http://xml.apache.org/xslt}indent-amount\", \"2\");\n" +
             "// Parse EXI stream and deserialize\n" +
             "InputStream exiIS = new ByteArrayInputStream(exiStream);\n" +
             "SAXSource exiSource = new SAXSource(new InputSource(exiIS));\n" +
@@ -168,6 +174,7 @@ public class EXIficient extends EXILibrary
     this.addRequiredImport("java.io.ByteArrayOutputStream");
     this.addRequiredImport("java.io.InputStream");
     this.addRequiredImport("java.io.OutputStream");
+    this.addRequiredImport("javax.xml.transform.OutputKeys");
     this.addRequiredImport("javax.xml.transform.Transformer");
     this.addRequiredImport("javax.xml.transform.TransformerFactory");
     this.addRequiredImport("javax.xml.transform.sax.SAXSource");

@@ -8,7 +8,7 @@
     Simple type for xs:list.
   -->
   <xs:simpleType name="ListItemType">
-    <xs:list itemType="xs:integer"/>
+    <xs:list itemType="xs:integer" />
   </xs:simpleType>
 
   <!--
@@ -21,7 +21,7 @@
   -->
   <xs:element name="SimpleLocalList">
     <xs:simpleType>
-      <xs:list itemType="xs:integer"/>
+      <xs:list itemType="xs:integer" />
     </xs:simpleType>
   </xs:element>
 

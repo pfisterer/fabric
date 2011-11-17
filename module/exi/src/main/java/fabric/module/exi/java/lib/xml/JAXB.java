@@ -1,7 +1,5 @@
-/** 06.11.2011 02:57 */
+/** 11.11.2011 21:02 */
 package fabric.module.exi.java.lib.xml;
-
-import java.util.ArrayList;
 
 import de.uniluebeck.sourcegen.java.JMethod;
 import de.uniluebeck.sourcegen.java.JMethodCommentImpl;
@@ -9,15 +7,12 @@ import de.uniluebeck.sourcegen.java.JMethodSignature;
 import de.uniluebeck.sourcegen.java.JModifier;
 import de.uniluebeck.sourcegen.java.JParameter;
 
-import fabric.module.exi.java.FixValueContainer.ArrayData;
-import fabric.module.exi.java.FixValueContainer.ListData;
-
 /**
  * Converter class for the JAXB XML library. This class
  * provides means to create code that translates annotated
  * Java objects to XML and vice versa.
  *
- * @author seidel
+ * @author seidel, reichart
  */
 public class JAXB extends XMLLibrary
 {
@@ -55,8 +50,8 @@ public class JAXB extends XMLLibrary
             "marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);\n\n" +
             "StringWriter xmlDocument = new StringWriter();\n" +
             "marshaller.marshal(beanObject, xmlDocument);\n\n" +
-            "return removeValueTags(xmlDocument.toString());",
-            this.beanClassName);
+            "return %s.removeValueTags(xmlDocument.toString());",
+            this.beanClassName, this.converterClass.getName());
 
     jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Serialize bean object to XML document."));
@@ -86,8 +81,9 @@ public class JAXB extends XMLLibrary
     String methodBody = String.format(
             "JAXBContext context = JAXBContext.newInstance(%s.class);\n" +
             "Unmarshaller unmarshaller = context.createUnmarshaller();\n\n" +
-            "return (%s)unmarshaller.unmarshal(new InputSource(new ByteArrayInputStream(addValueTags(xmlDocument).getBytes())));",
-            this.beanClassName, this.beanClassName);
+            "return (%s)unmarshaller.unmarshal(new InputSource(new ByteArrayInputStream(" +
+            "%s.addValueTags(xmlDocument).getBytes())));",
+            this.beanClassName, this.beanClassName, this.converterClass.getName());
 
     jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Deserialize XML document to bean object."));
@@ -103,62 +99,66 @@ public class JAXB extends XMLLibrary
 
   /**
    * Private helper method to generate code that removes unnecessary
-   * values-tag and value-tags from a list in an XML document.
+   * value- and values-tags from a list in an XML document.
    *
    * @throws Exception Error during code generation
    */
   @Override
-  protected JMethod generateRemoveTagFromList() throws Exception {
+  protected JMethod generateRemoveTagFromList() throws Exception
+  {
     JMethodSignature jms = JMethodSignature.factory.create(
-            JParameter.factory.create(JModifier.FINAL, "String", "list"),
-            JParameter.factory.create(JModifier.FINAL, "Document", "doc"),
+            JParameter.factory.create(JModifier.FINAL, "String", "listName"),
+            JParameter.factory.create(JModifier.FINAL, "Document", "document"),
             JParameter.factory.create(JModifier.FINAL, "boolean", "isCustomTyped"));
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "removeTagFromList", jms);
 
-    String methodBody_private =
-            "NodeList rootNodes = doc.getElementsByTagName(list);\n" +
-            "for (int i = 0; i < rootNodes.getLength(); i++) {\n" +
-            "\tElement root = (Element) rootNodes.item(i);\n" +
-            "\t// Get all child nodes of root with a value-tag\n" +
-            "\tNodeList children = root.getElementsByTagName(\"values\");\n" +
+    String methodBody =
+            "NodeList rootNodes = document.getElementsByTagName(listName);\n\n" +
+            "// Process all elements below root node\n" +
+            "for (int i = 0; i < rootNodes.getLength(); ++i) {\n" +
+            "\tElement root = (Element)rootNodes.item(i);\n\n" +
+            "\t// Get all child nodes of root that have a values-tag\n" +
+            "\tNodeList children = root.getElementsByTagName(\"values\");\n\n" +
             "\tif (children.getLength() == 1) {\n" +
             "\t\tString newContent = children.item(0).getTextContent();\n"+
-            "\t\t// Remove value-tag from root element\n" +
             "\t\troot.removeChild(children.item(0));\n" +
             "\t\troot.setTextContent(newContent);\n" +
             "\t}\n" +
             "}";
+    
+    jm.getBody().appendSource(methodBody);
+    jm.setComment(new JMethodCommentImpl("Remove unnecessary values-tag from XML list."));
 
-    jm.getBody().appendSource(methodBody_private);
-    jm.setComment(new JMethodCommentImpl("Remove unnecessary value-tag from the XML element."));
-
-    addRequiredImport("org.w3c.dom.Document");
-    addRequiredImport("org.w3c.dom.Element");
-    addRequiredImport("org.w3c.dom.NodeList");
+    // Add required Java imports
+    this.addRequiredImport("org.w3c.dom.Document");
+    this.addRequiredImport("org.w3c.dom.Element");
+    this.addRequiredImport("org.w3c.dom.NodeList");
 
     return jm;
   }
 
   /**
    * Private helper method to generate code that adds
-   * value-tags to one single list in an XML document.
+   * value-tags to a single list in an XML document.
    *
    * @throws Exception Error during code generation
    */
   @Override
-  protected JMethod generateAddTagToList() throws Exception {
+  protected JMethod generateAddTagToList() throws Exception
+  {
     JMethodSignature jms = JMethodSignature.factory.create(
-            JParameter.factory.create(JModifier.FINAL, "String", "list"),
-            JParameter.factory.create(JModifier.FINAL, "Document", "doc"),
+            JParameter.factory.create(JModifier.FINAL, "String", "listName"),
+            JParameter.factory.create(JModifier.FINAL, "Document", "document"),
             JParameter.factory.create(JModifier.FINAL, "boolean", "isCustomTyped"));
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "addTagToList", jms);
-
+    
     String methodBody =
             "if (isCustomTyped) {\n" +
-            "\tNodeList rootNodes = doc.getElementsByTagName(list);\n" +
-            "\tfor (int i = 0; i < rootNodes.getLength(); i++) {\n" +
-            "\t\tElement root    = (Element) rootNodes.item(i);\n" +
-            "\t\tElement child   = doc.createElement(\"values\");\n" +
+            "\tNodeList rootNodes = document.getElementsByTagName(listName);\n\n" +
+            "\t// Process all elements below root node\n" +
+            "\tfor (int i = 0; i < rootNodes.getLength(); ++i) {\n" +
+            "\t\tElement root = (Element)rootNodes.item(i);\n" +
+            "\t\tElement child = document.createElement(\"values\");\n\n" +
             "\t\tchild.setTextContent(root.getTextContent());\n" +
             "\t\troot.removeChild(root.getFirstChild());\n" +
             "\t\troot.appendChild(child);\n" +
@@ -166,11 +166,12 @@ public class JAXB extends XMLLibrary
             "}";
 
     jm.getBody().appendSource(methodBody);
-    jm.setComment(new JMethodCommentImpl("Add values-tag and/or value-tags to the XML list."));
+    jm.setComment(new JMethodCommentImpl("Add values-tag to XML list."));
 
-    addRequiredImport("org.w3c.dom.Document");
-    addRequiredImport("org.w3c.dom.Element");
-    addRequiredImport("org.w3c.dom.NodeList");
+    // Add required Java imports
+    this.addRequiredImport("org.w3c.dom.Document");
+    this.addRequiredImport("org.w3c.dom.Element");
+    this.addRequiredImport("org.w3c.dom.NodeList");
 
     return jm;
   }

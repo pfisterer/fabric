@@ -1,4 +1,4 @@
-/** 09.11.2011 23:30 */
+/** 11.11.2011 23:33 */
 package fabric.module.exi.java.lib.xml;
 
 import org.slf4j.Logger;
@@ -242,36 +242,39 @@ abstract public class XMLLibrary
             "String result = null;\n\n" +
             "// Create document with custom DocumentBuilderFactory\n" +
             "Document document = DocumentBuilderFactory.newInstance(\"com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl\", null)" +
-            ".newDocumentBuilder().parse(new ByteArrayInputStream(xmlDocument.getBytes()));\n\n";
+            ".newDocumentBuilder().parse(new ByteArrayInputStream(xmlDocument.getBytes()));\n";
     
     // Remove value-tag from XML elements
     if (!fixElements.isEmpty())
     {
-      methodBody += "// Remove value-tag from XML elements\n";
+      methodBody += "\n// Remove value-tag from XML elements\n";
       for (ElementData elementData: fixElements)
       {
-        methodBody += String.format("removeTagFromElement(\"%s\", document);\n", elementData.getName());
+        methodBody += String.format("%s.removeTagFromElement(\"%s\", document);\n",
+                this.converterClass.getName(), elementData.getName());
       }
     }
     // Remove value-tag from XML arrays
     if (!fixArrays.isEmpty())
     {
-      methodBody += "// Remove value-tag from XML arrays\n";
+      methodBody += "\n// Remove value-tag from XML arrays\n";
       for (ArrayData arrayData: fixArrays)
       {
         if (arrayData.isCustomTyped())
         {
-          methodBody += String.format("removeTagFromElement(\"%s\", document);\n", arrayData.getArrayName());
+          methodBody += String.format("%s.removeTagFromElement(\"%s\", document);\n",
+                  this.converterClass.getName(), arrayData.getArrayName());
         }
       }
-    }    
+    }
     // Remove value-tag from XML lists
     if (!fixLists.isEmpty())
     {
-      methodBody += "// Remove value-tag from XML lists\n";
+      methodBody += "\n// Remove value-tag from XML lists\n";
       for (ListData listData: fixLists)
       {
-        methodBody += String.format("removeTagFromList(\"%s\", document, %b);\n", listData.getListName(), listData.isCustomTyped());
+        methodBody += String.format("%s.removeTagFromList(\"%s\", document, %b);\n",
+                this.converterClass.getName(), listData.getListName(), listData.isCustomTyped());
       }
     }
 
@@ -282,8 +285,8 @@ abstract public class XMLLibrary
             "StringWriter stringWriter = new StringWriter();\n" +
             "Result resultStream = new StreamResult(stringWriter);\n\n" +
             "// Setup transformer for pretty output\n" +
-            "TransformerFactory factory = TransformerFactory.newInstance();\n" +
-            "Transformer transformer = factory.newTransformer();\n" +
+            "TransformerFactory transformerFactory = TransformerFactory.newInstance();\n" +
+            "Transformer transformer = transformerFactory.newTransformer();\n" +
             "transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, \"no\");\n" +
             "transformer.setOutputProperty(OutputKeys.METHOD, \"xml\");\n" +
             "transformer.setOutputProperty(OutputKeys.INDENT, \"yes\");\n" +
@@ -326,17 +329,18 @@ abstract public class XMLLibrary
   protected JMethod generateRemoveTagFromElement() throws Exception
   {
     JMethodSignature jms = JMethodSignature.factory.create(
-            JParameter.factory.create(JModifier.FINAL, "String", "element"),
+            JParameter.factory.create(JModifier.FINAL, "String", "elementName"),
             JParameter.factory.create(JModifier.FINAL, "Document", "document"));
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "removeTagFromElement", jms);
     
     String methodBody =
-            "NodeList rootNodes = document.getElementsByTagName(element);\n\n" +
-            "// Length of rootNodes is greater than 1, if we have an element array\n" +
+            "NodeList rootNodes = document.getElementsByTagName(elementName);\n\n" +
+            "// Process all elements below root node\n" +
             "for (int i = 0; i < rootNodes.getLength(); ++i) {\n" +
             "\tElement root = (Element)rootNodes.item(i);\n\n" +
-            "\t// Get all child nodes of root with a value-tag\n" +
+            "\t// Get all child nodes of root that have a value-tag\n" +
             "\tNodeList children = root.getElementsByTagName(\"value\");\n\n" +
+            "\t// Remove value-tag from XML tree\n" +
             "\tString newContent = \"\";\n" +
             "\twhile (children.getLength() > 0) {\n" +
             "\t\tElement value = (Element)children.item(0);\n" +
@@ -364,8 +368,6 @@ abstract public class XMLLibrary
    * @throws Exception Error during code generation
    */
   abstract protected JMethod generateRemoveTagFromList() throws Exception;
-  
-  // TODO: Continue from here
 
   /**
    * Private helper method to generate code that adds value-tags
@@ -384,58 +386,73 @@ abstract public class XMLLibrary
     JMethodSignature jms = JMethodSignature.factory.create(
             JParameter.factory.create(JModifier.FINAL, "String", "xmlDocument"));
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "String",
-            "addValueTags", jms);
+            "addValueTags", jms, new String[] { "Exception" });
+    
     String methodBody =
-            "try {\n" +
-            "\t// Create document\n" +
-            "\tDocument doc = DocumentBuilderFactory.newInstance(\"com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl\", null).newDocumentBuilder().parse(new ByteArrayInputStream(xmlDocument.getBytes()));\n" +
-            "\t// Fix tags in elements\n";
+            "String result = null;\n\n" +
+            "// Create document with custom DocumentBuilderFactory\n" +
+            "Document document = DocumentBuilderFactory.newInstance(\"com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl\", null)." +
+            "newDocumentBuilder().parse(new ByteArrayInputStream(xmlDocument.getBytes()));\n";
 
-    // Add tag to elements
-    for (ElementData element : fixElements) {
-        methodBody += String.format("\taddTagToElement(\"%s\", doc);\n", element.getName());
+    // Add value-tag to XML elements
+    if (!fixElements.isEmpty())
+    {
+      methodBody += "\n// Add value-tag to XML elements\n";
+      for (ElementData elementData: fixElements)
+      {
+        methodBody += String.format("%s.addTagToElement(\"%s\", document);\n",
+                this.converterClass.getName(), elementData.getName());
+      }
     }
-    // Add tag to element arrays
-    methodBody += "\t// Fix tags in element arrays\n";
-    for (ArrayData array : fixArrays) {
-        if (array.isCustomTyped()) {
-            methodBody += String.format("\taddTagToElement(\"%s\", doc);\n", array.getArrayName());
+    // Add value-tag to XML arrays
+    if (!fixArrays.isEmpty())
+    {
+      methodBody += "\n// Add value-tag to XML arrays\n";
+      for (ArrayData arrayData: fixArrays)
+      {
+        if (arrayData.isCustomTyped())
+        {
+          methodBody += String.format("%s.addTagToElement(\"%s\", document);\n",
+                  this.converterClass.getName(), arrayData.getArrayName());
         }
+      }
     }
-    // Add tag to lists
-    methodBody += "\t// Fix tags in lists\n";
-    for (ListData list : fixLists) {
-        methodBody += String.format(
-                "\taddTagToList(\"%s\", doc, %b);\n",
-                list.getListName(), list.isCustomTyped());
+    // Add value-tag to XML lists
+    if (!fixLists.isEmpty())
+    {
+      methodBody += "\n// Add value-tag to XML lists\n";
+      for (ListData listData: fixLists)
+      {
+        methodBody += String.format("%s.addTagToList(\"%s\", document, %b);\n",
+                this.converterClass.getName(), listData.getListName(), listData.isCustomTyped());
+      }
     }
 
     methodBody +=
-            "\t// Create instances for writing output\n" +
-            "\tSource source               = new DOMSource(doc);\n" +
-            "\tStringWriter stringWriter   = new StringWriter();\n" +
-            "\tResult result               = new StreamResult(stringWriter);\n" +
-            "\tTransformerFactory factory  = TransformerFactory.newInstance();\n" +
-            "\tTransformer transformer     = factory.newTransformer();\n" +
-            "\ttransformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, \"no\");\n" +
-            "\ttransformer.setOutputProperty(OutputKeys.METHOD, \"xml\");\n" +
-            "\ttransformer.setOutputProperty(OutputKeys.INDENT, \"yes\");\n" +
-            "\ttransformer.setOutputProperty(OutputKeys.STANDALONE, \"no\");\n" +
-            "\ttransformer.setOutputProperty(OutputKeys.ENCODING, \"UTF-8\");\n" +
-            "\ttransformer.setOutputProperty(\"{http://xml.apache.org/xslt}indent-amount\", \"2\");\n" +
-            "\ttransformer.transform(source, result);\n" +
-            "\t// Resulting XML as a string\n" +
-            "\tString ret = stringWriter.getBuffer().toString();\n" +
-            "\tstringWriter.close();\n" +
-            "\treturn ret;\n" +
-            "} catch (Exception e) {\n" +
-            "\te.printStackTrace();\n" +
-            "}\n" +
-            "return null;";
+            "\n" +
+            "// Create objects for code write-out\n" +
+            "Source source = new DOMSource(document);\n" +
+            "StringWriter stringWriter = new StringWriter();\n" +
+            "Result resultStream = new StreamResult(stringWriter);\n\n" +
+            "// Setup transformer for pretty output\n" +
+            "TransformerFactory transformerFactory = TransformerFactory.newInstance();\n" +
+            "Transformer transformer = transformerFactory.newTransformer();\n" +
+            "transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, \"no\");\n" +
+            "transformer.setOutputProperty(OutputKeys.METHOD, \"xml\");\n" +
+            "transformer.setOutputProperty(OutputKeys.INDENT, \"yes\");\n" +
+            "transformer.setOutputProperty(OutputKeys.STANDALONE, \"no\");\n" +
+            "transformer.setOutputProperty(OutputKeys.ENCODING, \"UTF-8\");\n" +
+            "transformer.setOutputProperty(\"{http://xml.apache.org/xslt}indent-amount\", \"2\");\n" +
+            "transformer.transform(source, resultStream);\n\n" +
+            "// Return XML document as string\n" +
+            "result = stringWriter.getBuffer().toString();\n" +
+            "stringWriter.close();\n\n" +
+            "return result;";
 
     jm.getBody().appendSource(methodBody);
-    jm.setComment(new JMethodCommentImpl("Add value-tags to the XML document."));
+    jm.setComment(new JMethodCommentImpl("Add value-tags to XML document."));
 
+    // Add required Java imports
     addRequiredImport("java.io.ByteArrayInputStream");
     addRequiredImport("java.io.StringWriter");
     addRequiredImport("javax.xml.parsers.DocumentBuilderFactory");
@@ -459,25 +476,27 @@ abstract public class XMLLibrary
    *
    * @throws Exception Error during code generation
    */
-  protected JMethod generateAddTagToElement() throws Exception {
+  protected JMethod generateAddTagToElement() throws Exception
+  {
     JMethodSignature jms = JMethodSignature.factory.create(
-            JParameter.factory.create(JModifier.FINAL, "String", "element"),
-            JParameter.factory.create(JModifier.FINAL, "Document", "doc"));
+            JParameter.factory.create(JModifier.FINAL, "String", "elementName"),
+            JParameter.factory.create(JModifier.FINAL, "Document", "document"));
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "addTagToElement", jms);
 
     String methodBody =
-            "NodeList rootNodes = doc.getElementsByTagName(element);\n" +
-            "// Length of rootNodes is greater than 1 if we have an element array\n" +
-            "for (int i = 0; i < rootNodes.getLength(); i++) {\n" +
-            "\tElement root    = (Element) rootNodes.item(i);\n" +
-            "\tElement child   = doc.createElement(\"value\");\n" +
+            "NodeList rootNodes = document.getElementsByTagName(elementName);\n\n" +
+            "// Process all elements below root node\n" +
+            "for (int i = 0; i < rootNodes.getLength(); ++i) {\n" +
+            "\tElement root = (Element)rootNodes.item(i);\n" +
+            "\tElement child = document.createElement(\"value\");\n\n" +
             "\tchild.appendChild(root.getFirstChild().cloneNode(true));\n" +
             "\troot.replaceChild(child, root.getFirstChild());\n" +
             "}";
 
     jm.getBody().appendSource(methodBody);
-    jm.setComment(new JMethodCommentImpl("Add value-tag to the XML element."));
-
+    jm.setComment(new JMethodCommentImpl("Add value-tag to XML element."));
+    
+    // Add required Java imports
     addRequiredImport("org.w3c.dom.Document");
     addRequiredImport("org.w3c.dom.Element");
     addRequiredImport("org.w3c.dom.NodeList");
@@ -487,12 +506,12 @@ abstract public class XMLLibrary
 
   /**
    * Private helper method to generate code that adds
-   * value-tags to one single list in an XML document.
+   * value-tags to a single list in an XML document.
    *
    * @throws Exception Error during code generation
    */
   abstract protected JMethod generateAddTagToList() throws Exception;
-  
+
   /**
    * Private helper method to print some debug information. This
    * way it is easier to trace the value-tag fixing process.

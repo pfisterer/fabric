@@ -1,4 +1,4 @@
-/** 06.11.2011 02:41 */
+/** 16.11.2011 00:46 */
 package fabric.module.exi.java;
 
 import org.slf4j.Logger;
@@ -189,7 +189,7 @@ public class JavaEXICodeGen implements EXICodeGen
     // Add application class
     jsf.add(this.applicationClass);
     
-    // Only import bean class, if it resides in a different package
+    // Import bean class, if it resides in a different package
     if (!this.properties.getProperty(FabricEXIModule.PACKAGE_NAME_KEY).equals(this.packageName))
     {
       jsf.addImport(this.qualifiedBeanClassName);
@@ -219,15 +219,15 @@ public class JavaEXICodeGen implements EXICodeGen
             "// Instanziate application\n" +
             "%s application = new %s();\n\n" +
             "// Create instance of the Java bean class\n" +
-            "%s %s = new %s();\n" +
-            "// TODO: Add custom initialization code\n\n" +
+            "%s %s = new %s();\n\n" +
+            "// TODO: Add your custom initialization code here\n\n" +
             
             // TODO Remove this debug block (and blank line before/after)
-            "car.setSimpleBuiltIn(\"SimpleBuiltInContent\");\n" +
-            "car.setSimpleLocal(\"SimpleLocalContent\");\n" +
-            "MyString ms = new MyString();\n" +
-            "ms.setValue(\"MyStringContent\");\n" +
-            "car.setSimpleCustom(ms);\n" +
+//            "car.setSimpleBuiltIn(\"SimpleBuiltInContent\");\n" +
+//            "car.setSimpleLocal(\"SimpleLocalContent\");\n" +
+//            "MyString ms = new MyString();\n" +
+//            "ms.setValue(\"MyStringContent\");\n" +
+//            "car.setSimpleCustom(ms);\n" +
             // TODO End of block
 
             "try {\n" +
@@ -236,10 +236,13 @@ public class JavaEXICodeGen implements EXICodeGen
             "\t// Print XML document for debug purposes\n" +
             "\tSystem.out.println(xmlDocument);\n" +
 
+            // TODO This line was added for release of milestone 2 (remove afterwards)
+            "\n\t// TODO: Add your custom EXI de-/serialization code here\n" +
+
             // TODO Remove this debug block (and blank line before/after)
-            "\n\tSystem.out.println(application.fromEXIStream(application.toEXIStream(xmlDocument)));\n" +
-            "\tCar obj = application.toInstance(application.fromEXIStream(application.toEXIStream(xmlDocument)).replaceAll(\"MyStringContent\", \"MyAlteredContent\"));\n" +
-            "\tSystem.out.println(obj.getSimpleBuiltIn() + \" \" + obj.getSimpleLocal() + \" \" + obj.getSimpleCustom().getValue());\n" +
+//            "\n\tSystem.out.println(application.fromEXIStream(application.toEXIStream(xmlDocument)));\n" +
+//            "\tCar obj = application.toInstance(application.fromEXIStream(application.toEXIStream(xmlDocument)).replaceAll(\"MyStringContent\", \"MyAlteredContent\"));\n" +
+//            "\tSystem.out.println(obj.getSimpleBuiltIn() + \" \" + obj.getSimpleLocal() + \" \" + obj.getSimpleCustom().getValue());\n" +
             // TODO End of block
 
             "}\n" +
