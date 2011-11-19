@@ -1,4 +1,4 @@
-/** 15.11.2011 20:43 */
+/** 19.11.2011 01:35 */
 package fabric.module.exi.java.lib.exi;
 
 import de.uniluebeck.sourcegen.java.JField;
@@ -39,21 +39,14 @@ public class OpenEXI extends EXILibrary
    * @throws Exception Error during code generation
    */
   private void generateSerializerObjects() throws Exception
-  {
-    // TODO: Fix this block to allow schema-informed de-/serialization
-//    // Create member variable for EXI schema factory
-//    JField exiSchemaFactory = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC, "EXISchemaFactory", "exiSchemaFactory", "new EXISchemaFactory()");
-//    exiSchemaFactory.setComment(new JFieldCommentImpl("The OpenEXI schema factory member variable."));
-//    this.serializerClass.add(exiSchemaFactory);
-    // TODO: Block end
-    
+  {    
     // Create member variable for EXI encoder
     JField encoder = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC, "Transmogrifier", "encoder", "null");
     encoder.setComment(new JFieldCommentImpl("The EXI encoder member variable."));
     this.serializerClass.add(encoder);
 
     // Create member variable for EXI decoder
-    JField decoder = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC, "EXIDecoder", "decoder", "null");
+    JField decoder = JField.factory.create(JModifier.PRIVATE | JModifier.STATIC, "EXIReader", "decoder", "null");
     decoder.setComment(new JFieldCommentImpl("The EXI decoder member variable."));
     this.serializerClass.add(decoder);
 
@@ -66,20 +59,22 @@ public class OpenEXI extends EXILibrary
     String methodBody = String.format(
             "try {\n" +
             "\t// Create grammar cache for EXI compression\n" +
-            "\tGrammarCache grammarCache = new GrammarCache(EmptySchema.getEXISchema());\n\n" +
+            "\tEXISchemaFactory exiSchemaFactory = new EXISchemaFactory();\n" +
+            "\tEXISchema exiSchema = exiSchemaFactory.compile(new InputSource(new FileInputStream(new File(\"%s\"))));\n" +
+            "\tGrammarCache grammarCache = new GrammarCache(exiSchema);\n\n" +
             "\t// Initialize EXI encoder\n" +
             "\t%s.encoder = new Transmogrifier();\n" +
             "\t%s.encoder.setEXISchema(grammarCache);\n" +
             "\t%s.encoder.setPreserveWhitespaces(true);\n\n" +
             "\t// Initialize EXI decoder\n" +
-            "\t%s.decoder = new EXIDecoder();\n" +
+            "\t%s.decoder = new EXIReader();\n" +
             "\t%s.decoder.setEXISchema(grammarCache);\n" +
             "}\n" +
             "catch (Exception e) {\n" +
             "\te.printStackTrace();\n" +
             "}",
-            this.serializerClass.getName(), this.serializerClass.getName(), this.serializerClass.getName(),
-            this.serializerClass.getName(), this.serializerClass.getName());
+            this.xsdDocumentPath, this.serializerClass.getName(), this.serializerClass.getName(),
+            this.serializerClass.getName(), this.serializerClass.getName(), this.serializerClass.getName());
 
     setupEXISchemaFactory.getBody().appendSource(methodBody);
     setupEXISchemaFactory.setComment(new JMethodCommentImpl("Setup EXI de-/serializer objects."));
@@ -87,15 +82,13 @@ public class OpenEXI extends EXILibrary
     this.serializerClass.add(setupEXISchemaFactory);
 
     // Add required Java imports
-    // TODO: Remove unused imports
     this.addRequiredImport("java.io.File");
     this.addRequiredImport("java.io.FileInputStream");
-    this.addRequiredImport("java.io.InputStream");
-    this.addRequiredImport("org.openexi.fujitsu.sax.Transmogrifier");
-    this.addRequiredImport("org.openexi.fujitsu.schema.EmptySchema");
     this.addRequiredImport("org.openexi.fujitsu.proc.grammars.GrammarCache");
-    this.addRequiredImport("org.openexi.fujitsu.proc.EXIDecoder");
-    this.addRequiredImport("org.openexi.fujitsu.proc.io.Scanner");
+    this.addRequiredImport("org.openexi.fujitsu.sax.EXIReader");
+    this.addRequiredImport("org.openexi.fujitsu.sax.Transmogrifier");
+    this.addRequiredImport("org.openexi.fujitsu.schema.EXISchema");
+    this.addRequiredImport("org.openexi.fujitsu.scomp.EXISchemaFactory");
     this.addRequiredImport("org.xml.sax.InputSource");
   }
 
@@ -131,11 +124,10 @@ public class OpenEXI extends EXILibrary
     this.serializerClass.add(jm);
 
     // Add required Java imports
-    this.addRequiredImport("java.io.InputStream");
-    this.addRequiredImport("java.io.OutputStream");
-    this.addRequiredImport("java.io.StringReader");
-    this.addRequiredImport("java.io.ByteArrayInputStream");
     this.addRequiredImport("java.io.ByteArrayOutputStream");
+    this.addRequiredImport("java.io.StringReader");
+    this.addRequiredImport("org.openexi.fujitsu.sax.EXIReader");
+    this.addRequiredImport("org.openexi.fujitsu.sax.Transmogrifier");
     this.addRequiredImport("org.xml.sax.InputSource");
   }
 
@@ -153,41 +145,27 @@ public class OpenEXI extends EXILibrary
             "deserialize", jms, new String[] { "Exception" });
 
     String methodBody = String.format(
-            "String result = \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\" standalone=\\\"no\\\"?>\\n\";\n\n" +
-            "// Set input stream\n" +
-            "%s.decoder.setInputStream(new ByteArrayInputStream(exiStream));\n\n" +
-            "// Create scanner object for deserialization\n" +
-            "Scanner scanner = %s.decoder.processHeader();\n\n" +
-            "// Create objects for event processing\n" +
-            "EXIEvent exiEvent;\n" +
-            "Stack<String> elementStack = new Stack<String>();\n\n" +
-            "// Collect all EXI events in a list\n" +
-            "ArrayList<EXIEvent> exiEventList = new ArrayList<EXIEvent>();\n" +
-            "while ((exiEvent = scanner.nextEvent()) != null) {\n" +
-            "\texiEventList.add(exiEvent);\n" +
-            "}\n\n" +
-            "// Rebuild initial XML document from EXI events\n" +
-            "for (int i = 0; i < exiEventList.size(); ++i) {\n" +
-            "\texiEvent = exiEventList.get(i);\n\n" +
-            "\t// Handle start of element\n" +
-            "\tif (exiEvent.getEventVariety() == EXIEvent.EVENT_SE) {\n" +
-            "\t\tresult += \"<\" + exiEvent.getName() + \">\";\n" +
-            "\t\telementStack.push(exiEvent.getName());\n" +
-            "\t}\n\n" +
-            "\t// Handle characters (element content)\n" +
-            "\tif (exiEvent.getEventVariety() == EXIEvent.EVENT_CH) {\n" +
-            "\t\tif (null != exiEvent.getCharacters()) {\n" +
-            "\t\t\tresult += exiEvent.getCharacters().makeString();\n" +
-            "\t\t}\n" +
-            "\t}\n\n" +
-            "\t// Handle end of element\n" +
-            "\tif (exiEvent.getEventVariety() == EXIEvent.EVENT_EE) {\n" +
-            "\t\tresult += \"</\" + elementStack.pop() + \">\";\n" +
-            "\t}\n" +
-            "}\n\n" +
+            "// Create SAX transformer for pretty output\n" +
+            "SAXTransformerFactory saxTransformerFactory = (SAXTransformerFactory)SAXTransformerFactory.newInstance();\n" +
+            "TransformerHandler transformerHandler = saxTransformerFactory.newTransformerHandler();\n" +
+            "Transformer transformer = transformerHandler.getTransformer();\n" +
+            "transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, \"no\");\n" +
+            "transformer.setOutputProperty(OutputKeys.METHOD, \"xml\");\n" +
+            "transformer.setOutputProperty(OutputKeys.INDENT, \"yes\");\n" +
+            "transformer.setOutputProperty(OutputKeys.STANDALONE, \"no\");\n" +
+            "transformer.setOutputProperty(OutputKeys.ENCODING, \"UTF-8\");\n" +
+            "transformer.setOutputProperty(\"{http://xml.apache.org/xslt}indent-amount\", \"2\");\n\n" +
+            "// Prepare StringWriter for output\n" +
+            "StringWriter stringWriter = new StringWriter();\n" +
+            "transformerHandler.setResult(new StreamResult(stringWriter));\n\n" +
+            "// Parse EXI stream and deserialize\n" +
+            "%s.decoder.setContentHandler(transformerHandler);\n" +
+            "%s.decoder.parse(new InputSource(new ByteArrayInputStream(exiStream)));\n\n" +
+            "// Write output to XML document\n" +
+            "stringWriter.flush();\n" +
+            "String result = stringWriter.getBuffer().toString();\n\n" +
             "return result;",
-            this.serializerClass.getName(), this.serializerClass.getName(), this.serializerClass.getName(),
-            this.serializerClass.getName());
+            this.serializerClass.getName(), this.serializerClass.getName());
 
     jm.getBody().appendSource(methodBody);
     jm.setComment(new JMethodCommentImpl("Uncompress EXI byte stream to XML document."));
@@ -195,8 +173,15 @@ public class OpenEXI extends EXILibrary
     this.serializerClass.add(jm);
 
     // Add required Java imports
-    this.addRequiredImport("java.util.ArrayList");
-    this.addRequiredImport("java.util.Stack");
-    this.addRequiredImport("org.openexi.fujitsu.proc.common.EXIEvent");
+    this.addRequiredImport("java.io.ByteArrayInputStream");
+    this.addRequiredImport("java.io.StringWriter");
+    this.addRequiredImport("javax.xml.transform.OutputKeys");
+    this.addRequiredImport("javax.xml.transform.Transformer");
+    this.addRequiredImport("javax.xml.transform.sax.SAXTransformerFactory");
+    this.addRequiredImport("javax.xml.transform.sax.TransformerHandler");
+    this.addRequiredImport("javax.xml.transform.stream.StreamResult");
+    this.addRequiredImport("org.openexi.fujitsu.sax.EXIReader");
+    this.addRequiredImport("org.openexi.fujitsu.sax.Transmogrifier");
+    this.addRequiredImport("org.xml.sax.InputSource");
   }
 }
