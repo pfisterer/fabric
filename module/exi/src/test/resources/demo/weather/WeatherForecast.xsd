@@ -74,7 +74,7 @@
   <xs:element name="Anemometer">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="Unit" type="xs:string" fixed="km/h" />
+        <xs:element name="Unit" type="xs:string" default="km/h" />
         <xs:element name="CurrentWindSpeed" type="itm:WindSpeedType" />
         <xs:element name="WindSpeedRange" type="itm:WindSpeedRangeType" />
       </xs:sequence>
@@ -103,12 +103,70 @@
     </xs:complexType>
   </xs:element>
 
+    <!--
+    Complex type for date and time.
+    -->
+    <xs:complexType name="DateTimeType">
+    <xs:sequence>
+      <xs:element name="Day" default="1">
+        <xs:simpleType>
+          <xs:restriction base="xs:short">
+            <xs:minInclusive value="1" />
+            <xs:maxInclusive value="31" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Month" default="Jan">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Jan" />
+            <xs:enumeration value="Feb" />
+            <xs:enumeration value="Mar" />
+            <xs:enumeration value="Apr" />
+            <xs:enumeration value="May" />
+            <xs:enumeration value="Jun" />
+            <xs:enumeration value="Jul" />
+            <xs:enumeration value="Aug" />
+            <xs:enumeration value="Sep" />
+            <xs:enumeration value="Oct" />
+            <xs:enumeration value="Nov" />
+            <xs:enumeration value="Dec" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Year" default="1900">
+        <xs:simpleType>
+          <xs:restriction base="xs:short">
+            <xs:minInclusive value="1900" />
+            <xs:maxInclusive value="2100" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Hour" default="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:short">
+            <xs:minInclusive value="0" />
+            <xs:maxExclusive value="24" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Minute" default="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:short">
+            <xs:minInclusive value="0" />
+            <xs:maxExclusive value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
 	<!--
 	  Complex type for weather forecasts.
 	-->
   <xs:complexType name="ForecastType">
     <xs:sequence>
-      <xs:element name="Time" type="xs:dateTime" />
+      <xs:element name="DateTime" type="itm:DateTimeType" />
       <xs:element name="Weather">
         <xs:simpleType>
           <xs:restriction base="xs:string">
