@@ -265,7 +265,7 @@ public class XSD2JavaTest {
      *
      * @param xsd Name of the XSD file to test
      * @param sourceFileGenerator JSourceFileGenerator object corresponding to the given XSD
-     * @return  true, if the automatically and manually generated source files match, false otherwise.
+     * @return true, if the automatically and manually generated source files match, false otherwise.
      */
     private boolean testFile(String xsd, JSourceFileGenerator sourceFileGenerator) {
         /*
