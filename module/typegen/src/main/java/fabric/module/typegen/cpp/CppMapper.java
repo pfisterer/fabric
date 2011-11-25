@@ -17,8 +17,6 @@ public class CppMapper extends Mapper
   @Override
   public void createMapping()
   {
-    // TODO: Add missing datatype mappings for C++
-
     types.put("FBoolean", "bool");
     types.put("FFloat", "float");
     types.put("FDouble", "double");
@@ -27,30 +25,35 @@ public class CppMapper extends Mapper
     types.put("FShort", "int32");
     types.put("FUnsignedShort", "uint16");
     types.put("FInt", "int32");
-    // TODO: FInteger missing
+    types.put("FInteger", "char*");
     types.put("FPositiveInteger", "char*");
     types.put("FUnsignedInt", "uint32");
     types.put("FLong", "int64");
     types.put("FUnsignedLong", "uint64");
     types.put("FDecimal", "char*");
     types.put("FString", "char*");
-      /* TODO
-    types.put("FHexBinary", "byte[]");
-    types.put("FBase64Binary", "byte[]");
-    types.put("FDateTime", "javax.xml.datatype.XMLGregorianCalendar");
-    types.put("FTime", "javax.xml.datatype.XMLGregorianCalendar");
-    types.put("FDate", "javax.xml.datatype.XMLGregorianCalendar");
-    types.put("FDay", "javax.xml.datatype.XMLGregorianCalendar");
-    types.put("FMonth", "javax.xml.datatype.XMLGregorianCalendar");
-    types.put("FMonthDay", "javax.xml.datatype.XMLGregorianCalendar");
-    types.put("FYear", "javax.xml.datatype.XMLGregorianCalendar");
-    types.put("FYearMonth", "javax.xml.datatype.XMLGregorianCalendar");
-    types.put("FDuration", "javax.xml.datatype.Duration");
-    types.put("FNOTATION", "javax.xml.namespace.QName");
-    types.put("FQName", "javax.xml.namespace.QName");
-    */
+    types.put("FHexBinary", "hexBinary_t");
+    types.put("FBase64Binary", "base64Binary_t");
+    types.put("FDateTime", "uint64");
+    types.put("FTime", "uint64");
+    types.put("FDate", "uint32");
+    types.put("FDay", "uint8");
+    types.put("FMonth", "uint8");
+    types.put("FMonthDay", "uint16");
+    types.put("FYear", "uint16");
+    types.put("FYearMonth", "uint32");
+    types.put("FDuration", "uint64");
+    types.put("FNOTATION", "notation_t");
+    types.put("FQName", "qname_t");
+    types.put("FName", "char*");
+    types.put("FNCName", "char*");
+    types.put("FNegativeInteger", "char*");
+    types.put("FNMTOKEN", "char*");
+    types.put("FNonNegativeInteger", "char*");
+    types.put("FNonPositiveInteger", "char*");
+    types.put("FNormalizedString", "char*");
+    types.put("FToken", "char*");
     types.put("FAnyURI", "char*");
-    // TODO: Further types derived from String and Integer are missing
     types.put("FAny", "char*");
   }
 }

@@ -12,7 +12,7 @@ public class WeatherApplication {
 	 * Main function of the application.
 	 */
 	public static void main(String[] args) {
-		// Instanziate application
+		// Instantiate application
 		WeatherApplication application = new WeatherApplication();
 
 		// Create instance of the Java bean class
@@ -37,7 +37,7 @@ public class WeatherApplication {
 		list.add(BigDecimal.valueOf(14.3));
 		list.add(BigDecimal.valueOf(14.0));
 
-    TemperatureListType tempList = new TemperatureListType();
+                TemperatureListType tempList = new TemperatureListType();
 		tempList.setValues(list);
 		thermometer.setLatestTemperatures(tempList);
 		weather.setThermometer(thermometer);
@@ -55,9 +55,9 @@ public class WeatherApplication {
 		// Wind speed range
 		WindSpeedRangeType speedRange = new WindSpeedRangeType();
 
-    WindSpeedType minSpeed = new WindSpeedType();
+                WindSpeedType minSpeed = new WindSpeedType();
 		minSpeed.setValue(BigDecimal.valueOf(56));
-    speedRange.setMinimum(minSpeed);
+                speedRange.setMinimum(minSpeed);
 
 		WindSpeedType maxSpeed = new WindSpeedType();
 		maxSpeed.setValue(BigDecimal.valueOf(103));
@@ -80,24 +80,28 @@ public class WeatherApplication {
      * Setup weather forecast object
      *****************************************************************/
 		Weather.WeatherForecastType weatherForecast = new Weather.WeatherForecastType();
+		
+                // Forecast 1
+                ForecastType forecast1 = new ForecastType();
+                DateTimeType dateTime1 = new DateTimeType();
+                dateTime1.setDay((short) 25);
+                dateTime1.setMonth(DateTimeType.MonthEnum.Oct);
+                dateTime1.setYear((short) 2011);
+                dateTime1.setHour((short) 13);
+                dateTime1.setMinute((short) 0);
+                forecast1.setDateTime(dateTime1);
+                forecast1.setWeather(ForecastType.WeatherEnum.Cloudy);
 
-    DateTimeType dateTime = new DateTimeType();
-    dateTime.setYear((short)2011);
-    dateTime.setMonth(DateTimeType.MonthEnum.Nov);
-    dateTime.setDay((short)25);
-    dateTime.setMinute((short)00);
-
-    // Forecast 1
-    ForecastType forecast1 = new ForecastType();
-    dateTime.setHour((short)17);
-    forecast1.setDateTime(dateTime);
-		forecast1.setWeather(ForecastType.WeatherEnum.Cloudy);
-
-    // Forecast 2
+                // Forecast 2
 		ForecastType forecast2 = new ForecastType();
-    dateTime.setHour((short)18);
-    forecast2.setDateTime(dateTime);
-		forecast2.setWeather(ForecastType.WeatherEnum.Rainy);
+                DateTimeType dateTime2 = new DateTimeType();
+                dateTime2.setDay((short) 25);
+                dateTime2.setMonth(DateTimeType.MonthEnum.Oct);
+                dateTime2.setYear((short) 2011);
+                dateTime2.setHour((short) 14);
+                dateTime2.setMinute((short) 0);
+                forecast2.setDateTime(dateTime2);
+                forecast2.setWeather(ForecastType.WeatherEnum.Rainy);
 
 		ArrayList<ForecastType> list2 = new ArrayList<ForecastType>();
 		list2.add(forecast1);
@@ -113,10 +117,8 @@ public class WeatherApplication {
 			System.out.println(xmlDocument);
 
 			System.out.println(application.fromEXIStream(application.toEXIStream(xmlDocument)));
-			Weather obj = application.toInstance(application.fromEXIStream(application.toEXIStream(xmlDocument)).replaceAll("MyStringContent", "MyAlteredContent"));
-			//System.out.println(obj.getSimpleBuiltIn() + " " + obj.getSimpleLocal() + " " + obj.getSimpleCustom().getValue());
-
-			System.out.println(String.format("Length of EXI stream: %d Bytes", application.toEXIStream(xmlDocument).length));
+			Weather obj = application.toInstance(application.fromEXIStream(application.toEXIStream(xmlDocument)));
+			System.out.println(String.format("Länge des EXI Streams: %d Byte", application.toEXIStream(xmlDocument).length));
 		}
 		catch (Exception e) {
 			e.printStackTrace();
