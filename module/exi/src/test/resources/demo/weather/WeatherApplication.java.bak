@@ -1,10 +1,7 @@
 package com.example.weather;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 /**
  * The application's main class.
@@ -83,27 +80,23 @@ public class WeatherApplication {
      * Setup weather forecast object
      *****************************************************************/
 		Weather.WeatherForecastType weatherForecast = new Weather.WeatherForecastType();
-		
+
+    DateTimeType dateTime = new DateTimeType();
+    dateTime.setYear((short)2011);
+    dateTime.setMonth(DateTimeType.MonthEnum.Nov);
+    dateTime.setDay((short)25);
+    dateTime.setMinute((short)00);
+
     // Forecast 1
     ForecastType forecast1 = new ForecastType();
-		try {
-      forecast1.setTime(DatatypeFactory.newInstance().newXMLGregorianCalendar(
-              new GregorianCalendar(2011, 10, 25, 13, 00)));
-    }
-    catch (DatatypeConfigurationException e) {
-      e.printStackTrace();
-    }
+    dateTime.setHour((short)17);
+    forecast1.setDateTime(dateTime);
 		forecast1.setWeather(ForecastType.WeatherEnum.Cloudy);
 
     // Forecast 2
 		ForecastType forecast2 = new ForecastType();
-		try {
-      forecast2.setTime(DatatypeFactory.newInstance().newXMLGregorianCalendar(
-              new GregorianCalendar(2011, 10, 25, 14, 00)));
-    }
-    catch (DatatypeConfigurationException e) {
-      e.printStackTrace();
-		}
+    dateTime.setHour((short)18);
+    forecast2.setDateTime(dateTime);
 		forecast2.setWeather(ForecastType.WeatherEnum.Rainy);
 
 		ArrayList<ForecastType> list2 = new ArrayList<ForecastType>();
@@ -123,7 +116,7 @@ public class WeatherApplication {
 			Weather obj = application.toInstance(application.fromEXIStream(application.toEXIStream(xmlDocument)).replaceAll("MyStringContent", "MyAlteredContent"));
 			//System.out.println(obj.getSimpleBuiltIn() + " " + obj.getSimpleLocal() + " " + obj.getSimpleCustom().getValue());
 
-			System.out.println(String.format("Länge des EXI Streams: %d Byte", application.toEXIStream(xmlDocument).length));
+			System.out.println(String.format("Length of EXI stream: %d Bytes", application.toEXIStream(xmlDocument).length));
 		}
 		catch (Exception e) {
 			e.printStackTrace();
