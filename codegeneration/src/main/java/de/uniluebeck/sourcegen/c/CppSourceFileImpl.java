@@ -59,7 +59,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		cppClasses 	= new LinkedList<CppClass>();
 		cppIncludes = new LinkedList<CppSourceFileImpl>();
 	}
-
+  
 	public CppSourceFile add(CEnum... enums) throws CDuplicateException {
 		base.internalAddEnum(enums);
 		return this;

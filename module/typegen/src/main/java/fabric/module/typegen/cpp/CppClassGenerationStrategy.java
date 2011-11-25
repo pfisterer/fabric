@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import de.uniluebeck.sourcegen.WorkspaceElement;
 
+import de.uniluebeck.sourcegen.c.CppClass;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.base.ClassGenerationStrategy;
 
@@ -12,12 +13,12 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
   @Override
   public WorkspaceElement generateClassObject(AttributeContainer container) throws Exception
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+    return CppClass.factory.create(container.getName(), null); // TODO
   }
-
+  
   @Override
   public ArrayList<String> getRequiredDependencies()
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+    return new ArrayList<String>(); // TODO
   }
 }
