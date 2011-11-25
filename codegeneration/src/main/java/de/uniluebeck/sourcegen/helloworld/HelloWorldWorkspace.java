@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import de.uniluebeck.sourcegen.SourceFile;
 import de.uniluebeck.sourcegen.Workspace;
+import de.uniluebeck.sourcegen.c.CppSourceFileImpl;
 import de.uniluebeck.sourcegen.java.JSourceFileImpl;
 
 /**
@@ -43,12 +44,18 @@ public class HelloWorldWorkspace {
     /**
      * The default file used for Hello World! program creation.
      */
-    private JSourceFileImpl defaultSourceFile;
+/*    private JSourceFileImpl defaultSourceFile;
 
     {
         defaultSourceFile = null;
     }
-
+*/
+    private CppSourceFileImpl defaultSourceFile;
+    {
+    	defaultSourceFile = null;
+    }
+    
+  
     private final List<SourceFile> sourceFiles;
 
     /**
@@ -74,11 +81,11 @@ public class HelloWorldWorkspace {
      *
      * @return
      */
-    public JSourceFileImpl getDefaultSourceFile() {   	
+/*    public JSourceFileImpl getDefaultSourceFile() {   	
     	if (defaultSourceFile == null) {
     		LOGGER.debug("DefaultSourceFile was null.");
-    		
-            defaultSourceFile = new JSourceFileImpl(packageName, fileName);
+    		//defaultSourceFile = new CppSourceFileImpl(fileName);
+             defaultSourceFile = new JSourceFileImpl(packageName, fileName);
             sourceFiles.add(defaultSourceFile);
         }
     	
@@ -86,4 +93,18 @@ public class HelloWorldWorkspace {
     	
         return this.defaultSourceFile;
     }
+*/
+    public CppSourceFileImpl getDefaultSourceFile() {   	
+    	if (defaultSourceFile == null) {
+    		LOGGER.debug("DefaultSourceFile was null.");
+    		defaultSourceFile = new CppSourceFileImpl(fileName);
+            // defaultSourceFile = new JSourceFileImpl(packageName, fileName);
+            sourceFiles.add(defaultSourceFile);
+        }
+    	
+    	LOGGER.info("DefaultSourceFile is now: " + defaultSourceFile.getFileName());
+    	
+        return this.defaultSourceFile;
+    }
+
 }

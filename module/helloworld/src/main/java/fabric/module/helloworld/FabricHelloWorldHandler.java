@@ -26,6 +26,24 @@ package fabric.module.helloworld;
 import java.util.Properties;
 
 import de.uniluebeck.sourcegen.Workspace;
+import de.uniluebeck.sourcegen.c.CEnum;
+import de.uniluebeck.sourcegen.c.CFun;
+import de.uniluebeck.sourcegen.c.CHeaderFile;
+import de.uniluebeck.sourcegen.c.CPreProcessorDirective;
+import de.uniluebeck.sourcegen.c.CSourceFile;
+import de.uniluebeck.sourcegen.c.CStruct;
+import de.uniluebeck.sourcegen.c.CUnion;
+import de.uniluebeck.sourcegen.c.Cpp;
+import de.uniluebeck.sourcegen.c.CppClass;
+import de.uniluebeck.sourcegen.c.CppConstructor;
+import de.uniluebeck.sourcegen.c.CppDestructor;
+import de.uniluebeck.sourcegen.c.CppFun;
+import de.uniluebeck.sourcegen.c.CppSourceFile;
+import de.uniluebeck.sourcegen.c.CppSourceFileImpl;
+import de.uniluebeck.sourcegen.c.CppTypeGenerator;
+import de.uniluebeck.sourcegen.c.CppVar;
+import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
+import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 import de.uniluebeck.sourcegen.java.*;
 import fabric.module.api.FabricDefaultHandler;
 import fabric.wsdlschemaparser.schema.FComplexType;
@@ -78,8 +96,9 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
      */
     private String edgeTopLevelTypeReference;
 
-    private final JSourceFileImpl helloWorldSource;
-
+//    private final JSourceFileImpl helloWorldSource;
+    private final CppSourceFileImpl helloWorldSource;
+    private Workspace workspace;
     /**
      * Constructs a new handler for dot graph generation.
      *
@@ -87,7 +106,10 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
      * @param properties The properties used to customise this handler.
      */
     public FabricHelloWorldHandler(Workspace workspace, Properties properties) {
-        this.helloWorldSource = workspace.getHelloWorldHelper( ).getDefaultSourceFile( );
+        this.workspace = workspace;
+    	this.helloWorldSource = this.workspace.getHelloWorldHelper( ).getDefaultSourceFile( );
+        
+     
         // TODO use the properties to customise the styles
     }
 
@@ -168,13 +190,44 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
      * @throws Exception Error during code generation
      */
     private void createHelloWorldFile() throws Exception {
-      JMethodSignature jms = JMethodSignature.factory.create(JParameter.factory.create("String[]", "args"));
-      JMethod jm = JMethod.factory.create(JModifier.PUBLIC | JModifier.STATIC, "void", "main", jms);
-      jm.getBody().appendSource("System.out.println(\"Hello World!\");");
-      jm.setComment(new JMethodCommentImpl("Dies ist ein Hello World-Programm!"));
-      JClass jc = JClass.factory.create(JModifier.PUBLIC, "HelloWorld");
-      jc.add(jm);
-      this.helloWorldSource.add(jc);
+    	    	
+    	// include stdio.h
+    	//this.helloWorldSource.addLibInclude("stdio");
+    	
+    	// include the header file
+        CppSourceFile header = this.workspace.getC().getCppHeaderFile("helloWorldHeader");
+        this.helloWorldSource.addInclude(header);
+      
+        // generate the class
+        CppClass helloWorldClass = CppClass.factory.create("HelloWorld", this.helloWorldSource);
+        header.add(helloWorldClass);
+    
+        // arguments
+        CppTypeGenerator argcType = new CppTypeGenerator("int");
+        // NOTE: const has been set manually...is there a function doing this for me?
+        // 		CppTypeGenerator("int", Cpp.CONST) delivered false values
+        CppTypeGenerator argvType = new CppTypeGenerator("const int");
+        CppVar argcParameter = CppVar.factory.create(argcType, "argc");
+        // NOTE: the array has been set manually...is there a function doing this for me?
+        CppVar argvParameter = CppVar.factory.create(argvType, "argv[]");
+        
+        // main method declaration
+        CppFun mainFun = CppFun.factory.create(helloWorldClass, Cpp.INT, "main", argcParameter, argvParameter);
+    
+        // some function content
+        mainFun.appendCode("/*" + Cpp.newline);
+        mainFun.appendCode(" * This is a comment" + Cpp.newline);
+        mainFun.appendCode(" */" + Cpp.newline);
+        mainFun.appendCode(Cpp.newline);
+        mainFun.appendCode(" // a test variable of type string" + Cpp.newline);
+        mainFun.appendCode("String testVariable = \"WoooW\";" + Cpp.newline);
+        mainFun.appendCode(Cpp.newline);
+        // NOTE: return value has been set manually...is there a method doing this for me?
+        mainFun.appendCode("return 0;" + Cpp.newline);
+        
+        helloWorldClass.add(Cpp.PUBLIC, mainFun);
+        this.helloWorldSource.add(helloWorldClass);
+           
     }
 
     /**
