@@ -334,13 +334,11 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 				//public functions
 				for(CppFun f : clazz.getFuns(Cpp.PUBLIC)){
 					f.toString(buffer, tabCount);
-					buffer.append("}" + Cpp.newline + Cpp.newline);
 				}
 
 				//private functions
 				for(CppFun f : clazz.getFuns(Cpp.PRIVATE)){
 					f.toString(buffer, tabCount);
-					buffer.append("}" + Cpp.newline + Cpp.newline);
 				}
 
 			}

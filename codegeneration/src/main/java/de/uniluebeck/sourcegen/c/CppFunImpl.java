@@ -98,41 +98,12 @@ class CppFunImpl extends CElemImpl implements CppFun {
         return this;
     }
 
-    public String getReturnType() {
-        switch (returnType) {
-        case COMPLEX:
-            return returnTypeComplex.getTypeName();
-        case LONG:
-            return Cpp.toString(returnTypeLong);
-        case STRING:
-            return returnTypeString;
-        }
-        return null;
-    }
-
     public String getName() {
         return name;
     }
 
     public String getSignature() {
-        String type = null;
-
-        switch (returnType) {
-	        case GENERATOR:
-	            type = returnTypeGenerator.toString();
-	            break;
-	        case COMPLEX:
-	            type = returnTypeComplex.getTypeName();
-	            break;
-	        case LONG:
-	            type = Cpp.toString(returnTypeLong);
-	            break;
-	        case STRING:
-	            type = returnTypeString;
-	            break;
-        }
-
-        return type + " " + signature.toString();
+        return getType() + " " + signature.toString();
     }
 
     public String getBody() {
@@ -142,23 +113,30 @@ class CppFunImpl extends CElemImpl implements CppFun {
     @Override
     public void toString(StringBuffer buffer, int tabCount) {
         // indent(buffer, tabCount);
-        switch (returnType) {
-        case COMPLEX:
-            buffer.append(returnTypeComplex.getTypeName());
-            break;
-        case LONG:
-            buffer.append(Cpp.toString(returnTypeLong));
-            break;
-        case STRING:
-            buffer.append(returnTypeString);
-            break;
-        }
-        buffer.append(" " + this.clazz.getTypeName() + "::");
+        buffer.append(getType() + " " + this.clazz.getTypeName() + "::");
         signature.toString(buffer, 0);
-        buffer.append(" { " + Cpp.newline);
+        buffer.append(" {" + Cpp.newline);
         appendBody(buffer, body, tabCount + 1);
+		buffer.append(Cpp.newline + "}" + Cpp.newline);
+
         // indent(buffer, tabCount);
         buffer.append(Cpp.newline);
+    }
+
+    private String getType() {
+
+        switch (returnType) {
+	        case GENERATOR:
+	            return returnTypeGenerator.toString();
+	        case COMPLEX:
+	        	return returnTypeComplex.getTypeName();
+	        case LONG:
+	        	return Cpp.toString(returnTypeLong);
+	        case STRING:
+	        	return returnTypeString;
+        }
+
+        return "{UNKNOWN_TYPE}";
     }
 
 }
