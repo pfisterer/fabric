@@ -207,6 +207,10 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		structsUnions.add(new VisElem(union, vis));
 	}
 
+	public void setSourceFile(CppSourceFile sourceFile) {
+		this.sourceFile = (CppSourceFileImpl) sourceFile;
+	}
+
 	public boolean contains(CEnum enumObj) {
 		for (VisElem ev : enums)
 			if (((CEnumImpl)ev.elem).equals(enumObj))

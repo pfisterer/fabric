@@ -48,6 +48,10 @@ public interface CppClass extends CppComplexType, CppTemplateName {
             return new CppClassImpl(className, sourceFile);
         }
 
+        public CppClass create(String className) {
+            return new CppClassImpl(className, null);
+        }
+
     }
 
     public static final CppClassFactory factory = CppClassFactory.getInstance();
@@ -67,6 +71,8 @@ public interface CppClass extends CppComplexType, CppTemplateName {
     public CppClass add(long vis, CStruct... struct) throws CppDuplicateException;
 
     public CppClass add(long vis, CUnion... unions) throws CppDuplicateException;
+
+	public void setSourceFile(CppSourceFile sourceFile);
 
     public CppClass addAfterDirective(CPreProcessorDirective... directive);
 
