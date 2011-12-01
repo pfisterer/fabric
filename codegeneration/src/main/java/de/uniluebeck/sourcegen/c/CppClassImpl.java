@@ -555,6 +555,11 @@ class CppClassImpl extends CElemImpl implements CppClass {
 			tmp.append("\tvirtual " + d.getSignature() + ";" + Cpp.newline);
 		}
 
+		// public variables
+		for(CppVar v : this.getVars(Cpp.PUBLIC)){
+			tmp.append("\t" + v.toString() + ";" + Cpp.newline);
+		}
+
 		//public functions
 		for(CppFun f : this.getFuns(Cpp.PUBLIC)){
 			tmp.append("\t" + f.getSignature() + ";" + Cpp.newline);
