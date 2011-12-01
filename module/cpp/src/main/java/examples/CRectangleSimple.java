@@ -46,21 +46,20 @@ public class CRectangleSimple {
         CppClass class_CRectangleSimple = CppClass.factory.create(className);
 
         // Generate two int variables
-        CppTypeGenerator type_int = new CppTypeGenerator("int");
-        CppVar var_x = CppVar.factory.create(type_int, "x");
-        CppVar var_y = CppVar.factory.create(type_int, "y");
+        CppVar var_x = CppVar.factory.create(Cpp.INT, "x");
+        CppVar var_y = CppVar.factory.create(Cpp.INT, "y");
         class_CRectangleSimple.add(Cpp.PRIVATE, var_x, var_y);
 
         // Generate function set_values
-        CppVar var_a = CppVar.factory.create(type_int, "a");
-        CppVar var_b = CppVar.factory.create(type_int, "b");
+        CppVar var_a = CppVar.factory.create(Cpp.INT, "a");
+        CppVar var_b = CppVar.factory.create(Cpp.INT, "b");
         CppFun fun_set_values = CppFun.factory.create(class_CRectangleSimple, Cpp.VOID, "set_values", var_a, var_b);
         fun_set_values.appendCode("x = a;");
         fun_set_values.appendCode("y = b;");
         class_CRectangleSimple.add(Cpp.PUBLIC, fun_set_values);
 
         // Generate function area
-        CppFun fun_area = CppFun.factory.create(class_CRectangleSimple, type_int, "area");
+        CppFun fun_area = CppFun.factory.create(class_CRectangleSimple, Cpp.INT, "area");
         fun_area.appendCode("return (x*y);");
         class_CRectangleSimple.add(Cpp.PUBLIC, fun_area);
 
