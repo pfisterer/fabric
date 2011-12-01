@@ -28,13 +28,14 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 class CppFunImpl extends CElemImpl implements CppFun {
 
     private enum ReturnType {
-        COMPLEX, LONG, STRING
+        COMPLEX, LONG, STRING, GENERATOR
     }
 
     private ReturnType returnType;
     private CComplexType returnTypeComplex;
     private long returnTypeLong;
     private String returnTypeString;
+    private CppTypeGenerator returnTypeGenerator;
 
     private String name;
     private CppSignature signature;
@@ -80,7 +81,16 @@ class CppFunImpl extends CElemImpl implements CppFun {
         this.returnType = ReturnType.STRING;
         this.returnTypeString = returnType;
         this.clazz = clazz;
+    }
 
+    public CppFunImpl(CppClass clazz, CppTypeGenerator returnType, String name, CppVar[] signatureVars)
+            throws CppDuplicateException {
+
+        this(name, signatureVars);
+
+        this.returnType = ReturnType.GENERATOR;
+        this.returnTypeGenerator = returnType;
+        this.clazz = clazz;
     }
 
     public CppFun appendCode(String str) {
@@ -108,15 +118,18 @@ class CppFunImpl extends CElemImpl implements CppFun {
         String type = null;
 
         switch (returnType) {
-        case COMPLEX:
-            type = returnTypeComplex.getTypeName();
-            break;
-        case LONG:
-            type = Cpp.toString(returnTypeLong);
-            break;
-        case STRING:
-            type = returnTypeString;
-            break;
+	        case GENERATOR:
+	            type = returnTypeGenerator.toString();
+	            break;
+	        case COMPLEX:
+	            type = returnTypeComplex.getTypeName();
+	            break;
+	        case LONG:
+	            type = Cpp.toString(returnTypeLong);
+	            break;
+	        case STRING:
+	            type = returnTypeString;
+	            break;
         }
 
         return type + " " + signature.toString();

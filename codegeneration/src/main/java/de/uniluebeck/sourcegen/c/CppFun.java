@@ -48,8 +48,12 @@ public interface CppFun extends CppLangElem {
 		public CppFun create(CppClass clazz, long returnType, String name, CppVar... signatureVar) throws CppDuplicateException {
 			return new CppFunImpl(clazz, returnType, name, signatureVar);
 		}
-		
+
 		public CppFun create(CppClass clazz, String returnType, String name, CppVar... signatureVars) throws CppDuplicateException {
+			return new CppFunImpl(clazz, returnType, name, signatureVars);
+		}
+
+		public CppFun create(CppClass clazz, CppTypeGenerator returnType, String name, CppVar... signatureVars) throws CppDuplicateException {
 			return new CppFunImpl(clazz, returnType, name, signatureVars);
 		}
 
