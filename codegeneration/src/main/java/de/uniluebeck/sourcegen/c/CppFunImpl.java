@@ -84,7 +84,7 @@ class CppFunImpl extends CElemImpl implements CppFun {
     }
 
     public CppFun appendCode(String str) {
-        body.append(str);
+        body.append(str + Cpp.newline);
         return this;
     }
 
@@ -140,12 +140,12 @@ class CppFunImpl extends CElemImpl implements CppFun {
             buffer.append(returnTypeString);
             break;
         }
-        buffer.append(" " + this.clazz.getTypeName() + "::\n");
+        buffer.append(" " + this.clazz.getTypeName() + "::");
         signature.toString(buffer, 0);
-        buffer.append(" {\n");
+        buffer.append(" { " + Cpp.newline);
         appendBody(buffer, body, tabCount + 1);
         // indent(buffer, tabCount);
-        buffer.append("\n");
+        buffer.append(Cpp.newline);
     }
 
 }

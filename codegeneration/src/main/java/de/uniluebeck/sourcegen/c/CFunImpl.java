@@ -74,7 +74,7 @@ class CFunImpl extends CElemImpl implements CFun {
 				new CFunBody(declarations, code));
 
 	}
-	
+
 	public CFunImpl(String name, String returnType, CFunSignature signature) throws CDuplicateException {
 		this.name = name;
 		this.returnType = returnType;
@@ -82,7 +82,7 @@ class CFunImpl extends CElemImpl implements CFun {
 
 		if (this.signature == null)
 			this.signature = new CFunSignatureImpl();
-		
+
 		try {
 			this.body = new CFunBody("", "");
 		} catch (CCodeValidationException e) {
@@ -96,25 +96,25 @@ class CFunImpl extends CElemImpl implements CFun {
 			this.afterDirectives.add((CPreProcessorDirectiveImpl)d);
 		return this;
 	}
-	
+
 	public CFun addDirectiveAfterFunction(boolean hash, String... directive) throws CPreProcessorValidationException {
 		for (String d : directive)
 			this.afterDirectives.add(new CPreProcessorDirectiveImpl(hash, d));
 		return this;
 	}
-	
+
 	public CFun addDirectiveAfterFunction(String... directives) throws CPreProcessorValidationException {
 		for(String d : directives)
 			this.afterDirectives.add(new CPreProcessorDirectiveImpl(d));
 		return this;
 	}
-	
+
 	public CFun addDirectiveBeforeFunction(CPreProcessorDirective... directives) {
 		for (CPreProcessorDirective d : directives)
 			this.beforeDirectives.add((CPreProcessorDirectiveImpl)d);
 		return this;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see de.uniluebeck.sourcegen.c.CFun#addDirectiveBeforeFunction(java.lang.String, boolean)
 	 */
@@ -123,7 +123,7 @@ class CFunImpl extends CElemImpl implements CFun {
 			this.beforeDirectives.add(new CPreProcessorDirectiveImpl(hash, d));
 		return this;
 	}
-	
+
 	public CFun addDirectiveBeforeFunction(String... directives) throws ValidationException {
 		for(String d : directives)
 			this.beforeDirectives.add(new CPreProcessorDirectiveImpl(d));
@@ -147,7 +147,7 @@ class CFunImpl extends CElemImpl implements CFun {
 	/**
 	 * Returns the list of directives that will be printed out after function
 	 * declaration/implementation.
-	 * 
+	 *
 	 * @return a list of preprocessor directives
 	 */
 	public LinkedList<CPreProcessorDirectiveImpl> getAfterDirectives() {
@@ -157,7 +157,7 @@ class CFunImpl extends CElemImpl implements CFun {
 	/**
 	 * Returns the list of directives that will be printed out before function
 	 * declaration/implementation.
-	 * 
+	 *
 	 * @return a list of preprocessor directives
 	 */
 	public LinkedList<CPreProcessorDirectiveImpl> getBeforeDirectives() {
@@ -166,7 +166,7 @@ class CFunImpl extends CElemImpl implements CFun {
 
 	/**
 	 * Returns the funs body code.
-	 * 
+	 *
 	 * @return the funs body code
 	 */
 	public CFunBody getBody() {
@@ -175,7 +175,7 @@ class CFunImpl extends CElemImpl implements CFun {
 
 	/**
 	 * Returns the name of the function.
-	 * 
+	 *
 	 * @return the name of the function
 	 */
 	public String getName() {
@@ -184,7 +184,7 @@ class CFunImpl extends CElemImpl implements CFun {
 
 	/**
 	 * Returns the return type of the function.
-	 * 
+	 *
 	 * @return the return type of the function
 	 */
 	public String getReturnType() {
@@ -193,7 +193,7 @@ class CFunImpl extends CElemImpl implements CFun {
 
 	/**
 	 * Returns the signature of the function.
-	 * 
+	 *
 	 * @return the signature of the function
 	 */
 	public CFunSignature getSignature() {
@@ -202,7 +202,7 @@ class CFunImpl extends CElemImpl implements CFun {
 
 	public CFun appendCode(String... code) {
 		for (String c : code)
-			body.append(c);
+			body.append(c + Cpp.newline);
 		return this;
 	}
 
@@ -237,7 +237,7 @@ class CFunImpl extends CElemImpl implements CFun {
 		buffer.append(";\n");
 		toString(buffer, tabCount, afterDirectives);
 	}
-	
+
 	public static void main(String[] args) throws Exception {
 		CFunImpl fun = new CFunImpl("theFunction", "theReturnType", null, null);
 		fun.appendCode("int helloWorld = theWorld;\n", "helloWorld++;\n");

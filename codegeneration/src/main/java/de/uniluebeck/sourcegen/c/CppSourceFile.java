@@ -38,7 +38,7 @@ public interface CppSourceFile extends SourceFile, CppElem {
 	public CppSourceFile 	add							(CppClass... classes) 					throws CppDuplicateException;
 	public CppSourceFile 	add							(CppFun... funs) 						throws CppDuplicateException;
 	public CppSourceFile 	add							(CppVar... vars) 						throws CppDuplicateException;
-	public CppSourceFile 	add 						(CStruct... structs) 					throws CDuplicateException;	
+	public CppSourceFile 	add 						(CStruct... structs) 					throws CDuplicateException;
 	public CppSourceFile 	add 						(CUnion... unions) 						throws CDuplicateException;
 	public CppSourceFile 	addAfterDirective			(boolean hash, String... directive) 	throws CPreProcessorValidationException;
 	public CppSourceFile 	addAfterDirective			(CPreProcessorDirective... directives)	;
@@ -51,7 +51,8 @@ public interface CppSourceFile extends SourceFile, CppElem {
 	public CppSourceFile	addInclude					(CHeaderFile... includes)				throws CppDuplicateException;
 	public CppSourceFile 	addInclude					(CppSourceFile... sourceFile) 			throws CppDuplicateException;
 	public CppSourceFile 	addLibInclude				(String... libIncludes)					throws CppDuplicateException;
-	
+	public CppSourceFile 	addUsingNameSpace			(String... libIncludes)					throws CppDuplicateException;
+
 	public boolean 			contains					(CEnum enumObj);
 	public boolean 			contains					(CFun function);
 	public boolean			contains					(CppClass clazz);
@@ -68,7 +69,6 @@ public interface CppSourceFile extends SourceFile, CppElem {
 	public boolean 			containsInclude				(CHeaderFile headerFile);
 	public boolean			containsInclude				(CppSourceFile include);
 	public boolean 			containsLibInclude			(String fileName);
-	
+
 	public boolean 			equals						(CppSourceFile other);
-	
 }

@@ -36,7 +36,8 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	protected LinkedList<CppVar> 			cppVars;
 	protected LinkedList<CppFun> 			cppFuns;
 	protected LinkedList<CppClass> 		 	cppClasses;
-	protected LinkedList<CppSourceFileImpl> cppIncludes;
+	protected LinkedList<CppSourceFileImpl> cppUserHeaderFiles;
+	protected LinkedList<String> 			cppNamespaces;
 
 	protected CSourceFileBase base;
 	protected String fileName;
@@ -57,7 +58,8 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		cppVars 	= new LinkedList<CppVar>();
 		cppFuns 	= new LinkedList<CppFun>();
 		cppClasses 	= new LinkedList<CppClass>();
-		cppIncludes = new LinkedList<CppSourceFileImpl>();
+		cppUserHeaderFiles = new LinkedList<CppSourceFileImpl>();
+		cppNamespaces = new LinkedList<String>();
 	}
 
 	public CppSourceFile add(CEnum... enums) throws CDuplicateException {
@@ -157,11 +159,15 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		return null;
 	}
 
+	/**
+	 * Add user header files. Will be #include "..."
+	 */
 	public CppSourceFile addInclude(CppSourceFile... sourceFiles) throws CppDuplicateException {
 		for (CppSourceFile csf : sourceFiles) {
 			if (containsInclude(csf))
 				throw new CppDuplicateException("Duplicate source file included " + csf);
-			cppIncludes.add((CppSourceFileImpl)csf);
+			cppUserHeaderFiles.add((CppSourceFileImpl)csf);
+			// We cannot use base here, beauce the type is cpp
 		}
 		return this;
 	}
@@ -174,6 +180,18 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		}
 		return this;
 	}
+
+	public CppSourceFile addUsingNameSpace(String... namespaces) throws CppDuplicateException {
+
+		for (String n : namespaces) {
+			if(this.cppNamespaces.contains(n)){
+				throw new CppDuplicateException("Duplicate namespace " + n);
+			}
+			this.cppNamespaces.add(n);
+		}
+		return this;
+	}
+
 
 	public boolean contains(CEnum enumObj) {
 		return base.internalContainsEnum(enumObj);
@@ -241,7 +259,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	}
 
 	public boolean containsInclude(CppSourceFile includeFile) {
-		for (CppSourceFileImpl csf : cppIncludes)
+		for (CppSourceFileImpl csf : cppUserHeaderFiles)
 			if (csf.equals(includeFile))
 				return true;
 		return false;
@@ -267,7 +285,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	}
 
 	public CppSourceFileImpl[] getCppIncludes() {
-		return cppIncludes.toArray(new CppSourceFileImpl[cppIncludes.size()]);
+		return cppUserHeaderFiles.toArray(new CppSourceFileImpl[cppUserHeaderFiles.size()]);
 	}
 
 	public CppVar[] getCppVars() {
@@ -277,20 +295,31 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 
-	        buffer.append("/** Some comment **/\n");
+		// TODO: Make dynamically
+	    buffer.append("/** Some comment **/" + Cpp.newline);
 
-		//includes
-		for(CppSourceFileImpl file : this.cppIncludes){
-                    buffer.append("#include <" + file.getFileName() + ".hpp>\n");
-                    //buffer.append("#include <" + file.getFileName().substring(0,17) + ".hpp>\n");
+		// LibIncludes: System header files
+	    for(String include : base.getLibIncludes()) {
+	    	buffer.append("#include <" + include + ">" + Cpp.newline);
+	    }
+
+		// Includes: User header files
+		for(CppSourceFile file : this.cppUserHeaderFiles){
+                    buffer.append("#include \"" + file.getFileName() + ".hpp\"" + Cpp.newline);
 		}
-		buffer.append("\n");
+		buffer.append(Cpp.newline);
+
+		// Include the namespaces
+		for(String ns : this.cppNamespaces){
+            buffer.append("using namespace " + ns + ";" + Cpp.newline);
+		}
+		buffer.append(Cpp.newline);
 
 		//namespace
 		// TODO: dynamically with a program-parameter
 //		buffer.append("namespace isense {\n\n");
 
-		for(CppSourceFileImpl file : this.cppIncludes){
+		for(CppSourceFileImpl file : this.cppUserHeaderFiles){
 			for(CppClass clazz : file.getCppClasses()){
 				//constructors
 				for(CppConstructor c : clazz.getConstructors(Cpp.PUBLIC)){
@@ -305,17 +334,78 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 				//public functions
 				for(CppFun f : clazz.getFuns(Cpp.PUBLIC)){
 					f.toString(buffer, tabCount);
-					buffer.append("}\n\n");
+					buffer.append("}" + Cpp.newline + Cpp.newline);
 				}
 
 				//private functions
 				for(CppFun f : clazz.getFuns(Cpp.PRIVATE)){
 					f.toString(buffer, tabCount);
-					buffer.append("}\n\n");
+					buffer.append("}" + Cpp.newline + Cpp.newline);
 				}
 
 			}
 		}
-//		buffer.append("}");
+
+		// Add function, such main is possible
+		for (CFun fun : this.base.getFuns()) {
+			fun.toString(buffer, tabCount);
+		}
+
+		/*
+		// Add the main method, if exists
+		if(main.length() > 0){
+			buffer.append("int main () {" + Cpp.newline);
+			appendBody(buffer, main, tabCount + 1);
+			buffer.append(Cpp.newline + "}");
+		}
+		*/
+
+/*
+ *
+ * @see: CSourceFileBase
+ *
+		if(beforeDirectives.size() > 0) {
+			toString(buffer, tabCount, beforeDirectives, "", "\n");
+			buffer.append("\n\n");
+		}
+
+		if (globalDeclarations.size() > 0) {
+			for (String d : globalDeclarations) {
+				indent(buffer, tabCount);
+				buffer.append(d);
+				buffer.append("\n");
+			}
+			buffer.append("\n");
+		}
+		if (enums.size() > 0) {
+			buffer.append("\n");
+			toString(buffer, tabCount, enums);
+			buffer.append("\n");
+		}
+		if (structsUnions.size() > 0) {
+			buffer.append("\n");
+			toString(buffer, tabCount, structsUnions);
+			buffer.append("\n");
+		}
+		if (forwardDeclarations.size() > 0) {
+			buffer.append("\n");
+			for (CFunImpl f : forwardDeclarations) {
+				f.toStringForwardDecl(buffer, tabCount);
+				buffer.append("\n");
+			}
+			buffer.append("\n");
+		}
+		if (funs.size() > 0) {
+			buffer.append("\n");
+			toString(buffer, tabCount, funs);
+			buffer.append("\n");
+		}
+		if (afterDirectives.size() > 0) {
+			buffer.append("\n");
+			toString(buffer, tabCount, afterDirectives, "", "\n");
+			buffer.append("\n");
+		}
+*/
+
 	}
 }

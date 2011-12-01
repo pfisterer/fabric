@@ -523,53 +523,61 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 
-		buffer.append("class " + this.className + "\n");
+		StringBuffer tmp = new StringBuffer();
+
+		buffer.append("class " + this.className);
 
 		//inheritance
 		int counter = 0;
 		for(String c : this.getExtendeds()){
 			counter++;
-			buffer.append("\t" + c);
+			tmp.append("\t" + c);
 			if(counter != this.extendeds.size()){
-				buffer.append(",\n");
+				tmp.append("," + Cpp.newline);
 			}
 		}
-		buffer.append("\n{\n");
+		buffer.append(Cpp.newline + "{" + Cpp.newline);
 
 		//public constructors, methods and values
-		buffer.append("public:\n");
+		tmp.append("public:" + Cpp.newline);
 
 		//constructors
 		for(CppConstructor c : this.getConstructors(Cpp.PUBLIC)){
-			buffer.append("\t" + c.getSignature() + ";\n");
+			tmp.append("\t" + c.getSignature() + ";" + Cpp.newline);
 		}
 
 		//destructors
 		for(CppDestructor d : this.getDestructors(Cpp.PUBLIC)){
-			buffer.append("\tvirtual " + d.getSignature() + ";\n");
+			tmp.append("\tvirtual " + d.getSignature() + ";" + Cpp.newline);
 		}
 
 		//public functions
 		for(CppFun f : this.getFuns(Cpp.PUBLIC)){
-			buffer.append("\t" + f.getSignature() + ";\n");
+			tmp.append("\t" + f.getSignature() + ";" + Cpp.newline);
 		}
 
-		buffer.append("\n");
+		tmp.append(Cpp.newline);
 
 		//private stuff
-		buffer.append("private:\n");
+		tmp.append("private:" + Cpp.newline);
 
 		//private variables
 		for(CppVar v : this.getVars(Cpp.PRIVATE)){
-			buffer.append("\t" + v.toString() + ";\n");
+			tmp.append("\t" + v.toString() + ";" + Cpp.newline);
 		}
 
 		//private functions
 		for(CppFun f : this.getFuns(Cpp.PRIVATE)){
-			buffer.append("\t" + f.getSignature() + ";\n");
+			tmp.append("\t" + f.getSignature() + ";" + Cpp.newline);
 		}
 
-		buffer.append("};\n");
+		appendBody(buffer, tmp, tabCount + 1);
+
+		buffer.append(Cpp.newline);
+
+		buffer.append("};" + Cpp.newline);
+
+
 		/*
 		toString(buffer, tabCount, beforeDirectives, "", "\n", true);
 		indent(buffer, tabCount);

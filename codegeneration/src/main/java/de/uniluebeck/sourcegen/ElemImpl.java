@@ -25,6 +25,8 @@ package de.uniluebeck.sourcegen;
 
 import java.util.LinkedList;
 
+import de.uniluebeck.sourcegen.c.Cpp;
+
 public abstract class ElemImpl implements WorkspaceElement {
 
 	public abstract void toString(StringBuffer buffer, int tabCount);
@@ -90,11 +92,11 @@ public abstract class ElemImpl implements WorkspaceElement {
 			int codeLength = body.length();
 
 			while (begin < codeLength) {
-				end = body.indexOf("\n", begin);
+				end = body.indexOf(Cpp.newline, begin);
 				end = (end == -1) ? codeLength : end;
 				indent(buffer, tabCount);
 				buffer.append(body, begin, end);
-				buffer.append(end < codeLength - 1 ? "\n" : "");
+				buffer.append(end < codeLength - 1 ? Cpp.newline : "");
 				begin = end + 1;
 			}
 		}
