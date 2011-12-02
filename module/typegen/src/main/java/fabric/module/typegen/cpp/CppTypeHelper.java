@@ -4,6 +4,8 @@ import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.c.CParam;
 import de.uniluebeck.sourcegen.c.CStruct;
 import de.uniluebeck.sourcegen.c.CppHeaderFile;
+import de.uniluebeck.sourcegen.c.CppTypeDef;
+import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 import java.util.Properties;
 
 /**
@@ -51,7 +53,7 @@ public class CppTypeHelper
     //typedef unsigned char uint8;
     //typedef unsigned int uint16;
     //typedef unsigned long int uint32;
-    //typedef unsigned long long int uint64;
+    //typedef unsigned long long int uint64;    
   }
 
   // TODO: Add documentation

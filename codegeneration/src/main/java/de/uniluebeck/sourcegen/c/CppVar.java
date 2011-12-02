@@ -23,9 +23,6 @@
  */
 package de.uniluebeck.sourcegen.c;
 
-
-
-
 public interface CppVar extends CppLangElem {
 
 	class CppVarFactory {
@@ -41,9 +38,9 @@ public interface CppVar extends CppLangElem {
 		}
 
 		// qualifiedType
-                public CppVar create(long qualifiedType) {
-                        return create(qualifiedType, "", "");
-                }
+    public CppVar create(long qualifiedType) {
+            return create(qualifiedType, "", "");
+    }
 
 		public CppVar create(long qualifiedType, String varName) {
 			return create(qualifiedType, varName, "");
@@ -53,23 +50,23 @@ public interface CppVar extends CppLangElem {
 			return new CppVarImpl(qualifiedType, varName, initCode);
 		}
 
-                public CppVar create(long qualifiedType, String varName, CppTemplateHelper template) {
-                    return new CppVarImpl(qualifiedType, varName, template);
-                }
+    public CppVar create(long qualifiedType, String varName, CppTemplateHelper template) {
+        return new CppVarImpl(qualifiedType, varName, template);
+    }
 
-                // CppTypeGenerator
-                public CppVar create(CppTypeGenerator type, String varName, CppTemplateName... types) {
-                    return new CppVarImpl(type, varName, null, types);
-                }
+    // CppTypeGenerator
+    public CppVar create(CppTypeGenerator type, String varName, CppTemplateName... types) {
+        return new CppVarImpl(type, varName, null, types);
+    }
 
-                public CppVar create(CppTypeGenerator type, String varName, CppTemplateHelper template, CppTemplateName... types) {
-                    return new CppVarImpl(type, varName, template, types);
-                }
+    public CppVar create(CppTypeGenerator type, String varName, CppTemplateHelper template, CppTemplateName... types) {
+        return new CppVarImpl(type, varName, template, types);
+    }
 
-                // CppClass
-                public CppVar create(CppClass clazz, String varName, CppTemplateHelper template) {
-                    return new CppVarImpl(new CppTypeGenerator(clazz, template), varName, template);
-                }
+    // CppClass
+    public CppVar create(CppClass clazz, String varName, CppTemplateHelper template) {
+        return new CppVarImpl(new CppTypeGenerator(clazz, template), varName, template);
+    }
 
                 // String
 		public CppVar create(String varDeclString) {
@@ -85,23 +82,22 @@ public interface CppVar extends CppLangElem {
 			return create(Cpp.NONE, type, varName);
 		}
 
-                // qualifier + ComplexType
-                public CppVar create(long qualifier, CComplexType type, String varName) {
-                    return new CppVarImpl(qualifier, type, varName, "");
-                }
+    // qualifier + ComplexType
+    public CppVar create(long qualifier, CComplexType type, String varName) {
+        return new CppVarImpl(qualifier, type, varName, "");
+    }
 
-                public CppVar create(long qualifier, CppComplexType type, String varName) {
-                        return new CppVarImpl(qualifier, type, varName, "");
-                }
+    public CppVar create(long qualifier, CppComplexType type, String varName) {
+            return new CppVarImpl(qualifier, type, varName, "");
+    }
 
-                public CppVar create(long qualifier, CComplexType type, String varName, String initCode) {
-                        return new CppVarImpl(qualifier, type, varName, initCode);
-                }
+    public CppVar create(long qualifier, CComplexType type, String varName, String initCode) {
+            return new CppVarImpl(qualifier, type, varName, initCode);
+    }
 
 	}
 
 	public static final CppVarFactory factory = CppVarFactory.getInstance();
 	public static final CppVar VOID = factory.create(Cpp.VOID);
 	String toString();
-
 }
