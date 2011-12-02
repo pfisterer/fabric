@@ -24,7 +24,7 @@
 
 package de.uniluebeck.sourcegen.c;
 
-public class CppClassCommentImpl extends CElemImpl implements CppComment {
+public class CppCommentImpl extends CElemImpl implements CppComment {
 
 	/**
 	 * The actual comment description.
@@ -34,7 +34,7 @@ public class CppClassCommentImpl extends CElemImpl implements CppComment {
 	/**
 	 * @param description The actual comment description.
 	 */
-	public CppClassCommentImpl(String description) {
+	public CppCommentImpl(String description) {
 		this.description = description;
 	}
 

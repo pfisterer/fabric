@@ -4,8 +4,7 @@ import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.c.CFun;
 import de.uniluebeck.sourcegen.c.Cpp;
 import de.uniluebeck.sourcegen.c.CppClass;
-import de.uniluebeck.sourcegen.c.CppClassCommentImpl;
-import de.uniluebeck.sourcegen.c.CppComment;
+import de.uniluebeck.sourcegen.c.CppCommentImpl;
 import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppVar;
@@ -48,7 +47,7 @@ public class Example1_Simple {
 
         // Generate the class -- without an explicit file
         CppClass class_CRectangleSimple = CppClass.factory.create(className);
-        class_CRectangleSimple.setComment(new CppClassCommentImpl("A simple class"));
+        class_CRectangleSimple.setComment(new CppCommentImpl("A simple class"));
 
         // Generate two int variables
         CppVar var_x = CppVar.factory.create(Cpp.INT, "x");
