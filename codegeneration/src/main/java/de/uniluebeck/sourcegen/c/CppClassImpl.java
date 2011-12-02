@@ -698,7 +698,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		appendBody(buffer, tmp_private, tabCount + 1);
 
 		// Close the class
-		buffer.append(Cpp.newline + "};" + Cpp.newline);
+		buffer.append(Cpp.newline + "};" + Cpp.newline + Cpp.newline);
 
 
 		/*

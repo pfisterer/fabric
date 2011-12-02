@@ -52,6 +52,8 @@ public interface CppSourceFile extends SourceFile, CppElem {
 	public CppSourceFile 	addInclude					(CppSourceFile... sourceFile) 			throws CppDuplicateException;
 	public CppSourceFile 	addLibInclude				(String... libIncludes)					throws CppDuplicateException;
 	public CppSourceFile 	addUsingNameSpace			(String... libIncludes)					throws CppDuplicateException;
+	public CppSourceFile 	setComment(CppComment comment);
+
 
 	public boolean 			contains					(CEnum enumObj);
 	public boolean 			contains					(CFun function);

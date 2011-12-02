@@ -42,6 +42,8 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	protected CSourceFileBase base;
 	protected String fileName;
 
+	private CppComment comment = null;
+
 	//private final org.slf4j.Logger log = LoggerFactory.getLogger(CppSourceFileImpl.class);
 
 	public String getFileName() {
@@ -295,8 +297,10 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 
-		// TODO: Make dynamically
-	    buffer.append("/** Some comment **/" + Cpp.newline);
+		// write comment if necessary
+		if (comment != null) {
+			comment.toString(buffer, tabCount);
+		}
 
 		// LibIncludes: System header files
 	    for(String include : base.getLibIncludes()) {
@@ -441,6 +445,12 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			}
 		}
 
+	}
+
+	@Override
+	public CppSourceFile setComment(CppComment comment) {
+		this.comment = comment;
+		return this;
 	}
 
 }

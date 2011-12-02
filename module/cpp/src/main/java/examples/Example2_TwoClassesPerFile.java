@@ -4,6 +4,7 @@ import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.c.CFun;
 import de.uniluebeck.sourcegen.c.Cpp;
 import de.uniluebeck.sourcegen.c.CppClass;
+import de.uniluebeck.sourcegen.c.CppCommentImpl;
 import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppTypeGenerator;
@@ -47,6 +48,7 @@ public class Example2_TwoClassesPerFile {
 		 * 1st class
 		 */
 		CppClass classOne = CppClass.factory.create("First");
+		classOne.setComment(new CppCommentImpl("The first class"));
 		CppVar intA = CppVar.factory.create(Cpp.INT, "a");
 		CppVar intX = CppVar.factory.create(Cpp.INT, "x");
 		CppVar intY = CppVar.factory.create(Cpp.INT, "y");
@@ -61,6 +63,7 @@ public class Example2_TwoClassesPerFile {
 		 * 2nd class
 		 */
 		CppClass classTwo = CppClass.factory.create("Second");
+		classTwo.setComment(new CppCommentImpl("The second class"));
 		CppTypeGenerator typeNested = new CppTypeGenerator("First");
 		CppVar n = CppVar.factory.create(typeNested, "n");
 		CppFun funCall = CppFun.factory.create(classTwo, Cpp.INT, "call", intX);

@@ -79,6 +79,9 @@ public class Example1_Simple {
         // Add namespace for the standard library to the file
         file.addUsingNameSpace("std");
 
+        // Add a comment
+        file.setComment(new CppCommentImpl("This file contains a simple class"));
+
         // Add the main function to the file
         CFun fun_main = CFun.factory.create("main", "int", null);
         fun_main.appendCode(className + " rect;");
