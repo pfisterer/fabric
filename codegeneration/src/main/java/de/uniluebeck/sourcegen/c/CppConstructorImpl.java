@@ -36,7 +36,7 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 	private LinkedList<String> extendeds = new LinkedList<String>();
 
 	public CppConstructorImpl(CppClass clazz, CppVar... cppVars) throws CppDuplicateException {
-		this.signature = new CppSignature(clazz.getTypeName(), cppVars);
+		this.signature = new CppSignature(clazz.getName(), cppVars);
 		this.clazz = clazz;
 	}
 
@@ -49,7 +49,7 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 		this.body.append(str);
 		return this;
 	}
-	
+
 	public CppConstructor add(String... pExtendeds) throws CppDuplicateException {
 		for(String str : pExtendeds){
 			for(String s : this.extendeds){
@@ -67,16 +67,12 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 	public String getBody() {
 		return body.toString();
 	}
-	
-	public String getTypeName() {
-		return clazz.getTypeName();
-	}
 
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
-		buffer.append(this.clazz.getTypeName() + "::");
+		buffer.append(this.clazz.getName() + "::");
 		signature.toString(buffer, 0);
-		
+
 		//add extendeds (special constructors of superclasses
 		int counter = 0;
 		for(String s : this.extendeds){
@@ -95,5 +91,5 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 		indent(buffer, tabCount);
 		buffer.append("}\n\n");
 	}
-	
+
 }

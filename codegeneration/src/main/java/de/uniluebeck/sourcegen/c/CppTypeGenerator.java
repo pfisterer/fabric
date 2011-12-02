@@ -44,7 +44,7 @@ public class CppTypeGenerator implements CppTemplateName {
         }
 
         if(this.clazz != null) {
-            buffer.append(this.clazz.getTemplateName());
+            buffer.append(this.clazz.getName());
         }
 
         if (this.typeName != null) {
@@ -67,7 +67,7 @@ public class CppTypeGenerator implements CppTemplateName {
     }
 
     @Override
-    public String getTemplateName() {
+    public String getName() {
         return this.toString();
     }
 

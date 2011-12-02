@@ -351,10 +351,6 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		return ret;
 	}
 
-	public String getTypeName() {
-		return className;
-	}
-
 	public List<CppConstructor> getConstructors(long vis) {
 		ArrayList<CppConstructor> ret = new ArrayList<CppConstructor>();
 		for (VisElem cv : constructors)
@@ -608,7 +604,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// constructors
 		if(this.getConstructors(Cpp.PUBLIC).size() > 0) {
-			tmp_public.append("/* Constructors of " + this.getTemplateName() + " */" + Cpp.newline);
+			tmp_public.append("/* Constructors of " + this.getName() + " */" + Cpp.newline);
 			for(CppConstructor c : this.getConstructors(Cpp.PUBLIC)){
 				tmp_public.append("" + c.getSignature() + ";" + Cpp.newline);
 			}
@@ -617,7 +613,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// destructors
 		if(this.getDestructors(Cpp.PUBLIC).size() > 0) {
-			tmp_public.append("/* Destructors of " + this.getTemplateName() + " */" + Cpp.newline);
+			tmp_public.append("/* Destructors of " + this.getName() + " */" + Cpp.newline);
 			for(CppDestructor d : this.getDestructors(Cpp.PUBLIC)){
 				tmp_public.append("virtual " + d.getSignature() + ";" + Cpp.newline);
 			}
@@ -627,7 +623,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// public functions
 		if(this.getFuns(Cpp.PUBLIC).size() > 0) {
-			tmp_public.append("/* Public functions of " + this.getTemplateName() + " */" + Cpp.newline);
+			tmp_public.append("/* Public functions of " + this.getName() + " */" + Cpp.newline);
 			for(CppFun f : this.getFuns(Cpp.PUBLIC)){
 				tmp_public.append(f.getSignature() + ";" + Cpp.newline);
 			}
@@ -635,7 +631,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		}
 		// public nested classes
 		if(this.getNested(Cpp.PUBLIC).size() > 0) {
-			tmp_public.append("/* Public nested classed of " + this.getTemplateName() + " */" + Cpp.newline);
+			tmp_public.append("/* Public nested classed of " + this.getName() + " */" + Cpp.newline);
 			for(CppClass f : this.getNested(Cpp.PUBLIC)){
 				// Add the classes recursive
 				tmp_public.append(f + ";" + Cpp.newline);
@@ -645,7 +641,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// public variables
 		if(this.getVars(Cpp.PUBLIC).size() > 0) {
-			tmp_public.append("/* Public variables of " + this.getTemplateName() + " */" + Cpp.newline);
+			tmp_public.append("/* Public variables of " + this.getName() + " */" + Cpp.newline);
 			for(CppVar v : this.getVars(Cpp.PUBLIC)){
 				tmp_public.append(v.toString() + ";" + Cpp.newline);
 			}
@@ -665,7 +661,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// private functions
 		if(this.getFuns(Cpp.PRIVATE).size() > 0) {
-			tmp_private.append("/* Private functions of " + this.getTemplateName() + " */" + Cpp.newline);
+			tmp_private.append("/* Private functions of " + this.getName() + " */" + Cpp.newline);
 			for(CppFun f : this.getFuns(Cpp.PRIVATE)){
 				tmp_private.append(f.getSignature() + ";" + Cpp.newline);
 			}
@@ -674,7 +670,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// private nested classes
 		if(this.getNested(Cpp.PRIVATE).size() > 0) {
-			tmp_private.append("/* Private nested classes of " + this.getTemplateName() + " */" + Cpp.newline);
+			tmp_private.append("/* Private nested classes of " + this.getName() + " */" + Cpp.newline);
 			for(CppClass f : this.getNested(Cpp.PRIVATE)){
 				// Add the classes recursive
 				f.toString(tmp_private, tabCount);
@@ -684,7 +680,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// private variables
 		if(this.getVars(Cpp.PRIVATE).size() > 0) {
-			tmp_private.append("/* Private variables of " + this.getTemplateName() + " */" + Cpp.newline);
+			tmp_private.append("/* Private variables of " + this.getName() + " */" + Cpp.newline);
 			for(CppVar v : this.getVars(Cpp.PRIVATE)){
 				tmp_private.append(v.toString() + ";" + Cpp.newline);
 			}
@@ -731,7 +727,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	}
 
     @Override
-    public String getTemplateName() {
+    public String getName() {
         return this.className;
     }
 
@@ -745,6 +741,12 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	@Override
 	public List<CppClass> getParents() {
 		return parents;
+	}
+
+	@Override
+	@Deprecated
+	public String getTypeName() {
+		return this.getName();
 	}
 
 }

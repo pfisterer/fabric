@@ -117,10 +117,10 @@ class CppFunImpl extends CElemImpl implements CppFun {
     	StringBuffer myParents = new StringBuffer();
 
     	for (CppClass p : this.clazz.getParents()) {
-    		myParents.append(p.getTemplateName()+ "::");
+    		myParents.append(p.getName()+ "::");
 		}
 
-        buffer.append(getType() + " " + myParents + this.clazz.getTypeName() + "::");
+        buffer.append(getType() + " " + myParents + this.clazz.getName() + "::");
         signature.toString(buffer, 0);
         buffer.append(" {" + Cpp.newline);
         appendBody(buffer, body, tabCount + 1);

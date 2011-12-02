@@ -23,7 +23,7 @@ public class CppTemplateHelper {
         int cnt = this.elements.size();
         buffer.append("<");
         for (int i = 0; i < cnt; i++) {
-            buffer.append(this.elements.get(i).getTemplateName());
+            buffer.append(this.elements.get(i).getName());
             if(i != cnt-1) {
                 buffer.append(", ");
             }

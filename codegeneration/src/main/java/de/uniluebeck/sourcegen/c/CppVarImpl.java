@@ -99,7 +99,7 @@ class CppVarImpl extends CElemImpl implements CppVar {
         if (this.depTypes != null && this.depTypes.size() > 0) {
             int cnt = this.depTypes.size();
             for (int i = 0; i < cnt; i++) {
-                buffer.append(this.depTypes.get(i).getTemplateName());
+                buffer.append(this.depTypes.get(i).getName());
                 buffer.append("::");
             }
         }

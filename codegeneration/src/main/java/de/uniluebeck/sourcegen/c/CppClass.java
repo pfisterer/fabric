@@ -116,8 +116,6 @@ public interface CppClass extends CppComplexType, CppTemplateName {
 
     public CEnum getEnumByName(String name);
 
-    public String getTypeName();
-
     public long getVis(CEnum enumObj);
 
     public long getVis(CFun fun);

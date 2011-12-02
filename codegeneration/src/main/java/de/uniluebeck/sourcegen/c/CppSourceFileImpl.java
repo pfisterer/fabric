@@ -395,7 +395,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// constructors
 		if(clazz.getConstructors(Cpp.PUBLIC).size() > 0) {
-			buffer.append("/* Constructors of " + clazz.getTemplateName() + " */" + Cpp.newline);
+			buffer.append("/* Constructors of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppConstructor c : clazz.getConstructors(Cpp.PUBLIC)){
 				c.toString(buffer, tabCount);
 			}
@@ -403,7 +403,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// destructors
 		if(clazz.getDestructors(Cpp.PUBLIC).size() > 0){
-			buffer.append("/* Destrictors of " + clazz.getTemplateName() + " */" + Cpp.newline);
+			buffer.append("/* Destrictors of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppDestructor d : clazz.getDestructors(Cpp.PUBLIC)){
 				d.toString(buffer, tabCount);
 			}
@@ -411,7 +411,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// public functions
 		if(clazz.getFuns(Cpp.PUBLIC).size() > 0) {
-			buffer.append("/* Public functions of " + clazz.getTemplateName() + " */" + Cpp.newline);
+			buffer.append("/* Public functions of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppFun f : clazz.getFuns(Cpp.PUBLIC)){
 				f.toString(buffer, tabCount);
 			}
@@ -419,7 +419,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// private functions
 		if(clazz.getFuns(Cpp.PRIVATE).size() > 0) {
-			buffer.append("/* Private functions of " + clazz.getTemplateName() + " */" + Cpp.newline);
+			buffer.append("/* Private functions of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppFun f : clazz.getFuns(Cpp.PRIVATE)){
 				f.toString(buffer, tabCount);
 			}
