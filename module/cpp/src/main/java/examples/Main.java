@@ -19,6 +19,7 @@ public class Main {
 	    new CRectangleSimple(workspace);
 	    new TwoClassesPerFile(workspace);
 	    new Nested(workspace);
+	    new NestedOfNested(workspace);
 	    // ...
 
 	    workspace.generate();

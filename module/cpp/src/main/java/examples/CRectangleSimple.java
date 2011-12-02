@@ -6,15 +6,17 @@ import de.uniluebeck.sourcegen.c.Cpp;
 import de.uniluebeck.sourcegen.c.CppClass;
 import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
-import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 import de.uniluebeck.sourcegen.c.CppVar;
 import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
  * CRectangle example.
- * - Compile with: g++ CRectangleSimple.cpp -o main
- * - RUn with: ./main
+ *
+ * - Compile with: g++ CRectangleSimple.cpp -o simple
+ * - Run with: ./simple
+ * - Returns: 12
+ *
  * @see: http://www.cplusplus.com/doc/tutorial/classes/
  * @author Dennis Boldt
  *
@@ -79,7 +81,7 @@ public class CRectangleSimple {
         CFun fun_main = CFun.factory.create("main", "int", null);
         fun_main.appendCode(className + " rect;");
         fun_main.appendCode("rect.set_values (3,4);");
-        fun_main.appendCode("cout << \"area: \" << rect.area();");
+        fun_main.appendCode("cout << rect.area() << \"\\n\";");
         fun_main.appendCode("return 0;");
         file.add(fun_main);
 

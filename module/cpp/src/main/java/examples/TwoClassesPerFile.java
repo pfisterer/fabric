@@ -15,6 +15,10 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
  * Two classes in one Source file. The class Second is using the
  * class First.
  *
+ * - Compile with: g++ Two.cpp -o two
+ * - Run with: ./two
+ * - Returns: 25
+ *
  * @author Dennis
  *
  */
@@ -85,7 +89,7 @@ public class TwoClassesPerFile {
         // Add the main function to the file
         CFun fun_main = CFun.factory.create("main", "int", null);
         fun_main.appendCode("Second out;");
-        fun_main.appendCode("cout << \"Call: \" << out.call(5) << \"\\n\";");
+        fun_main.appendCode("cout << out.call(5) << \"\\n\";");
         fun_main.appendCode("return 0;");
         file.add(fun_main);
 

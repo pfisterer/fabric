@@ -12,8 +12,11 @@ import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
- * Two classes in one Source file. The class Outer is using the
- * class Nested.
+ * One class is nested in another class.
+ *
+ * - Compile with: g++ Nested.cpp -o nested
+ * - Run with: ./nested
+ * - Returns: 100
  *
  * @author Dennis
  *
@@ -90,7 +93,7 @@ public class Nested {
         // Add the main function to the file
         CFun fun_main = CFun.factory.create("main", "int", null);
         fun_main.appendCode("Outer out;");
-        fun_main.appendCode("cout << \"Call: \" << out.call(5) << \"\\n\";");
+        fun_main.appendCode("cout << out.call(10) << \"\\n\";");
         fun_main.appendCode("return 0;");
         file.add(fun_main);
 
