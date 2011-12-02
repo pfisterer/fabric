@@ -1,4 +1,4 @@
-/** 12.11.2011 01:41 */
+/** 02.12.2011 12:35 */
 package fabric.module.exi.java.lib.xml;
 
 import de.uniluebeck.sourcegen.java.JMethod;
@@ -108,19 +108,19 @@ public class Simple extends XMLLibrary
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "removeTagFromList", jms);
 
     String methodBody = String.format(
-            "NodeList rootNodes = document.getElementsByTagName(listName);\n\n" +
-            "// Process all elements below root node\n" +
-            "for (int i = 0; i < rootNodes.getLength(); ++i) {\n" +
-            "\tElement root = (Element)rootNodes.item(i);\n\n" +
-            "\t// Get all child nodes of root that have a values-tag\n" +
-            "\tNodeList children = root.getElementsByTagName(\"values\");\n\n" +
+            "NodeList parentNodes = document.getElementsByTagName(listName);\n\n" +
+            "// Process all elements below parent node\n" +
+            "for (int i = 0; i < parentNodes.getLength(); ++i) {\n" +
+            "\tElement parent = (Element)parentNodes.item(i);\n\n" +
+            "\t// Get all child nodes of parent that have a values-tag\n" +
+            "\tNodeList children = parent.getElementsByTagName(\"values\");\n\n" +
             "\tif (children.getLength() == 1) {\n" +
             "\t\tElement valueList = (Element)children.item(0);\n"+
             "\t\twhile (valueList.hasChildNodes()) {\n" +
-            "\t\t\troot.appendChild(valueList.getFirstChild().cloneNode(true));\n" +
+            "\t\t\tparent.appendChild(valueList.getFirstChild().cloneNode(true));\n" +
             "\t\t\tvalueList.removeChild(valueList.getFirstChild());\n" +
             "\t\t}\n" +
-            "\t\troot.removeChild(valueList);\n" +
+            "\t\tparent.removeChild(valueList);\n" +
             "\t}\n" +
             "\t%s.removeTagFromElement(listName, document);\n" +
             "}",
@@ -153,26 +153,26 @@ public class Simple extends XMLLibrary
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "addTagToList", jms);
     
     String methodBody =
-            "NodeList rootNodes = document.getElementsByTagName(listName);\n\n" +
-            "// Process all elements below root node\n" +
-            "for (int i = 0; i < rootNodes.getLength(); ++i) {\n" +
-            "\tElement root = (Element)rootNodes.item(i);\n" +
-            "\tString[] content = root.getTextContent().split(\" \");\n\n" +
+            "NodeList parentNodes = document.getElementsByTagName(listName);\n\n" +
+            "// Process all elements below parent node\n" +
+            "for (int i = 0; i < parentNodes.getLength(); ++i) {\n" +
+            "\tElement parent = (Element)parentNodes.item(i);\n" +
+            "\tString[] content = parent.getTextContent().split(\" \");\n\n" +
             "\tif (isCustomTyped) {\n" +
             "\t\t// Insert new values-tag\n" +
             "\t\tElement child = document.createElement(\"values\");\n" +
-            "\t\tchild.setTextContent(root.getTextContent());\n" +
-            "\t\troot.removeChild(root.getFirstChild());\n" +
-            "\t\troot.appendChild(child);\n" +
-            "\t\troot = child;\n" +
+            "\t\tchild.setTextContent(parent.getTextContent());\n" +
+            "\t\tparent.removeChild(parent.getFirstChild());\n" +
+            "\t\tparent.appendChild(child);\n" +
+            "\t\tparent = child;\n" +
             "\t}\n\n" +
             "\t// Each list item has to get its own value-tag\n" +
             "\tfor (int j = 0; j < content.length; ++j) {\n" +
             "\t\tElement child = document.createElement(\"value\");\n" +
             "\t\tchild.appendChild(document.createTextNode(content[j]));\n" +
-            "\t\troot.appendChild(child);\n" +
+            "\t\tparent.appendChild(child);\n" +
             "\t}\n" +
-            "\troot.removeChild(root.getFirstChild());\n" +
+            "\tparent.removeChild(parent.getFirstChild());\n" +
             "}";
 
     jm.getBody().appendSource(methodBody);

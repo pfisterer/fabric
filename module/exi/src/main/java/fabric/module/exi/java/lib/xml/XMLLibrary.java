@@ -1,4 +1,4 @@
-/** 11.11.2011 23:33 */
+/** 02.12.2011 12:32 */
 package fabric.module.exi.java.lib.xml;
 
 import org.slf4j.Logger;
@@ -334,20 +334,20 @@ abstract public class XMLLibrary
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "removeTagFromElement", jms);
     
     String methodBody =
-            "NodeList rootNodes = document.getElementsByTagName(elementName);\n\n" +
-            "// Process all elements below root node\n" +
-            "for (int i = 0; i < rootNodes.getLength(); ++i) {\n" +
-            "\tElement root = (Element)rootNodes.item(i);\n\n" +
-            "\t// Get all child nodes of root that have a value-tag\n" +
-            "\tNodeList children = root.getElementsByTagName(\"value\");\n\n" +
+            "NodeList parentNodes = document.getElementsByTagName(elementName);\n\n" +
+            "// Process all elements below parent node\n" +
+            "for (int i = 0; i < parentNodes.getLength(); ++i) {\n" +
+            "\tElement parent = (Element)parentNodes.item(i);\n\n" +
+            "\t// Get all child nodes of parent that have a value-tag\n" +
+            "\tNodeList children = parent.getElementsByTagName(\"value\");\n\n" +
             "\t// Remove value-tag from XML tree\n" +
             "\tString newContent = \"\";\n" +
             "\twhile (children.getLength() > 0) {\n" +
             "\t\tElement value = (Element)children.item(0);\n" +
             "\t\tnewContent += value.getTextContent() + \" \";\n" +
-            "\t\troot.removeChild(value);\n" +
+            "\t\tparent.removeChild(value);\n" +
             "\t}\n" +
-            "\troot.setTextContent(newContent.trim());\n" +
+            "\tparent.setTextContent(newContent.trim());\n" +
             "}";
     
     jm.getBody().appendSource(methodBody);
@@ -484,13 +484,13 @@ abstract public class XMLLibrary
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "addTagToElement", jms);
 
     String methodBody =
-            "NodeList rootNodes = document.getElementsByTagName(elementName);\n\n" +
-            "// Process all elements below root node\n" +
-            "for (int i = 0; i < rootNodes.getLength(); ++i) {\n" +
-            "\tElement root = (Element)rootNodes.item(i);\n" +
+            "NodeList parentNodes = document.getElementsByTagName(elementName);\n\n" +
+            "// Process all elements below parent node\n" +
+            "for (int i = 0; i < parentNodes.getLength(); ++i) {\n" +
+            "\tElement parent = (Element)parentNodes.item(i);\n" +
             "\tElement child = document.createElement(\"value\");\n\n" +
-            "\tchild.appendChild(root.getFirstChild().cloneNode(true));\n" +
-            "\troot.replaceChild(child, root.getFirstChild());\n" +
+            "\tchild.appendChild(parent.getFirstChild().cloneNode(true));\n" +
+            "\tparent.replaceChild(child, parent.getFirstChild());\n" +
             "}";
 
     jm.getBody().appendSource(methodBody);
