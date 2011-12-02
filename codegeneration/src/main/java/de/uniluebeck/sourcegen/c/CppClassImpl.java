@@ -25,6 +25,7 @@ package de.uniluebeck.sourcegen.c;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import de.uniluebeck.sourcegen.WorkspaceElement;
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
@@ -58,6 +59,8 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 	private LinkedList<VisElem> funs = new LinkedList<VisElem>();
 
+	private LinkedList<VisElem> nested = new LinkedList<VisElem>();
+
 	private LinkedList<String> globalDeclarations = new LinkedList<String>();
 
 	private LinkedList<VisElem> structsUnions = new LinkedList<VisElem>();
@@ -67,6 +70,9 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	private LinkedList<VisElem> cfuns = new LinkedList<VisElem>();
 
 	private CppSourceFileImpl sourceFile;
+
+	// Needed for nested class
+	private List<CppClass> parents = new LinkedList<CppClass>();
 
 	public CppClassImpl(String className, CppSourceFile sourceFile) {
 		this.className = className;
@@ -121,6 +127,33 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		return this;
 	}
 
+	@Override
+    public CppClass add(long vis, CppClass... cppClass) throws CppDuplicateException {
+
+		for (CppClass c : cppClass) {
+			addInternal(vis, c);
+			// Set the parent
+			c.addParents(this.parents, this);
+		}
+
+		/*
+    	for (CppClass c : cppClass) {
+
+    		for(CppClass n : nested) {
+    			String name = c.getTemplateName();
+    			if(name != null && n.getTemplateName().equals(c.getTemplateName())) {
+    				throw new CppDuplicateException("Nested class " + c.getTemplateName() + " exists.");
+    			}
+    		}
+
+    		// No exception happens, just add it
+    		this.nested.add(c);
+		}
+		*/
+
+    	return this;
+    }
+
 	public CppClass addAfterDirective(CPreProcessorDirective... afterDirectivesArr) {
 		for (CPreProcessorDirective d : afterDirectivesArr)
 			afterDirectives.add((CPreProcessorDirectiveImpl)d);
@@ -156,6 +189,13 @@ class CppClassImpl extends CElemImpl implements CppClass {
 			throw new CppDuplicateException("Extended class already contained");
 		extendeds.add(new VisElem(extended, vis));
 	}
+
+	private void addInternal(long vis, CppClass classObj) throws CppDuplicateException {
+		if (contains(classObj))
+			throw new CppDuplicateException("Enum already contained");
+		nested.add(new VisElem(classObj, vis));
+	}
+
 
 	private void addInternal(long vis, CEnum enumObj) throws CppDuplicateException {
 		if (contains(enumObj))
@@ -214,6 +254,13 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	public boolean contains(CEnum enumObj) {
 		for (VisElem ev : enums)
 			if (((CEnumImpl)ev.elem).equals(enumObj))
+				return true;
+		return false;
+	}
+
+	public boolean contains(CppClass classObj) {
+		for (VisElem ev : nested)
+			if (((CppClass)ev.elem).equals(classObj))
 				return true;
 		return false;
 	}
@@ -296,32 +343,32 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		return beforeDirectives.toArray(new CPreProcessorDirectiveImpl[beforeDirectives.size()]);
 	}
 
-	private CFun[] getCFuns(long vis) {
+	private List<CFun> getCFuns(long vis) {
 		ArrayList<CFun> ret = new ArrayList<CFun>();
 		for (VisElem fv : cfuns)
-			if (fv.vis == vis || (vis == Cpp.PRIVATE && fv.vis == Cpp.NONE))
+			if (fv.vis == vis)// || (vis == Cpp.PRIVATE && fv.vis == Cpp.NONE))
 				ret.add((CFun)fv.elem);
-		return ret.toArray(new CFun[ret.size()]);
+		return ret;
 	}
 
 	public String getTypeName() {
 		return className;
 	}
 
-	public CppConstructor[] getConstructors(long vis) {
+	public List<CppConstructor> getConstructors(long vis) {
 		ArrayList<CppConstructor> ret = new ArrayList<CppConstructor>();
 		for (VisElem cv : constructors)
-			if (cv.vis == vis || (vis == Cpp.PRIVATE && cv.vis == Cpp.NONE))
+			if (cv.vis == vis)// || (vis == Cpp.PRIVATE && cv.vis == Cpp.NONE))
 				ret.add((CppConstructor)cv.elem);
-		return ret.toArray(new CppConstructor[ret.size()]);
+		return ret;
 	}
 
-	public CppDestructor[] getDestructors(long vis) {
+	public List<CppDestructor> getDestructors(long vis) {
 		ArrayList<CppDestructor> ret = new ArrayList<CppDestructor>();
 		for (VisElem cv : destructors)
-			if (cv.vis == vis || (vis == Cpp.PRIVATE && cv.vis == Cpp.NONE))
+			if (cv.vis == vis)// || (vis == Cpp.PRIVATE && cv.vis == Cpp.NONE))
 				ret.add((CppDestructor)cv.elem);
-		return ret.toArray(new CppDestructor[ret.size()]);
+		return ret;
 	}
 
 	public CEnum getEnumByName(String name) {
@@ -331,12 +378,12 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		return null;
 	}
 
-	private CEnum[] getEnums(long vis) {
+	private List<CEnum> getEnums(long vis) {
 		ArrayList<CEnum> pe = new ArrayList<CEnum>();
 		for (VisElem ev : enums)
-			if (ev.vis == vis || (vis == Cpp.PRIVATE && ev.vis == Cpp.NONE))
+			if (ev.vis == vis)// || (vis == Cpp.PRIVATE && ev.vis == Cpp.NONE))
 				pe.add((CEnum)ev.elem);
-		return pe.toArray(new CEnum[pe.size()]);
+		return pe;
 	}
 
 	public String[] getExtendeds() {
@@ -346,116 +393,124 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		return ext;
 	}
 
-	public CppFun[] getFuns(long vis) {
+	public List<CppFun> getFuns(long vis) {
 		ArrayList<CppFun> ret = new ArrayList<CppFun>();
 		for (VisElem fv : funs)
-			if (fv.vis == vis || (vis == Cpp.PRIVATE && fv.vis == Cpp.NONE))
+			if (fv.vis == vis)// || (vis == Cpp.PRIVATE && fv.vis == Cpp.NONE))
 				ret.add((CppFun)fv.elem);
-		return ret.toArray(new CppFun[ret.size()]);
+		return ret;
+	}
+
+	public List<CppClass> getNested(long vis) {
+		ArrayList<CppClass> ret = new ArrayList<CppClass>();
+		for (VisElem fv : nested)
+			if (fv.vis == vis)// || (vis == Cpp.PRIVATE && fv.vis == Cpp.NONE))
+				ret.add((CppClass)fv.elem);
+		return ret;
 	}
 
 	public String[] getGlobalDeclarations() {
 		return globalDeclarations.toArray(new String[globalDeclarations.size()]);
 	}
 
-	public CFun[] getPrivateCFuns() {
+	public List<CFun> getPrivateCFuns() {
 		return getCFuns(Cpp.PRIVATE);
 	}
 
-	public CppConstructor[] getPrivateConstructors() {
+	public List<CppConstructor> getPrivateConstructors() {
 		return getConstructors(Cpp.PRIVATE);
 	}
 
-	public CppDestructor[] getPrivateDestructors() {
+	public List<CppDestructor> getPrivateDestructors() {
 		return getDestructors(Cpp.PRIVATE);
 	}
 
-	public CEnum[] getPrivateEnums() {
+	public List<CEnum> getPrivateEnums() {
 		return getEnums(Cpp.PRIVATE);
 	}
 
-	public CppFun[] getPrivateFuns() {
+	public List<CppFun> getPrivateFuns() {
 		return getFuns(Cpp.PRIVATE);
 	}
 
-	public CStructBase[] getPrivateStructsUnions() {
+	public List<CStructBase> getPrivateStructsUnions() {
 		return getStructsUnions(Cpp.PRIVATE);
 	}
 
-	public CppVar[] getPrivateVars() {
+	public List<CppVar> getPrivateVars() {
 		return getVars(Cpp.PRIVATE);
 	}
 
-	public CFun[] getProtectedCFuns() {
+	public List<CFun> getProtectedCFuns() {
 		return getCFuns(Cpp.PROTECTED);
 	}
 
-	public CppConstructor[] getProtectedConstructors() {
+	public List<CppConstructor> getProtectedConstructors() {
 		return getConstructors(Cpp.PROTECTED);
 	}
 
-	public CppDestructor[] getProtectedDestructors() {
+	public List<CppDestructor> getProtectedDestructors() {
 		return getDestructors(Cpp.PROTECTED);
 	}
 
-	public CEnum[] getProtectedEnums() {
+	public List<CEnum> getProtectedEnums() {
 		return getEnums(Cpp.PROTECTED);
 	}
 
-	public CppFun[] getProtectedFuns() {
+	public List<CppFun> getProtectedFuns() {
 		return getFuns(Cpp.PROTECTED);
 	}
 
-	public CStructBase[] getProtectedStructsUnions() {
+	public List<CStructBase> getProtectedStructsUnions() {
 		return getStructsUnions(Cpp.PROTECTED);
 	}
 
-	public CppVar[] getProtectedVars() {
+	public List<CppVar> getProtectedVars() {
 		return getVars(Cpp.PROTECTED);
 	}
 
-	public CFun[] getPublicCFuns() {
+	public List<CFun> getPublicCFuns() {
 		return getCFuns(Cpp.PUBLIC);
 	}
 
-	public CppConstructor[] getPublicConstructors() {
+	public List<CppConstructor> getPublicConstructors() {
 		return getConstructors(Cpp.PUBLIC);
 	}
 
-	public CppDestructor[] getPublicDestructors() {
+	public List<CppDestructor> getPublicDestructors() {
 		return getDestructors(Cpp.PUBLIC);
 	}
 
-	public CEnum[] getPublicEnums() {
+	public List<CEnum> getPublicEnums() {
 		return getEnums(Cpp.PUBLIC);
 	}
 
-	public CppFun[] getPublicFuns() {
+	public List<CppFun> getPublicFuns() {
 		return getFuns(Cpp.PUBLIC);
 	}
 
-	public CStructBase[] getPublicStructsUnions() {
+	public List<CStructBase> getPublicStructsUnions() {
 		return getStructsUnions(Cpp.PUBLIC);
 	}
 
-	public CppVar[] getPublicVars() {
+	public List<CppVar> getPublicVars() {
 		return getVars(Cpp.PUBLIC);
 	}
 
-	private CStructBase[] getStructsUnions(long vis) {
+	private List<CStructBase> getStructsUnions(long vis) {
 		ArrayList<CStructBase> su = new ArrayList<CStructBase>();
 		for (VisElem suv : structsUnions)
 			if (suv.vis == vis || (vis == Cpp.PRIVATE && suv.vis == Cpp.NONE))
 				su.add((CStructBase)suv.elem);
-		return su.toArray(new CStructBase[su.size()]);
+		return su;
 	}
 
-	private CppVar[] getVars(long vis) {
+	private List<CppVar> getVars(long vis) {
 		ArrayList<CppVar> ret = new ArrayList<CppVar>();
 		for (VisElem vv : vars)
 			if (vv.vis == vis || (vis == Cpp.PRIVATE && vv.vis == Cpp.NONE))
 				ret.add((CppVar)vv.elem);
-		return ret.toArray(new CppVar[ret.size()]);
+		return ret;
 	}
 
 	public long getVis(CEnum enumObj) {
@@ -524,10 +579,13 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	public CppSourceFileImpl getSourceFile() {
 		return sourceFile;
 	}
+
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 
-		StringBuffer tmp = new StringBuffer();
+		/*
+		 * Generates the *.hpp files
+		 */
 
 		buffer.append("class " + this.className);
 
@@ -535,56 +593,101 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		int counter = 0;
 		for(String c : this.getExtendeds()){
 			counter++;
-			tmp.append("\t" + c);
+			buffer.append("\t" + c);
 			if(counter != this.extendeds.size()){
-				tmp.append("," + Cpp.newline);
+				buffer.append("," + Cpp.newline);
 			}
 		}
 		buffer.append(Cpp.newline + "{" + Cpp.newline);
 
-		//public constructors, methods and values
-		tmp.append("public:" + Cpp.newline);
+		// public stuff
+		buffer.append("public:" + Cpp.newline);
 
-		//constructors
-		for(CppConstructor c : this.getConstructors(Cpp.PUBLIC)){
-			tmp.append("\t" + c.getSignature() + ";" + Cpp.newline);
+		// public stuff will be one tab count deeper
+		StringBuffer tmp_public = new StringBuffer();
+
+		// constructors
+		if(this.getConstructors(Cpp.PUBLIC).size() > 0) {
+			tmp_public.append(Cpp.newline + "/* CONSTRUCTORS */" + Cpp.newline);
+			for(CppConstructor c : this.getConstructors(Cpp.PUBLIC)){
+				tmp_public.append("" + c.getSignature() + ";" + Cpp.newline);
+			}
 		}
 
-		//destructors
-		for(CppDestructor d : this.getDestructors(Cpp.PUBLIC)){
-			tmp.append("\tvirtual " + d.getSignature() + ";" + Cpp.newline);
+		// destructors
+		if(this.getDestructors(Cpp.PUBLIC).size() > 0) {
+			tmp_public.append(Cpp.newline + "/* DESTRUCTORS */" + Cpp.newline);
+			for(CppDestructor d : this.getDestructors(Cpp.PUBLIC)){
+				tmp_public.append("virtual " + d.getSignature() + ";" + Cpp.newline);
+			}
+		}
+
+
+		// public functions
+		if(this.getFuns(Cpp.PUBLIC).size() > 0) {
+			tmp_public.append(Cpp.newline + "/* PUBLIC FUNCTIONS */" + Cpp.newline);
+			for(CppFun f : this.getFuns(Cpp.PUBLIC)){
+				tmp_public.append(f.getSignature() + ";" + Cpp.newline);
+			}
+		}
+		// public nested classes
+		if(this.getNested(Cpp.PUBLIC).size() > 0) {
+			tmp_public.append(Cpp.newline + "/* PUBLIC NESTED CLASSES */" + Cpp.newline);
+			for(CppClass f : this.getNested(Cpp.PUBLIC)){
+				// Add the classes recursive
+				tmp_public.append(f + ";" + Cpp.newline);
+			}
 		}
 
 		// public variables
-		for(CppVar v : this.getVars(Cpp.PUBLIC)){
-			tmp.append("\t" + v.toString() + ";" + Cpp.newline);
+		if(this.getVars(Cpp.PUBLIC).size() > 0) {
+			tmp_public.append(Cpp.newline + "/* PUBLIC VARIABLES */" + Cpp.newline);
+			for(CppVar v : this.getVars(Cpp.PUBLIC)){
+				tmp_public.append(v.toString() + ";" + Cpp.newline);
+			}
 		}
 
-		//public functions
-		for(CppFun f : this.getFuns(Cpp.PUBLIC)){
-			tmp.append("\t" + f.getSignature() + ";" + Cpp.newline);
-		}
+		// Append the public stuff
+		appendBody(buffer, tmp_public, tabCount + 1);
 
-		tmp.append(Cpp.newline);
-
-		//private stuff
-		tmp.append("private:" + Cpp.newline);
-
-		//private variables
-		for(CppVar v : this.getVars(Cpp.PRIVATE)){
-			tmp.append("\t" + v.toString() + ";" + Cpp.newline);
-		}
-
-		//private functions
-		for(CppFun f : this.getFuns(Cpp.PRIVATE)){
-			tmp.append("\t" + f.getSignature() + ";" + Cpp.newline);
-		}
-
-		appendBody(buffer, tmp, tabCount + 1);
+		// Private stuff will be one tab count deeper
+		StringBuffer tmp_private = new StringBuffer();
 
 		buffer.append(Cpp.newline);
 
-		buffer.append("};" + Cpp.newline);
+		// private stuff
+		buffer.append("private:" + Cpp.newline);
+
+		// private functions
+		if(this.getFuns(Cpp.PRIVATE).size() > 0) {
+			tmp_private.append(Cpp.newline + "/* PRIVATE FUNCTIONS */" + Cpp.newline);
+			for(CppFun f : this.getFuns(Cpp.PRIVATE)){
+				tmp_private.append(f.getSignature() + ";" + Cpp.newline);
+			}
+		}
+
+		// private nested classes
+		if(this.getNested(Cpp.PRIVATE).size() > 0) {
+			tmp_private.append(Cpp.newline + "/* PRIVATE NESTED CLASSES */" + Cpp.newline);
+			for(CppClass f : this.getNested(Cpp.PRIVATE)){
+				// Add the classes recursive
+				f.toString(tmp_private, tabCount);
+			}
+		}
+
+		// private variables
+		if(this.getVars(Cpp.PRIVATE).size() > 0) {
+			tmp_private.append(Cpp.newline + "/* PRIVATE VARIABLES */" + Cpp.newline);
+			for(CppVar v : this.getVars(Cpp.PRIVATE)){
+				tmp_private.append(v.toString() + ";" + Cpp.newline);
+			}
+		}
+
+		// Append the private stuff
+		appendBody(buffer, tmp_private, tabCount + 1);
+
+		// Close the class
+		buffer.append(Cpp.newline + "};" + Cpp.newline);
 
 
 		/*
@@ -623,5 +726,17 @@ class CppClassImpl extends CElemImpl implements CppClass {
     public String getTemplateName() {
         return this.className;
     }
+
+	@Override
+	public CppClass addParents(List<CppClass> cppClass, CppClass clazz) {
+		this.parents.addAll(cppClass);
+		this.parents.add(clazz);
+		return this;
+	}
+
+	@Override
+	public List<CppClass> getParents() {
+		return parents;
+	}
 
 }

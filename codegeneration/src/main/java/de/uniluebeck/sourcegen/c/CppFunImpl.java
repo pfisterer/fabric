@@ -113,7 +113,14 @@ class CppFunImpl extends CElemImpl implements CppFun {
     @Override
     public void toString(StringBuffer buffer, int tabCount) {
         // indent(buffer, tabCount);
-        buffer.append(getType() + " " + this.clazz.getTypeName() + "::");
+
+    	StringBuffer myParents = new StringBuffer();
+
+    	for (CppClass p : this.clazz.getParents()) {
+    		myParents.append(p.getTemplateName()+ "::");
+		}
+
+        buffer.append(getType() + " " + myParents + this.clazz.getTypeName() + "::");
         signature.toString(buffer, 0);
         buffer.append(" {" + Cpp.newline);
         appendBody(buffer, body, tabCount + 1);

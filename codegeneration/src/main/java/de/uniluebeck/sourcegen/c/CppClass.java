@@ -23,6 +23,8 @@
  */
 package de.uniluebeck.sourcegen.c;
 
+import java.util.List;
+
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
@@ -71,6 +73,12 @@ public interface CppClass extends CppComplexType, CppTemplateName {
     public CppClass add(long vis, CStruct... struct) throws CppDuplicateException;
 
     public CppClass add(long vis, CUnion... unions) throws CppDuplicateException;
+
+    public CppClass add(long vis, CppClass... cppClass) throws CppDuplicateException;
+
+    public CppClass addParents(List<CppClass> cppClass, CppClass cppClazz);
+
+    public List<CppClass> getParents();
 
 	public void setSourceFile(CppSourceFile sourceFile);
 
@@ -130,10 +138,11 @@ public interface CppClass extends CppComplexType, CppTemplateName {
 
     public String toString();
 
-    public CppConstructor[] getConstructors(long vis);
+    // Needed for CppSourceFileImp
+    public List<CppConstructor> getConstructors(long vis);
+    public List<CppDestructor> getDestructors(long vis);
+    public List<CppFun> getFuns(long vis);
+    public List<CppClass> getNested(long vis);
 
-    public CppDestructor[] getDestructors(long vis);
-
-    public CppFun[] getFuns(long vis);
 
 }

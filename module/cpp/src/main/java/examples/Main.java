@@ -17,7 +17,8 @@ public class Main {
 
 		// Generate different classes
 	    new CRectangleSimple(workspace);
-	    // ...
+	    new TwoClassesPerFile(workspace);
+	    new Nested(workspace);
 	    // ...
 
 	    workspace.generate();

@@ -23,8 +23,12 @@
  */
 package de.uniluebeck.sourcegen;
 
+import java.util.List;
+
+import de.uniluebeck.sourcegen.c.CppClass;
+
 public interface WorkspaceElement {
-	
+
 	public abstract String toString();
 
 	public abstract void toString(StringBuffer buffer);
