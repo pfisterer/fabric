@@ -22,11 +22,11 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
  *
  */
 
-public class CRectangleSimple {
+public class Example1_Simple {
 
 	private Workspace workspace = null;
 
-	public CRectangleSimple(Workspace workspace) throws CppDuplicateException {
+	public Example1_Simple(Workspace workspace) throws CppDuplicateException {
 	    this.workspace = workspace;
 	    try {
 			generate();

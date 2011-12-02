@@ -22,11 +22,11 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
  * @author Dennis
  *
  */
-public class TwoClassesPerFile {
+public class Example2_TwoClassesPerFile {
 
 	private Workspace workspace = null;
 
-	public TwoClassesPerFile(Workspace workspace) throws CppDuplicateException {
+	public Example2_TwoClassesPerFile(Workspace workspace) throws CppDuplicateException {
 	    this.workspace = workspace;
 		try {
 			generate();

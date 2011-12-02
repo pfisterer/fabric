@@ -16,11 +16,10 @@ public class Main {
 		Workspace workspace = new Workspace(new Properties());
 
 		// Generate different classes
-	    new CRectangleSimple(workspace);
-	    new TwoClassesPerFile(workspace);
-	    new Nested(workspace);
-	    new NestedOfNested(workspace);
-	    // ...
+	    new Example1_Simple(workspace);
+	    new Example2_TwoClassesPerFile(workspace);
+	    new Example3_Nested(workspace);
+	    new Example4_NestedOfNested(workspace);
 
 	    workspace.generate();
 	}

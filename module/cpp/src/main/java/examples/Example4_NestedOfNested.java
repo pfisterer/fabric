@@ -21,11 +21,11 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
  * @author Dennis
  *
  */
-public class NestedOfNested {
+public class  Example4_NestedOfNested {
 
 	private Workspace workspace = null;
 
-	public NestedOfNested(Workspace workspace) throws CppDuplicateException {
+	public  Example4_NestedOfNested(Workspace workspace) throws CppDuplicateException {
 	    this.workspace = workspace;
 		try {
 			generate();
