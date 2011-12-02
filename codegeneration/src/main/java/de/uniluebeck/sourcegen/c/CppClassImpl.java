@@ -608,43 +608,48 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// constructors
 		if(this.getConstructors(Cpp.PUBLIC).size() > 0) {
-			tmp_public.append(Cpp.newline + "/* CONSTRUCTORS */" + Cpp.newline);
+			tmp_public.append("/* Constructors of " + this.getTemplateName() + " */" + Cpp.newline);
 			for(CppConstructor c : this.getConstructors(Cpp.PUBLIC)){
 				tmp_public.append("" + c.getSignature() + ";" + Cpp.newline);
 			}
+			tmp_public.append(Cpp.newline);
 		}
 
 		// destructors
 		if(this.getDestructors(Cpp.PUBLIC).size() > 0) {
-			tmp_public.append(Cpp.newline + "/* DESTRUCTORS */" + Cpp.newline);
+			tmp_public.append("/* Destructors of " + this.getTemplateName() + " */" + Cpp.newline);
 			for(CppDestructor d : this.getDestructors(Cpp.PUBLIC)){
 				tmp_public.append("virtual " + d.getSignature() + ";" + Cpp.newline);
 			}
+			tmp_public.append(Cpp.newline);
 		}
 
 
 		// public functions
 		if(this.getFuns(Cpp.PUBLIC).size() > 0) {
-			tmp_public.append(Cpp.newline + "/* PUBLIC FUNCTIONS */" + Cpp.newline);
+			tmp_public.append("/* Public functions of " + this.getTemplateName() + " */" + Cpp.newline);
 			for(CppFun f : this.getFuns(Cpp.PUBLIC)){
 				tmp_public.append(f.getSignature() + ";" + Cpp.newline);
 			}
+			tmp_public.append(Cpp.newline);
 		}
 		// public nested classes
 		if(this.getNested(Cpp.PUBLIC).size() > 0) {
-			tmp_public.append(Cpp.newline + "/* PUBLIC NESTED CLASSES */" + Cpp.newline);
+			tmp_public.append("/* Public nested classed of " + this.getTemplateName() + " */" + Cpp.newline);
 			for(CppClass f : this.getNested(Cpp.PUBLIC)){
 				// Add the classes recursive
 				tmp_public.append(f + ";" + Cpp.newline);
 			}
+			tmp_public.append(Cpp.newline);
 		}
 
 		// public variables
 		if(this.getVars(Cpp.PUBLIC).size() > 0) {
-			tmp_public.append(Cpp.newline + "/* PUBLIC VARIABLES */" + Cpp.newline);
+			tmp_public.append("/* Public variables of " + this.getTemplateName() + " */" + Cpp.newline);
 			for(CppVar v : this.getVars(Cpp.PUBLIC)){
 				tmp_public.append(v.toString() + ";" + Cpp.newline);
 			}
+			tmp_public.append(Cpp.newline);
 		}
 
 		// Append the public stuff
@@ -660,27 +665,30 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// private functions
 		if(this.getFuns(Cpp.PRIVATE).size() > 0) {
-			tmp_private.append(Cpp.newline + "/* PRIVATE FUNCTIONS */" + Cpp.newline);
+			tmp_private.append("/* Private functions of " + this.getTemplateName() + " */" + Cpp.newline);
 			for(CppFun f : this.getFuns(Cpp.PRIVATE)){
 				tmp_private.append(f.getSignature() + ";" + Cpp.newline);
 			}
+			tmp_private.append(Cpp.newline);
 		}
 
 		// private nested classes
 		if(this.getNested(Cpp.PRIVATE).size() > 0) {
-			tmp_private.append(Cpp.newline + "/* PRIVATE NESTED CLASSES */" + Cpp.newline);
+			tmp_private.append("/* Private nested classes of " + this.getTemplateName() + " */" + Cpp.newline);
 			for(CppClass f : this.getNested(Cpp.PRIVATE)){
 				// Add the classes recursive
 				f.toString(tmp_private, tabCount);
 			}
+			tmp_private.append(Cpp.newline);
 		}
 
 		// private variables
 		if(this.getVars(Cpp.PRIVATE).size() > 0) {
-			tmp_private.append(Cpp.newline + "/* PRIVATE VARIABLES */" + Cpp.newline);
+			tmp_private.append("/* Private variables of " + this.getTemplateName() + " */" + Cpp.newline);
 			for(CppVar v : this.getVars(Cpp.PRIVATE)){
 				tmp_private.append(v.toString() + ";" + Cpp.newline);
 			}
+			tmp_private.append(Cpp.newline);
 		}
 
 		// Append the private stuff
