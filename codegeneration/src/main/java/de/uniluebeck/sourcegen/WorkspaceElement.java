@@ -23,9 +23,6 @@
  */
 package de.uniluebeck.sourcegen;
 
-import java.util.List;
-
-import de.uniluebeck.sourcegen.c.CppClass;
 
 public interface WorkspaceElement {
 

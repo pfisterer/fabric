@@ -56,6 +56,8 @@ public interface CppClass extends CppComplexType, CppTemplateName {
 
     }
 
+	public CppClass setComment(CppComment comment);
+
     public static final CppClassFactory factory = CppClassFactory.getInstance();
 
     public CppClass add(long vis, CEnum... enumObj) throws CppDuplicateException;
@@ -133,8 +135,6 @@ public interface CppClass extends CppComplexType, CppTemplateName {
     public long getVis(CUnion union);
 
     public long getVisExtended(CppClass extended);
-
-    public String toString();
 
     // Needed for CppSourceFileImp
     public List<CppConstructor> getConstructors(long vis);

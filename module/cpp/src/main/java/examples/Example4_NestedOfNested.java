@@ -4,6 +4,7 @@ import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.c.CFun;
 import de.uniluebeck.sourcegen.c.Cpp;
 import de.uniluebeck.sourcegen.c.CppClass;
+import de.uniluebeck.sourcegen.c.CppClassCommentImpl;
 import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppTypeGenerator;
@@ -46,6 +47,7 @@ public class  Example4_NestedOfNested {
 		 * 1st class: Nested
 		 */
 		CppClass classOne = CppClass.factory.create("NestedOfNested");
+		classOne.setComment(new CppClassCommentImpl("This is the first nested class"));
 		CppVar intA = CppVar.factory.create(Cpp.INT, "a");
 		CppVar intX = CppVar.factory.create(Cpp.INT, "x");
 		CppVar intY = CppVar.factory.create("int", "y"); // Use (String,String)
@@ -65,15 +67,17 @@ public class  Example4_NestedOfNested {
 		 * 2nd class: Nested2
 		 */
 		CppClass classTwo = CppClass.factory.create("NestedOfNested2");
+		classTwo.setComment(new CppClassCommentImpl("This is the most inner nested class"));
 		CppFun funX = CppFun.factory.create(classTwo, Cpp.INT, "x", intX);
 		funX.appendCode("return x;");
 		classTwo.add(Cpp.PUBLIC, funX);
-
 
 		/*
 		 * 3nd class: Outer
 		 */
 		CppClass classThree = CppClass.factory.create("NestedOfOuter");
+		classThree.setComment(new CppClassCommentImpl("This is the most outer class"));
+
 		CppTypeGenerator typeNested = new CppTypeGenerator("NestedOfNested");
 		CppVar n = CppVar.factory.create(typeNested, "n");
 		CppFun funCall = CppFun.factory.create(classThree, Cpp.INT, "call", intX);

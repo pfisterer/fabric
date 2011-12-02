@@ -71,6 +71,8 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 	private CppSourceFileImpl sourceFile;
 
+	private CppComment comment = null;
+
 	// Needed for nested class
 	private List<CppClass> parents = new LinkedList<CppClass>();
 
@@ -583,6 +585,11 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		 * Generates the *.hpp files
 		 */
 
+		// write comment if necessary
+		if (comment != null) {
+			comment.toString(buffer, tabCount);
+		}
+
 		buffer.append("class " + this.className);
 
 		//inheritance
@@ -747,6 +754,12 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	@Deprecated
 	public String getTypeName() {
 		return this.getName();
+	}
+
+	@Override
+	public CppClass setComment(CppComment comment) {
+		this.comment = comment;
+		return this;
 	}
 
 }
