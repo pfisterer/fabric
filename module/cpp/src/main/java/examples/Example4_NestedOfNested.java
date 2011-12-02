@@ -48,7 +48,7 @@ public class  Example4_NestedOfNested {
 		CppClass classOne = CppClass.factory.create("NestedOfNested");
 		CppVar intA = CppVar.factory.create(Cpp.INT, "a");
 		CppVar intX = CppVar.factory.create(Cpp.INT, "x");
-		CppVar intY = CppVar.factory.create(Cpp.INT, "y");
+		CppVar intY = CppVar.factory.create("int", "y"); // Use (String,String)
 		classOne.add(Cpp.PUBLIC, intA);
 
 		CppFun funSetA = CppFun.factory.create(classOne, Cpp.INT, "setA", intY);
