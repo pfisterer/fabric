@@ -257,21 +257,10 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     {
       AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
       CppTypeGenerator typeObject = new CppTypeGenerator(ea.type, Cpp.PRIVATE); // TODO: Is qualifier the visibility?
-      // TODO: String type = String.format("java.util.ArrayList<%s>", this.fixPrimitiveTypes(ea.type));
-      String type = ea.type + "[]"; // TODO: How do we handle arrays in C++? Add [] to type name?
       
+      // Create array of predefined size (Integer.MAX_VALUE on default)
+      cppv = CppVar.factory.create(typeObject, String.format("%s[%d]", ea.name, ea.maxSize));
       
-      // No array size is given
-      if (ea.maxSize == Integer.MAX_VALUE)
-      {
-        cppv = CppVar.factory.create(typeObject, ea.name); // TODO: Add initCode for arrays here (new type[MAX])
-      }
-      // Array size is given
-      else
-      {
-        cppv = CppVar.factory.create(typeObject, ea.name); // TODO: Add initCode for arrays here (new type[x])
-      }
-
       cppv.setComment(new CppVarCommentImpl(String.format("The '%s' element array.", ea.name)));
     }
 
