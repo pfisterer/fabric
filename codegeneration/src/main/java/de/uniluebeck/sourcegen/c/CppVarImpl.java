@@ -41,6 +41,8 @@ class CppVarImpl extends CElemImpl implements CppVar {
     private CppTypeGenerator typeGenerator;
     private List<CppTemplateName> depTypes = new LinkedList<CppTemplateName>();
 
+	private CComment comment = null;
+
     public CppVarImpl(String varDeclString) {
         this.type = Type.DECL_STRING;
         this.varDeclString = varDeclString;
@@ -95,6 +97,12 @@ class CppVarImpl extends CElemImpl implements CppVar {
     public void toString(StringBuffer buffer, int tabCount) {
         indent(buffer, tabCount);
 
+    	// write comment if necessary
+    	if (comment != null) {
+    		buffer.append(Cpp.newline);
+    		comment.toString(buffer, tabCount);
+    	}
+
         // Add all dependent types
         if (this.depTypes != null && this.depTypes.size() > 0) {
             int cnt = this.depTypes.size();
@@ -131,5 +139,15 @@ class CppVarImpl extends CElemImpl implements CppVar {
             break;
         }
     }
+
+	@Override
+	public CppVar setComment(CComment comment) {
+		this.comment = comment;
+		return this;
+	}
+
+	public String getVarName() {
+		return varName;
+	}
 
 }

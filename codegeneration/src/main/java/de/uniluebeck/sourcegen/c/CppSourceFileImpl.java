@@ -42,7 +42,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	protected CSourceFileBase base;
 	protected String fileName;
 
-	private CppComment comment = null;
+	private CComment comment = null;
 
 	//private final org.slf4j.Logger log = LoggerFactory.getLogger(CppSourceFileImpl.class);
 
@@ -331,7 +331,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// Add functions, such main is possible
 		if(this.base.getFuns().size() > 0) {
-			buffer.append("/* Other non class functions */" + Cpp.newline);
+			//buffer.append("/* Other non class functions */" + Cpp.newline);
 			for (CFun fun : this.base.getFuns()) {
 				fun.toString(buffer, tabCount);
 			}
@@ -399,7 +399,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// constructors
 		if(clazz.getConstructors(Cpp.PUBLIC).size() > 0) {
-			buffer.append("/* Constructors of " + clazz.getName() + " */" + Cpp.newline);
+			//buffer.append("/* Constructors of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppConstructor c : clazz.getConstructors(Cpp.PUBLIC)){
 				c.toString(buffer, tabCount);
 			}
@@ -407,7 +407,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// destructors
 		if(clazz.getDestructors(Cpp.PUBLIC).size() > 0){
-			buffer.append("/* Destrictors of " + clazz.getName() + " */" + Cpp.newline);
+			//buffer.append("/* Destrictors of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppDestructor d : clazz.getDestructors(Cpp.PUBLIC)){
 				d.toString(buffer, tabCount);
 			}
@@ -415,7 +415,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// public functions
 		if(clazz.getFuns(Cpp.PUBLIC).size() > 0) {
-			buffer.append("/* Public functions of " + clazz.getName() + " */" + Cpp.newline);
+			//buffer.append("/* Public functions of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppFun f : clazz.getFuns(Cpp.PUBLIC)){
 				f.toString(buffer, tabCount);
 			}
@@ -423,7 +423,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// private functions
 		if(clazz.getFuns(Cpp.PRIVATE).size() > 0) {
-			buffer.append("/* Private functions of " + clazz.getName() + " */" + Cpp.newline);
+			//buffer.append("/* Private functions of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppFun f : clazz.getFuns(Cpp.PRIVATE)){
 				f.toString(buffer, tabCount);
 			}
@@ -448,7 +448,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	}
 
 	@Override
-	public CppSourceFile setComment(CppComment comment) {
+	public CppSourceFile setComment(CComment comment) {
 		this.comment = comment;
 		return this;
 	}

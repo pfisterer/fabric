@@ -31,7 +31,7 @@ import de.uniluebeck.sourcegen.exceptions.ValidationException;
 
 
 public interface CFun extends CLangElem {
-	
+
 	class CFunctionFactory {
 
 		private static CFunctionFactory instance;
@@ -44,36 +44,36 @@ public interface CFun extends CLangElem {
 				instance = new CFunctionFactory();
 			return instance;
 		}
-		
+
 		public CFun create(String name, String returnType,
 				CFunSignature signature)
 				throws CDuplicateException {
-			
+
 			return new CFunImpl(name, returnType, signature);
 		}
-		
+
 		public CFun create(String name, String returnType,
 				CFunSignature signature, CFunBody body)
 				throws CCodeValidationException, CDuplicateException {
-			
+
 			return new CFunImpl(name, returnType, signature, body);
 		}
-		
+
 		public CFun create(String name, String returnType,
 				String declarations, String code, CParam... parameters)
 				throws CCodeValidationException, CDuplicateException {
-			
+
 			return new CFunImpl(name, returnType, declarations, code, parameters);
 		}
 
 	}
 
 	public static final CFunctionFactory factory = CFunctionFactory.getInstance();
-	
+
 	/**
 	 * Adds a C preprocessor directive which will be printed out after the
 	 * function declaration/implementation.
-	 * 
+	 *
 	 * @param directive
 	 *            the preprocessor directive
 	 * @return
@@ -83,7 +83,7 @@ public interface CFun extends CLangElem {
 	/**
 	 * Adds a C preprocessor directive which will be printed out after the
 	 * function declaration/implementation.
-	 * 
+	 *
 	 * @param directive
 	 *            the preprocessor directive to add
 	 * @throws ValidationException
@@ -93,11 +93,11 @@ public interface CFun extends CLangElem {
 
 	/**
 	 * TODO: javadoc
-	 * 
+	 *
 	 * Test: {@link CFunctionTest#testAddDirectiveAfterFunctionStringBoolean()}
 	 * @param hash
 	 * @param directive
-	 * 
+	 *
 	 * @throws CPreProcessorValidationException
 	 * @return
 	 */
@@ -107,7 +107,7 @@ public interface CFun extends CLangElem {
 	/**
 	 * Adds a C preprocessor directive which will be printed out before the
 	 * function declaration/implementation.
-	 * 
+	 *
 	 * @param directive
 	 *            the preprocessor directive
 	 * @return
@@ -117,7 +117,7 @@ public interface CFun extends CLangElem {
 	/**
 	 * Adds a C preprocessor directive which will be printed out before the
 	 * function declaration/implementation.
-	 * 
+	 *
 	 * @param directive
 	 *            the preprocessor directive
 	 * @throws ValidationException
@@ -128,18 +128,18 @@ public interface CFun extends CLangElem {
 
 	/**
 	 * TODO: javadoc
-	 * 
+	 *
 	 * Test: {@link CFunctionTest#testAddDirectiveBeforeFunctionStringBoolean()}
 	 * @param hash
 	 * @param directive
-	 * 
+	 *
 	 * @throws CPreProcessorValidationException
 	 */
 	public CFun addDirectiveBeforeFunction(boolean hash, String... directive) throws CPreProcessorValidationException;
 
 	/**
 	 * Adds a parameter to this funs signature.
-	 * 
+	 *
 	 * @param param
 	 *            the parameter to add
 	 * @throws CDuplicateException
@@ -150,7 +150,7 @@ public interface CFun extends CLangElem {
 	/**
 	 * Checks if the signature of this function contains the parameter
 	 * <code>param</code>.
-	 * 
+	 *
 	 * @param param
 	 *            the parameter to check for
 	 * @return <code>true</code> if the signature contains <code>param</code>,
@@ -160,15 +160,17 @@ public interface CFun extends CLangElem {
 
 	/**
 	 * Tests the two funs for equality.
-	 * 
+	 *
 	 * @param other
 	 *            the function to compare with
 	 * @return <code>true</code> if the names of the two funs are equal
 	 */
 	public boolean equals(CFun other);
-	
+
 	public CFun appendCode(String... code);
 
 	public String getName();
+
+	public CFun	setComment(CComment comment);
 
 }

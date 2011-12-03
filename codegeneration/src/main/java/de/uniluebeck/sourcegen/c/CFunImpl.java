@@ -49,6 +49,8 @@ class CFunImpl extends CElemImpl implements CFun {
 
 	private CFunSignature signature;
 
+	private CComment comment = null;
+
 	public CFunImpl(String name, String returnType,
 			CFunSignature signature, CFunBody body)
 			throws CCodeValidationException, CDuplicateException {
@@ -213,6 +215,12 @@ class CFunImpl extends CElemImpl implements CFun {
 			buffer.append("\n");
 		}
 		indent(buffer, tabCount);
+
+		// write comment if necessary
+		if (comment != null) {
+			comment.toString(buffer, tabCount);
+		}
+
 		buffer.append(returnType);
 		buffer.append(" ");
 		buffer.append(name);
@@ -246,6 +254,11 @@ class CFunImpl extends CElemImpl implements CFun {
 		fun.addDirectiveAfterFunction("ENDIF");
 		System.out.print(fun.toString(1));
 		System.out.println("-----------");
+	}
+
+	public CFun setComment(CComment comment) {
+		this.comment = comment;
+		return this;
 	}
 
 }

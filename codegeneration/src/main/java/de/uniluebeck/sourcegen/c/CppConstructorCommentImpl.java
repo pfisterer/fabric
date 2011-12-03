@@ -21,31 +21,92 @@
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+/**
+ *
+ */
 package de.uniluebeck.sourcegen.c;
 
-public class CppCommentImpl extends CElemImpl implements CppComment {
+import java.util.Map;
+import java.util.TreeMap;
+
+
+/**
+ * @author Dennis Boldt
+ *
+ */
+public class CppConstructorCommentImpl extends CCommentImpl implements CppConstructorComment {
 
 	/**
-	 * The actual comment description.
+	 * Parameters mapped to their descriptions.
 	 */
-	private final String description;
+	private Map<String,String> params = new TreeMap<String, String>( );
 
 	/**
-	 * @param description The actual comment description.
+	 * Generate a Javadoc constructor comment with specified description.
+	 *
+	 * @param description The actual constructor comment description.
 	 */
-	public CppCommentImpl(String description) {
-		this.description = description;
+	public CppConstructorCommentImpl(String description) {
+		super(description);
 	}
 
 	/**
+	 * Adds a parameter to the list of method parameters.
+	 *
+	 * @param name The parameter's name.
+	 * @param description The parameter's description.
+	 */
+	public void addParameter(String name, String description) {
+		this.params.put(name, description);
+	}
+
+	public void addParameter(CppVar type, String description) {
+		this.params.put(type.getVarName(), description);
+	}
+
+	/**
+	 * @return the params
+	 */
+	public Map<String, String> getParameters() {
+		return params;
+	}
+
+	/* (non-Javadoc)
 	 * @see de.uniluebeck.sourcegen.ElemImpl#toString(java.lang.StringBuffer, int)
 	 */
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
+		//indent(buffer, tabCount);
 		buffer.append("/**\n");
-		buffer.append(" * ").append(this.description).append("\n");
+
+		addDescriptionComment(buffer, tabCount);
+		addParameterComments(buffer, tabCount);
+
+		//indent(buffer, tabCount);
 		buffer.append(" */\n");
 	}
 
+	/**
+	 * @param buffer
+	 * @param tabCount
+	 */
+	protected void addDescriptionComment(StringBuffer buffer, int tabCount) {
+		//indent(buffer, tabCount);
+		buffer.append(" * ").append(this.getDescription()).append("\n");
+		if (!params.isEmpty()) {
+			//indent(buffer, tabCount);
+			buffer.append(" *\n");
+		}
+	}
+
+	/**
+	 * @param buffer
+	 * @param tabCount
+	 */
+	protected void addParameterComments(StringBuffer buffer, int tabCount) {
+		for (String key : params.keySet()) {
+			//indent(buffer, tabCount);
+			buffer.append(" * @param ").append(key).append(" ").append(params.get(key)).append("\n");
+		}
+	}
 }

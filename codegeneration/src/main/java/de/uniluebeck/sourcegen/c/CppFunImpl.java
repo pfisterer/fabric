@@ -42,6 +42,8 @@ class CppFunImpl extends CElemImpl implements CppFun {
     private StringBuffer body = new StringBuffer();
     private CppClass clazz;
 
+	private CppFunComment comment = null;
+
     public CppFunImpl(CppClass clazz, CComplexType returnType, String name, CppVar... signatureVar)
             throws CppDuplicateException {
 
@@ -103,7 +105,14 @@ class CppFunImpl extends CElemImpl implements CppFun {
     }
 
     public String getSignature() {
-        return getType() + " " + signature.toString();
+
+    	StringBuffer buffer = new StringBuffer();
+    	if (comment != null) {
+    		buffer.append(Cpp.newline);
+    		buffer.append(comment.toString());
+    	}
+
+        return buffer.toString() + getType() + " " + signature.toString();
     }
 
     public String getBody() {
@@ -114,8 +123,13 @@ class CppFunImpl extends CElemImpl implements CppFun {
     public void toString(StringBuffer buffer, int tabCount) {
         // indent(buffer, tabCount);
 
-    	StringBuffer myParents = new StringBuffer();
+    	// write comment if necessary
+    	if (comment != null) {
+    		comment.toString(buffer, tabCount);
+    	}
 
+    	// Get the parents to get OUTER::NESTED1::NESTED2::...::NESTEDN
+    	StringBuffer myParents = new StringBuffer();
     	for (CppClass p : this.clazz.getParents()) {
     		myParents.append(p.getName()+ "::");
 		}
@@ -145,5 +159,11 @@ class CppFunImpl extends CElemImpl implements CppFun {
 
         return "{UNKNOWN_TYPE}";
     }
+
+	@Override
+	public CppFun setComment(CppFunComment comment) {
+		this.comment = comment;
+		return this;
+	}
 
 }

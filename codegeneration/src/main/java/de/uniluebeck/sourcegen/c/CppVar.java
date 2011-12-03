@@ -113,6 +113,7 @@ public interface CppVar extends CppLangElem {
 
 	public static final CppVarFactory factory = CppVarFactory.getInstance();
 	public static final CppVar VOID = factory.create(Cpp.VOID);
-	String toString();
+	public CppVar 	setComment(CComment comment);
+	public String getVarName();
 
 }

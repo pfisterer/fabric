@@ -13,6 +13,10 @@ public class CppTypeGenerator implements CppTemplateName {
         this.typeName = name;
     }
 
+    public CppTypeGenerator(Long qualifier) {
+    	this.qualifier = qualifier;
+    }
+
     public CppTypeGenerator(String name, Long qualifier) {
         this.typeName = name;
         this.qualifier = qualifier;
@@ -60,6 +64,7 @@ public class CppTypeGenerator implements CppTemplateName {
         }
 
         if(buffer.length() == 0) {
+        	buffer = null;
             return "$UNKNOWN_TYPE$";
         }
 

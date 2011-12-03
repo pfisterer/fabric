@@ -56,7 +56,7 @@ public interface CppClass extends CppComplexType, CppTemplateName {
 
     }
 
-	public CppClass setComment(CppComment comment);
+	public CppClass setComment(CComment comment);
 
     public static final CppClassFactory factory = CppClassFactory.getInstance();
 
