@@ -77,13 +77,17 @@ public class CppConstructorCommentImpl extends CCommentImpl implements CppConstr
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 		//indent(buffer, tabCount);
-		buffer.append("/**\n");
+		buffer.append("/**" + Cpp.newline);
 
 		addDescriptionComment(buffer, tabCount);
-		addParameterComments(buffer, tabCount);
+
+		if (!params.isEmpty()) {
+			buffer.append(" *" + Cpp.newline);
+			addParameterComments(buffer, tabCount);
+		}
 
 		//indent(buffer, tabCount);
-		buffer.append(" */\n");
+		buffer.append(" */" + Cpp.newline);
 	}
 
 	/**
@@ -91,12 +95,7 @@ public class CppConstructorCommentImpl extends CCommentImpl implements CppConstr
 	 * @param tabCount
 	 */
 	protected void addDescriptionComment(StringBuffer buffer, int tabCount) {
-		//indent(buffer, tabCount);
-		buffer.append(" * ").append(this.getDescription()).append("\n");
-		if (!params.isEmpty()) {
-			//indent(buffer, tabCount);
-			buffer.append(" *\n");
-		}
+		buffer.append(" * ").append(this.getDescription()).append(Cpp.newline);
 	}
 
 	/**
@@ -105,8 +104,7 @@ public class CppConstructorCommentImpl extends CCommentImpl implements CppConstr
 	 */
 	protected void addParameterComments(StringBuffer buffer, int tabCount) {
 		for (String key : params.keySet()) {
-			//indent(buffer, tabCount);
-			buffer.append(" * @param ").append(key).append(" ").append(params.get(key)).append("\n");
+			buffer.append(" * @param ").append(key).append(" ").append(params.get(key)).append(Cpp.newline);
 		}
 	}
 }

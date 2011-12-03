@@ -35,6 +35,8 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 	private CppClass clazz;
 	private LinkedList<String> extendeds = new LinkedList<String>();
 
+	 private CppConstructorComment comment = null;
+
 	public CppConstructorImpl(CppClass clazz, CppVar... cppVars) throws CppDuplicateException {
 		this.signature = new CppSignature(clazz.getName(), cppVars);
 		this.clazz = clazz;
@@ -46,7 +48,7 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 	}
 
 	public CppConstructor appendCode(String str) {
-		this.body.append(str);
+		this.body.append(str + Cpp.newline);
 		return this;
 	}
 
@@ -61,7 +63,14 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 	}
 
 	public String getSignature() {
-		return signature.toString();
+
+		StringBuffer buffer = new StringBuffer();
+		// write comment if necessary
+		if (comment != null) {
+			comment.toString(buffer, 0);
+		}
+
+		return buffer.toString() + signature.toString();
 	}
 
 	public String getBody() {
@@ -70,6 +79,12 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
+
+		// write comment if necessary
+		if (comment != null) {
+			comment.toString(buffer, tabCount);
+		}
+
 		buffer.append(this.clazz.getName() + "::");
 		signature.toString(buffer, 0);
 
@@ -90,6 +105,12 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 		buffer.append("\n");
 		indent(buffer, tabCount);
 		buffer.append("}\n\n");
+	}
+
+	@Override
+	public CppConstructor setComment(CppConstructorComment comment) {
+		this.comment = comment;
+		return this;
 	}
 
 }

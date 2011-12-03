@@ -87,15 +87,13 @@ public class CppFunCommentImpl extends CppConstructorCommentImpl implements CppF
 
 		if(!getParameters().isEmpty() && getDescription() != null) {
 			buffer.append(" * " + Cpp.newline);
+			addParameterComments(buffer, tabCount);
 		}
-
-		addParameterComments(buffer, tabCount);
 
 		if(returnType != null) {
 			buffer.append(" * " + Cpp.newline);
+			addReturnTypeComment(buffer, tabCount);
 		}
-
-		addReturnTypeComment(buffer, tabCount);
 
 		buffer.append(" */" + Cpp.newline);
 	}

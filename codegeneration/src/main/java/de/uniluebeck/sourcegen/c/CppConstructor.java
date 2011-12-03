@@ -40,17 +40,18 @@ public interface CppConstructor extends CppLangElem {
 				instance = new CppConstructorFactory();
 			return instance;
 		}
-		
+
 		public CppConstructor create(CppClass clazz, CppVar... vars) throws CppDuplicateException {
 			return new CppConstructorImpl(clazz, vars);
 		}
 	}
 
 	public static final CppConstructorFactory factory = CppConstructorFactory.getInstance();
-	
+
 	public CppConstructor add(CppVar... create) throws CppDuplicateException;
-	public CppConstructor add(String... pExtendeds) throws CppDuplicateException; 
+	public CppConstructor add(String... pExtendeds) throws CppDuplicateException;
 	public CppConstructor appendCode(String string);
 	public String getSignature();
-	
+	public CppConstructor setComment(CppConstructorComment comment);
+
 }

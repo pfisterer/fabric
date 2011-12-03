@@ -47,7 +47,7 @@ class CppDestructorImpl extends CElemImpl implements CppDestructor {
 	}
 
 	public CppDestructor appendCode(String str) {
-		this.body.append(str);
+		this.body.append(str + Cpp.newline);
 		return this;
 	}
 
@@ -62,11 +62,11 @@ class CppDestructorImpl extends CElemImpl implements CppDestructor {
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 		buffer.append(this.clazz.getName() + "::~" + this.signature.toString());
-		buffer.append(" {\n");
+		buffer.append(" {" + Cpp.newline);
 		appendBody(buffer, body, tabCount+1);
-		buffer.append("\n");
+		buffer.append(Cpp.newline);
 		indent(buffer, tabCount);
-		buffer.append("}\n\n");
+		buffer.append("}" + Cpp.newline + Cpp.newline);
 	}
 
 }

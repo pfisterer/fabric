@@ -20,6 +20,7 @@ public class Main {
 	    new Example2_TwoClassesPerFile(workspace);
 	    new Example3_Nested(workspace);
 	    new Example4_NestedOfNested(workspace);
+	    new Example5_Constructor_Destructor(workspace);
 
 	    workspace.generate();
 	}
