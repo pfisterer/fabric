@@ -1,6 +1,7 @@
 package examples;
 
 import de.uniluebeck.sourcegen.Workspace;
+import de.uniluebeck.sourcegen.c.CComment;
 import de.uniluebeck.sourcegen.c.CCommentImpl;
 import de.uniluebeck.sourcegen.c.CFun;
 import de.uniluebeck.sourcegen.c.Cpp;
@@ -9,7 +10,6 @@ import de.uniluebeck.sourcegen.c.CppConstructor;
 import de.uniluebeck.sourcegen.c.CppConstructorCommentImpl;
 import de.uniluebeck.sourcegen.c.CppDestructor;
 import de.uniluebeck.sourcegen.c.CppFun;
-import de.uniluebeck.sourcegen.c.CppFunCommentImpl;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 import de.uniluebeck.sourcegen.c.CppVar;
@@ -57,6 +57,7 @@ public class Example5_Constructor_Destructor {
         CppConstructor con = CppConstructor.factory.create(person, var_name, var_age);
         con.appendCode("this->name = name;");
         con.appendCode("this->age = age;");
+
         CppConstructorCommentImpl comment_cons = new CppConstructorCommentImpl("Generate a person.");
         comment_cons.addParameter(var_name, "The name of a person.");
         comment_cons.addParameter(var_age, "The age of a person.");
@@ -69,6 +70,9 @@ public class Example5_Constructor_Destructor {
         des.appendCode("cout << name << \" will be destructed\" << \"\\n\";");
         des.appendCode("age = 0;");
         des.appendCode("name = \"\";");
+
+        CComment comment_des = new CppConstructorCommentImpl("Erase a person.");
+        des.setComment(comment_des);
 
         person.add(Cpp.PUBLIC, des);
 

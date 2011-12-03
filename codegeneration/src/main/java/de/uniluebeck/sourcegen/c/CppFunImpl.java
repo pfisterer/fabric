@@ -42,7 +42,7 @@ class CppFunImpl extends CElemImpl implements CppFun {
     private StringBuffer body = new StringBuffer();
     private CppClass clazz;
 
-	private CppFunComment comment = null;
+	private CComment comment = null;
 
     public CppFunImpl(CppClass clazz, CComplexType returnType, String name, CppVar... signatureVar)
             throws CppDuplicateException {
@@ -161,7 +161,7 @@ class CppFunImpl extends CElemImpl implements CppFun {
     }
 
 	@Override
-	public CppFun setComment(CppFunComment comment) {
+	public CppFun setComment(CComment comment) {
 		this.comment = comment;
 		return this;
 	}

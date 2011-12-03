@@ -35,7 +35,7 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 	private CppClass clazz;
 	private LinkedList<String> extendeds = new LinkedList<String>();
 
-	 private CppConstructorComment comment = null;
+	 private CComment comment = null;
 
 	public CppConstructorImpl(CppClass clazz, CppVar... cppVars) throws CppDuplicateException {
 		this.signature = new CppSignature(clazz.getName(), cppVars);
@@ -108,7 +108,7 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 	}
 
 	@Override
-	public CppConstructor setComment(CppConstructorComment comment) {
+	public CppConstructor setComment(CComment comment) {
 		this.comment = comment;
 		return this;
 	}

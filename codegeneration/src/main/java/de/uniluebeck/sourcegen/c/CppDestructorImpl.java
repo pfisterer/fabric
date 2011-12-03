@@ -32,6 +32,8 @@ class CppDestructorImpl extends CElemImpl implements CppDestructor {
 	private StringBuffer body = new StringBuffer();
 	private CppClass clazz;
 
+	private CComment comment = null;
+
 	public CppDestructorImpl(CppClass clazz, CppVar... vars ) throws CppDuplicateException {
 		this.signature = new CppSignature(clazz.getName(), vars);
 		this.clazz = clazz;
@@ -59,8 +61,18 @@ class CppDestructorImpl extends CElemImpl implements CppDestructor {
 		return body.toString();
 	}
 
+	public CppDestructor setComment(CComment comment) {
+		this.comment = comment;
+		return this;
+	}
+
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
+
+		if (comment != null) {
+			comment.toString(buffer, tabCount);
+		}
+
 		buffer.append(this.clazz.getName() + "::~" + this.signature.toString());
 		buffer.append(" {" + Cpp.newline);
 		appendBody(buffer, body, tabCount+1);
