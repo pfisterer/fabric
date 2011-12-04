@@ -90,7 +90,7 @@ public class Workspace {
     public ProtobufWorkspace getProtobuf() {
         return protobuf;
     }
-    
+
     // ###################################################################
     // Dot workspace
     // ###################################################################
@@ -228,6 +228,12 @@ public class Workspace {
 
     private String getDirString(SourceFile sourceFile) throws Exception {
         String projectDirString = properties.getProperty(KEY_PROJECTDIR, System.getProperty("user.dir"));
+
+        // use the given directory as output
+        if(properties.containsKey("output_directory")) {
+        	projectDirString = properties.getProperty("output_directory");
+        }
+
         String subDir = properties.getProperty(KEY_PROJECTSUBDIR, "");
 
         projectDirString = assureTrailingSeparator(projectDirString);
@@ -238,7 +244,7 @@ public class Workspace {
             projectDirString = assureTrailingSeparator(projectDirString);
             projectDirString += jPackagePrefix.replace('.', File.separatorChar);
             projectDirString = assureTrailingSeparator(projectDirString);
-            
+
             if (null == jSourceFile.getPackageName())
             {
             	throw new Exception("PackageName is null for source file '" + jSourceFile.getFileName() + "'. "

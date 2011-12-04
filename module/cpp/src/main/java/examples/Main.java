@@ -13,7 +13,10 @@ import de.uniluebeck.sourcegen.Workspace;
 public class Main {
 
 	public Main() throws Exception {
-		Workspace workspace = new Workspace(new Properties());
+
+		Properties properties = new Properties();
+		//properties.put("output_directory", "/home/dennis/Desktop/cpp");
+		Workspace workspace = new Workspace(properties);
 
 		// Generate different classes
 	    new Example1_Simple(workspace);
