@@ -42,7 +42,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	protected CSourceFileBase base;
 	protected String fileName;
 
-	private CComment comment = null;
+	protected CComment comment = null;
 
 	//private final org.slf4j.Logger log = LoggerFactory.getLogger(CppSourceFileImpl.class);
 
@@ -314,15 +314,20 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// Includes: User header files
 		for(CppSourceFile file : this.cppUserHeaderFiles){
-                    buffer.append("#include \"" + file.getFileName() + ".hpp\"" + Cpp.newline);
+            buffer.append("#include \"" + file.getFileName() + ".hpp\"" + Cpp.newline);
 		}
-		buffer.append(Cpp.newline);
 
-		// Include the namespaces
-		for(String ns : this.cppNamespaces){
-            buffer.append("using namespace " + ns + ";" + Cpp.newline);
-		}
-		buffer.append(Cpp.newline);
+		if(this.cppUserHeaderFiles.size() > 0 || this.cppNamespaces.size() > 0) {
+			buffer.append(Cpp.newline);
+	    }
+
+	    if(this.cppNamespaces.size() > 0) {
+	    	// Include the namespaces
+	    	for(String ns : this.cppNamespaces){
+	    		buffer.append("using namespace " + ns + ";" + Cpp.newline);
+	    	}
+	    	buffer.append(Cpp.newline);
+	    }
 
 		//namespace
 		// TODO: dynamically with a program-parameter
@@ -341,15 +346,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 				fun.toString(buffer, tabCount);
 			}
 		}
-
-		/*
-		// Add the main method, if exists
-		if(main.length() > 0){
-			buffer.append("int main () {" + Cpp.newline);
-			appendBody(buffer, main, tabCount + 1);
-			buffer.append(Cpp.newline + "}");
-		}
-		*/
 
 /*
  *
@@ -407,6 +403,22 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			//buffer.append("/* Constructors of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppConstructor c : clazz.getConstructors(Cpp.PUBLIC)){
 				c.toString(buffer, tabCount);
+			}
+		}
+
+		// constructors
+		if(clazz.getConstructors(Cpp.PRIVATE).size() > 0) {
+			//buffer.append("/* Constructors of " + clazz.getName() + " */" + Cpp.newline);
+			for(CppConstructor c : clazz.getConstructors(Cpp.PRIVATE)){
+				c.toString(buffer, tabCount);
+			}
+		}
+
+		// destructors
+		if(clazz.getDestructors(Cpp.PRIVATE).size() > 0){
+			//buffer.append("/* Destrictors of " + clazz.getName() + " */" + Cpp.newline);
+			for(CppDestructor d : clazz.getDestructors(Cpp.PRIVATE)){
+				d.toString(buffer, tabCount);
 			}
 		}
 

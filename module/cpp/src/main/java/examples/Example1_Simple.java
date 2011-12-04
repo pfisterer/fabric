@@ -93,6 +93,8 @@ public class Example1_Simple {
         file.addInclude(header);
         header.add(class_CRectangleSimple);
 
+        header.setComment(new CCommentImpl("The header file."));
+
         // Add an include to the file
         file.addLibInclude("iostream");
 

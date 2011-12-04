@@ -609,10 +609,12 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		 */
 		// Needed to get the public stuff one tab count deeper
 		StringBuffer tmp_public = new StringBuffer();
-
-		buffer.append("public:" + Cpp.newline);
 		toStringHelper(tmp_public, tabCount, Cpp.PUBLIC);
-		appendBody(buffer, tmp_public, tabCount + 1);
+
+		if(tmp_public.length() > 0) {
+			buffer.append("public:" + Cpp.newline);
+			appendBody(buffer, tmp_public, tabCount + 1);
+		}
 
 		/**
 		 *  ##################################################################
@@ -621,11 +623,13 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		 */
 		// Needed to get the public stuff one tab count deeper
 		StringBuffer tmp_protected = new StringBuffer();
-
-		buffer.append(Cpp.newline);
-		buffer.append("protected:" + Cpp.newline);
-		toStringHelper(tmp_protected, tabCount, Cpp.PROTECTED);
 		appendBody(buffer, tmp_protected, tabCount + 1);
+
+		if(tmp_protected.length() > 0) {
+			buffer.append(Cpp.newline);
+			buffer.append("protected:" + Cpp.newline);
+			toStringHelper(tmp_protected, tabCount, Cpp.PROTECTED);
+		}
 
 		/**
 		 *  ##################################################################
@@ -635,11 +639,13 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// Needed to get the private stuff one tab count deeper
 		StringBuffer tmp_private = new StringBuffer();
-
-		buffer.append(Cpp.newline);
-		buffer.append("private:" + Cpp.newline);
 		toStringHelper(tmp_private, tabCount, Cpp.PRIVATE);
-		appendBody(buffer, tmp_private, tabCount + 1);
+
+		if(tmp_private.length() > 0) {
+			buffer.append(Cpp.newline);
+			buffer.append("private:" + Cpp.newline);
+			appendBody(buffer, tmp_private, tabCount + 1);
+		}
 
 		/**
 		 *  ##################################################################
@@ -682,6 +688,14 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	}
 
 	private void toStringHelper(StringBuffer tmp, int tabCount, long visability) {
+
+		// structs + unions
+		if(this.getStructsUnions(visability).size() > 0) {
+			//tmp_public.append("/* Constructors of " + this.getName() + " */" + Cpp.newline);
+			for(CStructBase c : this.getStructsUnions(visability)){
+				tmp.append("" + c.toString() + Cpp.newline + Cpp.newline);
+			}
+		}
 
 		// constructors
 		if(this.getConstructors(visability).size() > 0) {

@@ -34,7 +34,7 @@ public interface CStructBase extends CComplexType {
 	/**
 	 * Adds a C preprocessor directive which will be printed out after the
 	 * struct/structUnion declaration/implementation.
-	 * 
+	 *
 	 * @param directive
 	 *            the preprocessor directive
 	 */
@@ -43,7 +43,7 @@ public interface CStructBase extends CComplexType {
 	/**
 	 * Adds an array of C preprocessor directives which will be printed out
 	 * after the struct/structUnion declaration/implementation.
-	 * 
+	 *
 	 * @param directives
 	 * 			the preprocessore directives to add
 	 */
@@ -52,7 +52,7 @@ public interface CStructBase extends CComplexType {
 	/**
 	 * Adds a C preprocessor directive which will be printed out after the
 	 * struct/structUnion declaration/implementation.
-	 * 
+	 *
 	 * @param directive
 	 *            the preprocessor directive to add
 	 * @throws ValidationException
@@ -63,9 +63,9 @@ public interface CStructBase extends CComplexType {
 
 	/**
 	 * TODO: javadoc
-	 * 
+	 *
 	 * Test: {@link CFunctionTest#testAddDirectiveAfterFunctionStringBoolean()}
-	 * 
+	 *
 	 * @param directive
 	 * @param hash
 	 * @throws CPreProcessorValidationException
@@ -76,7 +76,7 @@ public interface CStructBase extends CComplexType {
 	/**
 	 * Adds an array of C preprocessor directives which will be printed
 	 * out after the struct/structUnion declaration/implementation.
-	 * 
+	 *
 	 * @param directives
 	 *            the preprocessor directives to add
 	 * @throws CPreProcessorValidationException
@@ -88,7 +88,7 @@ public interface CStructBase extends CComplexType {
 	/**
 	 * Adds a C preprocessor directive which will be printed out before the
 	 * struct/structUnion declaration/implementation.
-	 * 
+	 *
 	 * @param directive
 	 *            the preprocessor directive
 	 */
@@ -97,7 +97,7 @@ public interface CStructBase extends CComplexType {
 	/**
 	 * Adds an array of C preprocessor directives which will be printed out
 	 * before the struct/structUnion declaration/implementation.
-	 * 
+	 *
 	 * @param directives
 	 *            the preprocessor directives
 	 */
@@ -106,7 +106,7 @@ public interface CStructBase extends CComplexType {
 	/**
 	 * Adds a C preprocessor directive which will be printed out before the
 	 * struct/structUnion declaration/implementation.
-	 * 
+	 *
 	 * @param directive
 	 *            the preprocessor directive
 	 * @throws ValidationException
@@ -117,9 +117,9 @@ public interface CStructBase extends CComplexType {
 
 	/**
 	 * TODO: javadoc
-	 * 
+	 *
 	 * Test: {@link CFunctionTest#testAddDirectiveBeforeFunctionStringBoolean()}
-	 * 
+	 *
 	 * @param directive
 	 * @param hash
 	 * @throws CPreProcessorValidationException
@@ -130,7 +130,7 @@ public interface CStructBase extends CComplexType {
 	/**
 	 * Adds an array of C preprocessor directives which will be printed out
 	 * before the struct/structUnion declaration/implementation.
-	 * 
+	 *
 	 * @param directives
 	 * 				the preprocessor directive
 	 * @throws ValidationException
@@ -141,7 +141,7 @@ public interface CStructBase extends CComplexType {
 
 	/**
 	 * Adds the enum <code>cEnum</code> to this struct or structUnion.
-	 * 
+	 *
 	 * @param cEnum the enum to add
 	 * @throws CDuplicateException if an enum with the same
 	 * name is already contained in this struct or structUnion
@@ -150,7 +150,7 @@ public interface CStructBase extends CComplexType {
 
 	/**
 	 * Adds a struct to this source file.
-	 * 
+	 *
 	 * @param struct
 	 *            the struct to add
 	 * @throws CDuplicateException
@@ -162,7 +162,7 @@ public interface CStructBase extends CComplexType {
 
 	/**
 	 * Adds a structUnion to this source file.
-	 * 
+	 *
 	 * @param structUnion
 	 *            the structUnion to add
 	 * @throws CDuplicateException
@@ -173,7 +173,7 @@ public interface CStructBase extends CComplexType {
 
 	/**
 	 * Adds a variable to the struct/structUnion/enum.
-	 * 
+	 *
 	 * @param var
 	 *            the variable to add
 	 * @throws CDuplicateException
@@ -184,7 +184,7 @@ public interface CStructBase extends CComplexType {
 	/**
 	 * Checks wether the enum <code>cEnum</code> is already
 	 * contained in this struct or structUnion.
-	 * 
+	 *
 	 * @param cEnum the enum to check for
 	 * @return <code>true</code> if <code>cEnum</code> is already
 	 * contained in this struct or structUnion, <code>false</code> otherwise
@@ -194,7 +194,7 @@ public interface CStructBase extends CComplexType {
 	/**
 	 * Returns <code>true</code> if a struct of name
 	 * <code>struct.getName()</code> is contained in this source file.
-	 * 
+	 *
 	 * @param struct
 	 *            the struct to check for
 	 * @return <code>true</code> if a struct of name <code>name</code> is
@@ -205,31 +205,39 @@ public interface CStructBase extends CComplexType {
 	/**
 	 * Checks if a structUnion of the name <code>structUnion.getName()</code> is contained
 	 * in this source file.
-	 * 
+	 *
 	 * @param structUnion
 	 *            the structUnion to check for
 	 * @return <code>true</code> if a structUnion named <code>name</code> is
 	 *         contained in this source file, <code>false</code> otherwise
 	 */
 	public boolean contains(CUnion union);
-	
+
 	public boolean contains(CParam variable);
 
 	/**
 	 * Checks for equality.
-	 * 
+	 *
 	 * @param other
 	 *            the struct base to compare with
 	 * @return <code>true</code> if the names equal, <code>false</code>
 	 *         otherwise
 	 */
 	public boolean equals(CStructBase other);
-	
+
 	/**
 	 * Returns the name.
-	 * 
+	 *
 	 * @return the name
 	 */
 	public String getTypeName();
+
+	/**
+	 * Add a comment to the struct
+	 *
+	 * @param comment The comment
+	 * @return this
+	 */
+	public CStructBase setComment(CComment comment);
 
 }

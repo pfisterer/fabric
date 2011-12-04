@@ -35,7 +35,7 @@ import de.uniluebeck.sourcegen.exceptions.ValidationException;
 /**
  * The abstract base class for <code>CStructImpl</code>, <code>CUnionImpl</code>
  * and <code>CEnum</code>.
- * 
+ *
  * @author Daniel Bimschas
  */
 abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
@@ -43,8 +43,8 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 	/**
 	 * the structs' name
 	 */
-	protected String name; 
-	
+	protected String name;
+
 	/**
 	 * to save a string if this will be a struct or a structUnion.
 	 * needed since StringTemplate seems not to be able to
@@ -60,6 +60,11 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 	private LinkedList<CStructBaseImpl> structsUnions = new LinkedList<CStructBaseImpl>();
 
 	/**
+	 * The comment
+	 */
+	private CComment comment = null;
+
+	/**
 	 * true if the struct should be a typedef
 	 */
 	protected boolean typedef;
@@ -73,12 +78,12 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 	 * the structs' enums
 	 */
 	protected LinkedList<CEnumImpl> enums = new LinkedList<CEnumImpl>();
-	
+
 	/**
 	 * the structs' variables
 	 */
 	protected LinkedList<CParamImpl> vars = new LinkedList<CParamImpl>();
-	
+
 	/**
 	 * the directives which will be printed after struct/structUnion
 	 * declaration/implementation
@@ -93,7 +98,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 
 	/**
 	 * Constructs a new <code>CStructBaseImpl</code> instance.
-	 * 
+	 *
 	 * @param name
 	 *            the name
 	 * @param vars
@@ -126,11 +131,11 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 
 		validateFields();
 	}
-	
+
 	public void addAfterDirective(CPreProcessorDirective directive) {
 		this.afterDirectives.add((CPreProcessorDirectiveImpl)directive);
 	}
-	
+
 	public void addAfterDirective(CPreProcessorDirective[] directives) {
 		for (CPreProcessorDirective d : directives)
 			this.afterDirectives.add((CPreProcessorDirectiveImpl)d);
@@ -140,11 +145,11 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 			throws ValidationException {
 		addAfterDirective(directive, true);
 	}
-	
+
 	public void addAfterDirective(String directive, boolean hash) throws CPreProcessorValidationException {
 		this.afterDirectives.add(new CPreProcessorDirectiveImpl(hash, directive));
 	}
-	
+
 	public void addAfterDirective(String[] directives)
 			throws CPreProcessorValidationException {
 		for(String d : directives)
@@ -154,7 +159,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 	public void addBeforeDirective(CPreProcessorDirective directive) {
 		this.beforeDirectives.add((CPreProcessorDirectiveImpl)directive);
 	}
-	
+
 	public void addBeforeDirective(CPreProcessorDirective[] directives) {
 		for (CPreProcessorDirective d : directives)
 			this.beforeDirectives.add((CPreProcessorDirectiveImpl)d);
@@ -164,12 +169,12 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 			throws ValidationException {
 		addBeforeDirective(directive, true);
 	}
-	
+
 	public void addBeforeDirective(String directive, boolean hash) throws CPreProcessorValidationException {
 		this.beforeDirectives.add(new CPreProcessorDirectiveImpl(hash, directive));
 	}
-	
-	
+
+
 	public void addBeforeDirective(String[] directives)
 			throws ValidationException {
 		for(String d : directives)
@@ -183,7 +188,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 			enums.add((CEnumImpl)e);
 		}
 	}
-	
+
 	public boolean contains(CEnum cEnum) {
 		for (CEnum e : enums)
 			if (((CEnumImpl)e).getTypeName().equals(((CEnumImpl)cEnum).getTypeName()))
@@ -217,7 +222,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 	/**
 	 * Returns the list of directives that will be printed out after struct/structUnion
 	 * declaration/implementation.
-	 * 
+	 *
 	 * @return a list of preprocessor directives
 	 */
 	public CPreProcessorDirective[] getAfterDirectives() {
@@ -228,7 +233,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 	/**
 	 * Returns the list of directives that will be printed out before struct/structUnion
 	 * declaration/implementation.
-	 * 
+	 *
 	 * @return a list of preprocessor directives
 	 */
 	public CPreProcessorDirective[] getBeforeDirectives() {
@@ -260,36 +265,57 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 	}
 
 	public CUnion getUnionByVarName(String varName) {
-		
+
 		for (CStructBase s : structsUnions)
 			if (s instanceof CUnion && ((CUnionImpl) s).getVarname().equals(varName))
 				return (CUnion) s;
 
 		return null;
-		
+
 	}
-	
+
 	public CStruct getStructByVarName(String varName) {
-		
+
 		for (CStructBase s : structsUnions)
 			if (s instanceof CStruct && ((CStructImpl) s).getVarname().equals(varName))
 				return (CStruct) s;
 
 		return null;
-		
+
 	}
 
 	public boolean equals(CStructBase other) {
-		if (varname.equals(((CStructBaseImpl)other).varname))
+
+		CStructBaseImpl o = (CStructBaseImpl) other;
+
+		// Check for a duplicate varname
+		if(this.varname != "" && o.varname != "") {
+			 if(varname.equals(o.varname)) {
+				 return true;
+			 }
+		}
+
+		// Check for same struct name
+		if(this.name.equals(o.name)) {
 			return true;
-		return "".equals(name) && "".equals(other.getTypeName()) ?
-				false :
-				name.equals(((CStructBaseImpl)other).name);
+		}
+
+		// check, if varname don't collide with name
+		if(this.name.equals(o.varname)) {
+			return true;
+		}
+
+		// check, if varname don't collide with name
+		if(this.varname.equals(o.name)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
 	 * Returns the name of this struct.
-	 * 
+	 *
 	 * @return the name of this struct
 	 */
 	public String getTypeName() {
@@ -298,7 +324,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 
 	/**
 	 * Returns the struct with the name <code>name</code>.
-	 * 
+	 *
 	 * @param name
 	 *            the name of the struct to search for
 	 * @return a <code>CStructImpl</code> instance or <code>null</code> if no
@@ -320,7 +346,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 
 	/**
 	 * Returns the structsUnions of this C source file.
-	 * 
+	 *
 	 * @return the structsUnions of this C source file
 	 */
 	public CStructBase[] getStructsUnions() {
@@ -329,7 +355,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 
 	/**
 	 * Returns the structUnion with the name <code>name</code>.
-	 * 
+	 *
 	 * @param name
 	 *            the name to check for
 	 * @return a <code>CUnionImpl</code> instance or <code>null</code> if no
@@ -348,7 +374,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 
 	/**
 	 * Returns the variables of this struct.
-	 * 
+	 *
 	 * @return the variables of this struct
 	 */
 	public CParam[] getVariables() {
@@ -357,7 +383,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 
 	/**
 	 * Returns the variable name of this struct.
-	 * 
+	 *
 	 * @return the variable name of this struct
 	 */
 	public String getVarname() {
@@ -366,7 +392,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 
 	/**
 	 * Returns if this struct is a typedef.
-	 * 
+	 *
 	 * @return <code>true</code> if this struct is a typedef, otherwise
 	 *         <code>false</code>
 	 */
@@ -376,7 +402,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 
 	/**
 	 * Returns the enums of this struct.
-	 * 
+	 *
 	 * @return the enums of this struct.
 	 */
 	public CEnum[] getEnums() {
@@ -386,14 +412,20 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 	/**
 	 * Validates the fields <code>name</code>, <code>varname</code> and
 	 * <code>body</code> for syntactic correctness.
-	 * 
+	 *
 	 * @throws CCodeValidationException
 	 *             if validation of identifiers and/or code fails
 	 */
 	public abstract void validateFields() throws CCodeValidationException;
-	
+
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
+
+		// write comment if necessary
+		if (comment != null) {
+			comment.toString(buffer, tabCount);
+		}
+
 		if (beforeDirectives.size() > 0) {
 			toString(buffer, tabCount, beforeDirectives, "", "\n");
 			buffer.append("\n");
@@ -415,7 +447,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 		if (vars.size() > 0) {
 			toString(buffer, tabCount+1, vars, ";", "\n");
 			buffer.append("\n");
-		}	
+		}
 		indent(buffer, tabCount);
 		buffer.append("}");
 		buffer.append("".equals(varname) ? "" : " "+varname);
@@ -425,7 +457,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 			toString(buffer, tabCount, afterDirectives);
 		}
 	}
-	
+
 	public static void main(String[] args) throws Exception {
 		CStruct struct = CStruct.factory.create("TheStruct", "theStructVarName", false);
 		struct.add(
@@ -439,6 +471,11 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 		struct.addAfterDirective("ENDIF");
 		System.out.print(struct.toString(1));
 		System.out.println("----------");
+	}
+
+	public CStructBase setComment(CComment comment) {
+		this.comment = comment;
+		return this;
 	}
 
 }

@@ -34,6 +34,14 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
+
+		// write comment if necessary
+		if (comment != null) {
+			comment.toString(buffer, tabCount);
+		}
+
+		// TODO: AUFRÄUMEN
+/*
 		//Before Preprocessordiretives
 		for(CPreProcessorDirectiveImpl ppd : base.beforeDirectives){
 			ppd.toString(buffer, tabCount);
@@ -51,18 +59,38 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 
 		//namespace TODO: ordentlich machen!
 		// buffer.append("namespace isense {\n\n");
+*/
+
+
+
+		// LibIncludes: System header files
+		if(base.getLibIncludes().size() > 0) {
+			for(String include : base.getLibIncludes()) {
+				buffer.append("#include <" + include + ">" + Cpp.newline);
+			}
+	    	buffer.append(Cpp.newline);
+		}
+
+	    // Namespaces
+	    if(this.cppNamespaces.size() > 0) {
+	    	// Include the namespaces
+	    	for(String ns : this.cppNamespaces){
+	    		buffer.append("using namespace " + ns + ";" + Cpp.newline);
+	    	}
+	    	buffer.append(Cpp.newline);
+	    }
 
 		//structs
 		for(CStructBaseImpl struct : base.structsUnions){
 			buffer.append(struct.toString());
+			buffer.append(Cpp.newline + Cpp.newline);
 		}
-		if(base.structsUnions.size() > 0) buffer.append("\n\n");
 
 		//classes
 		for(CppClass c : this.cppClasses){
 			buffer.append(c.toString());
 		}
-
+/*
 		// buffer.append("}\n");
 
 		//After Preprocessordirectives
@@ -70,5 +98,6 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 			buffer.append("\n");
 			ppd.toString(buffer, tabCount);
 		}
+*/
 	}
 }

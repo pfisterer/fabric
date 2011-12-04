@@ -21,7 +21,12 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
  *
  * - Compile with: g++ Person.cpp -o person
  * - Run with: ./person
- * - Returns: 110
+ * - Returns:
+ *
+ * Otto is 48
+ * Helge is 12
+ * Helge will be destructed
+ * Otto will be destructed
  *
  * @author Dennis
  *
@@ -96,10 +101,10 @@ Person::~Person() {
         header.add(person);
 
         // Add an include to the file
-        file.addLibInclude("iostream");
+        header.addLibInclude("iostream");
 
         // Add namespace for the standard library to the file
-        file.addUsingNameSpace("std");
+        header.addUsingNameSpace("std");
 
         // Add a comment
         file.setComment(new CCommentImpl("This file contains a simple class."));

@@ -41,14 +41,17 @@ public interface CStruct extends CStructBase {
 				instance = new CStructFactory();
 			return instance;
 		}
-		
+
 		public CStruct create(String name, String varname, boolean typedef, CParam... vars)
 				throws CCodeValidationException, CDuplicateException {
+
+			if(varname == null) varname = "";
+
 			return new CStructImpl(name, varname, typedef, vars);
 		}
 
 	}
 
 	public static final CStructFactory factory = CStructFactory.getInstance();
-	
+
 }

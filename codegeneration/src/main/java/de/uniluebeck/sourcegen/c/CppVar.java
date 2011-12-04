@@ -87,6 +87,11 @@ public interface CppVar extends CppLangElem {
 			return new CppVarImpl(varDeclString);
 		}
 
+		// CStruct
+		public CppVar create(CStruct type, String varName) {
+			return create(type.getTypeName(), varName);
+		}
+
 		// CComplexType
 		public CppVar create(CComplexType type, String varName) {
 			return create(Cpp.NONE, type, varName);
