@@ -119,8 +119,8 @@ public class  Example4_NestedOfNested {
         fun_main.appendCode("return 0;");
         file.add(fun_main);
 
-        // Finally, add the file to the class
-        classOne.setSourceFile(file);
+        // Finally, add class to the file
+        file.add(classOne);
 
 	}
 

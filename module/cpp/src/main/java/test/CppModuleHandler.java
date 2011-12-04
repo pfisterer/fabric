@@ -73,8 +73,10 @@ public class CppModuleHandler extends FabricDefaultHandler {
         this.file.addInclude(header);
 
         // Generate the application
-        CppClass example = CppClass.factory.create("ExampleApplication", this.file);
+        CppClass example = CppClass.factory.create("ExampleApplication");
         header.add(example);
+
+        this.file.add(example);
 
         // Generate the types
         CppTypeGenerator os = new CppTypeGenerator("Os");

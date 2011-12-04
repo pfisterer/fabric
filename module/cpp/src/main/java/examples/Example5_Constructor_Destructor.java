@@ -113,8 +113,8 @@ Person::~Person() {
 
         file.add(fun_main);
 
-        // Finally, add the file to the class
-        person.setSourceFile(file);
+        // Finally, add class to the file
+        file.add(person);
 
 	}
 

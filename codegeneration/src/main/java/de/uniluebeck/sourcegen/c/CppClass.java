@@ -46,12 +46,8 @@ public interface CppClass extends CppComplexType, CppTemplateName {
             return instance;
         }
 
-        public CppClass create(String className, CppSourceFile sourceFile) {
-            return new CppClassImpl(className, sourceFile);
-        }
-
         public CppClass create(String className) {
-            return new CppClassImpl(className, null);
+            return new CppClassImpl(className);
         }
 
     }
@@ -81,8 +77,6 @@ public interface CppClass extends CppComplexType, CppTemplateName {
     public CppClass addParents(List<CppClass> cppClass, CppClass cppClazz);
 
     public List<CppClass> getParents();
-
-	public void setSourceFile(CppSourceFile sourceFile);
 
     public CppClass addAfterDirective(CPreProcessorDirective... directive);
 

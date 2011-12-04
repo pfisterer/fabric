@@ -69,16 +69,13 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 	private LinkedList<VisElem> cfuns = new LinkedList<VisElem>();
 
-	private CppSourceFileImpl sourceFile;
-
 	private CComment comment = null;
 
 	// Needed for nested class
 	private List<CppClass> parents = new LinkedList<CppClass>();
 
-	public CppClassImpl(String className, CppSourceFile sourceFile) {
+	public CppClassImpl(String className) {
 		this.className = className;
-		this.sourceFile = (CppSourceFileImpl) sourceFile;
 	}
 
 	public CppClass add(long vis, CEnum... enums) throws CppDuplicateException {
@@ -252,10 +249,6 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		if (contains(union))
 			throw new CppDuplicateException("Union already contained");
 		structsUnions.add(new VisElem(union, vis));
-	}
-
-	public void setSourceFile(CppSourceFile sourceFile) {
-		this.sourceFile = (CppSourceFileImpl) sourceFile;
 	}
 
 	public boolean contains(CEnum enumObj) {
@@ -577,10 +570,6 @@ class CppClassImpl extends CElemImpl implements CppClass {
 			if (cv.elem == extended)
 				return cv.vis;
 		return Cpp.NONE;
-	}
-
-	public CppSourceFileImpl getSourceFile() {
-		return sourceFile;
 	}
 
 	@Override
