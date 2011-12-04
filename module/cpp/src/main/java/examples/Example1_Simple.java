@@ -64,7 +64,7 @@ public class Example1_Simple {
         // Generate function set_values
         CppVar var_a = CppVar.factory.create(type_int, "a");
         CppVar var_b = CppVar.factory.create(type_int, "b");
-        CppFun fun_set_values = CppFun.factory.create(class_CRectangleSimple, Cpp.VOID, "set_values", var_a, var_b);
+        CppFun fun_set_values = CppFun.factory.create(Cpp.VOID, "set_values", var_a, var_b);
         fun_set_values.appendCode("x = a;");
         fun_set_values.appendCode("y = b;");
 
@@ -77,7 +77,7 @@ public class Example1_Simple {
         class_CRectangleSimple.add(Cpp.PUBLIC, fun_set_values);
 
         // Generate function area
-        CppFun fun_area = CppFun.factory.create(class_CRectangleSimple, type_int, "area");
+        CppFun fun_area = CppFun.factory.create(type_int, "area");
         // Add a comment to the function set_values
         CppFunCommentImpl comment_fun_area = new  CppFunCommentImpl("This function multiplies two values.");
         comment_fun_area.setReturnTypeDescription("The value of x*y.");

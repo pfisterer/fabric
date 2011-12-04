@@ -216,18 +216,23 @@ class CppClassImpl extends CElemImpl implements CppClass {
 			throw new CppDuplicateException("Constructor already contained");
 		if (constructor == null)
 			throw new NullPointerException();
+		// Set the class automatically
+		constructor.setClass(this);
 		constructors.add(new VisElem(constructor, vis));
 	}
 
 	private void addInternal(long vis, CppDestructor destructor) throws CppDuplicateException {
 		if (contains(destructor))
 			throw new CppDuplicateException("Destructor already contained");
+		destructor.setClass(this);
 		destructors.add(new VisElem(destructor, vis));
 	}
 
 	private void addInternal(long vis, CppFun fun) throws CppDuplicateException {
 		if (contains(fun))
 			throw new CppDuplicateException("Function already contained");
+		// Set the class automatically
+		fun.setClass(this);
 		funs.add(new VisElem(fun, vis));
 	}
 
@@ -753,6 +758,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	@Override
 	@Deprecated
 	public String getTypeName() {
+		System.err.print("getTypeName() is depricated. Use getName() instead.");
 		return this.getName();
 	}
 

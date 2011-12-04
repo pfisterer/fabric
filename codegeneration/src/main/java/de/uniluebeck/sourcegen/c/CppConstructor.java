@@ -41,8 +41,8 @@ public interface CppConstructor extends CppLangElem {
 			return instance;
 		}
 
-		public CppConstructor create(CppClass clazz, CppVar... vars) throws CppDuplicateException {
-			return new CppConstructorImpl(clazz, vars);
+		public CppConstructor create(CppVar... vars) throws CppDuplicateException {
+			return new CppConstructorImpl(vars);
 		}
 	}
 
@@ -54,4 +54,11 @@ public interface CppConstructor extends CppLangElem {
 	public String getSignature();
 	public CppConstructor setComment(CComment comment);
 
+	/**
+	 * This method is only used by the CppClass
+	 *
+	 * @param clazz
+	 * @return
+	 */
+	public CppConstructor setClass(CppClass clazz);
 }

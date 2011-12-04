@@ -34,11 +34,6 @@ class CppDestructorImpl extends CElemImpl implements CppDestructor {
 
 	private CComment comment = null;
 
-	public CppDestructorImpl(CppClass clazz, CppVar... vars ) throws CppDuplicateException {
-		this.signature = new CppSignature(clazz.getName(), vars);
-		this.clazz = clazz;
-	}
-
 	public CppDestructorImpl(CppVar... vars) throws CppDuplicateException {
 		this.signature = new CppSignature(vars);
 	}
@@ -73,12 +68,37 @@ class CppDestructorImpl extends CElemImpl implements CppDestructor {
 			comment.toString(buffer, tabCount);
 		}
 
-		buffer.append(this.clazz.getName() + "::~" + this.signature.toString());
+        buffer.append(getParents() + this.clazz.getName() + "::~");
+		signature.toString(buffer, 0);
+
 		buffer.append(" {" + Cpp.newline);
 		appendBody(buffer, body, tabCount+1);
 		buffer.append(Cpp.newline);
 		indent(buffer, tabCount);
 		buffer.append("}" + Cpp.newline + Cpp.newline);
+	}
+
+
+    /**
+     * returns OUTER::NESTED1::NESTED2::...::NESTEDN
+     *
+     * @return
+     */
+    private String getParents(){
+    	StringBuffer myParents = new StringBuffer();
+    	if(this.clazz != null) {
+	    	for (CppClass p : this.clazz.getParents()) {
+	    		myParents.append(p.getName()+ "::");
+			}
+    	}
+    	return myParents.toString();
+    }
+
+	@Override
+	public CppDestructor setClass(CppClass clazz) {
+		this.clazz = clazz;
+		this.signature.setName(clazz.getName());
+		return this;
 	}
 
 }

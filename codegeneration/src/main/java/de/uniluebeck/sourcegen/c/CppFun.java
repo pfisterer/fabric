@@ -41,20 +41,20 @@ public interface CppFun extends CppLangElem {
 			return instance;
 		}
 
-		public CppFun create(CppClass clazz, CComplexType returnType, String name, CppVar... signatureVar) throws CppDuplicateException {
-			return new CppFunImpl(clazz, returnType, name, signatureVar);
+		public CppFun create(CComplexType returnType, String name, CppVar... signatureVar) throws CppDuplicateException {
+			return new CppFunImpl(returnType, name, signatureVar);
 		}
 
-		public CppFun create(CppClass clazz, long returnType, String name, CppVar... signatureVar) throws CppDuplicateException {
-			return new CppFunImpl(clazz, returnType, name, signatureVar);
+		public CppFun create(long returnType, String name, CppVar... signatureVar) throws CppDuplicateException {
+			return new CppFunImpl(returnType, name, signatureVar);
 		}
 
-		public CppFun create(CppClass clazz, String returnType, String name, CppVar... signatureVars) throws CppDuplicateException {
-			return new CppFunImpl(clazz, returnType, name, signatureVars);
+		public CppFun create(String returnType, String name, CppVar... signatureVars) throws CppDuplicateException {
+			return new CppFunImpl(returnType, name, signatureVars);
 		}
 
-		public CppFun create(CppClass clazz, CppTypeGenerator returnType, String name, CppVar... signatureVars) throws CppDuplicateException {
-			return new CppFunImpl(clazz, returnType, name, signatureVars);
+		public CppFun create(CppTypeGenerator returnType, String name, CppVar... signatureVars) throws CppDuplicateException {
+			return new CppFunImpl(returnType, name, signatureVars);
 		}
 
 	}
@@ -66,4 +66,11 @@ public interface CppFun extends CppLangElem {
 	public CppFun appendCode(String string);
 	public String getSignature();
 
+	/**
+	 * This method is only used by the CppClass
+	 *
+	 * @param clazz
+	 * @return
+	 */
+	public CppFun setClass(CppClass clazz);
 }

@@ -54,9 +54,9 @@ public class  Example4_NestedOfNested {
 		CppVar intY = CppVar.factory.create("int", "y"); // Use (String,String)
 		classOne.add(Cpp.PUBLIC, intA);
 
-		CppFun funSetA = CppFun.factory.create(classOne, Cpp.INT, "setA", intY);
+		CppFun funSetA = CppFun.factory.create(Cpp.INT, "setA", intY);
 		funSetA.appendCode("a = y;");
-		CppFun funMult = CppFun.factory.create(classOne, Cpp.INT, "mult", intX);
+		CppFun funMult = CppFun.factory.create(Cpp.INT, "mult", intX);
 		funMult.appendCode("return (a*x) + n2.x(x);");
 		classOne.add(Cpp.PUBLIC, funSetA, funMult);
 
@@ -69,7 +69,7 @@ public class  Example4_NestedOfNested {
 		 */
 		CppClass classTwo = CppClass.factory.create("NestedOfNested2");
 		classTwo.setComment(new CCommentImpl("This is the most inner nested class"));
-		CppFun funX = CppFun.factory.create(classTwo, Cpp.INT, "x", intX);
+		CppFun funX = CppFun.factory.create(Cpp.INT, "x", intX);
 		CppFunCommentImpl comment = new CppFunCommentImpl("The amazing method x.");
 		comment.addParameter(intX, "The value.");
 		comment.setReturnTypeDescription("Echos the given value.");
@@ -85,7 +85,7 @@ public class  Example4_NestedOfNested {
 
 		CppTypeGenerator typeNested = new CppTypeGenerator("NestedOfNested");
 		CppVar n = CppVar.factory.create(typeNested, "n");
-		CppFun funCall = CppFun.factory.create(classThree, Cpp.INT, "call", intX);
+		CppFun funCall = CppFun.factory.create(Cpp.INT, "call", intX);
 		funCall.appendCode("n.setA(x);");
 		funCall.appendCode("return n.mult(x);");
 

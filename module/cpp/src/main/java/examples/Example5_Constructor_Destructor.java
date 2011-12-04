@@ -54,7 +54,7 @@ public class Example5_Constructor_Destructor {
         person.add(Cpp.PRIVATE, var_name, var_age);
 
         // Generate the constructor
-        CppConstructor con = CppConstructor.factory.create(person, var_name, var_age);
+        CppConstructor con = CppConstructor.factory.create(var_name, var_age);
         con.appendCode("this->name = name;");
         con.appendCode("this->age = age;");
 
@@ -66,7 +66,7 @@ public class Example5_Constructor_Destructor {
         person.add(Cpp.PUBLIC, con);
 
         // Generate the destructor
-        CppDestructor des = CppDestructor.factory.create(person);
+        CppDestructor des = CppDestructor.factory.create();
         des.appendCode("cout << name << \" will be destructed\" << \"\\n\";");
         des.appendCode("age = 0;");
         des.appendCode("name = \"\";");
@@ -85,7 +85,7 @@ Person::~Person() {
 }
 */
         // Generate function print
-        CppFun fun_print = CppFun.factory.create(person, Cpp.VOID, "print");
+        CppFun fun_print = CppFun.factory.create(Cpp.VOID, "print");
         fun_print.appendCode("cout << name << \" is \" << age << \"\\n\";");
         person.add(Cpp.PUBLIC, fun_print);
 

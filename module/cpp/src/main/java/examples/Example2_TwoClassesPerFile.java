@@ -52,9 +52,9 @@ public class Example2_TwoClassesPerFile {
 		CppVar intA = CppVar.factory.create(Cpp.INT, "a");
 		CppVar intX = CppVar.factory.create(Cpp.INT, "x");
 		CppVar intY = CppVar.factory.create(Cpp.INT, "y");
-		CppFun funSetA = CppFun.factory.create(classOne, Cpp.INT, "setA", intY);
+		CppFun funSetA = CppFun.factory.create(Cpp.INT, "setA", intY);
 		funSetA.appendCode("a = y;");
-		CppFun funMult = CppFun.factory.create(classOne, Cpp.INT, "mult", intX);
+		CppFun funMult = CppFun.factory.create(Cpp.INT, "mult", intX);
 		funMult.appendCode("return a*x;");
 		classOne.add(Cpp.PUBLIC, intA);
 		classOne.add(Cpp.PUBLIC, funSetA, funMult);
@@ -66,7 +66,7 @@ public class Example2_TwoClassesPerFile {
 		classTwo.setComment(new CCommentImpl("The second class"));
 		CppTypeGenerator typeNested = new CppTypeGenerator("First");
 		CppVar n = CppVar.factory.create(typeNested, "n");
-		CppFun funCall = CppFun.factory.create(classTwo, Cpp.INT, "call", intX);
+		CppFun funCall = CppFun.factory.create(Cpp.INT, "call", intX);
 		funCall.appendCode("n.setA(x);");
 		funCall.appendCode("return n.mult(x);");
 

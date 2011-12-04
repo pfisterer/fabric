@@ -102,7 +102,7 @@ public class CppModuleHandler extends FabricDefaultHandler {
         // void init( Os::AppMainParameter& value )
         CppTypeGenerator appMainParameter = new CppTypeGenerator("AppMainParameter", Cpp.REFERENCE);
         CppVar value = CppVar.factory.create(appMainParameter, "value", os);
-        CppFun fun_init = CppFun.factory.create(example, Cpp.VOID, "init", value);
+        CppFun fun_init = CppFun.factory.create(Cpp.VOID, "init", value);
 
         // Content of the function
         fun_init.appendCode("radio_ = &wiselib::FacetProvider<Os, Os::Radio>::get_facet( value );");
@@ -116,7 +116,7 @@ public class CppModuleHandler extends FabricDefaultHandler {
 
         // void start( void* )
         CppVar void_pointer = CppVar.factory.create("void*");
-        CppFun fun_start = CppFun.factory.create(example, Cpp.VOID, "start", void_pointer);
+        CppFun fun_start = CppFun.factory.create(Cpp.VOID, "start", void_pointer);
 
         // Content of the function
         fun_start.appendCode("debug_->debug( \"broadcast message at %d \\n\", radio_->id() );");
@@ -144,7 +144,7 @@ public class CppModuleHandler extends FabricDefaultHandler {
 
         CppTypeGenerator gen_wiselib = new CppTypeGenerator("wiselib");
         CppVar var_temp = CppVar.factory.create(gen_app, "var_temp", gen_wiselib);
-        CppFun fun_temp = CppFun.factory.create(example, Cpp.VOID, "temp", var_temp);
+        CppFun fun_temp = CppFun.factory.create(Cpp.VOID, "temp", var_temp);
 
         // Content of the function
         fun_temp.appendCode("/** Do nothing here */");

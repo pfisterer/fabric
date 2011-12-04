@@ -35,11 +35,10 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 	private CppClass clazz;
 	private LinkedList<String> extendeds = new LinkedList<String>();
 
-	 private CComment comment = null;
+	private CComment comment = null;
 
-	public CppConstructorImpl(CppClass clazz, CppVar... cppVars) throws CppDuplicateException {
-		this.signature = new CppSignature(clazz.getName(), cppVars);
-		this.clazz = clazz;
+	public CppConstructorImpl(CppVar... cppVars) throws CppDuplicateException {
+		this.signature = new CppSignature(cppVars);
 	}
 
 	public CppConstructor add(CppVar... var) throws CppDuplicateException {
@@ -85,7 +84,7 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 			comment.toString(buffer, tabCount);
 		}
 
-		buffer.append(this.clazz.getName() + "::");
+        buffer.append(getParents() + this.clazz.getName() + "::");
 		signature.toString(buffer, 0);
 
 		//add extendeds (special constructors of superclasses
@@ -110,6 +109,28 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 	@Override
 	public CppConstructor setComment(CComment comment) {
 		this.comment = comment;
+		return this;
+	}
+
+    /**
+     * returns OUTER::NESTED1::NESTED2::...::NESTEDN
+     *
+     * @return
+     */
+    private String getParents(){
+    	StringBuffer myParents = new StringBuffer();
+    	if(this.clazz != null) {
+	    	for (CppClass p : this.clazz.getParents()) {
+	    		myParents.append(p.getName()+ "::");
+			}
+    	}
+    	return myParents.toString();
+    }
+
+	@Override
+	public CppConstructor setClass(CppClass clazz) {
+		this.clazz = clazz;
+		this.signature.setName(clazz.getName());
 		return this;
 	}
 
