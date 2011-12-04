@@ -579,6 +579,11 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		 * Generates the *.hpp files
 		 */
 
+		/**
+		 * Generates the class. Will be added to the hpp-file
+		 * Note, that the implementation of the class is done in the CppSourceFileImpl
+		 */
+
 		// write comment if necessary
 		if (comment != null) {
 			comment.toString(buffer, tabCount);
@@ -597,99 +602,48 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		}
 		buffer.append(Cpp.newline + "{" + Cpp.newline);
 
-		// public stuff
-		buffer.append("public:" + Cpp.newline);
-
-		// public stuff will be one tab count deeper
+		/**
+		 *  ##################################################################
+		 *  public stuff
+		 *  ##################################################################
+		 */
+		// Needed to get the public stuff one tab count deeper
 		StringBuffer tmp_public = new StringBuffer();
 
-		// constructors
-		if(this.getConstructors(Cpp.PUBLIC).size() > 0) {
-			//tmp_public.append("/* Constructors of " + this.getName() + " */" + Cpp.newline);
-			for(CppConstructor c : this.getConstructors(Cpp.PUBLIC)){
-				tmp_public.append("" + c.getSignature() + ";" + Cpp.newline);
-			}
-			tmp_public.append(Cpp.newline);
-		}
-
-		// destructors
-		if(this.getDestructors(Cpp.PUBLIC).size() > 0) {
-			//tmp_public.append("/* Destructors of " + this.getName() + " */" + Cpp.newline);
-			for(CppDestructor d : this.getDestructors(Cpp.PUBLIC)){
-				tmp_public.append("virtual " + d.getSignature() + ";" + Cpp.newline);
-			}
-			tmp_public.append(Cpp.newline);
-		}
-
-
-		// public functions
-		if(this.getFuns(Cpp.PUBLIC).size() > 0) {
-			//tmp_public.append("/* Public functions of " + this.getName() + " */" + Cpp.newline);
-			for(CppFun f : this.getFuns(Cpp.PUBLIC)){
-				tmp_public.append(f.getSignature() + ";" + Cpp.newline);
-			}
-			tmp_public.append(Cpp.newline);
-		}
-		// public nested classes
-		if(this.getNested(Cpp.PUBLIC).size() > 0) {
-			//tmp_public.append("/* Public nested classed of " + this.getName() + " */" + Cpp.newline);
-			for(CppClass f : this.getNested(Cpp.PUBLIC)){
-				// Add the classes recursive
-				tmp_public.append(f + ";" + Cpp.newline);
-			}
-			tmp_public.append(Cpp.newline);
-		}
-
-		// public variables
-		if(this.getVars(Cpp.PUBLIC).size() > 0) {
-			//tmp_public.append("/* Public variables of " + this.getName() + " */" + Cpp.newline);
-			for(CppVar v : this.getVars(Cpp.PUBLIC)){
-				tmp_public.append(v.toString() + ";" + Cpp.newline);
-			}
-			tmp_public.append(Cpp.newline);
-		}
-
-		// Append the public stuff
+		buffer.append("public:" + Cpp.newline);
+		toStringHelper(tmp_public, tabCount, Cpp.PUBLIC);
 		appendBody(buffer, tmp_public, tabCount + 1);
 
-		// Private stuff will be one tab count deeper
+		/**
+		 *  ##################################################################
+		 *  protected stuff
+		 *  ##################################################################
+		 */
+		// Needed to get the public stuff one tab count deeper
+		StringBuffer tmp_protected = new StringBuffer();
+
+		buffer.append(Cpp.newline);
+		buffer.append("protected:" + Cpp.newline);
+		toStringHelper(tmp_protected, tabCount, Cpp.PROTECTED);
+		appendBody(buffer, tmp_protected, tabCount + 1);
+
+		/**
+		 *  ##################################################################
+		 *  private stuff
+		 *  ##################################################################
+		 */
+
+		// Needed to get the private stuff one tab count deeper
 		StringBuffer tmp_private = new StringBuffer();
 
 		buffer.append(Cpp.newline);
-
-		// private stuff
 		buffer.append("private:" + Cpp.newline);
-
-		// private functions
-		if(this.getFuns(Cpp.PRIVATE).size() > 0) {
-			//tmp_private.append("/* Private functions of " + this.getName() + " */" + Cpp.newline);
-			for(CppFun f : this.getFuns(Cpp.PRIVATE)){
-				tmp_private.append(f.getSignature() + ";" + Cpp.newline);
-			}
-			tmp_private.append(Cpp.newline);
-		}
-
-		// private nested classes
-		if(this.getNested(Cpp.PRIVATE).size() > 0) {
-			//tmp_private.append("/* Private nested classes of " + this.getName() + " */" + Cpp.newline);
-			for(CppClass f : this.getNested(Cpp.PRIVATE)){
-				// Add the classes recursive
-				f.toString(tmp_private, tabCount);
-			}
-			tmp_private.append(Cpp.newline);
-		}
-
-		// private variables
-		if(this.getVars(Cpp.PRIVATE).size() > 0) {
-			//tmp_private.append("/* Private variables of " + this.getName() + " */" + Cpp.newline);
-			for(CppVar v : this.getVars(Cpp.PRIVATE)){
-				tmp_private.append(v.toString() + ";" + Cpp.newline);
-			}
-			tmp_private.append(Cpp.newline);
-		}
-
-		// Append the private stuff
+		toStringHelper(tmp_private, tabCount, Cpp.PRIVATE);
 		appendBody(buffer, tmp_private, tabCount + 1);
+
+		/**
+		 *  ##################################################################
+		 */
 
 		// Close the class
 		buffer.append(Cpp.newline + "};" + Cpp.newline + Cpp.newline);
@@ -725,6 +679,56 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		buffer.append("\n}");
 		//toString(buffer, tabCount, afterDirectives, "", "\n", true);
 		 * */
+	}
+
+	private void toStringHelper(StringBuffer tmp, int tabCount, long visability) {
+
+		// constructors
+		if(this.getConstructors(visability).size() > 0) {
+			//tmp_public.append("/* Constructors of " + this.getName() + " */" + Cpp.newline);
+			for(CppConstructor c : this.getConstructors(visability)){
+				tmp.append("" + c.getSignature() + ";" + Cpp.newline);
+			}
+			tmp.append(Cpp.newline);
+		}
+
+		// destructors
+		if(this.getDestructors(visability).size() > 0) {
+			//tmp_public.append("/* Destructors of " + this.getName() + " */" + Cpp.newline);
+			for(CppDestructor d : this.getDestructors(visability)){
+				tmp.append("virtual " + d.getSignature() + ";" + Cpp.newline);
+			}
+			tmp.append(Cpp.newline);
+		}
+
+		// functions
+		if(this.getFuns(visability).size() > 0) {
+			//tmp_private.append("/* Private functions of " + this.getName() + " */" + Cpp.newline);
+			for(CppFun f : this.getFuns(visability)){
+				tmp.append(f.getSignature() + ";" + Cpp.newline);
+			}
+			tmp.append(Cpp.newline);
+		}
+
+		// nested classes
+		if(this.getNested(visability).size() > 0) {
+			//tmp_private.append("/* Private nested classes of " + this.getName() + " */" + Cpp.newline);
+			for(CppClass f : this.getNested(visability)){
+				// Add the classes recursive
+				f.toString(tmp, tabCount);
+			}
+			tmp.append(Cpp.newline);
+		}
+
+		// variables
+		if(this.getVars(visability).size() > 0) {
+			//tmp_private.append("/* Private variables of " + this.getName() + " */" + Cpp.newline);
+			for(CppVar v : this.getVars(visability)){
+				tmp.append(v.toString() + ";" + Cpp.newline);
+			}
+			tmp.append(Cpp.newline);
+		}
+
 	}
 
     @Override

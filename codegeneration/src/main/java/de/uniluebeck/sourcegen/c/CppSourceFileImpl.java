@@ -297,6 +297,11 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 
+		/**
+		 * Generates the cpp-file
+		 * Note, that the header file is created in the CppClassImpl
+		 */
+
 		// write comment if necessary
 		if (comment != null) {
 			comment.toString(buffer, tabCount);
