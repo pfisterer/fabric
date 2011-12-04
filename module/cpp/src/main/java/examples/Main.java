@@ -25,6 +25,7 @@ public class Main {
 	    new Example4_NestedOfNested(workspace);
 	    new Example5_Constructor_Destructor(workspace);
 	    new Example6_Struct(workspace);
+	    new Example7_Enum(workspace);
 
 	    workspace.generate();
 	}

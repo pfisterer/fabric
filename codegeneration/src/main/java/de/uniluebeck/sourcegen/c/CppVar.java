@@ -92,6 +92,11 @@ public interface CppVar extends CppLangElem {
 			return create(type.getTypeName(), varName);
 		}
 
+		// Enum
+		public CppVar create(CEnum type, String varName) {
+			return create(type.getTypeName(), varName);
+		}
+
 		// CComplexType
 		public CppVar create(CComplexType type, String varName) {
 			return create(Cpp.NONE, type, varName);

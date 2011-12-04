@@ -329,6 +329,19 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	    	buffer.append(Cpp.newline);
 	    }
 
+		// Enums
+		if(base.getEnums().size() > 0) {
+			for(CEnum e : base.getEnums()) {
+				buffer.append(e.toString() + Cpp.newline + Cpp.newline);
+			}
+		}
+
+		// Structs
+		for(CStructBaseImpl struct : base.structsUnions){
+			buffer.append(struct.toString());
+			buffer.append(Cpp.newline + Cpp.newline);
+		}
+
 		//namespace
 		// TODO: dynamically with a program-parameter
 //		buffer.append("namespace isense {\n\n");
@@ -364,16 +377,10 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			}
 			buffer.append("\n");
 		}
-		if (enums.size() > 0) {
-			buffer.append("\n");
-			toString(buffer, tabCount, enums);
-			buffer.append("\n");
-		}
-		if (structsUnions.size() > 0) {
-			buffer.append("\n");
-			toString(buffer, tabCount, structsUnions);
-			buffer.append("\n");
-		}
+
+		// ENUMS
+		// STRUCT_UNIONS
+
 		if (forwardDeclarations.size() > 0) {
 			buffer.append("\n");
 			for (CFunImpl f : forwardDeclarations) {
@@ -382,11 +389,9 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			}
 			buffer.append("\n");
 		}
-		if (funs.size() > 0) {
-			buffer.append("\n");
-			toString(buffer, tabCount, funs);
-			buffer.append("\n");
-		}
+
+		// FUNCTIONS
+
 		if (afterDirectives.size() > 0) {
 			buffer.append("\n");
 			toString(buffer, tabCount, afterDirectives, "", "\n");

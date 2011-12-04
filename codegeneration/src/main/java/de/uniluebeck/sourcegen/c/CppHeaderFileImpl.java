@@ -49,19 +49,8 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 		}
 		if(base.beforeDirectives.size() > 0) buffer.append("\n");
 
-		//Includes
-		for(String s : base.libIncludes){
-			buffer.append("#include <");
-			buffer.append(s);
-			buffer.append(">\n");
-		}
-		if(base.libIncludes.size() > 0) buffer.append("\n");
 
-		//namespace TODO: ordentlich machen!
-		// buffer.append("namespace isense {\n\n");
 */
-
-
 
 		// LibIncludes: System header files
 		if(base.getLibIncludes().size() > 0) {
@@ -80,11 +69,21 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 	    	buffer.append(Cpp.newline);
 	    }
 
+		// Enums
+		if(base.getEnums().size() > 0) {
+			for(CEnum e : base.getEnums()) {
+				buffer.append(e.toString() + Cpp.newline + Cpp.newline);
+			}
+		}
+
 		//structs
 		for(CStructBaseImpl struct : base.structsUnions){
 			buffer.append(struct.toString());
 			buffer.append(Cpp.newline + Cpp.newline);
 		}
+
+		//namespace TODO: ordentlich machen!
+		// buffer.append("namespace isense {\n\n");
 
 		//classes
 		for(CppClass c : this.cppClasses){
