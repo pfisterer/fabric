@@ -68,6 +68,10 @@ public class CppModuleHandler extends FabricDefaultHandler {
 
     private void codeGen_example_app() throws Exception {
 
+    	// TODO: Renew it
+    	// Not working since commit: 370ea4769a
+
+    	/*
         // Get an header file
         CppSourceFile header = this.workspace.getC().getCppHeaderFile("header");
         this.file.addInclude(header);
@@ -149,10 +153,10 @@ public class CppModuleHandler extends FabricDefaultHandler {
         CppFun fun_temp = CppFun.factory.create(Cpp.VOID, "temp", var_temp);
 
         // Content of the function
-        fun_temp.appendCode("/** Do nothing here */");
         fun_temp.appendCode("return;");
 
         example.add(Cpp.PUBLIC, fun_temp);
+        */
     }
 
     @Override
