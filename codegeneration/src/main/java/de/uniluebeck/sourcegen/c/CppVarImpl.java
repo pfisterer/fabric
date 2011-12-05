@@ -34,19 +34,19 @@ class CppVarImpl extends CElemImpl implements CppVar {
 
     private long visability;
 
-    private String varDeclString;
+//    private String varDeclString;
     private Type type;
     private String initCode;
     private String varName;
-    private CComplexType cComplexType;
-    private CppComplexType cppComplexType;
+//    private CComplexType cComplexType;
+//    private CppComplexType cppComplexType;
 
     private CppTypeGenerator typeGenerator;
     private List<CppTemplateName> depTypes = new LinkedList<CppTemplateName>();
 
 	private CComment comment = null;
 
-    private CppClass clazz;
+//    private CppClass clazz;
 
 	public CppVarImpl(CppTypeGenerator type, String varName) {
 		this.type = Type.TYPE_GENERATOR;
@@ -263,6 +263,7 @@ class CppVarImpl extends CElemImpl implements CppVar {
      *
      * @return
      */
+/*
     private String getParents(){
     	StringBuffer myParents = new StringBuffer();
     	if(this.clazz != null) {
@@ -272,12 +273,12 @@ class CppVarImpl extends CElemImpl implements CppVar {
     	}
     	return myParents.toString();
     }
-
-	@Override
+*/
+/*	@Override
 	public CppVar setClass(CppClass clazz) {
 		this.clazz = clazz;
 		return this;
 	}
-
+*/
 
 }

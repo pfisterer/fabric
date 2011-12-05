@@ -50,6 +50,7 @@ public class Main {
 	    new Example5_Constructor_Destructor(workspace);
 	    new Example6_Struct(workspace);
 	    new Example7_Enum(workspace);
+	    new Example8_Directives(workspace);
 
 	    workspace.generate();
 	}

@@ -123,7 +123,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 	public CppClass add(CppVar... vars) throws CppDuplicateException {
 		for (CppVar v : vars) {
-			v.setClass(this);
+			//v.setClass(this);
 			addInternal(v.getVisability(), v);
 		}
 		return this;
@@ -252,7 +252,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	private void addInternal(long vis, CppVar var) throws CppDuplicateException {
 		if (contains(var))
 			throw new CppDuplicateException("Var already contained");
-		var.setClass(this);
+		//var.setClass(this);
 		vars.add(new VisElem(var, vis));
 	}
 
