@@ -247,6 +247,7 @@ class CEnumImpl extends CElemImpl implements CEnum {
 			buffer.append("\n");
 			toString(buffer, tabCount, afterDirectives);
 		}
+		buffer.append(Cpp.newline);
 	}
 
 	@Override

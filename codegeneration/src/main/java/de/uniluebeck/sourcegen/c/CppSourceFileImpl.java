@@ -112,6 +112,13 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		return this;
 	}
 
+	public CppSourceFile add(CTypeDef... typedefs) throws CDuplicateException {
+		base.internalTypedef(typedefs);
+		return this;
+	}
+
+
+
 	public CppSourceFile addAfterDirective(boolean hash, String... directives) throws CPreProcessorValidationException {
 		base.internalAddAfterDirective(hash, directives);
 		return this;

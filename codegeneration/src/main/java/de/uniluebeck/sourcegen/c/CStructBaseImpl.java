@@ -319,6 +319,10 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 	 * @return the name of this struct
 	 */
 	public String getTypeName() {
+		if(typedef && varname != null){
+			return varname;
+		}
+
 		return name != null ? name : varname;
 	}
 
@@ -433,8 +437,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 		indent(buffer, tabCount);
 		buffer.append(typedef ? "typedef " : "");
 		buffer.append(structOrUnion);
-		buffer.append(" ");
-		buffer.append(getTypeName());
+		buffer.append("".equals(name) ? "" : " "+name);
 		buffer.append(" {\n");
 		if (enums.size() > 0) {
 			toString(buffer, tabCount+1, enums);

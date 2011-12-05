@@ -69,8 +69,16 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 		// Enums
 		if(base.getEnums().size() > 0) {
 			for(CEnum e : base.getEnums()) {
-				buffer.append(e.toString() + Cpp.newline + Cpp.newline);
+				buffer.append(e.toString() + Cpp.newline);
 			}
+		}
+
+		// typedefs
+		if(base.getTypeDefs().size() > 0) {
+			for(CTypeDef t : base.getTypeDefs()){
+				buffer.append(t.toString());
+			}
+			buffer.append(Cpp.newline);
 		}
 
 		//structs

@@ -51,6 +51,7 @@ public class Main {
 	    new Example6_Struct(workspace);
 	    new Example7_Enum(workspace);
 	    new Example8_Directives(workspace);
+	    new Example9_Typedef(workspace);
 
 	    workspace.generate();
 	}
