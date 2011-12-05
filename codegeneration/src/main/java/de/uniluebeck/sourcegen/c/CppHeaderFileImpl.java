@@ -40,24 +40,21 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 			comment.toString(buffer, tabCount);
 		}
 
-		// TODO: AUFRÄUMEN
-/*
-		//Before Preprocessordiretives
-		for(CPreProcessorDirectiveImpl ppd : base.beforeDirectives){
-			ppd.toString(buffer, tabCount);
-			buffer.append("\n");
-		}
-		if(base.beforeDirectives.size() > 0) buffer.append("\n");
-
-
-*/
-
 		// LibIncludes: System header files
 		if(base.getLibIncludes().size() > 0) {
 			for(String include : base.getLibIncludes()) {
 				buffer.append("#include <" + include + ">" + Cpp.newline);
 			}
 	    	buffer.append(Cpp.newline);
+		}
+
+		// Before Preprocessordiretives
+		if(base.beforeDirectives.size() > 0) {
+			for(CPreProcessorDirectiveImpl ppd : base.beforeDirectives){
+				ppd.toString(buffer, tabCount);
+				buffer.append(Cpp.newline);
+			}
+			buffer.append(Cpp.newline);
 		}
 
 	    // Namespaces

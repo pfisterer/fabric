@@ -313,6 +313,15 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	    	buffer.append("#include <" + include + ">" + Cpp.newline);
 	    }
 
+		// Before Preprocessordiretives
+		if(base.beforeDirectives.size() > 0) {
+			for(CPreProcessorDirectiveImpl ppd : base.beforeDirectives){
+				ppd.toString(buffer, tabCount);
+				buffer.append(Cpp.newline);
+			}
+			buffer.append(Cpp.newline);
+		}
+
 		// Includes: User header files
 		for(CppSourceFile file : this.cppUserHeaderFiles){
             buffer.append("#include \"" + file.getFileName() + ".hpp\"" + Cpp.newline);

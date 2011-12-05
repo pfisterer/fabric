@@ -9,7 +9,8 @@ compile:
 	g++ Person.cpp -o person
 	g++ StructSample.cpp -o struct
 	g++ EnumSample.cpp -o enum
-
+	g++ Directives.cpp -o directives
+	 
 run:
 
 	./simple;
@@ -19,10 +20,11 @@ run:
 	./person;
 	./struct;
 	./enum;
+	./directives
 
 clean:
 
 	rm -f *.cpp;
 	rm -f *.hpp;
-	rm ./simple ./two ./nested ./nestedOfNested ./person ./struct ./enum
+	rm ./simple ./two ./nested ./nestedOfNested ./person ./struct ./enum ./directives
 
