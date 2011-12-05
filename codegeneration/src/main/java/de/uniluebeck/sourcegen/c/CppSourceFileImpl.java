@@ -404,13 +404,29 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	private void toStringHelper(StringBuffer buffer, CppClass clazz, int tabCount) {
 
+		List<CppVar> vars = clazz.getVars(Cpp.PRIVATE);
+		vars.addAll(clazz.getVars(Cpp.PUBLIC));
+		vars.addAll(clazz.getVars(Cpp.PROTECTED));
+
+		// get variables, which are initialized
+		List<CppVar> initializedVars = new LinkedList<CppVar>();
+
+		for (CppVar cppVar : vars) {
+			String init = cppVar.getInit();
+			if(init != null && init != "") {
+				initializedVars.add(cppVar);
+			}
+		}
+
 		// constructors
 		if(clazz.getConstructors(Cpp.PUBLIC).size() > 0) {
 			//buffer.append("/* Constructors of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppConstructor c : clazz.getConstructors(Cpp.PUBLIC)){
+				c.setInititalVars(initializedVars);
 				c.toString(buffer, tabCount);
 			}
 		}
+
 
 		// constructors
 		if(clazz.getConstructors(Cpp.PRIVATE).size() > 0) {
@@ -433,15 +449,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			//buffer.append("/* Destrictors of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppDestructor d : clazz.getDestructors(Cpp.PUBLIC)){
 				d.toString(buffer, tabCount);
-			}
-		}
-
-		// VARIABLES, which are initialized
-		List<CppVar> vars = clazz.getVars(Cpp.PRIVATE);
-		for (CppVar cppVar : vars) {
-			if(cppVar.getInitCode() != null && cppVar.getInitCode() != "") {
-				cppVar.toString(buffer, tabCount);
-				buffer.append(";" + Cpp.newline + Cpp.newline);
 			}
 		}
 

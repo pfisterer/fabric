@@ -126,23 +126,15 @@ class CppVarImpl extends CElemImpl implements CppVar {
     }
 
     @Override
-    public String getDeclaration() {
+    public String getInit() {
+
+    	if(initCode == null) return null;
 
     	StringBuffer buffer = new StringBuffer();
 
-    	// write comment if necessary
-    	if (comment != null) {
-    		buffer.append(Cpp.newline);
-    		comment.toString(buffer, 0);
-    	}
-
         switch (type) {
     	case TYPE_GENERATOR:
-
-    		if (initCode != null) {
-    			buffer.append("static ");
-    		}
-    		buffer.append(typeGenerator.toString() + " " + varName);
+    		buffer.append(varName + "(" + initCode + ")");
     		break;
     	default:
     		buffer.append(Cpp.newline + "// NOTHING TO APPEND" + Cpp.newline);
@@ -161,6 +153,16 @@ class CppVarImpl extends CElemImpl implements CppVar {
     		buffer.append(Cpp.newline);
     		comment.toString(buffer, tabCount);
     	}
+
+        switch (type) {
+    	case TYPE_GENERATOR:
+    		buffer.append(typeGenerator.toString() + " " + varName);
+    		break;
+    	default:
+    		buffer.append(Cpp.newline + "// NOTHING TO APPEND" + Cpp.newline);
+        }
+
+
 /*
         // Add all dependent types
         if (this.depTypes != null && this.depTypes.size() > 0) {
@@ -171,27 +173,30 @@ class CppVarImpl extends CElemImpl implements CppVar {
             }
         }
 */
-        switch (type) {
+/*
+    	switch (type) {
         	case TYPE_GENERATOR:
 
-        		buffer.append(typeGenerator.toString() + " ");
+//        		buffer.append(typeGenerator.toString() + " ");
+//
+//        		// is a class variable
+//        		if(this.clazz != null && initCode != null) {
+//        			buffer.append(getParents());
+//        			buffer.append(this.clazz.getName() + "::");
+//        		}
+//
 
-        		// is a class variable
-        		if(this.clazz != null && initCode != null) {
-        			buffer.append(getParents());
-        			buffer.append(this.clazz.getName() + "::");
-        		}
-
-        		buffer.append(varName);
-
-        		// is an initialized class variable
-        		if(this.clazz != null && initCode != null) {
-        			buffer.append(" = ");
-        			buffer.append(initCode);
+//
+//        		// is an initialized class variable
+        		if(initCode != null) {
+            		buffer.append(varName);
+        			buffer.append("(" + initCode + ")");
+        		} else {
+        			buffer.append(varName);
         		}
 
         		break;
-
+*/
         		/*
         case DECL_STRING:
             buffer.append(varDeclString);
@@ -229,10 +234,10 @@ class CppVarImpl extends CElemImpl implements CppVar {
     			buffer.append(";");
     		}
             break;
-*/
         	default:
         		buffer.append(Cpp.newline + "// NOTHING TO APPEND" + Cpp.newline);
         }
+        		 */
     }
 
     public String getInitCode() {

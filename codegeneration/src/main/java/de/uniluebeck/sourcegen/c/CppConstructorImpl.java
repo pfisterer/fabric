@@ -24,9 +24,9 @@
 package de.uniluebeck.sourcegen.c;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
-
 
 class CppConstructorImpl extends CElemImpl implements CppConstructor {
 
@@ -36,6 +36,8 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 	private LinkedList<String> extendeds = new LinkedList<String>();
 
 	private CComment comment = null;
+
+	private List<CppVar> inititializedVars = new LinkedList<CppVar>();
 
 	public CppConstructorImpl(CppVar... cppVars) throws CppDuplicateException {
 		this.signature = new CppSignature(cppVars);
@@ -51,10 +53,12 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 		return this;
 	}
 
-	public CppConstructor add(String... pExtendeds) throws CppDuplicateException {
-		for(String str : pExtendeds){
-			for(String s : this.extendeds){
-				if(s.equals(str)) throw new CppDuplicateException("Duplicate extend: " + s);
+	public CppConstructor add(String... pExtendeds)
+			throws CppDuplicateException {
+		for (String str : pExtendeds) {
+			for (String s : this.extendeds) {
+				if (s.equals(str))
+					throw new CppDuplicateException("Duplicate extend: " + s);
 			}
 			this.extendeds.add(str);
 		}
@@ -84,23 +88,33 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 			comment.toString(buffer, tabCount);
 		}
 
-        buffer.append(getParents() + this.clazz.getName() + "::");
+		buffer.append(getParents() + this.clazz.getName() + "::");
 		signature.toString(buffer, 0);
 
-		//add extendeds (special constructors of superclasses
-		int counter = 0;
-		for(String s : this.extendeds){
-			if(counter == 0){
-				buffer.append("\n:");
+		// Add initial values
+		for (int i = 0; i < inititializedVars.size(); i++) {
+			CppVar v = inititializedVars.get(i);
+			if(i == 0) {
+				buffer.append(" : ");
+			} else {
+				buffer.append(" , ");
 			}
-			else{
+			buffer.append(v.getInit());
+		}
+
+		// add extendeds (special constructors of superclasses
+		int counter = 0;
+		for (String s : this.extendeds) {
+			if (counter == 0) {
+				buffer.append("\n:");
+			} else {
 				buffer.append(", ");
 			}
 			buffer.append(s);
 			counter++;
 		}
 		buffer.append(" {\n");
-		appendBody(buffer, body, tabCount+1);
+		appendBody(buffer, body, tabCount + 1);
 		buffer.append("\n");
 		indent(buffer, tabCount);
 		buffer.append("}\n\n");
@@ -112,25 +126,31 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 		return this;
 	}
 
-    /**
-     * returns OUTER::NESTED1::NESTED2::...::NESTEDN
-     *
-     * @return
-     */
-    private String getParents(){
-    	StringBuffer myParents = new StringBuffer();
-    	if(this.clazz != null) {
-	    	for (CppClass p : this.clazz.getParents()) {
-	    		myParents.append(p.getName()+ "::");
+	/**
+	 * returns OUTER::NESTED1::NESTED2::...::NESTEDN
+	 *
+	 * @return
+	 */
+	private String getParents() {
+		StringBuffer myParents = new StringBuffer();
+		if (this.clazz != null) {
+			for (CppClass p : this.clazz.getParents()) {
+				myParents.append(p.getName() + "::");
 			}
-    	}
-    	return myParents.toString();
-    }
+		}
+		return myParents.toString();
+	}
 
 	@Override
 	public CppConstructor setClass(CppClass clazz) {
 		this.clazz = clazz;
 		this.signature.setName(clazz.getName());
+		return this;
+	}
+
+	@Override
+	public CppConstructor setInititalVars(List<CppVar> init) {
+		this.inititializedVars = init;
 		return this;
 	}
 

@@ -23,6 +23,8 @@
  */
 package de.uniluebeck.sourcegen.c;
 
+import java.util.List;
+
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 
@@ -61,4 +63,6 @@ public interface CppConstructor extends CppLangElem {
 	 * @return
 	 */
 	public CppConstructor setClass(CppClass clazz);
+
+	public CppConstructor setInititalVars(List<CppVar> init);
 }

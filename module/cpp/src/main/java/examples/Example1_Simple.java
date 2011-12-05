@@ -18,7 +18,9 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
  *
  * - Compile with: g++ CRectangleSimple.cpp -o simple
  * - Run with: ./simple
- * - Returns: 12
+ * - Returns:
+ * 		1
+ * 		12
  *
  * @see: http://www.cplusplus.com/doc/tutorial/classes/
  * @author Dennis Boldt
@@ -53,14 +55,14 @@ public class Example1_Simple {
 
         // Generate two int variables
         CppTypeGenerator type_int = new CppTypeGenerator(Cpp.INT);
-        CppVar var_x = CppVar.factory.create(type_int, "x");
+        CppVar var_x = CppVar.factory.create(Cpp.PRIVATE, type_int.toString(), "x", "1");
         var_x.setComment(new CCommentImpl("A nice comment for the varable x"));
 
-        CppVar var_y = CppVar.factory.create(Cpp.PRIVATE, type_int.toString() , "y", "-1");
+        CppVar var_y = CppVar.factory.create(Cpp.PRIVATE, type_int.toString() , "y", "1");
         var_y.setComment(new CCommentImpl("A nice comment for the varable y"));
 
-        class_CRectangleSimple.add(Cpp.PRIVATE, var_x);
         class_CRectangleSimple.add(var_y);
+        class_CRectangleSimple.add(var_x);
 
         // Generate function set_values
         CppVar var_a = CppVar.factory.create(type_int, "a");
@@ -106,9 +108,13 @@ public class Example1_Simple {
         // Add the main function to the file
         CFun fun_main = CFun.factory.create("main", "int", null);
         fun_main.appendCode(className + " rect;");
+        fun_main.appendCode("cout << rect.area() << \"\\n\";");
         fun_main.appendCode("rect.set_values (3,4);");
         fun_main.appendCode("cout << rect.area() << \"\\n\";");
+
         fun_main.appendCode("return 0;");
+
+
         fun_main.setComment(new CCommentImpl("Here is the main."));
 
         file.add(fun_main);

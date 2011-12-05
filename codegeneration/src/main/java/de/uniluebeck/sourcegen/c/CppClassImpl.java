@@ -76,6 +76,13 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 	public CppClassImpl(String className) {
 		this.className = className;
+		try {
+			CppConstructor con = CppConstructor.factory.create();
+			add(Cpp.PUBLIC, con);
+		} catch (CppDuplicateException e) {
+			// Should neve be thrown
+			e.printStackTrace();
+		}
 	}
 
 	public CppClass add(long vis, CEnum... enums) throws CppDuplicateException {
@@ -748,7 +755,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		if(this.getVars(visability).size() > 0) {
 			//tmp_private.append("/* Private variables of " + this.getName() + " */" + Cpp.newline);
 			for(CppVar v : this.getVars(visability)){
-				tmp.append(v.getDeclaration() + ";" + Cpp.newline);
+				tmp.append(v.toString() + ";" + Cpp.newline);
 			}
 			tmp.append(Cpp.newline);
 		}
