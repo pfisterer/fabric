@@ -103,12 +103,14 @@ public class Example8_Directives {
         file.addInclude(header);
 
         // The following line can be added to the file as well
-        file.addBeforeDirective("define PRINT_PI");
-        file.addBeforeDirective(preIfdef);
-        file.addBeforeDirective("define PI 3.14159");
-        file.addBeforeDirective(preEndif);
-        file.addLibInclude("iostream");
-        file.addUsingNameSpace("std");
+        header.addLibInclude("iostream");
+        header.addUsingNameSpace("std");
+
+        header.addBeforeDirective("define PRINT_PI");
+        header.addBeforeDirective(preIfdef);
+        header.addBeforeDirective(false, "// Set the valie PI");
+        header.addBeforeDirective("define PI 3.14159");
+        header.addBeforeDirective(preEndif);
 
         // Add the main function to the file
         CFun fun_main = CFun.factory.create("main", "int", null);
