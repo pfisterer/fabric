@@ -52,6 +52,11 @@ public class Example5_Constructor_Destructor {
         CppClass person = CppClass.factory.create(className);
         person.setComment(new CCommentImpl("A simple class"));
 
+        // Get the standard constructor
+        CppConstructor c = person.getConstructors(Cpp.PUBLIC).get(0);
+        c.appendCode("this->name = \"No name\";");
+        c.appendCode("this->age = -1;");
+
         // Generate two int variables
         CppTypeGenerator type_string = new CppTypeGenerator("string");
         CppVar var_name = CppVar.factory.create(type_string, "name");
@@ -111,8 +116,10 @@ Person::~Person() {
 
         // Add the main function to the file
         CFun fun_main = CFun.factory.create("main", "int", null);
+        fun_main.appendCode(className + " empty;");
         fun_main.appendCode(className + " otto(\"Otto\", 48);");
         fun_main.appendCode(className + " helge(\"Helge\", 12);");
+        fun_main.appendCode("empty.print();");
         fun_main.appendCode("otto.print();");
         fun_main.appendCode("helge.print();");
 

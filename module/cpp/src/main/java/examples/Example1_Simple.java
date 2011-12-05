@@ -58,7 +58,7 @@ public class Example1_Simple {
         CppVar var_x = CppVar.factory.create(Cpp.PRIVATE, type_int.toString(), "x", "1");
         var_x.setComment(new CCommentImpl("A nice comment for the varable x"));
 
-        CppVar var_y = CppVar.factory.create(Cpp.PRIVATE, type_int.toString() , "y", "1");
+        CppVar var_y = CppVar.factory.create(Cpp.PRIVATE, type_int.toString() , "y");
         var_y.setComment(new CCommentImpl("A nice comment for the varable y"));
 
         class_CRectangleSimple.add(var_y);
