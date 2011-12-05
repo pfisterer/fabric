@@ -47,7 +47,7 @@ import fabric.wsdlschemaparser.schema.FSimpleType;
  * Cpp-Module-handler
  * Generates the example_app.cpp from Wiselib
  *
- * @see <a href="http://www.wiselib.org/browser/applications/example_app/example_app.cpp">http://www.wiselib.org/browser/applications/example_app/example_app.cpp</a>
+ * @see <a href="https://github.com/ibr-alg/wiselib/blob/master/apps/generic_apps/example_app/example_app.cpp">https://github.com/ibr-alg/wiselib/blob/master/apps/generic_apps/example_app/example_app.cpp</a>
  * @author Dennis Boldt
  */
 public class CppModuleHandler extends FabricDefaultHandler {

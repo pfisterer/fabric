@@ -24,6 +24,7 @@
 package de.uniluebeck.sourcegen.c;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import de.uniluebeck.sourcegen.exceptions.CCodeValidationException;
 import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
@@ -432,6 +433,15 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			//buffer.append("/* Destrictors of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppDestructor d : clazz.getDestructors(Cpp.PUBLIC)){
 				d.toString(buffer, tabCount);
+			}
+		}
+
+		// VARIABLES, which are initialized
+		List<CppVar> vars = clazz.getVars(Cpp.PRIVATE);
+		for (CppVar cppVar : vars) {
+			if(cppVar.getInitCode() != null && cppVar.getInitCode() != "") {
+				cppVar.toString(buffer, tabCount);
+				buffer.append(";" + Cpp.newline + Cpp.newline);
 			}
 		}
 

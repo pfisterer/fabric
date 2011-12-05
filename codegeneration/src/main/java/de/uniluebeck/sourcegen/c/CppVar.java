@@ -40,10 +40,40 @@ public interface CppVar extends CppLangElem {
 			return instance;
 		}
 
+		public CppVar create(CppTypeGenerator type, String varName) {
+
+			return new CppVarImpl(type, varName);
+		}
+
+		public CppVar create(long qualifier, String varName) {
+			return new CppVarImpl(new CppTypeGenerator(qualifier), varName);
+		}
+
+		public CppVar create(String qualifiedType, String varName) {
+			return new CppVarImpl(new CppTypeGenerator(qualifiedType), varName);
+		}
+
+		public CppVar create(CStruct struct, String varName) {
+			return new CppVarImpl(new CppTypeGenerator(struct.getTypeName()), varName);
+		}
+
+		public CppVar create(CEnum enumm, String varName) {
+			return new CppVarImpl(new CppTypeGenerator(enumm.getTypeName()), varName);
+		}
+
+		public CppVar create(long visibility, String type, String varName) {
+			return new CppVarImpl(visibility, new CppTypeGenerator(type), varName);
+		}
+
+		public CppVar create(long visibility, String type, String varName, String initCode) {
+			return new CppVarImpl(visibility, new CppTypeGenerator(type), varName, initCode);
+		}
+
+/*
 		// qualifiedType
-                public CppVar create(long qualifiedType) {
-                        return create(qualifiedType, "", "");
-                }
+        public CppVar create(long qualifiedType) {
+        	return create(qualifiedType, "", "");
+        }
 
 		public CppVar create(long qualifiedType, String varName) {
 			return create(qualifiedType, varName, "");
@@ -59,6 +89,17 @@ public interface CppVar extends CppLangElem {
 		}
 
 		// CppTypeGenerator
+
+		//public CppVar create(long qualifiedType, String type, String varName) {
+
+		}
+		///
+
+		public CppVar create(long qualifiedType, String type, String varName, String initCode) {
+			CppTypeGenerator t = new CppTypeGenerator(qualifiedType, type);
+			return new CppVarImpl(varName, t, initCode);
+		}
+
 		public CppVar create(String type, String varName,
 				CppTemplateName... types) {
 			return new CppVarImpl(new CppTypeGenerator(type), varName, null,
@@ -118,12 +159,18 @@ public interface CppVar extends CppLangElem {
         public CppVar create(long qualifier, CComplexType type, String varName, String initCode) {
                 return new CppVarImpl(qualifier, type, varName, initCode);
         }
+*/
 
 	}
 
 	public static final CppVarFactory factory = CppVarFactory.getInstance();
-	public static final CppVar VOID = factory.create(Cpp.VOID);
+//	public static final CppVar VOID = factory.create(Cpp.VOID);
 	public CppVar 	setComment(CComment comment);
 	public String getVarName();
+
+    public String getInitCode();
+    public long getVisability();
+    public CppVar setClass(CppClass clazz);
+    public String getDeclaration();
 
 }

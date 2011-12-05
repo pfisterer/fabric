@@ -68,6 +68,8 @@ public interface CppClass extends CppComplexType, CppTemplateName {
 
     public CppClass add(long vis, CppVar... var) throws CppDuplicateException;
 
+    public CppClass add(CppVar... var) throws CppDuplicateException;
+
     public CppClass add(long vis, CStruct... struct) throws CppDuplicateException;
 
     public CppClass add(long vis, CUnion... unions) throws CppDuplicateException;
@@ -134,6 +136,7 @@ public interface CppClass extends CppComplexType, CppTemplateName {
     public List<CppConstructor> getConstructors(long vis);
     public List<CppDestructor> getDestructors(long vis);
     public List<CppFun> getFuns(long vis);
+    public List<CppVar> getVars(long vis);
     public List<CppClass> getNested(long vis);
 
 

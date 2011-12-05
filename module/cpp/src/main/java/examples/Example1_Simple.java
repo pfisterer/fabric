@@ -56,10 +56,11 @@ public class Example1_Simple {
         CppVar var_x = CppVar.factory.create(type_int, "x");
         var_x.setComment(new CCommentImpl("A nice comment for the varable x"));
 
-        CppVar var_y = CppVar.factory.create(type_int, "y");
+        CppVar var_y = CppVar.factory.create(Cpp.PRIVATE, type_int.toString() , "y", "-1");
         var_y.setComment(new CCommentImpl("A nice comment for the varable y"));
 
-        class_CRectangleSimple.add(Cpp.PRIVATE, var_x, var_y);
+        class_CRectangleSimple.add(Cpp.PRIVATE, var_x);
+        class_CRectangleSimple.add(var_y);
 
         // Generate function set_values
         CppVar var_a = CppVar.factory.create(type_int, "a");
@@ -82,8 +83,6 @@ public class Example1_Simple {
         CppFunCommentImpl comment_fun_area = new  CppFunCommentImpl("This function multiplies two values.");
         comment_fun_area.setReturnTypeDescription("The value of x*y.");
         fun_area.setComment(comment_fun_area);
-
-
         fun_area.appendCode("return (x*y);");
         class_CRectangleSimple.add(Cpp.PUBLIC, fun_area);
 

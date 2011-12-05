@@ -114,6 +114,15 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		return this;
 	}
 
+	public CppClass add(CppVar... vars) throws CppDuplicateException {
+		for (CppVar v : vars) {
+			v.setClass(this);
+			addInternal(v.getVisability(), v);
+		}
+		return this;
+	}
+
+
 	public CppClass add(long vis, CStruct... structs) throws CppDuplicateException {
 		for (CStruct s : structs)
 			addInternal(vis, s);
@@ -236,6 +245,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	private void addInternal(long vis, CppVar var) throws CppDuplicateException {
 		if (contains(var))
 			throw new CppDuplicateException("Var already contained");
+		var.setClass(this);
 		vars.add(new VisElem(var, vis));
 	}
 
@@ -501,7 +511,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		return su;
 	}
 
-	private List<CppVar> getVars(long vis) {
+	public List<CppVar> getVars(long vis) {
 		ArrayList<CppVar> ret = new ArrayList<CppVar>();
 		for (VisElem vv : vars)
 			if (vv.vis == vis || (vis == Cpp.PRIVATE && vv.vis == Cpp.NONE))
@@ -576,7 +586,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	public void toString(StringBuffer buffer, int tabCount) {
 
 		/*
-		 * Generates the *.hpp files
+		 * Generates the class in the *.hpp
 		 */
 
 		/**
@@ -710,7 +720,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		if(this.getDestructors(visability).size() > 0) {
 			//tmp_public.append("/* Destructors of " + this.getName() + " */" + Cpp.newline);
 			for(CppDestructor d : this.getDestructors(visability)){
-				tmp.append("virtual " + d.getSignature() + ";" + Cpp.newline);
+				tmp.append("virtual " + d.getSignature() + ";" + Cpp.newline); // TODO: virtual?
 			}
 			tmp.append(Cpp.newline);
 		}
@@ -738,7 +748,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		if(this.getVars(visability).size() > 0) {
 			//tmp_private.append("/* Private variables of " + this.getName() + " */" + Cpp.newline);
 			for(CppVar v : this.getVars(visability)){
-				tmp.append(v.toString() + ";" + Cpp.newline);
+				tmp.append(v.getDeclaration() + ";" + Cpp.newline);
 			}
 			tmp.append(Cpp.newline);
 		}

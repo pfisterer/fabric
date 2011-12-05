@@ -137,6 +137,12 @@ class CppFunImpl extends CElemImpl implements CppFun {
         return "{UNKNOWN_TYPE}";
     }
 
+    @Override
+    public CppFun setComment(CComment comment) {
+    	this.comment = comment;
+    	return this;
+    }
+
     /**
      * returns OUTER::NESTED1::NESTED2::...::NESTEDN
      *
@@ -151,12 +157,6 @@ class CppFunImpl extends CElemImpl implements CppFun {
     	}
     	return myParents.toString();
     }
-
-	@Override
-	public CppFun setComment(CComment comment) {
-		this.comment = comment;
-		return this;
-	}
 
 	@Override
 	public CppFun setClass(CppClass clazz) {
