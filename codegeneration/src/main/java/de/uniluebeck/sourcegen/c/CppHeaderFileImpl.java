@@ -79,21 +79,24 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 			buffer.append(Cpp.newline + Cpp.newline);
 		}
 
-		//namespace TODO: ordentlich machen!
+		//TODO: Namespace
 		// buffer.append("namespace isense {\n\n");
 
 		//classes
 		for(CppClass c : this.cppClasses){
 			buffer.append(c.toString());
 		}
-/*
+
+		// TODO: Namespaces
 		// buffer.append("}\n");
 
-		//After Preprocessordirectives
-		for(CPreProcessorDirectiveImpl ppd : base.afterDirectives){
-			buffer.append("\n");
-			ppd.toString(buffer, tabCount);
+		// After Preprocessordiretives
+		if(base.afterDirectives.size() > 0) {
+			for(CPreProcessorDirectiveImpl ppd : base.afterDirectives){
+				ppd.toString(buffer, tabCount);
+				buffer.append(Cpp.newline);
+			}
+			buffer.append(Cpp.newline);
 		}
-*/
 	}
 }

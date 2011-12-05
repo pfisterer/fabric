@@ -370,14 +370,21 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			}
 		}
 
+		// Before Preprocessordiretives
+		if(base.afterDirectives.size() > 0) {
+			buffer.append(Cpp.newline);
+			for(CPreProcessorDirectiveImpl ppd : base.afterDirectives){
+				buffer.append(Cpp.newline);
+				ppd.toString(buffer, tabCount);
+			}
+			buffer.append(Cpp.newline);
+		}
+
 /*
  *
  * @see: CSourceFileBase
  *
-		if(beforeDirectives.size() > 0) {
-			toString(buffer, tabCount, beforeDirectives, "", "\n");
-			buffer.append("\n\n");
-		}
+		// beforeDirectives
 
 		if (globalDeclarations.size() > 0) {
 			for (String d : globalDeclarations) {
@@ -401,12 +408,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		}
 
 		// FUNCTIONS
-
-		if (afterDirectives.size() > 0) {
-			buffer.append("\n");
-			toString(buffer, tabCount, afterDirectives, "", "\n");
-			buffer.append("\n");
-		}
+		// afterDirectives
 */
 
 	}
