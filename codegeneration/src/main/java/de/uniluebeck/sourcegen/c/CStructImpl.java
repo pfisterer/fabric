@@ -61,7 +61,7 @@ class CStructImpl extends CStructBaseImpl implements CStruct {
 	 * &nbsp;&nbsp;int bar;<br>
 	 * } hello;<br>
 	 * </code>
-	 * 
+	 *
 	 * @param name
 	 * 				the name of the <code>struct</code>
 	 * @param varname

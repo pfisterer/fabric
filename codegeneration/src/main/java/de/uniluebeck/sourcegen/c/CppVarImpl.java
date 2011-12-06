@@ -28,19 +28,45 @@ import java.util.List;
 
 class CppVarImpl extends CElemImpl implements CppVar {
     private enum Type {
-        DECL_STRING, LONG_STRING, LONG_CCOMPLEX_STRING, LONG_CPPCOMPLEX_STRING, TEMPLATE
+        //DECL_STRING, LONG_STRING, LONG_CCOMPLEX_STRING, LONG_CPPCOMPLEX_STRING, TEMPLATE
+    	TYPE_GENERATOR
     }
 
-    private String varDeclString;
+    private long visability;
+
+//    private String varDeclString;
     private Type type;
     private String initCode;
     private String varName;
-    private CComplexType cComplexType;
-    private CppComplexType cppComplexType;
+//    private CComplexType cComplexType;
+//    private CppComplexType cppComplexType;
 
     private CppTypeGenerator typeGenerator;
     private List<CppTemplateName> depTypes = new LinkedList<CppTemplateName>();
 
+	private CComment comment = null;
+
+//    private CppClass clazz;
+
+	public CppVarImpl(CppTypeGenerator type, String varName) {
+		this.type = Type.TYPE_GENERATOR;
+		this.typeGenerator = type;
+		this.varName = varName;
+	}
+
+	public CppVarImpl(long visibility, CppTypeGenerator type, String varName) {
+		this(visibility, type, varName, null);
+	}
+
+	public CppVarImpl(long visibility, CppTypeGenerator type, String varName, String initCode) {
+		this.type = Type.TYPE_GENERATOR;
+		this.typeGenerator = type;
+		this.varName = varName;
+		this.visability = visibility;
+		this.initCode = initCode;
+	}
+
+	/*
     public CppVarImpl(String varDeclString) {
         this.type = Type.DECL_STRING;
         this.varDeclString = varDeclString;
@@ -49,6 +75,13 @@ class CppVarImpl extends CElemImpl implements CppVar {
     public CppVarImpl(long qualifiedType, String varName, String initCode) {
         this.type = Type.LONG_STRING;
         this.typeGenerator = new CppTypeGenerator(null, qualifiedType, null);
+        this.varName = varName;
+        this.initCode = initCode;
+    }
+
+    public CppVarImpl(String varName, CppTypeGenerator typeGen, String initCode) {
+        this.type = Type.LONG_STRING;
+        this.typeGenerator = typeGen;
         this.varName = varName;
         this.initCode = initCode;
     }
@@ -84,6 +117,7 @@ class CppVarImpl extends CElemImpl implements CppVar {
         this.varName = varName;
         this.initCode = initCode;
     }
+    */
 
     public void addDependencies(CppTemplateName... dep) {
         for (CppTemplateName elem : dep) {
@@ -92,19 +126,78 @@ class CppVarImpl extends CElemImpl implements CppVar {
     }
 
     @Override
+    public String getInit() {
+
+    	if(initCode == null) return null;
+
+    	StringBuffer buffer = new StringBuffer();
+
+        switch (type) {
+    	case TYPE_GENERATOR:
+    		buffer.append(varName + "(" + initCode + ")");
+    		break;
+    	default:
+    		buffer.append(Cpp.newline + "// NOTHING TO APPEND" + Cpp.newline);
+        }
+
+        return buffer.toString();
+    }
+
+
+    @Override
     public void toString(StringBuffer buffer, int tabCount) {
         indent(buffer, tabCount);
 
+    	// write comment if necessary
+    	if (comment != null) {
+    		buffer.append(Cpp.newline);
+    		comment.toString(buffer, tabCount);
+    	}
+
+        switch (type) {
+    	case TYPE_GENERATOR:
+    		buffer.append(typeGenerator.toString() + " " + varName);
+    		break;
+    	default:
+    		buffer.append(Cpp.newline + "// NOTHING TO APPEND" + Cpp.newline);
+        }
+
+
+/*
         // Add all dependent types
         if (this.depTypes != null && this.depTypes.size() > 0) {
             int cnt = this.depTypes.size();
             for (int i = 0; i < cnt; i++) {
-                buffer.append(this.depTypes.get(i).getTemplateName());
+                buffer.append(this.depTypes.get(i).getName());
                 buffer.append("::");
             }
         }
+*/
+/*
+    	switch (type) {
+        	case TYPE_GENERATOR:
 
-        switch (type) {
+//        		buffer.append(typeGenerator.toString() + " ");
+//
+//        		// is a class variable
+//        		if(this.clazz != null && initCode != null) {
+//        			buffer.append(getParents());
+//        			buffer.append(this.clazz.getName() + "::");
+//        		}
+//
+
+//
+//        		// is an initialized class variable
+        		if(initCode != null) {
+            		buffer.append(varName);
+        			buffer.append("(" + initCode + ")");
+        		} else {
+        			buffer.append(varName);
+        		}
+
+        		break;
+*/
+        		/*
         case DECL_STRING:
             buffer.append(varDeclString);
             break;
@@ -115,21 +208,77 @@ class CppVarImpl extends CElemImpl implements CppVar {
             buffer.append(type == Type.LONG_CPPCOMPLEX_STRING ? this.cppComplexType.getTypeName() : this.cComplexType
                     .getTypeName());
             buffer.append(" " + varName);
-            buffer.append(initCode);
+            if (initCode != null) {
+    			buffer.append(" = ");
+    			buffer.append(initCode);
+    			buffer.append(";");
+    		}
             break;
         case LONG_STRING:
             buffer.append(typeGenerator.toString());
             buffer.append(" ");
             buffer.append(varName);
-            buffer.append(initCode);
+            if (initCode != null) {
+    			buffer.append(" = ");
+    			buffer.append(initCode);
+    			buffer.append(";");
+    		}
             break;
         case TEMPLATE:
             buffer.append(typeGenerator.toString());
             buffer.append(" ");
             buffer.append(varName);
-            buffer.append(initCode);
+            if (initCode != null) {
+    			buffer.append(" = ");
+    			buffer.append(initCode);
+    			buffer.append(";");
+    		}
             break;
+        	default:
+        		buffer.append(Cpp.newline + "// NOTHING TO APPEND" + Cpp.newline);
         }
+        		 */
     }
+
+    public String getInitCode() {
+		return initCode;
+	}
+
+    public long getVisability() {
+		return visability;
+	}
+
+	public String getVarName() {
+		return varName;
+	}
+
+	@Override
+	public CppVar setComment(CComment comment) {
+		this.comment = comment;
+		return this;
+	}
+
+    /**
+     * returns OUTER::NESTED1::NESTED2::...::NESTEDN
+     *
+     * @return
+     */
+/*
+    private String getParents(){
+    	StringBuffer myParents = new StringBuffer();
+    	if(this.clazz != null) {
+	    	for (CppClass p : this.clazz.getParents()) {
+	    		myParents.append(p.getName()+ "::");
+			}
+    	}
+    	return myParents.toString();
+    }
+*/
+/*	@Override
+	public CppVar setClass(CppClass clazz) {
+		this.clazz = clazz;
+		return this;
+	}
+*/
 
 }

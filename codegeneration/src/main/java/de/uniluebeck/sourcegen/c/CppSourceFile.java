@@ -33,17 +33,14 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 public interface CppSourceFile extends SourceFile, CppElem {
 
-  // TODO: Added block begin
-  public CppSourceFile 	add							(CComplexType... typeObjects) 						throws CDuplicateException;
-  public CppSourceFile 	add							(CppComplexType... typeObjects) 						throws CppDuplicateException;
-  // TODO: Added block end
   public CppSourceFile 	add							(CEnum... enums) 						throws CDuplicateException;
 	public CppSourceFile 	add							(CFun... function) 						throws CDuplicateException;
 	public CppSourceFile 	add							(CppClass... classes) 					throws CppDuplicateException;
 	public CppSourceFile 	add							(CppFun... funs) 						throws CppDuplicateException;
 	public CppSourceFile 	add							(CppVar... vars) 						throws CppDuplicateException;
-	public CppSourceFile 	add 						(CStruct... structs) 					throws CDuplicateException;	
+	public CppSourceFile 	add 						(CStruct... structs) 					throws CDuplicateException;
 	public CppSourceFile 	add 						(CUnion... unions) 						throws CDuplicateException;
+	public CppSourceFile 	add 						(CTypeDef... typedefs) 						throws CDuplicateException;
 	public CppSourceFile 	addAfterDirective			(boolean hash, String... directive) 	throws CPreProcessorValidationException;
 	public CppSourceFile 	addAfterDirective			(CPreProcessorDirective... directives)	;
 	public CppSourceFile 	addAfterDirective			(String... directive) 					throws CPreProcessorValidationException;
@@ -55,7 +52,9 @@ public interface CppSourceFile extends SourceFile, CppElem {
 	public CppSourceFile	addInclude					(CHeaderFile... includes)				throws CppDuplicateException;
 	public CppSourceFile 	addInclude					(CppSourceFile... sourceFile) 			throws CppDuplicateException;
 	public CppSourceFile 	addLibInclude				(String... libIncludes)					throws CppDuplicateException;
-	
+	public CppSourceFile 	addUsingNamespace			(String... libIncludes)					throws CppDuplicateException;
+	public CppSourceFile 	setComment(CComment comment);
+
 	public boolean 			contains					(CEnum enumObj);
 	public boolean 			contains					(CFun function);
 	public boolean			contains					(CppClass clazz);
@@ -72,7 +71,6 @@ public interface CppSourceFile extends SourceFile, CppElem {
 	public boolean 			containsInclude				(CHeaderFile headerFile);
 	public boolean			containsInclude				(CppSourceFile include);
 	public boolean 			containsLibInclude			(String fileName);
-	
+
 	public boolean 			equals						(CppSourceFile other);
-	
 }

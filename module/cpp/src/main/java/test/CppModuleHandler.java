@@ -47,7 +47,7 @@ import fabric.wsdlschemaparser.schema.FSimpleType;
  * Cpp-Module-handler
  * Generates the example_app.cpp from Wiselib
  *
- * @see <a href="http://www.wiselib.org/browser/applications/example_app/example_app.cpp">http://www.wiselib.org/browser/applications/example_app/example_app.cpp</a>
+ * @see <a href="https://github.com/ibr-alg/wiselib/blob/master/apps/generic_apps/example_app/example_app.cpp">https://github.com/ibr-alg/wiselib/blob/master/apps/generic_apps/example_app/example_app.cpp</a>
  * @author Dennis Boldt
  */
 public class CppModuleHandler extends FabricDefaultHandler {
@@ -68,13 +68,19 @@ public class CppModuleHandler extends FabricDefaultHandler {
 
     private void codeGen_example_app() throws Exception {
 
+    	// TODO: Renew it
+    	// Not working since commit: 370ea4769a
+
+    	/*
         // Get an header file
         CppSourceFile header = this.workspace.getC().getCppHeaderFile("header");
         this.file.addInclude(header);
 
         // Generate the application
-        CppClass example = CppClass.factory.create("ExampleApplication", this.file);
+        CppClass example = CppClass.factory.create("ExampleApplication");
         header.add(example);
+
+        this.file.add(example);
 
         // Generate the types
         CppTypeGenerator os = new CppTypeGenerator("Os");
@@ -102,26 +108,26 @@ public class CppModuleHandler extends FabricDefaultHandler {
         // void init( Os::AppMainParameter& value )
         CppTypeGenerator appMainParameter = new CppTypeGenerator("AppMainParameter", Cpp.REFERENCE);
         CppVar value = CppVar.factory.create(appMainParameter, "value", os);
-        CppFun fun_init = CppFun.factory.create(example, Cpp.VOID, "init", value);
+        CppFun fun_init = CppFun.factory.create(Cpp.VOID, "init", value);
 
         // Content of the function
-        fun_init.appendCode("radio_ = &wiselib::FacetProvider<Os, Os::Radio>::get_facet( value );" + Cpp.newline);
-        fun_init.appendCode("timer_ = &wiselib::FacetProvider<Os, Os::Timer>::get_facet( value );" + Cpp.newline);
-        fun_init.appendCode("debug_ = &wiselib::FacetProvider<Os, Os::Debug>::get_facet( value );" + Cpp.newline);
-        fun_init.appendCode(Cpp.newline);
-        fun_init.appendCode("debug_->debug( \"Hello World from Example Application!\\n\" );" + Cpp.newline);
-        fun_init.appendCode(Cpp.newline);
-        fun_init.appendCode("radio_->reg_recv_callback<ExampleApplication, &ExampleApplication::receive_radio_message>( this );"  + Cpp.newline);
-        fun_init.appendCode("timer_->set_timer<ExampleApplication, &ExampleApplication::start>( 5000, this, 0 );"  + Cpp.newline);
+        fun_init.appendCode("radio_ = &wiselib::FacetProvider<Os, Os::Radio>::get_facet( value );");
+        fun_init.appendCode("timer_ = &wiselib::FacetProvider<Os, Os::Timer>::get_facet( value );");
+        fun_init.appendCode("debug_ = &wiselib::FacetProvider<Os, Os::Debug>::get_facet( value );");
+        fun_init.appendCode("");
+        fun_init.appendCode("debug_->debug( \"Hello World from Example Application!\\n\" );");
+        fun_init.appendCode("");
+        fun_init.appendCode("radio_->reg_recv_callback<ExampleApplication, &ExampleApplication::receive_radio_message>( this );");
+        fun_init.appendCode("timer_->set_timer<ExampleApplication, &ExampleApplication::start>( 5000, this, 0 );");
 
         // void start( void* )
         CppVar void_pointer = CppVar.factory.create("void*");
-        CppFun fun_start = CppFun.factory.create(example, Cpp.VOID, "start", void_pointer);
+        CppFun fun_start = CppFun.factory.create(Cpp.VOID, "start", void_pointer);
 
         // Content of the function
-        fun_start.appendCode("debug_->debug( \"broadcast message at %d \\n\", radio_->id() );" + Cpp.newline);
-        fun_start.appendCode("Os::Radio::block_data_t message[] = \"hello world!\\0\";" + Cpp.newline);
-        fun_start.appendCode("radio_->send( Os::Radio::BROADCAST_ADDRESS, sizeof(message), message );" + Cpp.newline);
+        fun_start.appendCode("debug_->debug( \"broadcast message at %d \\n\", radio_->id() );");
+        fun_start.appendCode("Os::Radio::block_data_t message[] = \"hello world!\\0\";");
+        fun_start.appendCode("radio_->send( Os::Radio::BROADCAST_ADDRESS, sizeof(message), message );");
 
         // Add all variables and functions
         example.add(Cpp.PRIVATE, radio_, timer_, debug_);
@@ -144,13 +150,13 @@ public class CppModuleHandler extends FabricDefaultHandler {
 
         CppTypeGenerator gen_wiselib = new CppTypeGenerator("wiselib");
         CppVar var_temp = CppVar.factory.create(gen_app, "var_temp", gen_wiselib);
-        CppFun fun_temp = CppFun.factory.create(example, Cpp.VOID, "temp", var_temp);
+        CppFun fun_temp = CppFun.factory.create(Cpp.VOID, "temp", var_temp);
 
         // Content of the function
-        fun_temp.appendCode("/** Do nothing here */" + Cpp.newline);
-        fun_temp.appendCode("return;" + Cpp.newline);
+        fun_temp.appendCode("return;");
 
         example.add(Cpp.PUBLIC, fun_temp);
+        */
     }
 
     @Override

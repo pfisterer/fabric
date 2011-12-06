@@ -28,76 +28,63 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 class CppFunImpl extends CElemImpl implements CppFun {
 
     private enum ReturnType {
-        COMPLEX, LONG, STRING
+        COMPLEX, LONG, STRING, GENERATOR
     }
 
     private ReturnType returnType;
     private CComplexType returnTypeComplex;
     private long returnTypeLong;
     private String returnTypeString;
+    private CppTypeGenerator returnTypeGenerator;
 
     private String name;
     private CppSignature signature;
     private StringBuffer body = new StringBuffer();
     private CppClass clazz;
 
-    public CppFunImpl(CppClass clazz, CComplexType returnType, String name, CppVar... signatureVar)
-            throws CppDuplicateException {
+	private CComment comment = null;
 
-        this(returnType, name, signatureVar);
-        this.clazz = clazz;
-    }
+	private CppFunImpl(String name, CppVar... signatureVar) throws CppDuplicateException {
+		this.name = name;
+		this.signature = new CppSignature(name, signatureVar);
+	}
 
-    private CppFunImpl(CComplexType returnType, String name, CppVar... signatureVar) throws CppDuplicateException {
-
+	public CppFunImpl(CComplexType returnType, String name, CppVar... signatureVar) throws CppDuplicateException {
         this(name, signatureVar);
-
         this.returnType = ReturnType.COMPLEX;
         this.returnTypeComplex = returnType;
     }
 
-    private CppFunImpl(String name, CppVar... signatureVar) throws CppDuplicateException {
-        this.name = name;
-        this.signature = new CppSignature(name, signatureVar);
-    }
-
-    public CppFunImpl(CppClass clazz, long returnType, String name, CppVar... signatureVar)
+    public CppFunImpl(long returnType, String name, CppVar... signatureVar)
             throws CppDuplicateException {
 
         this(name, signatureVar);
 
         this.returnType = ReturnType.LONG;
         this.returnTypeLong = returnType;
-        this.clazz = clazz;
-
     }
 
-    public CppFunImpl(CppClass clazz, String returnType, String name, CppVar[] signatureVars)
+    public CppFunImpl(String returnType, String name, CppVar[] signatureVars)
             throws CppDuplicateException {
 
         this(name, signatureVars);
 
         this.returnType = ReturnType.STRING;
         this.returnTypeString = returnType;
-        this.clazz = clazz;
+    }
 
+    public CppFunImpl(CppTypeGenerator returnType, String name, CppVar[] signatureVars)
+            throws CppDuplicateException {
+
+        this(name, signatureVars);
+
+        this.returnType = ReturnType.GENERATOR;
+        this.returnTypeGenerator = returnType;
     }
 
     public CppFun appendCode(String str) {
-        body.append(str);
+        body.append(str + Cpp.newline);
         return this;
-    }
-
-    public String getReturnType() {
-        switch (returnType) {
-        case COMPLEX:
-            return returnTypeComplex.getTypeName();
-        case LONG:
-            return Cpp.toString(returnTypeLong);
-        case STRING:
-            return returnTypeString;
-        }
-        return null;
     }
 
     public String getName() {
@@ -105,21 +92,14 @@ class CppFunImpl extends CElemImpl implements CppFun {
     }
 
     public String getSignature() {
-        String type = null;
 
-        switch (returnType) {
-        case COMPLEX:
-            type = returnTypeComplex.getTypeName();
-            break;
-        case LONG:
-            type = Cpp.toString(returnTypeLong);
-            break;
-        case STRING:
-            type = returnTypeString;
-            break;
-        }
+    	StringBuffer buffer = new StringBuffer();
+    	if (comment != null) {
+    		buffer.append(Cpp.newline);
+    		buffer.append(comment.toString());
+    	}
 
-        return type + " " + signature.toString();
+        return buffer.toString() + getType() + " " + signature.toString();
     }
 
     public String getBody() {
@@ -128,24 +108,60 @@ class CppFunImpl extends CElemImpl implements CppFun {
 
     @Override
     public void toString(StringBuffer buffer, int tabCount) {
-        // indent(buffer, tabCount);
-        switch (returnType) {
-        case COMPLEX:
-            buffer.append(returnTypeComplex.getTypeName());
-            break;
-        case LONG:
-            buffer.append(Cpp.toString(returnTypeLong));
-            break;
-        case STRING:
-            buffer.append(returnTypeString);
-            break;
-        }
-        buffer.append(" " + this.clazz.getTypeName() + "::\n");
+    	// write comment if necessary
+    	if (comment != null) {
+    		comment.toString(buffer, tabCount);
+    	}
+
+        buffer.append(getType() + " " + getParents() + this.clazz.getName() + "::");
         signature.toString(buffer, 0);
-        buffer.append(" {\n");
+        buffer.append(" {" + Cpp.newline);
         appendBody(buffer, body, tabCount + 1);
-        // indent(buffer, tabCount);
-        buffer.append("\n");
+		buffer.append(Cpp.newline + "}" + Cpp.newline);
+        buffer.append(Cpp.newline);
     }
+
+    private String getType() {
+
+        switch (returnType) {
+	        case GENERATOR:
+	            return returnTypeGenerator.toString();
+	        case COMPLEX:
+	        	return returnTypeComplex.getTypeName();
+	        case LONG:
+	        	return Cpp.toString(returnTypeLong);
+	        case STRING:
+	        	return returnTypeString;
+        }
+
+        return "{UNKNOWN_TYPE}";
+    }
+
+    @Override
+    public CppFun setComment(CComment comment) {
+    	this.comment = comment;
+    	return this;
+    }
+
+    /**
+     * returns OUTER::NESTED1::NESTED2::...::NESTEDN
+     *
+     * @return
+     */
+    private String getParents(){
+    	StringBuffer myParents = new StringBuffer();
+    	if(this.clazz != null) {
+	    	for (CppClass p : this.clazz.getParents()) {
+	    		myParents.append(p.getName()+ "::");
+			}
+    	}
+    	return myParents.toString();
+    }
+
+	@Override
+	public CppFun setClass(CppClass clazz) {
+		this.clazz = clazz;
+		return this;
+	}
 
 }

@@ -13,9 +13,18 @@ public class CppTypeGenerator implements CppTemplateName {
         this.typeName = name;
     }
 
+    public CppTypeGenerator(Long qualifier) {
+    	this.qualifier = qualifier;
+    }
+
     public CppTypeGenerator(String name, Long qualifier) {
         this.typeName = name;
         this.qualifier = qualifier;
+    }
+
+    public CppTypeGenerator(Long qualifiedType, String name) {
+        this.typeName = name;
+        this.qualifiedType = qualifiedType;
     }
 
     public CppTypeGenerator(String name, CppTemplateHelper template) {
@@ -44,7 +53,7 @@ public class CppTypeGenerator implements CppTemplateName {
         }
 
         if(this.clazz != null) {
-            buffer.append(this.clazz.getTemplateName());
+            buffer.append(this.clazz.getName());
         }
 
         if (this.typeName != null) {
@@ -54,20 +63,21 @@ public class CppTypeGenerator implements CppTemplateName {
         if(this.qualifier != null) {
             buffer.append(Cpp.toString(this.qualifier));
         }
-        //
+
         if(this.template != null) {
             buffer.append(this.template.toString());
         }
 
         if(buffer.length() == 0) {
-            return "$UNKNOWN_TYPE$";
+        	buffer = null;
+            return "$UNKNOWN_TYPE_BY_CPP_TYPE_GENERATOR$";
         }
 
         return buffer.toString();
     }
 
     @Override
-    public String getTemplateName() {
+    public String getName() {
         return this.toString();
     }
 

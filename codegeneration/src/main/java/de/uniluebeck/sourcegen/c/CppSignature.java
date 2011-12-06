@@ -30,24 +30,24 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 
 class CppSignature extends CElemImpl {
-	
+
 	//
 	private String name = "";
 	private ArrayList<CppVar> vars = new ArrayList<CppVar>();
-	
+
 	public CppSignature(CppVar... vars) throws CppDuplicateException {
 		add(vars);
 	}
-	
+
 	/*
 	 * Added by O. Kleine: A method signature contains the variables as well as the
-	 * methods name. Thus the following new Constructor is necessary. 
-	 */ 
+	 * methods name. Thus the following new Constructor is necessary.
+	 */
 	public CppSignature(String pName, CppVar... pVars) throws CppDuplicateException {
 		this.name = pName;
 		add(pVars);
 	}
-	
+
 	void add(CppVar... vars) throws CppDuplicateException {
 		for (CppVar var : vars) {
 			for (CppVar v : this.vars) {
@@ -57,31 +57,35 @@ class CppSignature extends CElemImpl {
 			}
 			this.vars.add(var);
 		}
-			
+
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 		indent(buffer, tabCount);
 		buffer.append(name);
-		
+
 		if (vars.size() == 0) {
 			//indent(buffer, tabCount);
 			buffer.append("()");
 			return;
 		}
-		
+
 		//indent(buffer, tabCount);
 		Iterator<CppVar> it = vars.iterator();
 		buffer.append("(");
-		
+
 		while(it.hasNext()) {
 			buffer.append(((CppVarImpl)it.next()).toString());
 			if (it.hasNext())
 				buffer.append(", ");
-			
+
 		}
 		buffer.append(")");
 	}
-	
+
 }

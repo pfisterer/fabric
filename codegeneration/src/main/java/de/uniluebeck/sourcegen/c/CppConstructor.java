@@ -23,6 +23,8 @@
  */
 package de.uniluebeck.sourcegen.c;
 
+import java.util.List;
+
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 
@@ -40,17 +42,27 @@ public interface CppConstructor extends CppLangElem {
 				instance = new CppConstructorFactory();
 			return instance;
 		}
-		
-		public CppConstructor create(CppClass clazz, CppVar... vars) throws CppDuplicateException {
-			return new CppConstructorImpl(clazz, vars);
+
+		public CppConstructor create(CppVar... vars) throws CppDuplicateException {
+			return new CppConstructorImpl(vars);
 		}
 	}
 
 	public static final CppConstructorFactory factory = CppConstructorFactory.getInstance();
-	
+
 	public CppConstructor add(CppVar... create) throws CppDuplicateException;
-	public CppConstructor add(String... pExtendeds) throws CppDuplicateException; 
+	public CppConstructor add(String... pExtendeds) throws CppDuplicateException;
 	public CppConstructor appendCode(String string);
 	public String getSignature();
-	
+	public CppConstructor setComment(CComment comment);
+
+	/**
+	 * This method is only used by the CppClass
+	 *
+	 * @param clazz
+	 * @return
+	 */
+	public CppConstructor setClass(CppClass clazz);
+
+	public CppConstructor setInititalVars(List<CppVar> init);
 }

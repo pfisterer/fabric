@@ -23,8 +23,9 @@
  */
 package de.uniluebeck.sourcegen;
 
+
 public interface WorkspaceElement {
-	
+
 	public abstract String toString();
 
 	public abstract void toString(StringBuffer buffer);

@@ -41,10 +41,6 @@ public interface CppDestructor extends CppLangElem {
 			return instance;
 		}
 
-		public CppDestructor create(CppClass clazz, CppVar... vars ) throws CppDuplicateException{
-			return new CppDestructorImpl(clazz, vars);
-		}
-		
 		public CppDestructor create(CppVar... vars) throws CppDuplicateException {
 			return new CppDestructorImpl(vars);
 		}
@@ -55,6 +51,15 @@ public interface CppDestructor extends CppLangElem {
 
 	public CppDestructor add(CppVar... vars) throws CppDuplicateException;
 	public CppDestructor appendCode(String string);
+	public CppDestructor setComment(CComment comment);
 	public String getSignature();
-	
+
+	/**
+	 * This method is only used by the CppClass
+	 *
+	 * @param clazz
+	 * @return
+	 */
+	public CppDestructor setClass(CppClass clazz);
+
 }

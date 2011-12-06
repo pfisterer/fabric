@@ -42,19 +42,19 @@ public interface CEnum extends CComplexType {
 				instance = new CEnumFactory();
 			return instance;
 		}
-		
+
 		public CEnum create(String name, String varname, boolean typedef, String... constants) throws CDuplicateException, CCodeValidationException {
 			return new CEnumImpl(name, varname, typedef, constants);
 		}
 
 	}
-	
+
 	public static final CEnumFactory factory = CEnumFactory.getInstance();
-	
+
 	/**
 	 * Adds a C preprocessor directive which will be printed out after the
 	 * enum declaration/implementation.
-	 * 
+	 *
 	 * @param directive
 	 *            the preprocessor directive(s)
 	 * @return
@@ -64,7 +64,7 @@ public interface CEnum extends CComplexType {
 	/**
 	 * Adds (a) C preprocessor directive(s) which will be printed out after the
 	 * enum declaration/implementation.
-	 * 
+	 *
 	 * @param directive
 	 *            the preprocessor directive(s) to add
 	 * @throws ValidationException
@@ -75,11 +75,11 @@ public interface CEnum extends CComplexType {
 
 	/**
 	 * TODO: javadoc
-	 * 
+	 *
 	 * Test: {@link CFunctionTest#testAddDirectiveAfterFunctionStringBoolean()}
 	 * @param hash
 	 * @param directive
-	 * 
+	 *
 	 * @throws CPreProcessorValidationException
 	 * @return
 	 */
@@ -88,32 +88,32 @@ public interface CEnum extends CComplexType {
 	/**
 	 * Adds a C preprocessor directive which will be printed out before the
 	 * enum declaration/implementation.
-	 * 
+	 *
 	 * @param directive
 	 *            the preprocessor directive
-	 * @return 
+	 * @return
 	 */
 	public CEnum addBeforeDirective(CPreProcessorDirective... directive);
 
 	/**
 	 * Adds a C preprocessor directive which will be printed out before the
 	 * enum declaration/implementation.
-	 * 
+	 *
 	 * @param directive
 	 *            the preprocessor directive
 	 * @throws ValidationException
 	 *             if the directive is syntactically invalid
-	 * @return 
+	 * @return
 	 */
 	public CEnum addBeforeDirective(String... directive) throws ValidationException;
 
 	/**
 	 * TODO: javadoc
-	 * 
+	 *
 	 * Test: {@link CFunctionTest#testAddDirectiveBeforeFunctionStringBoolean()}
 	 * @param hash
 	 * @param directive
-	 * 
+	 *
 	 * @throws CPreProcessorValidationException
 	 * @return
 	 */
@@ -121,21 +121,29 @@ public interface CEnum extends CComplexType {
 
 	/**
 	 * Adds a constant to this enum.
-	 * 
+	 *
 	 * @param constant the constant String to add
 	 * @throws CDuplicateException if there's already a constant with
 	 * the same String
-	 * @return 
+	 * @return
 	 */
 	public CEnum addConstant(String... constant) throws CDuplicateException;
 
 	/**
 	 * Checks whether the constant is already contained in this enum.
-	 * 
+	 *
 	 * @param constant the constant to check for
 	 * @return <code>true</code> if this constant is already contained
 	 * in the enum, <code>false</code> otherwise.
 	 */
 	public boolean containsConstant(String constant);
+
+	/**
+	 * Set a comment
+	 *
+	 * @param comment The comment
+	 * @return
+	 */
+	public CEnum setComment(CComment comment);
 
 }

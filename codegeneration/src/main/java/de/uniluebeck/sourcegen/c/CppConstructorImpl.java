@@ -24,9 +24,9 @@
 package de.uniluebeck.sourcegen.c;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
-
 
 class CppConstructorImpl extends CElemImpl implements CppConstructor {
 
@@ -35,9 +35,12 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 	private CppClass clazz;
 	private LinkedList<String> extendeds = new LinkedList<String>();
 
-	public CppConstructorImpl(CppClass clazz, CppVar... cppVars) throws CppDuplicateException {
-		this.signature = new CppSignature(clazz.getTypeName(), cppVars);
-		this.clazz = clazz;
+	private CComment comment = null;
+
+	private List<CppVar> inititializedVars = new LinkedList<CppVar>();
+
+	public CppConstructorImpl(CppVar... cppVars) throws CppDuplicateException {
+		this.signature = new CppSignature(cppVars);
 	}
 
 	public CppConstructor add(CppVar... var) throws CppDuplicateException {
@@ -46,14 +49,16 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 	}
 
 	public CppConstructor appendCode(String str) {
-		this.body.append(str);
+		this.body.append(str + Cpp.newline);
 		return this;
 	}
-	
-	public CppConstructor add(String... pExtendeds) throws CppDuplicateException {
-		for(String str : pExtendeds){
-			for(String s : this.extendeds){
-				if(s.equals(str)) throw new CppDuplicateException("Duplicate extend: " + s);
+
+	public CppConstructor add(String... pExtendeds)
+			throws CppDuplicateException {
+		for (String str : pExtendeds) {
+			for (String s : this.extendeds) {
+				if (s.equals(str))
+					throw new CppDuplicateException("Duplicate extend: " + s);
 			}
 			this.extendeds.add(str);
 		}
@@ -61,39 +66,92 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 	}
 
 	public String getSignature() {
-		return signature.toString();
+
+		StringBuffer buffer = new StringBuffer();
+		// write comment if necessary
+		if (comment != null) {
+			comment.toString(buffer, 0);
+		}
+
+		return buffer.toString() + signature.toString();
 	}
 
 	public String getBody() {
 		return body.toString();
 	}
-	
-	public String getTypeName() {
-		return clazz.getTypeName();
-	}
 
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
-		buffer.append(this.clazz.getTypeName() + "::");
+
+		// write comment if necessary
+		if (comment != null) {
+			comment.toString(buffer, tabCount);
+		}
+
+		buffer.append(getParents() + this.clazz.getName() + "::");
 		signature.toString(buffer, 0);
-		
-		//add extendeds (special constructors of superclasses
-		int counter = 0;
-		for(String s : this.extendeds){
-			if(counter == 0){
-				buffer.append("\n:");
+
+		// Add initial values
+		for (int i = 0; i < inititializedVars.size(); i++) {
+			CppVar v = inititializedVars.get(i);
+			if(i == 0) {
+				buffer.append(" : ");
+			} else {
+				buffer.append(" , ");
 			}
-			else{
+			buffer.append(v.getInit());
+		}
+
+		// add extendeds (special constructors of superclasses
+		int counter = 0;
+		for (String s : this.extendeds) {
+			if (counter == 0) {
+				buffer.append("\n:");
+			} else {
 				buffer.append(", ");
 			}
 			buffer.append(s);
 			counter++;
 		}
 		buffer.append(" {\n");
-		appendBody(buffer, body, tabCount+1);
+		appendBody(buffer, body, tabCount + 1);
 		buffer.append("\n");
 		indent(buffer, tabCount);
 		buffer.append("}\n\n");
 	}
-	
+
+	@Override
+	public CppConstructor setComment(CComment comment) {
+		this.comment = comment;
+		return this;
+	}
+
+	/**
+	 * returns OUTER::NESTED1::NESTED2::...::NESTEDN
+	 *
+	 * @return
+	 */
+	private String getParents() {
+		StringBuffer myParents = new StringBuffer();
+		if (this.clazz != null) {
+			for (CppClass p : this.clazz.getParents()) {
+				myParents.append(p.getName() + "::");
+			}
+		}
+		return myParents.toString();
+	}
+
+	@Override
+	public CppConstructor setClass(CppClass clazz) {
+		this.clazz = clazz;
+		this.signature.setName(clazz.getName());
+		return this;
+	}
+
+	@Override
+	public CppConstructor setInititalVars(List<CppVar> init) {
+		this.inititializedVars = init;
+		return this;
+	}
+
 }

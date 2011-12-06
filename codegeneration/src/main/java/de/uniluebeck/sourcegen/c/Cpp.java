@@ -25,7 +25,8 @@ package de.uniluebeck.sourcegen.c;
 
 public abstract class Cpp {
 
-  public static String newline = System.getProperty("line.separator");
+	public static String newline = System.getProperty("line.separator");
+	public static String tab = "\t";
 
 	public static final long ARRAY 		= 1<<0;
 	public static final long ARRAY2D	= 1<<1;

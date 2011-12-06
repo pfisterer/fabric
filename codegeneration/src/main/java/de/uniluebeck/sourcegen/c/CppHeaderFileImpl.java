@@ -34,41 +34,77 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
-		//Before Preprocessordiretives
-		for(CPreProcessorDirectiveImpl ppd : base.beforeDirectives){
-			ppd.toString(buffer, tabCount);
-			buffer.append("\n");
-		}
-		if(base.beforeDirectives.size() > 0) buffer.append("\n");
 
-		//Includes
-		for(String s : base.libIncludes){
-			buffer.append("#include <");
-			buffer.append(s);
-			buffer.append(">\n");
+		// write comment if necessary
+		if (comment != null) {
+			comment.toString(buffer, tabCount);
 		}
-		if(base.libIncludes.size() > 0) buffer.append("\n");
 
-		//namespace TODO: ordentlich machen!
-		// buffer.append("namespace isense {\n\n");
+		// LibIncludes: System header files
+		if(base.getLibIncludes().size() > 0) {
+			for(String include : base.getLibIncludes()) {
+				buffer.append("#include <" + include + ">" + Cpp.newline);
+			}
+	    	buffer.append(Cpp.newline);
+		}
+
+		// Before Preprocessordiretives
+		if(base.beforeDirectives.size() > 0) {
+			for(CPreProcessorDirectiveImpl ppd : base.beforeDirectives){
+				ppd.toString(buffer, tabCount);
+				buffer.append(Cpp.newline);
+			}
+			buffer.append(Cpp.newline);
+		}
+
+	    // Namespaces
+	    if(this.cppNamespaces.size() > 0) {
+	    	// Include the namespaces
+	    	for(String ns : this.cppNamespaces){
+	    		buffer.append("using namespace " + ns + ";" + Cpp.newline);
+	    	}
+	    	buffer.append(Cpp.newline);
+	    }
+
+		// Enums
+		if(base.getEnums().size() > 0) {
+			for(CEnum e : base.getEnums()) {
+				buffer.append(e.toString() + Cpp.newline);
+			}
+		}
+
+		// typedefs
+		if(base.getTypeDefs().size() > 0) {
+			for(CTypeDef t : base.getTypeDefs()){
+				buffer.append(t.toString());
+			}
+			buffer.append(Cpp.newline);
+		}
 
 		//structs
 		for(CStructBaseImpl struct : base.structsUnions){
 			buffer.append(struct.toString());
+			buffer.append(Cpp.newline + Cpp.newline);
 		}
-		if(base.structsUnions.size() > 0) buffer.append("\n\n");
+
+		//TODO: Namespace
+		// buffer.append("namespace isense {\n\n");
 
 		//classes
 		for(CppClass c : this.cppClasses){
 			buffer.append(c.toString());
 		}
 
+		// TODO: Namespaces
 		// buffer.append("}\n");
 
-		//After Preprocessordirectives
-		for(CPreProcessorDirectiveImpl ppd : base.afterDirectives){
-			buffer.append("\n");
-			ppd.toString(buffer, tabCount);
+		// After Preprocessordiretives
+		if(base.afterDirectives.size() > 0) {
+			for(CPreProcessorDirectiveImpl ppd : base.afterDirectives){
+				ppd.toString(buffer, tabCount);
+				buffer.append(Cpp.newline);
+			}
+			buffer.append(Cpp.newline);
 		}
 	}
 }

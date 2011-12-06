@@ -35,8 +35,8 @@ import de.uniluebeck.sourcegen.exceptions.ValidationException;
 
 
 /**
- * 
- * 
+ *
+ *
  * @author Daniel Bimschas
  */
 class CEnumImpl extends CElemImpl implements CEnum {
@@ -48,7 +48,9 @@ class CEnumImpl extends CElemImpl implements CEnum {
 	private ArrayList<String> constants = new ArrayList<String>();
 
 	private String name;
-	
+
+    private CComment comment = null;
+
 	/**
 	 * the directives which will be printed after struct/structUnion
 	 * declaration/implementation
@@ -63,7 +65,7 @@ class CEnumImpl extends CElemImpl implements CEnum {
 
 	/**
 	 * Constructs a new <code>CEnum</code> instance.
-	 * 
+	 *
 	 * @param name
 	 *            the name
 	 * @param vars
@@ -89,23 +91,23 @@ class CEnumImpl extends CElemImpl implements CEnum {
 		this.typedef = typedef;
 
 		addConstant(constants);
-		
+
 		validateFields();
 
 	}
-	
+
 	public CEnum addAfterDirective(boolean hash, String... directive) throws CPreProcessorValidationException {
 		for (String d : directive)
 			this.afterDirectives.add(new CPreProcessorDirectiveImpl(hash, d));
 		return this;
 	}
-	
+
 	public CEnum addAfterDirective(CPreProcessorDirective... directives) {
 		for (CPreProcessorDirective d : directives)
 			this.afterDirectives.add((CPreProcessorDirectiveImpl)d);
 		return this;
 	}
-	
+
 	public CEnum addAfterDirective(String... directive) throws ValidationException {
 		addAfterDirective(true, directive);
 		return this;
@@ -122,26 +124,26 @@ class CEnumImpl extends CElemImpl implements CEnum {
 			this.beforeDirectives.add((CPreProcessorDirectiveImpl)d);
 		return this;
 	}
-	
+
 	public CEnum addBeforeDirective(String... directives) throws ValidationException {
 		for(String d : directives)
 			this.beforeDirectives.add(new CPreProcessorDirectiveImpl(d));
 		return this;
 	}
-	
+
 	private CEnum addConstantInternal(String constant) throws CDuplicateException {
 		if (constants.contains(constant))
 			throw new CDuplicateException("Duplicate enum constant " + constant);
 		constants.add(constant);
 		return this;
 	}
-	
+
 	public CEnum addConstant(String... constants) throws CDuplicateException {
 		for (String c : constants)
 			addConstantInternal(c);
 		return this;
 	}
-	
+
 	public boolean containsConstant(String constant) {
 		return constants.contains(constant);
 	}
@@ -149,7 +151,7 @@ class CEnumImpl extends CElemImpl implements CEnum {
 	/**
 	 * Returns the list of directives that will be printed out after enum
 	 * declaration/implementation.
-	 * 
+	 *
 	 * @return a list of preprocessor directives
 	 */
 	public CPreProcessorDirective[] getAfterDirectives() {
@@ -160,7 +162,7 @@ class CEnumImpl extends CElemImpl implements CEnum {
 	/**
 	 * Returns the list of directives that will be printed out before enum
 	 * declaration/implementation.
-	 * 
+	 *
 	 * @return a list of preprocessor directives
 	 */
 	public CPreProcessorDirective[] getBeforeDirectives() {
@@ -174,7 +176,7 @@ class CEnumImpl extends CElemImpl implements CEnum {
 
 	/**
 	 * Returns the name.
-	 * 
+	 *
 	 * @return the name
 	 */
 	public String getTypeName() {
@@ -183,7 +185,7 @@ class CEnumImpl extends CElemImpl implements CEnum {
 
 	/**
 	 * Returns the variable name of this enum.
-	 * 
+	 *
 	 * @return the variable name of this enum
 	 */
 	public String getVarname() {
@@ -192,7 +194,7 @@ class CEnumImpl extends CElemImpl implements CEnum {
 
 	/**
 	 * Returns if this enum is a <code>typedef</code>.
-	 * 
+	 *
 	 * @return <code>true</code> if this enum is a <code>typedef</code>,
 	 *         <code>false</code> otherwise
 	 */
@@ -202,7 +204,7 @@ class CEnumImpl extends CElemImpl implements CEnum {
 
 	/**
 	 * Validates the fields of this enum for syntactic correctness.
-	 * 
+	 *
 	 * @throws CCodeValidationException
 	 *             if validation fails
 	 */
@@ -213,6 +215,12 @@ class CEnumImpl extends CElemImpl implements CEnum {
 
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
+
+		// write comment if necessary
+		if (comment != null) {
+			comment.toString(buffer, tabCount);
+		}
+
 		if (beforeDirectives.size() > 0) {
 			toString(buffer, tabCount, beforeDirectives, "", "\n");
 			buffer.append("\n");
@@ -239,8 +247,15 @@ class CEnumImpl extends CElemImpl implements CEnum {
 			buffer.append("\n");
 			toString(buffer, tabCount, afterDirectives);
 		}
+		buffer.append(Cpp.newline);
 	}
-	
+
+	@Override
+	public CEnum setComment(CComment comment) {
+		this.comment = comment;
+		return this;
+	}
+
 	public static void main(String[] args) throws Exception {
 		CEnumImpl e = new CEnumImpl("TheEnum", "theVarName", true);
 		e.addBeforeDirective("IFNDEF _THE_ENUM_");

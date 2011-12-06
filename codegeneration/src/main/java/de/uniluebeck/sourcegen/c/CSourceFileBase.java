@@ -86,10 +86,12 @@ public class CSourceFileBase extends ElemImpl {
 	 * in the generated source file
 	 */
 	public LinkedList<CStructBaseImpl> structsUnions;
-	
+
+	public LinkedList<CTypeDef> typeDefs;
+
 	/**
 	 * Copy constructor;
-	 * 
+	 *
 	 * @param sourceFile
 	 */
 	public CSourceFileBase(CSourceFileBase other, boolean copyFuns) {
@@ -102,14 +104,15 @@ public class CSourceFileBase extends ElemImpl {
 		includes 			= new LinkedList<CHeaderFileImpl>(other.includes);
 		libIncludes			= new LinkedList<String>(other.libIncludes);
 		structsUnions		= new LinkedList<CStructBaseImpl>(other.structsUnions);
-		
+		typeDefs			= new LinkedList<CTypeDef>(other.typeDefs);
+
 		if (copyFuns) funs = new LinkedList<CFunImpl>(other.funs);
 		else funs = new LinkedList<CFunImpl>();
 	}
-	
+
 	/**
 	 * Standard constructor
-	 * 
+	 *
 	 * @param newFileName
 	 */
 	public CSourceFileBase() {
@@ -122,12 +125,13 @@ public class CSourceFileBase extends ElemImpl {
 		includes 			= new LinkedList<CHeaderFileImpl>();
 		libIncludes			= new LinkedList<String>();
 		structsUnions		= new LinkedList<CStructBaseImpl>();
+		typeDefs			= new LinkedList<CTypeDef>();
 	}
 
 	public boolean equals(CSourceFileBase other) {
 		return fileName.equals(other.fileName);
 	}
-	
+
 	public LinkedList<CPreProcessorDirectiveImpl> getAfterDirectives() {
 		return afterDirectives;
 	}
@@ -135,21 +139,25 @@ public class CSourceFileBase extends ElemImpl {
 	public LinkedList<CPreProcessorDirectiveImpl> getBeforeDirectives() {
 		return beforeDirectives;
 	}
-	
+
 	public LinkedList<CEnumImpl> getEnums() {
 		return enums;
 	}
-	
+
 	public String getFileName() {
 		return fileName;
 	}
-	
+
 	public LinkedList<CFunImpl> getForwardDeclarations() {
 		return forwardDeclarations;
 	}
-	
+
 	public LinkedList<CFunImpl> getFuns() {
 		return funs;
+	}
+
+	public LinkedList<CTypeDef> getTypeDefs() {
+		return typeDefs;
 	}
 
 	public LinkedList<String> getGlobalDeclarations() {
@@ -159,7 +167,7 @@ public class CSourceFileBase extends ElemImpl {
 	public LinkedList<CHeaderFileImpl> getIncludes() {
 		return includes;
 	}
-	
+
 	public LinkedList<String> getLibIncludes() {
 		return libIncludes;
 	}
@@ -167,7 +175,7 @@ public class CSourceFileBase extends ElemImpl {
 	public LinkedList<CStructBaseImpl> getStructsUnions() {
 		return structsUnions;
 	}
-	
+
 	public void internalAddAfterDirective(boolean hash, String... directives) throws CPreProcessorValidationException {
 		for (String directive : directives)
 			this.afterDirectives.add(new CPreProcessorDirectiveImpl(hash, directive));
@@ -182,7 +190,7 @@ public class CSourceFileBase extends ElemImpl {
 		for (String d : directive)
 			this.afterDirectives.add(new CPreProcessorDirectiveImpl(d));
 	}
-	
+
 	public void internalAddBeforeDirective(boolean hash, String... directives) throws CPreProcessorValidationException {
 		for (String directive : directives)
 			this.beforeDirectives.add(new CPreProcessorDirectiveImpl(hash, directive));
@@ -200,89 +208,100 @@ public class CSourceFileBase extends ElemImpl {
 	}
 
 	public void internalAddEnum(CEnum... enums) throws CDuplicateException {
-		
+
 		for (CEnum e : enums) {
 			if (internalContainsEnum(e))
 				throw new CDuplicateException("Duplicate enum " + ((CEnumImpl)e).getTypeName());
 
 			this.enums.add((CEnumImpl)e);
 		}
-		
+
 	}
 
 	public void internalAddForwardDeclaration(CFun... functions) throws CDuplicateException {
-		
+
 		for (CFun f : functions) {
 			if (internalContainsForwardDeclaration(f))
 				throw new CDuplicateException("Duplicate forward declaration of function " + ((CFunImpl)f).getName());
 			this.forwardDeclarations.add((CFunImpl)f);
 		}
-		
+
 	}
 
 	public void internalAddFun(CFun... functions) throws CDuplicateException {
-		
+
 		for (CFun f : functions) {
 			if (internalContainsFun(f))
 				throw new CDuplicateException("Duplicate function " + ((CFunImpl)f).getName());
 
 			this.funs.add((CFunImpl)f);
 		}
-		
+
 	}
 
 	public void internalAddGlobalDeclaration(String... declarations) throws CCodeValidationException {
-		
+
 		for (String d : declarations) {
 			// TODO: implement validation
 			// remove SuppressWarnings(!)
 			globalDeclarations.add(d);
 		}
-		
+
 	}
 
 	public void internalAddInclude(CHeaderFile... headerFile) throws CDuplicateException {
-		
+
 		for (CHeaderFile hf : headerFile) {
 			if (internalContainsInclude(hf))
 				throw new CDuplicateException("Duplicate header file include of " + fileName);
 
 			includes.add((CHeaderFileImpl)hf);
 		}
-		
+
 	}
 
 	public void internalAddLibInclude(String... fileNames) throws CDuplicateException {
-		
+
 		for (String fn : fileNames) {
 			if (internalContainsLibInclude(fn))
 				throw new CDuplicateException("Duplicate header file include of " + fn);
 
 			libIncludes.add(fn);
 		}
-		
+
 	}
 
 	public void internalAddStruct(CStruct... structs) throws CDuplicateException {
-		
+
 		for (CStruct s : structs) {
 			if (internalContainsStruct(s))
 				throw new CDuplicateException("Duplicate struct " + ((CStructImpl)s).getTypeName());
 
-			structsUnions.add((CStructImpl)s);			
+			structsUnions.add((CStructImpl)s);
 		}
-		
+
 	}
 
 	public void internalAddUnion(CUnion... unions) throws CDuplicateException {
-		
+
 		for (CUnion u : unions) {
 			if (internalContainsUnion(u))
 				throw new CDuplicateException("Duplicate structUnion " + ((CUnionImpl)u).getTypeName());
 
 			structsUnions.add((CUnionImpl)u);
 		}
-		
+
+	}
+
+	public void internalTypedef(CTypeDef... typedefs) throws CDuplicateException {
+
+		for (CTypeDef t : typedefs) {
+			if (internalContainsTypeDef(t)) {
+				throw new CDuplicateException("Duplicate Typedef " + ((CTypeDef)t).getAlias());
+			}
+			this.typeDefs.add(t);
+		}
+
 	}
 
 	public boolean internalContainsAfterDirective(CPreProcessorDirective directive) {
@@ -381,9 +400,17 @@ public class CSourceFileBase extends ElemImpl {
 		return internalGetUnionByName(name) != null;
 	}
 
+	public boolean internalContainsTypeDef(CTypeDef type) {
+		return internalContainsTypeDef(((CTypeDef)type).getAlias());
+	}
+
+	public boolean internalContainsTypeDef(String name) {
+		return internalGetTypeDefByName(name) != null;
+	}
+
 	/**
 	 * Returns the list of directives after the function.
-	 * 
+	 *
 	 * @return the list of directives after the function
 	 */
 	public CPreProcessorDirective[] internalGetAfterDirectives() {
@@ -392,7 +419,7 @@ public class CSourceFileBase extends ElemImpl {
 
 	/**
 	 * Returns the preprocessor beforeDirectives.
-	 * 
+	 *
 	 * @return the preprocessor beforeDirectives
 	 */
 	public CPreProcessorDirective[] internalGetBeforeDirectives() {
@@ -401,7 +428,7 @@ public class CSourceFileBase extends ElemImpl {
 
 	/**
 	 * Returns the enum with the name <code>name</code>.
-	 * 
+	 *
 	 * @param name
 	 *            the name of the enum to search for
 	 * @return a <code>CEnum</code> instance or <code>null</code> if an enum
@@ -419,16 +446,16 @@ public class CSourceFileBase extends ElemImpl {
 
 	/**
 	 * Returns the list of enums contained in this source file.
-	 * 
+	 *
 	 * @return the list of enums contained in this source file
 	 */
 	public CEnum[] internalGetEnums() {
 		return enums.toArray(new CEnum[enums.size()]);
 	}
-	
+
 	/**
 	 * Returns the name of this C source file.
-	 * 
+	 *
 	 * @return the name of this C source file
 	 */
 	public String internalGetFileName() {
@@ -438,7 +465,7 @@ public class CSourceFileBase extends ElemImpl {
 	/**
 	 * Returns the forward declaration of the function named
 	 * <code>functionName</code>.
-	 * 
+	 *
 	 * @param functionName
 	 *            the name of the function
 	 * @return a <code>CFunImpl</code> instance or <code>null</code> if no
@@ -453,7 +480,7 @@ public class CSourceFileBase extends ElemImpl {
 
 	/**
 	 * Returns the list of forward declarations.
-	 * 
+	 *
 	 * @return the list of forward declarations
 	 */
 	public CFun[] internalGetForwardDeclarations() {
@@ -462,7 +489,7 @@ public class CSourceFileBase extends ElemImpl {
 
 	/**
 	 * Returns the function with the name <code>name</code>.
-	 * 
+	 *
 	 * @param name
 	 *            the funs' name
 	 * @return a <code>CFunImpl</code> instance or <code>null</code> if no
@@ -480,7 +507,7 @@ public class CSourceFileBase extends ElemImpl {
 
 	/**
 	 * Returns the funs of this C source file.
-	 * 
+	 *
 	 * @return the funs of this C source file
 	 */
 	public CFun[] internalGetFunctions() {
@@ -489,7 +516,7 @@ public class CSourceFileBase extends ElemImpl {
 
 	/**
 	 * Returns the list of global variable declarations.
-	 * 
+	 *
 	 * @return the list of global variable declarations
 	 */
 	public String[] internalGetGlobalDeclarations() {
@@ -500,7 +527,7 @@ public class CSourceFileBase extends ElemImpl {
 
 	/**
 	 * Returns the included header files.
-	 * 
+	 *
 	 * @return the included header files
 	 */
 	public CHeaderFile[] internalGetIncludes() {
@@ -509,7 +536,7 @@ public class CSourceFileBase extends ElemImpl {
 
 	/**
 	 * Returns the included header files from libs.
-	 * 
+	 *
 	 * @return the included header files from libs
 	 */
 	public String[] internalGetLibIncludes() {
@@ -518,7 +545,7 @@ public class CSourceFileBase extends ElemImpl {
 
 	/**
 	 * Returns the struct with the name <code>name</code>.
-	 * 
+	 *
 	 * @param name
 	 *            the name of the struct to search for
 	 * @return a <code>CStructImpl</code> instance or <code>null</code> if no
@@ -536,7 +563,7 @@ public class CSourceFileBase extends ElemImpl {
 
 	/**
 	 * Returns the structsUnions of this C source file.
-	 * 
+	 *
 	 * @return the structsUnions of this C source file
 	 */
 	public CStructBase[] internalGetStructsUnions() {
@@ -545,7 +572,7 @@ public class CSourceFileBase extends ElemImpl {
 
 	/**
 	 * Returns the structUnion with the name <code>name</code>.
-	 * 
+	 *
 	 * @param name
 	 *            the name to check for
 	 * @return a <code>CUnionImpl</code> instance or <code>null</code> if no
@@ -561,15 +588,24 @@ public class CSourceFileBase extends ElemImpl {
 		return null;
 
 	}
-	
+
+	public CTypeDef internalGetTypeDefByName(String name) {
+		for (CTypeDef u : typeDefs)
+			if (u instanceof CTypeDef && ((CTypeDef) u).getAlias().equals(name))
+				return (CTypeDef) u;
+
+		return null;
+	}
+
+
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
-		
+
 		if(beforeDirectives.size() > 0) {
 			toString(buffer, tabCount, beforeDirectives, "", "\n");
 			buffer.append("\n\n");
 		}
-		
+
 		if (includes.size() > 0) {
 			for (CHeaderFileImpl header : includes) {
 				indent(buffer, tabCount);
@@ -579,7 +615,7 @@ public class CSourceFileBase extends ElemImpl {
 			}
 			buffer.append("\n");
 		}
-		
+
 		if (libIncludes.size() > 0) {
 			for (String i : libIncludes) {
 				indent(buffer, tabCount);
@@ -589,7 +625,7 @@ public class CSourceFileBase extends ElemImpl {
 			}
 			buffer.append("\n");
 		}
-		
+
 		if (globalDeclarations.size() > 0) {
 			for (String d : globalDeclarations) {
 				indent(buffer, tabCount);
@@ -626,7 +662,7 @@ public class CSourceFileBase extends ElemImpl {
 			toString(buffer, tabCount, afterDirectives, "", "\n");
 			buffer.append("\n");
 		}
-		
+
 	}
-	
+
 }

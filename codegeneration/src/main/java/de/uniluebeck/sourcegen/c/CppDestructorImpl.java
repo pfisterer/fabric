@@ -32,25 +32,22 @@ class CppDestructorImpl extends CElemImpl implements CppDestructor {
 	private StringBuffer body = new StringBuffer();
 	private CppClass clazz;
 
-	public CppDestructorImpl(CppClass clazz, CppVar... vars ) throws CppDuplicateException {
-		this.signature = new CppSignature(clazz.getTypeName(), vars);
-		this.clazz = clazz;
-	}
-	
+	private CComment comment = null;
+
 	public CppDestructorImpl(CppVar... vars) throws CppDuplicateException {
 		this.signature = new CppSignature(vars);
 	}
-	
+
 	public CppDestructor add(CppVar... vars) throws CppDuplicateException {
 		this.signature.add(vars);
 		return this;
 	}
 
 	public CppDestructor appendCode(String str) {
-		this.body.append(str);
+		this.body.append(str + Cpp.newline);
 		return this;
 	}
-	
+
 	public String getSignature() {
 		return "~" + signature.toString();
 	}
@@ -59,14 +56,49 @@ class CppDestructorImpl extends CElemImpl implements CppDestructor {
 		return body.toString();
 	}
 
+	public CppDestructor setComment(CComment comment) {
+		this.comment = comment;
+		return this;
+	}
+
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
-		buffer.append(this.clazz.getTypeName() + "::~" + this.signature.toString());
-		buffer.append(" {\n");
+
+		if (comment != null) {
+			comment.toString(buffer, tabCount);
+		}
+
+        buffer.append(getParents() + this.clazz.getName() + "::~");
+		signature.toString(buffer, 0);
+
+		buffer.append(" {" + Cpp.newline);
 		appendBody(buffer, body, tabCount+1);
-		buffer.append("\n");
+		buffer.append(Cpp.newline);
 		indent(buffer, tabCount);
-		buffer.append("}\n\n");
+		buffer.append("}" + Cpp.newline + Cpp.newline);
+	}
+
+
+    /**
+     * returns OUTER::NESTED1::NESTED2::...::NESTEDN
+     *
+     * @return
+     */
+    private String getParents(){
+    	StringBuffer myParents = new StringBuffer();
+    	if(this.clazz != null) {
+	    	for (CppClass p : this.clazz.getParents()) {
+	    		myParents.append(p.getName()+ "::");
+			}
+    	}
+    	return myParents.toString();
+    }
+
+	@Override
+	public CppDestructor setClass(CppClass clazz) {
+		this.clazz = clazz;
+		this.signature.setName(clazz.getName());
+		return this;
 	}
 
 }

@@ -23,6 +23,8 @@
  */
 package de.uniluebeck.sourcegen.c;
 
+import java.util.List;
+
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
@@ -44,11 +46,13 @@ public interface CppClass extends CppComplexType, CppTemplateName {
             return instance;
         }
 
-        public CppClass create(String className, CppSourceFile sourceFile) {
-            return new CppClassImpl(className, sourceFile);
+        public CppClass create(String className) {
+            return new CppClassImpl(className);
         }
 
     }
+
+	public CppClass setComment(CComment comment);
 
     public static final CppClassFactory factory = CppClassFactory.getInstance();
 
@@ -64,9 +68,17 @@ public interface CppClass extends CppComplexType, CppTemplateName {
 
     public CppClass add(long vis, CppVar... var) throws CppDuplicateException;
 
+    public CppClass add(CppVar... var) throws CppDuplicateException;
+
     public CppClass add(long vis, CStruct... struct) throws CppDuplicateException;
 
     public CppClass add(long vis, CUnion... unions) throws CppDuplicateException;
+
+    public CppClass add(long vis, CppClass... cppClass) throws CppDuplicateException;
+
+    public CppClass addParents(List<CppClass> cppClass, CppClass cppClazz);
+
+    public List<CppClass> getParents();
 
     public CppClass addAfterDirective(CPreProcessorDirective... directive);
 
@@ -102,8 +114,6 @@ public interface CppClass extends CppComplexType, CppTemplateName {
 
     public CEnum getEnumByName(String name);
 
-    public String getTypeName();
-
     public long getVis(CEnum enumObj);
 
     public long getVis(CFun fun);
@@ -120,18 +130,14 @@ public interface CppClass extends CppComplexType, CppTemplateName {
 
     public long getVis(CUnion union);
 
-    public long getVisExtended(CppClass extended);
-    
-    // TODO: Added block begin
-    public void setSourceFile(CppSourceFile sourceFile);
-    // TODO: Added block end
+    public long getVisExtended(CppClass extended);   
 
-    public String toString();
+    // Needed for CppSourceFileImp
+    public List<CppConstructor> getConstructors(long vis);
+    public List<CppDestructor> getDestructors(long vis);
+    public List<CppFun> getFuns(long vis);
+    public List<CppVar> getVars(long vis);
+    public List<CppClass> getNested(long vis);
 
-    public CppConstructor[] getConstructors(long vis);
-
-    public CppDestructor[] getDestructors(long vis);
-
-    public CppFun[] getFuns(long vis);
 
 }
