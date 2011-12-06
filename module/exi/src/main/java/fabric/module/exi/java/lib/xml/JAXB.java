@@ -1,4 +1,4 @@
-/** 11.11.2011 21:02 */
+/** 02.12.2011 12:35 */
 package fabric.module.exi.java.lib.xml;
 
 import de.uniluebeck.sourcegen.java.JMethod;
@@ -113,16 +113,16 @@ public class JAXB extends XMLLibrary
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "removeTagFromList", jms);
 
     String methodBody =
-            "NodeList rootNodes = document.getElementsByTagName(listName);\n\n" +
-            "// Process all elements below root node\n" +
-            "for (int i = 0; i < rootNodes.getLength(); ++i) {\n" +
-            "\tElement root = (Element)rootNodes.item(i);\n\n" +
-            "\t// Get all child nodes of root that have a values-tag\n" +
-            "\tNodeList children = root.getElementsByTagName(\"values\");\n\n" +
+            "NodeList parentNodes = document.getElementsByTagName(listName);\n\n" +
+            "// Process all elements below parent node\n" +
+            "for (int i = 0; i < parentNodes.getLength(); ++i) {\n" +
+            "\tElement parent = (Element)parentNodes.item(i);\n\n" +
+            "\t// Get all child nodes of parent that have a values-tag\n" +
+            "\tNodeList children = parent.getElementsByTagName(\"values\");\n\n" +
             "\tif (children.getLength() == 1) {\n" +
             "\t\tString newContent = children.item(0).getTextContent();\n"+
-            "\t\troot.removeChild(children.item(0));\n" +
-            "\t\troot.setTextContent(newContent);\n" +
+            "\t\tparent.removeChild(children.item(0));\n" +
+            "\t\tparent.setTextContent(newContent);\n" +
             "\t}\n" +
             "}";
     
@@ -154,14 +154,14 @@ public class JAXB extends XMLLibrary
     
     String methodBody =
             "if (isCustomTyped) {\n" +
-            "\tNodeList rootNodes = document.getElementsByTagName(listName);\n\n" +
-            "\t// Process all elements below root node\n" +
-            "\tfor (int i = 0; i < rootNodes.getLength(); ++i) {\n" +
-            "\t\tElement root = (Element)rootNodes.item(i);\n" +
+            "\tNodeList parentNodes = document.getElementsByTagName(listName);\n\n" +
+            "\t// Process all elements below parent node\n" +
+            "\tfor (int i = 0; i < parentNodes.getLength(); ++i) {\n" +
+            "\t\tElement parent = (Element)parentNodes.item(i);\n" +
             "\t\tElement child = document.createElement(\"values\");\n\n" +
-            "\t\tchild.setTextContent(root.getTextContent());\n" +
-            "\t\troot.removeChild(root.getFirstChild());\n" +
-            "\t\troot.appendChild(child);\n" +
+            "\t\tchild.setTextContent(parent.getTextContent());\n" +
+            "\t\tparent.removeChild(parent.getFirstChild());\n" +
+            "\t\tparent.appendChild(child);\n" +
             "\t}\n"+
             "}";
 

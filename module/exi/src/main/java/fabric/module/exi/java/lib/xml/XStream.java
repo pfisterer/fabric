@@ -1,4 +1,4 @@
-/** 11.11.2011 23:10 */
+/** 02.12.2011 12:33 */
 package fabric.module.exi.java.lib.xml;
 
 import de.uniluebeck.sourcegen.java.JField;
@@ -163,10 +163,10 @@ public class XStream extends XMLLibrary
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "removeTagFromList", jms);
 
     String methodBody =
-            "NodeList rootNodes = document.getElementsByTagName(listName);\n\n" +
-            "if (rootNodes.getLength() > 0) {\n" +
-            "\tElement first = (Element)rootNodes.item(0);\n" +
-            "\tNodeList values = (isCustomTyped ? first.getElementsByTagName(\"values\") : rootNodes);\n\n" +
+            "NodeList parentNodes = document.getElementsByTagName(listName);\n\n" +
+            "if (parentNodes.getLength() > 0) {\n" +
+            "\tElement first = (Element)parentNodes.item(0);\n" +
+            "\tNodeList values = (isCustomTyped ? first.getElementsByTagName(\"values\") : parentNodes);\n\n" +
             "\tString newContent = values.item(0).getTextContent();\n" +
             "\twhile (values.getLength() > 1) {\n" +
             "\t\tElement value = (Element)values.item(1);\n" +
@@ -204,10 +204,10 @@ public class XStream extends XMLLibrary
     JMethod jm = JMethod.factory.create(JModifier.PRIVATE | JModifier.STATIC, "void", "addTagToList", jms);
 
     String methodBody =
-            "NodeList rootNodes = document.getElementsByTagName(listName);\n\n" +
-            "// Process all elements below root node\n" +
-            "for (int i = 0; i < rootNodes.getLength();) {\n" +
-            "\tElement valueList = (Element)rootNodes.item(i);\n" +
+            "NodeList parentNodes = document.getElementsByTagName(listName);\n\n" +
+            "// Process all elements below parent node\n" +
+            "for (int i = 0; i < parentNodes.getLength();) {\n" +
+            "\tElement valueList = (Element)parentNodes.item(i);\n" +
             "\tString[] content = valueList.getTextContent().split(\" \");\n\n" +
             "\tif (isCustomTyped) {\n" +
             "\t\tElement parent = document.createElement(listName);\n\n" +

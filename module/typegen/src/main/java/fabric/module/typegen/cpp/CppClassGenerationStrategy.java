@@ -1,61 +1,527 @@
+/** 06.12.2011 01:54 */
 package fabric.module.typegen.cpp;
 
+import java.util.Map;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import de.uniluebeck.sourcegen.WorkspaceElement;
-import de.uniluebeck.sourcegen.c.CPreProcessorDirective;
-import de.uniluebeck.sourcegen.c.Cpp;
+import de.uniluebeck.sourcegen.c.*;
 
-import de.uniluebeck.sourcegen.c.CppClass;
-import de.uniluebeck.sourcegen.c.CppFun;
-import de.uniluebeck.sourcegen.c.CppVar;
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.AttributeContainer.MemberVariable;
 import fabric.module.typegen.base.ClassGenerationStrategy;
-import java.util.Iterator;
-import java.util.Map;
+import fabric.module.typegen.exceptions.FabricTypeGenException;
 
+/**
+ * Class generation strategy for Java. This class implements the
+ * ClassGenerationStrategy interface to convert AttributeContainer
+ * objects to JClass objects.
+ *
+ * @author seidel
+ */
 public class CppClassGenerationStrategy implements ClassGenerationStrategy
 {
-  @Override
-  public WorkspaceElement generateClassObject(AttributeContainer container) throws Exception
+  /**
+   * Parameterless constructor uses AnnotationMapper with default
+   * XML framework.
+   *
+   * @throws Exception Error during AnnotationMapper creation
+   */
+  public CppClassGenerationStrategy() throws Exception
   {
-    CppClass classObject = CppClass.factory.create(container.getName(), null); // TODO
+    // TODO: Anything to do here?
+  }
 
-    CppVar variable = CppVar.factory.create(Cpp.CHAR, "test");
+  /**
+   * This method returns a class object that can be added to a source
+   * file. Return value should be casted to JClass before further use.
+   * The returned class has public visibility.
+   *
+   * @param container AttributeContainer for conversion
+   *
+   * @return Generated WorkspaceElement object
+   *
+   * @throws Exception Error during class object generation
+   */
+  @Override
+  public WorkspaceElement generateClassObject(final AttributeContainer container) throws Exception
+  {
+    return this.generateCppClassObject(container, Cpp.PUBLIC, null);
+  }
+  
+  /**
+   * This method returns a list of all Java imports that
+   * are needed to support the required XML annotations.
+   *
+   * @return List of required Java imports
+   */
+  @Override
+  public ArrayList<String> getRequiredDependencies()
+  {
+    return null; // TODO
+  }
 
-    classObject.add(Cpp.PUBLIC, variable); // TODO: Remove
-    classObject.add(Cpp.PUBLIC, CppFun.factory.create(classObject, "void", "init", variable)); // TODO: Remove
+  /**
+   * Private helper method to create JClass object from AttributeContainer.
+   *
+   * @param container AttributeContainer for conversion
+   * @param modifiers Modifiers for JClass object (e.g. visibility)
+   * @param parent Parent class name for extends-directive (set to
+   * null or empty string if class has no parent)
+   *
+   * @return Generated JClass object
+   *
+   * @throws Exception Error during class object generation
+   */
+  private CppClass generateCppClassObject(final AttributeContainer container, final long modifiers, final String parent) throws Exception
+  {
+    /*****************************************************************
+     * Create surrounding container class
+     *****************************************************************/
+    CppClass cppc = CppClass.factory.create(this.firstLetterCapital(container.getName())); // TODO: Class modifiers?
+    cppc.setComment(new CppClassCommentImpl(String.format("The '%s' container class.", container.getName())));
+    
+    // Set extends-directive
+    if (null != parent && parent.length() > 0)
+    {
+      cppc.addExtended(parent); // TODO: FR-017: addExtended(String... parent) needed
+    }
 
-    classObject.addBeforeDirective(CPreProcessorDirective.factory.create(true, "ifdef TEST_HPP"));
-    classObject.addBeforeDirective(CPreProcessorDirective.factory.create(true, "define TEST_HPP"));
-    classObject.addAfterDirective(CPreProcessorDirective.factory.create(true, "endif"));
-
+    // Process all members
     Iterator iterator = container.getMembers().entrySet().iterator();
     while (iterator.hasNext())
     {
       Map.Entry<String, MemberVariable> item = (Map.Entry)iterator.next();
       MemberVariable member = item.getValue();
 
-      if (member.getClass() == AttributeContainer.Element.class || member.getClass() == AttributeContainer.Attribute.class)
+      /*****************************************************************
+       * Create member variable
+       *****************************************************************/
+      CppVar cppv = this.createMemberVariable(member);
+      if (null != cppv)
       {
-        variable = CppVar.factory.create(member.type + " " + member.name);
-        classObject.add(Cpp.PUBLIC, variable);
+        cppc.add(Cpp.PRIVATE, cppv);
+      }
+
+      /*****************************************************************
+       * Create enum type (optional)
+       *****************************************************************/
+      if (member.getClass() == AttributeContainer.EnumElement.class)
+      {
+        AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)member;
+
+        CEnum ce = CEnum.factory.create(ee.type, ee.name, false, ee.enumConstants); // TODO: Check name/varname
+        ce.setComment(new CEnumCommentImpl(String.format("The '%s' enumeration.", ee.type)));
+        
+        cppc.add(Cpp.PUBLIC | Cpp.STATIC, ce);
+      }
+
+      /*****************************************************************
+       * Create setter
+       *****************************************************************/
+      CppFun setter = this.createSetterMethod(member);
+      if (null != setter)
+      {
+        cppc.add(Cpp.PUBLIC, setter);
+      }
+
+      /*****************************************************************
+       * Create getter
+       *****************************************************************/
+      CppFun getter = this.createGetterMethod(member, container.getName());
+      if (null != getter)
+      {
+        cppc.add(Cpp.PUBLIC, getter);
       }
     }
-
-    System.out.println(classObject.toString()); // TODO: Remove
-
-    return classObject;
+    
+    return cppc;
   }
 
-  @Override
-  public ArrayList<String> getRequiredDependencies()
+  /**
+   * Private helper method for member variable creation. This function
+   * will create an annotated JField with a comment.
+   *
+   * @param member MemberVariable object for creation
+   *
+   * @return Generated JField object
+   *
+   * @throws Exception Error during JField creation
+   */
+  private CppVar createMemberVariable(MemberVariable member) throws Exception
   {
-    ArrayList<String> result = new ArrayList<String>();
-    result.add("test1.hpp");
-    result.add("test2.hpp");
+    CppVar cppv = null;
 
-    return result;
+    /*****************************************************************
+     * Handle XML elements
+     *****************************************************************/
+    if (member.getClass() == AttributeContainer.Element.class) // TODO: Add AttributeContainer.Attribute.class here, because we do NOT handle XML attributes later anymore
+    {
+      AttributeContainer.Element e = (AttributeContainer.Element)member;
+      CppTypeGenerator typeObject = new CppTypeGenerator(e.type, Cpp.PRIVATE); // TODO: Is qualifier the visibility?
+      
+      // No initial value set
+      if (("").equals(e.value))
+      {
+        cppv = CppVar.factory.create(typeObject, e.name);
+      }
+      // Initial value is set
+      else
+      {
+        // TODO: How to handle strings in C++?
+        // Add quotation marks to initial value, if type is String
+        String value = e.value;
+        if (("String").equals(e.type))
+        {
+          value = "\"" + value + "\"";
+        }
+        
+        cppv = CppVar.factory.create(typeObject, e.name); // TODO: We need a new create() that can set visibility, typeName, varName and initCod
+      }
+
+      cppv.setComment(new CppVarCommentImpl(String.format("The '%s' element.", e.name)));
+    }
+
+    /*****************************************************************
+     * Handle constant XML elements
+     *****************************************************************/
+    else if (member.getClass() == AttributeContainer.ConstantElement.class)
+    {
+      AttributeContainer.ConstantElement ce = (AttributeContainer.ConstantElement)member;
+
+      // Add quotation marks to value, if type is String
+      // TODO: How to handle strings in C++?
+      String value = ce.value;
+      if (("String").equals(ce.type))
+      {
+        value = "\"" + value + "\"";
+      }
+      
+      CppTypeGenerator typeObject = new CppTypeGenerator(e.type, Cpp.PRIVATE | Cpp.CONST); // TODO: Is qualifier the visibility?
+      cppv = CppVar.factory.create(typeObject, ce.name); // TODO: create with initCode needed!
+      cppv.setComment(new CppVarCommentImpl(String.format("The '%s' constant.", ce.name)));
+    }
+
+    /*****************************************************************
+     * Handle XML attributes
+     *****************************************************************/
+// TODO: We don't add annotations to C++ code, so we need no extra treatment for XML attributes here, right?
+//    else if (member.getClass() == AttributeContainer.Attribute.class)
+//    {
+//      AttributeContainer.Attribute a = (AttributeContainer.Attribute)member;
+//
+//      // No initial value set
+//      if (("").equals(a.value))
+//      {
+//        cppv = JField.factory.create(JModifier.PRIVATE, a.type, a.name);
+//      }
+//      // Initial value is set
+//      else
+//      {
+//        // Add quotation marks to initial value, if type is String
+//        String value = a.value;
+//        if (("String").equals(a.type))
+//        {
+//          value = "\"" + value + "\"";
+//        }
+//
+//        cppv = JField.factory.create(JModifier.PRIVATE, a.type, a.name, value);
+//      }
+//
+//      cppv.setComment(new JFieldCommentImpl(String.format("The '%s' attribute.", a.name)));
+//
+//      // Add annotations
+//      for (String annotation: this.xmlMapper.getAttributeAnnotations(a.name))
+//      {
+//        cppv.addAnnotation(new JFieldAnnotationImpl(annotation));
+//      }
+//    }
+
+    /*****************************************************************
+     * Handle XML element of type enum
+     *****************************************************************/
+    else if (member.getClass() == AttributeContainer.EnumElement.class)
+    {
+      AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)member;
+      
+      CppTypeGenerator typeObject = new CppTypeGenerator(ee.type, Cpp.PRIVATE); // TODO: Is qualifier the visibility?
+      cppv = CppVar.factory.create(typeObject, ee.name);
+      cppv.setComment(new CppVarCommentImpl(String.format("The '%s' enum element.", ee.name)));
+    }
+
+    /*****************************************************************
+     * Handle XML element arrays
+     *****************************************************************/
+    else if (member.getClass() == AttributeContainer.ElementArray.class)
+    {
+      AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
+      CppTypeGenerator typeObject = new CppTypeGenerator(ea.type, Cpp.PRIVATE); // TODO: Is qualifier the visibility?
+      
+      // Create array of predefined size (Integer.MAX_VALUE on default)
+      cppv = CppVar.factory.create(typeObject, String.format("%s[%d]", ea.name, ea.maxSize));
+      
+      cppv.setComment(new CppVarCommentImpl(String.format("The '%s' element array.", ea.name)));
+    }
+
+    /*****************************************************************
+     * Handle XML element lists
+     *****************************************************************/
+    else if (member.getClass() == AttributeContainer.ElementList.class)
+    {
+// TODO: Add code to treat lists in C++ (e.g. wiselib::vector or other vector solution?)
+//      AttributeContainer.ElementList el = (AttributeContainer.ElementList)member;
+//      String type = String.format("java.util.ArrayList<%s>", this.fixPrimitiveTypes(el.type));
+//
+//      // No list size is given
+//      if (el.maxSize == Integer.MAX_VALUE)
+//      {
+//        cppv = JField.factory.create(JModifier.PRIVATE, type, el.name, "new " + type + "()");
+//      }
+//      // List size is given
+//      else
+//      {
+//        cppv = JField.factory.create(JModifier.PRIVATE, type, el.name, "new " + type + "(" + el.maxSize + ")");
+//      }
+//
+//      cppv.setComment(new CppVarCommentImpl(String.format("The '%s' element list.", el.name)));
+    }
+
+    /*****************************************************************
+     * Handle unknown types
+     *****************************************************************/
+    else
+    {
+      throw new FabricTypeGenException("Member variable in attribute container has unknown type.");
+    }
+
+    return cppv;
+  }
+
+  /**
+   * Private helper method to create setter methods. This function
+   * will create a JMethod object with a comment or return null,
+   * if member variable is a constant.
+   *
+   * @param member MemberVariable object for creation
+   *
+   * @return Generated JMethod object or null
+   *
+   * @throws Exception Error during JMethod creation
+   */
+  private CppFun createSetterMethod(MemberVariable member) throws Exception
+  {
+    // No setter for constants
+    if (member.getClass() == AttributeContainer.ConstantElement.class)
+    {
+      return null;
+    }
+
+    String methodBody = "";
+    String type = member.type;
+    long modifiers = Cpp.CONST;
+    
+    // Member variable is an element or attribute
+    if (member.getClass() == AttributeContainer.Element.class || member.getClass() == AttributeContainer.Attribute.class)
+    {
+      AttributeContainer.RestrictedElementBase e = (AttributeContainer.RestrictedElementBase)member;
+
+      // Create code to check restrictions
+      methodBody += this.generateRestrictionChecks(e);
+
+      // Remove 'final' modifier, if member variable has 'whiteSpace' restriction
+      if (e.isWhiteSpaceRestricted() && ("String").equals(e.type)) // Java can only enforce 'whiteSpace' on strings
+      {
+        modifiers &= ~Cpp.CONST;
+      }
+    }
+    // Member variable is an ElementArray or ElementList
+    else if (member instanceof AttributeContainer.ElementCollection)
+    {
+// TODO: Add code to handle arrays and lists in C++
+//      AttributeContainer.ElementCollection ec = (AttributeContainer.ElementCollection)member;
+//      type = String.format("java.util.ArrayList<%s>", this.fixPrimitiveTypes(member.type));
+//
+//      // Create code to check array or list size
+//      methodBody += JavaRestrictionHelper.createCheckCode(
+//              String.format("%s.size() < %d || %s.size() > %d", member.name, ec.minSize, member.name, ec.maxSize),
+//              String.format("Illegal size for array '%s'.", member.name),
+//              "Check the occurrence indicators");
+    }
+    
+    CppVar attribute = CppVar.factory.create(modifiers, type, member.name);
+    CppFun setter = CppFun.factory.create(TODO, "void", "set" + this.firstLetterCapital(member.name), attribute); // TODO: Visibility of method?
+    
+    methodBody += String.format("this.%s = %s;", member.name, member.name);
+    setter.appendCode(methodBody);
+    setter.setComment(new CppFunCommentImpl(String.format("Set the '%s' member variable.", member.name)));
+
+    return setter;
+  }
+
+  /**
+   * Private helper method to create code for restriction checking.
+   * The function determines, if any restrictions are set on the
+   * given member variable, and generates check-code accordingly.
+   *
+   * @param member Element object with restrictions
+   *
+   * @return String with code that includes restriction checks
+   *
+   * @throws Exception Error during check code generation
+   */
+  private String generateRestrictionChecks(AttributeContainer.RestrictedElementBase member) throws Exception
+  {
+    return ""; // TODO: Implement method for C++
+
+//    String result = "";
+//
+//    // Create code to check restrictions
+//    AttributeContainer.Restriction r = member.restrictions;
+//    String operandName = member.name;
+//    String message = "Restriction '%s' violated for member variable '%s'.";
+//    String comment = "Check the '%s' restriction";
+//
+//    // If member type is QName, enforce restriction on local part
+//    if (member.type.endsWith("QName"))
+//    {
+//      operandName = String.format("(%s.getNamespaceURI() + \":\" + %s.getLocalPart())", member.name, member.name);
+//    }
+//
+//    if (member.isLengthRestricted())
+//    {
+//      result += JavaRestrictionHelper.createCheckCode(
+//              String.format("%s.length() != %d", operandName, Long.parseLong(r.length)),
+//              String.format(message, "length", member.name),
+//              String.format(comment, "length"));
+//    }
+//
+//    if (member.isMinLengthRestricted())
+//    {
+//      result += JavaRestrictionHelper.createCheckCode(
+//              String.format("%s.length() < %d", operandName, Long.parseLong(r.minLength)),
+//              String.format(message, "minLength", member.name),
+//              String.format(comment, "minLength"));
+//    }
+//
+//    if (member.isMaxLengthRestricted())
+//    {
+//      result += JavaRestrictionHelper.createCheckCode(
+//              String.format("%s.length() > %d", operandName, Long.parseLong(r.maxLength)),
+//              String.format(message, "maxLength", member.name),
+//              String.format(comment, "maxLength"));
+//    }
+//
+//    if (member.isMinInclusiveRestricted())
+//    {
+//      result += JavaRestrictionHelper.createCheckCode(
+//              JavaRestrictionHelper.minInclusiveExpression(member),
+//              String.format(message, "minInclusive", member.name),
+//              String.format(comment, "minInclusive"));
+//    }
+//
+//    if (member.isMaxInclusiveRestricted())
+//    {
+//      result += JavaRestrictionHelper.createCheckCode(
+//              JavaRestrictionHelper.maxInclusiveExpression(member),
+//              String.format(message, "maxInclusive", member.name),
+//              String.format(comment, "maxInclusive"));
+//    }
+//
+//    if (member.isMinExclusiveRestricted())
+//    {
+//      result += JavaRestrictionHelper.createCheckCode(
+//              JavaRestrictionHelper.minExclusiveExpression(member),
+//              String.format(message, "minExclusive", member.name),
+//              String.format(comment, "minExclusive"));
+//    }
+//
+//    if (member.isMaxExclusiveRestricted())
+//    {
+//      result += JavaRestrictionHelper.createCheckCode(
+//              JavaRestrictionHelper.maxExclusiveExpression(member),
+//              String.format(message, "maxExclusive", member.name),
+//              String.format(comment, "maxExclusive"));
+//    }
+//
+//    if (member.isPatternRestricted())
+//    {
+//      result += JavaRestrictionHelper.createPatternCheckCode(
+//              operandName,
+//              r.pattern,
+//              String.format(message, "pattern", member.name));
+//    }
+//
+//    if (member.isWhiteSpaceRestricted() && ("String").equals(member.type)) // Java can only enforce 'whiteSpace' on strings
+//    {
+//      result += JavaRestrictionHelper.createWhiteSpaceCheckCode(
+//              member.name,
+//              r.whiteSpace);
+//    }
+//
+//    if (member.isTotalDigitsRestricted())
+//    {
+//      result += JavaRestrictionHelper.createTotalDigitsCheckCode(
+//              member.name,
+//              r.totalDigits);
+//    }
+//
+//    if (member.isFractionDigitsRestricted())
+//    {
+//      result += JavaRestrictionHelper.createFractionDigitsCheckCode(
+//              member.name,
+//              r.fractionDigits);
+//    }
+//
+//    return result;
+  }
+
+  /**
+   * Private helper method to create getter methods. This function
+   * will create a JMethod object with a comment.
+   *
+   * @param member MemberVariable object for creation
+   * @param className Name of surrounding container class
+   *
+   * @return Generated JMethod object
+   *
+   * @throws Exception Error during JMethod creation
+   */
+  private CppFun createGetterMethod(MemberVariable member, String className) throws Exception
+  {
+    // Member variable is an ElementArray or ElementList
+    String type = member.type;
+// TODO: Handle arrays and lists for C++
+//    if (member instanceof AttributeContainer.ElementCollection)
+//    {
+//      type = String.format("java.util.ArrayList<%s>", this.fixPrimitiveTypes(member.type));
+//    }
+
+    // Member variable is a constant
+    String reference = "this";
+    if (member.getClass() == AttributeContainer.ConstantElement.class)
+    {
+      reference = className;
+    }
+    
+    CppFun getter = CppFun.factory.create(TODO, type, null, type, "get" + this.firstLetterCapital(member.name)); // TODO: Add class name!?
+
+    getter.appendCode(String.format("return %s.%s;", reference, member.name));
+    getter.setComment(new CppFunCommentImpl(String.format("Get the '%s' member variable.", member.name)));
+
+    return getter;
+  }
+
+  /**
+   * Private helper method to capitalize the first letter of a string.
+   * Function will return null, if argument was null.
+   *
+   * @param text Text to process
+   *
+   * @return Text with first letter capitalized or null
+   */
+  private String firstLetterCapital(final String text) throws Exception
+  {
+    return (null == text ? null : text.substring(0, 1).toUpperCase() + text.substring(1, text.length()));
   }
 }

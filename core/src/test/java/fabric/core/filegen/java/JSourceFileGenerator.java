@@ -2,6 +2,7 @@ package fabric.core.filegen.java;
 
 import java.util.*;
 import de.uniluebeck.sourcegen.SourceFile;
+import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.java.JComplexType;
 import de.uniluebeck.sourcegen.java.JSourceFile;
 import de.uniluebeck.sourcegen.java.JSourceFileImpl;
@@ -67,6 +68,33 @@ public abstract class JSourceFileGenerator extends SourceFileGenerator {
             e.printStackTrace();
         }
         return files;
+    }
+
+    /**
+     * Generates the source files representing the generated types in the given workspace.
+     *
+     * @return True, if source files have been generated successfully; false, otherwise.
+     */
+    public boolean generateSourceFilesInWorkspace(Workspace workspace) {
+        List<SourceFile> files = new LinkedList<SourceFile>();
+        JSourceFile file;
+        try {
+            for (JComplexType type : types.keySet()) {
+                // Get new JSourceFile object from workspace
+                file = workspace.getJava().getJSourceFile(packageName, type.getName());
+                // Add imports to source file
+                for (String requiredImport: types.get(type)) {
+                    file.addImport(requiredImport);
+                }
+                // Add source file to list
+                files.add(file.add(type));
+            }
+            workspace.generate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     /**

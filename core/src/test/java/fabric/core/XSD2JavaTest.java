@@ -41,7 +41,6 @@ public class XSD2JavaTest {
      * File format endings of the test files.
      */
     private static final String ENDING_XSD   = ".xsd";
-    private static final String ENDING_XML   = ".xml";
 
     /**
      * Names of the predefined test files without file format endings.
@@ -85,7 +84,6 @@ public class XSD2JavaTest {
         FileInputStream propInFile = new FileInputStream(PROPERTIES);
         properties = new Properties();
         properties.load(propInFile);
-        workspace = new Workspace(properties);
     }
 
     @After
@@ -323,8 +321,8 @@ public class XSD2JavaTest {
 
         try {
             Object objWorkspace = refWorkspace.get(core);
-            Workspace w = (Workspace) objWorkspace;
-            ret = w.getSourceFiles();
+            workspace = (Workspace) objWorkspace;
+            ret = workspace.getSourceFiles();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
