@@ -29,6 +29,7 @@ import java.util.LinkedList;
 import de.uniluebeck.sourcegen.WorkspaceElement;
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
+import java.util.Iterator;
 
 
 class CppClassImpl extends CElemImpl implements CppClass {
@@ -520,8 +521,27 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	public CppSourceFileImpl getSourceFile() {
 		return sourceFile;
 	}
+
+  // TODO: Added block begin
+  public void setSourceFile(CppSourceFile sourceFile) {
+    this.sourceFile = (CppSourceFileImpl)sourceFile;
+  }
+  // TODO: Added block end
+
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
+    // TODO: Added block begin
+    Iterator iterator = this.beforeDirectives.iterator();
+    while (iterator.hasNext())
+    {
+      buffer.append(iterator.next().toString() + "\n");
+
+      if (!iterator.hasNext())
+      {
+        buffer.append("\n");
+      }
+    }
+    // TODO: Added block end
 
 		buffer.append("class " + this.className + "\n");
 
@@ -549,6 +569,13 @@ class CppClassImpl extends CElemImpl implements CppClass {
 			buffer.append("\tvirtual " + d.getSignature() + ";\n");
 		}
 
+    // TODO: Added block begin
+		//public variables
+		for(CppVar v : this.getVars(Cpp.PUBLIC)){
+			buffer.append("\t" + v.toString() + ";\n");
+		}
+    // TODO: Added block end
+
 		//public functions
 		for(CppFun f : this.getFuns(Cpp.PUBLIC)){
 			buffer.append("\t" + f.getSignature() + ";\n");
@@ -570,6 +597,21 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		}
 
 		buffer.append("};\n");
+
+    // TODO: Added block begin
+    iterator = this.afterDirectives.iterator();
+    
+    if (iterator.hasNext())
+    {
+      buffer.append("\n");
+    }
+    
+    while (iterator.hasNext())
+    {
+      buffer.append(iterator.next().toString() + "\n");
+    }
+    // TODO: Added block end
+
 		/*
 		toString(buffer, tabCount, beforeDirectives, "", "\n", true);
 		indent(buffer, tabCount);

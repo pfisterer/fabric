@@ -121,6 +121,10 @@ public interface CppClass extends CppComplexType, CppTemplateName {
     public long getVis(CUnion union);
 
     public long getVisExtended(CppClass extended);
+    
+    // TODO: Added block begin
+    public void setSourceFile(CppSourceFile sourceFile);
+    // TODO: Added block end
 
     public String toString();
 

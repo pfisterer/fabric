@@ -60,6 +60,37 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		cppIncludes = new LinkedList<CppSourceFileImpl>();
 	}
   
+  // TODO: Added block begin
+  @Override
+  public CppSourceFile add(CComplexType... typeObjects) throws CDuplicateException {
+    for (CComplexType to: typeObjects) {
+      if (to.getClass() == CEnum.class) {
+        this.add((CEnum)to);
+      }
+      else if (to.getClass() == CStruct.class) {
+        this.add((CStruct)to);
+      }
+      else if (to.getClass() == CUnion.class) {
+        this.add((CUnion)to);
+      }
+    }
+
+    return this;
+  }
+
+  @Override
+  public CppSourceFile add(CppComplexType... typeObjects) throws CppDuplicateException {
+    for (CppComplexType to: typeObjects) {
+      System.out.println("############################################ Checking CppComplexTypes..."); // TODO: Remove
+      if (to.getClass() == CppClass.class) {
+        System.out.println("########################################## Adding CppClass..."); // TODO: Remove
+        this.add((CppClass)to);
+      }
+    }
+    return this;
+  }
+  // TODO: Added block end
+
 	public CppSourceFile add(CEnum... enums) throws CDuplicateException {
 		base.internalAddEnum(enums);
 		return this;
@@ -289,6 +320,30 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		//namespace
 		// TODO: dynamically with a program-parameter
 //		buffer.append("namespace isense {\n\n");
+
+    // TODO: Added block begin
+    System.out.println(">>>>>>>>>>>>>>>> Anzahl der Includes: " + this.cppIncludes.size()); // TODO: Remove
+
+    for (CppClass clazz: this.cppClasses)
+    {
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>> Checking classes..."); // TODO: Remove
+      
+      for (CppVar var: ((CppClassImpl)clazz).getPublicVars()) {
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> Adding public vars..."); // TODO: Remove
+        buffer.append(var.toString() + "\n");
+      }
+
+      for (CppVar var: ((CppClassImpl)clazz).getPrivateVars()) {
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> Adding public vars..."); // TODO: Remove
+        buffer.append(var.toString() + "\n");
+      }
+
+      for (CppFun fun: clazz.getFuns(tabCount)) {
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> Adding funs..."); // TODO: Remove
+        buffer.append(fun.toString(tabCount) + "\n");
+      }
+    }
+    // TODO: Added block end
 
 		for(CppSourceFileImpl file : this.cppIncludes){
 			for(CppClass clazz : file.getCppClasses()){

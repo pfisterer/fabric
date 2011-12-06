@@ -20,6 +20,7 @@ public class CppTypeHelper
     {
       CppTypeHelper helper = new CppTypeHelper(new Workspace(new Properties()));
 
+//      helper.createHexBinaryDefinition();
       helper.createQNameDefinition();
 
       System.out.println(helper.sourceFile.toString());
@@ -53,6 +54,24 @@ public class CppTypeHelper
     //typedef unsigned long int uint32;
     //typedef unsigned long long int uint64;
   }
+
+  // TODO: Add documentation
+  //
+  // /* xs:hexBinary */
+  // typedef struct {
+  //   uint16 length;
+  //   int8* content;
+  // } hexBinary_t;
+//  public void createHexBinaryDefinition() throws Exception
+//  {
+//    CParam length = CParam.factory.create("uint16", "length");
+//    CParam content = CParam.factory.create("int8*", "content");
+//
+//    CStruct hexBinaryDefinition = CStruct.factory.create("", "hexBinary_t", true, length, content);
+//    // TODO: How can we add a comment to a struct?
+//
+//    this.sourceFile.add(hexBinaryDefinition);
+//  }
 
   // TODO: Add documentation
   //

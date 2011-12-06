@@ -33,7 +33,11 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 public interface CppSourceFile extends SourceFile, CppElem {
 
-	public CppSourceFile 	add							(CEnum... enums) 						throws CDuplicateException;
+  // TODO: Added block begin
+  public CppSourceFile 	add							(CComplexType... typeObjects) 						throws CDuplicateException;
+  public CppSourceFile 	add							(CppComplexType... typeObjects) 						throws CppDuplicateException;
+  // TODO: Added block end
+  public CppSourceFile 	add							(CEnum... enums) 						throws CDuplicateException;
 	public CppSourceFile 	add							(CFun... function) 						throws CDuplicateException;
 	public CppSourceFile 	add							(CppClass... classes) 					throws CppDuplicateException;
 	public CppSourceFile 	add							(CppFun... funs) 						throws CppDuplicateException;

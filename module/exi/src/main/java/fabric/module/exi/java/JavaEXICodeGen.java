@@ -1,4 +1,4 @@
-/** 16.11.2011 00:46 */
+/** 25.11.2011 18:59 */
 package fabric.module.exi.java;
 
 import org.slf4j.Logger;
@@ -216,7 +216,7 @@ public class JavaEXICodeGen implements EXICodeGen
     
     // TODO: Add code with usage example here
     String methodBody = String.format(
-            "// Instanziate application\n" +
+            "// Instantiate application\n" +
             "%s application = new %s();\n\n" +
             "// Create instance of the Java bean class\n" +
             "%s %s = new %s();\n\n" +

@@ -62,10 +62,7 @@ import java.util.Properties;
 import org.apache.xmlbeans.SchemaType;
 
 import de.uniluebeck.sourcegen.Workspace;
-import de.uniluebeck.sourcegen.c.CWorkspace;
-import de.uniluebeck.sourcegen.c.CppClass;
-import de.uniluebeck.sourcegen.c.CppComplexType;
-import de.uniluebeck.sourcegen.c.CppSourceFile;
+import de.uniluebeck.sourcegen.c.*;
 import fabric.wsdlschemaparser.schema.*;
 
 import fabric.module.typegen.AttributeContainer;
@@ -193,7 +190,10 @@ public class CppTypeGen implements TypeGen
       CppTypeGen.SourceFileData sourceFileData = this.generatedElements.get(name);
 
       // Add container to source file
-      csf.add(sourceFileData.typeObject); // TODO: add(CppComplexType...) existiert nicht
+      ((CppClass)sourceFileData.typeObject).setSourceFile(csf); // TODO: Remove
+      csf.add((CppClass)sourceFileData.typeObject); // TODO: Remove
+      // TODO csf.add(sourceFileData.typeObject); // TODO: add(CppComplexType...) existiert nicht
+      System.out.println("################################# Generated element: " + sourceFileData.typeObject.getTypeName()); // TODO: Remove
 
       // Add imports to source file
       for (String requiredInclude: sourceFileData.requiredInclude)
@@ -433,9 +433,11 @@ public class CppTypeGen implements TypeGen
   @Override
   public void buildCurrentContainer() throws Exception
   {
+    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> BEFORE"); // TODO: Remove
     // Build current container
     if (!this.incompleteBuilders.empty())
     {
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>> NOT EMPTY"); // TODO: Remove
       // Create mapper for XML framework annotations and strategy
       CppClassGenerationStrategy cppStrategy = new CppClassGenerationStrategy();
 
@@ -444,15 +446,18 @@ public class CppTypeGen implements TypeGen
       // Build current local containers
       while (this.stackIsNotEmpty(classObject.getTypeName()))
       {
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> STACK NOT EMPTY"); // TODO: Remove
         // Here we can reuse javaStrategy with stateful xmlMapper, because inner classes are nested in outer container
         CppClass innerClassObject = (CppClass)cppStrategy.generateClassObject(
                 this.incompleteLocalBuilders.get(classObject.getTypeName()).pop().build());
         // TODO: classObject.add(Cpp.PUBLIC | Cpp.STATIC, innerClassObject); // TODO: CppClass unterstuetzt keine inneren Klassen
+        classObject = innerClassObject; // TODO: Remove!
         LOGGER.debug(String.format("Built inner class '%s' for current container '%s'.", innerClassObject.getTypeName(), classObject.getTypeName()));
       }
 
       if (!this.generatedElements.containsKey(classObject.getTypeName()))
       {
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NOT CONTAINS KEY"); // TODO: Remove
         this.generatedElements.put(classObject.getTypeName(),
                 new CppTypeGen.SourceFileData(classObject, cppStrategy.getRequiredDependencies()));
       }
