@@ -43,7 +43,8 @@ public class Main {
 		Workspace workspace = new Workspace(properties);
 
 		// Generate different classes
-	    new Example1_Simple(workspace);
+		new Example0_Empty(workspace);
+		new Example1_Simple(workspace);
 	    new Example2_TwoClassesPerFile(workspace);
 	    new Example3_Nested(workspace);
 	    new Example4_NestedOfNested(workspace);
@@ -52,6 +53,7 @@ public class Main {
 	    new Example7_Enum(workspace);
 	    new Example8_Directives(workspace);
 	    new Example9_Typedef(workspace);
+	    new Example10_Inheritance(workspace);
 
 	    workspace.generate();
 	}

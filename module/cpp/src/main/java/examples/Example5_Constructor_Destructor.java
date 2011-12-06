@@ -43,8 +43,8 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 /**
  * Simple class with constructor and destructor
  *
- * - Compile with: g++ Person.cpp -o person
- * - Run with: ./person
+ * - Compile with: g++ ConstructorDestructor.cpp -o conDes
+ * - Run with: ./condes
  * - Returns:
  *
  * Otto is 48
@@ -70,7 +70,7 @@ public class Example5_Constructor_Destructor {
 
 	void generate() throws CppDuplicateException, CDuplicateException{
 
-		String className = "Person";
+		String className = "ConstructorDestructor";
 
         // Generate the class -- without an explicit file
         CppClass person = CppClass.factory.create(className);

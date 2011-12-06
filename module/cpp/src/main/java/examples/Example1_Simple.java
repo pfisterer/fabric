@@ -40,7 +40,7 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 /**
  * CRectangle example.
  *
- * - Compile with: g++ CRectangleSimple.cpp -o simple
+ * - Compile with: g++ Simple.cpp -o simple
  * - Run with: ./simple
  * - Returns:
  * 		1
@@ -71,7 +71,7 @@ public class Example1_Simple {
 	 */
 	void generate() throws CppDuplicateException, CDuplicateException{
 
-		String className = "CRectangleSimple";
+		String className = "Simple";
 
         // Generate the class -- without an explicit file
         CppClass class_CRectangleSimple = CppClass.factory.create(className);

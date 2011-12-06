@@ -68,6 +68,8 @@ public class Example2_TwoClassesPerFile {
 	 */
 	void generate() throws CppDuplicateException, CDuplicateException {
 
+		String className = "Two";
+
 		/*
 		 * 1st class
 		 */
@@ -101,8 +103,8 @@ public class Example2_TwoClassesPerFile {
 		/*
 		 * Generate the files (cpp + hpp)
 		 */
-		CppSourceFile file = workspace.getC().getCppSourceFile("Two");
-        CppSourceFile header = this.workspace.getC().getCppHeaderFile("TwoHeader");
+		CppSourceFile file = workspace.getC().getCppSourceFile(className);
+        CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
         file.addInclude(header);
         header.add(classOne);
         header.add(classTwo);

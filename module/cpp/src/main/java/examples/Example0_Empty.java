@@ -66,7 +66,7 @@ public class Example0_Empty {
 	 */
 	void generate() throws CppDuplicateException, CDuplicateException, CPreProcessorValidationException{
 
-		String className = "EmptySample";
+		String className = "Empty";
 
         // Generate the class -- without an explicit file
         CppClass clazz = CppClass.factory.create(className);

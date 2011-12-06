@@ -66,6 +66,8 @@ public class Example3_Nested {
 	 */
 	void generate() throws CppDuplicateException, CDuplicateException {
 
+		String className = "Nested";
+
 		/*
 		 * 1st class
 		 */
@@ -103,8 +105,8 @@ public class Example3_Nested {
 		/*
 		 * Generate the files (Nested.cpp + NestedHeader.hpp)
 		 */
-		CppSourceFile file = workspace.getC().getCppSourceFile("Nested");
-        CppSourceFile header = this.workspace.getC().getCppHeaderFile("NestedHeader");
+		CppSourceFile file = workspace.getC().getCppSourceFile(className);
+        CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
         file.addInclude(header);
         header.add(classTwo);
 

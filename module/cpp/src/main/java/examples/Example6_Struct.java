@@ -43,7 +43,7 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 /**
  * StructSample is similar to CRectangleSimple.
  *
- * - Compile with: g++ StructSample.cpp -o struct
+ * - Compile with: g++ Struct.cpp -o struct
  * - Run with: ./struct
  * - Returns: 12
  *
@@ -77,7 +77,7 @@ public class Example6_Struct {
 	 */
 	void generate() throws CppDuplicateException, CDuplicateException, CCodeValidationException, CConflictingModifierException{
 
-		String className = "StructSample";
+		String className = "Struct";
 
         // Generate the class -- without an explicit file
         CppClass clazz = CppClass.factory.create(className);

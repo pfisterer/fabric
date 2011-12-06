@@ -126,7 +126,7 @@ public class  Example4_NestedOfNested {
 		 * Generate the files (Nested.cpp + NestedHeader.hpp)
 		 */
 		CppSourceFile file = workspace.getC().getCppSourceFile("NestedOfNested");
-        CppSourceFile header = this.workspace.getC().getCppHeaderFile("NestedOfNestedHeader");
+        CppSourceFile header = this.workspace.getC().getCppHeaderFile("NestedOfNested");
         file.addInclude(header);
         header.add(classThree);
 
