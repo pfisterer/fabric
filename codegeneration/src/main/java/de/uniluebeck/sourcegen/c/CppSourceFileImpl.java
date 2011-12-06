@@ -34,11 +34,12 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 //TODO make package private. it's public because of Workspace::getCppSourceFile (new CppSourceFileImpl(fileName);)
 public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
-	protected LinkedList<CppVar> 			cppVars;
-	protected LinkedList<CppFun> 			cppFuns;
-	protected LinkedList<CppClass> 		 	cppClasses;
-	protected LinkedList<CppSourceFileImpl> cppUserHeaderFiles;
-	protected LinkedList<String> 			cppNamespaces;
+	protected List<CppVar> 			cppVars;
+	protected List<CppFun> 			cppFuns;
+	protected List<CppClass> 		 	cppClasses;
+	protected List<CppSourceFileImpl> cppUserHeaderFiles;
+	protected List<String> 			cppNamespaces;
+	protected List<CppComplexType> 	cppComplexTypes;
 
 	protected CSourceFileBase base;
 	protected String fileName;
@@ -117,7 +118,14 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		return this;
 	}
 
-
+	@Override
+	public CppSourceFile add(CppComplexType... compleyTypes)
+			throws CppDuplicateException {
+		for (CppComplexType cc : compleyTypes) {
+			this.cppComplexTypes.add(cc);
+		}
+		return this;
+	}
 
 	public CppSourceFile addAfterDirective(boolean hash, String... directives) throws CPreProcessorValidationException {
 		base.internalAddAfterDirective(hash, directives);
@@ -377,7 +385,17 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			}
 		}
 
-		// Before Preprocessordiretives
+		// ComplexTypes
+		if(this.cppComplexTypes.size() > 0) {
+			buffer.append(Cpp.newline);
+			for(CppComplexType cc : this.cppComplexTypes){
+				buffer.append(Cpp.newline);
+				cc.toString(buffer, tabCount);
+			}
+			buffer.append(Cpp.newline);
+		}
+
+		// After Preprocessordiretives
 		if(base.afterDirectives.size() > 0) {
 			buffer.append(Cpp.newline);
 			for(CPreProcessorDirectiveImpl ppd : base.afterDirectives){

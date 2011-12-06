@@ -41,6 +41,8 @@ public interface CppSourceFile extends SourceFile, CppElem {
 	public CppSourceFile 	add 						(CStruct... structs) 					throws CDuplicateException;
 	public CppSourceFile 	add 						(CUnion... unions) 						throws CDuplicateException;
 	public CppSourceFile 	add 						(CTypeDef... typedefs) 						throws CDuplicateException;
+	public CppSourceFile	add							(CppComplexType... compleyTypes)		throws CppDuplicateException;
+
 	public CppSourceFile 	addAfterDirective			(boolean hash, String... directive) 	throws CPreProcessorValidationException;
 	public CppSourceFile 	addAfterDirective			(CPreProcessorDirective... directives)	;
 	public CppSourceFile 	addAfterDirective			(String... directive) 					throws CPreProcessorValidationException;
