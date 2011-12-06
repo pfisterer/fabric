@@ -32,7 +32,7 @@ class CppVarImpl extends CElemImpl implements CppVar {
     	TYPE_GENERATOR
     }
 
-    private long visability;
+    private Long visability;
 
 //    private String varDeclString;
     private Type type;
@@ -244,7 +244,7 @@ class CppVarImpl extends CElemImpl implements CppVar {
 		return initCode;
 	}
 
-    public long getVisability() {
+    public Long getVisability() {
 		return visability;
 	}
 

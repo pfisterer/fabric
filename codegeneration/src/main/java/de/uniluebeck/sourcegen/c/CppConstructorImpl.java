@@ -33,7 +33,8 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 	private CppSignature signature;
 	private StringBuffer body = new StringBuffer();
 	private CppClass clazz;
-	private LinkedList<String> extendeds = new LinkedList<String>();
+	private List<String> extendeds = new LinkedList<String>();
+	private List<CppConstructor> extendeds_con = new LinkedList<CppConstructor>();
 
 	private CComment comment = null;
 
@@ -80,6 +81,22 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 		return body.toString();
 	}
 
+	public List<String> getExtendeds(){
+		List<String> e = new LinkedList<String>();
+
+		//e.addall(this.extendeds); // TODO: Does not work :(
+		for (String ex : this.extendeds) {
+			e.add(ex);
+		}
+
+		for (CppConstructor ex : this.extendeds_con) {
+			e.add(ex.getSignature());
+		}
+
+		return e;
+	}
+
+
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 
@@ -102,22 +119,24 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 			buffer.append(v.getInit());
 		}
 
-		// add extendeds (special constructors of superclasses
-		int counter = 0;
-		for (String s : this.extendeds) {
-			if (counter == 0) {
-				buffer.append("\n:");
-			} else {
-				buffer.append(", ");
+		// add extendeds (special constructors of superclasses)
+		// inheritance
+		if(this.getExtendeds().size() > 0) {
+			for (int i = 0; i < this.getExtendeds().size(); i++) {
+				if(i == 0){
+					buffer.append(" : ");
+				} else {
+					buffer.append(", ");
+				}
+				buffer.append(this.getExtendeds().get(i));
 			}
-			buffer.append(s);
-			counter++;
 		}
-		buffer.append(" {\n");
+
+		buffer.append(" {" + Cpp.newline);
 		appendBody(buffer, body, tabCount + 1);
-		buffer.append("\n");
+		buffer.append(Cpp.newline);
 		indent(buffer, tabCount);
-		buffer.append("}\n\n");
+		buffer.append("}" + Cpp.newline + Cpp.newline);
 	}
 
 	@Override
@@ -154,4 +173,15 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 		return this;
 	}
 
+	@Override
+	public CppConstructor add(CppConstructor... cons) throws CppDuplicateException {
+
+		for (CppConstructor con : cons) {
+			if(extendeds_con.contains(con)) {
+				throw new CppDuplicateException("The constructor " + con.getSignature() + " is already a super constructor.");
+			}
+			extendeds_con.add(con);
+		}
+		return this;
+	}
 }

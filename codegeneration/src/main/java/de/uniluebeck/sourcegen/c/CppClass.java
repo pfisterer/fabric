@@ -26,6 +26,7 @@ package de.uniluebeck.sourcegen.c;
 import java.util.List;
 
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
+import de.uniluebeck.sourcegen.exceptions.CppCodeValidationException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
@@ -68,7 +69,7 @@ public interface CppClass extends CppComplexType, CppTemplateName {
 
     public CppClass add(long vis, CppVar... var) throws CppDuplicateException;
 
-    public CppClass add(CppVar... var) throws CppDuplicateException;
+    public CppClass add(CppVar... var) throws CppDuplicateException, CppCodeValidationException;
 
     public CppClass add(long vis, CStruct... struct) throws CppDuplicateException;
 
@@ -89,6 +90,7 @@ public interface CppClass extends CppComplexType, CppTemplateName {
     public CppClass addBeforeDirective(String... directive) throws CPreProcessorValidationException;
 
     public CppClass addExtended(long vis, CppClass... extended) throws CppDuplicateException;
+    public CppClass addExtended(long vis, String... extended) throws CppDuplicateException;
 
     public boolean contains(CEnum enumObj);
 

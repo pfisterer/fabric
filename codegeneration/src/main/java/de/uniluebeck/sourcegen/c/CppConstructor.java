@@ -65,4 +65,6 @@ public interface CppConstructor extends CppLangElem {
 	public CppConstructor setClass(CppClass clazz);
 
 	public CppConstructor setInititalVars(List<CppVar> init);
+
+	public CppConstructor add(CppConstructor... cons) throws CppDuplicateException;
 }

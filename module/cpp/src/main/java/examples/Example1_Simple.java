@@ -35,6 +35,7 @@ import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 import de.uniluebeck.sourcegen.c.CppVar;
 import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
+import de.uniluebeck.sourcegen.exceptions.CppCodeValidationException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
@@ -60,6 +61,9 @@ public class Example1_Simple {
 	    try {
 			generate();
 		} catch (CDuplicateException e) {
+			e.printStackTrace();
+		} catch (CppCodeValidationException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -68,8 +72,9 @@ public class Example1_Simple {
 	 *
 	 * @throws CppDuplicateException
 	 * @throws CDuplicateException
+	 * @throws CppCodeValidationException
 	 */
-	void generate() throws CppDuplicateException, CDuplicateException{
+	void generate() throws CppDuplicateException, CDuplicateException, CppCodeValidationException{
 
 		String className = "Simple";
 

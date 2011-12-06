@@ -169,7 +169,7 @@ public interface CppVar extends CppLangElem {
 	public String getVarName();
 
     public String getInitCode();
-    public long getVisability();
+    public Long getVisability();
     //public CppVar setClass(CppClass clazz);
     public String getInit();
 
