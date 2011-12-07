@@ -43,6 +43,7 @@ import de.uniluebeck.sourcegen.c.CppVar;
  * Compile with Wislib
  *
  * @author Dennis Boldt
+ * @see https://github.com/ibr-alg/wiselib/blob/master/apps/generic_apps/example_app/example_app.cpp
  *
  */
 
@@ -61,7 +62,7 @@ public class Example11_Wislib {
     	 * Generate the file
     	 */
     	CppSourceFile file = workspace.getC().getCppSourceFile("Wislib");
-    	file.setComment(new CCommentImpl("Simple Wiselib Example"));
+    	file.setComment(new CCommentImpl("Simple Wiselib Example from\n * https://github.com/ibr-alg/wiselib/blob/master/apps/generic_apps/example_app/example_app.cpp"));
 
         /**
          * Add the external libs
@@ -72,7 +73,6 @@ public class Example11_Wislib {
         /**
          * Generate typdef
          */
-
         CTypeDef typedef_os = CppTypeDef.factory.create("wiselib::OSMODEL", "Os");
         file.add(typedef_os);
 
@@ -85,7 +85,6 @@ public class Example11_Wislib {
         /**
          * Generate the init function
          */
-
         CppVar var_value = CppVar.factory.create("Os::AppMainParameter&", "value");
         CppFun fun_init = CppFun.factory.create(Cpp.VOID, "init", var_value);
         fun_init.appendCode("radio_ = &wiselib::FacetProvider<Os, Os::Radio>::get_facet( value );");
@@ -101,7 +100,6 @@ public class Example11_Wislib {
         /**
          * Generate the start function
          */
-
         CppVar void_pointer = CppVar.factory.create("void*", "");
         CppFun fun_start = CppFun.factory.create(Cpp.VOID, "start", void_pointer);
         fun_start.appendCode("debug_->debug( \"broadcast message at %d \\n\", radio_->id() );");
@@ -112,7 +110,6 @@ public class Example11_Wislib {
         /**
          * Generate the receive_radio_message function
          */
-
         CppVar from = CppVar.factory.create("Os::Radio::node_id_t", "from");
         CppVar len = CppVar.factory.create("Os::Radio::size_t", "len");
         CppVar buf = CppVar.factory.create("Os::Radio::block_data_t", "*buf");
@@ -138,7 +135,6 @@ public class Example11_Wislib {
         /**
          * Generate the main
          */
-
         CParam value2 = CParam.factory.create("Os::AppMainParameter&", "value");
         CFunSignature sig = CFunSignature.factory.create(value2);
         CFun fun_main = CFun.factory.create("application_main", "void", sig);
