@@ -141,5 +141,5 @@ public interface CppClass extends CppComplexType, CppTemplateName {
     public List<CppVar> getVars(long vis);
     public List<CppClass> getNested(long vis);
 
-
+    public void prepare();
 }

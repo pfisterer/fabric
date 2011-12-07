@@ -32,9 +32,6 @@ import de.uniluebeck.sourcegen.c.CppClass;
 import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppTypeGenerator;
-import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
-import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
-import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
  * Use #define, #ifdef, #else, #endif
@@ -51,25 +48,12 @@ public class Example8_Directives {
 
 	private Workspace workspace = null;
 
-	public Example8_Directives(Workspace workspace) throws CppDuplicateException {
+	public Example8_Directives(Workspace workspace) throws Exception {
 	    this.workspace = workspace;
-	    try {
-			generate();
-		} catch (CDuplicateException e) {
-			e.printStackTrace();
-		} catch (CPreProcessorValidationException e) {
-			e.printStackTrace();
-		}
+		generate();
 	}
 
-	/**
-	 * This method generate the CPP-files
-	 *
-	 * @throws CppDuplicateException
-	 * @throws CDuplicateException
-	 * @throws CPreProcessorValidationException
-	 */
-	void generate() throws CppDuplicateException, CDuplicateException, CPreProcessorValidationException{
+	void generate() throws Exception {
 
 		String className = "Directives";
 
@@ -99,7 +83,6 @@ public class Example8_Directives {
 
 		// We also need a header
         CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
-        header.add(class_CRectangleSimple);
         file.addInclude(header);
 
         // The following line can be added to the file as well
@@ -120,6 +103,6 @@ public class Example8_Directives {
         file.add(fun_main);
 
         // Finally, add class to the file
-        file.add(class_CRectangleSimple);
+        header.add(class_CRectangleSimple);
 	}
 }

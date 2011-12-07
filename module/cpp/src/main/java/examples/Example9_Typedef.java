@@ -35,11 +35,6 @@ import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppTypeDef;
 import de.uniluebeck.sourcegen.c.CppTypeGenerator;
-import de.uniluebeck.sourcegen.exceptions.CCodeValidationException;
-import de.uniluebeck.sourcegen.exceptions.CConflictingModifierException;
-import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
-import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
-import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
  * Use typedefs
@@ -56,21 +51,12 @@ public class Example9_Typedef {
 
 	private Workspace workspace = null;
 
-	public Example9_Typedef(Workspace workspace) throws CppDuplicateException {
+	public Example9_Typedef(Workspace workspace) throws Exception {
 	    this.workspace = workspace;
-	    try {
-			generate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		generate();
 	}
 
-	/**
-	 * This method generate the CPP-files
-	 * @throws CConflictingModifierException
-	 * @throws CCodeValidationException
-	 */
-	void generate() throws CppDuplicateException, CDuplicateException, CPreProcessorValidationException, CConflictingModifierException, CCodeValidationException{
+	void generate() throws Exception {
 
 		String className = "Typedef";
 
@@ -90,7 +76,6 @@ public class Example9_Typedef {
 
 		// We also need a header
         CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
-        header.add(clazz);
         header.addLibInclude("iostream");
         header.addLibInclude("string");
         header.addUsingNameSpace("std");
@@ -135,6 +120,6 @@ public class Example9_Typedef {
         file.add(fun_main);
 
         // Finally, add class to the file
-        file.add(clazz);
+        header.add(clazz);
 	}
 }

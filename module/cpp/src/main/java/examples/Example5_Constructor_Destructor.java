@@ -37,8 +37,6 @@ import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 import de.uniluebeck.sourcegen.c.CppVar;
-import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
-import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
  * Simple class with constructor and destructor
@@ -59,16 +57,12 @@ public class Example5_Constructor_Destructor {
 
 	private Workspace workspace = null;
 
-	public  Example5_Constructor_Destructor(Workspace workspace) throws CppDuplicateException {
+	public  Example5_Constructor_Destructor(Workspace workspace) throws Exception {
 	    this.workspace = workspace;
-		try {
-			generate();
-		} catch (CDuplicateException e) {
-			e.printStackTrace();
-		}
+		generate();
 	}
 
-	void generate() throws CppDuplicateException, CDuplicateException{
+	void generate() throws Exception {
 
 		String className = "ConstructorDestructor";
 
@@ -77,9 +71,11 @@ public class Example5_Constructor_Destructor {
         person.setComment(new CCommentImpl("A simple class"));
 
         // Get the standard constructor
-        CppConstructor c = person.getConstructors(Cpp.PUBLIC).get(0);
+        CppConstructor c = CppConstructor.factory.create();
         c.appendCode("this->name = \"No name\";");
         c.appendCode("this->age = -1;");
+
+        person.add(Cpp.PUBLIC, c);
 
         // Generate two int variables
         CppTypeGenerator type_string = new CppTypeGenerator("string");
@@ -110,14 +106,6 @@ public class Example5_Constructor_Destructor {
 
         person.add(Cpp.PUBLIC, des);
 
-
-/*
-Person::~Person() {
-	cout << name << " will be destructed" << "\n";
-	age = 0;
-	name = "";
-}
-*/
         // Generate function print
         CppFun fun_print = CppFun.factory.create(Cpp.VOID, "print");
         fun_print.appendCode("cout << name << \" is \" << age << \"\\n\";");
@@ -127,7 +115,6 @@ Person::~Person() {
 		CppSourceFile file = workspace.getC().getCppSourceFile(className);
         CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
         file.addInclude(header);
-        header.add(person);
 
         // Add an include to the file
         header.addLibInclude("iostream");
@@ -150,7 +137,7 @@ Person::~Person() {
         file.add(fun_main);
 
         // Finally, add class to the file
-        file.add(person);
+        header.add(person);
 
 	}
 

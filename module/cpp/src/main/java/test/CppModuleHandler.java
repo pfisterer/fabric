@@ -29,13 +29,16 @@ package test;
 import java.util.Properties;
 
 import de.uniluebeck.sourcegen.Workspace;
+import de.uniluebeck.sourcegen.c.CCommentImpl;
+import de.uniluebeck.sourcegen.c.CFun;
+import de.uniluebeck.sourcegen.c.CFunSignature;
+import de.uniluebeck.sourcegen.c.CParam;
+import de.uniluebeck.sourcegen.c.CTypeDef;
 import de.uniluebeck.sourcegen.c.Cpp;
 import de.uniluebeck.sourcegen.c.CppClass;
 import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
-import de.uniluebeck.sourcegen.c.CppTemplateHelper;
 import de.uniluebeck.sourcegen.c.CppTypeDef;
-import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 import de.uniluebeck.sourcegen.c.CppVar;
 import fabric.module.api.FabricDefaultHandler;
 import fabric.wsdlschemaparser.schema.FComplexType;
@@ -44,95 +47,30 @@ import fabric.wsdlschemaparser.schema.FSchema;
 import fabric.wsdlschemaparser.schema.FSimpleType;
 
 /**
- * Cpp-Module-handler
- * Generates the example_app.cpp from Wiselib
+ * Cpp-Module-handler Generates the example_app.cpp from Wiselib
  *
- * @see <a href="https://github.com/ibr-alg/wiselib/blob/master/apps/generic_apps/example_app/example_app.cpp">https://github.com/ibr-alg/wiselib/blob/master/apps/generic_apps/example_app/example_app.cpp</a>
+ * @see <a
+ *      href="https://github.com/ibr-alg/wiselib/blob/master/apps/generic_apps/example_app/example_app.cpp">https://github.com/ibr-alg/wiselib/blob/master/apps/generic_apps/example_app/example_app.cpp</a>
  * @author Dennis Boldt
  */
 public class CppModuleHandler extends FabricDefaultHandler {
 
-    private CppSourceFile file = null;
-    private Workspace workspace = null;
+	private Workspace workspace = null;
 
-    public CppModuleHandler(Properties properties, Workspace workspace) {
-        String fileName = properties.get(CppModule.CPP_OUTFILE).toString();
-        this.file = workspace.getC().getCppSourceFile(fileName);
-        this.workspace = workspace;
-    }
+	public CppModuleHandler(Properties properties, Workspace workspace) {
+		//String fileName = properties.get(CppModule.CPP_OUTFILE).toString();
+		this.workspace = workspace;
+	}
 
-    @Override
-    public void startSchema(FSchema schema) throws Exception {
-        this.codeGen_example_app();
-    }
+	@Override
+	public void startSchema(FSchema schema) throws Exception {
+		this.codeGen_example_app();
+	}
 
-    private void codeGen_example_app() throws Exception {
+	private void codeGen_example_app() throws Exception {
 
-    	// TODO: Renew it
-    	// Not working since commit: 370ea4769a
 
     	/*
-        // Get an header file
-        CppSourceFile header = this.workspace.getC().getCppHeaderFile("header");
-        this.file.addInclude(header);
-
-        // Generate the application
-        CppClass example = CppClass.factory.create("ExampleApplication");
-        header.add(example);
-
-        this.file.add(example);
-
-        // Generate the types
-        CppTypeGenerator os = new CppTypeGenerator("Os");
-
-        // typedef wiselib::OSMODEL Os;
-        CppTypeDef typeDef = CppTypeDef.getInstance();
-        typeDef.addTypeDef("wiselib::OSMODEL", os);
-        // TODO: Add typedef to class
-
-        // Os::Radio::self_pointer_t radio_;
-        CppTypeGenerator radio = new CppTypeGenerator("Radio");
-        CppTypeGenerator radio_self_pointer_t = new CppTypeGenerator("self_pointer_t");
-        CppVar radio_ = CppVar.factory.create(radio_self_pointer_t, "radio_", os, radio);
-
-        // Os::Timer::self_pointer_t timer_;
-        CppTypeGenerator timer = new CppTypeGenerator("Timer");
-        CppTypeGenerator timer_self_pointer_t = new CppTypeGenerator("self_pointer_t");
-        CppVar timer_ = CppVar.factory.create(timer_self_pointer_t, "timer_", os, timer);
-
-        // Os::Debug::self_pointer_t debug_;
-        CppTypeGenerator debug = new CppTypeGenerator("Debug");
-        CppTypeGenerator debug_self_pointer_t = new CppTypeGenerator("self_pointer_t");
-        CppVar debug_ = CppVar.factory.create(debug_self_pointer_t, "debug_", os, debug);
-
-        // void init( Os::AppMainParameter& value )
-        CppTypeGenerator appMainParameter = new CppTypeGenerator("AppMainParameter", Cpp.REFERENCE);
-        CppVar value = CppVar.factory.create(appMainParameter, "value", os);
-        CppFun fun_init = CppFun.factory.create(Cpp.VOID, "init", value);
-
-        // Content of the function
-        fun_init.appendCode("radio_ = &wiselib::FacetProvider<Os, Os::Radio>::get_facet( value );");
-        fun_init.appendCode("timer_ = &wiselib::FacetProvider<Os, Os::Timer>::get_facet( value );");
-        fun_init.appendCode("debug_ = &wiselib::FacetProvider<Os, Os::Debug>::get_facet( value );");
-        fun_init.appendCode("");
-        fun_init.appendCode("debug_->debug( \"Hello World from Example Application!\\n\" );");
-        fun_init.appendCode("");
-        fun_init.appendCode("radio_->reg_recv_callback<ExampleApplication, &ExampleApplication::receive_radio_message>( this );");
-        fun_init.appendCode("timer_->set_timer<ExampleApplication, &ExampleApplication::start>( 5000, this, 0 );");
-
-        // void start( void* )
-        CppVar void_pointer = CppVar.factory.create("void*");
-        CppFun fun_start = CppFun.factory.create(Cpp.VOID, "start", void_pointer);
-
-        // Content of the function
-        fun_start.appendCode("debug_->debug( \"broadcast message at %d \\n\", radio_->id() );");
-        fun_start.appendCode("Os::Radio::block_data_t message[] = \"hello world!\\0\";");
-        fun_start.appendCode("radio_->send( Os::Radio::BROADCAST_ADDRESS, sizeof(message), message );");
-
-        // Add all variables and functions
-        example.add(Cpp.PRIVATE, radio_, timer_, debug_);
-        example.add(Cpp.PUBLIC, fun_init, fun_start);
-
         // ####################################################################
         // Example with nested templates -- not in example_app.cpp
         // ####################################################################
@@ -159,79 +97,84 @@ public class CppModuleHandler extends FabricDefaultHandler {
         */
     }
 
-    @Override
-    public void endSchema(FSchema schema) throws Exception {
-        // doesn't do anything
-    }
+	@Override
+	public void endSchema(FSchema schema) throws Exception {
+		// doesn't do anything
+	}
 
-    @Override
-    public void startTopLevelElement(FElement element) throws Exception {
-        // doesn't do anything
-    }
+	@Override
+	public void startTopLevelElement(FElement element) throws Exception {
+		// doesn't do anything
+	}
 
-    @Override
-    public void endTopLevelElement(FElement element) {
-        // doesn't do anything
-    }
+	@Override
+	public void endTopLevelElement(FElement element) {
+		// doesn't do anything
+	}
 
-    @Override
-    public void startLocalElement(FElement element, FComplexType parent) throws Exception {
-        // doesn't do anything
-    }
+	@Override
+	public void startLocalElement(FElement element, FComplexType parent)
+			throws Exception {
+		// doesn't do anything
+	}
 
-    @Override
-    public void endLocalElement(FElement element, FComplexType parent) {
-        // doesn't do anything
-    }
+	@Override
+	public void endLocalElement(FElement element, FComplexType parent) {
+		// doesn't do anything
+	}
 
-    @Override
-    public void startElementReference(FElement element) throws Exception {
-        // doesn't do anything
-    }
+	@Override
+	public void startElementReference(FElement element) throws Exception {
+		// doesn't do anything
+	}
 
-    @Override
-    public void endElementReference(FElement element) throws Exception {
-        // doesn't do anything
-    }
+	@Override
+	public void endElementReference(FElement element) throws Exception {
+		// doesn't do anything
+	}
 
-    @Override
-    public void startTopLevelSimpleType(FSimpleType type, FElement parent) throws Exception {
-        // doesn't do anything
-    }
+	@Override
+	public void startTopLevelSimpleType(FSimpleType type, FElement parent)
+			throws Exception {
+		// doesn't do anything
+	}
 
-    @Override
-    public void endTopLevelSimpleType(FSimpleType type, FElement parent) {
-        // doesn't do anything
-    }
+	@Override
+	public void endTopLevelSimpleType(FSimpleType type, FElement parent) {
+		// doesn't do anything
+	}
 
-    @Override
-    public void startLocalSimpleType(FSimpleType type, FElement parent) throws Exception {
-        // doesn't do anything
-    }
+	@Override
+	public void startLocalSimpleType(FSimpleType type, FElement parent)
+			throws Exception {
+		// doesn't do anything
+	}
 
-    @Override
-    public void endLocalSimpleType(FSimpleType type, FElement parent) {
-        // doesn't do anything
-    }
+	@Override
+	public void endLocalSimpleType(FSimpleType type, FElement parent) {
+		// doesn't do anything
+	}
 
-    @Override
-    public void startTopLevelComplexType(FComplexType type, FElement parent) throws Exception {
-        // doesn't do anything
-    }
+	@Override
+	public void startTopLevelComplexType(FComplexType type, FElement parent)
+			throws Exception {
+		// doesn't do anything
+	}
 
-    @Override
-    public void endTopLevelComplexType(FComplexType type, FElement parent) {
-        // doesn't do anything
-    }
+	@Override
+	public void endTopLevelComplexType(FComplexType type, FElement parent) {
+		// doesn't do anything
+	}
 
-    @Override
-    public void startLocalComplexType(FComplexType type, FElement parent) throws Exception {
-        // doesn't do anything
-    }
+	@Override
+	public void startLocalComplexType(FComplexType type, FElement parent)
+			throws Exception {
+		// doesn't do anything
+	}
 
-    @Override
-    public void endLocalComplexType(FComplexType type, FElement parent) {
-        // doesn't do anything
-    }
+	@Override
+	public void endLocalComplexType(FComplexType type, FElement parent) {
+		// doesn't do anything
+	}
 
 }

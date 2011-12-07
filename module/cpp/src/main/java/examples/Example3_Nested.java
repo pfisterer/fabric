@@ -32,8 +32,6 @@ import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 import de.uniluebeck.sourcegen.c.CppVar;
-import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
-import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
  * One class is nested in another class.
@@ -49,22 +47,12 @@ public class Example3_Nested {
 
 	private Workspace workspace = null;
 
-	public Example3_Nested(Workspace workspace) throws CppDuplicateException {
+	public Example3_Nested(Workspace workspace) throws Exception {
 	    this.workspace = workspace;
-		try {
-			generate();
-		} catch (CDuplicateException e) {
-			e.printStackTrace();
-		}
+		generate();
 	}
 
-	/**
-	 * This method generate the CPP-files
-	 *
-	 * @throws CppDuplicateException
-	 * @throws CDuplicateException
-	 */
-	void generate() throws CppDuplicateException, CDuplicateException {
+	void generate() throws Exception {
 
 		String className = "Nested";
 
@@ -108,7 +96,6 @@ public class Example3_Nested {
 		CppSourceFile file = workspace.getC().getCppSourceFile(className);
         CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
         file.addInclude(header);
-        header.add(classTwo);
 
         // Add an include to the file
         file.addLibInclude("iostream");
@@ -124,7 +111,7 @@ public class Example3_Nested {
         file.add(fun_main);
 
         // Finally, add class to the file
-        file.add(classOne);
+        header.add(classTwo);
 
 	}
 

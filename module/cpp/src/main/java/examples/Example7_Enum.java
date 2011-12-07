@@ -33,10 +33,6 @@ import de.uniluebeck.sourcegen.c.CppClass;
 import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppVar;
-import de.uniluebeck.sourcegen.exceptions.CCodeValidationException;
-import de.uniluebeck.sourcegen.exceptions.CConflictingModifierException;
-import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
-import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
  * StructSample is similar to CRectangleSimple.
@@ -52,28 +48,12 @@ public class Example7_Enum {
 
 	private Workspace workspace = null;
 
-	public Example7_Enum(Workspace workspace) throws CppDuplicateException {
+	public Example7_Enum(Workspace workspace) throws Exception {
 	    this.workspace = workspace;
-	    try {
-			generate();
-		} catch (CDuplicateException e) {
-			e.printStackTrace();
-		} catch (CCodeValidationException e) {
-			e.printStackTrace();
-		} catch (CConflictingModifierException e) {
-			e.printStackTrace();
-		}
+		generate();
 	}
 
-	/**
-	 * This method generate the CPP-files
-	 *
-	 * @throws CppDuplicateException
-	 * @throws CDuplicateException
-	 * @throws CCodeValidationException
-	 * @throws CConflictingModifierException
-	 */
-	void generate() throws CppDuplicateException, CDuplicateException, CCodeValidationException, CConflictingModifierException{
+	void generate() throws Exception {
 
 		String className = "Enum";
 
@@ -108,8 +88,6 @@ public class Example7_Enum {
         // Generate the files (cpp + hpp)
 		CppSourceFile file = workspace.getC().getCppSourceFile(className);
         CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
-        header.add(clazz);
-
         file.addInclude(header);
 
         // Add an include to the file
@@ -131,20 +109,10 @@ public class Example7_Enum {
         fun_main.appendCode("s.set(e);");
         fun_main.appendCode("s.print();");
 
-
-/*        fun_main.appendCode(struct.getTypeName() + " d;");
-        fun_main.appendCode("d.x = 3;");
-        fun_main.appendCode("d.y = 4;");
-        fun_main.appendCode("");
-        fun_main.appendCode(className + " obj;");
-        fun_main.appendCode("obj.set_data(d);");
-        fun_main.appendCode("cout << obj.calc() << \"\\n\";");
-        fun_main.appendCode("return 0;");
-*/
         file.add(fun_main);
         header.add(enumm);
 
         // Finally, add class to the file
-        file.add(clazz);
+        header.add(clazz);
 	}
 }
