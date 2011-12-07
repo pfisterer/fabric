@@ -183,7 +183,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	public CppSourceFile addInclude(CppSourceFile... sourceFiles) throws CppDuplicateException {
 		for (CppSourceFile csf : sourceFiles) {
 			if (containsInclude(csf))
-				throw new CppDuplicateException("Duplicate source file included " + csf);
+				throw new CppDuplicateException("Duplicate source file included " + csf.getFileName());
 			cppUserHeaderFiles.add((CppSourceFileImpl)csf);
 			// We cannot use base here, beauce the type is cpp
 		}
