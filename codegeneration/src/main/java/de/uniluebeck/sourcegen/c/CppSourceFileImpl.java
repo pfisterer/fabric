@@ -398,9 +398,16 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			}
 		}
 
+		// Add file vars
+		if(this.cppVars.size() > 0) {
+			for (CppVar v : this.cppVars) {
+				buffer.append(v.toString() + ";" + Cpp.newline);
+			}
+			buffer.append(Cpp.newline);
+		}
+
 		// Add functions, such main is possible
 		if(this.base.getFuns().size() > 0) {
-			//buffer.append("/* Other non class functions */" + Cpp.newline);
 			for (CFun fun : this.base.getFuns()) {
 				fun.toString(buffer, tabCount);
 			}

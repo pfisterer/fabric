@@ -130,6 +130,12 @@ public class Example11_Wislib {
         clazz.add(Cpp.PRIVATE, radio_, timer_, debug_);
 
         /**
+         * Add the var
+         */
+        CppVar example_app = CppVar.factory.create("wiselib::WiselibApplication<Os, ExampleApplication>", "example_app");
+        file.add(example_app);
+
+        /**
          * Generate the main
          */
 
@@ -138,11 +144,5 @@ public class Example11_Wislib {
         CFun fun_main = CFun.factory.create("application_main", "void", sig);
         fun_main.appendCode("example_app.init( value );");
         file.add(fun_main);
-
-        /**
-         * TODO:
-         * wiselib::WiselibApplication<Os, ExampleApplication> example_app;
-         */
-
 	}
 }
