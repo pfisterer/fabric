@@ -101,7 +101,6 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
       if (null != cppv)
       {
         cppc.add(cppv);
-//        cppc.add(Cpp.PRIVATE, cppv); // TODO: Does this cause strange output?
       }
 
       /*****************************************************************

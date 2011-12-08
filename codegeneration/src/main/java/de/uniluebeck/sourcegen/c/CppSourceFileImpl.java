@@ -39,7 +39,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	protected List<CppClass> 		 	cppClasses;
 	protected List<CppSourceFileImpl> cppUserHeaderFiles;
 	protected List<String> 			cppNamespaces;
-	protected List<CppComplexType> 	cppComplexTypes;
 
 	protected CSourceFileBase base;
 	protected String fileName;
@@ -113,23 +112,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	public CppSourceFile add(CTypeDef... typedefs) throws CDuplicateException {
 		base.internalTypedef(typedefs);
-		return this;
-	}
-
-	@Override
-	public CppSourceFile add(CppComplexType... complexTypes) throws CppDuplicateException {    
-    for (CppComplexType to: complexTypes) {
-      System.out.println("Adding new complex type to source file."); // TODO: Remove
-      
-      if (to.getClass() == CppClassImpl.class) {
-        this.add((CppClassImpl)to);
-      }
-    }
-
-// TODO: Add CppClass objects to this CppSourceFileImpl object
-//		for (CppComplexType cc : complexTypes) {
-//			this.cppComplexTypes.add(cc);
-//		}
 		return this;
 	}
 
@@ -400,28 +382,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			}
 		}
     
-    // TODO: Added block begin
-    if (null != this.cppClasses && this.cppClasses.size() > 0) {
-      buffer.append(Cpp.newline);
-      for (CppClass cppc: this.cppClasses) {
-        buffer.append(Cpp.newline);
-        cppc.toString(buffer, tabCount);
-      }
-      buffer.append(Cpp.newline);
-    }
-    // TODO: Added block end
-
-    // ComplexTypes
-		if (null != this.cppComplexTypes && this.cppComplexTypes.size() > 0) { // TODO: Added null test
-			buffer.append(Cpp.newline);
-			for (CppComplexType cc : this.cppComplexTypes) {
-				buffer.append(Cpp.newline);
-				cc.toString(buffer, tabCount);
-			}
-			buffer.append(Cpp.newline);
-		}
-
-		// After pre-processor directives
+    // After pre-processor directives
 		if (null != this.base && null != this.base.afterDirectives && base.afterDirectives.size() > 0) {
 			buffer.append(Cpp.newline);
 			for (CPreProcessorDirectiveImpl ppd : this.base.afterDirectives) {
