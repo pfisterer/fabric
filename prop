@@ -1,0 +1,8 @@
+#javaTypeGen.properties
+#Thu Sep 01 16:00:46 CEST 2011
+typegen.target_language=java
+typegen.main_class_name=Car
+typegen.java.xml_framework=JAXB
+typegen.java.package_name=com.example.car
+exi.application_class_name=CarApplication
+exi.java.exi_library=OpenEXI
