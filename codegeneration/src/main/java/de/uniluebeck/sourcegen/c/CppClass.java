@@ -55,91 +55,90 @@ public interface CppClass extends CppComplexType, CppTemplateName {
 
 	public CppClass setComment(CComment comment);
 
-    public static final CppClassFactory factory = CppClassFactory.getInstance();
+  public static final CppClassFactory factory = CppClassFactory.getInstance();
 
-    public CppClass add(long vis, CEnum... enumObj) throws CppDuplicateException;
+  public CppClass add(long vis, CEnum... enumObj) throws CppDuplicateException;
 
-    public CppClass add(long vis, CFun... function) throws CppDuplicateException;
+  public CppClass add(long vis, CFun... function) throws CppDuplicateException;
 
-    public CppClass add(long vis, CppConstructor... constructor) throws CppDuplicateException;
+  public CppClass add(long vis, CppConstructor... constructor) throws CppDuplicateException;
 
-    public CppClass add(long vis, CppDestructor... destructor) throws CppDuplicateException;
+  public CppClass add(long vis, CppDestructor... destructor) throws CppDuplicateException;
 
-    public CppClass add(long vis, CppFun... fun) throws CppDuplicateException;
+  public CppClass add(long vis, CppFun... fun) throws CppDuplicateException;
 
-    public CppClass add(long vis, CppVar... var) throws CppDuplicateException;
+  public CppClass add(long vis, CppVar... var) throws CppDuplicateException;
 
-    public CppClass add(CppVar... var) throws CppDuplicateException, CppCodeValidationException;
+  public CppClass add(CppVar... var) throws CppDuplicateException, CppCodeValidationException;
 
-    public CppClass add(long vis, CStruct... struct) throws CppDuplicateException;
+  public CppClass add(long vis, CStruct... struct) throws CppDuplicateException;
 
-    public CppClass add(long vis, CUnion... unions) throws CppDuplicateException;
+  public CppClass add(long vis, CUnion... unions) throws CppDuplicateException;
 
-    public CppClass add(long vis, CppClass... cppClass) throws CppDuplicateException;
+  public CppClass add(long vis, CppClass... cppClass) throws CppDuplicateException;
 
-    public CppClass addParents(List<CppClass> cppClass, CppClass cppClazz);
+  public CppClass addParents(List<CppClass> cppClass, CppClass cppClazz);
 
-    public List<CppClass> getParents();
+  public List<CppClass> getParents();
 
-    public CppClass addAfterDirective(CPreProcessorDirective... directive);
+  public CppClass addAfterDirective(CPreProcessorDirective... directive);
 
-    public CppClass addAfterDirective(String... directives) throws CPreProcessorValidationException;
+  public CppClass addAfterDirective(String... directives) throws CPreProcessorValidationException;
 
-    public CppClass addBeforeDirective(CPreProcessorDirective... directive);
+  public CppClass addBeforeDirective(CPreProcessorDirective... directive);
 
-    public CppClass addBeforeDirective(String... directive) throws CPreProcessorValidationException;
+  public CppClass addBeforeDirective(String... directive) throws CPreProcessorValidationException;
 
-    public CppClass addExtended(long vis, CppClass... extended) throws CppDuplicateException;
-    public CppClass addExtended(long vis, String... extended) throws CppDuplicateException;
+  public CppClass addExtended(long vis, CppClass... extended) throws CppDuplicateException;
+  public CppClass addExtended(long vis, String... extended) throws CppDuplicateException;
 
-    public boolean contains(CEnum enumObj);
+  public boolean contains(CEnum enumObj);
 
-    public boolean contains(CFun fun);
+  public boolean contains(CFun fun);
 
-    public boolean contains(CppConstructor constructor);
+  public boolean contains(CppConstructor constructor);
 
-    public boolean contains(CppDestructor destructor);
+  public boolean contains(CppDestructor destructor);
 
-    public boolean contains(CppFun fun);
+  public boolean contains(CppFun fun);
 
-    public boolean contains(CppVar var);
+  public boolean contains(CppVar var);
 
-    public boolean contains(CStruct struct);
+  public boolean contains(CStruct struct);
 
-    public boolean contains(CUnion enumObj);
+  public boolean contains(CUnion enumObj);
 
-    public boolean containsAfterDirective(CPreProcessorDirective directive);
+  public boolean containsAfterDirective(CPreProcessorDirective directive);
 
-    public boolean containsBeforeDirective(CPreProcessorDirective directive);
+  public boolean containsBeforeDirective(CPreProcessorDirective directive);
 
-    public boolean containsExtended(CppClass extended);
+  public boolean containsExtended(CppClass extended);
 
-    public CEnum getEnumByName(String name);
+  public CEnum getEnumByName(String name);
 
-    public long getVis(CEnum enumObj);
+  public long getVis(CEnum enumObj);
 
-    public long getVis(CFun fun);
+  public long getVis(CFun fun);
 
-    public long getVis(CppConstructor constructor);
+  public long getVis(CppConstructor constructor);
 
-    public long getVis(CppDestructor destructor);
+  public long getVis(CppDestructor destructor);
 
-    public long getVis(CppFun fun);
+  public long getVis(CppFun fun);
 
-    public long getVis(CppVar var);
+  public long getVis(CppVar var);
 
-    public long getVis(CStruct struct);
+  public long getVis(CStruct struct);
 
-    public long getVis(CUnion union);
+  public long getVis(CUnion union);
 
-    public long getVisExtended(CppClass extended);   
+  public long getVisExtended(CppClass extended);   
 
-    // Needed for CppSourceFileImp
-    public List<CppConstructor> getConstructors(long vis);
-    public List<CppDestructor> getDestructors(long vis);
-    public List<CppFun> getFuns(long vis);
-    public List<CppVar> getVars(long vis);
-    public List<CppClass> getNested(long vis);
-
+  // Needed for CppSourceFileImp
+  public List<CppConstructor> getConstructors(long vis);
+  public List<CppDestructor> getDestructors(long vis);
+  public List<CppFun> getFuns(long vis);
+  public List<CppVar> getVars(long vis);
+  public List<CppClass> getNested(long vis);
 
 }

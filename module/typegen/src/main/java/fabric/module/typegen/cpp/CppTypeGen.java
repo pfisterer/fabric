@@ -142,24 +142,33 @@ public class CppTypeGen implements TypeGen
     }
 
     CWorkspace cWorkspace = this.workspace.getC();
-    CppSourceFile csf = null;
-
+    CppSourceFile cppsf = null;
+    CppHeaderFile cpphf = null;
+    
     // Create new source file for every container
     for (String name: this.generatedElements.keySet())
     {
-      csf = cWorkspace.getCppSourceFile(name);
+      // Create source and header file
+      cppsf = cWorkspace.getCppSourceFile(name);
+      cpphf = cWorkspace.getCppHeaderFile(name);
       CppTypeGen.SourceFileData sourceFileData = this.generatedElements.get(name);
-
+      
+      // Add comments to source and header file
+      cppsf.setComment(new CCommentImpl(String.format("The '%s' source file.", name)));
+      cpphf.setComment(new CCommentImpl(String.format("The '%s' header file.", name)));
+      
+      // Include header files and set namespace
+      cppsf.addInclude(cpphf);
+      cppsf.addLibInclude("iostream");
+      cppsf.addUsingNamespace("std");
+      
       // Add container to source file
-      csf.add((CppClass)sourceFileData.typeObject); // TODO: add(CppComplexType...) existiert nicht
-//      csf.add(sourceFileData.typeObject); // TODO: So wollen wir den Aufruf eigentlich haben.
-      System.out.println("################################# Generated element: " + sourceFileData.typeObject.getTypeName()); // TODO: Remove
-      System.out.println((CppClass)sourceFileData.typeObject); // TODO: Remove
+      cppsf.add(sourceFileData.typeObject); // TODO: add(CppComplexType...) existiert nicht
 
       // Add imports to source file
       for (String requiredInclude: sourceFileData.requiredIncludes)
       {
-        csf.addLibInclude(requiredInclude);
+        cppsf.addLibInclude(requiredInclude);
       }
 
       LOGGER.debug(String.format("Generated new source file '%s'.", name));
@@ -411,7 +420,7 @@ public class CppTypeGen implements TypeGen
         // Here we can reuse javaStrategy with stateful xmlMapper, because inner classes are nested in outer container
         CppClass innerClassObject = (CppClass)cppStrategy.generateClassObject(
                 this.incompleteLocalBuilders.get(classObject.getName()).pop().build());
-        // TODO: classObject.add(Cpp.PUBLIC | Cpp.STATIC, innerClassObject); // TODO: CppClass unterstuetzt keine inneren Klassen
+        classObject.add(Cpp.PUBLIC | Cpp.STATIC, innerClassObject); // TODO: CppClass unterstuetzt keine inneren Klassen?
         classObject = innerClassObject; // TODO: Remove!
         LOGGER.debug(String.format("Built inner class '%s' for current container '%s'.", innerClassObject.getName(), classObject.getName()));
       }

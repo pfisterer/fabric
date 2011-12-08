@@ -47,7 +47,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
   @Override
   public WorkspaceElement generateClassObject(final AttributeContainer container) throws Exception
   {
-    return this.generateCppClassObject(container, Cpp.PUBLIC, null);
+    return this.generateCppClassObject(container, null);
   }
   
   /**
@@ -66,7 +66,6 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
    * Private helper method to create JClass object from AttributeContainer.
    *
    * @param container AttributeContainer for conversion
-   * @param modifiers Modifiers for JClass object (e.g. visibility)
    * @param parent Parent class name for extends-directive (set to
    * null or empty string if class has no parent)
    *
@@ -74,20 +73,20 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
    *
    * @throws Exception Error during class object generation
    */
-  private CppClass generateCppClassObject(final AttributeContainer container, final long modifiers, final String parent) throws Exception
+  private CppClass generateCppClassObject(final AttributeContainer container, final String parent) throws Exception
   {
     /*****************************************************************
      * Create surrounding container class
      *****************************************************************/
-    CppClass cppc = CppClass.factory.create(this.firstLetterCapital(container.getName())); // TODO: Class modifiers?
+    CppClass cppc = CppClass.factory.create(this.firstLetterCapital(container.getName()));
     cppc.setComment(new CCommentImpl(String.format("The '%s' container class.", container.getName())));
     
     // Set extends-directive
     if (null != parent && parent.length() > 0)
     {
-      cppc.addExtended(Cpp.PUBLIC, parent); // TODO: FR-017: addExtended(String... parent) needed
+      cppc.addExtended(Cpp.PUBLIC, parent);
     }
-
+    
     // Process all members
     Iterator iterator = container.getMembers().entrySet().iterator();
     while (iterator.hasNext())
@@ -368,108 +367,107 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
    */
   private String generateRestrictionChecks(AttributeContainer.RestrictedElementBase member) throws Exception
   {
-    return ""; // TODO: Implement method for C++
+    String result = "";
 
-//    String result = "";
-//
-//    // Create code to check restrictions
-//    AttributeContainer.Restriction r = member.restrictions;
-//    String operandName = member.name;
-//    String message = "Restriction '%s' violated for member variable '%s'.";
-//    String comment = "Check the '%s' restriction";
-//
-//    // If member type is QName, enforce restriction on local part
-//    if (member.type.endsWith("QName"))
-//    {
-//      operandName = String.format("(%s.getNamespaceURI() + \":\" + %s.getLocalPart())", member.name, member.name);
-//    }
-//
-//    if (member.isLengthRestricted())
-//    {
-//      result += JavaRestrictionHelper.createCheckCode(
-//              String.format("%s.length() != %d", operandName, Long.parseLong(r.length)),
-//              String.format(message, "length", member.name),
-//              String.format(comment, "length"));
-//    }
-//
-//    if (member.isMinLengthRestricted())
-//    {
-//      result += JavaRestrictionHelper.createCheckCode(
-//              String.format("%s.length() < %d", operandName, Long.parseLong(r.minLength)),
-//              String.format(message, "minLength", member.name),
-//              String.format(comment, "minLength"));
-//    }
-//
-//    if (member.isMaxLengthRestricted())
-//    {
-//      result += JavaRestrictionHelper.createCheckCode(
-//              String.format("%s.length() > %d", operandName, Long.parseLong(r.maxLength)),
-//              String.format(message, "maxLength", member.name),
-//              String.format(comment, "maxLength"));
-//    }
-//
-//    if (member.isMinInclusiveRestricted())
-//    {
-//      result += JavaRestrictionHelper.createCheckCode(
-//              JavaRestrictionHelper.minInclusiveExpression(member),
-//              String.format(message, "minInclusive", member.name),
-//              String.format(comment, "minInclusive"));
-//    }
-//
-//    if (member.isMaxInclusiveRestricted())
-//    {
-//      result += JavaRestrictionHelper.createCheckCode(
-//              JavaRestrictionHelper.maxInclusiveExpression(member),
-//              String.format(message, "maxInclusive", member.name),
-//              String.format(comment, "maxInclusive"));
-//    }
-//
-//    if (member.isMinExclusiveRestricted())
-//    {
-//      result += JavaRestrictionHelper.createCheckCode(
-//              JavaRestrictionHelper.minExclusiveExpression(member),
-//              String.format(message, "minExclusive", member.name),
-//              String.format(comment, "minExclusive"));
-//    }
-//
-//    if (member.isMaxExclusiveRestricted())
-//    {
-//      result += JavaRestrictionHelper.createCheckCode(
-//              JavaRestrictionHelper.maxExclusiveExpression(member),
-//              String.format(message, "maxExclusive", member.name),
-//              String.format(comment, "maxExclusive"));
-//    }
-//
-//    if (member.isPatternRestricted())
-//    {
-//      result += JavaRestrictionHelper.createPatternCheckCode(
-//              operandName,
-//              r.pattern,
-//              String.format(message, "pattern", member.name));
-//    }
-//
-//    if (member.isWhiteSpaceRestricted() && ("String").equals(member.type)) // Java can only enforce 'whiteSpace' on strings
-//    {
-//      result += JavaRestrictionHelper.createWhiteSpaceCheckCode(
-//              member.name,
-//              r.whiteSpace);
-//    }
-//
-//    if (member.isTotalDigitsRestricted())
-//    {
-//      result += JavaRestrictionHelper.createTotalDigitsCheckCode(
-//              member.name,
-//              r.totalDigits);
-//    }
-//
-//    if (member.isFractionDigitsRestricted())
-//    {
-//      result += JavaRestrictionHelper.createFractionDigitsCheckCode(
-//              member.name,
-//              r.fractionDigits);
-//    }
-//
-//    return result;
+    // Create code to check restrictions
+    AttributeContainer.Restriction r = member.restrictions;
+    String operandName = member.name;
+    String message = "Restriction '%s' violated for member variable '%s'.";
+    String comment = "Check the '%s' restriction";
+
+    // If member type is QName, enforce restriction on local part
+    if (member.type.endsWith("QName"))
+    {
+      operandName = String.format("(%s.getNamespaceURI() + \":\" + %s.getLocalPart())", member.name, member.name);
+    }
+
+    if (member.isLengthRestricted())
+    {
+      result += CppRestrictionHelper.createCheckCode(
+              String.format("%s.length() != %d", operandName, Long.parseLong(r.length)),
+              String.format(message, "length", member.name),
+              String.format(comment, "length"));
+    }
+
+    if (member.isMinLengthRestricted())
+    {
+      result += CppRestrictionHelper.createCheckCode(
+              String.format("%s.length() < %d", operandName, Long.parseLong(r.minLength)),
+              String.format(message, "minLength", member.name),
+              String.format(comment, "minLength"));
+    }
+
+    if (member.isMaxLengthRestricted())
+    {
+      result += CppRestrictionHelper.createCheckCode(
+              String.format("%s.length() > %d", operandName, Long.parseLong(r.maxLength)),
+              String.format(message, "maxLength", member.name),
+              String.format(comment, "maxLength"));
+    }
+
+    if (member.isMinInclusiveRestricted())
+    {
+      result += CppRestrictionHelper.createCheckCode(
+              CppRestrictionHelper.minInclusiveExpression(member),
+              String.format(message, "minInclusive", member.name),
+              String.format(comment, "minInclusive"));
+    }
+
+    if (member.isMaxInclusiveRestricted())
+    {
+      result += CppRestrictionHelper.createCheckCode(
+              CppRestrictionHelper.maxInclusiveExpression(member),
+              String.format(message, "maxInclusive", member.name),
+              String.format(comment, "maxInclusive"));
+    }
+
+    if (member.isMinExclusiveRestricted())
+    {
+      result += CppRestrictionHelper.createCheckCode(
+              CppRestrictionHelper.minExclusiveExpression(member),
+              String.format(message, "minExclusive", member.name),
+              String.format(comment, "minExclusive"));
+    }
+
+    if (member.isMaxExclusiveRestricted())
+    {
+      result += CppRestrictionHelper.createCheckCode(
+              CppRestrictionHelper.maxExclusiveExpression(member),
+              String.format(message, "maxExclusive", member.name),
+              String.format(comment, "maxExclusive"));
+    }
+
+    if (member.isPatternRestricted())
+    {
+      result += CppRestrictionHelper.createPatternCheckCode(
+              operandName,
+              r.pattern,
+              String.format(message, "pattern", member.name));
+    }
+
+    // TODO: Is the limitation to String still correct for C++?
+    if (member.isWhiteSpaceRestricted() && ("String").equals(member.type)) // C++ can only enforce 'whiteSpace' on strings
+    {
+      result += CppRestrictionHelper.createWhiteSpaceCheckCode(
+              member.name,
+              r.whiteSpace);
+    }
+
+    if (member.isTotalDigitsRestricted())
+    {
+      result += CppRestrictionHelper.createTotalDigitsCheckCode(
+              member.name,
+              r.totalDigits);
+    }
+
+    if (member.isFractionDigitsRestricted())
+    {
+      result += CppRestrictionHelper.createFractionDigitsCheckCode(
+              member.name,
+              r.fractionDigits);
+    }
+
+    return result;
   }
 
   /**
@@ -500,7 +498,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
       reference = className;
     }
     
-    CppFun getter = CppFun.factory.create(type, "get" + this.firstLetterCapital(member.name)); // TODO: Add class name!?
+    CppFun getter = CppFun.factory.create(type, "get" + this.firstLetterCapital(member.name));
 
     getter.appendCode(String.format("return %s.%s;", reference, member.name));
     getter.setComment(new CCommentImpl(String.format("Get the '%s' member variable.", member.name)));

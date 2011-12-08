@@ -9,6 +9,8 @@ import fabric.module.typegen.exceptions.FabricTypeGenException;
  * C++ code that checks XML schema restrictions. These functions
  * were externalized, simply to increase maintainability of the
  * CppTypeGen class.
+ * 
+ * @author reichart
  */
 public class CppRestrictionHelper
 {

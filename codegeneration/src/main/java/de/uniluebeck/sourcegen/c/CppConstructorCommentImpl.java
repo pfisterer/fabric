@@ -32,7 +32,6 @@ import java.util.TreeMap;
 
 /**
  * @author Dennis Boldt
- *
  */
 public class CppConstructorCommentImpl extends CCommentImpl implements CppConstructorComment {
 
