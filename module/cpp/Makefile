@@ -18,7 +18,7 @@ compile:
 	g++ Directives.cpp -o directives;
 	g++ Typedef.cpp -o typedef;
 	g++ Inheritance.cpp -o inheritance;
-	
+	g++ NestedOfNestedWithConstructor.cpp -o nestedOfNestedWithC;
 	 
 run:
 
@@ -37,6 +37,7 @@ run:
 	./directives;
 	./typedef;
 	./inheritance;
+	./nestedOfNestedWithC;
 
 clean:
 
@@ -44,8 +45,7 @@ clean:
 	@echo CLEAN
 	@echo =================================
 
-
 	rm -f *.cpp;
 	rm -f *.hpp;
-	rm ./empty ./simple ./two ./nested ./nestedOfNested ./conDes ./struct ./enum ./directives ./typedef ./inheritance
+	rm ./empty ./simple ./two ./nested ./nestedOfNested ./conDes ./struct ./enum ./directives ./typedef ./inheritance ./nestedOfNestedWithC
 

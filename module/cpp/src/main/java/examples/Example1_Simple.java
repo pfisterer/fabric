@@ -25,18 +25,16 @@
 package examples;
 
 import de.uniluebeck.sourcegen.Workspace;
+import de.uniluebeck.sourcegen.c.CCommentImpl;
 import de.uniluebeck.sourcegen.c.CFun;
 import de.uniluebeck.sourcegen.c.Cpp;
 import de.uniluebeck.sourcegen.c.CppClass;
-import de.uniluebeck.sourcegen.c.CCommentImpl;
+import de.uniluebeck.sourcegen.c.CppConstructor;
 import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppFunCommentImpl;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 import de.uniluebeck.sourcegen.c.CppVar;
-import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
-import de.uniluebeck.sourcegen.exceptions.CppCodeValidationException;
-import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
  * CRectangle example.
@@ -44,7 +42,6 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
  * - Compile with: g++ Simple.cpp -o simple
  * - Run with: ./simple
  * - Returns:
- * 		1
  * 		12
  *
  * @see: http://www.cplusplus.com/doc/tutorial/classes/
@@ -56,25 +53,12 @@ public class Example1_Simple {
 
 	private Workspace workspace = null;
 
-	public Example1_Simple(Workspace workspace) throws CppDuplicateException {
+	public Example1_Simple(Workspace workspace) throws Exception {
 	    this.workspace = workspace;
-	    try {
-			generate();
-		} catch (CDuplicateException e) {
-			e.printStackTrace();
-		} catch (CppCodeValidationException e) {
-			e.printStackTrace();
-		}
+		generate();
 	}
 
-	/**
-	 * This method generate the CPP-files
-	 *
-	 * @throws CppDuplicateException
-	 * @throws CDuplicateException
-	 * @throws CppCodeValidationException
-	 */
-	void generate() throws CppDuplicateException, CDuplicateException, CppCodeValidationException{
+	void generate() throws Exception {
 
         String className = "Simple";
 
@@ -100,6 +84,11 @@ public class Example1_Simple {
         fun_set_values.appendCode("x = a;");
         fun_set_values.appendCode("y = b;");
 
+        // Generate constructor
+        CppConstructor con = CppConstructor.factory.create(var_a, var_b);
+        con.appendCode("set_values(a,b);");
+        class_CRectangleSimple.add(Cpp.PUBLIC, con);
+
         // Add a comment to the function set_values
         CppFunCommentImpl comment_fun_set_values = new  CppFunCommentImpl("This function sets the values x and y.");
         comment_fun_set_values.addParameter(var_a, "An integer a");
@@ -121,8 +110,6 @@ public class Example1_Simple {
     		CppSourceFile file = workspace.getC().getCppSourceFile(className);
         CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
         file.addInclude(header);
-        header.add(class_CRectangleSimple);
-
         header.setComment(new CCommentImpl("The header file."));
 
         // Add an include to the file
@@ -136,9 +123,7 @@ public class Example1_Simple {
 
         // Add the main function to the file
         CFun fun_main = CFun.factory.create("main", "int", null);
-        fun_main.appendCode(className + " rect;");
-        fun_main.appendCode("cout << rect.area() << \"\\n\";");
-        fun_main.appendCode("rect.set_values (3,4);");
+        fun_main.appendCode(className + " rect(3,4);");
         fun_main.appendCode("cout << rect.area() << \"\\n\";");
 
         fun_main.appendCode("return 0;");
@@ -149,6 +134,6 @@ public class Example1_Simple {
         file.add(fun_main);
 
         // Finally, add class to the file
-        file.add(class_CRectangleSimple);
+        header.add(class_CRectangleSimple);
 	}
 }

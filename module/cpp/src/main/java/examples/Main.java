@@ -53,7 +53,8 @@ public class Main {
     new Example8_Directives(workspace);
     new Example9_Typedef(workspace);
     new Example10_Inheritance(workspace);
-
+    new Example11_Wislib(workspace);
+    new Example12_NestedOfNestedWithConstructor(workspace);
     workspace.generate();
 	}
 

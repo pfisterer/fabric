@@ -31,9 +31,6 @@ import de.uniluebeck.sourcegen.c.CppClass;
 import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppTypeGenerator;
-import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
-import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
-import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
  * This is a basic class to generate other examples
@@ -50,21 +47,12 @@ public class Example0_Empty {
 
 	private Workspace workspace = null;
 
-	public Example0_Empty(Workspace workspace) throws CppDuplicateException {
+	public Example0_Empty(Workspace workspace) throws Exception {
 	    this.workspace = workspace;
-	    try {
-			generate();
-		} catch (CDuplicateException e) {
-			e.printStackTrace();
-		} catch (CPreProcessorValidationException e) {
-			e.printStackTrace();
-		}
+		generate();
 	}
 
-	/**
-	 * This method generate the CPP-files
-	 */
-	void generate() throws CppDuplicateException, CDuplicateException, CPreProcessorValidationException{
+	void generate() throws Exception {
 
 		String className = "Empty";
 
@@ -83,13 +71,8 @@ public class Example0_Empty {
 		CppSourceFile file = workspace.getC().getCppSourceFile(className);
 
 		// We also need a header
-        CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
-        header.add(clazz);
-        header.addLibInclude("iostream");
-        header.addUsingNamespace("std");
-
-        // Add the header to the file
-        file.addInclude(header);
+        file.addLibInclude("iostream");
+        file.addUsingNamespace("std");
 
         // Add the main function to the file
         CFun fun_main = CFun.factory.create("main", "int", null);

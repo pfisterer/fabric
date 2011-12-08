@@ -25,77 +25,105 @@
 package examples;
 
 import de.uniluebeck.sourcegen.Workspace;
+import de.uniluebeck.sourcegen.c.CCommentImpl;
 import de.uniluebeck.sourcegen.c.CFun;
 import de.uniluebeck.sourcegen.c.Cpp;
 import de.uniluebeck.sourcegen.c.CppClass;
+import de.uniluebeck.sourcegen.c.CppConstructor;
 import de.uniluebeck.sourcegen.c.CppFun;
+import de.uniluebeck.sourcegen.c.CppFunCommentImpl;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 import de.uniluebeck.sourcegen.c.CppVar;
 
 /**
- * One class is nested in another class.
+ *  One class is nested in another class.
  *
- * - Compile with: g++ Nested.cpp -o nested
- * - Run with: ./nested
- * - Returns: 100
+ * - Compile with: g++ NestedOfNested.cpp -o nestedOfNested
+ * - Run with: ./nestedOfNested
+ * - Returns: 110
  *
  * @author Dennis
  *
  */
-public class Example3_Nested {
+public class  Example12_NestedOfNestedWithConstructor {
 
 	private Workspace workspace = null;
 
-	public Example3_Nested(Workspace workspace) throws Exception {
-	    this.workspace = workspace;
-		generate();
+	public  Example12_NestedOfNestedWithConstructor(Workspace workspace) throws Exception {
+    this.workspace = workspace;
+    generate();
 	}
 
 	void generate() throws Exception {
 
-		String className = "Nested";
-
 		/*
-		 * 1st class
+		 * 1st class: Nested
 		 */
-		CppClass classOne = CppClass.factory.create("Nested");
+		CppClass classOne = CppClass.factory.create("NestedOfNested");
+		classOne.setComment(new CCommentImpl("This is the first nested class"));
 		CppVar intA = CppVar.factory.create(Cpp.INT, "a");
 		CppVar intX = CppVar.factory.create(Cpp.INT, "x");
-		CppVar intY = CppVar.factory.create(Cpp.INT, "y");
+		CppVar intY = CppVar.factory.create("int", "y"); // Use (String,String)
+		classOne.add(Cpp.PUBLIC, intA);
 
 		CppFun funSetA = CppFun.factory.create(Cpp.INT, "setA", intY);
 		funSetA.appendCode("a = y;");
-
 		CppFun funMult = CppFun.factory.create(Cpp.INT, "mult", intX);
-		funMult.appendCode("return a*x;");
-
-		classOne.add(Cpp.PUBLIC, intA);
+		funMult.appendCode("return (a*x) + n2.x(x);");
 		classOne.add(Cpp.PUBLIC, funSetA, funMult);
 
+		CppTypeGenerator typeNested2 = new CppTypeGenerator("NestedOfNested2");
+		CppVar n2 = CppVar.factory.create(typeNested2, "n2");
+		classOne.add(Cpp.PRIVATE, n2);
+
+		CppConstructor con1 = CppConstructor.factory.create();
+		classOne.add(Cpp.PUBLIC, con1);
+
 		/*
-		 * 2nd class
+		 * 2nd class: Nested2
 		 */
-		CppClass classTwo = CppClass.factory.create("Outer");
-		CppTypeGenerator typeNested = new CppTypeGenerator("Nested");
+		CppClass classTwo = CppClass.factory.create("NestedOfNested2");
+		classTwo.setComment(new CCommentImpl("This is the most inner nested class"));
+		CppFun funX = CppFun.factory.create(Cpp.INT, "x", intX);
+		CppFunCommentImpl comment = new CppFunCommentImpl("The amazing method x.");
+		comment.addParameter(intX, "The value.");
+		comment.setReturnTypeDescription("Echos the given value.");
+		funX.setComment(comment);
+		funX.appendCode("return x;");
+		classTwo.add(Cpp.PUBLIC, funX);
+
+		CppConstructor con2 = CppConstructor.factory.create();
+		classTwo.add(Cpp.PUBLIC, con2);
+
+		/*
+		 * 3nd class: Outer
+		 */
+		CppClass classThree = CppClass.factory.create("NestedOfOuter");
+		classThree.setComment(new CCommentImpl("This is the most outer class"));
+
+		CppTypeGenerator typeNested = new CppTypeGenerator("NestedOfNested");
 		CppVar n = CppVar.factory.create(typeNested, "n");
 		CppFun funCall = CppFun.factory.create(Cpp.INT, "call", intX);
 		funCall.appendCode("n.setA(x);");
 		funCall.appendCode("return n.mult(x);");
 
-		classTwo.add(Cpp.PRIVATE, n);
-		classTwo.add(Cpp.PUBLIC, intA);
-		classTwo.add(Cpp.PUBLIC, funCall);
+		classThree.add(Cpp.PRIVATE, n);
+		classThree.add(Cpp.PUBLIC, intA);
+		classThree.add(Cpp.PUBLIC, funCall);
+
+		CppConstructor con3 = CppConstructor.factory.create();
+		classThree.add(Cpp.PUBLIC, con3);
 
 		// Add the nested class Two to the outer class One
-		classTwo.add(Cpp.PRIVATE, classOne);
+		classThree.add(Cpp.PRIVATE, classOne);
+		classOne.add(Cpp.PRIVATE, classTwo);
+
 
 		/*
 		 * Generate the files (Nested.cpp + NestedHeader.hpp)
 		 */
-		CppSourceFile file = workspace.getC().getCppSourceFile(className);
-        CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
-        file.addInclude(header);
+		CppSourceFile file = workspace.getC().getCppSourceFile("NestedOfNestedWithConstructor");
 
         // Add an include to the file
         file.addLibInclude("iostream");
@@ -105,14 +133,13 @@ public class Example3_Nested {
 
         // Add the main function to the file
         CFun fun_main = CFun.factory.create("main", "int", null);
-        fun_main.appendCode("Outer out;");
+        fun_main.appendCode("NestedOfOuter out;");
         fun_main.appendCode("cout << out.call(10) << \"\\n\";");
         fun_main.appendCode("return 0;");
         file.add(fun_main);
 
         // Finally, add class to the file
-        header.add(classTwo);
-
+        file.add(classThree);
 	}
 
 }

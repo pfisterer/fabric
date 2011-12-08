@@ -180,8 +180,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	public CppSourceFile addInclude(CppSourceFile... sourceFiles) throws CppDuplicateException {
 		for (CppSourceFile csf : sourceFiles) {
 			if (containsInclude(csf))
-				throw new CppDuplicateException("Duplicate source file included " + csf);
-
+        throw new CppDuplicateException("Duplicate source file included " + csf.getFileName());
 			cppUserHeaderFiles.add((CppSourceFileImpl)csf);
 			// We cannot use base here, beauce the type is cpp
 		}
@@ -309,12 +308,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
-
-		/**
-		 * Generates the cpp-file.
-     *
-		 * Note, that the header file is created in the CppClassImpl.
-		 */
+		prepare();
 
 		// Write comment if necessary
 		if (comment != null) {
@@ -322,9 +316,20 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		}
 
 		// LibIncludes: System header files
-    for (String include : base.getLibIncludes()) {
-      buffer.append("#include <" + include + ">" + Cpp.newline);
-    }
+		if (base.getLibIncludes().size() > 0) {
+		    for (String include : base.getLibIncludes()) {
+		    	buffer.append("#include <" + include + ">" + Cpp.newline);
+		    }
+	    	buffer.append(Cpp.newline);
+		}
+
+		// Includes: User header files
+		if (this.cppUserHeaderFiles.size() > 0) {
+			for (CppSourceFile file : this.cppUserHeaderFiles){
+				buffer.append("#include \"" + file.getFileName() + ".hpp\"" + Cpp.newline);
+			}
+	    	buffer.append(Cpp.newline);
+		}
 
 		// Before pre-processor directives
 		if (base.beforeDirectives.size() > 0) {
@@ -335,45 +340,69 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			buffer.append(Cpp.newline);
 		}
 
-		// Includes: User header files
-		for (CppSourceFile file : this.cppUserHeaderFiles) {
-      buffer.append("#include \"" + file.getFileName() + ".hpp\"" + Cpp.newline);
-    }
-
-		if (this.cppUserHeaderFiles.size() > 0 || this.cppNamespaces.size() > 0) {
-      buffer.append(Cpp.newline);
-	  }
-
-    if (this.cppNamespaces.size() > 0) {
+    // Namespaces
+    if(this.cppNamespaces.size() > 0) {
       // Include the namespaces
-      for (String ns : this.cppNamespaces) {
+      for(String ns : this.cppNamespaces){
         buffer.append("using namespace " + ns + ";" + Cpp.newline);
       }
       buffer.append(Cpp.newline);
     }
 
 		// Enums
-		if (base.getEnums().size() > 0) {
-			for (CEnum e : base.getEnums()) {
-				buffer.append(e.toString() + Cpp.newline + Cpp.newline);
+		if(base.getEnums().size() > 0) {
+			for(CEnum e : base.getEnums()) {
+				buffer.append(e.toString() + Cpp.newline);
 			}
 		}
 
+		// Typedefs
+		if(base.getTypeDefs().size() > 0) {
+			for(CTypeDef t : base.getTypeDefs()){
+				buffer.append(t.toString());
+			}
+			buffer.append(Cpp.newline);
+		}
+
 		// Structs
-		for (CStructBaseImpl struct : base.structsUnions) {
+		for(CStructBaseImpl struct : base.structsUnions){
 			buffer.append(struct.toString());
 			buffer.append(Cpp.newline + Cpp.newline);
 		}
 
-		for (CppSourceFileImpl file : this.cppUserHeaderFiles) {
-			for (CppClass clazz : file.getCppClasses()) {
+		//classes, definitions
+		if(this.cppClasses.size() > 0) {
+			for(CppClass c : this.cppClasses){
+				buffer.append(c.toString());
+			}
+			buffer.append(Cpp.newline);
+		}
+
+		//TODO: namespace
+//		buffer.append("namespace isense {\n\n");
+
+		// classes, implementation
+		for(CppClass clazz : this.cppClasses){
+			toStringHelper(buffer, clazz, tabCount);
+		}
+
+		// Classes in the header file
+		for(CppSourceFileImpl file : this.cppUserHeaderFiles){
+			for(CppClass clazz : file.getCppClasses()){
 				toStringHelper(buffer, clazz, tabCount);
 			}
 		}
 
+		// Add file vars
+		if(this.cppVars.size() > 0) {
+			for (CppVar v : this.cppVars) {
+				buffer.append(v.toString() + ";" + Cpp.newline);
+			}
+			buffer.append(Cpp.newline);
+		}
+
 		// Add functions, such that main() is possible
-		if (this.base.getFuns().size() > 0) {
-			//buffer.append("/* Other non class functions */" + Cpp.newline);
+		if(this.base.getFuns().size() > 0) {
 			for (CFun fun : this.base.getFuns()) {
 				fun.toString(buffer, tabCount);
 			}
@@ -398,6 +427,9 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			}
 			buffer.append(Cpp.newline);
 		}
+
+		// Final empty line
+		buffer.append(Cpp.newline);
 
 /*
  * @see: CSourceFileBase
@@ -433,32 +465,15 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	private void toStringHelper(StringBuffer buffer, CppClass clazz, int tabCount) {
 
-		List<CppVar> vars = clazz.getVars(Cpp.PRIVATE);
-		vars.addAll(clazz.getVars(Cpp.PUBLIC));
-		vars.addAll(clazz.getVars(Cpp.PROTECTED));
-
-		// get variables, which are initialized
-		List<CppVar> initializedVars = new LinkedList<CppVar>();
-
-		for (CppVar cppVar : vars) {
-			String init = cppVar.getInit();
-			if(init != null && !("").equals(init)) {
-				initializedVars.add(cppVar);
-			}
-		}
-
 		// constructors
 		if(clazz.getConstructors(Cpp.PUBLIC).size() > 0) {
-			//buffer.append("/* Constructors of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppConstructor c : clazz.getConstructors(Cpp.PUBLIC)){
-				c.setInititalVars(initializedVars);
 				c.toString(buffer, tabCount);
 			}
 		}
 
 		// constructors
 		if(clazz.getConstructors(Cpp.PRIVATE).size() > 0) {
-			//buffer.append("/* Constructors of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppConstructor c : clazz.getConstructors(Cpp.PRIVATE)){
 				c.toString(buffer, tabCount);
 			}
@@ -466,7 +481,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// destructors
 		if(clazz.getDestructors(Cpp.PRIVATE).size() > 0){
-			//buffer.append("/* Destrictors of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppDestructor d : clazz.getDestructors(Cpp.PRIVATE)){
 				d.toString(buffer, tabCount);
 			}
@@ -474,7 +488,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// destructors
 		if(clazz.getDestructors(Cpp.PUBLIC).size() > 0){
-			//buffer.append("/* Destrictors of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppDestructor d : clazz.getDestructors(Cpp.PUBLIC)){
 				d.toString(buffer, tabCount);
 			}
@@ -482,7 +495,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// public functions
 		if(clazz.getFuns(Cpp.PUBLIC).size() > 0) {
-			//buffer.append("/* Public functions of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppFun f : clazz.getFuns(Cpp.PUBLIC)){
 				f.toString(buffer, tabCount);
 			}
@@ -490,7 +502,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// private functions
 		if(clazz.getFuns(Cpp.PRIVATE).size() > 0) {
-			//buffer.append("/* Private functions of " + clazz.getName() + " */" + Cpp.newline);
 			for(CppFun f : clazz.getFuns(Cpp.PRIVATE)){
 				f.toString(buffer, tabCount);
 			}
@@ -498,7 +509,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// public nested classes
 		if(clazz.getNested(Cpp.PUBLIC).size() > 0) {
-			//buffer.append(Cpp.newline + "/* Public nested classes of " + clazz.getTemplateName() + " */" + Cpp.newline);
 			for(CppClass f : clazz.getNested(Cpp.PUBLIC)){
 				toStringHelper(buffer, f, tabCount);
 			}
@@ -506,7 +516,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// private nested classes
 		if(clazz.getNested(Cpp.PRIVATE).size() > 0) {
-			//buffer.append(Cpp.newline + "/* Private nested classes of " + clazz.getTemplateName() + " */" + Cpp.newline);
 			for(CppClass f : clazz.getNested(Cpp.PRIVATE)){
 				toStringHelper(buffer, f, tabCount);
 			}
@@ -518,6 +527,17 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	public CppSourceFile setComment(CComment comment) {
 		this.comment = comment;
 		return this;
+	}
+
+	public void prepare() {
+		for(CppClass c : this.cppClasses){
+			c.prepare();
+		}
+		for(CppSourceFileImpl file : this.cppUserHeaderFiles){
+			for(CppClass c : file.getCppClasses()){
+				c.prepare();
+			}
+		}
 	}
 
 }

@@ -35,6 +35,8 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 
+		prepare();
+
 		// write comment if necessary
 		if (comment != null) {
 			comment.toString(buffer, tabCount);

@@ -33,10 +33,6 @@ import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 import de.uniluebeck.sourcegen.c.CppVar;
-import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
-import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
-import de.uniluebeck.sourcegen.exceptions.CppCodeValidationException;
-import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
  * This is a basic class to generate other examples
@@ -55,24 +51,12 @@ public class Example10_Inheritance {
 
 	private Workspace workspace = null;
 
-	public Example10_Inheritance(Workspace workspace) throws CppDuplicateException {
+	public Example10_Inheritance(Workspace workspace) throws Exception {
     this.workspace = workspace;
-    try {
-			generate();
-		} catch (CDuplicateException e) {
-			e.printStackTrace();
-		} catch (CPreProcessorValidationException e) {
-			e.printStackTrace();
-		} catch (CppCodeValidationException e) {
-			e.printStackTrace();
-		}
+    generate();
 	}
 
-	/**
-	 * This method generate the CPP-files
-	 * @throws CppCodeValidationException
-	 */
-	void generate() throws CppDuplicateException, CDuplicateException, CPreProcessorValidationException, CppCodeValidationException{
+	void generate() throws Exception {
 
 		String fileName = "Inheritance";
 
@@ -155,7 +139,6 @@ public class Example10_Inheritance {
 
 		// We also need a header
     CppSourceFile header = this.workspace.getC().getCppHeaderFile(fileName);
-    header.add(clazz_person, clazz_female, clazz_male);
     header.addLibInclude("iostream");
     header.addUsingNamespace("std");
     file.addInclude(header);
@@ -174,6 +157,6 @@ public class Example10_Inheritance {
     /**
      * Finally, add class to the file
      */
-    file.add(clazz_person, clazz_female, clazz_male);
+    header.add(clazz_person, clazz_female, clazz_male);
 	}
 }

@@ -25,16 +25,14 @@
 package examples;
 
 import de.uniluebeck.sourcegen.Workspace;
+import de.uniluebeck.sourcegen.c.CCommentImpl;
 import de.uniluebeck.sourcegen.c.CFun;
 import de.uniluebeck.sourcegen.c.Cpp;
 import de.uniluebeck.sourcegen.c.CppClass;
-import de.uniluebeck.sourcegen.c.CCommentImpl;
 import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 import de.uniluebeck.sourcegen.c.CppVar;
-import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
-import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
  * Two classes in one Source file. The class Second is using the
@@ -51,22 +49,12 @@ public class Example2_TwoClassesPerFile {
 
 	private Workspace workspace = null;
 
-	public Example2_TwoClassesPerFile(Workspace workspace) throws CppDuplicateException {
+	public Example2_TwoClassesPerFile(Workspace workspace) throws Exception {
 	    this.workspace = workspace;
-		try {
-			generate();
-		} catch (CDuplicateException e) {
-			e.printStackTrace();
-		}
+		generate();
 	}
 
-	/**
-	 * This method generate the CPP-files
-	 *
-	 * @throws CppDuplicateException
-	 * @throws CDuplicateException
-	 */
-	void generate() throws CppDuplicateException, CDuplicateException {
+	void generate() throws Exception {
 
 		String className = "Two";
 
@@ -106,8 +94,6 @@ public class Example2_TwoClassesPerFile {
 		CppSourceFile file = workspace.getC().getCppSourceFile(className);
         CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
         file.addInclude(header);
-        header.add(classOne);
-        header.add(classTwo);
 
         // Add an include to the file
         file.addLibInclude("iostream");
@@ -123,8 +109,7 @@ public class Example2_TwoClassesPerFile {
         file.add(fun_main);
 
         // Finally, add class to the file
-        file.add(classOne);
-
+        header.add(classOne, classTwo);
 	}
 
 }

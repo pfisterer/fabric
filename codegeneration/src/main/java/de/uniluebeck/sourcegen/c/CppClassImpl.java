@@ -74,6 +74,8 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	private List<VisElem> vars = new LinkedList<VisElem>();
 
 	private List<VisElem> cfuns = new LinkedList<VisElem>();
+  
+  boolean isPrepared = false;
 
 	private CComment comment = null;
 
@@ -82,13 +84,6 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 	public CppClassImpl(String className) {
 		this.className = className;
-		try {
-			CppConstructor con = CppConstructor.factory.create();
-			add(Cpp.PUBLIC, con);
-		} catch (CppDuplicateException e) {
-			// Should never be thrown
-			e.printStackTrace();
-		}
 	}
 
 	public CppClass add(long vis, CEnum... enums) throws CppDuplicateException {
@@ -151,30 +146,15 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		return this;
 	}
 
+	/**
+	 * Nested class
+	 */
 	@Override
     public CppClass add(long vis, CppClass... cppClass) throws CppDuplicateException {
 
 		for (CppClass c : cppClass) {
 			addInternal(vis, c);
-			// Set the parent
-			c.addParents(this.parents, this);
 		}
-
-		/*
-    	for (CppClass c : cppClass) {
-
-    		for(CppClass n : nested) {
-    			String name = c.getTemplateName();
-    			if(name != null && n.getTemplateName().equals(c.getTemplateName())) {
-    				throw new CppDuplicateException("Nested class " + c.getTemplateName() + " exists.");
-    			}
-    		}
-
-    		// No exception happens, just add it
-    		this.nested.add(c);
-		}
-		*/
-
     	return this;
     }
 
@@ -621,15 +601,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
-
-		/*
-		 * Generates the class in the *.hpp
-		 */
-
-		/**
-		 * Generates the class. Will be added to the hpp-file
-		 * Note, that the implementation of the class is done in the CppSourceFileImpl
-		 */
+		prepare();
 
 		// write comment if necessary
 		if (comment != null) {
@@ -705,7 +677,10 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		 */
 
 		// Close the class
-		buffer.append(Cpp.newline + "};" + Cpp.newline + Cpp.newline);
+		buffer.append(Cpp.newline + "};");
+
+		// Final empty line
+		buffer.append(Cpp.newline);
 
 		/*
 		toString(buffer, tabCount, beforeDirectives, "", "\n", true);
@@ -748,7 +723,6 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// structs + unions
 		if(this.getStructsUnions(visability).size() > 0) {
-			//tmp_public.append("/* Constructors of " + this.getName() + " */" + Cpp.newline);
 			for(CStructBase c : this.getStructsUnions(visability)){
 				tmp.append(c.toString() + Cpp.newline);
 			}
@@ -756,7 +730,6 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// constructors
 		if(this.getConstructors(visability).size() > 0) {
-			//tmp_public.append("/* Constructors of " + this.getName() + " */" + Cpp.newline);
 			for(CppConstructor c : this.getConstructors(visability)){
 				tmp.append(c.getSignature() + ";" + Cpp.newline);
 			}
@@ -765,7 +738,6 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// destructors
 		if(this.getDestructors(visability).size() > 0) {
-			//tmp_public.append("/* Destructors of " + this.getName() + " */" + Cpp.newline);
 			for(CppDestructor d : this.getDestructors(visability)){
 				tmp.append("virtual " + d.getSignature() + ";" + Cpp.newline); // TODO: virtual?
 			}
@@ -774,7 +746,6 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// functions
 		if(this.getFuns(visability).size() > 0) {
-			//tmp_private.append("/* Private functions of " + this.getName() + " */" + Cpp.newline);
 			for(CppFun f : this.getFuns(visability)){
 				tmp.append(f.getSignature() + ";" + Cpp.newline);
 			}
@@ -783,7 +754,6 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// nested classes
 		if(this.getNested(visability).size() > 0) {
-			//tmp_private.append("/* Private nested classes of " + this.getName() + " */" + Cpp.newline);
 			for(CppClass f : this.getNested(visability)){
 				// Add the classes recursive
 				f.toString(tmp, tabCount);
@@ -793,7 +763,6 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// variables
 		if(this.getVars(visability).size() > 0) {
-			//tmp_private.append("/* Private variables of " + this.getName() + " */" + Cpp.newline);
 			for(CppVar v : this.getVars(visability)){
 				tmp.append(v.toString() + ";" + Cpp.newline);
 			}
@@ -829,6 +798,71 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	public CppClass setComment(CComment comment) {
 		this.comment = comment;
 		return this;
+	}
+
+	/**
+	 * This method prepares the files
+	 */
+	@Override
+	public void prepare() {
+
+		if (isPrepared) return;
+
+		List<CppVar> vars = this.getVars(Cpp.PRIVATE);
+		vars.addAll(this.getVars(Cpp.PUBLIC));
+		vars.addAll(this.getVars(Cpp.PROTECTED));
+
+		// get variables, which are initialized
+		List<CppVar> initializedVars = new LinkedList<CppVar>();
+		for (CppVar cppVar : vars) {
+			String init = cppVar.getInit();
+			if(init != null && init != "") {
+				initializedVars.add(cppVar);
+			}
+		}
+
+		// if we have init values, and no constructors, than we need a
+		// standard constructor, such that the init values don't get lost
+		if (this.getConstructors(Cpp.PUBLIC).size() == 0 && initializedVars.size() > 0) {
+			// Create
+			try {
+				CppConstructor con = CppConstructor.factory.create();
+				this.add(Cpp.PUBLIC, con);
+			} catch (CppDuplicateException e) {
+				e.printStackTrace();
+			}
+		}
+
+		// Add the initial values to all constructors
+		for (CppConstructor c : this.getConstructors(Cpp.PUBLIC)) {
+			c.setInititalVars(initializedVars);
+		}
+
+		for (CppConstructor c : this.getConstructors(Cpp.PRIVATE)) {
+			c.setInititalVars(initializedVars);
+		}
+
+		for (CppConstructor c : this.getConstructors(Cpp.PROTECTED)) {
+			c.setInititalVars(initializedVars);
+		}
+
+		// Set all parents to subclasses
+		 for (CppClass c : getNested(Cpp.PUBLIC)) {
+			 c.addParents(this.parents, this);
+			 c.prepare();
+		 }
+
+		 for (CppClass c : getNested(Cpp.PRIVATE)) {
+			 c.addParents(this.parents, this);
+			 c.prepare();
+		 }
+
+		 for (CppClass c : getNested(Cpp.PROTECTED)) {
+			 c.addParents(this.parents, this);
+			 c.prepare();
+		 }
+
+		 isPrepared = true;
 	}
 
 }

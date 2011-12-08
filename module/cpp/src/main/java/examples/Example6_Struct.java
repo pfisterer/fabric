@@ -35,10 +35,6 @@ import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 import de.uniluebeck.sourcegen.c.CppVar;
-import de.uniluebeck.sourcegen.exceptions.CCodeValidationException;
-import de.uniluebeck.sourcegen.exceptions.CConflictingModifierException;
-import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
-import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
  * StructSample is similar to CRectangleSimple.
@@ -54,28 +50,12 @@ public class Example6_Struct {
 
 	private Workspace workspace = null;
 
-	public Example6_Struct(Workspace workspace) throws CppDuplicateException {
+	public Example6_Struct(Workspace workspace) throws Exception {
 	    this.workspace = workspace;
-	    try {
-			generate();
-		} catch (CDuplicateException e) {
-			e.printStackTrace();
-		} catch (CCodeValidationException e) {
-			e.printStackTrace();
-		} catch (CConflictingModifierException e) {
-			e.printStackTrace();
-		}
+		generate();
 	}
 
-	/**
-	 * This method generate the CPP-files
-	 *
-	 * @throws CppDuplicateException
-	 * @throws CDuplicateException
-	 * @throws CCodeValidationException
-	 * @throws CConflictingModifierException
-	 */
-	void generate() throws CppDuplicateException, CDuplicateException, CCodeValidationException, CConflictingModifierException{
+	void generate() throws Exception {
 
 		String className = "Struct";
 
@@ -112,7 +92,6 @@ public class Example6_Struct {
         // Generate the files (cpp + hpp)
 		CppSourceFile file = workspace.getC().getCppSourceFile(className);
         CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
-        header.add(clazz);
 
         file.addInclude(header);
 
@@ -140,6 +119,6 @@ public class Example6_Struct {
         header.add(struct);
 
         // Finally, add class to the file
-        file.add(clazz);
+        header.add(clazz);
 	}
 }
