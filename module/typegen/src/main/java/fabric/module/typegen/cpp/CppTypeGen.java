@@ -1,4 +1,4 @@
-/** 02.12.2011 15:06 */
+/** 06.12.2011 02:14 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -42,18 +42,27 @@ public class CppTypeGen implements TypeGen
     private CppComplexType typeObject;
 
     /** Java imports, which are required for source code write-out */
-    private ArrayList<String> requiredInclude;
+    private ArrayList<String> requiredIncludes;
 
     /**
      * Parameterized constructor.
      *
      * @param typeObjects Finished data type object
-     * @param requiredImports List of required Java imports
+     * @param requiredIncludes List of required Java imports
      */
-    public SourceFileData(final CppComplexType typeObjects, final ArrayList<String> requiredImports)
+    public SourceFileData(final CppComplexType typeObjects, final ArrayList<String> requiredIncludes)
     {
       this.typeObject = typeObjects;
-      this.requiredInclude = requiredImports;
+
+      // Create empty list, if there are no required includes
+      if (null == requiredIncludes)
+      {
+        this.requiredIncludes = new ArrayList<String>();
+      }
+      else
+      {
+        this.requiredIncludes = requiredIncludes;
+      }
     }
   }
 
@@ -142,13 +151,13 @@ public class CppTypeGen implements TypeGen
       CppTypeGen.SourceFileData sourceFileData = this.generatedElements.get(name);
 
       // Add container to source file
-      ((CppClass)sourceFileData.typeObject).setSourceFile(csf); // TODO: Remove
-      csf.add((CppClass)sourceFileData.typeObject); // TODO: Remove
-      // TODO csf.add(sourceFileData.typeObject); // TODO: add(CppComplexType...) existiert nicht
+      csf.add((CppClass)sourceFileData.typeObject); // TODO: add(CppComplexType...) existiert nicht
+//      csf.add(sourceFileData.typeObject); // TODO: So wollen wir den Aufruf eigentlich haben.
       System.out.println("################################# Generated element: " + sourceFileData.typeObject.getTypeName()); // TODO: Remove
+      System.out.println((CppClass)sourceFileData.typeObject); // TODO: Remove
 
       // Add imports to source file
-      for (String requiredInclude: sourceFileData.requiredInclude)
+      for (String requiredInclude: sourceFileData.requiredIncludes)
       {
         csf.addLibInclude(requiredInclude);
       }
@@ -396,25 +405,25 @@ public class CppTypeGen implements TypeGen
       CppClass classObject = (CppClass)this.incompleteBuilders.pop().build().asClassObject(cppStrategy);
 
       // Build current local containers
-      while (this.stackIsNotEmpty(classObject.getTypeName()))
+      while (this.stackIsNotEmpty(classObject.getName()))
       {
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> STACK NOT EMPTY"); // TODO: Remove
         // Here we can reuse javaStrategy with stateful xmlMapper, because inner classes are nested in outer container
         CppClass innerClassObject = (CppClass)cppStrategy.generateClassObject(
-                this.incompleteLocalBuilders.get(classObject.getTypeName()).pop().build());
+                this.incompleteLocalBuilders.get(classObject.getName()).pop().build());
         // TODO: classObject.add(Cpp.PUBLIC | Cpp.STATIC, innerClassObject); // TODO: CppClass unterstuetzt keine inneren Klassen
         classObject = innerClassObject; // TODO: Remove!
-        LOGGER.debug(String.format("Built inner class '%s' for current container '%s'.", innerClassObject.getTypeName(), classObject.getTypeName()));
+        LOGGER.debug(String.format("Built inner class '%s' for current container '%s'.", innerClassObject.getName(), classObject.getName()));
       }
 
-      if (!this.generatedElements.containsKey(classObject.getTypeName()))
+      if (!this.generatedElements.containsKey(classObject.getName()))
       {
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NOT CONTAINS KEY"); // TODO: Remove
-        this.generatedElements.put(classObject.getTypeName(),
+        this.generatedElements.put(classObject.getName(),
                 new CppTypeGen.SourceFileData(classObject, cppStrategy.getRequiredDependencies()));
       }
 
-      LOGGER.debug(String.format("Built current container '%s'.", classObject.getTypeName()));
+      LOGGER.debug(String.format("Built current container '%s'.", classObject.getName()));
     }
   }
 

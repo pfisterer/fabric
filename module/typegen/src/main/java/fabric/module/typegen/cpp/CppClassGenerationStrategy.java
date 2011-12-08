@@ -1,4 +1,4 @@
-/** 06.12.2011 01:54 */
+/** 06.12.2011 21:59 */
 package fabric.module.typegen.cpp;
 
 import java.util.Map;
@@ -80,12 +80,12 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
      * Create surrounding container class
      *****************************************************************/
     CppClass cppc = CppClass.factory.create(this.firstLetterCapital(container.getName())); // TODO: Class modifiers?
-    cppc.setComment(new CppClassCommentImpl(String.format("The '%s' container class.", container.getName())));
+    cppc.setComment(new CCommentImpl(String.format("The '%s' container class.", container.getName())));
     
     // Set extends-directive
     if (null != parent && parent.length() > 0)
     {
-      cppc.addExtended(parent); // TODO: FR-017: addExtended(String... parent) needed
+      cppc.addExtended(Cpp.PUBLIC, parent); // TODO: FR-017: addExtended(String... parent) needed
     }
 
     // Process all members
@@ -101,7 +101,8 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
       CppVar cppv = this.createMemberVariable(member);
       if (null != cppv)
       {
-        cppc.add(Cpp.PRIVATE, cppv);
+        cppc.add(cppv);
+//        cppc.add(Cpp.PRIVATE, cppv); // TODO: Does this cause strange output?
       }
 
       /*****************************************************************
@@ -112,7 +113,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
         AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)member;
 
         CEnum ce = CEnum.factory.create(ee.type, ee.name, false, ee.enumConstants); // TODO: Check name/varname
-        ce.setComment(new CEnumCommentImpl(String.format("The '%s' enumeration.", ee.type)));
+        ce.setComment(new CCommentImpl(String.format("The '%s' enumeration.", ee.type)));
         
         cppc.add(Cpp.PUBLIC | Cpp.STATIC, ce);
       }
@@ -159,12 +160,11 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     if (member.getClass() == AttributeContainer.Element.class) // TODO: Add AttributeContainer.Attribute.class here, because we do NOT handle XML attributes later anymore
     {
       AttributeContainer.Element e = (AttributeContainer.Element)member;
-      CppTypeGenerator typeObject = new CppTypeGenerator(e.type, Cpp.PRIVATE); // TODO: Is qualifier the visibility?
       
       // No initial value set
       if (("").equals(e.value))
       {
-        cppv = CppVar.factory.create(typeObject, e.name);
+        cppv = CppVar.factory.create(Cpp.PRIVATE, e.type, e.name);
       }
       // Initial value is set
       else
@@ -176,11 +176,11 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
         {
           value = "\"" + value + "\"";
         }
-        
-        cppv = CppVar.factory.create(typeObject, e.name); // TODO: We need a new create() that can set visibility, typeName, varName and initCod
+
+        cppv = CppVar.factory.create(Cpp.PRIVATE, e.type, e.name, value);
       }
 
-      cppv.setComment(new CppVarCommentImpl(String.format("The '%s' element.", e.name)));
+      cppv.setComment(new CCommentImpl(String.format("The '%s' element.", e.name)));
     }
 
     /*****************************************************************
@@ -197,10 +197,9 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
       {
         value = "\"" + value + "\"";
       }
-      
-      CppTypeGenerator typeObject = new CppTypeGenerator(e.type, Cpp.PRIVATE | Cpp.CONST); // TODO: Is qualifier the visibility?
-      cppv = CppVar.factory.create(typeObject, ce.name); // TODO: create with initCode needed!
-      cppv.setComment(new CppVarCommentImpl(String.format("The '%s' constant.", ce.name)));
+
+      cppv = CppVar.factory.create(Cpp.PRIVATE | Cpp.CONST, ce.type, ce.name);
+      cppv.setComment(new CCommentImpl(String.format("The '%s' constant.", ce.name)));
     }
 
     /*****************************************************************
@@ -244,10 +243,9 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     else if (member.getClass() == AttributeContainer.EnumElement.class)
     {
       AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)member;
-      
-      CppTypeGenerator typeObject = new CppTypeGenerator(ee.type, Cpp.PRIVATE); // TODO: Is qualifier the visibility?
-      cppv = CppVar.factory.create(typeObject, ee.name);
-      cppv.setComment(new CppVarCommentImpl(String.format("The '%s' enum element.", ee.name)));
+
+      cppv = CppVar.factory.create(Cpp.PRIVATE, ee.type, ee.name);
+      cppv.setComment(new CCommentImpl(String.format("The '%s' enum element.", ee.name)));
     }
 
     /*****************************************************************
@@ -256,12 +254,10 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     else if (member.getClass() == AttributeContainer.ElementArray.class)
     {
       AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
-      CppTypeGenerator typeObject = new CppTypeGenerator(ea.type, Cpp.PRIVATE); // TODO: Is qualifier the visibility?
       
       // Create array of predefined size (Integer.MAX_VALUE on default)
-      cppv = CppVar.factory.create(typeObject, String.format("%s[%d]", ea.name, ea.maxSize));
-      
-      cppv.setComment(new CppVarCommentImpl(String.format("The '%s' element array.", ea.name)));
+      cppv = CppVar.factory.create(Cpp.PRIVATE, ea.type, String.format("%s[%d]", ea.name, ea.maxSize));
+      cppv.setComment(new CCommentImpl(String.format("The '%s' element array.", ea.name)));
     }
 
     /*****************************************************************
@@ -350,11 +346,11 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     }
     
     CppVar attribute = CppVar.factory.create(modifiers, type, member.name);
-    CppFun setter = CppFun.factory.create(TODO, "void", "set" + this.firstLetterCapital(member.name), attribute); // TODO: Visibility of method?
-    
+    CppFun setter = CppFun.factory.create("void", "set" + this.firstLetterCapital(member.name), attribute);
+
     methodBody += String.format("this.%s = %s;", member.name, member.name);
     setter.appendCode(methodBody);
-    setter.setComment(new CppFunCommentImpl(String.format("Set the '%s' member variable.", member.name)));
+    setter.setComment(new CCommentImpl(String.format("Set the '%s' member variable.", member.name)));
 
     return setter;
   }
@@ -504,10 +500,10 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
       reference = className;
     }
     
-    CppFun getter = CppFun.factory.create(TODO, type, null, type, "get" + this.firstLetterCapital(member.name)); // TODO: Add class name!?
+    CppFun getter = CppFun.factory.create(type, "get" + this.firstLetterCapital(member.name)); // TODO: Add class name!?
 
     getter.appendCode(String.format("return %s.%s;", reference, member.name));
-    getter.setComment(new CppFunCommentImpl(String.format("Get the '%s' member variable.", member.name)));
+    getter.setComment(new CCommentImpl(String.format("Get the '%s' member variable.", member.name)));
 
     return getter;
   }

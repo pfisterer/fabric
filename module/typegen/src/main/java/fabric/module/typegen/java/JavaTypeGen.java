@@ -1,4 +1,4 @@
-/** 10.11.2011 12:27 */
+/** 07.12.2011 02:16 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -53,7 +53,16 @@ public class JavaTypeGen implements TypeGen
     public SourceFileData(final JComplexType typeObjects, final ArrayList<String> requiredImports)
     {
       this.typeObject = typeObjects;
-      this.requiredImports = requiredImports;
+
+      // Create empty list, if there are no required imports
+      if (null == requiredImports)
+      {
+        this.requiredImports = new ArrayList<String>();
+      }
+      else
+      {
+        this.requiredImports = requiredImports;
+      }
     }
   }
 

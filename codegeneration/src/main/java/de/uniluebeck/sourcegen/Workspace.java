@@ -203,13 +203,13 @@ public class Workspace {
     private void assureDirExists(File dir) throws Exception {
         if (!dir.exists())
             if (!dir.mkdirs())
-                throw new Exception("File output directory couldn't be created.");
+                throw new Exception("File output directory could not be created.");
     }
 
     private void assureFileExists(File file) throws Exception {
         if (!file.exists())
             if (!file.createNewFile())
-                throw new Exception("File couldn't be created.");
+                throw new Exception("File could not be created.");
     }
 
     private String getFileString(SourceFile sourceFile) {
@@ -229,9 +229,9 @@ public class Workspace {
     private String getDirString(SourceFile sourceFile) throws Exception {
         String projectDirString = properties.getProperty(KEY_PROJECTDIR, System.getProperty("user.dir"));
 
-        // use the given directory as output
-        if(properties.containsKey("output_directory")) {
-        	projectDirString = properties.getProperty("output_directory");
+        // Use the desired output directory
+        if (properties.containsKey("fabric.output_directory")) {
+          projectDirString = properties.getProperty("fabric.output_directory");
         }
 
         String subDir = properties.getProperty(KEY_PROJECTSUBDIR, "");

@@ -11,7 +11,6 @@ import de.uniluebeck.sourcegen.Workspace;
 
 public class CWorkspace {
 
-
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(CWorkspace.class);
 
     // TODO Make sure that CFun has a working Comparator

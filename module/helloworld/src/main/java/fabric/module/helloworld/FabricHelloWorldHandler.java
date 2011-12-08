@@ -26,25 +26,13 @@ package fabric.module.helloworld;
 import java.util.Properties;
 
 import de.uniluebeck.sourcegen.Workspace;
-import de.uniluebeck.sourcegen.c.CEnum;
-import de.uniluebeck.sourcegen.c.CFun;
-import de.uniluebeck.sourcegen.c.CHeaderFile;
-import de.uniluebeck.sourcegen.c.CPreProcessorDirective;
-import de.uniluebeck.sourcegen.c.CSourceFile;
-import de.uniluebeck.sourcegen.c.CStruct;
-import de.uniluebeck.sourcegen.c.CUnion;
 import de.uniluebeck.sourcegen.c.Cpp;
 import de.uniluebeck.sourcegen.c.CppClass;
-import de.uniluebeck.sourcegen.c.CppConstructor;
-import de.uniluebeck.sourcegen.c.CppDestructor;
 import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppSourceFileImpl;
 import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 import de.uniluebeck.sourcegen.c.CppVar;
-import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
-import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
-import de.uniluebeck.sourcegen.java.*;
 import fabric.module.api.FabricDefaultHandler;
 import fabric.wsdlschemaparser.schema.FComplexType;
 import fabric.wsdlschemaparser.schema.FElement;
@@ -199,7 +187,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
         this.helloWorldSource.addInclude(header);
       
         // generate the class
-        CppClass helloWorldClass = CppClass.factory.create("HelloWorld", this.helloWorldSource);
+        CppClass helloWorldClass = CppClass.factory.create("HelloWorld");
         header.add(helloWorldClass);
     
         // arguments
@@ -212,7 +200,7 @@ public class FabricHelloWorldHandler extends FabricDefaultHandler {
         CppVar argvParameter = CppVar.factory.create(argvType, "argv[]");
         
         // main method declaration
-        CppFun mainFun = CppFun.factory.create(helloWorldClass, Cpp.INT, "main", argcParameter, argvParameter);
+        CppFun mainFun = CppFun.factory.create("void", "main", argcParameter, argvParameter);
     
         // some function content
         mainFun.appendCode("/*" + Cpp.newline);

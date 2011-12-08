@@ -35,12 +35,13 @@ import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 import de.uniluebeck.sourcegen.c.CppVar;
 import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
+import de.uniluebeck.sourcegen.exceptions.CppCodeValidationException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
  * CRectangle example.
  *
- * - Compile with: g++ CRectangleSimple.cpp -o simple
+ * - Compile with: g++ Simple.cpp -o simple
  * - Run with: ./simple
  * - Returns:
  * 		1
@@ -60,6 +61,9 @@ public class Example1_Simple {
 	    try {
 			generate();
 		} catch (CDuplicateException e) {
+			e.printStackTrace();
+		} catch (CppCodeValidationException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -68,10 +72,11 @@ public class Example1_Simple {
 	 *
 	 * @throws CppDuplicateException
 	 * @throws CDuplicateException
+	 * @throws CppCodeValidationException
 	 */
-	void generate() throws CppDuplicateException, CDuplicateException{
+	void generate() throws CppDuplicateException, CDuplicateException, CppCodeValidationException{
 
-		String className = "CRectangleSimple";
+        String className = "Simple";
 
         // Generate the class -- without an explicit file
         CppClass class_CRectangleSimple = CppClass.factory.create(className);
@@ -80,10 +85,10 @@ public class Example1_Simple {
         // Generate two int variables
         CppTypeGenerator type_int = new CppTypeGenerator(Cpp.INT);
         CppVar var_x = CppVar.factory.create(Cpp.PRIVATE, type_int.toString(), "x", "1");
-        var_x.setComment(new CCommentImpl("A nice comment for the varable x"));
+        var_x.setComment(new CCommentImpl("A nice comment for the variable x"));
 
         CppVar var_y = CppVar.factory.create(Cpp.PRIVATE, type_int.toString() , "y");
-        var_y.setComment(new CCommentImpl("A nice comment for the varable y"));
+        var_y.setComment(new CCommentImpl("A nice comment for the variable y"));
 
         class_CRectangleSimple.add(var_y);
         class_CRectangleSimple.add(var_x);
@@ -113,7 +118,7 @@ public class Example1_Simple {
         class_CRectangleSimple.add(Cpp.PUBLIC, fun_area);
 
         // Generate the files (cpp + hpp)
-		CppSourceFile file = workspace.getC().getCppSourceFile(className);
+    		CppSourceFile file = workspace.getC().getCppSourceFile(className);
         CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
         file.addInclude(header);
         header.add(class_CRectangleSimple);

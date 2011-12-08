@@ -41,7 +41,7 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 /**
  * StructSample is similar to CRectangleSimple.
  *
- * - Compile with: g++ EnumSample.cpp -o enum
+ * - Compile with: g++ Enum.cpp -o enum
  * - Run with: ./enum
  * - Returns: 2
  *
@@ -75,7 +75,7 @@ public class Example7_Enum {
 	 */
 	void generate() throws CppDuplicateException, CDuplicateException, CCodeValidationException, CConflictingModifierException{
 
-		String className = "EnumSample";
+		String className = "Enum";
 
         // Generate the class -- without an explicit file
         CppClass clazz = CppClass.factory.create(className);
@@ -127,7 +127,7 @@ public class Example7_Enum {
         fun_main.appendCode(enumm.getTypeName() + " e;");
         fun_main.appendCode("e = GREEN;");
         fun_main.appendCode("");
-        fun_main.appendCode("EnumSample s;");
+        fun_main.appendCode(className + " s;");
         fun_main.appendCode("s.set(e);");
         fun_main.appendCode("s.print();");
 

@@ -34,11 +34,12 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 //TODO make package private. it's public because of Workspace::getCppSourceFile (new CppSourceFileImpl(fileName);)
 public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
-	protected LinkedList<CppVar> 			cppVars;
-	protected LinkedList<CppFun> 			cppFuns;
-	protected LinkedList<CppClass> 		 	cppClasses;
-	protected LinkedList<CppSourceFileImpl> cppUserHeaderFiles;
-	protected LinkedList<String> 			cppNamespaces;
+	protected List<CppVar> 			cppVars;
+	protected List<CppFun> 			cppFuns;
+	protected List<CppClass> 		 	cppClasses;
+	protected List<CppSourceFileImpl> cppUserHeaderFiles;
+	protected List<String> 			cppNamespaces;
+	protected List<CppComplexType> 	cppComplexTypes;
 
 	protected CSourceFileBase base;
 	protected String fileName;
@@ -112,6 +113,14 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	public CppSourceFile add(CTypeDef... typedefs) throws CDuplicateException {
 		base.internalTypedef(typedefs);
+		return this;
+	}
+
+	@Override
+	public CppSourceFile add(CppComplexType... compleyTypes) throws CppDuplicateException {
+		for (CppComplexType cc : compleyTypes) {
+			this.cppComplexTypes.add(cc);
+		}
 		return this;
 	}
 
@@ -313,13 +322,13 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		}
 
 		// LibIncludes: System header files
-	    for(String include : base.getLibIncludes()) {
-	    	buffer.append("#include <" + include + ">" + Cpp.newline);
-	    }
+    for (String include : base.getLibIncludes()) {
+      buffer.append("#include <" + include + ">" + Cpp.newline);
+    }
 
 		// Before pre-processor directives
-		if(base.beforeDirectives.size() > 0) {
-			for(CPreProcessorDirectiveImpl ppd : base.beforeDirectives){
+		if (base.beforeDirectives.size() > 0) {
+			for (CPreProcessorDirectiveImpl ppd : base.beforeDirectives) {
 				ppd.toString(buffer, tabCount);
 				buffer.append(Cpp.newline);
 			}
@@ -327,53 +336,63 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		}
 
 		// Includes: User header files
-		for(CppSourceFile file : this.cppUserHeaderFiles){
+		for (CppSourceFile file : this.cppUserHeaderFiles) {
       buffer.append("#include \"" + file.getFileName() + ".hpp\"" + Cpp.newline);
     }
 
-		if(this.cppUserHeaderFiles.size() > 0 || this.cppNamespaces.size() > 0) {
+		if (this.cppUserHeaderFiles.size() > 0 || this.cppNamespaces.size() > 0) {
       buffer.append(Cpp.newline);
 	  }
 
-    if(this.cppNamespaces.size() > 0) {
+    if (this.cppNamespaces.size() > 0) {
       // Include the namespaces
-      for(String ns : this.cppNamespaces){
+      for (String ns : this.cppNamespaces) {
         buffer.append("using namespace " + ns + ";" + Cpp.newline);
       }
       buffer.append(Cpp.newline);
     }
 
 		// Enums
-		if(base.getEnums().size() > 0) {
-			for(CEnum e : base.getEnums()) {
+		if (base.getEnums().size() > 0) {
+			for (CEnum e : base.getEnums()) {
 				buffer.append(e.toString() + Cpp.newline + Cpp.newline);
 			}
 		}
 
 		// Structs
-		for(CStructBaseImpl struct : base.structsUnions){
+		for (CStructBaseImpl struct : base.structsUnions) {
 			buffer.append(struct.toString());
 			buffer.append(Cpp.newline + Cpp.newline);
 		}
 
-		for(CppSourceFileImpl file : this.cppUserHeaderFiles){
-			for(CppClass clazz : file.getCppClasses()){
+		for (CppSourceFileImpl file : this.cppUserHeaderFiles) {
+			for (CppClass clazz : file.getCppClasses()) {
 				toStringHelper(buffer, clazz, tabCount);
 			}
 		}
 
 		// Add functions, such that main() is possible
-		if(this.base.getFuns().size() > 0) {
+		if (this.base.getFuns().size() > 0) {
 			//buffer.append("/* Other non class functions */" + Cpp.newline);
 			for (CFun fun : this.base.getFuns()) {
 				fun.toString(buffer, tabCount);
 			}
 		}
 
-		// After pre-processor directives
-		if(base.afterDirectives.size() > 0) {
+    // ComplexTypes
+		if (null != this.cppComplexTypes && this.cppComplexTypes.size() > 0) { // TODO: Added null test
 			buffer.append(Cpp.newline);
-			for(CPreProcessorDirectiveImpl ppd : base.afterDirectives){
+			for (CppComplexType cc : this.cppComplexTypes) {
+				buffer.append(Cpp.newline);
+				cc.toString(buffer, tabCount);
+			}
+			buffer.append(Cpp.newline);
+		}
+
+		// After pre-processor directives
+		if (base.afterDirectives.size() > 0) {
+			buffer.append(Cpp.newline);
+			for (CPreProcessorDirectiveImpl ppd : base.afterDirectives) {
 				buffer.append(Cpp.newline);
 				ppd.toString(buffer, tabCount);
 			}
@@ -381,7 +400,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		}
 
 /*
- *
  * @see: CSourceFileBase
  *
 		// beforeDirectives

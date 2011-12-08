@@ -44,7 +44,7 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 /**
  * Use typedefs
  *
- * - Compile with: g++ TypedefSample.cpp -o typedef
+ * - Compile with: g++ Typedef.cpp -o typedef
  * - Run with: ./typedef
  * - Returns: 3.14159
  *
@@ -72,7 +72,7 @@ public class Example9_Typedef {
 	 */
 	void generate() throws CppDuplicateException, CDuplicateException, CPreProcessorValidationException, CConflictingModifierException, CCodeValidationException{
 
-		String className = "TypedefSample";
+		String className = "Typedef";
 
         // Generate the class -- without an explicit file
         CppClass clazz = CppClass.factory.create(className);

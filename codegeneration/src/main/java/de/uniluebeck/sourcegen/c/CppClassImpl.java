@@ -23,15 +23,20 @@
  */
 package de.uniluebeck.sourcegen.c;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
+
+import org.slf4j.LoggerFactory;
 
 import de.uniluebeck.sourcegen.WorkspaceElement;
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
+import de.uniluebeck.sourcegen.exceptions.CppCodeValidationException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 class CppClassImpl extends CElemImpl implements CppClass {
+
+  private static final org.slf4j.Logger log = LoggerFactory.getLogger(CppClassImpl.class);
 
 	class VisElem {
 		public WorkspaceElement elem;
@@ -44,29 +49,31 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 	private String className;
 
-	private LinkedList<CPreProcessorDirectiveImpl> afterDirectives = new LinkedList<CPreProcessorDirectiveImpl>();
+	private List<CPreProcessorDirectiveImpl> afterDirectives = new LinkedList<CPreProcessorDirectiveImpl>();
 
-	private LinkedList<CPreProcessorDirectiveImpl> beforeDirectives = new LinkedList<CPreProcessorDirectiveImpl>();
+	private List<CPreProcessorDirectiveImpl> beforeDirectives = new LinkedList<CPreProcessorDirectiveImpl>();
 
-	private LinkedList<VisElem> constructors = new LinkedList<VisElem>();
+	private List<VisElem> constructors = new LinkedList<VisElem>();
 
-	private LinkedList<VisElem> destructors = new LinkedList<VisElem>();
+	private List<VisElem> destructors = new LinkedList<VisElem>();
 
-	private LinkedList<VisElem> enums = new LinkedList<VisElem>();
+	private List<VisElem> enums = new LinkedList<VisElem>();
 
-	private LinkedList<VisElem> extendeds = new LinkedList<VisElem>();
+	private List<VisElem> extendeds = new LinkedList<VisElem>();
 
-	private LinkedList<VisElem> funs = new LinkedList<VisElem>();
+	private List<String> extendeds_string = new LinkedList<String>();
 
-	private LinkedList<VisElem> nested = new LinkedList<VisElem>();
+	private List<VisElem> funs = new LinkedList<VisElem>();
 
-	private LinkedList<String> globalDeclarations = new LinkedList<String>();
+	private List<VisElem> nested = new LinkedList<VisElem>();
 
-	private LinkedList<VisElem> structsUnions = new LinkedList<VisElem>();
+	private List<String> globalDeclarations = new LinkedList<String>();
 
-	private LinkedList<VisElem> vars = new LinkedList<VisElem>();
+	private List<VisElem> structsUnions = new LinkedList<VisElem>();
 
-	private LinkedList<VisElem> cfuns = new LinkedList<VisElem>();
+	private List<VisElem> vars = new LinkedList<VisElem>();
+
+	private List<VisElem> cfuns = new LinkedList<VisElem>();
 
 	private CComment comment = null;
 
@@ -79,7 +86,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 			CppConstructor con = CppConstructor.factory.create();
 			add(Cpp.PUBLIC, con);
 		} catch (CppDuplicateException e) {
-			// Should neve be thrown
+			// Should never be thrown
 			e.printStackTrace();
 		}
 	}
@@ -120,9 +127,12 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		return this;
 	}
 
-	public CppClass add(CppVar... vars) throws CppDuplicateException {
+	public CppClass add(CppVar... vars) throws CppDuplicateException, CppCodeValidationException {
 		for (CppVar v : vars) {
 			//v.setClass(this);
+			if(v.getVisability() == null) {
+				throw new CppCodeValidationException("The variable " + v.getVarName() + " cannot be added without a visability.");
+			}
 			addInternal(v.getVisability(), v);
 		}
 		return this;
@@ -195,6 +205,18 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	public CppClass addExtended(long vis, CppClass... extendeds) throws CppDuplicateException {
 		for (CppClass e : extendeds)
 			addExtendedInternal(vis, e);
+		return this;
+	}
+
+	public CppClass addExtended(long vis, String... extendeds) throws CppDuplicateException {
+		for (String e : extendeds) {
+			String tmp = Cpp.toString(vis) + " " + e;
+			// TODO: Check also with this.extendeds
+			if(this.extendeds_string.contains(tmp)) {
+				throw new CppDuplicateException(this.className + " contains already the extend " + tmp);
+			}
+			this.extendeds_string.add(tmp);
+		}
 		return this;
 	}
 
@@ -399,9 +421,18 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	}
 
 	public String[] getExtendeds() {
-		String[] ext = new String[extendeds.size()];
-		for (int i=0; i<extendeds.size(); i++)
-			ext[i] = ((CppClassImpl)extendeds.get(i).elem).className;
+		String[] ext = new String[extendeds.size() + extendeds_string.size()];
+		int i = 0;
+		for (i=0; i<extendeds.size(); i++) {
+			VisElem e = extendeds.get(i);
+			String name = ((CppClassImpl)e.elem).className;
+			ext[i] = Cpp.toString(e.vis) + " " + name;
+		}
+
+		for (int j=i; j<extendeds_string.size(); j++) {
+			ext[j] = extendeds_string.get(j);
+		}
+
 		return ext;
 	}
 
@@ -607,16 +638,19 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		buffer.append("class " + this.className);
 
-		//inheritance
-		int counter = 0;
-		for(String c : this.getExtendeds()){
-			counter++;
-			buffer.append("\t" + c);
-			if(counter != this.extendeds.size()){
-				buffer.append("," + Cpp.newline);
+		// inheritance
+		if(this.getExtendeds().length > 0) {
+			for (int i = 0; i < this.getExtendeds().length; i++) {
+				if(i == 0){
+					buffer.append(" : ");
+				} else {
+					buffer.append(", ");
+				}
+				buffer.append(this.getExtendeds()[i]);
 			}
 		}
-		buffer.append(Cpp.newline + "{" + Cpp.newline);
+
+		buffer.append(Cpp.newline + "{" + Cpp.newline + Cpp.newline);
 
 		/**
 		 *  ##################################################################
@@ -628,8 +662,9 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		toStringHelper(tmp_public, tabCount, Cpp.PUBLIC);
 
 		if(tmp_public.length() > 0) {
+      indent(buffer, tabCount + 1);
 			buffer.append("public:" + Cpp.newline);
-			appendBody(buffer, tmp_public, tabCount + 1);
+			appendBody(buffer, tmp_public, tabCount + 2);
 		}
 
 		/**
@@ -639,12 +674,13 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		 */
 		// Needed to get the public stuff one tab count deeper
 		StringBuffer tmp_protected = new StringBuffer();
-		appendBody(buffer, tmp_protected, tabCount + 1);
+		toStringHelper(tmp_protected, tabCount, Cpp.PROTECTED);
 
 		if(tmp_protected.length() > 0) {
 			buffer.append(Cpp.newline);
+      indent(buffer, tabCount + 1);
 			buffer.append("protected:" + Cpp.newline);
-			toStringHelper(tmp_protected, tabCount, Cpp.PROTECTED);
+			appendBody(buffer, tmp_protected, tabCount + 2);
 		}
 
 		/**
@@ -657,10 +693,11 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		StringBuffer tmp_private = new StringBuffer();
 		toStringHelper(tmp_private, tabCount, Cpp.PRIVATE);
 
-		if(tmp_private.length() > 0) {
+		if(tmp_private.length() > 0) {      
 			buffer.append(Cpp.newline);
+      indent(buffer, tabCount + 1);
 			buffer.append("private:" + Cpp.newline);
-			appendBody(buffer, tmp_private, tabCount + 1);
+			appendBody(buffer, tmp_private, tabCount + 2);
 		}
 
 		/**
@@ -669,8 +706,6 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		// Close the class
 		buffer.append(Cpp.newline + "};" + Cpp.newline + Cpp.newline);
-
-
 
 		/*
 		toString(buffer, tabCount, beforeDirectives, "", "\n", true);
@@ -704,13 +739,18 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		 * */
 	}
 
-	private void toStringHelper(StringBuffer tmp, int tabCount, long visability) {
+	protected void indent(StringBuffer buffer, int tabCount) {
+		for (int i = 0; i < tabCount; i++)
+			buffer.append("\t");
+	}
+
+  private void toStringHelper(StringBuffer tmp, int tabCount, long visability) {
 
 		// structs + unions
 		if(this.getStructsUnions(visability).size() > 0) {
 			//tmp_public.append("/* Constructors of " + this.getName() + " */" + Cpp.newline);
 			for(CStructBase c : this.getStructsUnions(visability)){
-				tmp.append("" + c.toString() + Cpp.newline + Cpp.newline);
+				tmp.append(c.toString() + Cpp.newline);
 			}
 		}
 
@@ -718,7 +758,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		if(this.getConstructors(visability).size() > 0) {
 			//tmp_public.append("/* Constructors of " + this.getName() + " */" + Cpp.newline);
 			for(CppConstructor c : this.getConstructors(visability)){
-				tmp.append("" + c.getSignature() + ";" + Cpp.newline);
+				tmp.append(c.getSignature() + ";" + Cpp.newline);
 			}
 			tmp.append(Cpp.newline);
 		}
@@ -759,13 +799,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 			}
 			tmp.append(Cpp.newline);
 		}
-
 	}
-
-    @Override
-    public String getName() {
-        return this.className;
-    }
 
 	@Override
 	public CppClass addParents(List<CppClass> cppClass, CppClass clazz) {
@@ -778,11 +812,16 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	public List<CppClass> getParents() {
 		return parents;
 	}
+  
+  @Override
+  public String getName() {
+    return this.className;
+  }
 
-	@Override
+  @Override
 	@Deprecated
 	public String getTypeName() {
-		System.err.print("getTypeName() is depricated. Use getName() instead.");
+    log.warn("Method getTypeName() is deprecated! Use getName() instead.");
 		return this.getName();
 	}
 

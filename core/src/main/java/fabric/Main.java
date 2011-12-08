@@ -78,7 +78,7 @@ public class Main {
         options.addOption("m", "modules", true, "Comma-separated list of modules to run");
         options.addOption("v", "verbose", false, "Verbose logging output");
         options.addOption("h", "help", false, "Help output");
-        options.addOption("o", "output", true, "The output directory. May be overwritten by the properties file");
+        options.addOption("o", "output", true, "The code output directory");
 
         // Load all modules
         try {
@@ -108,30 +108,31 @@ public class Main {
             // Load properties from file
             if (line.hasOption('p')) {
                 String propertiesFile = line.getOptionValue('p');
-                Main.log.debug("Loading properties from {}", propertiesFile);
+                Main.log.debug("Loading properties from '" + propertiesFile + "'.");
                 properties.load(new FileReader(new File(propertiesFile)));
             }
-
-            if (!line.hasOption('p') && line.hasOption('o')) {
+            
+            // Set code output directory
+            if (line.hasOption('o')) {
             	String oValue = line.getOptionValue('o');
 
-            	// Ensure the last character is the file.separator
-            	if(!oValue.endsWith(System.getProperty("file.separator"))) {
+            	// Ensure that last character is the file.separator
+            	if (!oValue.endsWith(System.getProperty("file.separator"))) {
             		oValue += System.getProperty("file.separator");
             	}
 
             	File fileOutput = new File(oValue);
 
-            	if(!fileOutput.exists()) {
-            		Main.log.error("The given directory " + oValue + " doesn't exist.");
+            	if (!fileOutput.exists()) {
+            		Main.log.error("The desired output directory '" + oValue + "' does not exist.");
             		System.exit(0);
             	} else if (!fileOutput.isDirectory()) {
-            		Main.log.error("The given directory " + oValue + " is a file.");
+            		Main.log.error("The desired output directory '" + oValue + "' is a file.");
             		System.exit(0);
             	} else {
-            		properties.put("output_directory", oValue);
-            		Main.log.debug("Add the option output_directory := " + oValue);
-            	}
+                Main.log.debug("Setting output directory to '" + oValue + "'.");
+                properties.setProperty("fabric.output_directory", oValue); // Add code output directory to properties
+              }
             }
 
             workspace = new Workspace(properties);
