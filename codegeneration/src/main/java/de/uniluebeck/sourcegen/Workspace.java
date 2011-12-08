@@ -38,7 +38,6 @@ import de.uniluebeck.sourcegen.c.CWorkspace;
 import de.uniluebeck.sourcegen.c.CppHeaderFile;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.dot.DotGraphWorkspace;
-import de.uniluebeck.sourcegen.helloworld.HelloWorldWorkspace;
 import de.uniluebeck.sourcegen.java.JSourceFile;
 import de.uniluebeck.sourcegen.java.JavaWorkspace;
 import de.uniluebeck.sourcegen.protobuf.ProtobufWorkspace;
@@ -110,21 +109,6 @@ public class Workspace {
     }
 
     // ###################################################################
-    // Hello World workspace
-    // ###################################################################
-
-    private final HelloWorldWorkspace helloWorld;
-
-    /**
-     * Returns the helper for Hello World! program generation in this workspace.
-     *
-     * @return The Hello World! instance.
-     */
-    public HelloWorldWorkspace getHelloWorldHelper() {
-        return this.helloWorld;
-    }
-
-    // ###################################################################
     // SourceFiles
     // ###################################################################
 
@@ -146,7 +130,6 @@ public class Workspace {
         this.c = new CWorkspace(this);
         this.protobuf = new ProtobufWorkspace(this);
         this.dot = new DotGraphWorkspace(this);
-        this.helloWorld = new HelloWorldWorkspace(this);
     }
 
     /**

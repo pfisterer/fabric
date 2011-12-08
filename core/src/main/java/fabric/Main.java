@@ -46,7 +46,6 @@ import fabric.module.api.FabricSchemaTreeItemHandler;
 import fabric.module.api.FabricSchemaTreeWalker;
 import fabric.module.api.ModuleRegistry;
 import fabric.module.dot.FabricDotGraphModule;
-import fabric.module.helloworld.FabricHelloWorldModule;
 import fabric.module.typegen.FabricTypeGenModule;
 import fabric.wsdlschemaparser.schema.FSchema;
 import fabric.wsdlschemaparser.wsdl.FWSDL;
@@ -195,7 +194,6 @@ public class Main {
         this.registry.register(new FabricDotGraphModule(this.properties));
         this.registry.register(new CppModule(this.properties));
         this.registry.register(new FabricEXIModule(this.properties));
-        this.registry.register(new FabricHelloWorldModule(this.properties));
         this.registry.register(new FabricTypeGenModule(this.properties));
     }
 

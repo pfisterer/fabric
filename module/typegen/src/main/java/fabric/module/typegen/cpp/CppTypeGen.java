@@ -417,8 +417,7 @@ public class CppTypeGen implements TypeGen
         // Here we can reuse javaStrategy with stateful xmlMapper, because inner classes are nested in outer container
         CppClass innerClassObject = (CppClass)cppStrategy.generateClassObject(
                 this.incompleteLocalBuilders.get(classObject.getName()).pop().build());
-//        classObject.add(Cpp.PUBLIC | Cpp.STATIC, innerClassObject); // TODO: Add
-        classObject.add(Cpp.PRIVATE, innerClassObject); // TODO: Remove
+        classObject.add(Cpp.PRIVATE, innerClassObject); // TODO: Is this correct for inner classes?
         LOGGER.debug(String.format("Built inner class '%s' for current container '%s'.", innerClassObject.getName(), classObject.getName()));
       }
 
