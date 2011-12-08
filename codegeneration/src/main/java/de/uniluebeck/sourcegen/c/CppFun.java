@@ -65,6 +65,8 @@ public interface CppFun extends CppLangElem {
 
 	public CppFun appendCode(String string);
 	public String getSignature();
+  
+  public void toString(StringBuffer buffer, int tabCount, boolean isLast);
 
 	/**
 	 * This method is only used by the CppClass

@@ -722,39 +722,38 @@ class CppClassImpl extends CElemImpl implements CppClass {
   private void toStringHelper(StringBuffer tmp, int tabCount, long visability) {
 
 		// structs + unions
-		if(this.getStructsUnions(visability).size() > 0) {
-			for(CStructBase c : this.getStructsUnions(visability)){
+		if (null != this.getStructsUnions(visability) && this.getStructsUnions(visability).size() > 0) {
+			for (CStructBase c : this.getStructsUnions(visability)) {
 				tmp.append(c.toString() + Cpp.newline);
 			}
 		}
 
 		// constructors
-		if(this.getConstructors(visability).size() > 0) {
-			for(CppConstructor c : this.getConstructors(visability)){
+		if (null != this.getConstructors(visability) && this.getConstructors(visability).size() > 0) {
+			for (CppConstructor c : this.getConstructors(visability)) {
 				tmp.append(c.getSignature() + ";" + Cpp.newline);
 			}
-			tmp.append(Cpp.newline);
 		}
 
 		// destructors
-		if(this.getDestructors(visability).size() > 0) {
-			for(CppDestructor d : this.getDestructors(visability)){
-				tmp.append("virtual " + d.getSignature() + ";" + Cpp.newline); // TODO: virtual?
+		if (null != this.getDestructors(visability) && this.getDestructors(visability).size() > 0) {
+			for (CppDestructor d : this.getDestructors(visability)) {
+        tmp.append("virtual " + d.getSignature() + ";" + Cpp.newline); // TODO: virtual?
 			}
 			tmp.append(Cpp.newline);
 		}
 
 		// functions
-		if(this.getFuns(visability).size() > 0) {
-			for(CppFun f : this.getFuns(visability)){
+		if (null != this.getFuns(visability) && this.getFuns(visability).size() > 0) {
+			for (CppFun f : this.getFuns(visability)) {
 				tmp.append(f.getSignature() + ";" + Cpp.newline);
 			}
 			tmp.append(Cpp.newline);
 		}
 
 		// nested classes
-		if(this.getNested(visability).size() > 0) {
-			for(CppClass f : this.getNested(visability)){
+		if (null != this.getNested(visability) && this.getNested(visability).size() > 0) {
+			for (CppClass f : this.getNested(visability)) {
 				// Add the classes recursive
 				f.toString(tmp, tabCount);
 			}
@@ -762,8 +761,8 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		}
 
 		// variables
-		if(this.getVars(visability).size() > 0) {
-			for(CppVar v : this.getVars(visability)){
+		if (null != this.getVars(visability) && this.getVars(visability).size() > 0) {
+			for (CppVar v : this.getVars(visability)) {
 				tmp.append(v.toString() + ";" + Cpp.newline);
 			}
 			tmp.append(Cpp.newline);

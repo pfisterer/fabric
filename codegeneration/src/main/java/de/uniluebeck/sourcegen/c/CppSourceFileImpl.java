@@ -39,7 +39,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	protected List<CppClass> 		 	cppClasses;
 	protected List<CppSourceFileImpl> cppUserHeaderFiles;
 	protected List<String> 			cppNamespaces;
-	protected List<CppComplexType> 	cppComplexTypes;
 
 	protected CSourceFileBase base;
 	protected String fileName;
@@ -113,14 +112,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	public CppSourceFile add(CTypeDef... typedefs) throws CDuplicateException {
 		base.internalTypedef(typedefs);
-		return this;
-	}
-
-	@Override
-	public CppSourceFile add(CppComplexType... compleyTypes) throws CppDuplicateException {
-		for (CppComplexType cc : compleyTypes) {
-			this.cppComplexTypes.add(cc);
-		}
 		return this;
 	}
 
@@ -308,120 +299,117 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
-		prepare();
+
+    prepare();
 
 		// Write comment if necessary
 		if (comment != null) {
 			comment.toString(buffer, tabCount);
+      buffer.append(Cpp.newline);
 		}
 
 		// LibIncludes: System header files
-		if (base.getLibIncludes().size() > 0) {
-		    for (String include : base.getLibIncludes()) {
-		    	buffer.append("#include <" + include + ">" + Cpp.newline);
-		    }
-	    	buffer.append(Cpp.newline);
-		}
+    if (null != this.base && null != this.base.getLibIncludes() && this.base.getLibIncludes().size() > 0) {
+      for (String include : this.base.getLibIncludes()) {
+        buffer.append("#include <" + include + ">" + Cpp.newline);
+      }
+      buffer.append(Cpp.newline);
+    }
 
 		// Includes: User header files
-		if (this.cppUserHeaderFiles.size() > 0) {
-			for (CppSourceFile file : this.cppUserHeaderFiles){
-				buffer.append("#include \"" + file.getFileName() + ".hpp\"" + Cpp.newline);
-			}
-	    	buffer.append(Cpp.newline);
-		}
+    if (null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) {
+      for (CppSourceFile file : this.cppUserHeaderFiles) {
+        buffer.append("#include \"" + file.getFileName() + ".hpp\"" + Cpp.newline);
+      }
+      buffer.append(Cpp.newline);
+    }
 
-		// Before pre-processor directives
-		if (base.beforeDirectives.size() > 0) {
-			for (CPreProcessorDirectiveImpl ppd : base.beforeDirectives) {
+    // Before pre-processor directives
+		if (null != this.base && null != this.base.beforeDirectives && this.base.beforeDirectives.size() > 0) {
+			for (CPreProcessorDirectiveImpl ppd : this.base.beforeDirectives) {
 				ppd.toString(buffer, tabCount);
 				buffer.append(Cpp.newline);
 			}
 			buffer.append(Cpp.newline);
 		}
-
+    
     // Namespaces
-    if(this.cppNamespaces.size() > 0) {
-      // Include the namespaces
-      for(String ns : this.cppNamespaces){
+    if (null != this.cppNamespaces && this.cppNamespaces.size() > 0) {
+      for (String ns : this.cppNamespaces) {
         buffer.append("using namespace " + ns + ";" + Cpp.newline);
       }
       buffer.append(Cpp.newline);
     }
+    
+    // Typedefs
+    if (null != this.base && null != this.base.getTypeDefs() && base.getTypeDefs().size() > 0) {
+      for (CTypeDef t : base.getTypeDefs()) {
+        buffer.append(t.toString());
+      }
+      buffer.append(Cpp.newline);
+    }
 
-		// Enums
-		if(base.getEnums().size() > 0) {
-			for(CEnum e : base.getEnums()) {
+    // Enums
+		if (null != this.base && null != this.base.getEnums() && this.base.getEnums().size() > 0) {
+			for (CEnum e : this.base.getEnums()) {
 				buffer.append(e.toString() + Cpp.newline);
 			}
-		}
-
-		// Typedefs
-		if(base.getTypeDefs().size() > 0) {
-			for(CTypeDef t : base.getTypeDefs()){
-				buffer.append(t.toString());
-			}
 			buffer.append(Cpp.newline);
 		}
+    
+    // Structs
+    if (null != this.base && null != this.base.structsUnions && this.base.structsUnions.size() > 0) {
+      for (CStructBaseImpl struct : base.structsUnions) {
+        buffer.append(struct.toString() + Cpp.newline);
+      }
+      buffer.append(Cpp.newline);
+    }
 
-		// Structs
-		for(CStructBaseImpl struct : base.structsUnions){
-			buffer.append(struct.toString());
-			buffer.append(Cpp.newline + Cpp.newline);
-		}
-
-		//classes, definitions
-		if(this.cppClasses.size() > 0) {
-			for(CppClass c : this.cppClasses){
-				buffer.append(c.toString());
-			}
-			buffer.append(Cpp.newline);
-		}
-
-		//TODO: namespace
-//		buffer.append("namespace isense {\n\n");
-
-		// classes, implementation
-		for(CppClass clazz : this.cppClasses){
-			toStringHelper(buffer, clazz, tabCount);
-		}
-
-		// Classes in the header file
-		for(CppSourceFileImpl file : this.cppUserHeaderFiles){
-			for(CppClass clazz : file.getCppClasses()){
-				toStringHelper(buffer, clazz, tabCount);
-			}
-		}
-
-		// Add file vars
-		if(this.cppVars.size() > 0) {
-			for (CppVar v : this.cppVars) {
-				buffer.append(v.toString() + ";" + Cpp.newline);
-			}
-			buffer.append(Cpp.newline);
+		// Classes, definitions
+		if (null != this.cppClasses && this.cppClasses.size() > 0) {
+      for (CppClass c : this.cppClasses) {
+        buffer.append(c.toString());
+      }
+      buffer.append(Cpp.newline);
+    }
+    
+    // Classes, implementations
+    if (null != this.cppClasses && this.cppClasses.size() > 0) {
+      for (CppClass c : this.cppClasses) {
+        toStringHelper(buffer, c, tabCount);
+      }
+    }
+    
+    // Classes, from header file
+    if (null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) {
+      for (CppSourceFileImpl file : this.cppUserHeaderFiles) {
+        if (null != file.getCppClasses() && file.getCppClasses().length > 0) {
+          for (CppClass c : file.getCppClasses()) {
+            toStringHelper(buffer, c, tabCount);
+          }
+        }
+      }
+    }
+    
+    // File variables
+		if (null != this.cppVars && this.cppVars.size() > 0) {
+      for (CppVar v : this.cppVars) {
+        buffer.append(v.toString() + ";" + Cpp.newline);
+      }
+      buffer.append(Cpp.newline);
 		}
 
 		// Add functions, such that main() is possible
-		if(this.base.getFuns().size() > 0) {
+    if (null != this.base && null != this.base.getFuns() && this.base.getFuns().size() > 0) {
 			for (CFun fun : this.base.getFuns()) {
 				fun.toString(buffer, tabCount);
 			}
 		}
-
-    // ComplexTypes
-		if (null != this.cppComplexTypes && this.cppComplexTypes.size() > 0) { // TODO: Added null test
+    
+    // After pre-processor directives
+		if (null != this.base && null != this.base.afterDirectives && base.afterDirectives.size() > 0) {
 			buffer.append(Cpp.newline);
-			for (CppComplexType cc : this.cppComplexTypes) {
-				buffer.append(Cpp.newline);
-				cc.toString(buffer, tabCount);
-			}
-			buffer.append(Cpp.newline);
-		}
-
-		// After pre-processor directives
-		if (base.afterDirectives.size() > 0) {
-			buffer.append(Cpp.newline);
-			for (CPreProcessorDirectiveImpl ppd : base.afterDirectives) {
+			for (CPreProcessorDirectiveImpl ppd : this.base.afterDirectives) {
 				buffer.append(Cpp.newline);
 				ppd.toString(buffer, tabCount);
 			}
@@ -465,59 +453,75 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	private void toStringHelper(StringBuffer buffer, CppClass clazz, int tabCount) {
 
-		// constructors
-		if(clazz.getConstructors(Cpp.PUBLIC).size() > 0) {
-			for(CppConstructor c : clazz.getConstructors(Cpp.PUBLIC)){
+		// Constructors
+		if (null != clazz.getConstructors(Cpp.PUBLIC) && clazz.getConstructors(Cpp.PUBLIC).size() > 0) {
+			for (CppConstructor c : clazz.getConstructors(Cpp.PUBLIC)) {
 				c.toString(buffer, tabCount);
 			}
 		}
 
-		// constructors
-		if(clazz.getConstructors(Cpp.PRIVATE).size() > 0) {
-			for(CppConstructor c : clazz.getConstructors(Cpp.PRIVATE)){
+		// Constructors
+		if (null != clazz.getConstructors(Cpp.PRIVATE) && clazz.getConstructors(Cpp.PRIVATE).size() > 0) {
+			for (CppConstructor c : clazz.getConstructors(Cpp.PRIVATE)) {
 				c.toString(buffer, tabCount);
 			}
 		}
 
-		// destructors
-		if(clazz.getDestructors(Cpp.PRIVATE).size() > 0){
-			for(CppDestructor d : clazz.getDestructors(Cpp.PRIVATE)){
+		// Destructors
+		if (null != clazz.getDestructors(Cpp.PRIVATE) && clazz.getDestructors(Cpp.PRIVATE).size() > 0) {
+			for (CppDestructor d : clazz.getDestructors(Cpp.PRIVATE)) {
 				d.toString(buffer, tabCount);
 			}
 		}
 
-		// destructors
-		if(clazz.getDestructors(Cpp.PUBLIC).size() > 0){
-			for(CppDestructor d : clazz.getDestructors(Cpp.PUBLIC)){
+		// Destructors
+		if (null != clazz.getDestructors(Cpp.PUBLIC) && clazz.getDestructors(Cpp.PUBLIC).size() > 0) {
+			for (CppDestructor d : clazz.getDestructors(Cpp.PUBLIC)) {
 				d.toString(buffer, tabCount);
 			}
 		}
 
-		// public functions
-		if(clazz.getFuns(Cpp.PUBLIC).size() > 0) {
-			for(CppFun f : clazz.getFuns(Cpp.PUBLIC)){
-				f.toString(buffer, tabCount);
+		// Public functions
+		if (null != clazz.getFuns(Cpp.PUBLIC) && clazz.getFuns(Cpp.PUBLIC).size() > 0) {
+      // Does not add new lines after last function
+      for (int i = 0; i < clazz.getFuns(Cpp.PUBLIC).size(); ++i) {
+        CppFun f = clazz.getFuns(Cpp.PUBLIC).get(i);
+
+        if (i < clazz.getFuns(Cpp.PUBLIC).size() - 1) {
+          f.toString(buffer, tabCount, false);
+        }
+        else {
+          f.toString(buffer, tabCount, true);
+        }
 			}
 		}
 
-		// private functions
-		if(clazz.getFuns(Cpp.PRIVATE).size() > 0) {
-			for(CppFun f : clazz.getFuns(Cpp.PRIVATE)){
-				f.toString(buffer, tabCount);
+		// Private functions
+		if (null != clazz.getFuns(Cpp.PRIVATE) && clazz.getFuns(Cpp.PRIVATE).size() > 0) {
+      // Does not add new lines after last function
+			for (int i = 0; i < clazz.getFuns(Cpp.PRIVATE).size(); ++i) {
+        CppFun f = clazz.getFuns(Cpp.PRIVATE).get(i);
+
+        if (i < clazz.getFuns(Cpp.PRIVATE).size() - 1) {
+          f.toString(buffer, tabCount, false);
+        }
+        else {
+          f.toString(buffer, tabCount, true);
+        }
 			}
 		}
 
-		// public nested classes
-		if(clazz.getNested(Cpp.PUBLIC).size() > 0) {
-			for(CppClass f : clazz.getNested(Cpp.PUBLIC)){
-				toStringHelper(buffer, f, tabCount);
+		// Public nested classes
+		if (null != clazz.getNested(Cpp.PUBLIC) && clazz.getNested(Cpp.PUBLIC).size() > 0) {
+			for (CppClass c : clazz.getNested(Cpp.PUBLIC)) {
+				toStringHelper(buffer, c, tabCount);
 			}
 		}
 
-		// private nested classes
-		if(clazz.getNested(Cpp.PRIVATE).size() > 0) {
-			for(CppClass f : clazz.getNested(Cpp.PRIVATE)){
-				toStringHelper(buffer, f, tabCount);
+		// Private nested classes
+		if (null != clazz.getNested(Cpp.PRIVATE) && clazz.getNested(Cpp.PRIVATE).size() > 0) {
+			for (CppClass c : clazz.getNested(Cpp.PRIVATE)) {
+				toStringHelper(buffer, c, tabCount);
 			}
 		}
 

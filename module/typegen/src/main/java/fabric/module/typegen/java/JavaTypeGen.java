@@ -1,4 +1,4 @@
-/** 07.12.2011 02:16 */
+/** 08.12.2011 14:03 */
 package fabric.module.typegen.java;
 
 import org.slf4j.Logger;
@@ -47,12 +47,12 @@ public class JavaTypeGen implements TypeGen
     /**
      * Parameterized constructor.
      *
-     * @param typeObjects Finished data type object
+     * @param typeObject Finished data type object
      * @param requiredImports List of required Java imports
      */
-    public SourceFileData(final JComplexType typeObjects, final ArrayList<String> requiredImports)
+    public SourceFileData(final JComplexType typeObject, final ArrayList<String> requiredImports)
     {
-      this.typeObject = typeObjects;
+      this.typeObject = typeObject;
 
       // Create empty list, if there are no required imports
       if (null == requiredImports)

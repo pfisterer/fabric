@@ -23,8 +23,6 @@
  */
 package de.uniluebeck.sourcegen.c;
 
-
-
 //TODO change to package private. it is public because of Workspace::getCppHeaderFile (new CppHeaderFileImpl(fileName);)
 public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFile {
 
@@ -37,72 +35,71 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 
 		prepare();
 
-		// write comment if necessary
+		// Write comment if necessary
 		if (comment != null) {
 			comment.toString(buffer, tabCount);
+      buffer.append(Cpp.newline);
 		}
 
 		// LibIncludes: System header files
-		if(base.getLibIncludes().size() > 0) {
-			for(String include : base.getLibIncludes()) {
-				buffer.append("#include <" + include + ">" + Cpp.newline);
-			}
-	    	buffer.append(Cpp.newline);
+		if (null != base.getLibIncludes() && base.getLibIncludes().size() > 0) {
+      for (String include : base.getLibIncludes()) {
+        buffer.append("#include <" + include + ">" + Cpp.newline);
+      }
+      buffer.append(Cpp.newline);
 		}
 
 		// Before Preprocessordiretives
-		if(base.beforeDirectives.size() > 0) {
-			for(CPreProcessorDirectiveImpl ppd : base.beforeDirectives){
+		if (null != base.beforeDirectives && base.beforeDirectives.size() > 0) {
+			for (CPreProcessorDirectiveImpl ppd : base.beforeDirectives) {
 				ppd.toString(buffer, tabCount);
 				buffer.append(Cpp.newline);
 			}
 			buffer.append(Cpp.newline);
 		}
 
-	    // Namespaces
-	    if(this.cppNamespaces.size() > 0) {
-	    	// Include the namespaces
-	    	for(String ns : this.cppNamespaces){
-	    		buffer.append("using namespace " + ns + ";" + Cpp.newline);
-	    	}
-	    	buffer.append(Cpp.newline);
-	    }
+    // Namespaces
+    if (null != this.cppNamespaces && this.cppNamespaces.size() > 0) {
+      // Include the namespaces
+      for (String ns : this.cppNamespaces) {
+        buffer.append("using namespace " + ns + ";" + Cpp.newline);
+      }
+      buffer.append(Cpp.newline);
+    }
 
 		// Enums
-		if(base.getEnums().size() > 0) {
-			for(CEnum e : base.getEnums()) {
+		if (null != this.base && null != this.base.getEnums() && base.getEnums().size() > 0) {
+			for (CEnum e : this.base.getEnums()) {
 				buffer.append(e.toString() + Cpp.newline);
 			}
 		}
 
-		// typedefs
-		if(base.getTypeDefs().size() > 0) {
-			for(CTypeDef t : base.getTypeDefs()){
+		// Typedefs
+		if (null != this.base && null != this.base.getTypeDefs() && this.base.getTypeDefs().size() > 0) {
+			for (CTypeDef t : this.base.getTypeDefs()) {
 				buffer.append(t.toString());
 			}
 			buffer.append(Cpp.newline);
 		}
 
-		//structs
-		for(CStructBaseImpl struct : base.structsUnions){
-			buffer.append(struct.toString());
-			buffer.append(Cpp.newline + Cpp.newline);
-		}
+		// Structs
+    if (null != this.base && null != this.base.structsUnions && this.base.structsUnions.size() > 0) {
+      for (CStructBaseImpl struct : this.base.structsUnions) {
+        buffer.append(struct.toString());
+        buffer.append(Cpp.newline + Cpp.newline);
+      }
+    }
 
-		//TODO: Namespace
-		// buffer.append("namespace isense {\n\n");
-
-		//classes
-		for(CppClass c : this.cppClasses){
-			buffer.append(c.toString());
-		}
-
-		// TODO: Namespaces
-		// buffer.append("}\n");
+		// Classes
+    if (null != this.cppClasses && this.cppClasses.size() > 0) {
+      for (CppClass c : this.cppClasses) {
+        buffer.append(c.toString());
+      }
+    }
 
 		// After Preprocessordiretives
-		if(base.afterDirectives.size() > 0) {
-			for(CPreProcessorDirectiveImpl ppd : base.afterDirectives){
+		if (null != this.base && null != this.base.afterDirectives && this.base.afterDirectives.size() > 0) {
+			for (CPreProcessorDirectiveImpl ppd : this.base.afterDirectives) {
 				ppd.toString(buffer, tabCount);
 				buffer.append(Cpp.newline);
 			}

@@ -108,6 +108,11 @@ class CppFunImpl extends CElemImpl implements CppFun {
 
     @Override
     public void toString(StringBuffer buffer, int tabCount) {
+      this.toString(buffer, tabCount, false);
+    }
+
+    @Override
+    public void toString(StringBuffer buffer, int tabCount, boolean isLast) {
     	// write comment if necessary
     	if (comment != null) {
     		comment.toString(buffer, tabCount);
@@ -117,8 +122,11 @@ class CppFunImpl extends CElemImpl implements CppFun {
         signature.toString(buffer, 0);
         buffer.append(" {" + Cpp.newline);
         appendBody(buffer, body, tabCount + 1);
-		buffer.append(Cpp.newline + "}" + Cpp.newline);
-        buffer.append(Cpp.newline);
+        buffer.append(Cpp.newline + "}");
+
+        if (!isLast) {
+          buffer.append(Cpp.newline + Cpp.newline);
+        }
     }
 
     private String getType() {
