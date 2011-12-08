@@ -22,7 +22,6 @@
     <module>module/typegen</module>
     <module>module/exi</module>
     <module>module/dot</module>
-    <module>module/helloworld</module>
     <module>module/protobuf</module>
     <module>module/cpp</module>
 
@@ -81,11 +80,6 @@
       <dependency>
         <groupId>de.uniluebeck.itm</groupId>
         <artifactId>fabric.module.dot</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>de.uniluebeck.itm</groupId>
-        <artifactId>fabric.module.helloworld</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
