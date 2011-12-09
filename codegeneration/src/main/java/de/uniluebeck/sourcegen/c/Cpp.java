@@ -26,12 +26,12 @@ package de.uniluebeck.sourcegen.c;
 public abstract class Cpp {
 
 	public static String newline = System.getProperty("line.separator");
-	public static String tab = "\t";
-
-	public static final long ARRAY 		= 1<<0;
+  public static String tab = "\t";
+  
+  public static final long ARRAY 		= 1<<0;
 	public static final long ARRAY2D	= 1<<1;
 	public static final long ARRAY3D	= 1<<2;
-	public static final long BOOL		= 1<<3;
+	public static final long BOOL			= 1<<3;
 	public static final long CHAR 		= 1<<4;
 	public static final long CONST		= 1<<5;
 	public static final long DOUBLE		= 1<<6;
@@ -39,11 +39,11 @@ public abstract class Cpp {
 	public static final long FLOAT		= 1<<8;
 	public static final long FRIEND		= 1<<9;
 	public static final long INLINE		= 1<<10;
-	public static final long INT		= 1<<11;
-	public static final long LONG		= 1<<12;
+	public static final long INT			= 1<<11;
+	public static final long LONG			= 1<<12;
 	public static final long LONGDOUBLE = 1<<13;
 	public static final long MUTABLE	= 1<<14;
-	public static final long NONE		= 1<<15;
+	public static final long NONE			= 1<<15;
 	public static final long POINTER	= 1<<16;
 	public static final long PRIVATE	= 1<<17;
 	public static final long PROTECTED	= 1<<18;
@@ -53,11 +53,11 @@ public abstract class Cpp {
 	public static final long SHORT 		= 1<<22;
 	public static final long SIGNED		= 1<<23;
 	public static final long STATIC		= 1<<24;
-	public static final long THIS		= 1<<25;
+	public static final long THIS			= 1<<25;
 	public static final long TYPEDEF	= 1<<26;
 	public static final long UNSIGNED	= 1<<27;
 	public static final long VIRTUAL	= 1<<28;
-	public static final long VOID		= 1<<29;
+	public static final long VOID			= 1<<29;
 	public static final long VOLATILE	= 1<<30;
 	public static final long WCHAR_T	= 1<<31;
 

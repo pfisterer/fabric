@@ -1,4 +1,4 @@
-/** 06.12.2011 21:59 */
+/** 09.12.2011 14:44 */
 package fabric.module.typegen.cpp;
 
 import java.util.Map;
@@ -14,28 +14,17 @@ import fabric.module.typegen.base.ClassGenerationStrategy;
 import fabric.module.typegen.exceptions.FabricTypeGenException;
 
 /**
- * Class generation strategy for Java. This class implements the
+ * Class generation strategy for C++. This class implements the
  * ClassGenerationStrategy interface to convert AttributeContainer
- * objects to JClass objects.
+ * objects to CppClass objects.
  *
  * @author seidel
  */
 public class CppClassGenerationStrategy implements ClassGenerationStrategy
 {
   /**
-   * Parameterless constructor uses AnnotationMapper with default
-   * XML framework.
-   *
-   * @throws Exception Error during AnnotationMapper creation
-   */
-  public CppClassGenerationStrategy() throws Exception
-  {
-    // TODO: Anything to do here?
-  }
-
-  /**
    * This method returns a class object that can be added to a source
-   * file. Return value should be casted to JClass before further use.
+   * file. Return value should be casted to CppClass before further use.
    * The returned class has public visibility.
    *
    * @param container AttributeContainer for conversion
@@ -51,10 +40,10 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
   }
   
   /**
-   * This method returns a list of all Java imports that
+   * This method returns a list of all C++ includes that
    * are needed to support the required XML annotations.
    *
-   * @return List of required Java imports
+   * @return List of required C++ includes
    */
   @Override
   public ArrayList<String> getRequiredDependencies()
@@ -63,13 +52,13 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
   }
 
   /**
-   * Private helper method to create JClass object from AttributeContainer.
+   * Private helper method to create CppClass object from AttributeContainer.
    *
    * @param container AttributeContainer for conversion
    * @param parent Parent class name for extends-directive (set to
    * null or empty string if class has no parent)
    *
-   * @return Generated JClass object
+   * @return Generated CppClass object
    *
    * @throws Exception Error during class object generation
    */
@@ -140,45 +129,44 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
 
   /**
    * Private helper method for member variable creation. This function
-   * will create an annotated JField with a comment.
-   *
+   * will create a CppVar object with a comment.
+   * 
    * @param member MemberVariable object for creation
    *
-   * @return Generated JField object
+   * @return Generated CppVar object
    *
-   * @throws Exception Error during JField creation
+   * @throws Exception Error during CppVar creation
    */
   private CppVar createMemberVariable(MemberVariable member) throws Exception
   {
     CppVar cppv = null;
 
     /*****************************************************************
-     * Handle XML elements
-     *****************************************************************/
-    if (member.getClass() == AttributeContainer.Element.class) // TODO: Add AttributeContainer.Attribute.class here, because we do NOT handle XML attributes later anymore
+     * Handle XML elements and XML attributes
+     *****************************************************************/    
+    if (member.getClass() == AttributeContainer.Element.class || member.getClass() == AttributeContainer.Attribute.class)
     {
-      AttributeContainer.Element e = (AttributeContainer.Element)member;
+      AttributeContainer.RestrictedElementBase re = (AttributeContainer.RestrictedElementBase)member;
       
       // No initial value set
-      if (("").equals(e.value))
+      if (("").equals(re.value))
       {
-        cppv = CppVar.factory.create(Cpp.PRIVATE, e.type, e.name);
+        cppv = CppVar.factory.create(Cpp.PRIVATE, re.type, re.name);
       }
       // Initial value is set
       else
       {
-        // TODO: How to handle strings in C++?
-        // Add quotation marks to initial value, if type is String
-        String value = e.value;
-        if (("String").equals(e.type))
+        // Add quotation marks to initial value, if type is char*
+        String value = re.value;
+        if (("char*").equals(re.type))
         {
           value = "\"" + value + "\"";
         }
 
-        cppv = CppVar.factory.create(Cpp.PRIVATE, e.type, e.name, value);
+        cppv = CppVar.factory.create(Cpp.PRIVATE, re.type, re.name, value);
       }
 
-      cppv.setComment(new CCommentImpl(String.format("The '%s' element.", e.name)));
+      cppv.setComment(new CCommentImpl(String.format("The '%s' element.", re.name)));
     }
 
     /*****************************************************************
@@ -189,9 +177,8 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
       AttributeContainer.ConstantElement ce = (AttributeContainer.ConstantElement)member;
 
       // Add quotation marks to value, if type is String
-      // TODO: How to handle strings in C++?
       String value = ce.value;
-      if (("String").equals(ce.type))
+      if (("char*").equals(ce.type))
       {
         value = "\"" + value + "\"";
       }
@@ -199,41 +186,6 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
       cppv = CppVar.factory.create(Cpp.PRIVATE | Cpp.CONST, ce.type, ce.name);
       cppv.setComment(new CCommentImpl(String.format("The '%s' constant.", ce.name)));
     }
-
-    /*****************************************************************
-     * Handle XML attributes
-     *****************************************************************/
-// TODO: We don't add annotations to C++ code, so we need no extra treatment for XML attributes here, right?
-//    else if (member.getClass() == AttributeContainer.Attribute.class)
-//    {
-//      AttributeContainer.Attribute a = (AttributeContainer.Attribute)member;
-//
-//      // No initial value set
-//      if (("").equals(a.value))
-//      {
-//        cppv = JField.factory.create(JModifier.PRIVATE, a.type, a.name);
-//      }
-//      // Initial value is set
-//      else
-//      {
-//        // Add quotation marks to initial value, if type is String
-//        String value = a.value;
-//        if (("String").equals(a.type))
-//        {
-//          value = "\"" + value + "\"";
-//        }
-//
-//        cppv = JField.factory.create(JModifier.PRIVATE, a.type, a.name, value);
-//      }
-//
-//      cppv.setComment(new JFieldCommentImpl(String.format("The '%s' attribute.", a.name)));
-//
-//      // Add annotations
-//      for (String annotation: this.xmlMapper.getAttributeAnnotations(a.name))
-//      {
-//        cppv.addAnnotation(new JFieldAnnotationImpl(annotation));
-//      }
-//    }
 
     /*****************************************************************
      * Handle XML element of type enum
@@ -252,9 +204,19 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     else if (member.getClass() == AttributeContainer.ElementArray.class)
     {
       AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
+      String type = String.format("vector<%s>", ea.type);
       
-      // Create array of predefined size (Integer.MAX_VALUE on default)
-      cppv = CppVar.factory.create(Cpp.PRIVATE, ea.type, String.format("%s[%d]", ea.name, ea.maxSize));
+      // No array size is given
+      if (ea.maxSize == Integer.MAX_VALUE)
+      {
+        cppv = CppVar.factory.create(Cpp.PRIVATE, type, ea.name, "()"); // TODO: Check this in generated code
+      }
+      // Array size is given
+      else
+      {
+        cppv = CppVar.factory.create(Cpp.PRIVATE, type, ea.name, "(" + ea.maxSize + ")"); // TODO: Check this in generated code
+      }
+      
       cppv.setComment(new CCommentImpl(String.format("The '%s' element array.", ea.name)));
     }
 
@@ -263,22 +225,21 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
      *****************************************************************/
     else if (member.getClass() == AttributeContainer.ElementList.class)
     {
-// TODO: Add code to treat lists in C++ (e.g. wiselib::vector or other vector solution?)
-//      AttributeContainer.ElementList el = (AttributeContainer.ElementList)member;
-//      String type = String.format("java.util.ArrayList<%s>", this.fixPrimitiveTypes(el.type));
-//
-//      // No list size is given
-//      if (el.maxSize == Integer.MAX_VALUE)
-//      {
-//        cppv = JField.factory.create(JModifier.PRIVATE, type, el.name, "new " + type + "()");
-//      }
-//      // List size is given
-//      else
-//      {
-//        cppv = JField.factory.create(JModifier.PRIVATE, type, el.name, "new " + type + "(" + el.maxSize + ")");
-//      }
-//
-//      cppv.setComment(new CppVarCommentImpl(String.format("The '%s' element list.", el.name)));
+      AttributeContainer.ElementList el = (AttributeContainer.ElementList)member;
+      String type = String.format("vector<%s>", el.type);
+
+      // No list size is given
+      if (el.maxSize == Integer.MAX_VALUE)
+      {
+        cppv = CppVar.factory.create(Cpp.PRIVATE, type, el.name, "()"); // TODO: Check this in generated code
+      }
+      // List size is given
+      else
+      {
+        cppv = CppVar.factory.create(Cpp.PRIVATE, type, el.name, "(" + el.maxSize + ")"); // TODO: Check this in generated code
+      }
+      
+      cppv.setComment(new CCommentImpl(String.format("The '%s' element list.", el.name)));
     }
 
     /*****************************************************************
@@ -294,14 +255,14 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
 
   /**
    * Private helper method to create setter methods. This function
-   * will create a JMethod object with a comment or return null,
+   * will create a CppFun object with a comment or return null,
    * if member variable is a constant.
    *
    * @param member MemberVariable object for creation
    *
-   * @return Generated JMethod object or null
+   * @return Generated CppFun object or null
    *
-   * @throws Exception Error during JMethod creation
+   * @throws Exception Error during CppFun creation
    */
   private CppFun createSetterMethod(MemberVariable member) throws Exception
   {
@@ -318,13 +279,13 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     // Member variable is an element or attribute
     if (member.getClass() == AttributeContainer.Element.class || member.getClass() == AttributeContainer.Attribute.class)
     {
-      AttributeContainer.RestrictedElementBase e = (AttributeContainer.RestrictedElementBase)member;
+      AttributeContainer.RestrictedElementBase e = (AttributeContainer.RestrictedElementBase)member; // TODO: Can we use base class here?
 
       // Create code to check restrictions
       methodBody += this.generateRestrictionChecks(e);
 
-      // Remove 'final' modifier, if member variable has 'whiteSpace' restriction
-      if (e.isWhiteSpaceRestricted() && ("String").equals(e.type)) // Java can only enforce 'whiteSpace' on strings
+      // Remove 'const' modifier, if member variable has 'whiteSpace' restriction
+      if (e.isWhiteSpaceRestricted() && ("char*").equals(e.type)) // C++ can only enforce 'whiteSpace' on char*
       {
         modifiers &= ~Cpp.CONST;
       }
@@ -332,21 +293,20 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     // Member variable is an ElementArray or ElementList
     else if (member instanceof AttributeContainer.ElementCollection)
     {
-// TODO: Add code to handle arrays and lists in C++
-//      AttributeContainer.ElementCollection ec = (AttributeContainer.ElementCollection)member;
-//      type = String.format("java.util.ArrayList<%s>", this.fixPrimitiveTypes(member.type));
-//
-//      // Create code to check array or list size
-//      methodBody += JavaRestrictionHelper.createCheckCode(
-//              String.format("%s.size() < %d || %s.size() > %d", member.name, ec.minSize, member.name, ec.maxSize),
-//              String.format("Illegal size for array '%s'.", member.name),
-//              "Check the occurrence indicators");
+      AttributeContainer.ElementCollection ec = (AttributeContainer.ElementCollection)member;
+      type = String.format("vector<%s>", member.type);
+
+      // Create code to check array or list size
+      methodBody += CppRestrictionHelper.createCheckCode(
+              String.format("%s.size() < %d || %s.size() > %d", member.name, ec.minSize, member.name, ec.maxSize),
+              String.format("Illegal size for array '%s'.", member.name),
+              "Check the occurrence indicators");
     }
     
     CppVar attribute = CppVar.factory.create(modifiers, type, member.name);
     CppFun setter = CppFun.factory.create("void", "set" + this.firstLetterCapital(member.name), attribute);
 
-    methodBody += String.format("this.%s = %s;", member.name, member.name);
+    methodBody += String.format("this->%s = %s;", member.name, member.name);
     setter.appendCode(methodBody);
     setter.setComment(new CCommentImpl(String.format("Set the '%s' member variable.", member.name)));
 
@@ -374,16 +334,17 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     String message = "Restriction '%s' violated for member variable '%s'.";
     String comment = "Check the '%s' restriction";
 
-    // If member type is QName, enforce restriction on local part
-    if (member.type.endsWith("QName"))
+    // If member type is QName, enforce restriction on local part    
+    if (member.type.endsWith("qName_t"))
     {
+      // TODO: How do we do this on our struct in C++?
       operandName = String.format("(%s.getNamespaceURI() + \":\" + %s.getLocalPart())", member.name, member.name);
     }
 
     if (member.isLengthRestricted())
     {
       result += CppRestrictionHelper.createCheckCode(
-              String.format("%s.length() != %d", operandName, Long.parseLong(r.length)),
+              String.format("strlen(%s) != %d", operandName, Long.parseLong(r.length)),
               String.format(message, "length", member.name),
               String.format(comment, "length"));
     }
@@ -391,7 +352,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMinLengthRestricted())
     {
       result += CppRestrictionHelper.createCheckCode(
-              String.format("%s.length() < %d", operandName, Long.parseLong(r.minLength)),
+              String.format("strlen(%s) < %d", operandName, Long.parseLong(r.minLength)),
               String.format(message, "minLength", member.name),
               String.format(comment, "minLength"));
     }
@@ -399,7 +360,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMaxLengthRestricted())
     {
       result += CppRestrictionHelper.createCheckCode(
-              String.format("%s.length() > %d", operandName, Long.parseLong(r.maxLength)),
+              String.format("strlen(%s) > %d", operandName, Long.parseLong(r.maxLength)),
               String.format(message, "maxLength", member.name),
               String.format(comment, "maxLength"));
     }
@@ -444,8 +405,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
               String.format(message, "pattern", member.name));
     }
 
-    // TODO: Is the limitation to String still correct for C++?
-    if (member.isWhiteSpaceRestricted() && ("String").equals(member.type)) // C++ can only enforce 'whiteSpace' on strings
+    if (member.isWhiteSpaceRestricted() && ("char*").equals(member.type)) // C++ can only enforce 'whiteSpace' on char*
     {
       result += CppRestrictionHelper.createWhiteSpaceCheckCode(
               member.name,
@@ -471,35 +431,34 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
 
   /**
    * Private helper method to create getter methods. This function
-   * will create a JMethod object with a comment.
+   * will create a CppFun object with a comment.
    *
    * @param member MemberVariable object for creation
    * @param className Name of surrounding container class
    *
-   * @return Generated JMethod object
+   * @return Generated CppFun object
    *
-   * @throws Exception Error during JMethod creation
+   * @throws Exception Error during CppFun creation
    */
   private CppFun createGetterMethod(MemberVariable member, String className) throws Exception
   {
     // Member variable is an ElementArray or ElementList
     String type = member.type;
-// TODO: Handle arrays and lists for C++
-//    if (member instanceof AttributeContainer.ElementCollection)
-//    {
-//      type = String.format("java.util.ArrayList<%s>", this.fixPrimitiveTypes(member.type));
-//    }
+    if (member instanceof AttributeContainer.ElementCollection)
+    {
+      type = String.format("vector<%s>", member.type);
+    }
 
     // Member variable is a constant
     String reference = "this";
     if (member.getClass() == AttributeContainer.ConstantElement.class)
     {
-      reference = className;
+      reference = className; // TODO: Constants don't work like this in C++!
     }
     
     CppFun getter = CppFun.factory.create(type, "get" + this.firstLetterCapital(member.name));
 
-    getter.appendCode(String.format("return %s.%s;", reference, member.name));
+    getter.appendCode(String.format("return %s->%s;", reference, member.name));
     getter.setComment(new CCommentImpl(String.format("Get the '%s' member variable.", member.name)));
 
     return getter;

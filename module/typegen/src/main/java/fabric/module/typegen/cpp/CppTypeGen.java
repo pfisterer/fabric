@@ -159,8 +159,14 @@ public class CppTypeGen implements TypeGen
       
       // Include header files and set namespace
       cppsf.addInclude(cpphf);
-      cppsf.addLibInclude("iostream");
+      cppsf.addLibInclude("iostream"); // Needed for text output
+      cppsf.addLibInclude("string.h"); // Needed strlen() in restriction checks
       cppsf.addUsingNamespace("std");
+      
+      // Add include guards to header file
+      cpphf.addBeforeDirective("ifndef " + this.fixFileNameForIncludeGuard(cpphf.getFileName()));
+      cpphf.addBeforeDirective("define " + this.fixFileNameForIncludeGuard(cpphf.getFileName()));
+      cpphf.addAfterDirective("endif // " + fixFileNameForIncludeGuard(cpphf.getFileName()));
       
       // Add container to header and source file
       cpphf.add(sourceFileData.typeObject);
@@ -676,5 +682,26 @@ public class CppTypeGen implements TypeGen
     }
 
     return result;
+  }
+  
+  /**
+   * Private helper method to translate a source file name to a string
+   * that can be used as an include guard (e.g. simple_types.hpp will
+   * be turned to SIMPLE_TYPES_HPP).
+   * 
+   * @param fileName File name as string
+   * 
+   * @return String that can be used as include guard name
+   */
+  private String fixFileNameForIncludeGuard(String fileName)
+  {
+    // Source file objects from Fabric workspace usually have
+    // no file extension, so we need to add one here
+    if (!fileName.endsWith(".hpp"))
+    {
+      fileName += ".hpp";
+    }
+
+    return fileName.replaceAll("\\.", "_").toUpperCase();
   }
 }
