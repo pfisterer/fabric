@@ -24,11 +24,11 @@ import fabric.module.typegen.base.Mapper;
 import fabric.module.typegen.MapperFactory;
 
 /**
- * Type generator for Java. This class handles various calls from
- * the FabricTypeGenHandler class to create Java representations
+ * Type generator for C++. This class handles various calls from
+ * the FabricTypeGenHandler class to create C++ representations
  * of the data types, which were defined in the XML schema.
  *
- * @author reichart, seidel
+ * @author seidel
  */
 public class CppTypeGen implements TypeGen
 {
@@ -38,17 +38,18 @@ public class CppTypeGen implements TypeGen
 
   private static final class SourceFileData
   {
-    /** Data type object (e.g. JClass or JEnum) */
+    /** CppClass objects */
+    /** TODO: Remove, if wrong: Data type object (e.g. JClass or JEnum) */
     private CppClass typeObject;
 
-    /** Java imports, which are required for source code write-out */
+    /** C++ includes, which are required for source code write-out */
     private ArrayList<String> requiredIncludes;
 
     /**
      * Parameterized constructor.
      *
      * @param typeObject Finished data type object
-     * @param requiredIncludes List of required Java imports
+     * @param requiredIncludes List of required C++ includes
      */
     public SourceFileData(final CppClass typeObject, final ArrayList<String> requiredIncludes)
     {
@@ -67,7 +68,7 @@ public class CppTypeGen implements TypeGen
   }
 
   /*****************************************************************
-   * JavaTypeGen outer class
+   * CppTypeGen outer class
    *****************************************************************/
   
   /** Logger object */
@@ -138,45 +139,50 @@ public class CppTypeGen implements TypeGen
       LOGGER.error(String.format("End of schema reached, but not all containers were built (%d remained).",
               this.incompleteBuilders.size()));
       
-      throw new IllegalStateException("JavaTypeGen reached an illegal state. Lapidate the programmer.");
+      throw new IllegalStateException("CppTypeGen reached an illegal state. Lapidate the programmer.");
     }
 
     CWorkspace cWorkspace = this.workspace.getC();
-    CppSourceFile cppsf = null;
     CppHeaderFile cpphf = null;
+    CppSourceFile cppsf = null;
     
     // Create new source file for every container
     for (String name: this.generatedElements.keySet())
     {
-      // Create source and header file
-      cppsf = cWorkspace.getCppSourceFile(name);
+      // Get source file data
+      CppTypeGen.SourceFileData sourceFileData = this.generatedElements.get(name);      
+      
+      /*****************************************************************
+       * Create C++ header file
+       *****************************************************************/
       cpphf = cWorkspace.getCppHeaderFile(name);
-      CppTypeGen.SourceFileData sourceFileData = this.generatedElements.get(name);
-      
-      // Add comments to source and header file
-      cppsf.setComment(new CCommentImpl(String.format("The '%s' source file.", name)));
+      cpphf.add(sourceFileData.typeObject);
       cpphf.setComment(new CCommentImpl(String.format("The '%s' header file.", name)));
-      
-      // Include header files and set namespace
-      cppsf.addInclude(cpphf);
-      cppsf.addLibInclude("iostream"); // Needed for text output
-      cppsf.addLibInclude("string.h"); // Needed strlen() in restriction checks
-      cppsf.addUsingNamespace("std");
       
       // Add include guards to header file
       cpphf.addBeforeDirective("ifndef " + this.fixFileNameForIncludeGuard(cpphf.getFileName()));
       cpphf.addBeforeDirective("define " + this.fixFileNameForIncludeGuard(cpphf.getFileName()));
       cpphf.addAfterDirective("endif // " + fixFileNameForIncludeGuard(cpphf.getFileName()));
       
-      // Add container to header and source file
-      cpphf.add(sourceFileData.typeObject);
+      /*****************************************************************
+       * Create C++ source file
+       *****************************************************************/
+      cppsf = cWorkspace.getCppSourceFile(name);
+      cppsf.add(sourceFileData.typeObject);
+      cppsf.setComment(new CCommentImpl(String.format("The '%s' source file.", name)));
       
-      // Add imports to source file
+      // Add includes
+      cppsf.addInclude(cpphf);
+      cppsf.addLibInclude("iostream"); // Needed for text output
+      cppsf.addLibInclude("string.h"); // Needed strlen() in restriction checks
+      cppsf.addUsingNamespace("std");
+      
+      // Add includes for own data types
       for (String requiredInclude: sourceFileData.requiredIncludes)
       {
-        cppsf.addLibInclude(requiredInclude);
+        cppsf.addLibInclude(requiredInclude); // TODO: How do we add user header files?
       }
-
+      
       LOGGER.debug(String.format("Generated new source file '%s'.", name));
     }
   }
@@ -275,7 +281,7 @@ public class CppTypeGen implements TypeGen
   /**
    * Add a member variable to the current container class.
    * Type, name, initial value and restrictions of the
-   * element will be mapped to Java where applicable.
+   * element will be mapped to Cpp where applicable.
    *
    * @param element FElement object
    * @param isTopLevel True if the element is a top-level element
@@ -412,7 +418,7 @@ public class CppTypeGen implements TypeGen
     // Build current container
     if (!this.incompleteBuilders.empty())
     {
-      // Create mapper for XML framework annotations and strategy
+      // Create strategy for code generation
       CppClassGenerationStrategy cppStrategy = new CppClassGenerationStrategy();
 
       CppClass classObject = (CppClass)this.incompleteBuilders.pop().build().asClassObject(cppStrategy);
@@ -420,10 +426,9 @@ public class CppTypeGen implements TypeGen
       // Build current local containers
       while (this.stackIsNotEmpty(classObject.getName()))
       {
-        // Here we can reuse javaStrategy with stateful xmlMapper, because inner classes are nested in outer container
         CppClass innerClassObject = (CppClass)cppStrategy.generateClassObject(
                 this.incompleteLocalBuilders.get(classObject.getName()).pop().build());
-        classObject.add(Cpp.PRIVATE, innerClassObject); // TODO: Is this correct for inner classes?
+        classObject.add(Cpp.PRIVATE, innerClassObject); // TODO: Is this correct for inner classes in C++? Other modifiers?
         LOGGER.debug(String.format("Built inner class '%s' for current container '%s'.", innerClassObject.getName(), classObject.getName()));
       }
 
@@ -437,6 +442,7 @@ public class CppTypeGen implements TypeGen
     }
   }
 
+  // TODO: Move this method to a helper class and make it static. Same applies to getFabricTypeName() method.
   /**
    * Create an AttributeContainer.Restriction object according to
    * the restrictions, which are set in the provided type object.
@@ -560,7 +566,7 @@ public class CppTypeGen implements TypeGen
   }
 
   /**
-   * Create top-level JEnum from type object and add it to the
+   * Create top-level CEnum from type object and add it to the
    * generated elements. A top-level enum must be written to
    * its own source file, so we bypass the AttributeContainer
    * mechanism here.
@@ -581,23 +587,17 @@ public class CppTypeGen implements TypeGen
 //      // Create enum and add it to generated elements
 //      if (!this.generatedElements.containsKey(type.getName()))
 //      {
-//        AnnotationMapper xmlMapper = new AnnotationMapper(this.properties.getProperty(FabricTypeGenModule.XML_FRAMEWORK_KEY));
-//        JEnum javaEnum = JEnum.factory.create(JModifier.PUBLIC, type.getName(), constantsAsString);
+//        CEnum cEnum = CEnum.factory.create(Cpp.PUBLIC, type.getName(), constantsAsString); // TODO: Dennis B. should refactor create() here as well.
 //
-//        javaEnum.setComment(new JEnumCommentImpl(String.format("The '%s' enumeration.", type.getName())));
+//        cEnum.setComment(new CCommentImpl(String.format("The '%s' enumeration.", type.getName())));
 //        
-//        // Add annotations
-//        for (String annotation: xmlMapper.getEnumAnnotations(type.getName()))
-//        {
-//          javaEnum.addAnnotation(new JEnumAnnotationImpl(annotation));
-//        }
-//
 //        this.generatedElements.put(type.getName(),
-//                new CppTypeGen.SourceFileData(javaEnum, xmlMapper.getUsedImports()));
+//                new CppTypeGen.SourceFileData(cEnum, null)); // TODO: Cannot pass CEnum here and what about required includes?
 //      }
 //    }
   }
 
+// TODO: Move method to new helper class.
   /**
    * Return simple class name of the Fabric FSchemaType object.
    * This is used for the internal mapping of the basic XSD
@@ -647,6 +647,7 @@ public class CppTypeGen implements TypeGen
             !this.incompleteLocalBuilders.get(className).empty()); // Stack must not be empty
   }
 
+// TODO: Move method to new helper class.
   /**
    * Translate identifiers for 'whiteSpace' restriction from weird
    * XMLBeans values to proper textual representation. XMLBeans may
@@ -683,11 +684,11 @@ public class CppTypeGen implements TypeGen
 
     return result;
   }
-  
+
   /**
    * Private helper method to translate a source file name to a string
-   * that can be used as an include guard (e.g. simple_types.hpp will
-   * be turned to SIMPLE_TYPES_HPP).
+   * that can be used as a C++ include guard (e.g. simple_types.hpp
+   * will turn into SIMPLE_TYPES_HPP).
    * 
    * @param fileName File name as string
    * 
