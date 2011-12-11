@@ -1,4 +1,4 @@
-/** 07.10.2011 02:00 */
+/** 11.12.2011 16:20 */
 package fabric.module.typegen.cpp;
 
 import fabric.module.typegen.AttributeContainer;
@@ -10,7 +10,7 @@ import fabric.module.typegen.exceptions.FabricTypeGenException;
  * were externalized, simply to increase maintainability of the
  * CppTypeGen class.
  * 
- * @author reichart
+ * @author reichart, seidel
  */
 public class CppRestrictionHelper
 {
@@ -24,8 +24,7 @@ public class CppRestrictionHelper
 
   /**
    * Helper method to create a string that checks a boolean expression
-   * and throws an IllegalArgumentException with predefined message on
-   * failure.
+   * and throws an exception with predefined message on failure.
    *
    * This function is used to add parameter and restriction checks
    * to setter methods.
@@ -72,12 +71,8 @@ public class CppRestrictionHelper
   /**
    * Helper method to create a string that matches a member variable
    * against a predefined regular expression. If the check fails or
-   * the XSD pattern is not compatible to Java regular expressions,
-   * an exception will be raised.
-   *
-   * The XML schema pattern language is not fully compatible to
-   * Java regular expressions, so we have to catch pattern syntax
-   * exceptions in the code we generate.
+   * the XSD pattern is not compatible with the utilized regular
+   * expression language, an exception will be raised.
    *
    * @param memberName Name of member variable to check
    * @param pattern XSD regular expression for pattern matching
@@ -87,10 +82,9 @@ public class CppRestrictionHelper
    */
   public static String createPatternCheckCode(final String memberName, final String pattern, final String message)
   {
-    String result = "";
-    // TODO: Use Boost library!
+    // TODO: Add support for Boost.Regex library: www.boost.org/doc/libs/release/libs/regex
 
-    return result;
+    throw new UnsupportedOperationException("Regular expressions are not supported yet.");
   }
 
   /**
@@ -128,33 +122,44 @@ public class CppRestrictionHelper
     {
       result += String.format(message, "replace");
       result += "unsigned int i;\n";
-      result += String.format("for (i=0; i < sizeof(%s)-1; i++)\n{\n", memberName);
-      result += String.format("\t%s[i] = (isspace(%s[i]) ? ' ' : %s[i]);\n}\n", memberName, memberName, memberName);
+      result += String.format("for (i = 0; i < sizeof(%s) - 1; i++)\n{", memberName);
+      result += String.format("\n\t%s[i] = (isspace(%s[i]) ? ' ' : %s[i]);", memberName, memberName, memberName);
+      result += "\n}\n";
     }
     // Replace multiple whitespace characters with single space and trim
     else if (("collapse").equals(whiteSpace))
     {
       result += String.format(message, "collapse");
       result += String.format("char* pos = %s;\n", memberName);
-      result += "// Remove leading whitespaces.\n" +
-                "while (isspace (*pos))\n{\n" +
-                "\tpos++;\n" +
-                "}\n";
+      result += "// Remove leading whitespace characters\n" +
+              "while (isspace(*pos))\n" +
+              "{\n" +
+              "\tpos++;\n" +
+              "}\n\n";
       result += String.format(
-                "// Replace multiple whitespaces with single space.\n" +
-                "while (*pos)\n{\n" +
-                "\t*%s++ = *pos\n" +
-                "\tif (!isspace (*pos))\n" +
-                "\t\tpos++;\n" +
-                "\telse\n" +
-                "\t\twhile (isspace (*++pos)) {}\n" +
-                "}\n", memberName);
+              "// Replace multiple whitespace characters with single space\n" +
+              "while (*pos)\n" +
+              "{\n" +
+              "\t*%s++ = *pos;\n" +
+              "\tif (!isspace(*pos))\n" +
+              "\t{\n" +
+              "\t\tpos++;\n" +
+              "\t}\n" +
+              "\telse\n" +
+              "\t{\n" +
+              "\t\twhile (isspace(*++pos))\n" +
+              "\t\t{\n" +
+              "\t\t\t// Do nothing\n" +
+              "\t\t}\n" +
+              "\t}\n" +
+              "}\n\n", memberName);
       result += String.format(
-                "// Remove trailing whitespaces.\n" +
-                "*%s = '\\0';\n" +
-                "while (isspace (*--%s))\n{\n" +
-                "\t*%s = '\\0';\n" +
-                "}", memberName, memberName, memberName);
+              "// Remove trailing whitespace characters\n" +
+              "*%s = '\\0';\n" +
+              "while (isspace(*--%s))\n" +
+              "{\n" +
+              "\t*%s = '\\0';\n" +
+              "}", memberName, memberName, memberName);
     }
     // Value of 'whiteSpace' was invalid
     else
@@ -162,7 +167,7 @@ public class CppRestrictionHelper
       throw new FabricTypeGenException(String.format("Unknown value '%s' for the 'whiteSpace' " +
               "restriction on member variable '%s'.", whiteSpace, memberName));
     }
-
+    
     result += "\n\n";
 
     return result;
@@ -214,9 +219,9 @@ public class CppRestrictionHelper
   {
     String message = "Restriction '%s' violated for member variable '%s'.";
     String comment = "// Check the '%s' restriction\n";
-
-    String result  = "char numberAsString[20];\n"; // TODO: The size of allocated memory depends on the datatype of the number!
-    result += "unsigned int digits = sprintf (numberAsString, \"%f\", number);\n";
+    
+    String result = "char numberAsString[20];\n"; // TODO: The size of allocated memory depends on the datatype of the number!
+    result += "unsigned int digits = sprintf(numberAsString, \"%f\", number);\n";
 
     if (isTotal)
     {
@@ -224,31 +229,38 @@ public class CppRestrictionHelper
       // Calculate total digits: Take string representation of value,
       // remove decimal point if any and determine length
       result += "unsigned int totalDigits = digits;\n" +
-                "unsigned int i;\n" +
-                "for (i=0; i < digits; i++)\n{\n" +
-                "\tif (numberAsString[i] == '.')\n\t{\n" +
-                "\t\ttotalDigits--;\n\t}\n}\n";
+              "unsigned int i;\n" +
+              "for (i = 0; i < digits; i++)\n" +
+              "{\n" +
+              "\tif (numberAsString[i] == '.')\n" +
+              "\t{\n" +
+              "\t\ttotalDigits--;\n" +
+              "\t}\n" +
+              "}\n";
       result += CppRestrictionHelper.createCheckCode(
-                    String.format("totalDigits > %d", digits),
-                    String.format(message, "totalDigits", memberName));
+              String.format("totalDigits > %d", digits),
+              String.format(message, "totalDigits", memberName));
     }
     else
     {
       result += String.format(comment, "fractionDigits");
-      // Calculate fraction digits: Take string representation of value,
-      // search for substring that starts after decimal point and determine
-      // length.
-      if (digits == 0) {
+      // Calculate fraction digits: Take string representation of value, search
+      // for substring that starts after decimal point and determine length
+      if (digits == 0)
+      {
         result += "unsigned int i;\n" +
-                  "for (i=0; i < digits; i++)\n{\n";
+                "for (i = 0; i < digits; i++)\n" +
+                "{\n";
         result += CppRestrictionHelper.createCheckCode(
-                    "numberAsString[i] == '.'",
-                    String.format(message, "fractionDigits", memberName));
+                "numberAsString[i] == '.'",
+                String.format(message, "fractionDigits", memberName));
         result += "\n}\n";
-      } else {
+      }
+      else
+      {
         result += CppRestrictionHelper.createCheckCode(
-                    String.format("digits > %d && numberAsString[digits - 1 - %d] != '.'", digits, digits),
-                    String.format(message, "fractionDigits", memberName));
+                String.format("digits > %d && numberAsString[digits - 1 - %d] != '.'", digits, digits),
+                String.format(message, "fractionDigits", memberName));
       }
     }
 

@@ -1,4 +1,4 @@
-/** 25.11.2011 18:59 */
+/** 11.12.2011 15:33 */
 package fabric.module.exi.java;
 
 import org.slf4j.Logger;
@@ -85,7 +85,7 @@ public class JavaEXICodeGen implements EXICodeGen
 
     this.converterClassName = this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY) + "Converter";
     
-    this.serializerClassName = "EXIConverter"; // TODO: Set proper class name
+    this.serializerClassName = "EXIConverter";
   }
 
   /**
@@ -214,37 +214,19 @@ public class JavaEXICodeGen implements EXICodeGen
 
     String beanClassName = this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY);
     
-    // TODO: Add code with usage example here
+    // Add code with usage example
     String methodBody = String.format(
             "// Instantiate application\n" +
             "%s application = new %s();\n\n" +
             "// Create instance of the Java bean class\n" +
             "%s %s = new %s();\n\n" +
             "// TODO: Add your custom initialization code here\n\n" +
-            
-            // TODO Remove this debug block (and blank line before/after)
-//            "car.setSimpleBuiltIn(\"SimpleBuiltInContent\");\n" +
-//            "car.setSimpleLocal(\"SimpleLocalContent\");\n" +
-//            "MyString ms = new MyString();\n" +
-//            "ms.setValue(\"MyStringContent\");\n" +
-//            "car.setSimpleCustom(ms);\n" +
-            // TODO End of block
-
             "try {\n" +
             "\t// Convert bean instance to XML document\n" +
             "\tString xmlDocument = application.toXML(%s);\n\n" +
             "\t// Print XML document for debug purposes\n" +
             "\tSystem.out.println(xmlDocument);\n" +
-
-            // TODO This line was added for release of milestone 2 (remove afterwards)
             "\n\t// TODO: Add your custom EXI de-/serialization code here\n" +
-
-            // TODO Remove this debug block (and blank line before/after)
-//            "\n\tSystem.out.println(application.fromEXIStream(application.toEXIStream(xmlDocument)));\n" +
-//            "\tCar obj = application.toInstance(application.fromEXIStream(application.toEXIStream(xmlDocument)).replaceAll(\"MyStringContent\", \"MyAlteredContent\"));\n" +
-//            "\tSystem.out.println(obj.getSimpleBuiltIn() + \" \" + obj.getSimpleLocal() + \" \" + obj.getSimpleCustom().getValue());\n" +
-            // TODO End of block
-
             "}\n" +
             "catch (Exception e) {\n" +
             "\te.printStackTrace();\n" +
