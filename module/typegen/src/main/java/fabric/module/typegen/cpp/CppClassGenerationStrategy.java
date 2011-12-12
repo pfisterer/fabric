@@ -412,18 +412,9 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
               r.whiteSpace);
     }
 
-    if (member.isTotalDigitsRestricted())
+    if (member.isTotalDigitsRestricted() || member.isFractionDigitsRestricted())
     {
-      result += CppRestrictionHelper.createTotalDigitsCheckCode(
-              member.name,
-              r.totalDigits);
-    }
-
-    if (member.isFractionDigitsRestricted())
-    {
-      result += CppRestrictionHelper.createFractionDigitsCheckCode(
-              member.name,
-              r.fractionDigits);
+      result += CppRestrictionHelper.createDigitsCheckCode(member);
     }
 
     return result;
