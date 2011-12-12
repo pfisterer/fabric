@@ -1,4 +1,4 @@
-/** 12.12.2011 00:36 */
+/** 12.12.2011 19:41 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -166,9 +166,9 @@ public class CppTypeGen implements TypeGen
        * Create C++ source file
        *****************************************************************/
       cppsf = cWorkspace.getCppSourceFile(name);
-      cppsf.add(sourceFileData.typeObject);
+      // No need to add sourceFileData.typeObject here, will be taken from cpphf automatically
       cppsf.setComment(new CCommentImpl(String.format("The '%s' source file.", name)));
-      
+
       // Add includes
       cppsf.addInclude(cpphf);
       cppsf.addLibInclude("iostream"); // Needed for text output
