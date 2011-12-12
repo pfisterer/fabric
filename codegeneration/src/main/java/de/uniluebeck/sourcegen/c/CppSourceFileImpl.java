@@ -365,23 +365,27 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
       buffer.append(Cpp.newline);
     }
 
-		// Classes, definitions
-		if (null != this.cppClasses && this.cppClasses.size() > 0) {
-      for (CppClass c : this.cppClasses) {
-        buffer.append(c.toString());
-      }
-      buffer.append(Cpp.newline);
-    }
-    
-    // Classes, implementations
-    if (null != this.cppClasses && this.cppClasses.size() > 0) {
-      for (CppClass c : this.cppClasses) {
-        toStringHelper(buffer, c, tabCount);
-      }
-    }
+// TODO Dennis B.: The following three blocks cause  repetition of class definition plus duplicate output of the class implementation
+//		// Classes, definitions
+//		if (null != this.cppClasses && this.cppClasses.size() > 0) {
+//      buffer.append("\n// Classes, definitions\n"); // TODO: Remove line after debugging
+//      for (CppClass c : this.cppClasses) {
+//        buffer.append(c.toString());
+//      }
+//      buffer.append(Cpp.newline);
+//    }
+//    
+//    // Classes, implementations
+//    if (null != this.cppClasses && this.cppClasses.size() > 0) {
+//      buffer.append("\n// Classes, implementations\n"); // TODO: Remove line after debugging
+//      for (CppClass c : this.cppClasses) {
+//        toStringHelper(buffer, c, tabCount);
+//      }
+//    }
     
     // Classes, from header file
     if (null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) {
+      buffer.append("\n// Classes from header file\n"); // TODO: Remove line after debugging
       for (CppSourceFileImpl file : this.cppUserHeaderFiles) {
         if (null != file.getCppClasses() && file.getCppClasses().length > 0) {
           for (CppClass c : file.getCppClasses()) {

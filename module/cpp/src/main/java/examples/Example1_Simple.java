@@ -107,7 +107,7 @@ public class Example1_Simple {
         class_CRectangleSimple.add(Cpp.PUBLIC, fun_area);
 
         // Generate the files (cpp + hpp)
-    		CppSourceFile file = workspace.getC().getCppSourceFile(className);
+    		CppSourceFile file = this.workspace.getC().getCppSourceFile(className);
         CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
         file.addInclude(header);
         header.setComment(new CCommentImpl("The header file."));
