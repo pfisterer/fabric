@@ -20,9 +20,9 @@ import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
 import fabric.wsdlschemaparser.schema.SchemaHelper;
 
 import fabric.module.typegen.base.Mapper;
+import fabric.module.typegen.base.TypeGenHelper;
 import fabric.module.typegen.MapperFactory;
 import fabric.module.typegen.FabricTypeGenModule;
-import fabric.module.typegen.java.JavaTypeGen;
 
 import fabric.module.exi.base.EXICodeGen;
 import fabric.module.exi.java.FixValueContainer.ElementData;
@@ -176,7 +176,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
         schemaType = element.getSchemaType();
       }
       
-      typeName = this.mapper.lookup(JavaTypeGen.getFabricTypeName(schemaType));
+      typeName = this.mapper.lookup(TypeGenHelper.getFabricTypeName(schemaType));
       LOGGER.debug(String.format("Type '%s' is an XSD built-in type.", typeName));
       
       // Convert Java primitives to belonging wrapper class

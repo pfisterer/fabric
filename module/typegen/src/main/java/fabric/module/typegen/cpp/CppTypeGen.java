@@ -1,17 +1,14 @@
-/** 06.12.2011 02:14 */
+/** 12.12.2011 00:36 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.util.Stack;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Properties;
-
-import org.apache.xmlbeans.SchemaType;
 
 import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.c.*;
@@ -19,9 +16,10 @@ import fabric.wsdlschemaparser.schema.*;
 
 import fabric.module.typegen.AttributeContainer;
 import fabric.module.typegen.FabricTypeGenModule;
-import fabric.module.typegen.base.TypeGen;
-import fabric.module.typegen.base.Mapper;
 import fabric.module.typegen.MapperFactory;
+import fabric.module.typegen.base.Mapper;
+import fabric.module.typegen.base.TypeGen;
+import fabric.module.typegen.base.TypeGenHelper;
 
 /**
  * Type generator for C++. This class handles various calls from
@@ -160,9 +158,9 @@ public class CppTypeGen implements TypeGen
       cpphf.setComment(new CCommentImpl(String.format("The '%s' header file.", name)));
       
       // Add include guards to header file
-      cpphf.addBeforeDirective("ifndef " + this.fixFileNameForIncludeGuard(cpphf.getFileName()));
-      cpphf.addBeforeDirective("define " + this.fixFileNameForIncludeGuard(cpphf.getFileName()));
-      cpphf.addAfterDirective("endif // " + fixFileNameForIncludeGuard(cpphf.getFileName()));
+      cpphf.addBeforeDirective("ifndef " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
+      cpphf.addBeforeDirective("define " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
+      cpphf.addAfterDirective("endif // " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
       
       /*****************************************************************
        * Create C++ source file
@@ -223,15 +221,14 @@ public class CppTypeGen implements TypeGen
       {
         FList listType = (FList)type;
         newBuilder.addElementList(
-                // TODO: getFabricTypeName zu einer statischen Methode in einer Helferklasse machen, weil in TypeGen fuer jede Sprache benoetigt?
-                this.mapper.lookup(CppTypeGen.getFabricTypeName(listType.getItemType())), "values",
+                this.mapper.lookup(TypeGenHelper.getFabricTypeName(listType.getItemType())), "values",
                 FSchemaTypeHelper.getMinLength(listType), FSchemaTypeHelper.getMaxLength(listType));
       }
       // ... or a single value
       else
       {
-        newBuilder.addElement(this.mapper.lookup(CppTypeGen.getFabricTypeName(type)),
-                "value", this.createRestrictions(type));
+        newBuilder.addElement(this.mapper.lookup(TypeGenHelper.getFabricTypeName(type)),
+                "value", TypeGenHelper.createRestrictions(type));
       }
       this.incompleteBuilders.push(newBuilder);
 
@@ -292,7 +289,7 @@ public class CppTypeGen implements TypeGen
   public void addMemberVariable(FElement element, boolean isTopLevel)
   {
     // Only add member variable, if we have an incomplete top-level or local container
-    if ((isTopLevel && !this.incompleteBuilders.empty()) || this.hasIncompleteLocalBuilders())
+    if ((isTopLevel && !this.incompleteBuilders.empty()) || TypeGenHelper.hasIncompleteLocalBuilders(incompleteBuilders, incompleteLocalBuilders))
     {
       // Determine element type
       String typeName = "";
@@ -314,7 +311,7 @@ public class CppTypeGen implements TypeGen
           ftype = element.getSchemaType();
         }
 
-        typeName = this.mapper.lookup(CppTypeGen.getFabricTypeName(ftype));
+        typeName = this.mapper.lookup(TypeGenHelper.getFabricTypeName(ftype));
         LOGGER.debug(String.format("Type '%s' is an XSD built-in type.", typeName));
         
         isCustomTyped = false;
@@ -341,7 +338,7 @@ public class CppTypeGen implements TypeGen
       AttributeContainer.Restriction restrictions = new AttributeContainer.Restriction();
       if (element.getSchemaType().isSimple() && !element.getSchemaType().isTopLevel())
       {
-        restrictions = this.createRestrictions((FSimpleType)(element.getSchemaType()));
+        restrictions = TypeGenHelper.createRestrictions((FSimpleType)(element.getSchemaType()));
       }
 
       // Element is an enum
@@ -424,7 +421,7 @@ public class CppTypeGen implements TypeGen
       CppClass classObject = (CppClass)this.incompleteBuilders.pop().build().asClassObject(cppStrategy);
 
       // Build current local containers
-      while (this.stackIsNotEmpty(classObject.getName()))
+      while (TypeGenHelper.stackIsNotEmpty(incompleteLocalBuilders, classObject.getName()))
       {
         CppClass innerClassObject = (CppClass)cppStrategy.generateClassObject(
                 this.incompleteLocalBuilders.get(classObject.getName()).pop().build());
@@ -440,129 +437,6 @@ public class CppTypeGen implements TypeGen
 
       LOGGER.debug(String.format("Built current container '%s'.", classObject.getName()));
     }
-  }
-
-  // TODO: Move this method to a helper class and make it static. Same applies to getFabricTypeName() method.
-  /**
-   * Create an AttributeContainer.Restriction object according to
-   * the restrictions, which are set in the provided type object.
-   * This way we can add restrictions to a container class and
-   * take them into account, when we do the source code write-out.
-   *
-   * @param type FSimpleType object (may be restricted)
-   *
-   * @return Restriction object for AttributeContainer
-   */
-  private AttributeContainer.Restriction createRestrictions(final FSimpleType type)
-  {
-    AttributeContainer.Restriction restrictions = new AttributeContainer.Restriction();
-    
-    // Determine restrictions, which are currently set on the type object
-    FSchemaRestrictions schemaRestrictions = type.getRestrictions();
-    List<Integer> validFacets = type.getValidFacets();
-
-    // Iterate all possible restrictions...
-    for (Integer facet: validFacets)
-    {
-      // ... and check which are set
-      switch (facet)
-      {
-        // Type object is length restricted
-        case SchemaType.FACET_LENGTH:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.length = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        // Type object is minLength restricted
-        case SchemaType.FACET_MIN_LENGTH:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.minLength = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        // Type object is maxLength restricted
-        case SchemaType.FACET_MAX_LENGTH:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.maxLength = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        // Type object is minInclusive restricted
-        case SchemaType.FACET_MIN_INCLUSIVE:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.minInclusive = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        // Type object is maxInclusive restricted
-        case SchemaType.FACET_MAX_INCLUSIVE:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.maxInclusive = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        // Type object is minExclusive restricted
-        case SchemaType.FACET_MIN_EXCLUSIVE:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.minExclusive = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        // Type object is maxExclusive restricted
-        case SchemaType.FACET_MAX_EXCLUSIVE:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.maxExclusive = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        // Type object is pattern restricted
-        case SchemaType.FACET_PATTERN:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.pattern = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        // Type object is whiteSpace restricted
-        case SchemaType.FACET_WHITE_SPACE:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.whiteSpace = this.translateWhiteSpaceRestriction(
-                    schemaRestrictions.getStringValue(facet));
-          }
-          break;
-
-        // Type object is totalDigits restricted
-        case SchemaType.FACET_TOTAL_DIGITS:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.totalDigits = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        // Type object is fractionDigits restricted
-        case SchemaType.FACET_FRACTION_DIGITS:
-          if (schemaRestrictions.hasRestriction(facet))
-          {
-            restrictions.fractionDigits = schemaRestrictions.getStringValue(facet);
-          }
-          break;
-
-        // Type object is not restricted
-        default:
-          break;
-      }
-    }
-
-    return restrictions;
   }
 
   /**
@@ -587,7 +461,7 @@ public class CppTypeGen implements TypeGen
 //      // Create enum and add it to generated elements
 //      if (!this.generatedElements.containsKey(type.getName()))
 //      {
-//        CEnum cEnum = CEnum.factory.create(Cpp.PUBLIC, type.getName(), constantsAsString); // TODO: Dennis B. should refactor create() here as well.
+//        CEnum cEnum = CEnum.factory.create(Cpp.PUBLIC, type.getName(), constantsAsString); // TODO: Call should be equal to struct creation
 //
 //        cEnum.setComment(new CCommentImpl(String.format("The '%s' enumeration.", type.getName())));
 //        
@@ -597,104 +471,16 @@ public class CppTypeGen implements TypeGen
 //    }
   }
 
-// TODO: Move method to new helper class.
-  /**
-   * Return simple class name of the Fabric FSchemaType object.
-   * This is used for the internal mapping of the basic XSD
-   * data types (i.e. xs:string, xs:short, ...).
-   *
-   * @param type FSchemaType object
-   *
-   * @return Simple class name of type object
-   */
-  public static String getFabricTypeName(final FSchemaType type)
-  {
-    return type.getClass().getSimpleName();
-  }
-
-  /**
-   * Private helper method to check, whether there are any incomplete
-   * local builders for the container class, which has been added to
-   * the top-level incompleteBuilders stack last.
-   *
-   * The boolean expression was moved to this function to increase
-   * code readability at the location where it is being called.
-   *
-   * @return True if incomplete local builders exist, false otherwise
-   */
-  private boolean hasIncompleteLocalBuilders()
-  {
-    return (!this.incompleteBuilders.empty() && !this.incompleteLocalBuilders.isEmpty() && // Stack and Map must not be empty
-            null != this.incompleteLocalBuilders.get(this.incompleteBuilders.peek().getName()) && // Stack must be initialized (not null)
-            !this.incompleteLocalBuilders.get(this.incompleteBuilders.peek().getName()).empty()); // Stack must not be empty
-  }
-
-  /**
-   * Private helper method to check, whether the stack of incomplete
-   * local builders for a given container class is empty or not.
-   *
-   * The boolean expression was moved to this function to increase
-   * code readability in the loop where it is being called.
-   *
-   * @param className Name of outer container class
-   *
-   * @return True while stack is not empty, false otherwise
-   */
-  private boolean stackIsNotEmpty(final String className)
-  {
-    return (this.incompleteLocalBuilders.containsKey(className) && // Map must contain entry for class name
-            null != this.incompleteLocalBuilders.get(className) && // Stack must be initialized (not null)
-            !this.incompleteLocalBuilders.get(className).empty()); // Stack must not be empty
-  }
-
-// TODO: Move method to new helper class.
-  /**
-   * Translate identifiers for 'whiteSpace' restriction from weird
-   * XMLBeans values to proper textual representation. XMLBeans may
-   * either deliver strings or numeric identifiers, when we call
-   * schemaRestrictions.getStringValue(facet), so we need this rather
-   * dirty hack to get a clean textual representation of the current
-   * 'whiteSpace' value.
-   * 
-   * @param xmlBeansConstant XMLBeans identifier for 'whiteSpace' value
-   *
-   * @return Proper string representation of identifier or 'null', if
-   * 'whiteSpace' restriction is not set or has unknown value
-   */
-  private String translateWhiteSpaceRestriction(final String xmlBeansConstant)
-  {
-    String result = "";
-
-    if (("preserve").equals(xmlBeansConstant) || ("1").equals(xmlBeansConstant))
-    {
-      result = "preserve";
-    }
-    else if (("replace").equals(xmlBeansConstant) || ("2").equals(xmlBeansConstant))
-    {
-      result = "replace";
-    }
-    else if (("collapse").equals(xmlBeansConstant) || ("3").equals(xmlBeansConstant))
-    {
-      result = "collapse";
-    }
-    else
-    {
-      result = null;
-    }
-
-    return result;
-  }
-
   /**
    * Private helper method to translate a source file name to a string
-   * that can be used as a C++ include guard (e.g. simple_types.hpp
-   * will turn into SIMPLE_TYPES_HPP).
+   * that can be used as C++ include guard (e.g. simple_types.hpp will
+   * create SIMPLE_TYPES_HPP as output).
    * 
-   * @param fileName File name as string
+   * @param fileName File name as string (with or without '.hpp')
    * 
    * @return String that can be used as include guard name
    */
-  private String fixFileNameForIncludeGuard(String fileName)
+  private static String createIncludeGuardName(String fileName)
   {
     // Source file objects from Fabric workspace usually have
     // no file extension, so we need to add one here
@@ -702,7 +488,7 @@ public class CppTypeGen implements TypeGen
     {
       fileName += ".hpp";
     }
-
+    
     return fileName.replaceAll("\\.", "_").toUpperCase();
   }
 }
