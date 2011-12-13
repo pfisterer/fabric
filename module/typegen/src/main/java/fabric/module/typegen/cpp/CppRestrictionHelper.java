@@ -174,14 +174,6 @@ public class CppRestrictionHelper
   public static String createDigitsCheckCode(final AttributeContainer.RestrictedElementBase member)
   {
       boolean isInt  = member.type.contains("int");
-
-      if (isInt && member.isFractionDigitsRestricted()) {
-          // Member variables of integer type don't need to be checked here, because the XSD standard only allows
-          // xs:decimal (mapped to char*) to have a fractionDigits value other than zero. Integer values implicitly
-          // don't have decimal places.
-          return "";
-      }
-
       String message = "Restriction '%s' violated for member variable '%s'.";
       String comment = "// Check the '%s' restriction\n";
       String result  = "const char point = '.';\n";

@@ -35,31 +35,30 @@ import de.uniluebeck.sourcegen.Workspace;
  */
 public class Main {
 
-	public Main() throws Exception {
+    public Main() throws Exception {
 
-		Properties properties = new Properties();
-//		properties.put("fabric.output_directory", "/home/dennis/Desktop/cpp");
-		Workspace workspace = new Workspace(properties);
+        Properties properties = new Properties();
+        properties.put("fabric.output_directory", "/Users/reichart/Documents/Studium/SS11/Fallstudie/generated/");
+        Workspace workspace = new Workspace(properties);
 
-		// Generate different classes
-		new Example0_Empty(workspace);
-		new Example1_Simple(workspace);
-    new Example2_TwoClassesPerFile(workspace);
-    new Example3_Nested(workspace);
-    new Example4_NestedOfNested(workspace);
-    new Example5_Constructor_Destructor(workspace);
-    new Example6_Struct(workspace);
-    new Example7_Enum(workspace);
-    new Example8_Directives(workspace);
-    new Example9_Typedef(workspace);
-    new Example10_Inheritance(workspace);
-    new Example11_Wislib(workspace);
-    new Example12_NestedOfNestedWithConstructor(workspace);
-    workspace.generate();
-	}
+        // Generate different classes
+        new Example0_Empty(workspace);
+        new Example1_Simple(workspace);
+        new Example2_TwoClassesPerFile(workspace);
+        new Example3_Nested(workspace);
+        new Example4_NestedOfNested(workspace);
+        new Example5_Constructor_Destructor(workspace);
+        new Example6_Struct(workspace);
+        new Example7_Enum(workspace);
+        new Example8_Directives(workspace);
+        new Example9_Typedef(workspace);
+        new Example10_Inheritance(workspace);
 
-	public static void main(String[] args) throws Exception {
-		new Main();
-	}
+        workspace.generate();
+    }
+
+    public static void main(String[] args) throws Exception {
+        new Main();
+    }
 
 }
