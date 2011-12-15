@@ -187,11 +187,15 @@ public class CppTypeGen implements TypeGen
       cppsf.setComment(new CCommentImpl(String.format("The '%s' source file.", name)));
 
       // Add includes
-      cppsf.addInclude(cpphf);      
-      cppsf.addLibInclude(CppTypeHelper.FILE_NAME); // TODO: Change to addInclude(String include) later      
+      cppsf.addInclude(cpphf);            
       cppsf.addLibInclude("iostream"); // Needed for text output
       cppsf.addLibInclude("string.h"); // Needed strlen() in restriction checks
       cppsf.addUsingNamespace("std");
+      
+      if (!cpphf.getFileName().equals(CppTypeHelper.FILE_NAME))
+      {
+        cpphf.addLibInclude(CppTypeHelper.FILE_NAME + ".hpp"); // TODO: Change to addInclude(String include) later
+      }
       
       // Add includes for own data types
       for (String requiredInclude: sourceFileData.requiredIncludes)

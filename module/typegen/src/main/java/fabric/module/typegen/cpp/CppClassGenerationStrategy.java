@@ -365,7 +365,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     String comment = "Check the '%s' restriction";
 
     // If member type is QName, enforce restriction on local part    
-    if (member.type.endsWith("qName_t"))
+    if (member.type.endsWith("xs_qName_t"))
     {
       // TODO: How do we do this on our struct in C++?
       operandName = String.format("(%s.getNamespaceURI() + \":\" + %s.getLocalPart())", member.name, member.name);

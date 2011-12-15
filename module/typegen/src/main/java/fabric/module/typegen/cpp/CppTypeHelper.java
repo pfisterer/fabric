@@ -1,4 +1,4 @@
-/** 14.12.2011 19:50 */
+/** 15.12.2011 13:08 */
 package fabric.module.typegen.cpp;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import de.uniluebeck.sourcegen.c.*;
 public class CppTypeHelper
 {
   /** Name of the C++ header file */
-  public static final String FILE_NAME = "simple_type_definitions.hpp";
+  public static final String FILE_NAME = "simple_type_definitions";
 
   /** Header file for XSD simple type definitions */
   private CppHeaderFile sourceFile;
@@ -65,14 +65,26 @@ public class CppTypeHelper
     ArrayList<CTypeDef> typeDefinitions = new ArrayList<CTypeDef>();
 
     // Add custom type definitions
-    typeDefinitions.add(CppTypeDef.factory.create("wiselib::uint8_t", "uint8"));
-    typeDefinitions.add(CppTypeDef.factory.create("wiselib::int8_t", "int8"));
-    typeDefinitions.add(CppTypeDef.factory.create("wiselib::uint16_t", "uint16"));
-    typeDefinitions.add(CppTypeDef.factory.create("wiselib::uint32_t", "uint32"));
-    typeDefinitions.add(CppTypeDef.factory.create("wiselib::int32_t", "int32"));
-    typeDefinitions.add(CppTypeDef.factory.create("wiselib::uint64_t", "uint64"));
-    typeDefinitions.add(CppTypeDef.factory.create("wiselib::int64_t", "int64"));
+    // TODO: Readd after presentation of milestone 3
+//    typeDefinitions.add(CppTypeDef.factory.create("wiselib::uint8_t", "uint8"));
+//    typeDefinitions.add(CppTypeDef.factory.create("wiselib::int8_t", "int8"));
+//    typeDefinitions.add(CppTypeDef.factory.create("wiselib::uint16_t", "uint16"));
+//    typeDefinitions.add(CppTypeDef.factory.create("wiselib::int16_t", "int16"));
+//    typeDefinitions.add(CppTypeDef.factory.create("wiselib::uint32_t", "uint32"));
+//    typeDefinitions.add(CppTypeDef.factory.create("wiselib::int32_t", "int32"));
+//    typeDefinitions.add(CppTypeDef.factory.create("wiselib::uint64_t", "uint64"));
+//    typeDefinitions.add(CppTypeDef.factory.create("wiselib::int64_t", "int64"));
 
+    // TODO: Remove after presentation of milestone 3
+    typeDefinitions.add(CppTypeDef.factory.create("unsigned char", "uint8"));
+    typeDefinitions.add(CppTypeDef.factory.create("signed char", "int8"));
+    typeDefinitions.add(CppTypeDef.factory.create("unsigned int", "uint16"));
+    typeDefinitions.add(CppTypeDef.factory.create("signed int", "int16"));
+    typeDefinitions.add(CppTypeDef.factory.create("unsigned long int", "uint32"));
+    typeDefinitions.add(CppTypeDef.factory.create("signed long int", "int32"));
+    typeDefinitions.add(CppTypeDef.factory.create("unsigned long long int", "uint64"));
+    typeDefinitions.add(CppTypeDef.factory.create("signed long long int", "int64"));
+    
     // Add type definitions for XSD simple types
     typeDefinitions.add(this.createGYearDefinition());
     typeDefinitions.add(this.createGMonthDefinition());
@@ -128,7 +140,7 @@ public class CppTypeHelper
     CParam length = CParam.factory.create("uint16", "length");
     CParam content = CParam.factory.create("int8*", "content");
 
-    CStruct hexBinaryDefinition = CStruct.factory.create("", "hexBinary_t", true, length, content);
+    CStruct hexBinaryDefinition = CStruct.factory.create("", "xs_hexBinary_t", true, length, content);
     hexBinaryDefinition.setComment(new CCommentImpl("xs:hexBinary"));
 
     return hexBinaryDefinition;
@@ -151,7 +163,7 @@ public class CppTypeHelper
     CParam length = CParam.factory.create("uint16", "length");
     CParam content = CParam.factory.create("int8*", "content");
 
-    CStruct base64BinaryDefinition = CStruct.factory.create("", "base64Binary_t", true, length, content);
+    CStruct base64BinaryDefinition = CStruct.factory.create("", "xs_base64Binary_t", true, length, content);
     base64BinaryDefinition.setComment(new CCommentImpl("xs:base64Binary"));
 
     return base64BinaryDefinition;
@@ -182,7 +194,7 @@ public class CppTypeHelper
     CParam minute = CParam.factory.create("uint8", "minute");
     CParam second = CParam.factory.create("uint8", "second");
 
-    CStruct dateTimeDefinition = CStruct.factory.create("", "dateTime_t", true, year, month, day, hour, minute, second);
+    CStruct dateTimeDefinition = CStruct.factory.create("", "xs_dateTime_t", true, year, month, day, hour, minute, second);
     dateTimeDefinition.setComment(new CCommentImpl("xs:dateTime"));
 
     return dateTimeDefinition;
@@ -209,7 +221,7 @@ public class CppTypeHelper
     CParam second = CParam.factory.create("uint8", "second");
     CParam msecond = CParam.factory.create("uint8", "millisecond");
 
-    CStruct timeDefinition = CStruct.factory.create("", "time_t", true, hour, minute, second, msecond);
+    CStruct timeDefinition = CStruct.factory.create("", "xs_time_t", true, hour, minute, second, msecond);
     timeDefinition.setComment(new CCommentImpl("xs:time"));
 
     return timeDefinition;
@@ -234,7 +246,7 @@ public class CppTypeHelper
     CParam month = CParam.factory.create("uint8", "month");
     CParam day = CParam.factory.create("uint8", "day");
 
-    CStruct dateDefinition = CStruct.factory.create("", "date_t", true, year, month, day);
+    CStruct dateDefinition = CStruct.factory.create("", "xs_date_t", true, year, month, day);
     dateDefinition.setComment(new CCommentImpl("xs:date"));
 
     return dateDefinition;
@@ -249,7 +261,7 @@ public class CppTypeHelper
    */
   public CTypeDef createGYearDefinition()
   {
-    return CppTypeDef.factory.create("uint8", "gYear_t");
+    return CppTypeDef.factory.create("uint8", "xs_gYear_t");
   }
 
   /**
@@ -269,7 +281,7 @@ public class CppTypeHelper
     CParam year = CParam.factory.create("uint16", "year");
     CParam month = CParam.factory.create("uint8", "month");
 
-    CStruct gYearMonthDefinition = CStruct.factory.create("", "gYearMonth_t", true, year, month);
+    CStruct gYearMonthDefinition = CStruct.factory.create("", "xs_gYearMonth_t", true, year, month);
     gYearMonthDefinition.setComment(new CCommentImpl("xs:gYearMonth"));
 
     return gYearMonthDefinition;
@@ -284,7 +296,7 @@ public class CppTypeHelper
    */
   public CTypeDef createGMonthDefinition()
   {
-    return CppTypeDef.factory.create("uint8", "gMonth_t");
+    return CppTypeDef.factory.create("uint8", "xs_gMonth_t");
   }
 
   /**
@@ -304,7 +316,7 @@ public class CppTypeHelper
     CParam month = CParam.factory.create("uint8", "month");
     CParam day = CParam.factory.create("uint8", "day");
 
-    CStruct gMonthDayDefinition = CStruct.factory.create("", "gMonthDay_t", true, month, day);
+    CStruct gMonthDayDefinition = CStruct.factory.create("", "xs_gMonthDay_t", true, month, day);
     gMonthDayDefinition.setComment(new CCommentImpl("xs:gMonthDay"));
 
     return gMonthDayDefinition;
@@ -319,7 +331,7 @@ public class CppTypeHelper
    */
   public CTypeDef createGDayDefinition()
   {
-    return CppTypeDef.factory.create("uint8", "gDay_t");
+    return CppTypeDef.factory.create("uint8", "xs_gDay_t");
   }
 
   /**
@@ -347,7 +359,7 @@ public class CppTypeHelper
     CParam minutes = CParam.factory.create("uint8", "minutes");
     CParam seconds = CParam.factory.create("uint8", "seconds");
 
-    CStruct durationDefinition = CStruct.factory.create("", "duration_t", true, years, months, days, hours, minutes, seconds);
+    CStruct durationDefinition = CStruct.factory.create("", "xs_duration_t", true, years, months, days, hours, minutes, seconds);
     durationDefinition.setComment(new CCommentImpl("xs:duration"));
 
     return durationDefinition;
@@ -370,7 +382,7 @@ public class CppTypeHelper
     CParam namespaceURI = CParam.factory.create("char*", "namespaceURI");
     CParam localPart = CParam.factory.create("char*", "localPart");
 
-    CStruct notationDefinition = CStruct.factory.create("", "notation_t", true, namespaceURI, localPart);
+    CStruct notationDefinition = CStruct.factory.create("", "xs_notation_t", true, namespaceURI, localPart);
     notationDefinition.setComment(new CCommentImpl("xs:NOTATION"));
 
     return notationDefinition;
@@ -393,7 +405,7 @@ public class CppTypeHelper
     CParam namespaceURI = CParam.factory.create("char*", "namespaceURI");
     CParam localPart = CParam.factory.create("char*", "localPart");
 
-    CStruct qNameDefinition = CStruct.factory.create("", "qName_t", true, namespaceURI, localPart);
+    CStruct qNameDefinition = CStruct.factory.create("", "xs_qName_t", true, namespaceURI, localPart);
     qNameDefinition.setComment(new CCommentImpl("xs:QName"));
 
     return qNameDefinition;
