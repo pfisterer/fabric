@@ -1,4 +1,4 @@
-/** 07.10.2011 02:00 */
+/** 15.12.2011 11:47 */
 package fabric.module.typegen.java;
 
 import fabric.module.typegen.AttributeContainer;
