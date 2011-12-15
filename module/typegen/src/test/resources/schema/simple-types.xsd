@@ -46,7 +46,7 @@
     Simple type with digits restriction.
   -->
   <xs:simpleType name="DigitsRestrictedType">
-    <xs:restriction base="xs:short">
+    <xs:restriction base="xs:decimal">
       <xs:totalDigits value="5" />
       <xs:fractionDigits value="2" />
     </xs:restriction>

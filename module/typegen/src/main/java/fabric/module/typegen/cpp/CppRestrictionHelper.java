@@ -120,46 +120,36 @@ public class CppRestrictionHelper
     // Replace all whitespace characters with spaces
     else if (("replace").equals(whiteSpace))
     {
-      result += String.format(message, "replace");
-      result += "unsigned int i;\n";
-      result += String.format("for (i = 0; i < sizeof(%s) - 1; i++)\n{", memberName);
-      result += String.format("\n\t%s[i] = (isspace(%s[i]) ? ' ' : %s[i]);", memberName, memberName, memberName);
-      result += "\n}\n";
+        result += String.format(message, "replace");
+        result += "unsigned int i;\n";
+        result += String.format("for (i=0; i < strlen(%s); i++)\n{\n", memberName);
+        result += String.format("\t%s[i] = (isspace(%s[i]) ? ' ' : %s[i]);\n}\n", memberName, memberName, memberName);
     }
     // Replace multiple whitespace characters with single space and trim
     else if (("collapse").equals(whiteSpace))
     {
-      result += String.format(message, "collapse");
-      result += String.format("char* pos = %s;\n", memberName);
-      result += "// Remove leading whitespace characters\n" +
-              "while (isspace(*pos))\n" +
-              "{\n" +
-              "\tpos++;\n" +
-              "}\n\n";
-      result += String.format(
-              "// Replace multiple whitespace characters with single space\n" +
-              "while (*pos)\n" +
-              "{\n" +
-              "\t*%s++ = *pos;\n" +
-              "\tif (!isspace(*pos))\n" +
-              "\t{\n" +
-              "\t\tpos++;\n" +
-              "\t}\n" +
-              "\telse\n" +
-              "\t{\n" +
-              "\t\twhile (isspace(*++pos))\n" +
-              "\t\t{\n" +
-              "\t\t\t// Do nothing\n" +
-              "\t\t}\n" +
-              "\t}\n" +
-              "}\n\n", memberName);
-      result += String.format(
-              "// Remove trailing whitespace characters\n" +
-              "*%s = '\\0';\n" +
-              "while (isspace(*--%s))\n" +
-              "{\n" +
-              "\t*%s = '\\0';\n" +
-              "}", memberName, memberName, memberName);
+        result += String.format(message, "collapse");
+        result += String.format("char* pos = %s;\nunsigned int i = 0;\n", memberName);
+        result += "// Remove leading whitespaces.\n" +
+                "while (isspace (*pos))\n{\n" +
+                "\tpos++;\n" +
+                "}\n";
+        result += String.format(
+                "// Replace multiple whitespaces with single space.\n" +
+                        "while (*pos)\n{\n" +
+                        "\t%s[i++] = *pos;\n" +
+                        "\tif (isspace (*pos++))\n\t{\n" +
+                        "\t\twhile (isspace (*pos))\n\t\t{\n" +
+                        "\t\t\tpos++;\n" +
+                        "\t\t}\n" +
+                        "\t}\n" +
+                        "}\n\n" +
+                        "%s[i] = '\\0';\n", memberName, memberName);
+        result += String.format(
+                "// Remove trailing whitespaces.\n" +
+                        "while (isspace (%s[--i]))\n{\n" +
+                        "\t%s[i] = '\\0';\n" +
+                        "}", memberName, memberName, memberName);
     }
     // Value of 'whiteSpace' was invalid
     else
@@ -174,97 +164,57 @@ public class CppRestrictionHelper
   }
 
   /**
-   * Helper method to create code that checks 'totalDigits'
-   * restriction. This function is provided for convenience and
-   * calls createDigitsCheckCode() internally.
+   * Helper method to create code that checks 'totalDigits' and/or
+   * 'fractionDigits' restriction.
    *
-   * @param memberName Name of member variable to check
-   * @param totalDigits Allowed number of total digits
+   * @param member Name of member variable to check
    *
-   * @return String with 'totalDigits' check code
+   * @return String with 'totalDigits' and/or 'fractionDigits' check code
    */
-  public static String createTotalDigitsCheckCode(final String memberName, final String totalDigits)
+  public static String createDigitsCheckCode(final AttributeContainer.RestrictedElementBase member)
   {
-    return CppRestrictionHelper.createDigitsCheckCode(memberName, Integer.valueOf(totalDigits), true);
-  }
+      boolean isInt  = member.type.contains("int");
+      String message = "Restriction '%s' violated for member variable '%s'.";
+      String comment = "// Check the '%s' restriction\n";
+      String result  = "const char point = '.';\n";
 
-  /**
-   * Helper method to create code that checks 'fractionDigits'
-   * restriction. This function is provided for convenience and
-   * calls createDigitsCheckCode() internally.
-   *
-   * @param memberName Name of member variable to check
-   * @param fractionDigits Allowed number or fraction digits
-   *
-   * @return String with 'fractionDigits' check code
-   */
-  public static String createFractionDigitsCheckCode(final String memberName, final String fractionDigits)
-  {
-    return CppRestrictionHelper.createDigitsCheckCode(memberName, Integer.valueOf(fractionDigits), false);
-  }
-
-  /**
-   * Private helper method to create code that checks either
-   * 'totalDigits' or 'fractionDigits' restriction and returns
-   * code as a string.
-   *
-   * @param memberName Name of member variable to check
-   * @param digits Allowed number of digits
-   * @param isTotal True to check 'totalDigits' or false
-   * to check 'fractionDigits'
-   *
-   * @return String with digits check code
-   */
-  private static String createDigitsCheckCode(final String memberName, final int digits, final boolean isTotal)
-  {
-    String message = "Restriction '%s' violated for member variable '%s'.";
-    String comment = "// Check the '%s' restriction\n";
-    
-    String result = "char numberAsString[20];\n"; // TODO: The size of allocated memory depends on the datatype of the number!
-    result += "unsigned int digits = sprintf(numberAsString, \"%f\", number);\n";
-
-    if (isTotal)
-    {
-      result += String.format(comment, "totalDigits");
-      // Calculate total digits: Take string representation of value,
-      // remove decimal point if any and determine length
-      result += "unsigned int totalDigits = digits;\n" +
-              "unsigned int i;\n" +
-              "for (i = 0; i < digits; i++)\n" +
-              "{\n" +
-              "\tif (numberAsString[i] == '.')\n" +
-              "\t{\n" +
-              "\t\ttotalDigits--;\n" +
-              "\t}\n" +
-              "}\n";
-      result += CppRestrictionHelper.createCheckCode(
-              String.format("totalDigits > %d", digits),
-              String.format(message, "totalDigits", memberName));
-    }
-    else
-    {
-      result += String.format(comment, "fractionDigits");
-      // Calculate fraction digits: Take string representation of value, search
-      // for substring that starts after decimal point and determine length
-      if (digits == 0)
-      {
-        result += "unsigned int i;\n" +
-                "for (i = 0; i < digits; i++)\n" +
-                "{\n";
-        result += CppRestrictionHelper.createCheckCode(
-                "numberAsString[i] == '.'",
-                String.format(message, "fractionDigits", memberName));
-        result += "\n}\n";
+      // Member variable is of one of the following types: int64, uint64, int32, uint32, uint16, int8, uint8.
+      if (isInt) {
+          result += String.format(
+                    "char numberAsString[20];\n" + // TODO: The size of allocated memory depends on the datatype of the number!
+                    "sprintf (numberAsString, \"%s\", %s);\n",
+                    "%d", member.name);
       }
-      else
-      {
-        result += CppRestrictionHelper.createCheckCode(
-                String.format("digits > %d && numberAsString[digits - 1 - %d] != '.'", digits, digits),
-                String.format(message, "fractionDigits", memberName));
-      }
-    }
 
-    return result;
+      // Member variable is of type char*.
+      else {
+          result += String.format(
+                    "char* numberAsString = %s;\n",
+                    member.name);
+      }
+
+      result += "unsigned int totalDigits = strlen(numberAsString);\n" +
+                "unsigned int j;\n" +
+                "for (j=0; j < totalDigits && numberAsString[j] != point; j++)\n{}\n";
+
+      // Member variable has xs:fractionDigits restriction.
+      if (member.isFractionDigitsRestricted()) {
+          result += String.format(comment, "fractionDigits");
+          result += CppRestrictionHelper.createCheckCode(
+                    String.format("totalDigits-j-1 > %d", Integer.parseInt(member.restrictions.fractionDigits)),
+                    String.format(message, "fractionDigits", member.name));
+      }
+
+      // Member variable has xs:totalDigits restriction.
+      if (member.isTotalDigitsRestricted()) {
+          result += String.format(comment, "totalDigits");
+          result += "totalDigits += (j < totalDigits ? -1 : 0);\n";
+          result += CppRestrictionHelper.createCheckCode(
+                  String.format("totalDigits > %d", Integer.parseInt(member.restrictions.totalDigits)),
+                  String.format(message, "totalDigits", member.name));
+      }
+
+      return result;
   }
 
   /**

@@ -245,7 +245,7 @@ public class JavaRestrictionHelper
    * values require special treatment when comparing them. The function
    * at hand takes care of all necessary provisions.
    *
-   * @param member Member variable for comparision in expression
+   * @param member Member variable for comparison in expression
    *
    * @return Expression for restriction check
    */
@@ -272,7 +272,7 @@ public class JavaRestrictionHelper
    * values require special treatment when comparing them. The function
    * at hand takes care of all necessary provisions.
    *
-   * @param member Member variable for comparision in expression
+   * @param member Member variable for comparison in expression
    *
    * @return Expression for restriction check
    */
@@ -299,7 +299,7 @@ public class JavaRestrictionHelper
    * values require special treatment when comparing them. The function
    * at hand takes care of all necessary provisions.
    *
-   * @param member Member variable for comparision in expression
+   * @param member Member variable for comparison in expression
    *
    * @return Expression for restriction check
    */
@@ -326,7 +326,7 @@ public class JavaRestrictionHelper
    * values require special treatment when comparing them. The function
    * at hand takes care of all necessary provisions.
    *
-   * @param member Member variable for comparision in expression
+   * @param member Member variable for comparison in expression
    *
    * @return Expression for restriction check
    */
