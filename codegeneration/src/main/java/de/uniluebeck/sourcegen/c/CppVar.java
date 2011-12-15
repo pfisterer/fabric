@@ -61,11 +61,19 @@ public interface CppVar extends CppLangElem {
 			return new CppVarImpl(visibility, new CppTypeGenerator(type), varName);
 		}
 
+		public CppVar create(long visibility, CppTypeGenerator type, String varName) {
+			return new CppVarImpl(visibility, type, varName);
+		}
+
+		public CppVar create(long visibility, long type, String varName) {
+			return new CppVarImpl(visibility, new CppTypeGenerator(type), varName);
+		}
+
 		public CppVar create(long visibility, String type, String varName, String initCode) {
 			return new CppVarImpl(visibility, new CppTypeGenerator(type), varName, initCode);
 		}
-    
-/* 
+
+/*
     // TODO: Below you find old code from before refactoring in 12/2011.
 
     // qualifiedType
@@ -149,10 +157,10 @@ public interface CppVar extends CppLangElem {
 
   public static final CppVarFactory factory = CppVarFactory.getInstance();
 //	public static final CppVar VOID = factory.create(Cpp.VOID);
-	
+
 //  public CppVar setClass(CppClass clazz);
   public CppVar setComment(CComment comment);
-  
+
   public Long getVisability();
   public String getTypeName();
   public String getVarName();

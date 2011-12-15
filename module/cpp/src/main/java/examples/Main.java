@@ -54,6 +54,8 @@ public class Main
     new Example10_Inheritance(workspace);
     new Example11_Wislib(workspace);
     new Example12_NestedOfNestedWithConstructor(workspace);
+    new Example13_Const(workspace)    ;
+    new Example14_Static(workspace);
 
     workspace.generate();
   }

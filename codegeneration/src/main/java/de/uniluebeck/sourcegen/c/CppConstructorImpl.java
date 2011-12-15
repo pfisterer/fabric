@@ -169,7 +169,13 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 
 	@Override
 	public CppConstructor setInititalVars(List<CppVar> init) {
-		this.inititializedVars = init;
+		// Ignore static vars
+		for (CppVar cppVar : init) {
+			if(!Cpp.isStatic(cppVar.getVisability())) {
+				this.inititializedVars.add(cppVar);
+			}
+		}
+
 		return this;
 	}
 

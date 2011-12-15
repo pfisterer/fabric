@@ -74,7 +74,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	private List<VisElem> vars = new LinkedList<VisElem>();
 
 	private List<VisElem> cfuns = new LinkedList<VisElem>();
-  
+
   boolean isPrepared = false;
 
 	private CComment comment = null;
@@ -530,9 +530,21 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 	public List<CppVar> getVars(long vis) {
 		ArrayList<CppVar> ret = new ArrayList<CppVar>();
-		for (VisElem vv : vars)
-			if (vv.vis == vis || (vis == Cpp.PRIVATE && vv.vis == Cpp.NONE))
+		for (VisElem vv : vars) {
+			// Three cases
+			if(Cpp.isPrivate(vv.vis) && Cpp.isPrivate(vis)) {
 				ret.add((CppVar)vv.elem);
+			}
+			else if(Cpp.isPublic(vv.vis) && Cpp.isPublic(vis)) {
+				ret.add((CppVar)vv.elem);
+			}
+			else if(Cpp.isProtected(vv.vis) && Cpp.isProtected(vis)) {
+				ret.add((CppVar)vv.elem);
+			}
+			else if(Cpp.isStatic(vv.vis) && Cpp.isStatic(vis)) {
+				ret.add((CppVar)vv.elem);
+			}
+		}
 		return ret;
 	}
 
@@ -622,7 +634,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 			}
 		}
 
-		buffer.append(Cpp.newline + "{" + Cpp.newline + Cpp.newline);
+		buffer.append(Cpp.newline + "{" + Cpp.newline);
 
 		/**
 		 *  ##################################################################
@@ -634,7 +646,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		toStringHelper(tmp_public, tabCount, Cpp.PUBLIC);
 
 		if(tmp_public.length() > 0) {
-      indent(buffer, tabCount + 1);
+			indent(buffer, tabCount + 1);
 			buffer.append("public:" + Cpp.newline);
 			appendBody(buffer, tmp_public, tabCount + 2);
 		}
@@ -650,7 +662,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		if(tmp_protected.length() > 0) {
 			buffer.append(Cpp.newline);
-      indent(buffer, tabCount + 1);
+			indent(buffer, tabCount + 1);
 			buffer.append("protected:" + Cpp.newline);
 			appendBody(buffer, tmp_protected, tabCount + 2);
 		}
@@ -665,9 +677,9 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		StringBuffer tmp_private = new StringBuffer();
 		toStringHelper(tmp_private, tabCount, Cpp.PRIVATE);
 
-		if(tmp_private.length() > 0) {      
+		if(tmp_private.length() > 0) {
 			buffer.append(Cpp.newline);
-      indent(buffer, tabCount + 1);
+			indent(buffer, tabCount + 1);
 			buffer.append("private:" + Cpp.newline);
 			appendBody(buffer, tmp_private, tabCount + 2);
 		}
@@ -720,31 +732,31 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	}
 
   private void toStringHelper(StringBuffer tmp, int tabCount, long visability) {
-    
-    // nested classes
+
+	  	// nested classes
 		if (null != this.getNested(visability) && this.getNested(visability).size() > 0) {
 			for (CppClass c : this.getNested(visability)) {
-        // Add the classes recursive
-        c.toString(tmp, tabCount);
-      }
+				// Add the classes recursive
+				c.toString(tmp, tabCount);
+			}
 			tmp.append(Cpp.newline);
 		}
-    
-    // structs + unions
+
+		// structs + unions
 		if (null != this.getStructsUnions(visability) && this.getStructsUnions(visability).size() > 0) {
 			for (CStructBase c : this.getStructsUnions(visability)) {
 				tmp.append(c.toString() + Cpp.newline);
 			}
 		}
-    
-    // enums
+
+		// enums
 		if (null != this.getEnums(visability) && this.getEnums(visability).size() > 0) {
 			for (CEnum e : this.getEnums(visability)) {
 				tmp.append(e.toString() + Cpp.newline);
 			}
 		}
-    
-    // constructors
+
+		// constructors
 		if (null != this.getConstructors(visability) && this.getConstructors(visability).size() > 0) {
 			for (CppConstructor c : this.getConstructors(visability)) {
 				tmp.append(c.getSignature() + ";" + Cpp.newline);
@@ -754,7 +766,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		// destructors
 		if (null != this.getDestructors(visability) && this.getDestructors(visability).size() > 0) {
 			for (CppDestructor d : this.getDestructors(visability)) {
-        tmp.append("virtual " + d.getSignature() + ";" + Cpp.newline); // TODO: virtual?
+				tmp.append("virtual " + d.getSignature() + ";" + Cpp.newline); // TODO: virtual?
 			}
 			tmp.append(Cpp.newline);
 		}
@@ -766,8 +778,8 @@ class CppClassImpl extends CElemImpl implements CppClass {
 			}
 			tmp.append(Cpp.newline);
 		}
-    
-    // variables
+
+		// variables
 		if (null != this.getVars(visability) && this.getVars(visability).size() > 0) {
 			for (CppVar v : this.getVars(visability)) {
 				tmp.append(v.toString() + ";" + Cpp.newline);
@@ -787,7 +799,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	public List<CppClass> getParents() {
 		return parents;
 	}
-  
+
   @Override
   public String getName() {
     return this.className;

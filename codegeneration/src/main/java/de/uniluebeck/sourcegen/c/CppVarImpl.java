@@ -27,15 +27,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 class CppVarImpl extends CElemImpl implements CppVar {
-    private enum Type {
+//    private enum Type {
         //DECL_STRING, LONG_STRING, LONG_CCOMPLEX_STRING, LONG_CPPCOMPLEX_STRING, TEMPLATE
-    	TYPE_GENERATOR
-    }
+//    	TYPE_GENERATOR
+//    }
 
-    private Long visability;
+    private Long visability = null;
 
 //    private String varDeclString;
-    private Type type;
+    //private Type type;
     private String initCode;
     private String varName;
 //    private CComplexType cComplexType;
@@ -49,7 +49,7 @@ class CppVarImpl extends CElemImpl implements CppVar {
 //    private CppClass clazz;
 
 	public CppVarImpl(CppTypeGenerator type, String varName) {
-		this.type = Type.TYPE_GENERATOR;
+//		this.type = Type.TYPE_GENERATOR;
 		this.typeGenerator = type;
 		this.varName = varName;
 	}
@@ -59,7 +59,7 @@ class CppVarImpl extends CElemImpl implements CppVar {
 	}
 
 	public CppVarImpl(long visibility, CppTypeGenerator type, String varName, String initCode) {
-		this.type = Type.TYPE_GENERATOR;
+//		this.type = Type.TYPE_GENERATOR;
 		this.typeGenerator = type;
 		this.varName = varName;
 		this.visability = visibility;
@@ -133,13 +133,13 @@ class CppVarImpl extends CElemImpl implements CppVar {
 
     StringBuffer buffer = new StringBuffer();
 
-    switch (type) {
-      case TYPE_GENERATOR:
+//    switch (type) {
+//      case TYPE_GENERATOR:
         buffer.append(varName + "(" + initCode + ")");
-        break;
-      default:
-        buffer.append(Cpp.newline + "// NOTHING TO APPEND" + Cpp.newline);
-    }
+//        break;
+//      default:
+//        buffer.append(Cpp.newline + "// NOTHING TO APPEND" + Cpp.newline);
+//    }
 
     return buffer.toString();
   }
@@ -153,14 +153,32 @@ class CppVarImpl extends CElemImpl implements CppVar {
       buffer.append(Cpp.newline);
       comment.toString(buffer, tabCount);
     }
+    if(visability != null) {
+    	// Remove private, public and protected
+    	long vis = new Long(visability).longValue();
+    	if(Cpp.isPrivate(vis)) {
+    		vis = vis ^ Cpp.PRIVATE;
+    	}
+    	if(Cpp.isPublic(vis)) {
+    		vis = vis ^ Cpp.PUBLIC;
+    	}
+    	if(Cpp.isProtected(vis)) {
+    		vis = vis ^ Cpp.PROTECTED;
+    	}
 
-    switch (type) {
-      case TYPE_GENERATOR:
-        buffer.append(typeGenerator.toString() + " " + varName);
-        break;
-      default:
-        buffer.append(Cpp.newline + "// NOTHING TO APPEND" + Cpp.newline);
+    	String v = Cpp.toString(vis);
+    	if(v.length() > 0) {
+    		buffer.append(v + " ");
+    	}
     }
+
+//    switch (type) {
+//      case TYPE_GENERATOR:
+        buffer.append(typeGenerator.toString() + " " + varName);
+//        break;
+//      default:
+//        buffer.append(Cpp.newline + "// NOTHING TO APPEND" + Cpp.newline);
+//    }
 
 /*
         // Add all dependent types
@@ -242,7 +260,7 @@ class CppVarImpl extends CElemImpl implements CppVar {
   public Long getVisability() {
     return visability;
 	}
-  
+
   public String getTypeName() {
     return typeGenerator.getTypeName();
   }

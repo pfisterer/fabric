@@ -27,7 +27,7 @@ public abstract class Cpp {
 
 	public static String newline = System.getProperty("line.separator");
   public static String tab = "\t";
-  
+
   public static final long ARRAY 		= 1<<0;
 	public static final long ARRAY2D	= 1<<1;
 	public static final long ARRAY3D	= 1<<2;
@@ -61,140 +61,131 @@ public abstract class Cpp {
 	public static final long VOLATILE	= 1<<30;
 	public static final long WCHAR_T	= 1<<31;
 
-	public boolean isArray(long mod) {
+	public static boolean isArray(long mod) {
 		return (mod & ARRAY) != 0;
 	}
 
-	public boolean isArray2D(long mod) {
+	public static boolean isArray2D(long mod) {
 		return (mod & ARRAY2D) != 0;
 	}
 
-	public boolean isArray3D(long mod) {
+	public static boolean isArray3D(long mod) {
 		return (mod & ARRAY3D) != 0;
-
 	}
 
-	public boolean isBool(long mod) {
+	public static boolean isBool(long mod) {
 		return (mod & BOOL) != 0;
-
 	}
 
-	public boolean isChar(long mod) {
+	public static boolean isChar(long mod) {
 		return (mod & CHAR) != 0;
-
 	}
 
-	public boolean isConst(long mod) {
+	public static boolean isConst(long mod) {
 		return (mod & CONST) != 0;
-
 	}
 
-	public boolean isDouble(long mod) {
+	public static boolean isDouble(long mod) {
 		return (mod & DOUBLE) != 0;
-
 	}
 
-	public boolean isExtern(long mod) {
+	public static boolean isExtern(long mod) {
 		return (mod & EXTERN) != 0;
-
 	}
 
-	public boolean isFloat(long mod) {
+	public static boolean isFloat(long mod) {
 		return (mod & FLOAT) != 0;
-
 	}
 
-	public boolean isFriend(long mod) {
+	public static boolean isFriend(long mod) {
 		return (mod & FRIEND) != 0;
-
 	}
 
-	public boolean isInline(long mod) {
+	public static boolean isInline(long mod) {
 		return (mod & INLINE) != 0;
-
 	}
 
-	public boolean isInt(long mod) {
+	public static boolean isInt(long mod) {
 		return (mod & INT) != 0;
 	}
 
-	public boolean isLong(long mod) {
+	public static boolean isLong(long mod) {
 		return (mod & LONG) != 0;
 	}
 
-	public boolean isLongDouble(long mod) {
+	public static boolean isLongDouble(long mod) {
 		return (mod & LONGDOUBLE) != 0;
 	}
 
-	public boolean isMutable(long mod) {
+	public static boolean isMutable(long mod) {
 		return (mod & MUTABLE) != 0;
 	}
 
-	public boolean isNone(long mod) {
+	public static boolean isNone(long mod) {
 		return (mod & NONE) != 0;
 	}
 
-	public boolean isPointer(long mod) {
+	public static boolean isPointer(long mod) {
 		return (mod & POINTER) != 0;
 	}
 
-	public boolean isPrivate(long mod) {
+	public static boolean isPrivate(long mod) {
 		return (mod & PRIVATE) != 0;
 	}
 
-	public boolean isProtected(long mod) {
+	public static boolean isProtected(long mod) {
 		return (mod & PROTECTED) != 0;
 	}
 
-	public boolean isPublic(long mod) {
+	public static boolean isPublic(long mod) {
 		return (mod & PUBLIC) != 0;
 	}
 
-	public boolean isReference(long mod) {
+	public static boolean isReference(long mod) {
 		return (mod & REFERENCE) != 0;
 	}
 
-	public boolean isRegister(long mod) {
+	public static boolean isRegister(long mod) {
 		return (mod & REGISTER) != 0;
 	}
 
-	public boolean isShort(long mod) {
+	public static boolean isShort(long mod) {
 		return (mod & SHORT) != 0;
 	}
 
-	public boolean isSigned(long mod) {
+	public static boolean isSigned(long mod) {
 		return (mod & SIGNED) != 0;
 	}
 
-	public boolean isStatic(long mod) {
+	public static boolean isStatic(long mod) {
 		return (mod & STATIC) != 0;
 	}
 
-	public boolean isThis(long mod) {
+	public static boolean isThis(long mod) {
 		return (mod & THIS) != 0;
 	}
 
-	public boolean isTypedef(long mod) {
+	public static boolean isTypedef(long mod) {
 		return (mod & TYPEDEF) != 0;
 	}
 
-	public boolean isUnsigned(long mod) {
+	public static boolean isUnsigned(long mod) {
 		return (mod & UNSIGNED) != 0;
 	}
 
-	public boolean isVirtual(long mod) {
+	public static boolean isVirtual(long mod) {
 		return (mod & VIRTUAL) != 0;
 	}
 
-	public boolean isVoid(long mod) {
+	public static boolean isVoid(long mod) {
 		return (mod & VOID) != 0;
 	}
 
-	public boolean isVolatile(long mod) {
+	public static boolean isVolatile(long mod) {
 		return (mod & VOLATILE) != 0;
 	}
 
-	public boolean isWchar_t(long mod) {
+	public static boolean isWchar_t(long mod) {
 		return (mod & WCHAR_T) != 0;
 	}
 
@@ -202,42 +193,42 @@ public abstract class Cpp {
 		StringBuffer sb = new StringBuffer();
 		// int len;
 
-		if ((mod & CONST) != 0) 	sb.append("const ");
-		if ((mod & EXTERN) != 0) 	sb.append("extern ");
-		if ((mod & FRIEND) != 0) 	sb.append("friend ");
-		if ((mod & INLINE) != 0) 	sb.append("inline ");
-		if ((mod & MUTABLE) != 0) 	sb.append("mutable ");
-		if ((mod & REGISTER) != 0) 	sb.append("register ");
-		if ((mod & STATIC) != 0) 	sb.append("static ");
-		if ((mod & SIGNED) != 0) 	sb.append("signed ");
-		if ((mod & TYPEDEF) != 0) 	sb.append("typedef ");
-		if ((mod & UNSIGNED) != 0)	sb.append("unsigned ");
-		if ((mod & VIRTUAL) != 0) 	sb.append("virtual ");
-		if ((mod & VOLATILE) != 0) 	sb.append("volatile ");
+		if (isConst(mod)) 		sb.append("const ");
+		if (isExtern(mod)) 		sb.append("extern ");
+		if (isFriend(mod)) 		sb.append("friend ");
+		if (isInline(mod)) 		sb.append("inline ");
+		if (isMutable(mod)) 	sb.append("mutable ");
+		if (isRegister(mod)) 	sb.append("register ");
+		if (isStatic(mod)) 		sb.append("static ");
+		if (isSigned(mod)) 		sb.append("signed ");
+		if (isTypedef(mod)) 	sb.append("typedef ");
+		if (isUnsigned(mod))	sb.append("unsigned ");
+		if (isVirtual(mod)) 	sb.append("virtual ");
+		if (isVolatile(mod)) 	sb.append("volatile ");
 
-		if ((mod & PRIVATE) != 0) 	sb.append("private ");
-		if ((mod & PROTECTED) != 0)	sb.append("protected ");
-		if ((mod & PUBLIC) != 0) 	sb.append("public ");
+		if (isPrivate(mod)) 	sb.append("private ");
+		if (isProtected(mod))	sb.append("protected ");
+		if (isPublic(mod)) 		sb.append("public ");
 
-		if ((mod & BOOL) != 0) 		sb.append("bool ");
-		if ((mod & CHAR) != 0) 		sb.append("char ");
-		if ((mod & DOUBLE) != 0) 	sb.append("double ");
-		if ((mod & FLOAT) != 0) 	sb.append("float ");
-		if ((mod & INT) != 0) 		sb.append("int ");
-		if ((mod & LONG) != 0) 		sb.append("long ");
-		if ((mod & LONGDOUBLE) != 0)sb.append("long double ");
-		if ((mod & SHORT) != 0) 	sb.append("short ");
-		if ((mod & WCHAR_T) != 0) 	sb.append("wchar_t ");
+		if (isBool(mod)) 		sb.append("bool ");
+		if (isChar(mod)) 		sb.append("char ");
+		if (isDouble(mod)) 		sb.append("double ");
+		if (isFloat(mod)) 		sb.append("float ");
+		if (isInt(mod)) 		sb.append("int ");
+		if (isLong(mod)) 		sb.append("long ");
+		if (isLongDouble(mod))	sb.append("long double ");
+		if (isShort(mod)) 		sb.append("short ");
+		if (isWchar_t(mod)) 	sb.append("wchar_t ");
 
-		if ((mod & ARRAY) != 0) 	sb.append("[]");
-		if ((mod & ARRAY2D) != 0) 	sb.append("[][]");
-		if ((mod & ARRAY3D) != 0)	sb.append("[][][]");
-		if ((mod & POINTER) != 0) 	sb.append("*");
-		if ((mod & REFERENCE) != 0) sb.append("&");
+		if (isArray(mod)) 		sb.append("[]");
+		if (isArray2D(mod)) 	sb.append("[][]");
+		if (isArray3D(mod))		sb.append("[][][]");
+		if (isPointer(mod)) 	sb.append("*");
+		if (isReference(mod)) 	sb.append("&");
 
-		if ((mod & NONE) != 0) 		sb.append(" ");
-		if ((mod & THIS) != 0) 		sb.append("this ");
-		if ((mod & VOID) != 0) 		sb.append("void ");
+		if (isNone(mod)) 		sb.append(" ");
+		if (isThis(mod)) 		sb.append("this ");
+		if (isVoid(mod)) 		sb.append("void ");
 
 		/*
 		if ((len = sb.length()) > 0)
@@ -249,7 +240,6 @@ public abstract class Cpp {
 	public static void main(String args[]) {
 		System.out.println(Long.toBinaryString(1) + " & " + Long.toBinaryString(1<<5) + " : " +Long.toBinaryString((1 & (1<<5))));
 		System.out.println(Long.toBinaryString(STATIC) + " & " + Long.toBinaryString(STATIC) + " : " +Long.toBinaryString((STATIC & (STATIC))));
-
 	}
 
 }

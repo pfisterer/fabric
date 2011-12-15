@@ -19,6 +19,8 @@ compile:
 	g++ Typedef.cpp -o typedef;
 	g++ Inheritance.cpp -o inheritance;
 	g++ NestedOfNestedWithConstructor.cpp -o nestedOfNestedWithC;
+	g++ Const.cpp -o const;
+#	g++ Static.cpp -o const;
 	 
 run:
 
@@ -47,5 +49,5 @@ clean:
 
 	rm -f *.cpp;
 	rm -f *.hpp;
-	rm ./empty ./simple ./two ./nested ./nestedOfNested ./conDes ./struct ./enum ./directives ./typedef ./inheritance ./nestedOfNestedWithC
+	rm ./empty ./simple ./two ./nested ./nestedOfNested ./conDes ./struct ./enum ./directives ./typedef ./inheritance ./nestedOfNestedWithC ./const
 

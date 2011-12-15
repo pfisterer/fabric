@@ -133,11 +133,16 @@ class CppFunImpl extends CElemImpl implements CppFun {
 
         switch (returnType) {
 	        case GENERATOR:
+	        	// TODO: Ignore static also in class generator
 	            return returnTypeGenerator.toString();
 	        case COMPLEX:
 	        	return returnTypeComplex.getTypeName();
 	        case LONG:
-	        	return Cpp.toString(returnTypeLong);
+	        	long vis = new Long(returnTypeLong).longValue();
+	        	if(Cpp.isStatic(vis)) {
+	        		vis = vis ^ Cpp.STATIC;
+	        	}
+	        	return Cpp.toString(vis);
 	        case STRING:
 	        	return returnTypeString;
         }
