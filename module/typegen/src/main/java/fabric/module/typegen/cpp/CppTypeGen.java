@@ -156,6 +156,21 @@ public class CppTypeGen implements TypeGen
       cpphf = cWorkspace.getCppHeaderFile(name);
       cpphf.add(sourceFileData.typeObject);
       cpphf.setComment(new CCommentImpl(String.format("The '%s' header file.", name)));
+
+      // TODO: Check this block
+      // Add includes
+      String rootContainerName = this.properties.getProperty(FabricTypeGenModule.MAIN_CLASS_NAME_KEY);
+      if (name.equals(rootContainerName))
+      {
+        for (String include: this.generatedElements.keySet())
+        {
+          if (!include.equals(name))
+          {
+            cpphf.addLibInclude(include + ".hpp"); // TODO: Change to addInclude(String include + ".hpp") later
+          }
+        }
+      }
+      // TODO: Block end
       
       // Add include guards to header file
       cpphf.addBeforeDirective("ifndef " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
@@ -171,6 +186,7 @@ public class CppTypeGen implements TypeGen
 
       // Add includes
       cppsf.addInclude(cpphf);
+      cppsf.addLibInclude(CppTypeHelper.FILE_NAME); // TODO: Change to addInclude(String include) later
       cppsf.addLibInclude("iostream"); // Needed for text output
       cppsf.addLibInclude("string.h"); // Needed strlen() in restriction checks
       cppsf.addUsingNamespace("std");
@@ -457,14 +473,14 @@ public class CppTypeGen implements TypeGen
 //      // Get enum constants and convert them to String array
 //      Object[] constants = FSchemaTypeHelper.extractEnumArray(type);
 //      String[] constantsAsString = Arrays.copyOf(constants, constants.length, String[].class);
-//      
+//
 //      // Create enum and add it to generated elements
 //      if (!this.generatedElements.containsKey(type.getName()))
 //      {
-//        CEnum cEnum = CEnum.factory.create(Cpp.PUBLIC, type.getName(), constantsAsString); // TODO: Call should be equal to struct creation
+//        CEnum cEnum = CEnum.factory.create(type.getName(), "", false, constantsAsString); // TODO: Call should be equal to struct creation
 //
 //        cEnum.setComment(new CCommentImpl(String.format("The '%s' enumeration.", type.getName())));
-//        
+//
 //        this.generatedElements.put(type.getName(),
 //                new CppTypeGen.SourceFileData(cEnum, null)); // TODO: Cannot pass CEnum here and what about required includes?
 //      }

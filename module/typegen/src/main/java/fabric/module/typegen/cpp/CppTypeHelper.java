@@ -1,3 +1,4 @@
+/** 14.12.2011 19:50 */
 package fabric.module.typegen.cpp;
 
 import java.util.ArrayList;
@@ -21,6 +22,9 @@ import de.uniluebeck.sourcegen.c.*;
  */
 public class CppTypeHelper
 {
+  /** Name of the C++ header file */
+  public static final String FILE_NAME = "simple_type_definitions.hpp";
+
   /** Header file for XSD simple type definitions */
   private CppHeaderFile sourceFile;
 
@@ -36,7 +40,7 @@ public class CppTypeHelper
   public CppTypeHelper(Workspace workspace) throws Exception
   {
     // Create header file
-    this.sourceFile = workspace.getC().getCppHeaderFile("simple_type_definitions.hpp");
+    this.sourceFile = workspace.getC().getCppHeaderFile(CppTypeHelper.FILE_NAME);
     this.sourceFile.setComment(new CCommentImpl("Type definitions for required XSD simple types."));
 
     // Surround definitions with include guard

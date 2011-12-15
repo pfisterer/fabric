@@ -767,6 +767,15 @@ class CppClassImpl extends CElemImpl implements CppClass {
 			}
 			tmp.append(Cpp.newline);
 		}
+
+    // TODO: Block added
+    // enums
+		if (null != this.getEnums(visability) && this.getEnums(visability).size() > 0) {
+			for (CEnum e : this.getEnums(visability)) {
+				tmp.append(e.toString() + Cpp.newline);
+			}
+		}
+    // TODO: Block end
 	}
 
 	@Override

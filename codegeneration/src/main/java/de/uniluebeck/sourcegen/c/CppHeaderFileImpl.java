@@ -103,7 +103,6 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 				ppd.toString(buffer, tabCount);
 				buffer.append(Cpp.newline);
 			}
-//			buffer.append(Cpp.newline);
-		}
+    }
 	}
 }

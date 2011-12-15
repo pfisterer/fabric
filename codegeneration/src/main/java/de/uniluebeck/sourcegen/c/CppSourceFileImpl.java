@@ -173,7 +173,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			if (containsInclude(csf))
         throw new CppDuplicateException("Duplicate source file included " + csf.getFileName());
 			cppUserHeaderFiles.add((CppSourceFileImpl)csf);
-			// We cannot use base here, beauce the type is cpp
+			// We cannot use base here, because the type is cpp
 		}
 		return this;
 	}

@@ -1,4 +1,4 @@
-/** 09.12.2011 15:59 */
+/** 15.12.2011 11:20 */
 package fabric.module.typegen.cpp;
 
 import java.util.Map;
@@ -22,6 +22,18 @@ import fabric.module.typegen.exceptions.FabricTypeGenException;
  */
 public class CppClassGenerationStrategy implements ClassGenerationStrategy
 {
+  /** List of required C++ includes to compile the class */
+  private ArrayList<String> requiredIncludes;
+
+  /**
+   * Parameterless constructor creates an ArrayList for the
+   * required C++ includes.
+   */
+  public CppClassGenerationStrategy()
+  {
+    this.requiredIncludes = new ArrayList<String>();
+  }
+
   /**
    * This method returns a class object that can be added to a source
    * file. Return value should be casted to CppClass before further use.
@@ -38,17 +50,32 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
   {
     return this.generateCppClassObject(container, null);
   }
-  
+
   /**
-   * This method returns a list of all C++ includes that
-   * are needed to support the required XML annotations.
+   * This method returns a list of all C++ includes that are
+   * required to compile the class file without errors later.
    *
    * @return List of required C++ includes
    */
   @Override
   public ArrayList<String> getRequiredDependencies()
   {
-    return null; // TODO
+    return this.requiredIncludes;
+  }
+
+  /**
+   * Private helper method to add a single file to the
+   * list of required C++ includes.
+   *
+   * @param requiredInclude Required C++ include
+   */
+  private void addRequiredInclude(final String requiredInclude)
+  {
+    // Add required include, if this was not done before
+    if (!this.requiredIncludes.contains(requiredInclude))
+    {
+      this.requiredIncludes.add(requiredInclude);
+    }
   }
 
   /**
@@ -99,10 +126,11 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
       {
         AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)member;
 
-        CEnum ce = CEnum.factory.create(ee.type, ee.name, false, ee.enumConstants); // TODO: Check name/varname
+        CEnum ce = CEnum.factory.create(ee.type, "", false, ee.enumConstants); // TODO: Check name/varname
         ce.setComment(new CCommentImpl(String.format("The '%s' enumeration.", ee.type)));
         
-        cppc.add(Cpp.PUBLIC | Cpp.STATIC, ce);
+//        cppc.add(Cpp.PUBLIC | Cpp.STATIC, ce); // TODO: This should work later on
+        cppc.add(Cpp.PUBLIC, ce); // TODO: Remove
       }
 
       /*****************************************************************
@@ -205,16 +233,17 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     {
       AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
       String type = String.format("vector<%s>", ea.type);
+      this.addRequiredInclude("vector"); // TODO: Check this
       
       // No array size is given
       if (ea.maxSize == Integer.MAX_VALUE)
       {
-        cppv = CppVar.factory.create(Cpp.PRIVATE, type, ea.name, "()"); // TODO: Check this in generated code
+        cppv = CppVar.factory.create(Cpp.PRIVATE, type, ea.name); // TODO: Check this in generated code
       }
       // Array size is given
       else
       {
-        cppv = CppVar.factory.create(Cpp.PRIVATE, type, ea.name, "(" + ea.maxSize + ")"); // TODO: Check this in generated code
+        cppv = CppVar.factory.create(Cpp.PRIVATE, type, ea.name, String.valueOf(ea.maxSize)); // TODO: Check this in generated code
       }
       
       cppv.setComment(new CCommentImpl(String.format("The '%s' element array.", ea.name)));
@@ -227,16 +256,17 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     {
       AttributeContainer.ElementList el = (AttributeContainer.ElementList)member;
       String type = String.format("vector<%s>", el.type);
+      this.addRequiredInclude("vector"); // TODO: Check this
 
       // No list size is given
       if (el.maxSize == Integer.MAX_VALUE)
       {
-        cppv = CppVar.factory.create(Cpp.PRIVATE, type, el.name, "()"); // TODO: Check this in generated code
+        cppv = CppVar.factory.create(Cpp.PRIVATE, type, el.name); // TODO: Check this in generated code
       }
       // List size is given
       else
       {
-        cppv = CppVar.factory.create(Cpp.PRIVATE, type, el.name, "(" + el.maxSize + ")"); // TODO: Check this in generated code
+        cppv = CppVar.factory.create(Cpp.PRIVATE, type, el.name, String.valueOf(el.maxSize)); // TODO: Check this in generated code
       }
       
       cppv.setComment(new CCommentImpl(String.format("The '%s' element list.", el.name)));
