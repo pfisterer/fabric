@@ -720,15 +720,34 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	}
 
   private void toStringHelper(StringBuffer tmp, int tabCount, long visability) {
-
-		// structs + unions
+    
+    // nested classes
+		if (null != this.getNested(visability) && this.getNested(visability).size() > 0) {
+			for (CppClass f : this.getNested(visability)) {
+				// Add the classes recursive
+        f.toString(tmp, tabCount);
+        tmp.append(Cpp.newline); // TODO: Added
+			}
+			tmp.append(Cpp.newline);
+		}
+    
+    // structs + unions
 		if (null != this.getStructsUnions(visability) && this.getStructsUnions(visability).size() > 0) {
 			for (CStructBase c : this.getStructsUnions(visability)) {
 				tmp.append(c.toString() + Cpp.newline);
 			}
 		}
-
-		// constructors
+    
+    // TODO: Block added
+    // enums
+		if (null != this.getEnums(visability) && this.getEnums(visability).size() > 0) {
+			for (CEnum e : this.getEnums(visability)) {
+				tmp.append(e.toString() + Cpp.newline);
+			}
+		}
+    // TODO: Block end
+    
+    // constructors
 		if (null != this.getConstructors(visability) && this.getConstructors(visability).size() > 0) {
 			for (CppConstructor c : this.getConstructors(visability)) {
 				tmp.append(c.getSignature() + ";" + Cpp.newline);
@@ -750,32 +769,14 @@ class CppClassImpl extends CElemImpl implements CppClass {
 			}
 			tmp.append(Cpp.newline);
 		}
-
-		// nested classes
-		if (null != this.getNested(visability) && this.getNested(visability).size() > 0) {
-			for (CppClass f : this.getNested(visability)) {
-				// Add the classes recursive
-				f.toString(tmp, tabCount);
-			}
-			tmp.append(Cpp.newline);
-		}
-
-		// variables
+    
+    // variables
 		if (null != this.getVars(visability) && this.getVars(visability).size() > 0) {
 			for (CppVar v : this.getVars(visability)) {
 				tmp.append(v.toString() + ";" + Cpp.newline);
 			}
 			tmp.append(Cpp.newline);
 		}
-
-    // TODO: Block added
-    // enums
-		if (null != this.getEnums(visability) && this.getEnums(visability).size() > 0) {
-			for (CEnum e : this.getEnums(visability)) {
-				tmp.append(e.toString() + Cpp.newline);
-			}
-		}
-    // TODO: Block end
 	}
 
 	@Override

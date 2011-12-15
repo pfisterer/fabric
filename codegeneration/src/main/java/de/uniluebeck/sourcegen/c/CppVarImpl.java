@@ -242,6 +242,11 @@ class CppVarImpl extends CElemImpl implements CppVar {
   public Long getVisability() {
     return visability;
 	}
+  
+  // TODO: Added
+  public String getTypeName() {
+    return type.name();
+  }
 
 	public String getVarName() {
     return varName;

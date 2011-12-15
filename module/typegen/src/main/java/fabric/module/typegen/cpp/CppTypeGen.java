@@ -172,6 +172,14 @@ public class CppTypeGen implements TypeGen
           }
         }
       }
+      
+      for (CppVar member: sourceFileData.typeObject.getVars(Cpp.PRIVATE))
+      {
+        if (member.getTypeName().endsWith("Type"))
+        {
+          cpphf.addLibInclude(member.getTypeName()); // TODO: Change to addInclude(String include + ".hpp") later
+        }
+      }
       // TODO: Block end
       
       // Add include guards to header file
