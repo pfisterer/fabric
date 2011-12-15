@@ -1,4 +1,4 @@
-/** 15.12.2011 11:54 */
+/** 15.12.2011 17:05 */
 package fabric.module.typegen.cpp;
 
 import java.util.Map;
@@ -126,9 +126,9 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
       {
         AttributeContainer.EnumElement ee = (AttributeContainer.EnumElement)member;
 
-        CEnum ce = CEnum.factory.create(ee.type, "", false, ee.enumConstants); // TODO: Check name/varname
+        CEnum ce = CEnum.factory.create(ee.type, "", false, ee.enumConstants);
         ce.setComment(new CCommentImpl(String.format("The '%s' enumeration.", ee.type)));
-        
+
 //        cppc.add(Cpp.PUBLIC | Cpp.STATIC, ce); // TODO: This should work later on
         cppc.add(Cpp.PUBLIC, ce); // TODO: Remove
       }
@@ -233,7 +233,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     {
       AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
       String type = String.format("vector<%s>", ea.type);
-      this.addRequiredInclude("vector"); // TODO: Check this
+      this.addRequiredInclude("vector");
       
       // No array size is given
       if (ea.maxSize == Integer.MAX_VALUE)
@@ -256,8 +256,8 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     {
       AttributeContainer.ElementList el = (AttributeContainer.ElementList)member;
       String type = String.format("vector<%s>", el.type);
-      this.addRequiredInclude("vector"); // TODO: Check this
-
+      this.addRequiredInclude("vector");
+      
       // No list size is given
       if (el.maxSize == Integer.MAX_VALUE)
       {
@@ -309,8 +309,8 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     // Member variable is an element or attribute
     if (member.getClass() == AttributeContainer.Element.class || member.getClass() == AttributeContainer.Attribute.class)
     {
-      AttributeContainer.RestrictedElementBase e = (AttributeContainer.RestrictedElementBase)member; // TODO: Can we use base class here?
-
+      AttributeContainer.RestrictedElementBase e = (AttributeContainer.RestrictedElementBase)member;
+      
       // Create code to check restrictions
       methodBody += this.generateRestrictionChecks(e);
 

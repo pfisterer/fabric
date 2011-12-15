@@ -723,11 +723,10 @@ class CppClassImpl extends CElemImpl implements CppClass {
     
     // nested classes
 		if (null != this.getNested(visability) && this.getNested(visability).size() > 0) {
-			for (CppClass f : this.getNested(visability)) {
-				// Add the classes recursive
-        f.toString(tmp, tabCount);
-        tmp.append(Cpp.newline); // TODO: Added
-			}
+			for (CppClass c : this.getNested(visability)) {
+        // Add the classes recursive
+        c.toString(tmp, tabCount);
+      }
 			tmp.append(Cpp.newline);
 		}
     
@@ -738,14 +737,12 @@ class CppClassImpl extends CElemImpl implements CppClass {
 			}
 		}
     
-    // TODO: Block added
     // enums
 		if (null != this.getEnums(visability) && this.getEnums(visability).size() > 0) {
 			for (CEnum e : this.getEnums(visability)) {
 				tmp.append(e.toString() + Cpp.newline);
 			}
 		}
-    // TODO: Block end
     
     // constructors
 		if (null != this.getConstructors(visability) && this.getConstructors(visability).size() > 0) {

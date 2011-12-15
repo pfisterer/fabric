@@ -1,4 +1,4 @@
-/** 15.12.2011 13:08 */
+/** 15.12.2011 18:02 */
 package fabric.module.typegen.cpp;
 
 import java.util.ArrayList;
@@ -26,33 +26,40 @@ public class CppTypeHelper
   public static final String FILE_NAME = "simple_type_definitions";
 
   /** Header file for XSD simple type definitions */
-  private CppHeaderFile sourceFile;
+  private static CppHeaderFile sourceFile;
 
   /**
-   * Constructor creates a header file in the workspace and writes
-   * type definitions and structs for all required XSD simle types
-   * to it.
+   * Private constructor, because all methods of this class are static.
+   */
+  private CppTypeHelper()
+  {
+    // Empty implementation
+  }
+
+  /**
+   * Create a header file in the workspace and write type definitions
+   * and structs for all required XSD built-in types to it.
    *
    * @param workspace Workspace object for code write-out
    *
    * @throws Exception Error during code generation
    */
-  public CppTypeHelper(Workspace workspace) throws Exception
+  public static void init(Workspace workspace) throws Exception
   {
     // Create header file
-    this.sourceFile = workspace.getC().getCppHeaderFile(CppTypeHelper.FILE_NAME);
-    this.sourceFile.setComment(new CCommentImpl("Type definitions for required XSD simple types."));
+    CppTypeHelper.sourceFile = workspace.getC().getCppHeaderFile(CppTypeHelper.FILE_NAME);
+    CppTypeHelper.sourceFile.setComment(new CCommentImpl("Type definitions for required XSD simple types."));
 
     // Surround definitions with include guard
-    sourceFile.addBeforeDirective("ifndef SIMPLE_TYPE_DEFINITIONS_HPP");
-    sourceFile.addBeforeDirective("define SIMPLE_TYPE_DEFINITIONS_HPP");
+    CppTypeHelper.sourceFile.addBeforeDirective("ifndef SIMPLE_TYPE_DEFINITIONS_HPP");
+    CppTypeHelper.sourceFile.addBeforeDirective("define SIMPLE_TYPE_DEFINITIONS_HPP");
 
     // Create type definitions and structs
-    this.sourceFile.add(this.createTypeDefs());
-    this.sourceFile.add(this.createStructs());
+    CppTypeHelper.sourceFile.add(CppTypeHelper.createTypeDefs());
+    CppTypeHelper.sourceFile.add(CppTypeHelper.createStructs());
 
     // Close include guard
-    sourceFile.addAfterDirective("endif // SIMPLE_TYPE_DEFINITIONS_HPP");
+    CppTypeHelper.sourceFile.addAfterDirective("endif // SIMPLE_TYPE_DEFINITIONS_HPP");
   }
 
   /**
@@ -60,7 +67,7 @@ public class CppTypeHelper
    *
    * @return Array of CTypeDef objects
    */
-  private CTypeDef[] createTypeDefs()
+  private static CTypeDef[] createTypeDefs()
   {
     ArrayList<CTypeDef> typeDefinitions = new ArrayList<CTypeDef>();
 
@@ -86,9 +93,9 @@ public class CppTypeHelper
     typeDefinitions.add(CppTypeDef.factory.create("signed long long int", "int64"));
     
     // Add type definitions for XSD simple types
-    typeDefinitions.add(this.createGYearDefinition());
-    typeDefinitions.add(this.createGMonthDefinition());
-    typeDefinitions.add(this.createGDayDefinition());
+    typeDefinitions.add(CppTypeHelper.createGYearDefinition());
+    typeDefinitions.add(CppTypeHelper.createGMonthDefinition());
+    typeDefinitions.add(CppTypeHelper.createGDayDefinition());
 
     // Return list as array
     return typeDefinitions.toArray(new CTypeDef[0]);
@@ -102,23 +109,23 @@ public class CppTypeHelper
    *
    * @throws Exception Error during code generation
    */
-  private CStruct[] createStructs() throws Exception
+  private static CStruct[] createStructs() throws Exception
   {
     ArrayList<CStruct> structs = new ArrayList<CStruct>();
 
-    structs.add(this.createHexBinaryDefinition());
-    structs.add(this.createBase64BinaryDefinition());
-    structs.add(this.createDateTimeDefinition());
-    structs.add(this.createTimeDefinition());
-    structs.add(this.createDateDefinition());
+    structs.add(CppTypeHelper.createHexBinaryDefinition());
+    structs.add(CppTypeHelper.createBase64BinaryDefinition());
+    structs.add(CppTypeHelper.createDateTimeDefinition());
+    structs.add(CppTypeHelper.createTimeDefinition());
+    structs.add(CppTypeHelper.createDateDefinition());
     // xs:gDate is added as type definition
-    structs.add(this.createGYearMonthDefinition());
+    structs.add(CppTypeHelper.createGYearMonthDefinition());
     // xs:gMonth is added as type definition
-    structs.add(this.createGMonthDayDefinition());
+    structs.add(CppTypeHelper.createGMonthDayDefinition());
     // xs:gDay is added as type definition
-    structs.add(this.createDurationDefinition());
-    structs.add(this.createNotationDefinition());
-    structs.add(this.createQNameDefinition());
+    structs.add(CppTypeHelper.createDurationDefinition());
+    structs.add(CppTypeHelper.createNotationDefinition());
+    structs.add(CppTypeHelper.createQNameDefinition());
 
     return structs.toArray(new CStruct[0]);
   }
@@ -135,7 +142,7 @@ public class CppTypeHelper
    *
    * @throws Exception Error during code generation
    */
-  public CStruct createHexBinaryDefinition() throws Exception
+  private static CStruct createHexBinaryDefinition() throws Exception
   {
     CParam length = CParam.factory.create("uint16", "length");
     CParam content = CParam.factory.create("int8*", "content");
@@ -158,7 +165,7 @@ public class CppTypeHelper
    *
    * @throws Exception Error during code generation
    */
-  public CStruct createBase64BinaryDefinition() throws Exception
+  private static CStruct createBase64BinaryDefinition() throws Exception
   {
     CParam length = CParam.factory.create("uint16", "length");
     CParam content = CParam.factory.create("int8*", "content");
@@ -185,7 +192,7 @@ public class CppTypeHelper
    *
    * @throws Exception Error during code generation
    */
-  public CStruct createDateTimeDefinition() throws Exception
+  private static CStruct createDateTimeDefinition() throws Exception
   {
     CParam year = CParam.factory.create("uint16", "year");
     CParam month = CParam.factory.create("uint8", "month");
@@ -214,7 +221,7 @@ public class CppTypeHelper
    *
    * @throws Exception Error during code generation
    */
-  public CStruct createTimeDefinition() throws Exception
+  private static CStruct createTimeDefinition() throws Exception
   {
     CParam hour = CParam.factory.create("uint8", "hour");
     CParam minute = CParam.factory.create("uint8", "minute");
@@ -240,7 +247,7 @@ public class CppTypeHelper
    * 
    * @throws Exception Error during code generation
    */
-  public CStruct createDateDefinition() throws Exception
+  private static CStruct createDateDefinition() throws Exception
   {
     CParam year = CParam.factory.create("uint16", "year");
     CParam month = CParam.factory.create("uint8", "month");
@@ -259,7 +266,7 @@ public class CppTypeHelper
    *
    * @return Type definition for xs:gYear
    */
-  public CTypeDef createGYearDefinition()
+  private static CTypeDef createGYearDefinition()
   {
     return CppTypeDef.factory.create("uint8", "xs_gYear_t");
   }
@@ -276,7 +283,7 @@ public class CppTypeHelper
    *
    * @throws Exception Error during code generation
    */
-  public CStruct createGYearMonthDefinition() throws Exception
+  private static CStruct createGYearMonthDefinition() throws Exception
   {
     CParam year = CParam.factory.create("uint16", "year");
     CParam month = CParam.factory.create("uint8", "month");
@@ -294,7 +301,7 @@ public class CppTypeHelper
    *
    * @return Type definition for xs:gMonth
    */
-  public CTypeDef createGMonthDefinition()
+  private static CTypeDef createGMonthDefinition()
   {
     return CppTypeDef.factory.create("uint8", "xs_gMonth_t");
   }
@@ -311,7 +318,7 @@ public class CppTypeHelper
    *
    * @throws Exception Error during code generation
    */
-  public CStruct createGMonthDayDefinition() throws Exception
+  private static CStruct createGMonthDayDefinition() throws Exception
   {
     CParam month = CParam.factory.create("uint8", "month");
     CParam day = CParam.factory.create("uint8", "day");
@@ -329,7 +336,7 @@ public class CppTypeHelper
    * 
    * @return Type definition for xs:gDay
    */
-  public CTypeDef createGDayDefinition()
+  private static CTypeDef createGDayDefinition()
   {
     return CppTypeDef.factory.create("uint8", "xs_gDay_t");
   }
@@ -350,7 +357,7 @@ public class CppTypeHelper
    *
    * @throws Exception Error during code generation
    */
-  public CStruct createDurationDefinition() throws Exception
+  private static CStruct createDurationDefinition() throws Exception
   {
     CParam years = CParam.factory.create("uint16", "years");
     CParam months = CParam.factory.create("uint8", "months");
@@ -377,7 +384,7 @@ public class CppTypeHelper
    *
    * @throws Exception Error during code generation
    */
-  public CStruct createNotationDefinition() throws Exception
+  private static CStruct createNotationDefinition() throws Exception
   {
     CParam namespaceURI = CParam.factory.create("char*", "namespaceURI");
     CParam localPart = CParam.factory.create("char*", "localPart");
@@ -400,7 +407,7 @@ public class CppTypeHelper
    *
    * @throws Exception Error during code generation
    */
-  public CStruct createQNameDefinition() throws Exception
+  private static CStruct createQNameDefinition() throws Exception
   {
     CParam namespaceURI = CParam.factory.create("char*", "namespaceURI");
     CParam localPart = CParam.factory.create("char*", "localPart");

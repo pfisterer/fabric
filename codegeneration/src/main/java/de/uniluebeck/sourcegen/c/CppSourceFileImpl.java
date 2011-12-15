@@ -494,6 +494,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
           f.toString(buffer, tabCount, true);
         }
 			}
+      buffer.append(Cpp.newline + Cpp.newline);
 		}
 
 		// Private functions
@@ -509,6 +510,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
           f.toString(buffer, tabCount, true);
         }
 			}
+      buffer.append(Cpp.newline + Cpp.newline);
 		}
 
 		// Public nested classes

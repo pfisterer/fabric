@@ -44,7 +44,18 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 		// LibIncludes: System header files
 		if (null != base.getLibIncludes() && base.getLibIncludes().size() > 0) {
       for (String include : base.getLibIncludes()) {
-        buffer.append("#include <" + include + ">" + Cpp.newline);
+//        buffer.append("#include <" + include + ">" + Cpp.newline); // TODO: Readd
+        // TODO: Added for presentation of milestone 3
+        // TODO: Remove afterwards and readd line above!!!
+        if (include.endsWith(".hpp"))
+        {
+          buffer.append("#include \"" + include + "\" /** Added by workaround in CppSourceFileImpl, until Dennis B. provides proper fix*/" + Cpp.newline);
+        }
+        else
+        {
+          buffer.append("#include <" + include + ">" + Cpp.newline);
+        }
+        // TODO: Block end
       }
       buffer.append(Cpp.newline);
 		}

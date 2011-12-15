@@ -80,5 +80,9 @@ public class CppTypeGenerator implements CppTemplateName {
     public String getName() {
         return this.toString();
     }
+    
+    public String getTypeName() {
+      return this.typeName;
+    }
 
 }

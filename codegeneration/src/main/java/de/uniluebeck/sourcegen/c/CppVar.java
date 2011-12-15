@@ -154,7 +154,7 @@ public interface CppVar extends CppLangElem {
   public CppVar setComment(CComment comment);
   
   public Long getVisability();
-  public String getTypeName(); // TODO: Added
+  public String getTypeName();
   public String getVarName();
   public String getInitCode();
   public String getInit();

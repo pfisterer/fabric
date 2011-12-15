@@ -1,4 +1,4 @@
-/** 12.12.2011 19:41 */
+/** 15.12.2011 17:35 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -140,11 +140,13 @@ public class CppTypeGen implements TypeGen
       throw new IllegalStateException("CppTypeGen reached an illegal state. Lapidate the programmer.");
     }
 
+    // Create source files
     CWorkspace cWorkspace = this.workspace.getC();
     CppHeaderFile cpphf = null;
     CppSourceFile cppsf = null;
     
-    new CppTypeHelper(this.workspace); // TODO: Test this
+    // Create file with definitions for XSD built-in types once
+    CppTypeHelper.init(workspace);
     
     // Create new source file for every container
     for (String name: this.generatedElements.keySet())
@@ -159,25 +161,17 @@ public class CppTypeGen implements TypeGen
       cpphf.add(sourceFileData.typeObject);
       cpphf.setComment(new CCommentImpl(String.format("The '%s' header file.", name)));
 
-      // TODO: Check this block
-      // Add includes
-      String rootContainerName = this.properties.getProperty(FabricTypeGenModule.MAIN_CLASS_NAME_KEY);
-      if (name.equals(rootContainerName))
-      {
-        for (String include: this.generatedElements.keySet())
-        {
-          if (!include.equals(name))
-          {
-            cpphf.addLibInclude(include + ".hpp"); // TODO: Change to addInclude(String include + ".hpp") later
-          }
-        }
-      }
-      
+      // TODO: Check this block     
       for (CppVar member: sourceFileData.typeObject.getVars(Cpp.PRIVATE))
       {
-        if (member.getTypeName().endsWith("Type"))
+        System.out.println(">>>>>>>>>>> Processing member variable: " + member.getTypeName() + " in class " + name);
+        if (member.getTypeName().endsWith("Type") && // Only add custom data types
+            !member.getTypeName().equals(name) && // Do no self-inclusion
+            !cpphf.containsLibInclude(member.getTypeName() + ".hpp") && // Do no duplicate inclusion
+            !this.incompleteLocalBuilders.containsKey(name)) // Do not add include for local classes
         {
-          cpphf.addLibInclude(member.getTypeName()); // TODO: Change to addInclude(String include + ".hpp") later
+          System.out.println(">>>>>>>>>>>>>>>>>>>>>>> Adding include for type: " + member.getTypeName());
+          cpphf.addLibInclude(member.getTypeName() + ".hpp"); // TODO: Change to addInclude(String include + ".hpp") later
         }
       }
       // TODO: Block end
@@ -196,7 +190,6 @@ public class CppTypeGen implements TypeGen
 
       // Add includes
       cppsf.addInclude(cpphf);            
-      cppsf.addLibInclude("iostream"); // Needed for text output
       cppsf.addLibInclude("string.h"); // Needed strlen() in restriction checks
       cppsf.addUsingNamespace("std");
       
@@ -456,7 +449,7 @@ public class CppTypeGen implements TypeGen
       {
         CppClass innerClassObject = (CppClass)cppStrategy.generateClassObject(
                 this.incompleteLocalBuilders.get(classObject.getName()).pop().build());
-        classObject.add(Cpp.PRIVATE, innerClassObject); // TODO: Is this correct for inner classes in C++? Other modifiers?
+        classObject.add(Cpp.PUBLIC, innerClassObject); // TODO: Is this correct for inner classes in C++? Other modifiers?
         LOGGER.debug(String.format("Built inner class '%s' for current container '%s'.", innerClassObject.getName(), classObject.getName()));
       }
 
