@@ -144,6 +144,8 @@ public class CppTypeGen implements TypeGen
     CppHeaderFile cpphf = null;
     CppSourceFile cppsf = null;
     
+    new CppTypeHelper(this.workspace); // TODO: Test this
+    
     // Create new source file for every container
     for (String name: this.generatedElements.keySet())
     {
@@ -185,8 +187,8 @@ public class CppTypeGen implements TypeGen
       cppsf.setComment(new CCommentImpl(String.format("The '%s' source file.", name)));
 
       // Add includes
-      cppsf.addInclude(cpphf);
-      cppsf.addLibInclude(CppTypeHelper.FILE_NAME); // TODO: Change to addInclude(String include) later
+      cppsf.addInclude(cpphf);      
+      cppsf.addLibInclude(CppTypeHelper.FILE_NAME); // TODO: Change to addInclude(String include) later      
       cppsf.addLibInclude("iostream"); // Needed for text output
       cppsf.addLibInclude("string.h"); // Needed strlen() in restriction checks
       cppsf.addUsingNamespace("std");
@@ -194,7 +196,8 @@ public class CppTypeGen implements TypeGen
       // Add includes for own data types
       for (String requiredInclude: sourceFileData.requiredIncludes)
       {
-        cppsf.addLibInclude(requiredInclude); // TODO: How do we add user header files?
+        cpphf.addLibInclude(requiredInclude); // TODO: How do we add user header files?
+        cpphf.addUsingNamespace("std");
       }
       
       LOGGER.debug(String.format("Generated new source file '%s'.", name));
