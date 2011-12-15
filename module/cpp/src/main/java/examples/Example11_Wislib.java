@@ -67,9 +67,8 @@ public class Example11_Wislib {
         /**
          * Add the external libs
          */
-        file.addLibInclude("external_interface/external_interface.h");
-        file.addLibInclude("algorithms/routing/tree/tree_routing.h");
-
+        file.addInclude("external_interface/external_interface.h");
+        file.addInclude("algorithms/routing/tree/tree_routing.h");
         /**
          * Generate typdef
          */
