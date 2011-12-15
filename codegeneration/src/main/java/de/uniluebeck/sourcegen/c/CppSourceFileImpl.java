@@ -577,6 +577,13 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			}
 		}
 
+		// Protected nested classes
+		if (null != clazz.getNested(Cpp.PROTECTED) && clazz.getNested(Cpp.PROTECTED).size() > 0) {
+			for (CppClass c : clazz.getNested(Cpp.PROTECTED)) {
+				toStringHelper(buffer, c, tabCount);
+			}
+		}
+
 		// Private nested classes
 		if (null != clazz.getNested(Cpp.PRIVATE) && clazz.getNested(Cpp.PRIVATE).size() > 0) {
 			for (CppClass c : clazz.getNested(Cpp.PRIVATE)) {
