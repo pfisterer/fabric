@@ -1,4 +1,4 @@
-/** 15.12.2011 11:54 */
+/** 16.12.2011 03:21 */
 package fabric.module.typegen.cpp;
 
 import fabric.module.typegen.AttributeContainer;
@@ -129,27 +129,32 @@ public class CppRestrictionHelper
     else if (("collapse").equals(whiteSpace))
     {
       result += String.format(message, "collapse");
-      result += String.format("char* pos = %s;\nunsigned int i = 0;\n", memberName);
-      result += "// Remove leading whitespaces.\n" +
+      result += String.format(
+              "char* pos = %s;\n" +
+              "unsigned int i = 0;\n",
+              memberName);
+      result += "// Remove leading whitespaces\n" +
               "while (isspace(*pos)) {\n" +
               "\tpos++;\n" +
               "}\n";
       result += String.format(
-              "// Replace multiple whitespaces with single space.\n" +
+              "// Replace multiple whitespaces with single space\n" +
               "while (*pos) {\n" +
               "\t%s[i++] = *pos;\n" +
-              "\tif (isspace(*pos++))\n\t{\n" +
-              "\t\twhile (isspace(*pos))\n\t\t{\n" +
+              "\tif (isspace(*pos++)) {\n" +
+              "\t\twhile (isspace(*pos)) {\n" +
               "\t\t\tpos++;\n" +
               "\t\t}\n" +
               "\t}\n" +
               "}\n\n" +
-              "%s[i] = '\\0';\n", memberName, memberName);
+              "%s[i] = '\\0';\n",
+              memberName, memberName);
       result += String.format(
-              "// Remove trailing whitespaces.\n" +
-              "while (isspace(%s[--i]))\n{\n" +
+              "// Remove trailing whitespaces\n" +
+              "while (isspace(%s[--i])) {\n" +
               "\t%s[i] = '\\0';\n" +
-              "}", memberName, memberName, memberName);
+              "}",
+              memberName, memberName, memberName);
     }
     // Value of 'whiteSpace' was invalid
     else
@@ -164,8 +169,8 @@ public class CppRestrictionHelper
   }
 
   /**
-   * Helper method to create code that checks 'totalDigits' and/or
-   * 'fractionDigits' restriction.
+   * Helper method to create code that checks the 'totalDigits'
+   * and/or the 'fractionDigits' restriction.
    *
    * @param member Name of member variable to check
    *
@@ -179,13 +184,13 @@ public class CppRestrictionHelper
     String comment = "// Check the '%s' restriction\n";
     String result = "const char point = '.';\n";
 
-    // Member variable is either typed int64, uint64, int32, uint32, uint16, int8 or uint8
+    // Member variable is either typed int64, uint64, int32, uint32, int16, uint16, int8 or uint8
     if (isIntegerTyped)
     {
       result += String.format(
               "char numberAsString[20];\n" + // TODO: The size of allocated memory depends on the datatype of the number!
-              "sprintf (numberAsString, \"%s\", %s);\n",
-              "%d", member.name); // TODO: What is the first argument about? Why not use %%d in string?
+              "sprintf (numberAsString, \"%%d\", %s);\n",
+              member.name);
     }
     // Member variable is of type char*
     else
@@ -194,10 +199,12 @@ public class CppRestrictionHelper
               "char* numberAsString = %s;\n",
               member.name);
     }
-
+    
     result += "unsigned int totalDigits = strlen(numberAsString);\n" +
             "unsigned int j;\n" +
-            "for (j = 0; j < totalDigits && numberAsString[j] != point; j++)\n{}\n";
+            "for (j = 0; j < totalDigits && numberAsString[j] != point; j++) {\n" +
+            "\t// Do nothing\n" +
+            "}\n";
 
     // Member variable has xs:fractionDigits restriction
     if (member.isFractionDigitsRestricted())

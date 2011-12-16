@@ -49,7 +49,7 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
         // TODO: Remove afterwards and readd line above!!!
         if (include.endsWith(".hpp"))
         {
-          buffer.append("#include \"" + include + "\" /** Added by workaround in CppSourceFileImpl, until Dennis B. provides proper fix*/" + Cpp.newline);
+          buffer.append("#include \"" + include + "\" /** Added by workaround in CppHeaderFileImpl, until Dennis B. provides proper fix*/" + Cpp.newline);
         }
         else
         {

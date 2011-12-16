@@ -1,4 +1,4 @@
-/** 15.12.2011 17:05 */
+/** 16.12.2011 02:31 */
 package fabric.module.typegen.cpp;
 
 import java.util.Map;
@@ -49,6 +49,24 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
   public WorkspaceElement generateClassObject(final AttributeContainer container) throws Exception
   {
     return this.generateCppClassObject(container, null);
+  }
+
+  /**
+   * This method returns a class object that can be added to a source
+   * file. Return value should be casted to CppClass before further use.
+   * The returned class will be an extended version of the given parent
+   * class.
+   *
+   * @param container AttributeContainer for conversion
+   * @param parent Name of parent class for inheritance
+   *
+   * @return Generated WorkspaceElement object
+   *
+   * @throws Exception Error during class object generation
+   */
+  public WorkspaceElement generateClassObject(final AttributeContainer container, final String parent) throws Exception
+  {
+    return this.generateCppClassObject(container, parent);
   }
 
   /**
@@ -238,12 +256,12 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
       // No array size is given
       if (ea.maxSize == Integer.MAX_VALUE)
       {
-        cppv = CppVar.factory.create(Cpp.PRIVATE, type, ea.name); // TODO: Check this in generated code
+        cppv = CppVar.factory.create(Cpp.PRIVATE, type, ea.name);
       }
       // Array size is given
       else
       {
-        cppv = CppVar.factory.create(Cpp.PRIVATE, type, ea.name, String.valueOf(ea.maxSize)); // TODO: Check this in generated code
+        cppv = CppVar.factory.create(Cpp.PRIVATE, type, ea.name, String.valueOf(ea.maxSize));
       }
       
       cppv.setComment(new CCommentImpl(String.format("The '%s' element array.", ea.name)));
@@ -261,12 +279,12 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
       // No list size is given
       if (el.maxSize == Integer.MAX_VALUE)
       {
-        cppv = CppVar.factory.create(Cpp.PRIVATE, type, el.name); // TODO: Check this in generated code
+        cppv = CppVar.factory.create(Cpp.PRIVATE, type, el.name);
       }
       // List size is given
       else
       {
-        cppv = CppVar.factory.create(Cpp.PRIVATE, type, el.name, String.valueOf(el.maxSize)); // TODO: Check this in generated code
+        cppv = CppVar.factory.create(Cpp.PRIVATE, type, el.name, String.valueOf(el.maxSize));
       }
       
       cppv.setComment(new CCommentImpl(String.format("The '%s' element list.", el.name)));

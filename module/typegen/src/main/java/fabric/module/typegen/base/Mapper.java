@@ -1,6 +1,9 @@
+/** 16.12.2011 02:19 */
 package fabric.module.typegen.base;
 
 import java.util.HashMap;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Abstract base class for all language mapper implementations.
@@ -39,6 +42,34 @@ abstract public class Mapper
     }
 
     throw new IllegalArgumentException(String.format("No mapping found for datatype '%s'.", type));
+  }
+
+  /**
+   * Check whether any XSD built-in type is mapped to the given
+   * string. If the return value is true, the type must be an
+   * XSD built-in type. Otherwise false is returned.
+   *
+   * @param type Type to check for built-in status
+   *
+   * @return True if argument is an XSD built-in type,
+   * false otherwise
+   */
+  public boolean isBuiltInType(final String type)
+  {
+    boolean isBuiltInType = false;
+
+    Collection collection = this.types.values();
+    Iterator iterator = collection.iterator();
+    while (iterator.hasNext())
+    {
+      if (type.equals(iterator.next()))
+      {
+        isBuiltInType = true;
+        break; // Early exit
+      }
+    }
+
+    return isBuiltInType;
   }
 
   /**

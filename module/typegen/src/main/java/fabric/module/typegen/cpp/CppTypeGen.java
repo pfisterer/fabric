@@ -1,4 +1,4 @@
-/** 15.12.2011 17:35 */
+/** 16.12.2011 02:41 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -160,22 +160,35 @@ public class CppTypeGen implements TypeGen
       cpphf = cWorkspace.getCppHeaderFile(name);
       cpphf.add(sourceFileData.typeObject);
       cpphf.setComment(new CCommentImpl(String.format("The '%s' header file.", name)));
+      
+      // Add include for XSD built-in types
+      if (!cpphf.getFileName().equals(CppTypeHelper.FILE_NAME))
+      {
+        cpphf.addLibInclude(CppTypeHelper.FILE_NAME + ".hpp"); // TODO: Change to addInclude(String include) later
+      }
 
-      // TODO: Check this block     
+      // Add internally required includes (e.g. vector class)
+      for (String requiredInclude: sourceFileData.requiredIncludes)
+      {
+        cpphf.addLibInclude(requiredInclude); // TODO: Change to addInclude(String include) later
+      }
+      
+      // Add includes for private member variables with custom data type
       for (CppVar member: sourceFileData.typeObject.getVars(Cpp.PRIVATE))
       {
-        System.out.println(">>>>>>>>>>> Processing member variable: " + member.getTypeName() + " in class " + name);
-        if (member.getTypeName().endsWith("Type") && // Only add custom data types
+        if (!this.mapper.isBuiltInType(member.getTypeName()) && // No includes for built-in types
+            !member.getTypeName().startsWith("vector") && // Do not include vector class
             !member.getTypeName().equals(name) && // Do no self-inclusion
             !cpphf.containsLibInclude(member.getTypeName() + ".hpp") && // Do no duplicate inclusion
-            !this.incompleteLocalBuilders.containsKey(name)) // Do not add include for local classes
+            !this.incompleteLocalBuilders.containsKey(name)) // Do not add include for inner classes
         {
-          System.out.println(">>>>>>>>>>>>>>>>>>>>>>> Adding include for type: " + member.getTypeName());
           cpphf.addLibInclude(member.getTypeName() + ".hpp"); // TODO: Change to addInclude(String include + ".hpp") later
         }
       }
-      // TODO: Block end
-      
+
+      // Add namespace
+      cpphf.addUsingNamespace("std");
+
       // Add include guards to header file
       cpphf.addBeforeDirective("ifndef " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
       cpphf.addBeforeDirective("define " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
@@ -189,24 +202,53 @@ public class CppTypeGen implements TypeGen
       cppsf.setComment(new CCommentImpl(String.format("The '%s' source file.", name)));
 
       // Add includes
-      cppsf.addInclude(cpphf);            
-      cppsf.addLibInclude("string.h"); // Needed strlen() in restriction checks
+      cppsf.addInclude(cpphf);
+      cppsf.addLibInclude("string.h"); // TODO: Needed for strlen() in restriction checks, so only add there?
+
+      // Add namespace
       cppsf.addUsingNamespace("std");
-      
-      if (!cpphf.getFileName().equals(CppTypeHelper.FILE_NAME))
-      {
-        cpphf.addLibInclude(CppTypeHelper.FILE_NAME + ".hpp"); // TODO: Change to addInclude(String include) later
-      }
-      
-      // Add includes for own data types
-      for (String requiredInclude: sourceFileData.requiredIncludes)
-      {
-        cpphf.addLibInclude(requiredInclude); // TODO: How do we add user header files?
-        cpphf.addUsingNamespace("std");
-      }
-      
+
       LOGGER.debug(String.format("Generated new source file '%s'.", name));
     }
+
+    // TODO: Remove block
+    /*****************************************************************
+     * Create source file for main application
+     *****************************************************************/
+    String rootContainerName = this.properties.getProperty(FabricTypeGenModule.MAIN_CLASS_NAME_KEY);
+
+    CppSourceFile application = workspace.getC().getCppSourceFile("main");
+    application.addLibInclude("cstdlib");
+    application.addLibInclude("iostream");
+    application.addLibInclude(rootContainerName + ".hpp"); // TODO: Change to addInclude(String) later
+    application.addUsingNamespace("std");
+
+    CParam argc = CParam.factory.create("int", "argc");
+    CParam argv = CParam.factory.create("char*", "argv[]");
+    CFunSignature mainSignature = CFunSignature.factory.create(argc, argv);
+    CFun main = CFun.factory.create("main", "int", mainSignature);
+
+    String methodBody = String.format(
+            "%s *%s = new %s();\n\n" +
+            "try {\n" +
+            "\t// TODO: Add your custom initialization code here\n" +
+            "}\n" +
+            "catch (char const *e) {\n" +
+            "\tcout << e << endl;\n" +
+            "}\n\n" +
+            "delete %s;\n\n" +
+            "return EXIT_SUCCESS;",
+            rootContainerName, rootContainerName.toLowerCase(),
+            rootContainerName, rootContainerName.toLowerCase());
+
+    main.appendCode(methodBody);
+    main.setComment(new CCommentImpl("Main function of the application."));
+
+    application.add(main);
+    application.setComment(new CCommentImpl(("The application's main file.")));
+
+    LOGGER.debug(String.format("Generated application source file '%s'.", application.getFileName()));
+    // TODO: Block end
   }
 
   /**
