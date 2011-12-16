@@ -34,21 +34,17 @@ import de.uniluebeck.sourcegen.Workspace;
  */
 public class Main
 {
-  public Main() throws Exception
+  public Main(Workspace workspace) throws Exception
   {
-    Properties properties = new Properties();
-//    properties.put("fabric.output_directory", "/Users/reichart/Documents/Studium/SS11/Fallstudie/generated/");
-    Workspace workspace = new Workspace(properties);
-
     // Generate different classes
-    new Example7_Enum(workspace);
-/*    new Example0_Empty(workspace);
-    new Example3_Nested(workspace);
+    new Example0_Empty(workspace);
     new Example1_Simple(workspace);
     new Example2_TwoClassesPerFile(workspace);
+    new Example3_Nested(workspace);
     new Example4_NestedOfNested(workspace);
     new Example5_Constructor_Destructor(workspace);
     new Example6_Struct(workspace);
+    new Example7_Enum(workspace);
     new Example8_Directives(workspace);
     new Example9_Typedef(workspace);
     new Example10_Inheritance(workspace);
@@ -56,12 +52,14 @@ public class Main
     new Example12_NestedOfNestedWithConstructor(workspace);
     new Example13_Const(workspace)    ;
     new Example14_Static(workspace);
-*/
     workspace.generate();
   }
 
   public static void main(String[] args) throws Exception
   {
-    new Main();
+	    Properties properties = new Properties();
+	    properties.put("fabric.output_directory", "/home/dennis/Desktop/o/");
+	    Workspace workspace = new Workspace(properties);
+	    new Main(workspace);
   }
 }

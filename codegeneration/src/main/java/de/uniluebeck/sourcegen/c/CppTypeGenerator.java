@@ -3,26 +3,21 @@ package de.uniluebeck.sourcegen.c;
 
 public class CppTypeGenerator {
 
-    private Long qualifier = null;
+   // private Long qualifier = null;
     private Long qualifiedType = null;
     private String typeName = null;
+    private CppClass clazz = null;
 
     public CppTypeGenerator(String name) {
         this.typeName = name;
     }
 
+    public CppTypeGenerator(CppClass clazz) {
+        this.clazz = clazz;
+    }
+
     public CppTypeGenerator(Long qualifier) {
-    	this.qualifier = qualifier;
-    }
-
-    public CppTypeGenerator(String name, Long qualifier) {
-        this.typeName = name;
-        this.qualifier = qualifier;
-    }
-
-    public CppTypeGenerator(Long qualifiedType, String name) {
-        this.typeName = name;
-        this.qualifiedType = qualifiedType;
+    	this.qualifiedType = qualifier;
     }
 
     @Override
@@ -32,14 +27,10 @@ public class CppTypeGenerator {
 
         if (this.qualifiedType != null) {
             buffer.append(Cpp.toString(this.qualifiedType));
-        }
-
-        if (this.typeName != null) {
+        } else if (this.typeName != null) {
             buffer.append(this.typeName);
-        }
-
-        if(this.qualifier != null) {
-            buffer.append(Cpp.toString(this.qualifier));
+        } else if (this.clazz != null) {
+            buffer.append(this.getParents() + this.clazz.getName());
         }
 
         if(buffer.length() == 0) {
@@ -50,8 +41,14 @@ public class CppTypeGenerator {
         return buffer.toString();
     }
 
-    public String getName() {
-      return this.typeName;
+    private String getParents(){
+    	StringBuffer myParents = new StringBuffer();
+    	if(this.clazz != null) {
+	    	for (CppClass p : this.clazz.getParents()) {
+	    		myParents.append(p.getName()+ "::");
+			}
+    	}
+    	return myParents.toString();
     }
 
 }

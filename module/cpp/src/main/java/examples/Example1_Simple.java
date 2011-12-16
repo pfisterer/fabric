@@ -71,7 +71,7 @@ public class Example1_Simple {
         var_x.setComment(new CCommentImpl("A nice comment for the variable x"));
 
         CppTypeGenerator type_int = new CppTypeGenerator(Cpp.INT);
-        CppVar var_y = CppVar.factory.create(Cpp.PRIVATE, type_int.getName() , "y");
+        CppVar var_y = CppVar.factory.create(Cpp.PRIVATE, type_int.toString() , "y");
         var_y.setComment(new CCommentImpl("A nice comment for the variable y"));
 
         class_CRectangleSimple.add(var_y);

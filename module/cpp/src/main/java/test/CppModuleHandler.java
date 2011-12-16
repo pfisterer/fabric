@@ -45,7 +45,10 @@ import fabric.wsdlschemaparser.schema.FSimpleType;
  */
 public class CppModuleHandler extends FabricDefaultHandler {
 
+	Workspace workspace;
+
 	public CppModuleHandler(Properties properties, Workspace workspace) {
+		this.workspace = workspace;
 	}
 
 	@Override
@@ -54,7 +57,7 @@ public class CppModuleHandler extends FabricDefaultHandler {
 	}
 
 	private void codeGen_example_app() throws Exception {
-		new Main();
+		new Main(workspace);
     }
 
 	@Override

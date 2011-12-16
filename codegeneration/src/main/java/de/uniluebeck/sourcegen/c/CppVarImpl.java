@@ -97,7 +97,7 @@ class CppVarImpl extends CElemImpl implements CppVar {
 	}
 
   public String getName() {
-    return typeGenerator.getName();
+    return typeGenerator.toString();
   }
 
 	public String getVarName() {

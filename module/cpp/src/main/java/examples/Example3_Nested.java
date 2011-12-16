@@ -70,25 +70,32 @@ public class Example3_Nested {
 		CppFun funMult = CppFun.factory.create(Cpp.INT, "mult", intX);
 		funMult.appendCode("return a*x;");
 
+		CppFun fungetA = CppFun.factory.create(Cpp.INT, "getA");
+		fungetA.appendCode("return a;");
+
 		classNested.add(Cpp.PUBLIC, intA);
-		classNested.add(Cpp.PUBLIC, funSetA, funMult);
+		classNested.add(Cpp.PUBLIC, funSetA, funMult, fungetA);
 
 		/*
 		 * 2nd class
 		 */
 		CppClass classOuter = CppClass.factory.create("Outer");
-		CppTypeGenerator typeNested = new CppTypeGenerator("Nested");
+		CppTypeGenerator typeNested = new CppTypeGenerator(classNested);
 		CppVar n = CppVar.factory.create(typeNested, "n");
+
 		CppFun funCall = CppFun.factory.create(Cpp.INT, "call", intX);
 		funCall.appendCode("n.setA(x);");
 		funCall.appendCode("return n.mult(x);");
 
+		CppFun funGetNested = CppFun.factory.create(typeNested, "getNested");
+		funGetNested.appendCode("return n;");
+
 		classOuter.add(Cpp.PRIVATE, n);
 		classOuter.add(Cpp.PUBLIC, intA);
-		classOuter.add(Cpp.PUBLIC, funCall);
+		classOuter.add(Cpp.PUBLIC, funCall, funGetNested);
 
 		// Add the nested class Two to the outer class One
-		classOuter.add(Cpp.PROTECTED, classNested);
+		classOuter.add(Cpp.PUBLIC, classNested);
 
 		/*
 		 * Generate the files (Nested.cpp + NestedHeader.hpp)

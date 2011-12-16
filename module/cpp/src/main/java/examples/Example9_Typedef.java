@@ -92,8 +92,8 @@ public class Example9_Typedef {
         header.add(stringArray);
         header.add(pDouble);
 
-        CParam px = CParam.factory.create(type_double.getName(), "re");
-        CParam py = CParam.factory.create(type_double.getName(), "im");
+        CParam px = CParam.factory.create(type_double.toString(), "re");
+        CParam py = CParam.factory.create(type_double.toString(), "im");
         CStruct struct = CStruct.factory.create("var", "complex", true, px, py);
         header.add(struct);
 

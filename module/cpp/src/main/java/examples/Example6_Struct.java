@@ -67,8 +67,8 @@ public class Example6_Struct {
         /**
          * Lets generate a struct
          */
-        CParam px = CParam.factory.create(type_int.getName(), "x");
-        CParam py = CParam.factory.create(type_int.getName(), "y");
+        CParam px = CParam.factory.create(type_int.toString(), "x");
+        CParam py = CParam.factory.create(type_int.toString(), "y");
         CStruct struct = CStruct.factory.create("data_xy", "data", false, px, py);
         struct.setComment(new CCommentImpl("This struct holds the data"));
 
