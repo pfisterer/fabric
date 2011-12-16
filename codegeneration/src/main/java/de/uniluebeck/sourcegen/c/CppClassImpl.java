@@ -187,24 +187,42 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	public CppClass addExtended(long vis, String... extendeds) throws CppDuplicateException {
 		for (String e : extendeds) {
 			String tmp = Cpp.toString(vis) + " " + e;
-			// TODO: Check also with this.extendeds
 			if(this.extendeds_string.contains(tmp)) {
-				throw new CppDuplicateException(this.className + " contains already the extend " + tmp);
+				throw new CppDuplicateException("Extended class " + tmp + " already contained");
 			}
+
+			// Check again this.extendeds (classes)
+			for (VisElem ex : this.extendeds) {
+				if(ex.elem instanceof CppClass) {
+					CppClass clazz = (CppClass) ex.elem;
+					if(clazz.getName().equals(e)) {
+						throw new CppDuplicateException("Extended class " + clazz.getName() + " already contained");
+					}
+				}
+			}
+
 			this.extendeds_string.add(tmp);
 		}
 		return this;
 	}
 
 	private void addExtendedInternal(long vis, CppClass extended) throws CppDuplicateException {
-		if (containsExtended(extended))
+
+		if (containsExtended(extended)) {
+			throw new CppDuplicateException("Extended class " + extended.getName() + " already contained");
+		}
+
+		// Check again extendeds_string
+		if(this.extendeds_string.contains(extended.getName())) {
 			throw new CppDuplicateException("Extended class already contained");
+		}
+
 		extendeds.add(new VisElem(extended, vis));
 	}
 
 	private void addInternal(long vis, CppClass classObj) throws CppDuplicateException {
 		if (contains(classObj))
-			throw new CppDuplicateException("Enum already contained");
+			throw new CppDuplicateException("Class already contained");
 		nested.add(new VisElem(classObj, vis));
 	}
 

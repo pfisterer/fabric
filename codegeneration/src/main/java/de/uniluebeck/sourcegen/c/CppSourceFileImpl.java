@@ -426,15 +426,14 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
       }
     }
 
-    // FIXME: Not working yet...
+    // FIXME: Buggy, not working yet...
     // Static variables
     if (null != this.cppClasses && this.cppClasses.size() > 0) {
     	boolean hasStaticVar = false;
         for (CppClass c : this.cppClasses) {
         	List<CppVar> v = c.getVars(Cpp.STATIC);
         	for (CppVar cppVar : v) {
-        		// FIXME:
-        		// we need
+        		// FIXME: we need
         		// int StaticAndConst::next_id = 0;
         		// instead of
         		// static int next_id = 0;

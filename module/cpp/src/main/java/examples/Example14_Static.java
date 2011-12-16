@@ -38,7 +38,7 @@ import de.uniluebeck.sourcegen.c.CppVar;
  *
  * - Compile with: g++ Static.cpp -o static
  * - Run with: ./static
- * - FIXME: The static var is not correct yet, so replace it with this line
+ * - FIXME: Buggy The static var is not correct yet, so replace it with this line
  *   - int StaticAndConst::next_id = 0;
  * - Returns:
  *
