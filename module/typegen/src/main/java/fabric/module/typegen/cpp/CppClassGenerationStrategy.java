@@ -1,4 +1,4 @@
-/** 16.12.2011 02:31 */
+/** 16.12.2011 10:54 */
 package fabric.module.typegen.cpp;
 
 import java.util.Map;
@@ -58,15 +58,15 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
    * class.
    *
    * @param container AttributeContainer for conversion
-   * @param parent Name of parent class for inheritance
+   * @param parents Names of parent classes for inheritance
    *
    * @return Generated WorkspaceElement object
    *
    * @throws Exception Error during class object generation
    */
-  public WorkspaceElement generateClassObject(final AttributeContainer container, final String parent) throws Exception
+  public WorkspaceElement generateClassObject(final AttributeContainer container, final String[] parents) throws Exception
   {
-    return this.generateCppClassObject(container, parent);
+    return this.generateCppClassObject(container, parents);
   }
 
   /**
@@ -100,14 +100,14 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
    * Private helper method to create CppClass object from AttributeContainer.
    *
    * @param container AttributeContainer for conversion
-   * @param parent Parent class name for extends-directive (set to
-   * null or empty string if class has no parent)
+   * @param parents Names of parent classes for inheritance or null,
+   * if class has no parent
    *
    * @return Generated CppClass object
    *
    * @throws Exception Error during class object generation
    */
-  private CppClass generateCppClassObject(final AttributeContainer container, final String parent) throws Exception
+  private CppClass generateCppClassObject(final AttributeContainer container, final String[] parents) throws Exception
   {
     /*****************************************************************
      * Create surrounding container class
@@ -115,10 +115,13 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     CppClass cppc = CppClass.factory.create(this.firstLetterCapital(container.getName()));
     cppc.setComment(new CCommentImpl(String.format("The '%s' container class.", container.getName())));
     
-    // Set extends-directive
-    if (null != parent && parent.length() > 0)
+    // Set parent classes for inheritance
+    if (null != parents)
     {
-      cppc.addExtended(Cpp.PUBLIC, parent);
+      for (String parent: parents)
+      {
+        cppc.addExtended(Cpp.PUBLIC, parent);
+      }
     }
     
     // Process all members
@@ -183,7 +186,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
    *
    * @throws Exception Error during CppVar creation
    */
-  private CppVar createMemberVariable(MemberVariable member) throws Exception
+  private CppVar createMemberVariable(final MemberVariable member) throws Exception
   {
     CppVar cppv = null;
 
@@ -312,7 +315,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
    *
    * @throws Exception Error during CppFun creation
    */
-  private CppFun createSetterMethod(MemberVariable member) throws Exception
+  private CppFun createSetterMethod(final MemberVariable member) throws Exception
   {
     // No setter for constants
     if (member.getClass() == AttributeContainer.ConstantElement.class)
@@ -372,7 +375,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
    *
    * @throws Exception Error during check code generation
    */
-  private String generateRestrictionChecks(AttributeContainer.RestrictedElementBase member) throws Exception
+  private String generateRestrictionChecks(final AttributeContainer.RestrictedElementBase member) throws Exception
   {
     String result = "";
 
@@ -473,13 +476,13 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
    * will create a CppFun object with a comment.
    *
    * @param member MemberVariable object for creation
-   * @param className Name of surrounding container class
+   * @param outerClass Name of surrounding container class
    *
    * @return Generated CppFun object
    *
    * @throws Exception Error during CppFun creation
    */
-  private CppFun createGetterMethod(MemberVariable member, String className) throws Exception
+  private CppFun createGetterMethod(final MemberVariable member, final String outerClass) throws Exception
   {
     // Member variable is an ElementArray or ElementList
     String type = member.type;
@@ -492,7 +495,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     String reference = "this";
     if (member.getClass() == AttributeContainer.ConstantElement.class)
     {
-      reference = className; // TODO: Constants don't work like this in C++!
+      reference = outerClass; // TODO: Constants don't work like this in C++!
     }
     
     CppFun getter = CppFun.factory.create(type, "get" + this.firstLetterCapital(member.name));

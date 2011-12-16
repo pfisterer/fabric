@@ -1,4 +1,4 @@
-/** 16.11.2011 21:32 */
+/** 16.12.2011 10:54 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
@@ -234,7 +234,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
    *
    * @throws Exception Error during JField creation
    */
-  private JField createMemberVariable(MemberVariable member) throws Exception
+  private JField createMemberVariable(final MemberVariable member) throws Exception
   {
     JField jf = null;
 
@@ -425,7 +425,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
    *
    * @throws Exception Error during JMethod creation
    */
-  private JMethod createSetterMethod(MemberVariable member) throws Exception
+  private JMethod createSetterMethod(final MemberVariable member) throws Exception
   {
     // No setter for constants
     if (member.getClass() == AttributeContainer.ConstantElement.class)
@@ -485,7 +485,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
    *
    * @throws Exception Error during check code generation
    */
-  private String generateRestrictionChecks(AttributeContainer.RestrictedElementBase member) throws Exception
+  private String generateRestrictionChecks(final AttributeContainer.RestrictedElementBase member) throws Exception
   {
     String result = "";
 
@@ -594,13 +594,13 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
    * will create a JMethod object with a comment.
    *
    * @param member MemberVariable object for creation
-   * @param className Name of surrounding container class
+   * @param outerClass Name of surrounding container class
    *
    * @return Generated JMethod object
    *
    * @throws Exception Error during JMethod creation
    */
-  private JMethod createGetterMethod(MemberVariable member, String className) throws Exception
+  private JMethod createGetterMethod(final MemberVariable member, final String outerClass) throws Exception
   {
     // Member variable is an ElementArray or ElementList
     String type = member.type;
@@ -613,7 +613,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     String reference = "this";
     if (member.getClass() == AttributeContainer.ConstantElement.class)
     {
-      reference = className;
+      reference = outerClass;
     }
 
     JMethod getter = JMethod.factory.create(JModifier.PUBLIC, type, "get" + this.firstLetterCapital(member.name));
@@ -690,7 +690,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
    *
    * @return Array with cleaned, Java-compatible constant names
    */
-  private String[] fixEnumConstants(String[] enumConstants)
+  private String[] fixEnumConstants(final String[] enumConstants)
   {
     final char REPLACE_CHAR = '_';
 

@@ -1,4 +1,4 @@
-/** 16.12.2011 02:41 */
+/** 16.12.2011 10:55 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -238,8 +238,8 @@ public class CppTypeGen implements TypeGen
             "}\n\n" +
             "delete %s;\n\n" +
             "return EXIT_SUCCESS;",
-            rootContainerName, rootContainerName.toLowerCase(),
-            rootContainerName, rootContainerName.toLowerCase());
+            this.firstLetterCapital(rootContainerName), rootContainerName.toLowerCase(),
+            this.firstLetterCapital(rootContainerName), rootContainerName.toLowerCase());
 
     main.appendCode(methodBody);
     main.setComment(new CCommentImpl("Main function of the application."));
@@ -556,5 +556,18 @@ public class CppTypeGen implements TypeGen
     }
     
     return fileName.replaceAll("\\.", "_").toUpperCase();
+  }
+
+  /**
+   * Private helper method to capitalize the first letter of a string.
+   * Function will return null, if argument was null.
+   *
+   * @param text Text to process
+   *
+   * @return Text with first letter capitalized or null
+   */
+  private String firstLetterCapital(final String text) throws Exception
+  {
+    return (null == text ? null : text.substring(0, 1).toUpperCase() + text.substring(1, text.length()));
   }
 }
