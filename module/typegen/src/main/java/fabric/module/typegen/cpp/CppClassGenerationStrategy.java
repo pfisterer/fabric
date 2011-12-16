@@ -1,4 +1,4 @@
-/** 16.12.2011 10:54 */
+/** 16.12.2011 15:06 */
 package fabric.module.typegen.cpp;
 
 import java.util.Map;
@@ -352,6 +352,12 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
               String.format("%s.size() < %d || %s.size() > %d", member.name, ec.minSize, member.name, ec.maxSize),
               String.format("Illegal size for array '%s'.", member.name),
               "Check the occurrence indicators");
+      
+      // Surround restriction check with #ifndef-block
+      if (!("").equals(methodBody))
+      {
+        methodBody = "#ifndef NO_RESTRICTIONS\n\n" + methodBody + "#endif // NO_RESTRICTIONS\n\n";
+      }
     }
     
     CppVar attribute = CppVar.factory.create(modifiers, type, member.name);
@@ -467,7 +473,13 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     {
       result += CppRestrictionHelper.createDigitsCheckCode(member);
     }
-
+    
+    // Surround restriction check with #ifndef-block
+    if (!("").equals(result))
+    {
+      result = "#ifndef NO_RESTRICTIONS\n\n" + result + "#endif // NO_RESTRICTIONS\n\n";
+    }
+    
     return result;
   }
 
