@@ -50,11 +50,11 @@ public interface CppVar extends CppLangElem {
 		}
 
 		public CppVar create(CStruct struct, String varName) {
-			return new CppVarImpl(new CppTypeGenerator(struct.getTypeName()), varName);
+			return new CppVarImpl(new CppTypeGenerator(struct.getName()), varName);
 		}
 
 		public CppVar create(CEnum enumm, String varName) {
-			return new CppVarImpl(new CppTypeGenerator(enumm.getTypeName()), varName);
+			return new CppVarImpl(new CppTypeGenerator(enumm.getName()), varName);
 		}
 
 		public CppVar create(long visibility, String type, String varName) {
@@ -72,97 +72,13 @@ public interface CppVar extends CppLangElem {
 		public CppVar create(long visibility, String type, String varName, String initCode) {
 			return new CppVarImpl(visibility, new CppTypeGenerator(type), varName, initCode);
 		}
-
-/*
-    // TODO: Below you find old code from before refactoring in 12/2011.
-
-    // qualifiedType
-    public CppVar create(long qualifiedType) {
-      return create(qualifiedType, "", "");
-    }
-
-		public CppVar create(long qualifiedType, String varName) {
-			return create(qualifiedType, varName, "");
-		}
-
-		public CppVar create(long qualifiedType, String varName, String initCode) {
-			return new CppVarImpl(qualifiedType, varName, initCode);
-		}
-
-		public CppVar create(long qualifiedType, String varName, CppTemplateHelper template) {
-			return new CppVarImpl(qualifiedType, varName, template);
-		}
-
-		// CppTypeGenerator
-		public CppVar create(long qualifiedType, String type, String varName, String initCode) {
-			CppTypeGenerator t = new CppTypeGenerator(qualifiedType, type);
-			return new CppVarImpl(varName, t, initCode);
-		}
-
-		public CppVar create(String type, String varName, CppTemplateName... types) {
-			return new CppVarImpl(new CppTypeGenerator(type), varName, null, types);
-		}
-
-		public CppVar create(CppTypeGenerator type, String varName, CppTemplateName... types) {
-			return new CppVarImpl(type, varName, null, types);
-		}
-
-		public CppVar create(CppTypeGenerator type, String varName, CppTemplateHelper template, CppTemplateName... types) {
-			return new CppVarImpl(type, varName, template, types);
-		}
-
-		// CppClass
-		public CppVar create(CppClass clazz, String varName, CppTemplateHelper template) {
-			return new CppVarImpl(new CppTypeGenerator(clazz, template), varName, template);
-		}
-
-    // String
-		public CppVar create(String varDeclString) {
-			return new CppVarImpl(varDeclString);
-		}
-
-		// CStruct
-		public CppVar create(CStruct type, String varName) {
-			return create(type.getTypeName(), varName);
-		}
-
-		// Enum
-		public CppVar create(CEnum type, String varName) {
-			return create(type.getTypeName(), varName);
-		}
-
-		// CComplexType
-		public CppVar create(CComplexType type, String varName) {
-			return create(Cpp.NONE, type, varName);
-		}
-
-		public CppVar create(CppComplexType type, String varName) {
-			return create(Cpp.NONE, type, varName);
-		}
-
-    // qualifier + ComplexType
-    public CppVar create(long qualifier, CComplexType type, String varName) {
-      return new CppVarImpl(qualifier, type, varName, "");
-    }
-
-    public CppVar create(long qualifier, CppComplexType type, String varName) {
-      return new CppVarImpl(qualifier, type, varName, "");
-    }
-
-    public CppVar create(long qualifier, CComplexType type, String varName, String initCode) {
-      return new CppVarImpl(qualifier, type, varName, initCode);
-    }
-*/
 	}
 
   public static final CppVarFactory factory = CppVarFactory.getInstance();
-//	public static final CppVar VOID = factory.create(Cpp.VOID);
-
-//  public CppVar setClass(CppClass clazz);
   public CppVar setComment(CComment comment);
 
   public Long getVisability();
-  public String getTypeName();
+  public String getName();
   public String getVarName();
   public String getInitCode();
   public String getInit();

@@ -25,8 +25,6 @@ package de.uniluebeck.sourcegen;
 
 import java.util.LinkedList;
 
-import de.uniluebeck.sourcegen.c.Cpp;
-
 public abstract class ElemImpl implements WorkspaceElement {
 
 	public abstract void toString(StringBuffer buffer, int tabCount);

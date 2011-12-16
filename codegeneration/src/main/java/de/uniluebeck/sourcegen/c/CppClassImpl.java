@@ -23,11 +23,9 @@
  */
 package de.uniluebeck.sourcegen.c;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
-
-import org.slf4j.LoggerFactory;
+import java.util.List;
 
 import de.uniluebeck.sourcegen.WorkspaceElement;
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
@@ -35,8 +33,6 @@ import de.uniluebeck.sourcegen.exceptions.CppCodeValidationException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 class CppClassImpl extends CElemImpl implements CppClass {
-
-  private static final org.slf4j.Logger log = LoggerFactory.getLogger(CppClassImpl.class);
 
 	class VisElem {
 		public WorkspaceElement elem;
@@ -387,7 +383,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 	public CEnum getEnumByName(String name) {
 		for (VisElem ev : enums)
-			if (((CEnumImpl)ev.elem).getTypeName().equals(name))
+			if (((CEnumImpl)ev.elem).getName().equals(name))
 				return (CEnum)ev.elem;
 		return null;
 	}
@@ -615,6 +611,8 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	public void toString(StringBuffer buffer, int tabCount) {
 		prepare();
 
+		// TODO: maybe beforeDirectives, globalDeclarations
+
 		// write comment if necessary
 		if (comment != null) {
 			comment.toString(buffer, tabCount);
@@ -694,36 +692,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		// Final empty line
 		buffer.append(Cpp.newline);
 
-		/*
-		toString(buffer, tabCount, beforeDirectives, "", "\n", true);
-		indent(buffer, tabCount);
-		buffer.append("class " + className);
-		buffer.append("{\n");
-		if (extendeds.size() > 0) {
-			buffer.append(" : ");
-			for (VisElem ve : extendeds) {
-				buffer.append(Cpp.toString(ve.vis));
-				buffer.append(" ");
-				buffer.append(((CppClassImpl)ve.elem).getTypeName());
-			}
-		}
-		if (globalDeclarations.size() > 0) {
-			for (String s : globalDeclarations) {
-				indent(buffer, tabCount);
-				buffer.append(s);
-				buffer.append("\n");
-			}
-			buffer.append("\n");
-		}
-		//appendVisElem(buffer, tabCount, enums);
-		//appendVisElem(buffer, tabCount, structsUnions);
-		//appendVisElem(buffer, tabCount, vars);
-		appendVisElem(buffer, tabCount, constructors);
-		//appendVisElem(buffer, tabCount, destructors);
-		//appendVisElem(buffer, tabCount, funs);
-		buffer.append("\n}");
-		//toString(buffer, tabCount, afterDirectives, "", "\n", true);
-		 * */
+		// TODO: Maybe afterDirectives
 	}
 
 	protected void indent(StringBuffer buffer, int tabCount) {
@@ -800,16 +769,9 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		return parents;
 	}
 
-  @Override
-  public String getName() {
-    return this.className;
-  }
-
-  @Override
-	@Deprecated
-	public String getTypeName() {
-    log.warn("Method getTypeName() is deprecated! Use getName() instead.");
-		return this.getName();
+	@Override
+	public String getName() {
+		return this.className;
 	}
 
 	@Override

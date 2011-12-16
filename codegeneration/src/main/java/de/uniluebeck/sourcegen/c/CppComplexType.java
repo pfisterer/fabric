@@ -24,5 +24,5 @@
 package de.uniluebeck.sourcegen.c;
 
 public interface CppComplexType extends CppElem {
-	public String getTypeName();
+	public String getName();
 }

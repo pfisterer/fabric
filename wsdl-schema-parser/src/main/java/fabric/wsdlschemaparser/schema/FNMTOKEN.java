@@ -23,10 +23,6 @@
  */
 package fabric.wsdlschemaparser.schema;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.xmlbeans.SchemaType;
 
 /**
  * This class represents the Fabric variation of a NMTOKEN,
@@ -35,7 +31,7 @@ import org.apache.xmlbeans.SchemaType;
  * @author Richard Mietz
  */
 public class FNMTOKEN extends FToken {
-	
+
 	/**
 	 *
 	 */
@@ -47,7 +43,7 @@ public class FNMTOKEN extends FToken {
 
 	/**
 	 * Creates a NMTOKEN having a type name.
-	 * 
+	 *
 	 * @param typeName This NMTOKEN's name.
 	 */
 	public FNMTOKEN(String typeName) {

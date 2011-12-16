@@ -26,9 +26,6 @@
  */
 package fabric.wsdlschemaparser.schema;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.xmlbeans.SchemaType;
 
 
@@ -42,7 +39,7 @@ import org.apache.xmlbeans.SchemaType;
 public class FQName extends FString {
 
 	public static final int MAX_LENGTH = 63;
-	
+
 	/**
 	 *
 	 */
@@ -54,7 +51,7 @@ public class FQName extends FString {
 
 	/**
 	 * Creates a normalized string having a type name.
-	 * 
+	 *
 	 * @param typeName This normalized string's name.
 	 */
 	public FQName(String typeName) {

@@ -275,8 +275,8 @@ public class XSD2JavaTest {
          Generate SourceFiles manually.
          */
         List<SourceFile> sourceFilesMan = sourceFileGenerator.getSourceFiles();
-        
-        
+
+
         System.out.println("**********************************************************************");
         System.out.println(" UNIT TEST " +xsd);
         System.out.println("**********************************************************************");
@@ -285,13 +285,13 @@ public class XSD2JavaTest {
         for (SourceFile sourceFile : sourceFilesAuto) {
         	System.out.println("Automatically generated file: " + sourceFile.getFileName());
 		}
-        
+
         for (SourceFile sourceFile : sourceFilesMan) {
         	System.out.println("Manually generated file: " + sourceFile.getFileName());
 		}
         System.out.println("**********************************************************************");
-        
-        
+
+
         /*
          True if all source files exist and if there are not too many source files
          */

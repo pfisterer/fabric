@@ -211,7 +211,7 @@ public class CSourceFileBase extends ElemImpl {
 
 		for (CEnum e : enums) {
 			if (internalContainsEnum(e))
-				throw new CDuplicateException("Duplicate enum " + ((CEnumImpl)e).getTypeName());
+				throw new CDuplicateException("Duplicate enum " + ((CEnumImpl)e).getName());
 
 			this.enums.add((CEnumImpl)e);
 		}
@@ -275,7 +275,7 @@ public class CSourceFileBase extends ElemImpl {
 
 		for (CStruct s : structs) {
 			if (internalContainsStruct(s))
-				throw new CDuplicateException("Duplicate struct " + ((CStructImpl)s).getTypeName());
+				throw new CDuplicateException("Duplicate struct " + ((CStructImpl)s).getName());
 
 			structsUnions.add((CStructImpl)s);
 		}
@@ -286,7 +286,7 @@ public class CSourceFileBase extends ElemImpl {
 
 		for (CUnion u : unions) {
 			if (internalContainsUnion(u))
-				throw new CDuplicateException("Duplicate structUnion " + ((CUnionImpl)u).getTypeName());
+				throw new CDuplicateException("Duplicate structUnion " + ((CUnionImpl)u).getName());
 
 			structsUnions.add((CUnionImpl)u);
 		}
@@ -333,7 +333,7 @@ public class CSourceFileBase extends ElemImpl {
 	}
 
 	public boolean internalContainsEnum(CEnum enumObj) {
-		return internalContainsEnum(((CEnumImpl)enumObj).getTypeName());
+		return internalContainsEnum(((CEnumImpl)enumObj).getName());
 	}
 
 	public boolean internalContainsEnum(String name) {
@@ -385,7 +385,7 @@ public class CSourceFileBase extends ElemImpl {
 	}
 
 	public boolean internalContainsStruct(CStruct struct) {
-		return internalContainsStruct(((CStructImpl)struct).getTypeName());
+		return internalContainsStruct(((CStructImpl)struct).getName());
 	}
 
 	public boolean internalContainsStruct(String name) {
@@ -393,7 +393,7 @@ public class CSourceFileBase extends ElemImpl {
 	}
 
 	public boolean internalContainsUnion(CUnion union) {
-		return internalContainsUnion(((CUnionImpl)union).getTypeName());
+		return internalContainsUnion(((CUnionImpl)union).getName());
 	}
 
 	public boolean internalContainsUnion(String name) {
@@ -437,7 +437,7 @@ public class CSourceFileBase extends ElemImpl {
 	public CEnum internalGetEnumByName(String name) {
 
 		for (CEnum e : enums)
-			if (((CEnumImpl)e).getTypeName().equals(name))
+			if (((CEnumImpl)e).getName().equals(name))
 				return e;
 
 		return null;
@@ -554,7 +554,7 @@ public class CSourceFileBase extends ElemImpl {
 	public CStruct internalGetStructByName(String name) {
 
 		for (CStructBase s : structsUnions)
-			if (s instanceof CStruct && ((CStructImpl) s).getTypeName().equals(name))
+			if (s instanceof CStruct && ((CStructImpl) s).getName().equals(name))
 				return (CStruct) s;
 
 		return null;
@@ -582,7 +582,7 @@ public class CSourceFileBase extends ElemImpl {
 	public CUnion internalGetUnionByName(String name) {
 
 		for (CStructBase u : structsUnions)
-			if (u instanceof CUnion && ((CUnionImpl) u).getTypeName().equals(name))
+			if (u instanceof CUnion && ((CUnionImpl) u).getName().equals(name))
 				return (CUnion) u;
 
 		return null;

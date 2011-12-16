@@ -136,7 +136,7 @@ class CppFunImpl extends CElemImpl implements CppFun {
 	        	// TODO: Ignore static also in class generator
 	            return returnTypeGenerator.toString();
 	        case COMPLEX:
-	        	return returnTypeComplex.getTypeName();
+	        	return returnTypeComplex.getName();
 	        case LONG:
 	        	long vis = new Long(returnTypeLong).longValue();
 	        	if(Cpp.isStatic(vis)) {

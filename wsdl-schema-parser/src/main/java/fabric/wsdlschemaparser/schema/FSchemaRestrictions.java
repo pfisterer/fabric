@@ -38,13 +38,13 @@ import org.slf4j.LoggerFactory;
 /**
  * Utility class for conveniently storing and retrieving the facets for a
  * Schema type.
- * 
+ *
  * @author Marco Wegner
  */
 public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     private final org.slf4j.Logger log = LoggerFactory.getLogger(FSchemaTypeFactory.class);
-    
+
     // --------------------------------------------------------------------
     // Attributes
     // --------------------------------------------------------------------
@@ -65,7 +65,7 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     /**
      * Creates a new facets map for the containing data type.
-     * 
+     *
      * @param type The data type this facet storage belongs to.
      */
     public FSchemaRestrictions(FSchemaType type) {
@@ -88,7 +88,7 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     /**
      * Return the number of defined facets
-     * 
+     *
      * @return The number of facets.
      */
     public int getCount( ) {
@@ -101,7 +101,7 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     /**
      * Sets a (valid) facet's value.
-     * 
+     *
      * @param facetCode The facet's code.
      * @param value The facet's value.
      * @throws UnsupportedRestrictionException If the facet is not a valid one
@@ -169,7 +169,7 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     /**
      * Returns a facet's value as <code>byte</code>.
-     * 
+     *
      * @param facetCode The facet's code.
      * @return The facet's value or <code>null</code> if the facet is not
      *         valid for the containing type.
@@ -199,7 +199,7 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     /**
      * Returns a facet's value as <code>short</code>.
-     * 
+     *
      * @param facetCode The facet's code.
      * @return The facet's value or <code>null</code> if the facet is not
      *         valid for the containing type.
@@ -229,7 +229,7 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     /**
      * Returns a facet's value as <code>int</code>.
-     * 
+     *
      * @param facetCode The facet's code.
      * @return The facet's value or <code>null</code> if the facet is not
      *         valid for the containing type.
@@ -259,7 +259,7 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     /**
      * Returns a facet's value as <code>long</code>.
-     * 
+     *
      * @param facetCode The facet's code.
      * @return The facet's value or <code>null</code> if the facet is not
      *         valid for the containing type.
@@ -289,7 +289,7 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     /**
      * Returns a facet's value as <code>float</code>.
-     * 
+     *
      * @param facetCode The facet's code.
      * @return The facet's value or <code>null</code> if the facet is not
      *         valid for the containing type.
@@ -319,7 +319,7 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     /**
      * Returns a facet's value as <code>double</code>.
-     * 
+     *
      * @param facetCode The facet's code.
      * @return The facet's value or <code>null</code> if the facet is not
      *         valid for the containing type.
@@ -349,7 +349,7 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     /**
      * Returns a facet's value as {@link BigInteger}.
-     * 
+     *
      * @param facetCode The facet's code.
      * @return The facet's value or <code>null</code> if the facet is not
      *         valid for the containing type.
@@ -378,7 +378,7 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     /**
      * Returns a facet's value as {@link BigDecimal}.
-     * 
+     *
      * @param facetCode The facet's code.
      * @return The facet's value or <code>null</code> if the facet is not
      *         valid for the containing type.
@@ -406,7 +406,7 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     /**
      * Returns a facet's value as {@link String}.
-     * 
+     *
      * @param facetCode The facet's code.
      * @return The facet's value or <code>null</code> if the facet is not
      *         valid for the containing type.
@@ -432,7 +432,7 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     /**
      * Returns a facet's value as {@link Object}.
-     * 
+     *
      * @param facetCode The facet's code.
      * @return The facet's value or <code>null</code> if the facet is not
      *         valid for the containing type.
@@ -449,10 +449,10 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
      * This method is called prior to actually adding a restriction. It is
      * meant to execute some preparatory stuff like e.g. removing facets which
      * would clash with the new one or other sanity checks.
-     * 
+     *
      * At this point is it certain that the facet is a valid one for this type
      * and that the restriction map is instantiated.
-     * 
+     *
      * @param facetCode The facet to be added.
      */
     private void sanitize(int facetCode) {
@@ -551,7 +551,7 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see fabric.schema.types.FSchemaObject#equals(fabric.schema.types.FSchemaObject)
      *      @author Daniel Bimschas
      */
@@ -589,7 +589,7 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
      * <code>equalsArrayRecursive(a, c)</code> yields <code>false</code><br/>
      * <code>equalsArrayRecursive(a, d)</code> yields <code>false</code><br/>
      * and so on...<br/>
-     * 
+     *
      * @param aObj
      * @param bObj
      * @return
@@ -727,7 +727,8 @@ public class FSchemaRestrictions extends FSchemaObject implements Cloneable {
         return facets;
     }
 
-    public FSchemaRestrictions clone(FSchemaType fst) {
+    @SuppressWarnings("unchecked")
+	public FSchemaRestrictions clone(FSchemaType fst) {
         FSchemaRestrictions ret = null;
         try {
             ret = (FSchemaRestrictions) super.clone();

@@ -110,7 +110,7 @@ public class Example9_Typedef {
 
         fun_main.appendCode("cout << temperature << \"\\n\";");
 
-        fun_main.appendCode(struct.getTypeName() + " c;");
+        fun_main.appendCode(struct.getName() + " c;");
         fun_main.appendCode("c.re = 3.8;");
         fun_main.appendCode("c.im = 4.2;");
 

@@ -26,9 +26,6 @@
  */
 package fabric.wsdlschemaparser.schema;
 
-import java.math.BigInteger;
-
-import org.apache.xmlbeans.SchemaType;
 
 
 /**

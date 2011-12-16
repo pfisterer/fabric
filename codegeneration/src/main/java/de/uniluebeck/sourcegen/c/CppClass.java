@@ -32,7 +32,7 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 /**
  * @author Daniel Bimschas
  */
-public interface CppClass extends CppComplexType, CppTemplateName {
+public interface CppClass extends CppComplexType {
 
     class CppClassFactory {
 
@@ -133,7 +133,7 @@ public interface CppClass extends CppComplexType, CppTemplateName {
   public long getVis(CUnion union);
 
   public long getVisExtended(CppClass extended);
-  
+
   // Needed for CppSourceFileImp
   public List<CppConstructor> getConstructors(long vis);
   public List<CppDestructor> getDestructors(long vis);

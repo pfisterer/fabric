@@ -22,17 +22,16 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * 
+ *
  */
 package fabric.wsdlschemaparser.schema;
 
-import org.apache.xmlbeans.SchemaType;
 
 
 /**
  * This class represents the Fabric variation of an unsigned long value
  * declaration, as specified by xs:unsignedLong in XML Schema.
- * 
+ *
  * @author Marco Wegner
  */
 public class FUnsignedLong extends FNonNegativeInteger {
@@ -40,7 +39,7 @@ public class FUnsignedLong extends FNonNegativeInteger {
     // --------------------------------------------------------------------
     // Constructors and object initialisation
     // --------------------------------------------------------------------
-	
+
 	/**
 	 * Creates a new unnamed unsigned long integer.
 	 */
@@ -49,10 +48,10 @@ public class FUnsignedLong extends FNonNegativeInteger {
 	}
 
     // --------------------------------------------------------------------
-	
+
 	/**
 	 * Creates a new named unsigned long integer.
-	 * 
+	 *
 	 * @param typeName This type's new name.
 	 */
 	public FUnsignedLong(String typeName) {

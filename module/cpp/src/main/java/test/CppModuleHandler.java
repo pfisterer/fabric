@@ -29,17 +29,7 @@ package test;
 import java.util.Properties;
 
 import de.uniluebeck.sourcegen.Workspace;
-import de.uniluebeck.sourcegen.c.CCommentImpl;
-import de.uniluebeck.sourcegen.c.CFun;
-import de.uniluebeck.sourcegen.c.CFunSignature;
-import de.uniluebeck.sourcegen.c.CParam;
-import de.uniluebeck.sourcegen.c.CTypeDef;
-import de.uniluebeck.sourcegen.c.Cpp;
-import de.uniluebeck.sourcegen.c.CppClass;
-import de.uniluebeck.sourcegen.c.CppFun;
-import de.uniluebeck.sourcegen.c.CppSourceFile;
-import de.uniluebeck.sourcegen.c.CppTypeDef;
-import de.uniluebeck.sourcegen.c.CppVar;
+import examples.Main;
 import fabric.module.api.FabricDefaultHandler;
 import fabric.wsdlschemaparser.schema.FComplexType;
 import fabric.wsdlschemaparser.schema.FElement;
@@ -55,11 +45,7 @@ import fabric.wsdlschemaparser.schema.FSimpleType;
  */
 public class CppModuleHandler extends FabricDefaultHandler {
 
-	private Workspace workspace = null;
-
 	public CppModuleHandler(Properties properties, Workspace workspace) {
-		//String fileName = properties.get(CppModule.CPP_OUTFILE).toString();
-		this.workspace = workspace;
 	}
 
 	@Override
@@ -68,33 +54,7 @@ public class CppModuleHandler extends FabricDefaultHandler {
 	}
 
 	private void codeGen_example_app() throws Exception {
-
-
-    	/*
-        // ####################################################################
-        // Example with nested templates -- not in example_app.cpp
-        // ####################################################################
-        // void fun_temp(wiselib::ExampleApplication<Os, Timer<Os, Radio>> var_temp);
-
-        CppTemplateHelper template1 = new CppTemplateHelper();
-        template1.add(os);
-        template1.add(radio);
-        CppTypeGenerator gen_timer = new CppTypeGenerator(timer, template1);
-
-        CppTemplateHelper template2 = new CppTemplateHelper();
-        template2.add(os);
-        template2.add(gen_timer);
-        CppTypeGenerator gen_app = new CppTypeGenerator(example, template2);
-
-        CppTypeGenerator gen_wiselib = new CppTypeGenerator("wiselib");
-        CppVar var_temp = CppVar.factory.create(gen_app, "var_temp", gen_wiselib);
-        CppFun fun_temp = CppFun.factory.create(Cpp.VOID, "temp", var_temp);
-
-        // Content of the function
-        fun_temp.appendCode("return;");
-
-        example.add(Cpp.PUBLIC, fun_temp);
-        */
+		new Main();
     }
 
 	@Override

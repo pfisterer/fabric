@@ -179,7 +179,8 @@ class CEnumImpl extends CElemImpl implements CEnum {
 	 *
 	 * @return the name
 	 */
-	public String getTypeName() {
+	@Override
+	public String getName() {
 		return name != null ? name : varname;
 	}
 

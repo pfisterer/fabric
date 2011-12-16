@@ -38,7 +38,7 @@ public abstract class CppSourceFileGenerator extends SourceFileGenerator {
         CppSourceFileImpl file;
         try {
             for (CppClass type : types) {
-                file = new CppSourceFileImpl(type.getTypeName());
+                file = new CppSourceFileImpl(type.getName());
                 files.add(file.add(type));
             }
         } catch (Exception e) {
