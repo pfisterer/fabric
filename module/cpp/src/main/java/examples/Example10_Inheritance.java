@@ -99,7 +99,7 @@ public class Example10_Inheritance {
 
 		// Constructor
 		CppConstructor con_female = CppConstructor.factory.create();
-		//con_female.add(con_person); // TODO: Buggy, use the string version, see next line.
+		//con_female.add(con_person); // FIXME: Buggy, use the string version, see next line.
 		con_female.add("Person(name, age)");
 		con_female.appendCode("this->shoes = shoes;");
 		con_female.add(var_name, var_age, var_shoes);
@@ -119,7 +119,7 @@ public class Example10_Inheritance {
 
 		// Constructor
 		CppConstructor con_male = CppConstructor.factory.create();
-		//con_male.add(con_person); // TODO: Buggy, use the string version, see next line.
+		//con_male.add(con_person); // FIXME: Buggy, use the string version, see next line.
 		con_male.add("Person(name, age)");
 		con_male.appendCode("this->cars = cars;");
 		con_male.add(var_name, var_age, var_cars);

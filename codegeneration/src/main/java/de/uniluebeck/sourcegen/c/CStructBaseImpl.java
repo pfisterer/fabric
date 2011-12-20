@@ -191,7 +191,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 
 	public boolean contains(CEnum cEnum) {
 		for (CEnum e : enums)
-			if (((CEnumImpl)e).getTypeName().equals(((CEnumImpl)cEnum).getTypeName()))
+			if (((CEnumImpl)e).getName().equals(((CEnumImpl)cEnum).getName()))
 				return true;
 		return false;
 	}
@@ -199,7 +199,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 	public void add(CStruct... struct) throws CDuplicateException {
 		for (CStruct s : struct) {
 			if (contains(s))
-				throw new CDuplicateException("Duplicate struct " + s.getTypeName());
+				throw new CDuplicateException("Duplicate struct " + s.getName());
 			structsUnions.add((CStructImpl)s);
 		}
 	}
@@ -207,7 +207,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 	public void add(CUnion... union) throws CDuplicateException {
 		for (CUnion u : union) {
 			if (contains(u))
-				throw new CDuplicateException("Duplicate structUnion " + u.getTypeName());
+				throw new CDuplicateException("Duplicate structUnion " + u.getName());
 			structsUnions.add((CUnionImpl)u);
 		}
 	}
@@ -318,15 +318,16 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 	 *
 	 * @return the name of this struct
 	 */
-	public String getTypeName() {
-		if(typedef && varname != null){
-			return varname;
-		}
+	@Override
+	public String getName() {
+    if (typedef && varname != null) {
+      return varname;
+    }
 
-		return name != null ? name : varname;
-	}
+    return name != null ? name : varname;
+  }
 
-	/**
+  /**
 	 * Returns the struct with the name <code>name</code>.
 	 *
 	 * @param name
@@ -337,7 +338,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 	public CStruct getStructByName(String name) {
 
 		for (CStructBase s : structsUnions)
-			if (s instanceof CStruct && ((CStructImpl) s).getTypeName() != null && ((CStructImpl) s).getTypeName().equals(name))
+			if (s instanceof CStruct && ((CStructImpl) s).getName() != null && ((CStructImpl) s).getName().equals(name))
 				return (CStruct) s;
 
 		return null;
@@ -369,7 +370,7 @@ abstract class CStructBaseImpl extends CElemImpl implements CStructBase {
 	public CUnion getUnionByName(String name) {
 
 		for (CStructBase u : structsUnions)
-			if (u instanceof CUnion && ((CUnionImpl) u).getTypeName().equals(name))
+			if (u instanceof CUnion && ((CUnionImpl) u).getName().equals(name))
 				return (CUnion) u;
 
 		return null;

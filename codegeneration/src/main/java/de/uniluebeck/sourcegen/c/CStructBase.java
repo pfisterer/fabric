@@ -230,7 +230,7 @@ public interface CStructBase extends CComplexType {
 	 *
 	 * @return the name
 	 */
-	public String getTypeName();
+	public String getName();
 
 	/**
 	 * Add a comment to the struct

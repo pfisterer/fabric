@@ -40,6 +40,8 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	protected List<CppSourceFileImpl> cppUserHeaderFiles;
 	protected List<String> 			cppNamespaces;
 
+	protected List<String> 			cppUserHeaderFilesStrings;
+
 	protected CSourceFileBase base;
 	protected String fileName;
 
@@ -57,6 +59,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		cppClasses 	= new LinkedList<CppClass>();
 		cppUserHeaderFiles = new LinkedList<CppSourceFileImpl>();
 		cppNamespaces = new LinkedList<String>();
+		cppUserHeaderFilesStrings = new LinkedList<String>();
 	}
 
 	public String getFileName() {
@@ -159,7 +162,8 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	public CppSourceFile addInclude(CHeaderFile... includes) throws CppDuplicateException {
 		try {
 			base.internalAddInclude(includes);
-		} catch (CDuplicateException e) {
+		}
+    catch (CDuplicateException e) {
 			throw new CppDuplicateException(e);
 		}
 		return null;
@@ -168,20 +172,38 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	/**
 	 * Add user header files that will be output as: #include "..."
 	 */
-	public CppSourceFile addInclude(CppSourceFile... sourceFiles) throws CppDuplicateException {
-		for (CppSourceFile csf : sourceFiles) {
-			if (containsInclude(csf))
+	public CppSourceFile addInclude(CppSourceFile... includes) throws CppDuplicateException {
+		for (CppSourceFile csf : includes) {
+			if (containsInclude(csf)) {
         throw new CppDuplicateException("Duplicate source file included " + csf.getFileName());
+      }
+
 			cppUserHeaderFiles.add((CppSourceFileImpl)csf);
 			// We cannot use base here, because the type is cpp
 		}
 		return this;
 	}
 
+	/**
+	 * Add user header files that will be output as: #include "..."
+	 */
+	public CppSourceFile addInclude(String... includes) throws CppDuplicateException {
+		for (String csf : includes) {
+			if (containsInclude(csf)) {
+				throw new CppDuplicateException("Duplicate source file included " + csf);
+			}
+
+			cppUserHeaderFilesStrings.add(csf);
+		}
+		return this;
+	}
+
+
 	public CppSourceFile addLibInclude(String... libIncludes) throws CppDuplicateException {
 		try {
 			base.internalAddLibInclude(libIncludes);
-		} catch (CDuplicateException e) {
+		}
+    catch (CDuplicateException e) {
 			throw new CppDuplicateException(e);
 		}
 		return this;
@@ -190,7 +212,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	public CppSourceFile addUsingNamespace(String... namespaces) throws CppDuplicateException {
 
 		for (String n : namespaces) {
-			if(this.cppNamespaces.contains(n)){
+			if (this.cppNamespaces.contains(n)) {
 				throw new CppDuplicateException("Duplicate namespace " + n);
 			}
 			this.cppNamespaces.add(n);
@@ -263,11 +285,26 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		return base.internalContainsInclude(headerFile);
 	}
 
+	public boolean containsInclude(String headerFile) {
+    // Check with cppUserHeaderFiles
+    for (CppSourceFileImpl csf : cppUserHeaderFiles) {
+      if (csf.getFileName().equals(headerFile)) {
+        return true;
+      }
+		}
+
+    // Check with local strings
+		return this.cppUserHeaderFilesStrings.contains(headerFile);
+	}
+
 	public boolean containsInclude(CppSourceFile includeFile) {
+		// Check with cppUserHeaderFiles
 		for (CppSourceFileImpl csf : cppUserHeaderFiles)
 			if (csf.equals(includeFile))
 				return true;
-		return false;
+
+		// Check with local strings
+		return this.cppUserHeaderFilesStrings.contains(includeFile.getFileName());
 	}
 
 	public boolean containsLibInclude(String libInclude) {
@@ -304,39 +341,32 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// Write comment if necessary
 		if (comment != null) {
-			comment.toString(buffer, tabCount);
+      comment.toString(buffer, tabCount);
       buffer.append(Cpp.newline);
-		}
+    }
 
 		// LibIncludes: System header files
     if (null != this.base && null != this.base.getLibIncludes() && this.base.getLibIncludes().size() > 0) {
       for (String include : this.base.getLibIncludes()) {
-//        buffer.append("#include <" + include + ">" + Cpp.newline); // TODO: Readd
-        // TODO: Added for presentation of milestone 3
-        // TODO: Remove afterwards and readd line above!!!
-        if (include.endsWith(".hpp"))
-        {
-          buffer.append("#include \"" + include + "\" /** Added by workaround in CppSourceFileImpl, until Dennis B. provides proper fix*/" + Cpp.newline);
-        }
-        else
-        {
-          buffer.append("#include <" + include + ">" + Cpp.newline);
-        }
-        // TODO: Block end
+        buffer.append("#include <" + include + ">" + Cpp.newline);
       }
       buffer.append(Cpp.newline);
     }
-
-		// Includes: User header files
-    if (null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) {
+    
+    // Includes: User header files
+    if ((null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) ||
+        (null != this.cppUserHeaderFilesStrings && this.cppUserHeaderFilesStrings.size() > 0) ) {
       for (CppSourceFile file : this.cppUserHeaderFiles) {
         buffer.append("#include \"" + file.getFileName() + ".hpp\"" + Cpp.newline);
       }
+      for (String file : this.cppUserHeaderFilesStrings) {
+        buffer.append("#include \"" + file + "\"" + Cpp.newline);
+      }
       buffer.append(Cpp.newline);
     }
-
+    
     // Before pre-processor directives
-		if (null != this.base && null != this.base.beforeDirectives && this.base.beforeDirectives.size() > 0) {
+    if (null != this.base && null != this.base.beforeDirectives && this.base.beforeDirectives.size() > 0) {
 			for (CPreProcessorDirectiveImpl ppd : this.base.beforeDirectives) {
 				ppd.toString(buffer, tabCount);
 				buffer.append(Cpp.newline);
@@ -367,7 +397,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			}
 			buffer.append(Cpp.newline);
 		}
-    
+
     // Structs
     if (null != this.base && null != this.base.structsUnions && this.base.structsUnions.size() > 0) {
       for (CStructBaseImpl struct : base.structsUnions) {
@@ -375,9 +405,9 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
       }
       buffer.append(Cpp.newline);
     }
-
-		// Classes, definitions
-		if (null != this.cppClasses && this.cppClasses.size() > 0) {
+    
+    // Classes, definitions
+    if (null != this.cppClasses && this.cppClasses.size() > 0) {
       for (CppClass c : this.cppClasses) {
         buffer.append(c.toString());
       }
@@ -390,7 +420,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
         toStringHelper(buffer, c, tabCount);
       }
     }
-    
+
     // Classes, from header file
     if (null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) {
       for (CppSourceFileImpl file : this.cppUserHeaderFiles) {
@@ -401,24 +431,44 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
         }
       }
     }
-    
+
+    // FIXME: Buggy, not working yet...
+    // Static variables
+    if (null != this.cppClasses && this.cppClasses.size() > 0) {
+    	boolean hasStaticVar = false;
+        for (CppClass c : this.cppClasses) {
+        	List<CppVar> v = c.getVars(Cpp.STATIC);
+        	for (CppVar cppVar : v) {
+        		// FIXME: we need
+        		// int StaticAndConst::next_id = 0;
+        		// instead of
+        		// static int next_id = 0;
+            buffer.append(cppVar.toString() + " = " + cppVar.getInitCode() + ";" + Cpp.newline);
+            hasStaticVar = true;
+          }
+        }
+        if (hasStaticVar) {
+          buffer.append(Cpp.newline);
+        }
+    }
+
     // File variables
-		if (null != this.cppVars && this.cppVars.size() > 0) {
+    if (null != this.cppVars && this.cppVars.size() > 0) {
       for (CppVar v : this.cppVars) {
         buffer.append(v.toString() + ";" + Cpp.newline);
       }
       buffer.append(Cpp.newline);
-		}
-
-		// Add functions, such that main() is possible
+    }
+    
+    // Add functions, such that main() is possible
     if (null != this.base && null != this.base.getFuns() && this.base.getFuns().size() > 0) {
-			for (CFun fun : this.base.getFuns()) {
-				fun.toString(buffer, tabCount);
-			}
-		}
+      for (CFun fun : this.base.getFuns()) {
+        fun.toString(buffer, tabCount);
+      }
+    }
     
     // After pre-processor directives
-		if (null != this.base && null != this.base.afterDirectives && base.afterDirectives.size() > 0) {
+    if (null != this.base && null != this.base.afterDirectives && base.afterDirectives.size() > 0) {
 			buffer.append(Cpp.newline);
 			for (CPreProcessorDirectiveImpl ppd : this.base.afterDirectives) {
 				buffer.append(Cpp.newline);
@@ -531,13 +581,19 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			}
 		}
 
-		// Private nested classes
+    // Protected nested classes
+    if (null != clazz.getNested(Cpp.PROTECTED) && clazz.getNested(Cpp.PROTECTED).size() > 0) {
+      for (CppClass c : clazz.getNested(Cpp.PROTECTED)) {
+        toStringHelper(buffer, c, tabCount);
+      }
+    }
+
+    // Private nested classes
 		if (null != clazz.getNested(Cpp.PRIVATE) && clazz.getNested(Cpp.PRIVATE).size() > 0) {
 			for (CppClass c : clazz.getNested(Cpp.PRIVATE)) {
 				toStringHelper(buffer, c, tabCount);
 			}
 		}
-
 	}
 
 	@Override

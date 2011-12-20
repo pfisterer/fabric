@@ -275,23 +275,21 @@ public class XSD2JavaTest {
          Generate SourceFiles manually.
          */
         List<SourceFile> sourceFilesMan = sourceFileGenerator.getSourceFiles();
-        
-        
+
         System.out.println("**********************************************************************");
         System.out.println(" UNIT TEST " +xsd);
         System.out.println("**********************************************************************");
         System.out.println("Generated files auto/manu: " + sourceFilesAuto.size() + "/" +sourceFilesMan.size());
 
         for (SourceFile sourceFile : sourceFilesAuto) {
-        	System.out.println("Automatically generated file: " + sourceFile.getFileName());
-		}
-        
+          System.out.println("Automatically generated file: " + sourceFile.getFileName());
+        }
+
         for (SourceFile sourceFile : sourceFilesMan) {
-        	System.out.println("Manually generated file: " + sourceFile.getFileName());
-		}
+          System.out.println("Manually generated file: " + sourceFile.getFileName());
+        }
         System.out.println("**********************************************************************");
-        
-        
+
         /*
          True if all source files exist and if there are not too many source files
          */
@@ -315,7 +313,8 @@ public class XSD2JavaTest {
         try {
             refWorkspace = c.getDeclaredField("workspace");
             refWorkspace.setAccessible(true);
-        } catch (NoSuchFieldException e) {
+        }
+        catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
 
@@ -323,7 +322,8 @@ public class XSD2JavaTest {
             Object objWorkspace = refWorkspace.get(core);
             workspace = (Workspace) objWorkspace;
             ret = workspace.getSourceFiles();
-        } catch (IllegalAccessException e) {
+        }
+        catch (IllegalAccessException e) {
             e.printStackTrace();
         }
 

@@ -1,8 +1,5 @@
 package fabric.wsdlschemaparser.schema;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.xmlbeans.SchemaType;
 
 /**

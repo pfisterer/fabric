@@ -1,4 +1,4 @@
-/** 16.12.2011 15:06 */
+/** 19.12.2011 21:11 */
 package fabric.module.typegen.cpp;
 
 import java.util.Map;
@@ -149,9 +149,8 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
 
         CEnum ce = CEnum.factory.create(ee.type, "", false, ee.enumConstants);
         ce.setComment(new CCommentImpl(String.format("The '%s' enumeration.", ee.type)));
-
-//        cppc.add(Cpp.PUBLIC | Cpp.STATIC, ce); // TODO: This should work later on
-        cppc.add(Cpp.PUBLIC, ce); // TODO: Remove
+        
+        cppc.add(Cpp.PUBLIC, ce); // TODO: Should work with Cpp.PUBLIC | Cpp.STATIC later, but no support for Cpp.STATIC yet
       }
 
       /*****************************************************************
@@ -232,7 +231,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
         value = "\"" + value + "\"";
       }
 
-      cppv = CppVar.factory.create(Cpp.PRIVATE | Cpp.CONST, ce.type, ce.name);
+      cppv = CppVar.factory.create(Cpp.PRIVATE | Cpp.CONST, ce.type, ce.name, value);
       cppv.setComment(new CCommentImpl(String.format("The '%s' constant.", ce.name)));
     }
 
@@ -325,7 +324,6 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
 
     String methodBody = "";
     String type = member.type;
-    long modifiers = Cpp.CONST;
     
     // Member variable is an element or attribute
     if (member.getClass() == AttributeContainer.Element.class || member.getClass() == AttributeContainer.Attribute.class)
@@ -334,12 +332,6 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
       
       // Create code to check restrictions
       methodBody += this.generateRestrictionChecks(e);
-
-      // Remove 'const' modifier, if member variable has 'whiteSpace' restriction
-      if (e.isWhiteSpaceRestricted() && ("char*").equals(e.type)) // C++ can only enforce 'whiteSpace' on char*
-      {
-        modifiers &= ~Cpp.CONST;
-      }
     }
     // Member variable is an ElementArray or ElementList
     else if (member instanceof AttributeContainer.ElementCollection)
@@ -359,8 +351,8 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
         methodBody = "#ifndef NO_RESTRICTIONS\n\n" + methodBody + "#endif // NO_RESTRICTIONS\n\n";
       }
     }
-    
-    CppVar attribute = CppVar.factory.create(modifiers, type, member.name);
+
+    CppVar attribute = CppVar.factory.create(Cpp.NONE, type, member.name);
     CppFun setter = CppFun.factory.create("void", "set" + this.firstLetterCapital(member.name), attribute);
 
     methodBody += String.format("this->%s = %s;", member.name, member.name);
@@ -504,15 +496,14 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     }
 
     // Member variable is a constant
-    String reference = "this";
     if (member.getClass() == AttributeContainer.ConstantElement.class)
     {
-      reference = outerClass; // TODO: Constants don't work like this in C++!
+      type = "const " + type;
     }
-    
+
     CppFun getter = CppFun.factory.create(type, "get" + this.firstLetterCapital(member.name));
 
-    getter.appendCode(String.format("return %s->%s;", reference, member.name));
+    getter.appendCode(String.format("return this->%s;", member.name));
     getter.setComment(new CCommentImpl(String.format("Get the '%s' member variable.", member.name)));
 
     return getter;

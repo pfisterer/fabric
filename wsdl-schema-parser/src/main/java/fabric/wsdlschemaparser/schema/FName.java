@@ -23,10 +23,6 @@
  */
 package fabric.wsdlschemaparser.schema;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.xmlbeans.SchemaType;
 
 /**
  * This class represents the Fabric variation of a Name,
@@ -35,7 +31,7 @@ import org.apache.xmlbeans.SchemaType;
  * @author Richard Mietz
  */
 public class FName extends FToken {
-	
+
 	/**
 	 *
 	 */
@@ -47,7 +43,7 @@ public class FName extends FToken {
 
 	/**
 	 * Creates a NName having a type name.
-	 * 
+	 *
 	 * @param typeName This NName's name.
 	 */
 	public FName(String typeName) {

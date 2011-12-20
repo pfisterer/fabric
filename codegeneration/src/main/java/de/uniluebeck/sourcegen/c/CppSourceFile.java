@@ -29,8 +29,6 @@ import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
-
-
 public interface CppSourceFile extends SourceFile, CppElem {
 
   public CppSourceFile 	add							(CEnum... enums) 						throws CDuplicateException;
@@ -51,9 +49,10 @@ public interface CppSourceFile extends SourceFile, CppElem {
 	public CppSourceFile 	addForwardDeclaration		(CFun... function) 						throws CDuplicateException;
 	public CppSourceFile 	addGlobalDeclaration		(String... declaration) 				throws CCodeValidationException;
 	public CppSourceFile	addInclude					(CHeaderFile... includes)				throws CppDuplicateException;
-	public CppSourceFile 	addInclude					(CppSourceFile... sourceFile) 			throws CppDuplicateException;
+	public CppSourceFile 	addInclude					(CppSourceFile... includes) 			throws CppDuplicateException;
+	public CppSourceFile 	addInclude					(String... includes) 					throws CppDuplicateException;
 	public CppSourceFile 	addLibInclude				(String... libIncludes)					throws CppDuplicateException;
-	public CppSourceFile 	addUsingNamespace			(String... libIncludes)					throws CppDuplicateException;
+	public CppSourceFile 	addUsingNamespace			(String... namespaces)					throws CppDuplicateException;
 	public CppSourceFile 	setComment(CComment comment);
 
 	public boolean 			contains					(CEnum enumObj);

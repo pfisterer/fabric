@@ -23,9 +23,6 @@
  */
 package fabric.wsdlschemaparser.schema;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.xmlbeans.SchemaType;
 
 /**
@@ -35,7 +32,7 @@ import org.apache.xmlbeans.SchemaType;
  * @author Richard Mietz
  */
 public class FToken extends FNormalizedString {
-	
+
 	/**
 	 *
 	 */
@@ -47,7 +44,7 @@ public class FToken extends FNormalizedString {
 
 	/**
 	 * Creates a token having a type name.
-	 * 
+	 *
 	 * @param typeName This token's name.
 	 */
 	public FToken(String typeName) {

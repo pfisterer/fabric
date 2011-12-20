@@ -22,17 +22,16 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * 
+ *
  */
 package fabric.wsdlschemaparser.schema;
 
-import org.apache.xmlbeans.SchemaType;
 
 
 /**
  * This class represents the Fabric variation of a signed long value
  * declaration, as specified by xs:long in XML Schema.
- * 
+ *
  * @author Marco Wegner
  */
 public class FLong extends FInteger {
@@ -40,7 +39,7 @@ public class FLong extends FInteger {
     // --------------------------------------------------------------------
     // Constructors and object initialisation
     // --------------------------------------------------------------------
-	
+
 	/**
 	 * Creating a new unnamed long.
 	 */
@@ -49,10 +48,10 @@ public class FLong extends FInteger {
 	}
 
     // --------------------------------------------------------------------
-	
+
 	/**
 	 * Creating a new named long.
-	 * 
+	 *
 	 * @param typeName The new value's type name.
 	 */
 	public FLong(String typeName) {

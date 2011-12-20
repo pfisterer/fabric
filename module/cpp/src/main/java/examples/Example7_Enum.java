@@ -102,7 +102,7 @@ public class Example7_Enum {
         // Add the main function to the file
         CFun fun_main = CFun.factory.create("main", "int", null);
 
-        fun_main.appendCode(enumm.getTypeName() + " e;");
+        fun_main.appendCode(enumm.getName() + " e;");
         fun_main.appendCode("e = GREEN;");
         fun_main.appendCode("");
         fun_main.appendCode(className + " s;");

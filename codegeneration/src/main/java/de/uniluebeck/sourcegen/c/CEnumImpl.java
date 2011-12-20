@@ -32,11 +32,7 @@ import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
 import de.uniluebeck.sourcegen.exceptions.ValidationException;
 
-
-
 /**
- *
- *
  * @author Daniel Bimschas
  */
 class CEnumImpl extends CElemImpl implements CEnum {
@@ -49,7 +45,7 @@ class CEnumImpl extends CElemImpl implements CEnum {
 
 	private String name;
 
-    private CComment comment = null;
+  private CComment comment = null;
 
 	/**
 	 * the directives which will be printed after struct/structUnion
@@ -93,7 +89,6 @@ class CEnumImpl extends CElemImpl implements CEnum {
 		addConstant(constants);
 
 		validateFields();
-
 	}
 
 	public CEnum addAfterDirective(boolean hash, String... directive) throws CPreProcessorValidationException {
@@ -179,7 +174,8 @@ class CEnumImpl extends CElemImpl implements CEnum {
 	 *
 	 * @return the name
 	 */
-	public String getTypeName() {
+	@Override
+	public String getName() {
 		return name != null ? name : varname;
 	}
 

@@ -92,8 +92,8 @@ public class Example9_Typedef {
         header.add(stringArray);
         header.add(pDouble);
 
-        CParam px = CParam.factory.create(type_double.getName(), "re");
-        CParam py = CParam.factory.create(type_double.getName(), "im");
+        CParam px = CParam.factory.create(type_double.toString(), "re");
+        CParam py = CParam.factory.create(type_double.toString(), "im");
         CStruct struct = CStruct.factory.create("var", "complex", true, px, py);
         header.add(struct);
 
@@ -110,7 +110,7 @@ public class Example9_Typedef {
 
         fun_main.appendCode("cout << temperature << \"\\n\";");
 
-        fun_main.appendCode(struct.getTypeName() + " c;");
+        fun_main.appendCode(struct.getName() + " c;");
         fun_main.appendCode("c.re = 3.8;");
         fun_main.appendCode("c.im = 4.2;");
 

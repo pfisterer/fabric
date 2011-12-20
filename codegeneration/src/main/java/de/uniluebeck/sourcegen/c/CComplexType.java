@@ -26,9 +26,9 @@ package de.uniluebeck.sourcegen.c;
 
 /**
  * Flag interface for a complex type. Used in C and C++ Workspace.
- * 
+ *
  * @author Daniel Bimschas
  */
 public interface CComplexType extends CElem {
-	public String getTypeName();
+	public String getName();
 }

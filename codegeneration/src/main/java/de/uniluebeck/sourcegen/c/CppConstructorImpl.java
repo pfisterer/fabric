@@ -83,13 +83,9 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 
 	public List<String> getExtendeds(){
 		List<String> e = new LinkedList<String>();
+    e.addAll(this.extendeds);
 
-		//e.addall(this.extendeds); // TODO: Does not work :(
-		for (String ex : this.extendeds) {
-			e.add(ex);
-		}
-
-		for (CppConstructor ex : this.extendeds_con) {
+    for (CppConstructor ex : this.extendeds_con) {
 			e.add(ex.getSignature());
 		}
 
@@ -169,8 +165,14 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 
 	@Override
 	public CppConstructor setInititalVars(List<CppVar> init) {
-		this.inititializedVars = init;
-		return this;
+    // Ignore static vars
+    for (CppVar cppVar : init) {
+      if (!Cpp.isStatic(cppVar.getVisability())) {
+        this.inititializedVars.add(cppVar);
+      }
+    }
+
+    return this;
 	}
 
 	@Override

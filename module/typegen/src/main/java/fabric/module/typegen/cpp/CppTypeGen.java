@@ -1,4 +1,4 @@
-/** 16.12.2011 15:06 */
+/** 19.12.2011 21:12 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -68,7 +68,7 @@ public class CppTypeGen implements TypeGen
   /*****************************************************************
    * CppTypeGen outer class
    *****************************************************************/
-  
+
   /** Logger object */
   private static final Logger LOGGER = LoggerFactory.getLogger(CppTypeGen.class);
 
@@ -83,7 +83,7 @@ public class CppTypeGen implements TypeGen
 
   /** Stack of incomplete container classes */
   private Stack<AttributeContainer.Builder> incompleteBuilders;
-  
+
   /** Map with one stack of incomplete local builders per outer class */
   private HashMap<String, Stack<AttributeContainer.Builder>> incompleteLocalBuilders;
 
@@ -108,7 +108,7 @@ public class CppTypeGen implements TypeGen
     this.incompleteLocalBuilders = new HashMap<String, Stack<AttributeContainer.Builder>>();
     this.generatedElements = new HashMap<String, SourceFileData>();
   }
-  
+
   /**
    * Create root container, which corresponds to the top-level
    * XML schema document.
@@ -136,7 +136,7 @@ public class CppTypeGen implements TypeGen
     {
       LOGGER.error(String.format("End of schema reached, but not all containers were built (%d remained).",
               this.incompleteBuilders.size()));
-      
+
       throw new IllegalStateException("CppTypeGen reached an illegal state. Lapidate the programmer.");
     }
 
@@ -144,16 +144,16 @@ public class CppTypeGen implements TypeGen
     CWorkspace cWorkspace = this.workspace.getC();
     CppHeaderFile cpphf = null;
     CppSourceFile cppsf = null;
-    
+
     // Create file with definitions for XSD built-in types once
     CppTypeHelper.init(workspace);
-    
+
     // Create new source file for every container
     for (String name: this.generatedElements.keySet())
     {
       // Get source file data
-      CppTypeGen.SourceFileData sourceFileData = this.generatedElements.get(name);      
-      
+      CppTypeGen.SourceFileData sourceFileData = this.generatedElements.get(name);
+
       /*****************************************************************
        * Create C++ header file
        *****************************************************************/
@@ -164,25 +164,25 @@ public class CppTypeGen implements TypeGen
       // Add include for XSD built-in types
       if (!cpphf.getFileName().equals(CppTypeHelper.FILE_NAME))
       {
-        cpphf.addLibInclude(CppTypeHelper.FILE_NAME + ".hpp"); // TODO: Change to addInclude(String include) later
+        cpphf.addInclude(CppTypeHelper.FILE_NAME + ".hpp");
       }
 
       // Add internally required includes (e.g. vector class)
       for (String requiredInclude: sourceFileData.requiredIncludes)
       {
-        cpphf.addLibInclude(requiredInclude); // TODO: Change to addInclude(String include) later
+        cpphf.addLibInclude(requiredInclude);
       }
-      
+
       // Add includes for private member variables with custom data type
       for (CppVar member: sourceFileData.typeObject.getVars(Cpp.PRIVATE))
       {
-        if (!this.mapper.isBuiltInType(member.getTypeName()) && // No includes for built-in types
-            !member.getTypeName().startsWith("vector") && // Do not include vector class
-            !member.getTypeName().equals(name) && // Do no self-inclusion
-            !cpphf.containsLibInclude(member.getTypeName() + ".hpp") && // Do no duplicate inclusion
+        if (!this.mapper.isBuiltInType(member.getName()) && // No includes for built-in types
+            !member.getName().startsWith("vector") && // Do not include vector class
+            !member.getName().equals(name) && // Do no self-inclusion
+            !cpphf.containsLibInclude(member.getName() + ".hpp") && // Do no duplicate inclusion
             !this.incompleteLocalBuilders.containsKey(name)) // Do not add include for inner classes
         {
-          cpphf.addLibInclude(member.getTypeName() + ".hpp"); // TODO: Change to addInclude(String include + ".hpp") later
+          cpphf.addInclude(member.getName() + ".hpp");
         }
       }
 
@@ -193,14 +193,14 @@ public class CppTypeGen implements TypeGen
       cpphf.addBeforeDirective("ifndef " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
       cpphf.addBeforeDirective("define " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
       cpphf.addAfterDirective("endif // " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
-      
+
       /*****************************************************************
        * Create C++ source file
        *****************************************************************/
       cppsf = cWorkspace.getCppSourceFile(name);
       // No need to add sourceFileData.typeObject here, will be taken from cpphf automatically
       cppsf.setComment(new CCommentImpl(String.format("The '%s' source file.", name)));
-
+      
       // Add includes
       cppsf.addInclude(cpphf);
       cppsf.addLibInclude("string.h"); // TODO: Needed for strlen() in restriction checks, so only add there?
@@ -210,7 +210,7 @@ public class CppTypeGen implements TypeGen
 
       LOGGER.debug(String.format("Generated new source file '%s'.", name));
     }
-
+    
     // TODO: Remove block
     /*****************************************************************
      * Create source file for main application
@@ -220,7 +220,7 @@ public class CppTypeGen implements TypeGen
     CppSourceFile application = workspace.getC().getCppSourceFile("main");
     application.addLibInclude("cstdlib");
     application.addLibInclude("iostream");
-    application.addLibInclude(rootContainerName + ".hpp"); // TODO: Change to addInclude(String) later
+    application.addInclude(rootContainerName + ".hpp");
     application.addUsingNamespace("std");
 
     CParam argc = CParam.factory.create("int", "argc");
@@ -297,11 +297,11 @@ public class CppTypeGen implements TypeGen
                 "value", TypeGenHelper.createRestrictions(type));
       }
       this.incompleteBuilders.push(newBuilder);
-
+      
       LOGGER.debug(String.format("Created new container '%s' for simple type.", type.getName()));
     }
   }
-  
+
   /**
    * Create a new container class that represents a complex type
    * of the XML schema document. All elements and attributes that
@@ -360,7 +360,7 @@ public class CppTypeGen implements TypeGen
       // Determine element type
       String typeName = "";
       boolean isCustomTyped;
-      
+
       // Element is XSD base-typed (e.g. xs:string, xs:short, ...)
       if (SchemaHelper.isBuiltinTypedElement(element))
       {
@@ -379,7 +379,7 @@ public class CppTypeGen implements TypeGen
 
         typeName = this.mapper.lookup(TypeGenHelper.getFabricTypeName(ftype));
         LOGGER.debug(String.format("Type '%s' is an XSD built-in type.", typeName));
-        
+
         isCustomTyped = false;
       }
       // Element is custom-typed (e.g. itm:Simple02)
@@ -393,7 +393,7 @@ public class CppTypeGen implements TypeGen
         {
           typeName += "Type";
         }
-        
+
         isCustomTyped = true;
       }
 
@@ -491,7 +491,7 @@ public class CppTypeGen implements TypeGen
       {
         CppClass innerClassObject = (CppClass)cppStrategy.generateClassObject(
                 this.incompleteLocalBuilders.get(classObject.getName()).pop().build());
-        classObject.add(Cpp.PUBLIC, innerClassObject); // TODO: Is this correct for inner classes in C++? Other modifiers?
+        classObject.add(Cpp.PUBLIC, innerClassObject);
         LOGGER.debug(String.format("Built inner class '%s' for current container '%s'.", innerClassObject.getName(), classObject.getName()));
       }
 
@@ -541,9 +541,9 @@ public class CppTypeGen implements TypeGen
    * Private helper method to translate a source file name to a string
    * that can be used as C++ include guard (e.g. simple_types.hpp will
    * create SIMPLE_TYPES_HPP as output).
-   * 
+   *
    * @param fileName File name as string (with or without '.hpp')
-   * 
+   *
    * @return String that can be used as include guard name
    */
   private static String createIncludeGuardName(String fileName)
@@ -554,7 +554,7 @@ public class CppTypeGen implements TypeGen
     {
       fileName += ".hpp";
     }
-    
+
     return fileName.replaceAll("\\.", "_").toUpperCase();
   }
 

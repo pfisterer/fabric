@@ -42,25 +42,25 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 		}
 
 		// LibIncludes: System header files
-		if (null != base.getLibIncludes() && base.getLibIncludes().size() > 0) {
-      for (String include : base.getLibIncludes()) {
-//        buffer.append("#include <" + include + ">" + Cpp.newline); // TODO: Readd
-        // TODO: Added for presentation of milestone 3
-        // TODO: Remove afterwards and readd line above!!!
-        if (include.endsWith(".hpp"))
-        {
-          buffer.append("#include \"" + include + "\" /** Added by workaround in CppHeaderFileImpl, until Dennis B. provides proper fix*/" + Cpp.newline);
-        }
-        else
-        {
-          buffer.append("#include <" + include + ">" + Cpp.newline);
-        }
-        // TODO: Block end
+		if (null != this.base && null != this.base.getLibIncludes() && this.base.getLibIncludes().size() > 0) {
+      for (String include : this.base.getLibIncludes()) {
+        buffer.append("#include <" + include + ">" + Cpp.newline);
       }
       buffer.append(Cpp.newline);
 		}
+    
+    // Includes: User header files
+		if ((null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) || (this.cppUserHeaderFilesStrings.size() > 0) ) {
+      for (CppSourceFile file : this.cppUserHeaderFiles) {
+        buffer.append("#include \"" + file.getFileName() + ".hpp\"" + Cpp.newline);
+      }
+      for (String file : this.cppUserHeaderFilesStrings) {
+        buffer.append("#include \"" + file + "\"" + Cpp.newline);
+      }
+      buffer.append(Cpp.newline);
+    }
 
-		// Before Preprocessordiretives
+    // Before Preprocessordiretives
 		if (null != base.beforeDirectives && base.beforeDirectives.size() > 0) {
 			for (CPreProcessorDirectiveImpl ppd : base.beforeDirectives) {
 				ppd.toString(buffer, tabCount);

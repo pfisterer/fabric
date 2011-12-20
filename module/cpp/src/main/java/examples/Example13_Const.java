@@ -30,96 +30,59 @@ import de.uniluebeck.sourcegen.c.Cpp;
 import de.uniluebeck.sourcegen.c.CppClass;
 import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
-import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 import de.uniluebeck.sourcegen.c.CppVar;
 
 /**
- * One class is nested in another class.
+ * This is a basic class to generate other examples
  *
- * - Compile with: g++ Nested.cpp -o nested
- * - Run with: ./nested
- * - Returns: 100
+ * - Compile with: g++ Const.cpp -o const
+ * - Run with: ./const
+ * - Returns:
  *
- * @author Dennis
+ * @see http://www.cprogramming.com/tutorial/statickeyword.html for the example
+ * @author Dennis Boldt
  *
  */
-public class Example3_Nested {
+
+public class Example13_Const {
 
 	private Workspace workspace = null;
 
-	public Example3_Nested(Workspace workspace) throws Exception {
+	public Example13_Const(Workspace workspace) throws Exception {
 	    this.workspace = workspace;
 		generate();
 	}
 
 	void generate() throws Exception {
 
-		String className = "Nested";
+		String className = "Const";
 
-		/*
-		 * 1st class
-		 */
-		CppClass classNested = CppClass.factory.create("Nested");
-		CppVar intA = CppVar.factory.create(Cpp.INT, "a");
-		CppVar intX = CppVar.factory.create(Cpp.INT, "x");
-		CppVar intY = CppVar.factory.create(Cpp.INT, "y");
+        // Generate the class -- without an explicit file
+        CppClass clazz = CppClass.factory.create(className);
 
-		CppFun funSetA = CppFun.factory.create(Cpp.INT, "setA", intY);
-		funSetA.appendCode("a = y;");
+        // Add variables
+        CppVar version = CppVar.factory.create(Cpp.PRIVATE | Cpp.CONST, "int", "version", "10");
+        clazz.add(version);
 
-		CppFun funMult = CppFun.factory.create(Cpp.INT, "mult", intX);
-		funMult.appendCode("return a*x;");
+        // Add function
+        CppFun print = CppFun.factory.create(Cpp.STATIC ^ Cpp.INT, "print");
+        print.appendCode("cout << \"Version \" << " + version.getVarName() + " << \"\\n\";");
+        clazz.add(Cpp.PUBLIC, print);
 
-		CppFun fungetA = CppFun.factory.create(Cpp.INT, "getA");
-		fungetA.appendCode("return a;");
 
-		classNested.add(Cpp.PUBLIC, intA);
-		classNested.add(Cpp.PUBLIC, funSetA, funMult, fungetA);
-
-		/*
-		 * 2nd class
-		 */
-		CppClass classOuter = CppClass.factory.create("Outer");
-		CppTypeGenerator typeNested = new CppTypeGenerator(classNested);
-		CppVar n = CppVar.factory.create(typeNested, "n");
-
-		CppFun funCall = CppFun.factory.create(Cpp.INT, "call", intX);
-		funCall.appendCode("n.setA(x);");
-		funCall.appendCode("return n.mult(x);");
-
-		CppFun funGetNested = CppFun.factory.create(typeNested, "getNested");
-		funGetNested.appendCode("return n;");
-
-		classOuter.add(Cpp.PRIVATE, n);
-		classOuter.add(Cpp.PUBLIC, intA);
-		classOuter.add(Cpp.PUBLIC, funCall, funGetNested);
-
-		// Add the nested class Two to the outer class One
-		classOuter.add(Cpp.PUBLIC, classNested);
-
-		/*
-		 * Generate the files (Nested.cpp + NestedHeader.hpp)
-		 */
+        // Generate the file
 		CppSourceFile file = workspace.getC().getCppSourceFile(className);
-        CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
-        file.addInclude(header);
-
-        // Add an include to the file
         file.addLibInclude("iostream");
-
-        // Add namespace for the standard library to the file
         file.addUsingNamespace("std");
 
         // Add the main function to the file
         CFun fun_main = CFun.factory.create("main", "int", null);
-        fun_main.appendCode("Outer out;");
-        fun_main.appendCode("cout << out.call(10) << \"\\n\";");
-        fun_main.appendCode("return 0;");
+        fun_main.appendCode(className + " c;");
+        fun_main.appendCode("c.print();");
+
         file.add(fun_main);
 
         // Finally, add class to the file
-        header.add(classOuter);
-
+        file.add(clazz);
 	}
-
 }

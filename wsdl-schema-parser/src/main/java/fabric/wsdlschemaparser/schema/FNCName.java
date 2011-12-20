@@ -23,10 +23,6 @@
  */
 package fabric.wsdlschemaparser.schema;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.xmlbeans.SchemaType;
 
 /**
  * This class represents the Fabric variation of a NCName,
@@ -35,7 +31,7 @@ import org.apache.xmlbeans.SchemaType;
  * @author Richard Mietz
  */
 public class FNCName extends FName {
-	
+
 	/**
 	 *
 	 */
@@ -47,7 +43,7 @@ public class FNCName extends FName {
 
 	/**
 	 * Creates a NCName having a type name.
-	 * 
+	 *
 	 * @param typeName This NCName's name.
 	 */
 	public FNCName(String typeName) {

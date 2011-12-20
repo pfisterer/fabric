@@ -27,16 +27,12 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import org.slf4j.LoggerFactory;
-
 import de.uniluebeck.sourcegen.WorkspaceElement;
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
 import de.uniluebeck.sourcegen.exceptions.CppCodeValidationException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 class CppClassImpl extends CElemImpl implements CppClass {
-
-  private static final org.slf4j.Logger log = LoggerFactory.getLogger(CppClassImpl.class);
 
 	class VisElem {
 		public WorkspaceElement elem;
@@ -74,7 +70,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	private List<VisElem> vars = new LinkedList<VisElem>();
 
 	private List<VisElem> cfuns = new LinkedList<VisElem>();
-  
+
   boolean isPrepared = false;
 
 	private CComment comment = null;
@@ -191,24 +187,42 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	public CppClass addExtended(long vis, String... extendeds) throws CppDuplicateException {
 		for (String e : extendeds) {
 			String tmp = Cpp.toString(vis) + " " + e;
-			// TODO: Check also with this.extendeds
-			if(this.extendeds_string.contains(tmp)) {
-				throw new CppDuplicateException(this.className + " contains already the extend " + tmp);
+			if (this.extendeds_string.contains(tmp)) {
+        throw new CppDuplicateException("Extended class " + tmp + " already contained");
 			}
-			this.extendeds_string.add(tmp);
+
+			// Check again this.extendeds (classes)
+			for (VisElem ex : this.extendeds) {
+        if (ex.elem instanceof CppClass) {
+          CppClass clazz = (CppClass) ex.elem;
+          if (clazz.getName().equals(e)) {
+            throw new CppDuplicateException("Extended class " + clazz.getName() + " already contained");
+          }
+        }
+      }
+
+      this.extendeds_string.add(tmp);
 		}
 		return this;
 	}
 
 	private void addExtendedInternal(long vis, CppClass extended) throws CppDuplicateException {
-		if (containsExtended(extended))
-			throw new CppDuplicateException("Extended class already contained");
-		extendeds.add(new VisElem(extended, vis));
+    
+    if (containsExtended(extended)) {
+      throw new CppDuplicateException("Extended class " + extended.getName() + " already contained");
+    }
+
+    // Check again extendeds_string
+    if (this.extendeds_string.contains(extended.getName())) {
+      throw new CppDuplicateException("Extended class " + extended.getName() + " already contained");
+    }
+
+    extendeds.add(new VisElem(extended, vis));
 	}
 
 	private void addInternal(long vis, CppClass classObj) throws CppDuplicateException {
 		if (contains(classObj))
-			throw new CppDuplicateException("Enum already contained");
+			throw new CppDuplicateException("Class already contained");
 		nested.add(new VisElem(classObj, vis));
 	}
 
@@ -387,7 +401,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 	public CEnum getEnumByName(String name) {
 		for (VisElem ev : enums)
-			if (((CEnumImpl)ev.elem).getTypeName().equals(name))
+			if (((CEnumImpl)ev.elem).getName().equals(name))
 				return (CEnum)ev.elem;
 		return null;
 	}
@@ -530,9 +544,21 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 	public List<CppVar> getVars(long vis) {
 		ArrayList<CppVar> ret = new ArrayList<CppVar>();
-		for (VisElem vv : vars)
-			if (vv.vis == vis || (vis == Cpp.PRIVATE && vv.vis == Cpp.NONE))
+		for (VisElem vv : vars) {
+			// Four cases
+			if(Cpp.isPrivate(vv.vis) && Cpp.isPrivate(vis)) {
 				ret.add((CppVar)vv.elem);
+			}
+			else if(Cpp.isPublic(vv.vis) && Cpp.isPublic(vis)) {
+				ret.add((CppVar)vv.elem);
+			}
+			else if(Cpp.isProtected(vv.vis) && Cpp.isProtected(vis)) {
+				ret.add((CppVar)vv.elem);
+			}
+			else if(Cpp.isStatic(vv.vis) && Cpp.isStatic(vis)) {
+				ret.add((CppVar)vv.elem);
+			}
+		}
 		return ret;
 	}
 
@@ -603,6 +629,8 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	public void toString(StringBuffer buffer, int tabCount) {
 		prepare();
 
+		// TODO: maybe beforeDirectives, globalDeclarations
+
 		// write comment if necessary
 		if (comment != null) {
 			comment.toString(buffer, tabCount);
@@ -622,7 +650,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 			}
 		}
 
-		buffer.append(Cpp.newline + "{" + Cpp.newline + Cpp.newline);
+		buffer.append(Cpp.newline + "{" + Cpp.newline +  Cpp.newline);
 
 		/**
 		 *  ##################################################################
@@ -635,7 +663,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
 		if(tmp_public.length() > 0) {
       indent(buffer, tabCount + 1);
-			buffer.append("public:" + Cpp.newline);
+      buffer.append("public:" + Cpp.newline);
 			appendBody(buffer, tmp_public, tabCount + 2);
 		}
 
@@ -649,10 +677,10 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		toStringHelper(tmp_protected, tabCount, Cpp.PROTECTED);
 
 		if(tmp_protected.length() > 0) {
-			buffer.append(Cpp.newline);
+      buffer.append(Cpp.newline);
       indent(buffer, tabCount + 1);
-			buffer.append("protected:" + Cpp.newline);
-			appendBody(buffer, tmp_protected, tabCount + 2);
+      buffer.append("protected:" + Cpp.newline);
+      appendBody(buffer, tmp_protected, tabCount + 2);
 		}
 
 		/**
@@ -665,11 +693,11 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		StringBuffer tmp_private = new StringBuffer();
 		toStringHelper(tmp_private, tabCount, Cpp.PRIVATE);
 
-		if(tmp_private.length() > 0) {      
-			buffer.append(Cpp.newline);
+		if(tmp_private.length() > 0) {
+      buffer.append(Cpp.newline);
       indent(buffer, tabCount + 1);
-			buffer.append("private:" + Cpp.newline);
-			appendBody(buffer, tmp_private, tabCount + 2);
+      buffer.append("private:" + Cpp.newline);
+      appendBody(buffer, tmp_private, tabCount + 2);
 		}
 
 		/**
@@ -682,36 +710,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		// Final empty line
 		buffer.append(Cpp.newline);
 
-		/*
-		toString(buffer, tabCount, beforeDirectives, "", "\n", true);
-		indent(buffer, tabCount);
-		buffer.append("class " + className);
-		buffer.append("{\n");
-		if (extendeds.size() > 0) {
-			buffer.append(" : ");
-			for (VisElem ve : extendeds) {
-				buffer.append(Cpp.toString(ve.vis));
-				buffer.append(" ");
-				buffer.append(((CppClassImpl)ve.elem).getTypeName());
-			}
-		}
-		if (globalDeclarations.size() > 0) {
-			for (String s : globalDeclarations) {
-				indent(buffer, tabCount);
-				buffer.append(s);
-				buffer.append("\n");
-			}
-			buffer.append("\n");
-		}
-		//appendVisElem(buffer, tabCount, enums);
-		//appendVisElem(buffer, tabCount, structsUnions);
-		//appendVisElem(buffer, tabCount, vars);
-		appendVisElem(buffer, tabCount, constructors);
-		//appendVisElem(buffer, tabCount, destructors);
-		//appendVisElem(buffer, tabCount, funs);
-		buffer.append("\n}");
-		//toString(buffer, tabCount, afterDirectives, "", "\n", true);
-		 * */
+		// TODO: Maybe afterDirectives
 	}
 
 	protected void indent(StringBuffer buffer, int tabCount) {
@@ -722,59 +721,59 @@ class CppClassImpl extends CElemImpl implements CppClass {
   private void toStringHelper(StringBuffer tmp, int tabCount, long visability) {
     
     // nested classes
-		if (null != this.getNested(visability) && this.getNested(visability).size() > 0) {
-			for (CppClass c : this.getNested(visability)) {
+    if (null != this.getNested(visability) && this.getNested(visability).size() > 0) {
+      for (CppClass c : this.getNested(visability)) {
         // Add the classes recursive
         c.toString(tmp, tabCount);
       }
-			tmp.append(Cpp.newline);
-		}
+      tmp.append(Cpp.newline);
+    }
     
     // structs + unions
-		if (null != this.getStructsUnions(visability) && this.getStructsUnions(visability).size() > 0) {
-			for (CStructBase c : this.getStructsUnions(visability)) {
-				tmp.append(c.toString() + Cpp.newline);
-			}
-		}
+    if (null != this.getStructsUnions(visability) && this.getStructsUnions(visability).size() > 0) {
+      for (CStructBase c : this.getStructsUnions(visability)) {
+        tmp.append(c.toString() + Cpp.newline);
+      }
+    }
     
     // enums
-		if (null != this.getEnums(visability) && this.getEnums(visability).size() > 0) {
-			for (CEnum e : this.getEnums(visability)) {
-				tmp.append(e.toString() + Cpp.newline);
-			}
-		}
+    if (null != this.getEnums(visability) && this.getEnums(visability).size() > 0) {
+      for (CEnum e : this.getEnums(visability)) {
+        tmp.append(e.toString() + Cpp.newline);
+      }
+    }
     
     // constructors
-		if (null != this.getConstructors(visability) && this.getConstructors(visability).size() > 0) {
-			for (CppConstructor c : this.getConstructors(visability)) {
-				tmp.append(c.getSignature() + ";" + Cpp.newline);
-			}
-		}
-
-		// destructors
-		if (null != this.getDestructors(visability) && this.getDestructors(visability).size() > 0) {
-			for (CppDestructor d : this.getDestructors(visability)) {
+    if (null != this.getConstructors(visability) && this.getConstructors(visability).size() > 0) {
+      for (CppConstructor c : this.getConstructors(visability)) {
+        tmp.append(c.getSignature() + ";" + Cpp.newline);
+      }
+    }
+    
+    // destructors
+    if (null != this.getDestructors(visability) && this.getDestructors(visability).size() > 0) {
+      for (CppDestructor d : this.getDestructors(visability)) {
         tmp.append("virtual " + d.getSignature() + ";" + Cpp.newline); // TODO: virtual?
-			}
-			tmp.append(Cpp.newline);
-		}
+      }
+      tmp.append(Cpp.newline);
+    }
 
-		// functions
-		if (null != this.getFuns(visability) && this.getFuns(visability).size() > 0) {
-			for (CppFun f : this.getFuns(visability)) {
-				tmp.append(f.getSignature() + ";" + Cpp.newline);
-			}
-			tmp.append(Cpp.newline);
-		}
+    // functions
+    if (null != this.getFuns(visability) && this.getFuns(visability).size() > 0) {
+      for (CppFun f : this.getFuns(visability)) {
+        tmp.append(f.getSignature() + ";" + Cpp.newline);
+      }
+      tmp.append(Cpp.newline);
+    }
     
     // variables
-		if (null != this.getVars(visability) && this.getVars(visability).size() > 0) {
-			for (CppVar v : this.getVars(visability)) {
-				tmp.append(v.toString() + ";" + Cpp.newline);
-			}
-			tmp.append(Cpp.newline);
-		}
-	}
+    if (null != this.getVars(visability) && this.getVars(visability).size() > 0) {
+      for (CppVar v : this.getVars(visability)) {
+        tmp.append(v.toString() + ";" + Cpp.newline);
+      }
+      tmp.append(Cpp.newline);
+    }
+  }
 
 	@Override
 	public CppClass addParents(List<CppClass> cppClass, CppClass clazz) {
@@ -787,27 +786,20 @@ class CppClassImpl extends CElemImpl implements CppClass {
 	public List<CppClass> getParents() {
 		return parents;
 	}
-  
-  @Override
-  public String getName() {
-    return this.className;
-  }
 
   @Override
-	@Deprecated
-	public String getTypeName() {
-    log.warn("Method getTypeName() is deprecated! Use getName() instead.");
-		return this.getName();
+	public String getName() {
+		return this.className;
 	}
 
-	@Override
+  @Override
 	public CppClass setComment(CComment comment) {
 		this.comment = comment;
 		return this;
 	}
 
 	/**
-	 * This method prepares the files
+	 * This method prepares the files.
 	 */
 	@Override
 	public void prepare() {
@@ -852,23 +844,23 @@ class CppClassImpl extends CElemImpl implements CppClass {
 			c.setInititalVars(initializedVars);
 		}
 
-		// Set all parents to subclasses
-		 for (CppClass c : getNested(Cpp.PUBLIC)) {
-			 c.addParents(this.parents, this);
-			 c.prepare();
-		 }
+    // Set all parents to subclasses
+    for (CppClass c: getNested(Cpp.PUBLIC)) {
+      c.addParents(this.parents, this);
+      c.prepare();
+    }
 
-		 for (CppClass c : getNested(Cpp.PRIVATE)) {
-			 c.addParents(this.parents, this);
-			 c.prepare();
-		 }
+    for (CppClass c: getNested(Cpp.PRIVATE)) {
+      c.addParents(this.parents, this);
+      c.prepare();
+    }
 
-		 for (CppClass c : getNested(Cpp.PROTECTED)) {
-			 c.addParents(this.parents, this);
-			 c.prepare();
-		 }
+    for (CppClass c: getNested(Cpp.PROTECTED)) {
+      c.addParents(this.parents, this);
+      c.prepare();
+    }
 
-		 isPrepared = true;
+    isPrepared = true;
 	}
 
 }
