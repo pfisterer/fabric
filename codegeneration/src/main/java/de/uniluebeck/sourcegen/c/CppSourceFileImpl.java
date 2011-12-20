@@ -416,8 +416,9 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
     
     // Classes, implementations
     if (null != this.cppClasses && this.cppClasses.size() > 0) {
-      for (CppClass c : this.cppClasses) {
-        toStringHelper(buffer, c, tabCount);
+      for (int i = 0; i < this.cppClasses.size(); ++i) {
+        boolean isLast = (i == this.cppClasses.size() -1);
+        toStringHelper(buffer, this.cppClasses.get(i), tabCount, isLast);
       }
     }
 
@@ -425,8 +426,9 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
     if (null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) {
       for (CppSourceFileImpl file : this.cppUserHeaderFiles) {
         if (null != file.getCppClasses() && file.getCppClasses().length > 0) {
-          for (CppClass c : file.getCppClasses()) {
-            toStringHelper(buffer, c, tabCount);
+          for (int i = 0; i < file.getCppClasses().length; ++i) {
+            boolean isLast = (i == file.getCppClasses().length - 1);
+            toStringHelper(buffer, file.getCppClasses()[i], tabCount, isLast);
           }
         }
       }
@@ -512,20 +514,22 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	}
 
-	private void toStringHelper(StringBuffer buffer, CppClass clazz, int tabCount) {
+	private void toStringHelper(StringBuffer buffer, CppClass clazz, int tabCount, boolean isLast) {
 
 		// Constructors
 		if (null != clazz.getConstructors(Cpp.PUBLIC) && clazz.getConstructors(Cpp.PUBLIC).size() > 0) {
-			for (CppConstructor c : clazz.getConstructors(Cpp.PUBLIC)) {
-				c.toString(buffer, tabCount);
+      for (CppConstructor c : clazz.getConstructors(Cpp.PUBLIC)) {
+        buffer.append(Cpp.newline + Cpp.newline);
+        c.toString(buffer, tabCount);
 			}
-		}
+    }
 
 		// Constructors
 		if (null != clazz.getConstructors(Cpp.PRIVATE) && clazz.getConstructors(Cpp.PRIVATE).size() > 0) {
-			for (CppConstructor c : clazz.getConstructors(Cpp.PRIVATE)) {
-				c.toString(buffer, tabCount);
-			}
+      for (CppConstructor c : clazz.getConstructors(Cpp.PRIVATE)) {
+        buffer.append(Cpp.newline + Cpp.newline);
+        c.toString(buffer, tabCount);
+      }
 		}
 
 		// Destructors
@@ -555,7 +559,10 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
           f.toString(buffer, tabCount, true);
         }
 			}
-      buffer.append(Cpp.newline + Cpp.newline);
+      if (!isLast)
+      {
+        buffer.append(Cpp.newline + Cpp.newline);
+      }
 		}
 
 		// Private functions
@@ -571,28 +578,37 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
           f.toString(buffer, tabCount, true);
         }
 			}
-      buffer.append(Cpp.newline + Cpp.newline);
+      if (!isLast)
+      {
+        buffer.append(Cpp.newline + Cpp.newline);
+      }
 		}
 
 		// Public nested classes
 		if (null != clazz.getNested(Cpp.PUBLIC) && clazz.getNested(Cpp.PUBLIC).size() > 0) {
-			for (CppClass c : clazz.getNested(Cpp.PUBLIC)) {
-				toStringHelper(buffer, c, tabCount);
+      for (int i = 0; i < clazz.getNested(Cpp.PUBLIC).size(); ++i) {
+        boolean last = (i == clazz.getNested(Cpp.PUBLIC).size() - 1) &&
+                         (clazz.getNested(Cpp.PROTECTED).size() <= 0) &&
+                         (clazz.getNested(Cpp.PRIVATE).size() <= 0);
+        toStringHelper(buffer, clazz.getNested(Cpp.PUBLIC).get(i), tabCount, last);
 			}
 		}
 
     // Protected nested classes
-    if (null != clazz.getNested(Cpp.PROTECTED) && clazz.getNested(Cpp.PROTECTED).size() > 0) {
-      for (CppClass c : clazz.getNested(Cpp.PROTECTED)) {
-        toStringHelper(buffer, c, tabCount);
+    if (null != clazz.getNested(Cpp.PROTECTED) && clazz.getNested(Cpp.PRIVATE).size() > 0) {
+      for (int i = 0; i < clazz.getNested(Cpp.PROTECTED).size(); ++i) {
+        boolean last = (i == clazz.getNested(Cpp.PROTECTED).size() - 1) &&
+                         (clazz.getNested(Cpp.PRIVATE).size() <= 0);
+        toStringHelper(buffer, clazz.getNested(Cpp.PROTECTED).get(i), tabCount, last);
       }
     }
 
     // Private nested classes
 		if (null != clazz.getNested(Cpp.PRIVATE) && clazz.getNested(Cpp.PRIVATE).size() > 0) {
-			for (CppClass c : clazz.getNested(Cpp.PRIVATE)) {
-				toStringHelper(buffer, c, tabCount);
-			}
+      for (int i = 0; i < clazz.getNested(Cpp.PRIVATE).size(); ++i) {
+        boolean last = (i == clazz.getNested(Cpp.PRIVATE).size() - 1);
+        toStringHelper(buffer, clazz.getNested(Cpp.PRIVATE).get(i), tabCount, last);
+      }
 		}
 	}
 

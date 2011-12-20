@@ -59,12 +59,12 @@ public class Example5_Constructor_Destructor {
 
 	public  Example5_Constructor_Destructor(Workspace workspace) throws Exception {
 	    this.workspace = workspace;
-		generate();
+      generate();
 	}
 
 	void generate() throws Exception {
 
-		String className = "ConstructorDestructor";
+    		String className = "ConstructorDestructor";
 
         // Generate the class -- without an explicit file
         CppClass person = CppClass.factory.create(className);
@@ -112,7 +112,7 @@ public class Example5_Constructor_Destructor {
         person.add(Cpp.PUBLIC, fun_print);
 
         // Generate the files (cpp + hpp)
-		CppSourceFile file = workspace.getC().getCppSourceFile(className);
+        CppSourceFile file = workspace.getC().getCppSourceFile(className);
         CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
         file.addInclude(header);
 
