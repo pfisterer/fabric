@@ -1,4 +1,4 @@
-/** 19.12.2011 21:12 */
+/** 21.12.2011 23:54 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -37,7 +37,6 @@ public class CppTypeGen implements TypeGen
   private static final class SourceFileData
   {
     /** CppClass objects */
-    /** TODO: Remove, if wrong: Data type object (e.g. JClass or JEnum) */
     private CppClass typeObject;
 
     /** C++ includes, which are required for source code write-out */
@@ -178,6 +177,7 @@ public class CppTypeGen implements TypeGen
       {
         if (!this.mapper.isBuiltInType(member.getName()) && // No includes for built-in types
             !member.getName().startsWith("vector") && // Do not include vector class
+            !member.getName().startsWith("LocalEnum") && // Do not include local enums // TODO: Get enums from classObject and check them, NOT just the name here
             !member.getName().equals(name) && // Do no self-inclusion
             !cpphf.containsLibInclude(member.getName() + ".hpp") && // Do no duplicate inclusion
             !this.incompleteLocalBuilders.containsKey(name)) // Do not add include for inner classes
@@ -193,6 +193,8 @@ public class CppTypeGen implements TypeGen
       cpphf.addBeforeDirective("ifndef " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
       cpphf.addBeforeDirective("define " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
       cpphf.addAfterDirective("endif // " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
+
+      LOGGER.debug(String.format("Generated new header file '%s'.", name));
 
       /*****************************************************************
        * Create C++ source file
@@ -506,9 +508,9 @@ public class CppTypeGen implements TypeGen
   }
 
   /**
-   * Create top-level CEnum from type object and add it to the
-   * generated elements. A top-level enum must be written to
-   * its own source file, so we bypass the AttributeContainer
+   * Create top-level CEnum from type object and write it to
+   * a C++ header file. A top-level enum must be written to
+   * its own file, so we bypass the AttributeContainer
    * mechanism here.
    *
    * @param type FSimpleType object (with enum restriction)
@@ -517,24 +519,30 @@ public class CppTypeGen implements TypeGen
    */
   private void createTopLevelEnum(final FSimpleType type) throws Exception
   {
-// TODO: Top-level enums in C++ moeglich?
-//    if (null != type && FSchemaTypeHelper.isEnum(type))
-//    {
-//      // Get enum constants and convert them to String array
-//      Object[] constants = FSchemaTypeHelper.extractEnumArray(type);
-//      String[] constantsAsString = Arrays.copyOf(constants, constants.length, String[].class);
-//
-//      // Create enum and add it to generated elements
-//      if (!this.generatedElements.containsKey(type.getName()))
-//      {
-//        CEnum cEnum = CEnum.factory.create(type.getName(), "", false, constantsAsString); // TODO: Call should be equal to struct creation
-//
-//        cEnum.setComment(new CCommentImpl(String.format("The '%s' enumeration.", type.getName())));
-//
-//        this.generatedElements.put(type.getName(),
-//                new CppTypeGen.SourceFileData(cEnum, null)); // TODO: Cannot pass CEnum here and what about required includes?
-//      }
-//    }
+    if (null != type && FSchemaTypeHelper.isEnum(type))
+    {
+      // Get enum constants and convert them to String array
+      Object[] constants = FSchemaTypeHelper.extractEnumArray(type);
+      String[] constantsAsString = Arrays.copyOf(constants, constants.length, String[].class);
+
+      // Create enum and write it to a header file
+      if (!this.generatedElements.containsKey(type.getName()))
+      {
+        CEnum cEnum = CEnum.factory.create(type.getName(), "", false, constantsAsString);
+
+        // Create header file and add enum
+        CppHeaderFile cpphf = this.workspace.getC().getCppHeaderFile(type.getName());
+        cpphf.add(cEnum);
+        cpphf.setComment(new CCommentImpl(String.format("The '%s' header file.", type.getName())));
+
+        // Add include guards to header file
+        cpphf.addBeforeDirective("ifndef " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
+        cpphf.addBeforeDirective("define " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
+        cpphf.addAfterDirective("endif // " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
+
+        LOGGER.debug(String.format("Generated new header file '%s'.", type.getName()));
+      }
+    }
   }
 
   /**
