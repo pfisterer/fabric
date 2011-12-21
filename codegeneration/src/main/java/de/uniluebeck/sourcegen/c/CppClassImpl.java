@@ -710,7 +710,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		// Final empty line
 		buffer.append(Cpp.newline);
 
-		// TODO: Maybe afterDirectives
+		// TODO: maybe afterDirectives
 	}
 
 	protected void indent(StringBuffer buffer, int tabCount) {

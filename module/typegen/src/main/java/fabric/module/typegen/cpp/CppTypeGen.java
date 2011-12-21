@@ -1,4 +1,4 @@
-/** 21.12.2011 23:54 */
+/** 22.12.2011 00:49 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -212,45 +212,9 @@ public class CppTypeGen implements TypeGen
 
       LOGGER.debug(String.format("Generated new source file '%s'.", name));
     }
-    
-    // TODO: Remove block
-    /*****************************************************************
-     * Create source file for main application
-     *****************************************************************/
-    String rootContainerName = this.properties.getProperty(FabricTypeGenModule.MAIN_CLASS_NAME_KEY);
 
-    CppSourceFile application = workspace.getC().getCppSourceFile("main");
-    application.addLibInclude("cstdlib");
-    application.addLibInclude("iostream");
-    application.addInclude(rootContainerName + ".hpp");
-    application.addUsingNamespace("std");
-
-    CParam argc = CParam.factory.create("int", "argc");
-    CParam argv = CParam.factory.create("char*", "argv[]");
-    CFunSignature mainSignature = CFunSignature.factory.create(argc, argv);
-    CFun main = CFun.factory.create("main", "int", mainSignature);
-
-    String methodBody = String.format(
-            "%s *%s = new %s();\n\n" +
-            "try {\n" +
-            "\t// TODO: Add your custom initialization code here\n" +
-            "}\n" +
-            "catch (char const *e) {\n" +
-            "\tcout << e << endl;\n" +
-            "}\n\n" +
-            "delete %s;\n\n" +
-            "return EXIT_SUCCESS;",
-            this.firstLetterCapital(rootContainerName), rootContainerName.toLowerCase(),
-            this.firstLetterCapital(rootContainerName), rootContainerName.toLowerCase());
-
-    main.appendCode(methodBody);
-    main.setComment(new CCommentImpl("Main function of the application."));
-
-    application.add(main);
-    application.setComment(new CCommentImpl(("The application's main file.")));
-
-    LOGGER.debug(String.format("Generated application source file '%s'.", application.getFileName()));
-    // TODO: Block end
+    // Create source file with main method for application
+    this.createMainApplication();
   }
 
   /**
@@ -543,6 +507,55 @@ public class CppTypeGen implements TypeGen
         LOGGER.debug(String.format("Generated new header file '%s'.", type.getName()));
       }
     }
+  }
+
+  /**
+   * Create source file for application. It will contain a main
+   * method that initializes the root container name, so that
+   * one can easily test the C++ type generator or create a
+   * new application based on the source file's code.
+   *
+   * @throws Exception Error during enum generation
+   */
+  private void createMainApplication() throws Exception
+  {
+    String rootContainerName = this.properties.getProperty(FabricTypeGenModule.MAIN_CLASS_NAME_KEY);
+
+    // Create source file for application
+    CppSourceFile cppsf = workspace.getC().getCppSourceFile("main");
+    cppsf.setComment(new CCommentImpl("The application's main file."));
+
+    // Add includes and namespace
+    cppsf.addLibInclude("cstdlib");
+    cppsf.addLibInclude("iostream");
+    cppsf.addInclude(rootContainerName + ".hpp");
+    cppsf.addUsingNamespace("std");
+
+    // Create main method
+    CParam argc = CParam.factory.create("int", "argc");
+    CParam argv = CParam.factory.create("char*", "argv[]");
+    CFunSignature mainSignature = CFunSignature.factory.create(argc, argv);
+    CFun mainMethod = CFun.factory.create("main", "int", mainSignature);
+    mainMethod.setComment(new CCommentImpl("Main function of the application."));
+
+    String methodBody = String.format(
+            "%s *%s = new %s();\n\n" +
+            "try {\n" +
+            "\t// TODO: Add your custom initialization code here\n" +
+            "}\n" +
+            "catch (char const *e) {\n" +
+            "\tcout << e << endl;\n" +
+            "}\n\n" +
+            "delete %s;\n\n" +
+            "return EXIT_SUCCESS;",
+            this.firstLetterCapital(rootContainerName), rootContainerName.toLowerCase(),
+            this.firstLetterCapital(rootContainerName), rootContainerName.toLowerCase());
+
+    // Add main method to source file
+    mainMethod.appendCode(methodBody);
+    cppsf.add(mainMethod);
+
+    LOGGER.debug(String.format("Generated application source file '%s'.", cppsf.getFileName()));
   }
 
   /**
