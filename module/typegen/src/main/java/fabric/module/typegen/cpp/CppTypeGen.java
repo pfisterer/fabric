@@ -1,4 +1,4 @@
-/** 22.12.2011 00:49 */
+/** 24.12.2011 15:23 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -177,7 +177,7 @@ public class CppTypeGen implements TypeGen
       {
         if (!this.mapper.isBuiltInType(member.getName()) && // No includes for built-in types
             !member.getName().startsWith("vector") && // Do not include vector class
-            !member.getName().startsWith("LocalEnum") && // Do not include local enums // TODO: Get enums from classObject and check them, NOT just the name here
+            !this.isLocalEnum(sourceFileData.typeObject, member) && // Do not include local enums
             !member.getName().equals(name) && // Do no self-inclusion
             !cpphf.containsLibInclude(member.getName() + ".hpp") && // Do no duplicate inclusion
             !this.incompleteLocalBuilders.containsKey(name)) // Do not add include for inner classes
@@ -507,6 +507,34 @@ public class CppTypeGen implements TypeGen
         LOGGER.debug(String.format("Generated new header file '%s'.", type.getName()));
       }
     }
+  }
+
+  /**
+   * Private helper method to check, whether a member variable
+   * is a local enum within the CppClass object or not. This
+   * function is being used, to determine necessary includes
+   * in writeSourceFiles().
+   *
+   * @param classObject Class object with possible local enums
+   * @param member Member variable to check
+   *
+   * @return True if member variable is a local enum,
+   * false otherwise
+   */
+  private boolean isLocalEnum(final CppClass classObject, final CppVar member)
+  {
+    boolean result = false;
+
+    // Check if member variable is a local enum within class object
+    for (CEnum enumElement: classObject.getEnums(Cpp.PUBLIC))
+    {
+      if (enumElement.getName().equals(member.getName()))
+      {
+        result = true;
+      }
+    }
+
+    return result;
   }
 
   /**

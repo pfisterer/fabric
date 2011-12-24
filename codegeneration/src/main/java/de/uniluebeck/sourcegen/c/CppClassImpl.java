@@ -406,14 +406,6 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		return null;
 	}
 
-	private List<CEnum> getEnums(long vis) {
-		ArrayList<CEnum> pe = new ArrayList<CEnum>();
-		for (VisElem ev : enums)
-			if (ev.vis == vis)// || (vis == Cpp.PRIVATE && ev.vis == Cpp.NONE))
-				pe.add((CEnum)ev.elem);
-		return pe;
-	}
-
 	public String[] getExtendeds() {
 		String[] ext = new String[extendeds.size() + extendeds_string.size()];
 		int i = 0;
@@ -546,23 +538,54 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		ArrayList<CppVar> ret = new ArrayList<CppVar>();
 		for (VisElem vv : vars) {
 			// Four cases
-			if(Cpp.isPrivate(vv.vis) && Cpp.isPrivate(vis)) {
+			if (Cpp.isPrivate(vv.vis) && Cpp.isPrivate(vis)) {
 				ret.add((CppVar)vv.elem);
 			}
-			else if(Cpp.isPublic(vv.vis) && Cpp.isPublic(vis)) {
+			else if (Cpp.isPublic(vv.vis) && Cpp.isPublic(vis)) {
 				ret.add((CppVar)vv.elem);
 			}
-			else if(Cpp.isProtected(vv.vis) && Cpp.isProtected(vis)) {
+			else if (Cpp.isProtected(vv.vis) && Cpp.isProtected(vis)) {
 				ret.add((CppVar)vv.elem);
 			}
-			else if(Cpp.isStatic(vv.vis) && Cpp.isStatic(vis)) {
+			else if (Cpp.isStatic(vv.vis) && Cpp.isStatic(vis)) {
 				ret.add((CppVar)vv.elem);
 			}
 		}
 		return ret;
 	}
 
-	public long getVis(CEnum enumObj) {
+  /**
+   * Get a list of all CEnums with the given visibility that
+   * are stored in the current CppClass object.
+   * 
+   * @param vis Desired element visibility
+   * 
+   * @return List of CEnum objects with given visibility
+   */
+  @Override
+  public List<CEnum> getEnums(long vis) {
+		ArrayList<CEnum> result = new ArrayList<CEnum>();
+
+    // Discern element visibilities
+		for (VisElem ev: this.enums) {
+			if (Cpp.isPrivate(ev.vis) && Cpp.isPrivate(vis)) {
+				result.add((CEnum)ev.elem);
+			}
+			else if (Cpp.isPublic(ev.vis) && Cpp.isPublic(vis)) {
+				result.add((CEnum)ev.elem);
+			}
+			else if (Cpp.isProtected(ev.vis) && Cpp.isProtected(vis)) {
+				result.add((CEnum)ev.elem);
+			}
+			else if (Cpp.isStatic(ev.vis) && Cpp.isStatic(vis)) {
+				result.add((CEnum)ev.elem);
+			}
+		}
+
+		return result;
+	}
+
+  public long getVis(CEnum enumObj) {
 		for (VisElem ev : enums)
 			if (ev.elem == enumObj)
 				return ev.vis;
@@ -814,7 +837,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 		List<CppVar> initializedVars = new LinkedList<CppVar>();
 		for (CppVar cppVar : vars) {
 			String init = cppVar.getInit();
-			if(init != null && init != "") {
+			if (init != null && init != "") {
 				initializedVars.add(cppVar);
 			}
 		}
