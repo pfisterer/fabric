@@ -390,6 +390,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	    // Enums
 	    if (null != this.base && null != this.base.getEnums() && this.base.getEnums().size() > 0) {
 	        for (CEnum e : this.base.getEnums()) {
+	            // FIXME: Inner classes
 	            buffer.append(e.toString() + Cpp.newline);
 	        }
 	        buffer.append(Cpp.newline);
@@ -532,34 +533,33 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		// Public functions
 		if (null != clazz.getFuns(Cpp.PUBLIC) && clazz.getFuns(Cpp.PUBLIC).size() > 0) {
-      // Does not add new lines after last function
-      for (int i = 0; i < clazz.getFuns(Cpp.PUBLIC).size(); ++i) {
-        CppFun f = clazz.getFuns(Cpp.PUBLIC).get(i);
+		    // Does not add new lines after last function
+		    for (int i = 0; i < clazz.getFuns(Cpp.PUBLIC).size(); ++i) {
+		        CppFun f = clazz.getFuns(Cpp.PUBLIC).get(i);
 
-        if (i < clazz.getFuns(Cpp.PUBLIC).size() - 1) {
-          f.toString(buffer, tabCount, false);
-        }
-        else {
-          f.toString(buffer, tabCount, true);
-        }
-			}
-      buffer.append(Cpp.newline + Cpp.newline);
+		        if (i < clazz.getFuns(Cpp.PUBLIC).size() - 1) {
+		            f.toString(buffer, tabCount, false);
+		        }
+		        else {
+		            f.toString(buffer, tabCount, true);
+		        }
+		    }
+		    buffer.append(Cpp.newline + Cpp.newline);
 		}
 
 		// Private functions
 		if (null != clazz.getFuns(Cpp.PRIVATE) && clazz.getFuns(Cpp.PRIVATE).size() > 0) {
-      // Does not add new lines after last function
-			for (int i = 0; i < clazz.getFuns(Cpp.PRIVATE).size(); ++i) {
-        CppFun f = clazz.getFuns(Cpp.PRIVATE).get(i);
+		    // Does not add new lines after last function
+		    for (int i = 0; i < clazz.getFuns(Cpp.PRIVATE).size(); ++i) {
+		        CppFun f = clazz.getFuns(Cpp.PRIVATE).get(i);
 
-        if (i < clazz.getFuns(Cpp.PRIVATE).size() - 1) {
-          f.toString(buffer, tabCount, false);
-        }
-        else {
-          f.toString(buffer, tabCount, true);
-        }
-			}
-      buffer.append(Cpp.newline + Cpp.newline);
+		        if (i < clazz.getFuns(Cpp.PRIVATE).size() - 1) {
+		            f.toString(buffer, tabCount, false);
+		        } else {
+		            f.toString(buffer, tabCount, true);
+		        }
+		    }
+		    buffer.append(Cpp.newline + Cpp.newline);
 		}
 
 		// Public nested classes
