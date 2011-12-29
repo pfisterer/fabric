@@ -406,7 +406,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
         return null;
     }
 
-    private List<CEnum> getEnums(long vis) {
+    public List<CEnum> getEnums(long vis) {
         ArrayList<CEnum> pe = new ArrayList<CEnum>();
         for (VisElem ev : enums)
             if (ev.vis == vis)// || (vis == Cpp.PRIVATE && ev.vis == Cpp.NONE))

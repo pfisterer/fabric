@@ -140,6 +140,7 @@ public interface CppClass extends CppComplexType {
   public List<CppFun> getFuns(long vis);
   public List<CppVar> getVars(long vis);
   public List<CppClass> getNested(long vis);
+  public List<CEnum> getEnums(long vis);
 
   public void prepare();
 }

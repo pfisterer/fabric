@@ -335,48 +335,48 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	    // Write comment if necessary
 	    if (comment != null) {
-		comment.toString(buffer, tabCount);
-		buffer.append(Cpp.newline);
+	        comment.toString(buffer, tabCount);
+	        buffer.append(Cpp.newline);
 	    }
 
 	    // LibIncludes: System header files
 	    if (null != this.base && null != this.base.getLibIncludes() && this.base.getLibIncludes().size() > 0) {
-		for (String include : this.base.getLibIncludes()) {
-		    buffer.append("#include <" + include + ">" + Cpp.newline);
-		}
-		buffer.append(Cpp.newline);
+	        for (String include : this.base.getLibIncludes()) {
+	            buffer.append("#include <" + include + ">" + Cpp.newline);
+	        }
+	        buffer.append(Cpp.newline);
 	    }
 
 	    // Includes: User header files
 	    if ((null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0)
-		|| (this.cppUserHeaderFilesStrings.size() > 0) ) {
+	            || (this.cppUserHeaderFilesStrings.size() > 0) ) {
 
 	        for (CppSourceFile file : this.cppUserHeaderFiles) {
 	            buffer.append("#include \"" + file.getFileName() + ".hpp\"" + Cpp.newline);
-		}
+	        }
 
 	        for (String file : this.cppUserHeaderFilesStrings) {
 	            buffer.append("#include \"" + file + "\"" + Cpp.newline);
-		}
+	        }
 
 	        buffer.append(Cpp.newline);
 	    }
 
 	    // Before pre-processor directives
 	    if (null != this.base && null != this.base.beforeDirectives && this.base.beforeDirectives.size() > 0) {
-		for (CPreProcessorDirectiveImpl ppd : this.base.beforeDirectives) {
-		    ppd.toString(buffer, tabCount);
-		    buffer.append(Cpp.newline);
-		}
-		buffer.append(Cpp.newline);
+    		for (CPreProcessorDirectiveImpl ppd : this.base.beforeDirectives) {
+    		    ppd.toString(buffer, tabCount);
+    		    buffer.append(Cpp.newline);
+    		}
+    		buffer.append(Cpp.newline);
 	    }
 
 	    // Namespaces
 	    if (null != this.cppNamespaces && this.cppNamespaces.size() > 0) {
-		for (String ns : this.cppNamespaces) {
-		    buffer.append("using namespace " + ns + ";" + Cpp.newline);
-		}
-		buffer.append(Cpp.newline);
+	        for (String ns : this.cppNamespaces) {
+	            buffer.append("using namespace " + ns + ";" + Cpp.newline);
+	        }
+	        buffer.append(Cpp.newline);
 	    }
 
 	    // Typedefs
@@ -503,28 +503,28 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	private void toStringHelper(StringBuffer buffer, CppClass clazz, int tabCount) {
 
-		// Constructors
+		// Public constructors
 		if (null != clazz.getConstructors(Cpp.PUBLIC) && clazz.getConstructors(Cpp.PUBLIC).size() > 0) {
 			for (CppConstructor c : clazz.getConstructors(Cpp.PUBLIC)) {
 				c.toString(buffer, tabCount);
 			}
 		}
 
-		// Constructors
+		// Private constructors
 		if (null != clazz.getConstructors(Cpp.PRIVATE) && clazz.getConstructors(Cpp.PRIVATE).size() > 0) {
 			for (CppConstructor c : clazz.getConstructors(Cpp.PRIVATE)) {
 				c.toString(buffer, tabCount);
 			}
 		}
 
-		// Destructors
+		// Private destructors
 		if (null != clazz.getDestructors(Cpp.PRIVATE) && clazz.getDestructors(Cpp.PRIVATE).size() > 0) {
 			for (CppDestructor d : clazz.getDestructors(Cpp.PRIVATE)) {
 				d.toString(buffer, tabCount);
 			}
 		}
 
-		// Destructors
+		// Public destructors
 		if (null != clazz.getDestructors(Cpp.PUBLIC) && clazz.getDestructors(Cpp.PUBLIC).size() > 0) {
 			for (CppDestructor d : clazz.getDestructors(Cpp.PUBLIC)) {
 				d.toString(buffer, tabCount);
@@ -539,8 +539,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 		        if (i < clazz.getFuns(Cpp.PUBLIC).size() - 1) {
 		            f.toString(buffer, tabCount, false);
-		        }
-		        else {
+		        } else {
 		            f.toString(buffer, tabCount, true);
 		        }
 		    }
