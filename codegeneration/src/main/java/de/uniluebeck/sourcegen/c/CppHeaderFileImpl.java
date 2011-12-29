@@ -26,94 +26,101 @@ package de.uniluebeck.sourcegen.c;
 //TODO change to package private. it is public because of Workspace::getCppHeaderFile (new CppHeaderFileImpl(fileName);)
 public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFile {
 
-	public CppHeaderFileImpl(String fileName) {
-		super(fileName);
-	}
+    public CppHeaderFileImpl(String fileName) {
+        super(fileName);
+    }
 
-	@Override
-	public void toString(StringBuffer buffer, int tabCount) {
+    @Override
+    public void toString(StringBuffer buffer, int tabCount) {
 
-		prepare();
+        prepare();
 
-		// Write comment if necessary
-		if (comment != null) {
-			comment.toString(buffer, tabCount);
-      buffer.append(Cpp.newline);
-		}
-
-		// LibIncludes: System header files
-		if (null != base.getLibIncludes() && base.getLibIncludes().size() > 0) {
-      for (String include : base.getLibIncludes()) {
-//        buffer.append("#include <" + include + ">" + Cpp.newline); // TODO: Readd
-        // TODO: Added for presentation of milestone 3
-        // TODO: Remove afterwards and readd line above!!!
-        if (include.endsWith(".hpp"))
-        {
-          buffer.append("#include \"" + include + "\" /** Added by workaround in CppSourceFileImpl, until Dennis B. provides proper fix*/" + Cpp.newline);
+        // Write comment if necessary
+        if (comment != null) {
+            comment.toString(buffer, tabCount);
+            buffer.append(Cpp.newline);
         }
-        else
-        {
-          buffer.append("#include <" + include + ">" + Cpp.newline);
+
+        // LibIncludes: System header files
+        if (null != base.getLibIncludes() && base.getLibIncludes().size() > 0) {
+            for (String include : base.getLibIncludes()) {
+                // buffer.append("#include <" + include + ">" + Cpp.newline); // TODO: Readd
+                // TODO: Added for presentation of milestone 3
+                // TODO: Remove afterwards and readd line above!!!
+                if (include.endsWith(".hpp")) {
+                    buffer.append("#include \"" + include
+                            + "\" /** Added by workaround in CppSourceFileImpl, until Dennis B. provides proper fix*/"
+                            + Cpp.newline);
+                } else {
+                    buffer.append("#include <" + include + ">" + Cpp.newline);
+                }
+                // TODO: Block end
+            }
+            buffer.append(Cpp.newline);
         }
-        // TODO: Block end
-      }
-      buffer.append(Cpp.newline);
-		}
 
-		// Before Preprocessordiretives
-		if (null != base.beforeDirectives && base.beforeDirectives.size() > 0) {
-			for (CPreProcessorDirectiveImpl ppd : base.beforeDirectives) {
-				ppd.toString(buffer, tabCount);
-				buffer.append(Cpp.newline);
-			}
-			buffer.append(Cpp.newline);
-		}
+        // Before Preprocessordiretives
+        if (null != base.beforeDirectives && base.beforeDirectives.size() > 0) {
+            for (CPreProcessorDirectiveImpl ppd : base.beforeDirectives) {
+                ppd.toString(buffer, tabCount);
+                buffer.append(Cpp.newline);
+            }
+            buffer.append(Cpp.newline);
+        }
 
-    // Namespaces
-    if (null != this.cppNamespaces && this.cppNamespaces.size() > 0) {
-      // Include the namespaces
-      for (String ns : this.cppNamespaces) {
-        buffer.append("using namespace " + ns + ";" + Cpp.newline);
-      }
-      buffer.append(Cpp.newline);
+        // Namespaces
+        if (null != this.cppNamespaces && this.cppNamespaces.size() > 0) {
+            // Include the namespaces
+            for (String ns : this.cppNamespaces) {
+                buffer.append("using namespace " + ns + ";" + Cpp.newline);
+            }
+            buffer.append(Cpp.newline);
+        }
+
+        // Enums
+        if (null != this.base && null != this.base.getEnums() && base.getEnums().size() > 0) {
+            for (CEnum e : this.base.getEnums()) {
+                buffer.append(e.toString() + Cpp.newline);
+            }
+        }
+
+        // Typedefs
+        if (null != this.base && null != this.base.getTypeDefs() && this.base.getTypeDefs().size() > 0) {
+            for (CTypeDef t : this.base.getTypeDefs()) {
+                buffer.append(t.toString());
+            }
+            buffer.append(Cpp.newline);
+        }
+
+        // Structs
+        if (null != this.base && null != this.base.structsUnions && this.base.structsUnions.size() > 0) {
+            for (CStructBaseImpl struct : this.base.structsUnions) {
+                buffer.append(struct.toString());
+                buffer.append(Cpp.newline + Cpp.newline);
+            }
+        }
+
+        // Namespace definitions
+        if (null != this.cppNamespace && this.cppNamespace.size() > 0) {
+            for (CppNamespace ns : this.cppNamespace) {
+                buffer.append(ns.toString());
+            }
+            buffer.append(Cpp.newline);
+        }
+
+        // Classes
+        if (null != this.cppClasses && this.cppClasses.size() > 0) {
+            for (CppClass c : this.cppClasses) {
+                buffer.append(c.toString());
+            }
+        }
+
+        // After Preprocessordiretives
+        if (null != this.base && null != this.base.afterDirectives && this.base.afterDirectives.size() > 0) {
+            for (CPreProcessorDirectiveImpl ppd : this.base.afterDirectives) {
+                ppd.toString(buffer, tabCount);
+                buffer.append(Cpp.newline);
+            }
+        }
     }
-
-		// Enums
-		if (null != this.base && null != this.base.getEnums() && base.getEnums().size() > 0) {
-			for (CEnum e : this.base.getEnums()) {
-				buffer.append(e.toString() + Cpp.newline);
-			}
-		}
-
-		// Typedefs
-		if (null != this.base && null != this.base.getTypeDefs() && this.base.getTypeDefs().size() > 0) {
-			for (CTypeDef t : this.base.getTypeDefs()) {
-				buffer.append(t.toString());
-			}
-			buffer.append(Cpp.newline);
-		}
-
-		// Structs
-    if (null != this.base && null != this.base.structsUnions && this.base.structsUnions.size() > 0) {
-      for (CStructBaseImpl struct : this.base.structsUnions) {
-        buffer.append(struct.toString());
-        buffer.append(Cpp.newline + Cpp.newline);
-      }
-    }
-
-		// Classes
-    if (null != this.cppClasses && this.cppClasses.size() > 0) {
-      for (CppClass c : this.cppClasses) {
-        buffer.append(c.toString());
-      }
-    }
-
-		// After Preprocessordiretives
-		if (null != this.base && null != this.base.afterDirectives && this.base.afterDirectives.size() > 0) {
-			for (CPreProcessorDirectiveImpl ppd : this.base.afterDirectives) {
-				ppd.toString(buffer, tabCount);
-				buffer.append(Cpp.newline);
-			}
-    }
-	}
 }

@@ -36,7 +36,8 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	protected List<CppVar> 			cppVars;
 	protected List<CppFun> 			cppFuns;
-	protected List<CppClass> 		 	cppClasses;
+    protected List<CppClass>            cppClasses;
+    protected List<CppNamespace>            cppNamespace;
 	protected List<CppSourceFileImpl> cppUserHeaderFiles;
 	protected List<String> 			cppNamespaces;
 
@@ -59,6 +60,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		cppClasses 	= new LinkedList<CppClass>();
 		cppUserHeaderFiles = new LinkedList<CppSourceFileImpl>();
 		cppNamespaces = new LinkedList<String>();
+		cppNamespace = new LinkedList<CppNamespace>();
 		cppUserHeaderFilesStrings = new LinkedList<String>();
 	}
 
@@ -113,10 +115,17 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		return this;
 	}
 
-	public CppSourceFile add(CTypeDef... typedefs) throws CDuplicateException {
-		base.internalTypedef(typedefs);
-		return this;
-	}
+    public CppSourceFile add(CTypeDef... typedefs) throws CDuplicateException {
+        base.internalTypedef(typedefs);
+        return this;
+    }
+
+    public CppSourceFile add(CppNamespace... namespace) throws CDuplicateException {
+        for (CppNamespace ns : namespace) {
+            this.cppNamespace.add(ns);
+        }
+        return this;
+    }
 
 	public CppSourceFile addAfterDirective(boolean hash, String... directives) throws CPreProcessorValidationException {
 		base.internalAddAfterDirective(hash, directives);
@@ -404,6 +413,14 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	        buffer.append(Cpp.newline);
 	    }
 
+	    // Namespace definitions
+        if (null != this.cppNamespace && this.cppNamespace.size() > 0) {
+            for (CppNamespace ns : this.cppNamespace) {
+                buffer.append(ns.toString());
+            }
+            buffer.append(Cpp.newline);
+        }
+
 	    // Classes, definitions
 	    if (null != this.cppClasses && this.cppClasses.size() > 0) {
 	        for (CppClass c : this.cppClasses) {
@@ -415,7 +432,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	    // Classes, implementations
 	    if (null != this.cppClasses && this.cppClasses.size() > 0) {
 	        for (CppClass c : this.cppClasses) {
-	            toStringHelper(buffer, c, tabCount);
+	            CppHelper.toStringHelper(buffer, c, tabCount);
 	        }
 	    }
 
@@ -424,7 +441,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	        for (CppSourceFileImpl file : this.cppUserHeaderFiles) {
 	            if (null != file.getCppClasses() && file.getCppClasses().length > 0) {
 	                for (CppClass c : file.getCppClasses()) {
-	                    toStringHelper(buffer, c, tabCount);
+	                    CppHelper.toStringHelper(buffer, c, tabCount);
 	                }
 	            }
 	        }
@@ -499,89 +516,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	        buffer.append("\n");
 	    }
 	     */
-	}
-
-	private void toStringHelper(StringBuffer buffer, CppClass clazz, int tabCount) {
-
-		// Public constructors
-		if (null != clazz.getConstructors(Cpp.PUBLIC) && clazz.getConstructors(Cpp.PUBLIC).size() > 0) {
-			for (CppConstructor c : clazz.getConstructors(Cpp.PUBLIC)) {
-				c.toString(buffer, tabCount);
-			}
-		}
-
-		// Private constructors
-		if (null != clazz.getConstructors(Cpp.PRIVATE) && clazz.getConstructors(Cpp.PRIVATE).size() > 0) {
-			for (CppConstructor c : clazz.getConstructors(Cpp.PRIVATE)) {
-				c.toString(buffer, tabCount);
-			}
-		}
-
-		// Private destructors
-		if (null != clazz.getDestructors(Cpp.PRIVATE) && clazz.getDestructors(Cpp.PRIVATE).size() > 0) {
-			for (CppDestructor d : clazz.getDestructors(Cpp.PRIVATE)) {
-				d.toString(buffer, tabCount);
-			}
-		}
-
-		// Public destructors
-		if (null != clazz.getDestructors(Cpp.PUBLIC) && clazz.getDestructors(Cpp.PUBLIC).size() > 0) {
-			for (CppDestructor d : clazz.getDestructors(Cpp.PUBLIC)) {
-				d.toString(buffer, tabCount);
-			}
-		}
-
-		// Public functions
-		if (null != clazz.getFuns(Cpp.PUBLIC) && clazz.getFuns(Cpp.PUBLIC).size() > 0) {
-		    // Does not add new lines after last function
-		    for (int i = 0; i < clazz.getFuns(Cpp.PUBLIC).size(); ++i) {
-		        CppFun f = clazz.getFuns(Cpp.PUBLIC).get(i);
-
-		        if (i < clazz.getFuns(Cpp.PUBLIC).size() - 1) {
-		            f.toString(buffer, tabCount, false);
-		        } else {
-		            f.toString(buffer, tabCount, true);
-		        }
-		    }
-		    buffer.append(Cpp.newline + Cpp.newline);
-		}
-
-		// Private functions
-		if (null != clazz.getFuns(Cpp.PRIVATE) && clazz.getFuns(Cpp.PRIVATE).size() > 0) {
-		    // Does not add new lines after last function
-		    for (int i = 0; i < clazz.getFuns(Cpp.PRIVATE).size(); ++i) {
-		        CppFun f = clazz.getFuns(Cpp.PRIVATE).get(i);
-
-		        if (i < clazz.getFuns(Cpp.PRIVATE).size() - 1) {
-		            f.toString(buffer, tabCount, false);
-		        } else {
-		            f.toString(buffer, tabCount, true);
-		        }
-		    }
-		    buffer.append(Cpp.newline + Cpp.newline);
-		}
-
-		// Public nested classes
-		if (null != clazz.getNested(Cpp.PUBLIC) && clazz.getNested(Cpp.PUBLIC).size() > 0) {
-			for (CppClass c : clazz.getNested(Cpp.PUBLIC)) {
-				toStringHelper(buffer, c, tabCount);
-			}
-		}
-
-		// Protected nested classes
-		if (null != clazz.getNested(Cpp.PROTECTED) && clazz.getNested(Cpp.PROTECTED).size() > 0) {
-			for (CppClass c : clazz.getNested(Cpp.PROTECTED)) {
-				toStringHelper(buffer, c, tabCount);
-			}
-		}
-
-		// Private nested classes
-		if (null != clazz.getNested(Cpp.PRIVATE) && clazz.getNested(Cpp.PRIVATE).size() > 0) {
-			for (CppClass c : clazz.getNested(Cpp.PRIVATE)) {
-				toStringHelper(buffer, c, tabCount);
-			}
-		}
-
 	}
 
 	@Override
