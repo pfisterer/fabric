@@ -21,46 +21,44 @@
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package examples;
+package de.uniluebeck.sourcegen.c;
 
-import java.util.Properties;
-
-import de.uniluebeck.sourcegen.Workspace;
+import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
- * This is a stand alone application to show different code generations
- *
  * @author Dennis Boldt
  */
-public class Main
-{
-  public Main(Workspace workspace) throws Exception
-  {
-    // Generate different classes
-    new Example0_Empty(workspace);
-    new Example1_Simple(workspace);
-    new Example2_TwoClassesPerFile(workspace);
-    new Example3_Nested(workspace);
-    new Example4_NestedOfNested(workspace);
-    new Example5_Constructor_Destructor(workspace);
-    new Example6_Struct(workspace);
-    new Example7_Enum(workspace);
-    new Example8_Directives(workspace);
-    new Example9_Typedef(workspace);
-    new Example10_Inheritance(workspace);
-    new Example11_Wislib(workspace);
-    new Example12_NestedOfNestedWithConstructor(workspace);
-    new Example13_Const(workspace);
-    new Example14_Static(workspace);
-    new Example15_Namespaces(workspace);
-    workspace.generate();
-  }
+public interface CppNamespace extends CppComplexType {
 
-  public static void main(String[] args) throws Exception
-  {
-	    Properties properties = new Properties();
-//	    properties.put("fabric.output_directory", "/home/dennis/Desktop/o/");
-	    Workspace workspace = new Workspace(properties);
-	    new Main(workspace);
-  }
+    class CppNamespaceFactory {
+
+        private static CppNamespaceFactory instance;
+
+        private CppNamespaceFactory() { /* not to be invoked */
+        }
+
+        static CppNamespaceFactory getInstance() {
+            if (instance == null)
+                instance = new CppNamespaceFactory();
+            return instance;
+        }
+
+        public CppNamespace create(String name) {
+            return new CppNamespaceImpl(name);
+        }
+
+    }
+
+  public static final CppNamespaceFactory factory = CppNamespaceFactory.getInstance();
+
+  public CppNamespace add(long vis, CFun... function) throws CppDuplicateException;
+  public boolean contains(CFun fun);
+
+  //public CppNamespace add(CppClass... clazz) throws CppDuplicateException;
+  //public boolean contains(CppClass constructor);
+
+  public CppNamespace setComment(CComment comment);
+
+  //public CppNamespace addParents(List<CppNamespace> cppClass, CppNamespace clazz);
+  //public void prepare();
 }

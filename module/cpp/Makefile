@@ -20,7 +20,8 @@ compile:
 	g++ Inheritance.cpp -o inheritance;
 	g++ NestedOfNestedWithConstructor.cpp -o nestedOfNestedWithC;
 	g++ Const.cpp -o const;
-#	g++ Static.cpp -o const;
+	g++ Namespace.cpp -o namespace;
+#	g++ Static.cpp -o static;
 	 
 run:
 
@@ -40,6 +41,9 @@ run:
 	./typedef;
 	./inheritance;
 	./nestedOfNestedWithC;
+	./const;
+	./namespace;
+#   ./static;
 
 clean:
 
@@ -49,5 +53,5 @@ clean:
 
 	rm -f *.cpp;
 	rm -f *.hpp;
-	rm ./empty ./simple ./two ./nested ./nestedOfNested ./conDes ./struct ./enum ./directives ./typedef ./inheritance ./nestedOfNestedWithC ./const
+	rm ./empty ./simple ./two ./nested ./nestedOfNested ./conDes ./struct ./enum ./directives ./typedef ./inheritance ./nestedOfNestedWithC ./const ./namespace
 

@@ -173,4 +173,7 @@ public interface CFun extends CLangElem {
 
 	public CFun	setComment(CComment comment);
 
+	public CFunSignature getSignature();
+
+
 }

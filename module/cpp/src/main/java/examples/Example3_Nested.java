@@ -87,7 +87,7 @@ public class Example3_Nested {
 		funCall.appendCode("n.setA(x);");
 		funCall.appendCode("return n.mult(x);");
 
-		CppFun funGetNested = CppFun.factory.create(typeNested, "getNested");
+		CppFun funGetNested = CppFun.factory.create(typeNested.toString(), "getNested");
 		funGetNested.appendCode("return n;");
 
 		classOuter.add(Cpp.PRIVATE, n);
