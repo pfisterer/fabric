@@ -57,8 +57,7 @@ class CppFunImpl extends CElemImpl implements CppFun {
         this.returnTypeComplex = returnType;
     }
 
-    public CppFunImpl(long returnType, String name, CppVar... signatureVar)
-            throws CppDuplicateException {
+    public CppFunImpl(long returnType, String name, CppVar... signatureVar) throws CppDuplicateException {
 
         this(name, signatureVar);
 
@@ -66,8 +65,7 @@ class CppFunImpl extends CElemImpl implements CppFun {
         this.returnTypeLong = returnType;
     }
 
-    public CppFunImpl(String returnType, String name, CppVar[] signatureVars)
-            throws CppDuplicateException {
+    public CppFunImpl(String returnType, String name, CppVar[] signatureVars) throws CppDuplicateException {
 
         this(name, signatureVars);
 
@@ -75,8 +73,7 @@ class CppFunImpl extends CElemImpl implements CppFun {
         this.returnTypeString = returnType;
     }
 
-    public CppFunImpl(CppTypeGenerator returnType, String name, CppVar[] signatureVars)
-            throws CppDuplicateException {
+    public CppFunImpl(CppTypeGenerator returnType, String name, CppVar[] signatureVars) throws CppDuplicateException {
 
         this(name, signatureVars);
 
@@ -115,10 +112,10 @@ class CppFunImpl extends CElemImpl implements CppFun {
 
     @Override
     public void toString(StringBuffer buffer, int tabCount, boolean isLast) {
-    	// write comment if necessary
-    	if (comment != null) {
-    		comment.toString(buffer, tabCount);
-    	}
+        // Write comment if necessary
+        if (comment != null) {
+            comment.toString(buffer, tabCount);
+        }
 
         buffer.append(getType() + " " + getParents(this.clazz) + this.clazz.getName() + "::");
         signature.toString(buffer, 0);
@@ -152,42 +149,42 @@ class CppFunImpl extends CElemImpl implements CppFun {
 
 	            List<CppClass> inner = clazz.getNested(Cpp.PRIVATE);
 	            for (CppClass c : inner) {
-                    if(c.getName().equals(returnTypeString)) {
+                    if (c.getName().equals(returnTypeString)) {
                         return getParents(clazz) + clazz.getName() + "::" + returnTypeString;
                     }
                 }
 
 	            inner = clazz.getNested(Cpp.PUBLIC);
 	            for (CppClass c : inner) {
-                    if(c.getName().equals(returnTypeString)) {
+                    if (c.getName().equals(returnTypeString)) {
                         return getParents(clazz) + clazz.getName() + "::" + returnTypeString;
                     }
                 }
 
                 inner = clazz.getNested(Cpp.PROTECTED);
                 for (CppClass c : inner) {
-                    if(c.getName().equals(returnTypeString)) {
+                    if (c.getName().equals(returnTypeString)) {
                         return getParents(clazz) + clazz.getName() + "::" + returnTypeString;
                     }
                 }
 
                 List<CEnum> enums = clazz.getEnums(Cpp.PRIVATE);
                 for (CEnum e : enums) {
-                    if(e.getName().equals(returnTypeString)) {
+                    if (e.getName().equals(returnTypeString)) {
                         return getParents(clazz) + clazz.getName() + "::" + returnTypeString;
                     }
                 }
 
                 enums = clazz.getEnums(Cpp.PUBLIC);
                 for (CEnum e : enums) {
-                    if(e.getName().equals(returnTypeString)) {
+                    if (e.getName().equals(returnTypeString)) {
                         return getParents(clazz) + clazz.getName() + "::" + returnTypeString;
                     }
                 }
 
                 enums = clazz.getEnums(Cpp.PROTECTED);
                 for (CEnum e : enums) {
-                    if(e.getName().equals(returnTypeString)) {
+                    if (e.getName().equals(returnTypeString)) {
                         return getParents(clazz) + clazz.getName() + "::" + returnTypeString;
                     }
                 }
@@ -205,24 +202,22 @@ class CppFunImpl extends CElemImpl implements CppFun {
     }
 
     /**
-     * returns OUTER::NESTED1::NESTED2::...::NESTEDN
-     *
-     * @return
+     * Returns OUTER::NESTED1::NESTED2::...::NESTEDN
      */
     private String getParents(CppClass clazz){
-    	StringBuffer myParents = new StringBuffer();
-    	if(clazz != null) {
-	    	for (CppClass p : clazz.getParents()) {
-	    		myParents.append(p.getName()+ "::");
-			}
-    	}
-    	return myParents.toString();
+        StringBuffer myParents = new StringBuffer();
+        if(clazz != null) {
+            for (CppClass p : clazz.getParents()) {
+                myParents.append(p.getName()+ "::");
+            }
+        }
+        return myParents.toString();
     }
 
-	@Override
-	public CppFun setClass(CppClass clazz) {
-		this.clazz = clazz;
-		return this;
-	}
+    @Override
+    public CppFun setClass(CppClass clazz) {
+        this.clazz = clazz;
+        return this;
+    }
 
 }

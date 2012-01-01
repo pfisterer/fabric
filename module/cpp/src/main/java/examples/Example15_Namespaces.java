@@ -64,9 +64,9 @@ public class Example15_Namespaces {
         ns.add(Cpp.PUBLIC, fun_print);
 
         // Generate the files (cpp + hpp)
-		CppSourceFile file = workspace.getC().getCppSourceFile(fileName);
+      	CppSourceFile file = workspace.getC().getCppSourceFile(fileName);
 
-		// We also need a header
+        // We also need a header
         file.addLibInclude("iostream");
         file.addUsingNamespace("std");
 

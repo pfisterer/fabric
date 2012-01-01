@@ -34,7 +34,8 @@ public interface CppNamespace extends CppComplexType {
 
         private static CppNamespaceFactory instance;
 
-        private CppNamespaceFactory() { /* not to be invoked */
+        private CppNamespaceFactory() {
+            /* not to be invoked */
         }
 
         static CppNamespaceFactory getInstance() {
@@ -49,16 +50,18 @@ public interface CppNamespace extends CppComplexType {
 
     }
 
-  public static final CppNamespaceFactory factory = CppNamespaceFactory.getInstance();
+    public static final CppNamespaceFactory factory = CppNamespaceFactory.getInstance();
 
-  public CppNamespace add(long vis, CFun... function) throws CppDuplicateException;
-  public boolean contains(CFun fun);
+    public CppNamespace add(long vis, CFun... function) throws CppDuplicateException;
+    public boolean contains(CFun fun);
 
-  //public CppNamespace add(CppClass... clazz) throws CppDuplicateException;
-  //public boolean contains(CppClass constructor);
+    // TODO: Add support for classes
+    //public CppNamespace add(CppClass... clazz) throws CppDuplicateException;
+    //public boolean contains(CppClass clazz);
 
-  public CppNamespace setComment(CComment comment);
+    public CppNamespace setComment(CComment comment);
 
-  //public CppNamespace addParents(List<CppNamespace> cppClass, CppNamespace clazz);
-  //public void prepare();
+    // TODO: Add support for nested namespaces
+    //public CppNamespace addParents(List<CppNamespace> cppClass, CppNamespace clazz); // TODO: Set correct argument names
+    //public void prepare();
 }

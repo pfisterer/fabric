@@ -72,12 +72,12 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
     private List<VisElem> cfuns = new LinkedList<VisElem>();
 
-    boolean isPrepared = false;
-
     private CComment comment = null;
 
     // Needed for nested class
     private List<CppClass> parents = new LinkedList<CppClass>();
+
+    private boolean isPrepared = false;
 
     public CppClassImpl(String className) {
         this.className = className;
@@ -123,8 +123,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
         for (CppVar v : vars) {
             // v.setClass(this);
             if (v.getVisability() == null) {
-                throw new CppCodeValidationException("The variable " + v.getVarName()
-                        + " cannot be added without a visability.");
+                throw new CppCodeValidationException("The variable " + v.getVarName() + " cannot be added without a visability.");
             }
             addInternal(v.getVisability(), v);
         }
@@ -144,11 +143,10 @@ class CppClassImpl extends CElemImpl implements CppClass {
     }
 
     /**
-     * Nested class
+     * Nested classes.
      */
     @Override
     public CppClass add(long vis, CppClass... cppClass) throws CppDuplicateException {
-
         for (CppClass c : cppClass) {
             addInternal(vis, c);
         }
@@ -204,11 +202,11 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
             this.extendeds_string.add(tmp);
         }
+
         return this;
     }
 
     private void addExtendedInternal(long vis, CppClass extended) throws CppDuplicateException {
-
         if (containsExtended(extended)) {
             throw new CppDuplicateException("Extended class " + extended.getName() + " already contained");
         }
@@ -408,6 +406,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
     public String[] getExtendeds() {
         String[] ext = new String[extendeds.size() + extendeds_string.size()];
+
         int i = 0;
         for (i = 0; i < extendeds.size(); i++) {
             VisElem e = extendeds.get(i);
@@ -647,7 +646,6 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
     @Override
     public void toString(StringBuffer buffer, int tabCount) {
-
         prepare();
 
         // TODO: Maybe beforeDirectives, globalDeclarations
@@ -739,8 +737,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
     }
 
     private void toStringHelper(StringBuffer tmp, int tabCount, long visability) {
-
-        // nested classes
+        // Nested classes
         if (null != this.getNested(visability) && this.getNested(visability).size() > 0) {
             for (CppClass c : this.getNested(visability)) {
                 // Add the classes recursive
@@ -749,28 +746,28 @@ class CppClassImpl extends CElemImpl implements CppClass {
             tmp.append(Cpp.newline);
         }
 
-        // structs + unions
+        // Structs + unions
         if (null != this.getStructsUnions(visability) && this.getStructsUnions(visability).size() > 0) {
             for (CStructBase c : this.getStructsUnions(visability)) {
                 tmp.append(c.toString() + Cpp.newline);
             }
         }
 
-        // enums
+        // Enums
         if (null != this.getEnums(visability) && this.getEnums(visability).size() > 0) {
             for (CEnum e : this.getEnums(visability)) {
                 tmp.append(e.toString() + Cpp.newline);
             }
         }
 
-        // constructors
+        // Constructors
         if (null != this.getConstructors(visability) && this.getConstructors(visability).size() > 0) {
             for (CppConstructor c : this.getConstructors(visability)) {
                 tmp.append(c.getSignature() + ";" + Cpp.newline);
             }
         }
 
-        // destructors
+        // Destructors
         if (null != this.getDestructors(visability) && this.getDestructors(visability).size() > 0) {
             for (CppDestructor d : this.getDestructors(visability)) {
                 tmp.append("virtual " + d.getSignature() + ";" + Cpp.newline); // TODO: virtual?
@@ -778,7 +775,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
             tmp.append(Cpp.newline);
         }
 
-        // functions
+        // Functions
         if (null != this.getFuns(visability) && this.getFuns(visability).size() > 0) {
             for (CppFun f : this.getFuns(visability)) {
                 tmp.append(f.getSignature() + ";" + Cpp.newline);
@@ -786,7 +783,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
             tmp.append(Cpp.newline);
         }
 
-        // variables
+        // Variables
         if (null != this.getVars(visability) && this.getVars(visability).size() > 0) {
             for (CppVar v : this.getVars(visability)) {
                 tmp.append(v.toString() + ";" + Cpp.newline);
@@ -832,7 +829,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
         vars.addAll(this.getVars(Cpp.PUBLIC));
         vars.addAll(this.getVars(Cpp.PROTECTED));
 
-        // get variables, which are initialized
+        // Get variables, which are initialized
         List<CppVar> initializedVars = new LinkedList<CppVar>();
         for (CppVar cppVar : vars) {
             String init = cppVar.getInit();
@@ -841,7 +838,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
             }
         }
 
-        // if we have init values, and no constructors, than we need a
+        // If we have init values, and no constructors, than we need a
         // default constructor, such that the init values don't get lost
         if (this.getConstructors(Cpp.PUBLIC).size() == 0 && initializedVars.size() > 0) {
             // Create

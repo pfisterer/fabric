@@ -23,8 +23,8 @@
  */
 package de.uniluebeck.sourcegen.c;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.LinkedList;
 
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
@@ -36,14 +36,16 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
     private String name;
     private CComment comment = null;
 
+    // TODO: Add support for nested namespaces
     //private List<CppClass> clazz = new LinkedList<CppClass>();
     //private List<CppNamespace> namespaces = new LinkedList<CppNamespace>();
     private List<CFun> cfuns = new LinkedList<CFun>();
 
-    boolean isPrepared = false;
-
+    // TODO: Add support for nested namespaces
     // Needed for nested namespaces
     // private List<CppNamespace> parents = new LinkedList<CppNamespace>();
+
+    boolean isPrepared = false;
 
     public CppNamespaceImpl(String name) {
         this.name = name;
@@ -91,7 +93,7 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
     public void toString(StringBuffer buffer, int tabCount) {
         //prepare();
 
-        // write comment if necessary
+        // Write comment if necessary
         if (comment != null) {
             comment.toString(buffer, tabCount);
         }
@@ -101,7 +103,7 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
 
         StringBuffer inner = new StringBuffer();
 
-        // Add the signatures of the C functions
+        // Add signatures of the C functions
         for (CFun fun : cfuns) {
             // Signature does not work!
             inner.append(fun.toString());

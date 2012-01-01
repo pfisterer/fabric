@@ -62,7 +62,7 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
             buffer.append(Cpp.newline);
         }
 
-        // Before Preprocessordiretives
+        // Before pre-processor directives
         if (null != base.beforeDirectives && base.beforeDirectives.size() > 0) {
             for (CPreProcessorDirectiveImpl ppd : base.beforeDirectives) {
                 ppd.toString(buffer, tabCount);
@@ -117,7 +117,7 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
             }
         }
 
-        // After Preprocessordiretives
+        // After pre-processor directives
         if (null != this.base && null != this.base.afterDirectives && this.base.afterDirectives.size() > 0) {
             for (CPreProcessorDirectiveImpl ppd : this.base.afterDirectives) {
                 ppd.toString(buffer, tabCount);
