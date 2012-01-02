@@ -34,7 +34,6 @@ public interface CppSourceFile extends SourceFile, CppElem {
   public CppSourceFile 	add							(CEnum... enums) 						throws CDuplicateException;
 	public CppSourceFile 	add							(CFun... function) 						throws CDuplicateException;
 	public CppSourceFile 	add							(CppClass... classes) 					throws CppDuplicateException;
-	public CppSourceFile 	add							(CppFun... funs) 						throws CppDuplicateException;
 	public CppSourceFile 	add							(CppVar... vars) 						throws CppDuplicateException;
 	public CppSourceFile 	add 						(CStruct... structs) 					throws CDuplicateException;
 	public CppSourceFile 	add 						(CUnion... unions) 						throws CDuplicateException;
@@ -59,7 +58,6 @@ public interface CppSourceFile extends SourceFile, CppElem {
 	public boolean 			contains					(CEnum enumObj);
 	public boolean 			contains					(CFun function);
 	public boolean			contains					(CppClass clazz);
-	public boolean 			contains					(CppFun fun);
 	public boolean 			contains					(CppVar var);
 	public boolean 			contains					(CStruct struct);
 	public boolean 			contains					(CUnion union);

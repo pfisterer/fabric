@@ -35,7 +35,6 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	protected List<CppVar> cppVars;
-	protected List<CppFun> cppFuns;
 	protected List<CppClass> cppClasses;
 
 	protected List<CppSourceFileImpl> cppUserHeaderFiles;
@@ -57,7 +56,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		fileName	= newFileName;
 		base 		= newBase;
 		cppVars 	= new LinkedList<CppVar>();
-		cppFuns 	= new LinkedList<CppFun>();
 		cppClasses 	= new LinkedList<CppClass>();
 		cppUserHeaderFiles = new LinkedList<CppSourceFileImpl>();
 		cppUserHeaderFilesStrings = new LinkedList<String>();
@@ -84,15 +82,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			if (contains(c))
 				throw new CppDuplicateException("Duplicate class " + c);
 			this.cppClasses.add(c);
-		}
-		return this;
-	}
-
-	public CppSourceFile add(CppFun... funs) throws CppDuplicateException {
-		for (CppFun fun : funs) {
-			if (contains(fun))
-				throw new CppDuplicateException("Duplicate function " + fun);
-			this.cppFuns.add(fun);
 		}
 		return this;
 	}
@@ -244,13 +233,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		return false;
 	}
 
-	public boolean contains(CppFun fun) {
-		for (CppFun f : cppFuns)
-			if (f.equals(fun))
-				return true;
-		return false;
-	}
-
 	public boolean contains(CppVar var) {
 		for (CppVar v : cppVars)
 			if (v.equals(var))
@@ -329,10 +311,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	public CppClass[] getCppClasses() {
 		return cppClasses.toArray(new CppClass[cppClasses.size()]);
-	}
-
-	public CppFun[] getCppFuns() {
-		return cppFuns.toArray(new CppFun[cppFuns.size()]);
 	}
 
 	public CppSourceFileImpl[] getCppIncludes() {
