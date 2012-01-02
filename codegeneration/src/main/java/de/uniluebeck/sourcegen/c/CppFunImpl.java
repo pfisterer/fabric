@@ -207,8 +207,8 @@ class CppFunImpl extends CElemImpl implements CppFun {
     private String getParents(CppClass clazz){
         StringBuffer myParents = new StringBuffer();
         if(clazz != null) {
-            for (CppClass p : clazz.getParents()) {
-                myParents.append(p.getName()+ "::");
+            for (String s : clazz.getParents()) {
+                myParents.append(s + "::");
             }
         }
         return myParents.toString();

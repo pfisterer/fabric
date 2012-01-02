@@ -77,9 +77,9 @@ public interface CppClass extends CppComplexType {
 
   public CppClass add(long vis, CppClass... cppClass) throws CppDuplicateException;
 
-  public CppClass addParents(List<CppClass> cppClass, CppClass cppClazz);
+  public CppClass addParents(List<String> cppClass, String cppClazz);
 
-  public List<CppClass> getParents();
+  public List<String> getParents();
 
   public CppClass addAfterDirective(CPreProcessorDirective... directive);
 

@@ -149,8 +149,8 @@ class CppConstructorImpl extends CElemImpl implements CppConstructor {
 	private String getParents() {
 		StringBuffer myParents = new StringBuffer();
 		if (this.clazz != null) {
-			for (CppClass p : this.clazz.getParents()) {
-				myParents.append(p.getName() + "::");
+			for (String s : this.clazz.getParents()) {
+				myParents.append(s + "::");
 			}
 		}
 		return myParents.toString();
