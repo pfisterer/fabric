@@ -147,6 +147,9 @@ public class CppTypeGen implements TypeGen
     // Create file with definitions for XSD built-in types once
     CppTypeHelper.init(workspace);
 
+    // Create file with namespace for char* functions
+    CppUtilHelper.init(workspace);
+
     // Create new source file for every container
     for (String name: this.generatedElements.keySet())
     {
@@ -205,6 +208,11 @@ public class CppTypeGen implements TypeGen
       
       // Add includes
       cppsf.addInclude(cpphf);
+      // Add include for char* functions
+      if (!cpphf.getFileName().equals(CppUtilHelper.FILE_NAME))
+      {
+          cpphf.addInclude(CppUtilHelper.FILE_NAME + ".hpp");
+      }
       cppsf.addLibInclude("string.h"); // TODO: Needed for strlen() in restriction checks, so only add there?
 
       // Add namespace
