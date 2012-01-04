@@ -393,25 +393,25 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isLengthRestricted())
     {
       result += CppRestrictionHelper.createCheckCode(
-              String.format("strlen(%s) != %d", operandName, Long.parseLong(r.length)),
+              CppRestrictionHelper.lengthExpression(member),
               String.format(message, "length", member.name),
               String.format(comment, "length"));
     }
 
     if (member.isMinLengthRestricted())
     {
-      result += CppRestrictionHelper.createCheckCode(
-              String.format("strlen(%s) < %d", operandName, Long.parseLong(r.minLength)),
-              String.format(message, "minLength", member.name),
-              String.format(comment, "minLength"));
+        result += CppRestrictionHelper.createCheckCode(
+                CppRestrictionHelper.minLengthExpression(member),
+                String.format(message, "minLength", member.name),
+                String.format(comment, "minLength"));
     }
 
     if (member.isMaxLengthRestricted())
     {
-      result += CppRestrictionHelper.createCheckCode(
-              String.format("strlen(%s) > %d", operandName, Long.parseLong(r.maxLength)),
-              String.format(message, "maxLength", member.name),
-              String.format(comment, "maxLength"));
+        result += CppRestrictionHelper.createCheckCode(
+                CppRestrictionHelper.maxLengthExpression(member),
+                String.format(message, "maxLength", member.name),
+                String.format(comment, "maxLength"));
     }
 
     if (member.isMinInclusiveRestricted())
