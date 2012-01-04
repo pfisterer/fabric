@@ -58,14 +58,12 @@ public interface CppNamespace extends CppComplexType {
     public boolean contains(CFun fun);
 
     public List<CFun> getFuns();
+    public List<CppClass> getClasses();
 
-    // TODO: Add support for classes
-    //public CppNamespace add(CppClass... clazz) throws CppDuplicateException;
-    //public boolean contains(CppClass clazz);
+    public CppNamespace add(CppClass... clazz) throws CppDuplicateException;
+    public boolean contains(CppClass clazz);
 
     public CppNamespace setComment(CComment comment);
 
-    // TODO: Add support for nested namespaces
-    //public CppNamespace addParents(List<CppNamespace> cppClass, CppNamespace clazz); // TODO: Set correct argument names
     public void prepare();
 }

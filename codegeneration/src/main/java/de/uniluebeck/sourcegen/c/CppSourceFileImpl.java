@@ -444,10 +444,14 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
                                     for (CFun fun : ns.getFuns()) {
                                         // Signature does not work!
                                         buffer.append(fun.toString() + ";");
+                                        buffer.append(Cpp.newline);
                                     }
-                                    buffer.append(Cpp.newline);
                                 }
                             }
+                        }
+
+                        boolean isLast = (i == file.getNamespaces().length - 1);
+                        if(isLast) {
                             buffer.append(Cpp.newline);
                         }
                     }
@@ -473,7 +477,30 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	                }
 	            }
 	        }
+	        //buffer.append(Cpp.newline + Cpp.newline);
 	    }
+
+        // Classes, implementation from namespaces in header
+        if (null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) {
+            for (CppSourceFileImpl file : this.cppUserHeaderFiles) {
+                if (null != file.getNamespaces() && file.getNamespaces().length > 0) {
+                    for (int i = 0; i < file.getNamespaces().length; ++i) {
+                        if (null != file.getNamespaces() && file.getNamespaces().length > 0) {
+                            for (CppNamespace ns : file.getNamespaces()) {
+                                if(ns.getClasses().size() > 0) {
+                                    if (null != ns.getClasses() && ns.getClasses().size() > 0) {
+                                        for (int j = 0; j < ns.getClasses().size(); ++j) {
+                                            boolean isLast = (j == ns.getClasses().size() - 1);
+                                              CppHelper.toStringClass(buffer, ns.getClasses().get(j), tabCount, isLast);
+                                          }
+                                      }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
 	    // FIXME: Buggy, not working yet...
 	    // Static variables
@@ -505,6 +532,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	    // Add functions, such that main() is possible
 	    if (null != this.base && null != this.base.getFuns() && this.base.getFuns().size() > 0) {
+            buffer.append(Cpp.newline + Cpp.newline);
 	        for (CFun fun : this.base.getFuns()) {
 	            fun.toString(buffer, tabCount);
 	        }
