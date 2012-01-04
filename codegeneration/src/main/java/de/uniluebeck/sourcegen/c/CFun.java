@@ -23,6 +23,8 @@
  */
 package de.uniluebeck.sourcegen.c;
 
+import java.util.List;
+
 import de.uniluebeck.sourcegen.exceptions.CCodeValidationException;
 import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
@@ -48,7 +50,14 @@ public interface CFun extends CLangElem {
 		public CFun create(String name, String returnType,
 				CFunSignature signature)
 				throws CDuplicateException {
-
+/*
+		    if(signature == null) {
+                try {
+                    CParam param = CParam.factory.create(returnType, name);
+                    signature = CFunSignature.factory.create(param);
+                } catch (CConflictingModifierException e) {}
+		    }
+*/
 			return new CFunImpl(name, returnType, signature);
 		}
 
@@ -173,7 +182,8 @@ public interface CFun extends CLangElem {
 
 	public CFun	setComment(CComment comment);
 
-	public CFunSignature getSignature();
+	public String getSignature();
 
+	public CFun addParents(List<String> parents, String cFun);
 
 }

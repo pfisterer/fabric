@@ -26,6 +26,8 @@ package examples;
 
 import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.c.CFun;
+import de.uniluebeck.sourcegen.c.CFunSignature;
+import de.uniluebeck.sourcegen.c.CParam;
 import de.uniluebeck.sourcegen.c.Cpp;
 import de.uniluebeck.sourcegen.c.CppNamespace;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
@@ -58,13 +60,18 @@ public class Example15_Namespaces {
         // Generate the class -- without an explicit file
         CppNamespace ns = CppNamespace.factory.create(name);
 
+        CParam p = CParam.factory.create("int", "value");
+        CFunSignature sig = CFunSignature.factory.create(p);
+
         // Generate the print-function
-        CFun fun_print = CFun.factory.create("print", "int", null);
+        CFun fun_print = CFun.factory.create("print", "int", sig);
         fun_print.appendCode("return 0;");
         ns.add(Cpp.PUBLIC, fun_print);
 
         // Generate the files (cpp + hpp)
       	CppSourceFile file = workspace.getC().getCppSourceFile(fileName);
+        CppSourceFile header = this.workspace.getC().getCppHeaderFile(fileName + "Header");
+        header.add(ns);
 
         // We also need a header
         file.addLibInclude("iostream");
@@ -72,9 +79,9 @@ public class Example15_Namespaces {
 
         // Add the main function to the file
         CFun fun_main = CFun.factory.create("main", "int", null);
+        fun_main.appendCode("Test::print(1);");
         file.add(fun_main);
 
-        // Finally, add class to the file
-        file.add(ns);
+        file.addInclude(header);
 	}
 }

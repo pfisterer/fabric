@@ -25,7 +25,7 @@ package de.uniluebeck.sourcegen.c;
 
 public class CppHelper {
 
-    public static void toStringHelper(StringBuffer buffer, CppClass clazz, int tabCount, boolean isLast) {
+    public static void toStringClass(StringBuffer buffer, CppClass clazz, int tabCount, boolean isLast) {
 
         // Public constructors
         if (null != clazz.getConstructors(Cpp.PUBLIC) && clazz.getConstructors(Cpp.PUBLIC).size() > 0) {
@@ -97,7 +97,7 @@ public class CppHelper {
                 boolean last = (i == clazz.getNested(Cpp.PUBLIC).size() - 1) &&
                         (clazz.getNested(Cpp.PROTECTED).size() <= 0) &&
                         (clazz.getNested(Cpp.PRIVATE).size() <= 0);
-                toStringHelper(buffer, clazz.getNested(Cpp.PUBLIC).get(i), tabCount, last);
+                toStringClass(buffer, clazz.getNested(Cpp.PUBLIC).get(i), tabCount, last);
             }
         }
 
@@ -106,7 +106,7 @@ public class CppHelper {
             for (int i = 0; i < clazz.getNested(Cpp.PROTECTED).size(); ++i) {
                 boolean last = (i == clazz.getNested(Cpp.PROTECTED).size() - 1) &&
                         (clazz.getNested(Cpp.PRIVATE).size() <= 0);
-                toStringHelper(buffer, clazz.getNested(Cpp.PROTECTED).get(i), tabCount, last);
+                toStringClass(buffer, clazz.getNested(Cpp.PROTECTED).get(i), tabCount, last);
             }
         }
 
@@ -114,7 +114,7 @@ public class CppHelper {
         if (null != clazz.getNested(Cpp.PRIVATE) && clazz.getNested(Cpp.PRIVATE).size() > 0) {
             for (int i = 0; i < clazz.getNested(Cpp.PRIVATE).size(); ++i) {
                 boolean last = (i == clazz.getNested(Cpp.PRIVATE).size() - 1);
-                toStringHelper(buffer, clazz.getNested(Cpp.PRIVATE).get(i), tabCount, last);
+                toStringClass(buffer, clazz.getNested(Cpp.PRIVATE).get(i), tabCount, last);
             }
         }
 

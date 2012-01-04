@@ -43,7 +43,7 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
 
     // TODO: Add support for nested namespaces
     // Needed for nested namespaces
-    // private List<CppNamespace> parents = new LinkedList<CppNamespace>();
+    private List<String> parents = new LinkedList<String>();
 
     boolean isPrepared = false;
 
@@ -89,9 +89,14 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
         return false;
     }
 */
+
+    public List<CFun> getFuns() {
+        return this.cfuns;
+    }
+
     @Override
     public void toString(StringBuffer buffer, int tabCount) {
-        //prepare();
+        prepare();
 
         // Write comment if necessary
         if (comment != null) {
@@ -103,15 +108,18 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
 
         StringBuffer inner = new StringBuffer();
 
-        // Add signatures of the C functions
-        for (CFun fun : cfuns) {
-            // Signature does not work!
-            inner.append(fun.toString());
+
+        if(cfuns.size() > 0) {
+            // Add signatures of the C functions
+            for (CFun fun : cfuns) {
+                // Signature does not work!
+                inner.append(fun.getSignature() + ";");
+            }
+            inner.append(Cpp.newline);
+            appendBody(buffer, inner, tabCount + 1);
         }
 
-        appendBody(buffer, inner, tabCount + 1);
-        buffer.append(Cpp.newline + "};");
-        buffer.append(Cpp.newline);
+        buffer.append(Cpp.newline + "};" + Cpp.newline);
     }
 
     protected void indent(StringBuffer buffer, int tabCount) {
@@ -145,17 +153,15 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
     /**
      * This method prepares the files
      */
-/*   @Override
-    public void prepare() {
+   @Override
+   public void prepare() {
         if (isPrepared)
             return;
 
-        for (CppNamespace c : getNested(Cpp.PUBLIC)) {
-            c.addParents(this.parents, this);
-            c.prepare();
+        for (CFun c : this.cfuns) {
+            c.addParents(this.parents, this.getName());
         }
 
         isPrepared = true;
     }
-*/
 }
