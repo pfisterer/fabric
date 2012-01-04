@@ -538,6 +538,10 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			for(CppClass c : file.getCppClasses()){
 				c.prepare();
 			}
+
+		    for(CppNamespace ns : file.getNamespaces()){
+                ns.prepare();
+            }
 		}
 	}
 
