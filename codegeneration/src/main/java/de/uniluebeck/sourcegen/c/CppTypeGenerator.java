@@ -34,21 +34,21 @@ public class CppTypeGenerator {
         }
 
         if (buffer.length() == 0) {
-          buffer = null;
-          return "$UNKNOWN_TYPE_BY_CPP_TYPE_GENERATOR$";
+            buffer = null;
+            return "$UNKNOWN_TYPE_BY_CPP_TYPE_GENERATOR$";
         }
 
         return buffer.toString();
     }
-    
+
     private String getParents() {
-      StringBuffer myParents = new StringBuffer();
-      if (this.clazz != null) {
-        for (CppClass p : this.clazz.getParents()) {
-          myParents.append(p.getName()+ "::");
+        StringBuffer myParents = new StringBuffer();
+        if (this.clazz != null) {
+            for (String s : this.clazz.getParents()) {
+                myParents.append(s + "::");
+            }
         }
-      }
-      return myParents.toString();
+        return myParents.toString();
     }
 
 }

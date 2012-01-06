@@ -23,6 +23,8 @@
  */
 package de.uniluebeck.sourcegen.c;
 
+import java.util.List;
+
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
 /**
@@ -55,13 +57,13 @@ public interface CppNamespace extends CppComplexType {
     public CppNamespace add(long vis, CFun... function) throws CppDuplicateException;
     public boolean contains(CFun fun);
 
-    // TODO: Add support for classes
-    //public CppNamespace add(CppClass... clazz) throws CppDuplicateException;
-    //public boolean contains(CppClass clazz);
+    public List<CFun> getFuns();
+    public List<CppClass> getClasses();
+
+    public CppNamespace add(CppClass... clazz) throws CppDuplicateException;
+    public boolean contains(CppClass clazz);
 
     public CppNamespace setComment(CComment comment);
 
-    // TODO: Add support for nested namespaces
-    //public CppNamespace addParents(List<CppNamespace> cppClass, CppNamespace clazz); // TODO: Set correct argument names
-    //public void prepare();
+    public void prepare();
 }

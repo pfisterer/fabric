@@ -24,6 +24,7 @@
 package de.uniluebeck.sourcegen.c;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import de.uniluebeck.sourcegen.exceptions.CCodeValidationException;
 import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
@@ -50,6 +51,8 @@ class CFunImpl extends CElemImpl implements CFun {
 	private CFunSignature signature;
 
 	private CComment comment = null;
+
+	private List<String> parents = new LinkedList<String>();
 
 	public CFunImpl(String name, String returnType,
 			CFunSignature signature, CFunBody body)
@@ -198,8 +201,14 @@ class CFunImpl extends CElemImpl implements CFun {
 	 *
 	 * @return the signature of the function
 	 */
-	public CFunSignature getSignature() {
-		return signature;
+	public String getSignature() {
+
+	    StringBuffer buffer = new StringBuffer();
+	    buffer.append(returnType);
+        buffer.append(" ");
+        buffer.append(name);
+        signature.toString(buffer, 0);
+		return buffer.toString();
 	}
 
 	public CFun appendCode(String... code) {
@@ -223,7 +232,7 @@ class CFunImpl extends CElemImpl implements CFun {
 
 		buffer.append(returnType);
 		buffer.append(" ");
-		buffer.append(name);
+		buffer.append(getParents() + name);
 		signature.toString(buffer, 0);
 		buffer.append(" {\n");
 		body.toString(buffer, tabCount+1);
@@ -260,5 +269,20 @@ class CFunImpl extends CElemImpl implements CFun {
 		this.comment = comment;
 		return this;
 	}
+
+    @Override
+    public CFun addParents(List<String> cppClass, String clazz) {
+        this.parents.addAll(cppClass);
+        this.parents.add(clazz);
+        return this;
+    }
+
+    private String getParents(){
+        StringBuffer myParents = new StringBuffer();
+        for (String s : this.parents) {
+            myParents.append(s + "::");
+        }
+        return myParents.toString();
+    }
 
 }

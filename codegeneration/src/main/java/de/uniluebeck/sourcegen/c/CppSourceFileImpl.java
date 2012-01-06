@@ -35,7 +35,6 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	protected List<CppVar> cppVars;
-	protected List<CppFun> cppFuns;
 	protected List<CppClass> cppClasses;
 
 	protected List<CppSourceFileImpl> cppUserHeaderFiles;
@@ -57,7 +56,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		fileName	= newFileName;
 		base 		= newBase;
 		cppVars 	= new LinkedList<CppVar>();
-		cppFuns 	= new LinkedList<CppFun>();
 		cppClasses 	= new LinkedList<CppClass>();
 		cppUserHeaderFiles = new LinkedList<CppSourceFileImpl>();
 		cppUserHeaderFilesStrings = new LinkedList<String>();
@@ -84,15 +82,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			if (contains(c))
 				throw new CppDuplicateException("Duplicate class " + c);
 			this.cppClasses.add(c);
-		}
-		return this;
-	}
-
-	public CppSourceFile add(CppFun... funs) throws CppDuplicateException {
-		for (CppFun fun : funs) {
-			if (contains(fun))
-				throw new CppDuplicateException("Duplicate function " + fun);
-			this.cppFuns.add(fun);
 		}
 		return this;
 	}
@@ -244,13 +233,6 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		return false;
 	}
 
-	public boolean contains(CppFun fun) {
-		for (CppFun f : cppFuns)
-			if (f.equals(fun))
-				return true;
-		return false;
-	}
-
 	public boolean contains(CppVar var) {
 		for (CppVar v : cppVars)
 			if (v.equals(var))
@@ -327,13 +309,13 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		return super.equals(other);
 	}
 
-	public CppClass[] getCppClasses() {
-		return cppClasses.toArray(new CppClass[cppClasses.size()]);
-	}
+    public CppClass[] getCppClasses() {
+        return cppClasses.toArray(new CppClass[cppClasses.size()]);
+    }
 
-	public CppFun[] getCppFuns() {
-		return cppFuns.toArray(new CppFun[cppFuns.size()]);
-	}
+    public CppNamespace[] getNamespaces() {
+        return cppNamespace.toArray(new CppNamespace[cppNamespace.size()]);
+    }
 
 	public CppSourceFileImpl[] getCppIncludes() {
 		return cppUserHeaderFiles.toArray(new CppSourceFileImpl[cppUserHeaderFiles.size()]);
@@ -420,12 +402,12 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	    }
 
 	    // Namespace definitions
-      if (null != this.cppNamespace && this.cppNamespace.size() > 0) {
-          for (CppNamespace ns : this.cppNamespace) {
-              buffer.append(ns.toString());
-          }
-          buffer.append(Cpp.newline);
-      }
+	    if (null != this.cppNamespace && this.cppNamespace.size() > 0) {
+	        for (CppNamespace ns : this.cppNamespace) {
+	            buffer.append(ns.toString());
+	        }
+	        buffer.append(Cpp.newline);
+	    }
 
 	    // Classes, definitions
 	    if (null != this.cppClasses && this.cppClasses.size() > 0) {
@@ -435,13 +417,55 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	        buffer.append(Cpp.newline);
 	    }
 
+        // Namespaces, implementation
+        if (null != this.cppNamespace && this.cppNamespace.size() > 0) {
+            for (CppNamespace ns : this.cppNamespace) {
+                if(ns.getFuns().size() > 0) {
+                    // Add signatures of the C functions
+                    for (CFun fun : ns.getFuns()) {
+                        // Signature does not work!
+                        buffer.append(fun.toString() + ";");
+                    }
+                    buffer.append(Cpp.newline);
+                }
+            }
+            buffer.append(Cpp.newline);
+        }
+
+        // Namespaces, implementation from header
+        if (null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) {
+            for (CppSourceFileImpl file : this.cppUserHeaderFiles) {
+                if (null != file.getNamespaces() && file.getNamespaces().length > 0) {
+                    for (int i = 0; i < file.getNamespaces().length; ++i) {
+                        if (null != file.getNamespaces() && file.getNamespaces().length > 0) {
+                            for (CppNamespace ns : file.getNamespaces()) {
+                                if(ns.getFuns().size() > 0) {
+                                    // Add signatures of the C functions
+                                    for (CFun fun : ns.getFuns()) {
+                                        // Signature does not work!
+                                        buffer.append(fun.toString() + ";");
+                                        buffer.append(Cpp.newline);
+                                    }
+                                }
+                            }
+                        }
+
+                        boolean isLast = (i == file.getNamespaces().length - 1);
+                        if(isLast) {
+                            buffer.append(Cpp.newline);
+                        }
+                    }
+                }
+            }
+        }
+
 	    // Classes, implementations
 	    if (null != this.cppClasses && this.cppClasses.size() > 0) {
-          for (int i = 0; i < this.cppClasses.size(); ++i) {
-              boolean isLast = (i == this.cppClasses.size() - 1);
-              CppHelper.toStringHelper(buffer, this.cppClasses.get(i), tabCount, isLast);
-          }
-      }
+	        for (int i = 0; i < this.cppClasses.size(); ++i) {
+	            boolean isLast = (i == this.cppClasses.size() - 1);
+	            CppHelper.toStringClass(buffer, this.cppClasses.get(i), tabCount, isLast);
+	        }
+	    }
 
 	    // Classes, from header file
 	    if (null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) {
@@ -449,11 +473,34 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	            if (null != file.getCppClasses() && file.getCppClasses().length > 0) {
                   for (int i = 0; i < file.getCppClasses().length; ++i) {
                       boolean isLast = (i == file.getCppClasses().length - 1);
-	                    CppHelper.toStringHelper(buffer, file.getCppClasses()[i], tabCount, isLast);
+	                    CppHelper.toStringClass(buffer, file.getCppClasses()[i], tabCount, isLast);
 	                }
 	            }
 	        }
+	        //buffer.append(Cpp.newline + Cpp.newline);
 	    }
+
+        // Classes, implementation from namespaces in header
+        if (null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) {
+            for (CppSourceFileImpl file : this.cppUserHeaderFiles) {
+                if (null != file.getNamespaces() && file.getNamespaces().length > 0) {
+                    for (int i = 0; i < file.getNamespaces().length; ++i) {
+                        if (null != file.getNamespaces() && file.getNamespaces().length > 0) {
+                            for (CppNamespace ns : file.getNamespaces()) {
+                                if(ns.getClasses().size() > 0) {
+                                    if (null != ns.getClasses() && ns.getClasses().size() > 0) {
+                                        for (int j = 0; j < ns.getClasses().size(); ++j) {
+                                            boolean isLast = (j == ns.getClasses().size() - 1);
+                                              CppHelper.toStringClass(buffer, ns.getClasses().get(j), tabCount, isLast);
+                                          }
+                                      }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
 	    // FIXME: Buggy, not working yet...
 	    // Static variables
@@ -485,6 +532,7 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	    // Add functions, such that main() is possible
 	    if (null != this.base && null != this.base.getFuns() && this.base.getFuns().size() > 0) {
+            buffer.append(Cpp.newline + Cpp.newline);
 	        for (CFun fun : this.base.getFuns()) {
 	            fun.toString(buffer, tabCount);
 	        }
@@ -518,6 +566,10 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 			for(CppClass c : file.getCppClasses()){
 				c.prepare();
 			}
+
+		    for(CppNamespace ns : file.getNamespaces()){
+                ns.prepare();
+            }
 		}
 	}
 

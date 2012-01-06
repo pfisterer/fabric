@@ -75,7 +75,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
     private CComment comment = null;
 
     // Needed for nested class
-    private List<CppClass> parents = new LinkedList<CppClass>();
+    private List<String> parents = new LinkedList<String>();
 
     private boolean isPrepared = false;
 
@@ -549,7 +549,7 @@ class CppClassImpl extends CElemImpl implements CppClass {
         }
         return ret;
     }
-    
+
     /**
      * Get a list of all CEnums with the given visibility that
      * are stored in the current CppClass object.
@@ -793,14 +793,14 @@ class CppClassImpl extends CElemImpl implements CppClass {
     }
 
     @Override
-    public CppClass addParents(List<CppClass> cppClass, CppClass clazz) {
+    public CppClass addParents(List<String> cppClass, String clazz) {
         this.parents.addAll(cppClass);
         this.parents.add(clazz);
         return this;
     }
 
     @Override
-    public List<CppClass> getParents() {
+    public List<String> getParents() {
         return parents;
     }
 
@@ -865,17 +865,17 @@ class CppClassImpl extends CElemImpl implements CppClass {
 
         // Set all parents to subclasses
         for (CppClass c : getNested(Cpp.PUBLIC)) {
-            c.addParents(this.parents, this);
+            c.addParents(this.parents, this.getName());
             c.prepare();
         }
 
         for (CppClass c : getNested(Cpp.PRIVATE)) {
-            c.addParents(this.parents, this);
+            c.addParents(this.parents, this.getName());
             c.prepare();
         }
 
         for (CppClass c : getNested(Cpp.PROTECTED)) {
-            c.addParents(this.parents, this);
+            c.addParents(this.parents, this.getName());
             c.prepare();
         }
 
