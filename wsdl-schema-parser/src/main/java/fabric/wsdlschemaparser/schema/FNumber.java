@@ -62,8 +62,8 @@ public abstract class FNumber extends FSimpleType {
 				SchemaType.FACET_MAX_INCLUSIVE,
 				SchemaType.FACET_MAX_EXCLUSIVE,
 				SchemaType.FACET_ENUMERATION,
-                                SchemaType.FACET_WHITE_SPACE,
-                                SchemaType.FACET_PATTERN
+        SchemaType.FACET_WHITE_SPACE,
+        SchemaType.FACET_PATTERN
 		});
 	}
 }
