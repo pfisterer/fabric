@@ -59,6 +59,7 @@ public class CppHelper {
 
         // Public functions
         if (null != clazz.getFuns(Cpp.PUBLIC) && clazz.getFuns(Cpp.PUBLIC).size() > 0) {
+
             // Does not add new lines after last function
             for (int i = 0; i < clazz.getFuns(Cpp.PUBLIC).size(); ++i) {
                 CppFun f = clazz.getFuns(Cpp.PUBLIC).get(i);

@@ -118,8 +118,8 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
                 inner.append(fun.getSignature() + ";");
                 inner.append(Cpp.newline);
             }
-            inner.append(Cpp.newline + Cpp.newline);
             appendBody(buffer, inner, tabCount + 1);
+            buffer.append(Cpp.newline + Cpp.newline);
         }
 
         if(classes.size() > 0) {
@@ -129,7 +129,6 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
                 inner.append(c.toString());
                 inner.append(Cpp.newline);
             }
-            inner.append(Cpp.newline);
             appendBody(buffer, inner, tabCount + 1);
         }
         buffer.append(Cpp.newline + "};" + Cpp.newline);
@@ -177,6 +176,7 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
 
         for(CppClass c : this.classes) {
             c.addParents(this.parents, this.getName());
+            c.prepare();
         }
 
         isPrepared = true;

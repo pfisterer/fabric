@@ -71,11 +71,19 @@ public class Example15_Namespaces {
         fun_print.appendCode("return 0;");
         ns.add(Cpp.PUBLIC, fun_print);
 
-        CppClass cppClass = CppClass.factory.create("SimpleClass");
+        CppClass cppClass1 = CppClass.factory.create("SimpleClass");
         CppVar cppVar = CppVar.factory.create("int", "val");
         CppFun cppFun = CppFun.factory.create("int", "test", cppVar);
         cppFun.appendCode("return 0;");
-        cppClass.add(Cpp.PUBLIC, cppFun);
+        cppClass1.add(Cpp.PUBLIC, cppFun);
+        ns.add(cppClass1);
+
+        CppClass cppClass2 = CppClass.factory.create("InnerSimpleClass");
+        CppVar cppVar2 = CppVar.factory.create("int", "val");
+        CppFun cppFun2 = CppFun.factory.create("int", "test", cppVar2);
+        cppFun2.appendCode("return 0;");
+        cppClass2.add(Cpp.PUBLIC, cppFun2);
+        cppClass1.add(Cpp.PUBLIC, cppClass2);
 
 
         // Generate the files (cpp + hpp)
@@ -86,7 +94,6 @@ public class Example15_Namespaces {
         // We also need a header
         file.addLibInclude("iostream");
         file.addUsingNamespace("std");
-        ns.add(cppClass);
 
         // Add the main function to the file
         CFun fun_main = CFun.factory.create("main", "int", null);
