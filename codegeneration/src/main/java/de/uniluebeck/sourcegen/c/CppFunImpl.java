@@ -121,7 +121,7 @@ class CppFunImpl extends CElemImpl implements CppFun {
         signature.toString(buffer, 0);
         buffer.append(" {" + Cpp.newline);
         appendBody(buffer, body, tabCount + 1);
-        buffer.append(Cpp.newline + "}");
+        buffer.append(Cpp.newline + "};");
 
         if (!isLast) {
           buffer.append(Cpp.newline + Cpp.newline);

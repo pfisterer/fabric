@@ -98,6 +98,7 @@ public class CppHelper {
                 boolean last = (i == clazz.getNested(Cpp.PUBLIC).size() - 1) &&
                         (clazz.getNested(Cpp.PROTECTED).size() <= 0) &&
                         (clazz.getNested(Cpp.PRIVATE).size() <= 0);
+                buffer.append(Cpp.newline + Cpp.newline);
                 toStringClass(buffer, clazz.getNested(Cpp.PUBLIC).get(i), tabCount, last);
             }
         }
@@ -107,6 +108,7 @@ public class CppHelper {
             for (int i = 0; i < clazz.getNested(Cpp.PROTECTED).size(); ++i) {
                 boolean last = (i == clazz.getNested(Cpp.PROTECTED).size() - 1) &&
                         (clazz.getNested(Cpp.PRIVATE).size() <= 0);
+                buffer.append(Cpp.newline + Cpp.newline);
                 toStringClass(buffer, clazz.getNested(Cpp.PROTECTED).get(i), tabCount, last);
             }
         }
@@ -115,6 +117,7 @@ public class CppHelper {
         if (null != clazz.getNested(Cpp.PRIVATE) && clazz.getNested(Cpp.PRIVATE).size() > 0) {
             for (int i = 0; i < clazz.getNested(Cpp.PRIVATE).size(); ++i) {
                 boolean last = (i == clazz.getNested(Cpp.PRIVATE).size() - 1);
+                buffer.append(Cpp.newline + Cpp.newline);
                 toStringClass(buffer, clazz.getNested(Cpp.PRIVATE).get(i), tabCount, last);
             }
         }
