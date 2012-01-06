@@ -26,7 +26,7 @@ public class CppTypeHelper
   public static final String FILE_NAME = "simple_type_definitions";
 
   /** Header file for XSD simple type definitions */
-  private static CppHeaderFile sourceFile;
+  private static CppHeaderFile headerFile;
 
   /**
    * Private constructor, because all methods of this class are static.
@@ -47,19 +47,19 @@ public class CppTypeHelper
   public static void init(Workspace workspace) throws Exception
   {
     // Create header file
-    CppTypeHelper.sourceFile = workspace.getC().getCppHeaderFile(CppTypeHelper.FILE_NAME);
-    CppTypeHelper.sourceFile.setComment(new CCommentImpl("Type definitions for required XSD simple types."));
+    CppTypeHelper.headerFile = workspace.getC().getCppHeaderFile(CppTypeHelper.FILE_NAME);
+    CppTypeHelper.headerFile.setComment(new CCommentImpl("Type definitions for required XSD simple types."));
 
     // Surround definitions with include guard
-    CppTypeHelper.sourceFile.addBeforeDirective("ifndef SIMPLE_TYPE_DEFINITIONS_HPP");
-    CppTypeHelper.sourceFile.addBeforeDirective("define SIMPLE_TYPE_DEFINITIONS_HPP");
+    CppTypeHelper.headerFile.addBeforeDirective("ifndef SIMPLE_TYPE_DEFINITIONS_HPP");
+    CppTypeHelper.headerFile.addBeforeDirective("define SIMPLE_TYPE_DEFINITIONS_HPP");
 
     // Create type definitions and structs
-    CppTypeHelper.sourceFile.add(CppTypeHelper.createTypeDefs());
-    CppTypeHelper.sourceFile.add(CppTypeHelper.createStructs());
+    CppTypeHelper.headerFile.add(CppTypeHelper.createTypeDefs());
+    CppTypeHelper.headerFile.add(CppTypeHelper.createStructs());
 
     // Close include guard
-    CppTypeHelper.sourceFile.addAfterDirective("endif // SIMPLE_TYPE_DEFINITIONS_HPP");
+    CppTypeHelper.headerFile.addAfterDirective("endif // SIMPLE_TYPE_DEFINITIONS_HPP");
   }
 
   /**

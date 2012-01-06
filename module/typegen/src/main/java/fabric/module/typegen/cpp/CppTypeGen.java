@@ -1,4 +1,4 @@
-/** 24.12.2011 15:23 */
+/** 06.01.2012 18:24 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -146,8 +146,8 @@ public class CppTypeGen implements TypeGen
 
     // Create file with definitions for XSD built-in types once
     CppTypeHelper.init(workspace);
-
-    // Create file with namespace for char* functions
+    
+    // Create file with namespace for util functions once
     CppUtilHelper.init(workspace);
 
     // Create new source file for every container
@@ -205,15 +205,15 @@ public class CppTypeGen implements TypeGen
       cppsf = cWorkspace.getCppSourceFile(name);
       // No need to add sourceFileData.typeObject here, will be taken from cpphf automatically
       cppsf.setComment(new CCommentImpl(String.format("The '%s' source file.", name)));
-      
+
       // Add includes
       cppsf.addInclude(cpphf);
-      // Add include for char* functions
-      if (!cpphf.getFileName().equals(CppUtilHelper.FILE_NAME))
+
+      // Add include for util functions once
+      if (!cppsf.getFileName().equals(CppUtilHelper.FILE_NAME))
       {
-          cpphf.addInclude(CppUtilHelper.FILE_NAME + ".hpp");
+        cppsf.addInclude(CppUtilHelper.FILE_NAME + ".hpp");
       }
-      cppsf.addLibInclude("string.h"); // TODO: Needed for strlen() in restriction checks, so only add there?
 
       // Add namespace
       cppsf.addUsingNamespace("std");

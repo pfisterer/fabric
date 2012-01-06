@@ -1,11 +1,13 @@
+/** 06.01.2012 18:25 */
 package fabric.module.typegen.cpp;
 
 import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.c.*;
+
 import de.uniluebeck.sourcegen.exceptions.CConflictingModifierException;
-import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
+import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
 
 /**
  * This helper class contains various methods that are being used
@@ -21,7 +23,6 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
  * @author reichart
  */
 public class CppUtilHelper {
-
     /** Name of the C++ header file */
     public static final String FILE_NAME = "fabric_util";
 
@@ -29,7 +30,7 @@ public class CppUtilHelper {
     private static CppHeaderFile headerFile;
 
     /** Cpp file for functions for char* variables */
-    private static CppSourceFile cppFile;
+    private static CppSourceFile sourceFile;
 
     /** Cpp namespace */
     private static CppNamespace namespace;
@@ -52,17 +53,17 @@ public class CppUtilHelper {
      */
     public static void init(Workspace workspace) throws Exception
     {
-        createClass();
-        createHeader(workspace);
-        createCpp(workspace);
-        createCheckFunctions();
-        createStringFunctions();
-        createCompareFunctions();
-        createDigitFunctions();
-        createWhitespaceFunctions();
+        CppUtilHelper.createNamespace();
+        CppUtilHelper.createHeader(workspace);
+        CppUtilHelper.createCpp(workspace);
+        CppUtilHelper.createCheckFunctions();
+        CppUtilHelper.createStringFunctions();
+        CppUtilHelper.createCompareFunctions();
+        CppUtilHelper.createDigitFunctions();
+        CppUtilHelper.createWhitespaceFunctions();
     }
 
-    private static void createClass() {
+    private static void createNamespace() {
         namespace = CppNamespace.factory.create(FILE_NAME);
         namespace.setComment(new CCommentImpl(
                 "This namespace contains various functions for char* variables representing numerical values."));
@@ -70,10 +71,10 @@ public class CppUtilHelper {
 
     private static void createCpp(Workspace workspace) throws CPreProcessorValidationException, CppDuplicateException {
         // Create Cpp file
-        cppFile = workspace.getC().getCppSourceFile(CppUtilHelper.FILE_NAME);
-        cppFile.setComment(new CCommentImpl("Functions for char* variables representing numerical values."));
-        cppFile.addInclude(headerFile);
-        cppFile.addBeforeDirective("define NULL 0");
+        sourceFile = workspace.getC().getCppSourceFile(CppUtilHelper.FILE_NAME);
+        sourceFile.setComment(new CCommentImpl("Functions for char* variables representing numerical values."));
+        sourceFile.addInclude(headerFile);
+        sourceFile.addBeforeDirective("define NULL 0");
     }
 
     private static void createHeader(Workspace workspace) throws Exception {
@@ -419,5 +420,4 @@ public class CppUtilHelper {
         fun_collapse.setComment(new CCommentImpl("Replaces multiple whitespace characters with single space and trims."));
         namespace.add(Cpp.PUBLIC, fun_collapse);
     }
-
 }
