@@ -1,4 +1,4 @@
-/** 16.12.2011 10:54 */
+/** 06.01.2012 18:13 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
@@ -491,20 +491,20 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
 
     // Create code to check restrictions
     AttributeContainer.Restriction r = member.restrictions;
-    String operandName = member.name;
+    String operand = member.name;
     String message = "Restriction '%s' violated for member variable '%s'.";
     String comment = "Check the '%s' restriction";
 
     // If member type is QName, enforce restriction on local part
     if (member.type.endsWith("QName"))
     {
-      operandName = String.format("(%s.getNamespaceURI() + \":\" + %s.getLocalPart())", member.name, member.name);
+      operand = String.format("(%s.getNamespaceURI() + \":\" + %s.getLocalPart())", member.name, member.name);
     }
 
     if (member.isLengthRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s.length() != %d", operandName, Long.parseLong(r.length)),
+              JavaRestrictionHelper.lengthExpression(operand, Long.parseLong(r.length)),
               String.format(message, "length", member.name),
               String.format(comment, "length"));
     }
@@ -512,7 +512,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMinLengthRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s.length() < %d", operandName, Long.parseLong(r.minLength)),
+              JavaRestrictionHelper.minLengthExpression(operand, Long.parseLong(r.minLength)),
               String.format(message, "minLength", member.name),
               String.format(comment, "minLength"));
     }
@@ -520,7 +520,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isMaxLengthRestricted())
     {
       result += JavaRestrictionHelper.createCheckCode(
-              String.format("%s.length() > %d", operandName, Long.parseLong(r.maxLength)),
+              JavaRestrictionHelper.maxLengthExpression(operand, Long.parseLong(r.maxLength)),
               String.format(message, "maxLength", member.name),
               String.format(comment, "maxLength"));
     }
@@ -560,7 +560,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isPatternRestricted())
     {
       result += JavaRestrictionHelper.createPatternCheckCode(
-              operandName,
+              operand,
               r.pattern,
               String.format(message, "pattern", member.name));
     }

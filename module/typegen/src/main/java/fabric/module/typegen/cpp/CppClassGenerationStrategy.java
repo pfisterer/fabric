@@ -1,4 +1,4 @@
-/** 06.01.2012 16:54 */
+/** 06.01.2012 18:17 */
 package fabric.module.typegen.cpp;
 
 import java.util.Map;
@@ -379,16 +379,8 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
 
     // Create code to check restrictions
     AttributeContainer.Restriction r = member.restrictions;
-    String operandName = member.name;
     String message = "Restriction '%s' violated for member variable '%s'.";
     String comment = "Check the '%s' restriction";
-
-    // If member type is QName, enforce restriction on local part    
-    if (member.type.endsWith("xs_qName_t"))
-    {
-      // TODO: How do we do this on our struct in C++?
-      operandName = String.format("(%s.getNamespaceURI() + \":\" + %s.getLocalPart())", member.name, member.name);
-    }
 
     if (member.isLengthRestricted())
     {
@@ -449,7 +441,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     if (member.isPatternRestricted())
     {
       result += CppRestrictionHelper.createPatternCheckCode(
-              operandName,
+              member.name,
               r.pattern,
               String.format(message, "pattern", member.name));
     }

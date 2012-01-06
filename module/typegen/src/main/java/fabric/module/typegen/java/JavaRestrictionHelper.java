@@ -1,4 +1,4 @@
-/** 15.12.2011 11:47 */
+/** 06.01.2012 18:14 */
 package fabric.module.typegen.java;
 
 import fabric.module.typegen.AttributeContainer;
@@ -240,6 +240,51 @@ public class JavaRestrictionHelper
   }
 
   /**
+   * Build expression to check the 'length' restriction, depending
+   * on the data type of the member variable.
+   *
+   * @param operand Name of member variable or other operand (e.g.
+   * a string literal) for comparison in expression
+   * @param length Value of 'length' restriction
+   *
+   * @return Expression for restriction check
+   */
+  public static String lengthExpression(final String operand, final long length)
+  {
+    return String.format("%s.length() != %d", operand, length);
+  }
+
+  /**
+   * Build expression to check the 'minLength' restriction, depending
+   * on the data type of the member variable.
+   *
+   * @param operand Name of member variable or other operand (e.g.
+   * a string literal) for comparison in expression
+   * @param minLength Value of 'minLength' restriction
+   *
+   * @return Expression for restriction check
+   */
+  public static String minLengthExpression(final String operand, final long minLength)
+  {
+    return String.format("%s.length() < %d", operand, minLength);
+  }
+
+  /**
+   * Build expression to check the 'maxLength' restriction, depending
+   * on the data type of the member variable.
+   *
+   * @param operand Name of member variable or other operand (e.g.
+   * a string literal) for comparison in expression
+   * @param maxLength Value of 'maxLength' restriction
+   *
+   * @return Expression for restriction check
+   */
+  public static String maxLengthExpression(final String operand, final long maxLength)
+  {
+    return String.format("%s.length() > %d", operand, maxLength);
+  }
+
+  /**
    * Build expression to check the 'minInclusive' restriction, depending
    * on the data type of the member variable. BigInteger and BigDecimal
    * values require special treatment when comparing them. The function
@@ -249,7 +294,7 @@ public class JavaRestrictionHelper
    *
    * @return Expression for restriction check
    */
-  public static String minInclusiveExpression(AttributeContainer.RestrictedElementBase member)
+  public static String minInclusiveExpression(final AttributeContainer.RestrictedElementBase member)
   {
     String result = "";
 
@@ -276,7 +321,7 @@ public class JavaRestrictionHelper
    *
    * @return Expression for restriction check
    */
-  public static String maxInclusiveExpression(AttributeContainer.RestrictedElementBase member)
+  public static String maxInclusiveExpression(final AttributeContainer.RestrictedElementBase member)
   {
     String result = "";
 
@@ -303,7 +348,7 @@ public class JavaRestrictionHelper
    *
    * @return Expression for restriction check
    */
-  public static String minExclusiveExpression(AttributeContainer.RestrictedElementBase member)
+  public static String minExclusiveExpression(final AttributeContainer.RestrictedElementBase member)
   {
     String result = "";
 
@@ -330,7 +375,7 @@ public class JavaRestrictionHelper
    *
    * @return Expression for restriction check
    */
-  public static String maxExclusiveExpression(AttributeContainer.RestrictedElementBase member)
+  public static String maxExclusiveExpression(final AttributeContainer.RestrictedElementBase member)
   {
     String result = "";
 
