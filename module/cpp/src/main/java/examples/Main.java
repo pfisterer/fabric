@@ -59,7 +59,9 @@ public class Main
   public static void main(String[] args) throws Exception
   {
 	    Properties properties = new Properties();
-	    properties.put("fabric.output_directory", "/home/dennis/Desktop/o/");
+	    if(args.length == 1) {
+	        properties.put("fabric.output_directory", args[0]);
+	    }
 	    Workspace workspace = new Workspace(properties);
 	    new Main(workspace);
   }
