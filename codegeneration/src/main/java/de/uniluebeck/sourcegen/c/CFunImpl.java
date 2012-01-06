@@ -23,15 +23,13 @@
  */
 package de.uniluebeck.sourcegen.c;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.LinkedList;
 
 import de.uniluebeck.sourcegen.exceptions.CCodeValidationException;
 import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
 import de.uniluebeck.sourcegen.exceptions.ValidationException;
-
-
 
 /**
  * @author Daniel Bimschas
@@ -199,16 +197,16 @@ class CFunImpl extends CElemImpl implements CFun {
 	/**
 	 * Returns the signature of the function.
 	 *
-	 * @return the signature of the function
+	 * @return Signature of the function
 	 */
 	public String getSignature() {
-
 	    StringBuffer buffer = new StringBuffer();
 	    buffer.append(returnType);
-        buffer.append(" ");
-        buffer.append(name);
-        signature.toString(buffer, 0);
-		return buffer.toString();
+	    buffer.append(" ");
+	    buffer.append(name);
+	    signature.toString(buffer, 0);
+
+	    return buffer.toString();
 	}
 
 	public CFun appendCode(String... code) {

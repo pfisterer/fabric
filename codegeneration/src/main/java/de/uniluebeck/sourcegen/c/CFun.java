@@ -30,15 +30,14 @@ import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
 import de.uniluebeck.sourcegen.exceptions.ValidationException;
 
-
-
 public interface CFun extends CLangElem {
 
 	class CFunctionFactory {
 
 		private static CFunctionFactory instance;
 
-		private CFunctionFactory() { /* not to be invoked */
+		private CFunctionFactory() {
+      /* not to be invoked */
 		}
 
 		static CFunctionFactory getInstance() {
@@ -50,7 +49,7 @@ public interface CFun extends CLangElem {
 		public CFun create(String name, String returnType,
 				CFunSignature signature)
 				throws CDuplicateException {
-/*
+/* TODO
 		    if(signature == null) {
                 try {
                     CParam param = CParam.factory.create(returnType, name);

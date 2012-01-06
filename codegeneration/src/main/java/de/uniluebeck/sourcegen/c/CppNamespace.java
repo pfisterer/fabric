@@ -54,14 +54,14 @@ public interface CppNamespace extends CppComplexType {
 
     public static final CppNamespaceFactory factory = CppNamespaceFactory.getInstance();
 
-    public CppNamespace add(long vis, CFun... function) throws CppDuplicateException;
+    public CppNamespace add(long vis, CFun... functions) throws CppDuplicateException;
     public boolean contains(CFun fun);
 
     public List<CFun> getFuns();
     public List<CppClass> getClasses();
 
-    public CppNamespace add(CppClass... clazz) throws CppDuplicateException;
-    public boolean contains(CppClass clazz);
+    public CppNamespace add(CppClass... cppClasses) throws CppDuplicateException;
+    public boolean contains(CppClass cppClass);
 
     public CppNamespace setComment(CComment comment);
 

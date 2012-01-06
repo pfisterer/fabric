@@ -36,10 +36,10 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
     private String name;
     private CComment comment = null;
 
+    private List<CFun> cfuns = new LinkedList<CFun>();
     private List<CppClass> classes = new LinkedList<CppClass>();
     // TODO: Add support for nested namespaces
     //private List<CppNamespace> namespaces = new LinkedList<CppNamespace>();
-    private List<CFun> cfuns = new LinkedList<CFun>();
 
     // TODO: Add support for nested namespaces
     // Needed for nested namespaces
@@ -52,7 +52,6 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
     }
 
     public CppNamespace add(long vis, CFun... functions) throws CppDuplicateException {
-
         for (CFun f : functions) {
             cfuns.add(f);
         }
@@ -60,27 +59,25 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
     }
 
     @Override
-    public CppNamespace add(CppClass... cppClass) throws CppDuplicateException {
-
-        for (CppClass c : cppClass) {
+    public CppNamespace add(CppClass... cppClasses) throws CppDuplicateException {
+        for (CppClass c : cppClasses) {
             this.classes.add(c);
         }
         return this;
     }
 
     public boolean contains(CFun fun) {
-
-        for(CFun c : this.cfuns) {
-            if(c.getName().equals(fun.getName())) {
+        for (CFun c : this.cfuns) {
+            if (c.getName().equals(fun.getName())) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean contains(CppClass clazz) {
-        for(CppClass c : this.classes) {
-            if(c.getName().equals(clazz.getName())) {
+    public boolean contains(CppClass cppClass) {
+        for (CppClass c : this.classes) {
+            if (c.getName().equals(cppClass.getName())) {
                 return true;
             }
         }
@@ -97,7 +94,6 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
         return this.classes;
     }
 
-
     @Override
     public void toString(StringBuffer buffer, int tabCount) {
         prepare();
@@ -111,23 +107,21 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
         buffer.append(Cpp.newline + "{" + Cpp.newline);
 
 
-        if(cfuns.size() > 0) {
+        if (null != cfuns && cfuns.size() > 0) {
             StringBuffer inner = new StringBuffer();
-            // Add signatures of the C functions
+            // Add signatures of C functions
             for (CFun fun : cfuns) {
-                inner.append(fun.getSignature() + ";");
-                inner.append(Cpp.newline);
+                inner.append(fun.getSignature() + ";" + Cpp.newline);
             }
             inner.append(Cpp.newline + Cpp.newline);
             appendBody(buffer, inner, tabCount + 1);
         }
 
-        if(classes.size() > 0) {
+        if (null != classes && classes.size() > 0) {
             StringBuffer inner = new StringBuffer();
             // FIXME: A tab to much
             for (CppClass c : classes) {
-                inner.append(c.toString());
-                inner.append(Cpp.newline);
+                inner.append(c.toString() + Cpp.newline);
             }
             inner.append(Cpp.newline);
             appendBody(buffer, inner, tabCount + 1);
@@ -140,7 +134,7 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
             buffer.append("\t");
     }
 
-/*
+/* TODO
     @Override
     public CppNamespace addParents(List<CppNamespace> cppClass, CppNamespace clazz) {
         this.parents.addAll(cppClass);
@@ -166,8 +160,8 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
     /**
      * This method prepares the files
      */
-   @Override
-   public void prepare() {
+    @Override
+    public void prepare() {
         if (isPrepared)
             return;
 
@@ -175,7 +169,7 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
             c.addParents(this.parents, this.getName());
         }
 
-        for(CppClass c : this.classes) {
+        for (CppClass c : this.classes) {
             c.addParents(this.parents, this.getName());
         }
 

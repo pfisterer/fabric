@@ -309,13 +309,13 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 		return super.equals(other);
 	}
 
-    public CppClass[] getCppClasses() {
-        return cppClasses.toArray(new CppClass[cppClasses.size()]);
-    }
+	public CppClass[] getCppClasses() {
+		return cppClasses.toArray(new CppClass[cppClasses.size()]);
+	}
 
-    public CppNamespace[] getNamespaces() {
-        return cppNamespace.toArray(new CppNamespace[cppNamespace.size()]);
-    }
+	public CppNamespace[] getNamespaces() {
+		return cppNamespace.toArray(new CppNamespace[cppNamespace.size()]);
+	}
 
 	public CppSourceFileImpl[] getCppIncludes() {
 		return cppUserHeaderFiles.toArray(new CppSourceFileImpl[cppUserHeaderFiles.size()]);
@@ -417,47 +417,46 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	        buffer.append(Cpp.newline);
 	    }
 
-        // Namespaces, implementation
-        if (null != this.cppNamespace && this.cppNamespace.size() > 0) {
-            for (CppNamespace ns : this.cppNamespace) {
-                if(ns.getFuns().size() > 0) {
-                    // Add signatures of the C functions
-                    for (CFun fun : ns.getFuns()) {
-                        // Signature does not work!
-                        buffer.append(fun.toString() + ";");
-                    }
-                    buffer.append(Cpp.newline);
-                }
-            }
-            buffer.append(Cpp.newline);
-        }
+	    // Namespaces, implementation
+	    if (null != this.cppNamespace && this.cppNamespace.size() > 0) {
+	        for (CppNamespace ns : this.cppNamespace) {
+	            if (null != ns.getFuns() && ns.getFuns().size() > 0) {
+	                // Add signatures of C functions
+	                for (CFun fun : ns.getFuns()) {
+                      // TODO: Signature does not work!
+	                    buffer.append(fun.toString() + ";");
+	                }
+	                buffer.append(Cpp.newline);
+	            }
+	        }
+	        buffer.append(Cpp.newline);
+	    }
 
-        // Namespaces, implementation from header
-        if (null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) {
-            for (CppSourceFileImpl file : this.cppUserHeaderFiles) {
-                if (null != file.getNamespaces() && file.getNamespaces().length > 0) {
-                    for (int i = 0; i < file.getNamespaces().length; ++i) {
-                        if (null != file.getNamespaces() && file.getNamespaces().length > 0) {
-                            for (CppNamespace ns : file.getNamespaces()) {
-                                if(ns.getFuns().size() > 0) {
-                                    // Add signatures of the C functions
-                                    for (CFun fun : ns.getFuns()) {
-                                        // Signature does not work!
-                                        buffer.append(fun.toString() + ";");
-                                        buffer.append(Cpp.newline);
-                                    }
-                                }
-                            }
-                        }
+	    // Namespaces, implementation from header
+	    if (null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) {
+	        for (CppSourceFileImpl file : this.cppUserHeaderFiles) {
+	            if (null != file.getNamespaces() && file.getNamespaces().length > 0) {
+	                for (int i = 0; i < file.getNamespaces().length; ++i) {
+	                    if (null != file.getNamespaces() && file.getNamespaces().length > 0) {
+	                        for (CppNamespace ns : file.getNamespaces()) {
+	                            if (null != ns.getFuns() && ns.getFuns().size() > 0) {
+	                                // Add signatures of C functions
+	                                for (CFun fun : ns.getFuns()) {
+	                                    // TODO: Signature does not work!
+	                                    buffer.append(fun.toString() + ";" + Cpp.newline);
+	                                }
+	                            }
+	                        }
+	                    }
 
-                        boolean isLast = (i == file.getNamespaces().length - 1);
-                        if(isLast) {
-                            buffer.append(Cpp.newline);
-                        }
-                    }
-                }
-            }
-        }
+	                    boolean isLast = (i == file.getNamespaces().length - 1);
+	                    if (isLast) {
+	                        buffer.append(Cpp.newline);
+	                    }
+	                }
+	            }
+	        }
+	    }
 
 	    // Classes, implementations
 	    if (null != this.cppClasses && this.cppClasses.size() > 0) {
@@ -477,30 +476,28 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	                }
 	            }
 	        }
-	        //buffer.append(Cpp.newline + Cpp.newline);
+	        // TODO: buffer.append(Cpp.newline + Cpp.newline);
 	    }
 
-        // Classes, implementation from namespaces in header
-        if (null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) {
-            for (CppSourceFileImpl file : this.cppUserHeaderFiles) {
-                if (null != file.getNamespaces() && file.getNamespaces().length > 0) {
-                    for (int i = 0; i < file.getNamespaces().length; ++i) {
-                        if (null != file.getNamespaces() && file.getNamespaces().length > 0) {
-                            for (CppNamespace ns : file.getNamespaces()) {
-                                if(ns.getClasses().size() > 0) {
-                                    if (null != ns.getClasses() && ns.getClasses().size() > 0) {
-                                        for (int j = 0; j < ns.getClasses().size(); ++j) {
-                                            boolean isLast = (j == ns.getClasses().size() - 1);
-                                              CppHelper.toStringClass(buffer, ns.getClasses().get(j), tabCount, isLast);
-                                          }
-                                      }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+      // Classes, implementation from namespaces in header
+	    if (null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) {
+	        for (CppSourceFileImpl file : this.cppUserHeaderFiles) {
+	            if (null != file.getNamespaces() && file.getNamespaces().length > 0) {
+	                for (int i = 0; i < file.getNamespaces().length; ++i) {
+	                    if (null != file.getNamespaces() && file.getNamespaces().length > 0) {
+	                        for (CppNamespace ns : file.getNamespaces()) {
+	                            if (null != ns.getClasses() && ns.getClasses().size() > 0) {
+	                                for (int j = 0; j < ns.getClasses().size(); ++j) {
+	                                    boolean isLast = (j == ns.getClasses().size() - 1);
+	                                    CppHelper.toStringClass(buffer, ns.getClasses().get(j), tabCount, isLast);
+	                                }
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
 
 	    // FIXME: Buggy, not working yet...
 	    // Static variables
@@ -532,8 +529,8 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	    // Add functions, such that main() is possible
 	    if (null != this.base && null != this.base.getFuns() && this.base.getFuns().size() > 0) {
-            buffer.append(Cpp.newline + Cpp.newline);
-	        for (CFun fun : this.base.getFuns()) {
+          buffer.append(Cpp.newline + Cpp.newline); // TODO?
+          for (CFun fun : this.base.getFuns()) {
 	            fun.toString(buffer, tabCount);
 	        }
 	    }
@@ -559,18 +556,20 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 	}
 
 	public void prepare() {
-		for(CppClass c : this.cppClasses){
-			c.prepare();
-		}
-		for(CppSourceFileImpl file : this.cppUserHeaderFiles){
-			for(CppClass c : file.getCppClasses()){
-				c.prepare();
-			}
-
-		    for(CppNamespace ns : file.getNamespaces()){
-                ns.prepare();
-            }
-		}
-	}
+    for (CppClass c : this.cppClasses) {
+      c.prepare();
+    }
+    
+    // Prepare entities from user header files
+    for (CppSourceFileImpl file : this.cppUserHeaderFiles) {
+      for (CppClass c : file.getCppClasses()) {
+        c.prepare();
+      }
+      
+      for (CppNamespace ns : file.getNamespaces()) {
+        ns.prepare();
+      }
+    }
+  }
 
 }

@@ -48,15 +48,14 @@ import de.uniluebeck.sourcegen.c.CppVar;
 
 public class Example15_Namespaces {
 
-	private Workspace workspace = null;
+    private Workspace workspace = null;
 
-	public Example15_Namespaces(Workspace workspace) throws Exception {
-	    this.workspace = workspace;
-		generate();
-	}
+    public Example15_Namespaces(Workspace workspace) throws Exception {
+        this.workspace = workspace;
+        generate();
+    }
 
-	void generate() throws Exception {
-
+    void generate() throws Exception {
         String name = "Test";
         String fileName = "Namespace";
 
@@ -76,7 +75,7 @@ public class Example15_Namespaces {
         CppFun cppFun = CppFun.factory.create("int", "test", cppVar);
         cppFun.appendCode("return 0;");
         cppClass.add(Cpp.PUBLIC, cppFun);
-
+        ns.add(cppClass);
 
         // Generate the files (cpp + hpp)
       	CppSourceFile file = workspace.getC().getCppSourceFile(fileName);
@@ -84,9 +83,9 @@ public class Example15_Namespaces {
         header.add(ns);
 
         // We also need a header
+        file.addInclude(header);
         file.addLibInclude("iostream");
         file.addUsingNamespace("std");
-        ns.add(cppClass);
 
         // Add the main function to the file
         CFun fun_main = CFun.factory.create("main", "int", null);
@@ -94,7 +93,6 @@ public class Example15_Namespaces {
         fun_main.appendCode("Test::SimpleClass c;");
         fun_main.appendCode("c.test(2);");
         file.add(fun_main);
+    }
 
-        file.addInclude(header);
-	}
 }
