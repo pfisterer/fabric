@@ -26,6 +26,7 @@ package de.uniluebeck.sourcegen;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -142,6 +143,9 @@ public class Workspace {
 
         jPackagePrefix = properties.getProperty(KEY_JAVA_PKG_PREFIX, "");
 
+        Date dateStart = new Date();
+        long timeStart = dateStart.getTime();
+
         for (SourceFile sF : sourceFiles) {
 
             String dirString = getDirString(sF);
@@ -155,12 +159,19 @@ public class Workspace {
 
             log.info("Generating file " + file.getAbsolutePath() + ".");
 
+            StringBuffer sb = new StringBuffer(sF.toString());
+
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write(sF.toString() + "\n");
+            writer.write(sb.toString() + "\n");
             log.debug("Sourcecode of " + sF.getFileName() + ":\n");
-            log.debug(sF.toString());
+            log.debug(sb.toString());
             writer.close();
         }
+
+        Date dateEnd = new Date();
+        long timeEnd = dateEnd.getTime();
+
+        log.info("Time needed for " + sourceFiles.size() + " source files: " + (timeEnd-timeStart) + " ms");
     }
 
     // ###################################################################
