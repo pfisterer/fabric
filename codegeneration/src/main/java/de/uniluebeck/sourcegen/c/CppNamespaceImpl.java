@@ -53,7 +53,11 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
 
     public CppNamespace add(long vis, CFun... functions) throws CppDuplicateException {
 
+
         for (CFun f : functions) {
+            if(contains(f)) {
+                throw new CppDuplicateException("Function " + f.getName() + " already exists.");
+            }
             cfuns.add(f);
         }
         return this;
@@ -63,6 +67,9 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
     public CppNamespace add(CppClass... cppClass) throws CppDuplicateException {
 
         for (CppClass c : cppClass) {
+            if(contains(c)) {
+                throw new CppDuplicateException("Class " + c.getName() + " already exists.");
+            }
             this.classes.add(c);
         }
         return this;

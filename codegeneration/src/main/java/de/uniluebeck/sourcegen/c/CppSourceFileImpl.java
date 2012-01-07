@@ -23,8 +23,8 @@
  */
 package de.uniluebeck.sourcegen.c;
 
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 
 import de.uniluebeck.sourcegen.exceptions.CCodeValidationException;
 import de.uniluebeck.sourcegen.exceptions.CDuplicateException;
@@ -442,11 +442,15 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
                         if (null != file.getNamespaces() && file.getNamespaces().length > 0) {
                             for (CppNamespace ns : file.getNamespaces()) {
                                 if(ns.getFuns().size() > 0) {
-                                    // Add signatures of the C functions
-                                    for (CFun fun : ns.getFuns()) {
-                                        // Signature does not work!
+                                    for(int j = 0; j < ns.getFuns().size(); j++) {
+                                        CFun fun = ns.getFuns().get(j);
                                         buffer.append(fun.toString() + ";");
                                         buffer.append(Cpp.newline);
+
+                                        boolean isLast = (j == ns.getFuns().size() - 1);
+                                        if(!isLast) {
+                                            buffer.append(Cpp.newline);
+                                        }
                                     }
                                 }
                             }

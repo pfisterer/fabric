@@ -67,11 +67,15 @@ public class Example15_Namespaces {
         CParam p = CParam.factory.create("int", "value");
         CFunSignature sig = CFunSignature.factory.create(p);
 
-        // Generate the print-function
         CFun fun_print = CFun.factory.create("print", "int", sig);
         fun_print.appendCode("return 0;");
-        fun_print.setComment(new CCommentImpl("Test"));
+        //fun_print.setComment(new CCommentImpl("Print function"));
         ns.add(Cpp.PUBLIC, fun_print);
+
+        CFun fun_test = CFun.factory.create("test", "int");
+        fun_test.appendCode("return 0;");
+        //fun_test.setComment(new CCommentImpl("Test function"));
+        ns.add(Cpp.PUBLIC, fun_test);
 
         CppClass cppClass1 = CppClass.factory.create("SimpleClass");
         CppVar cppVar = CppVar.factory.create("int", "val");
@@ -85,6 +89,11 @@ public class Example15_Namespaces {
         CppFun cppFun2 = CppFun.factory.create("int", "test", cppVar2);
         cppFun2.appendCode("return 0;");
         cppClass2.add(Cpp.PUBLIC, cppFun2);
+
+        CppFun cppFun3 = CppFun.factory.create("int", "print");
+        cppFun3.appendCode("return 0;");
+        cppClass2.add(Cpp.PUBLIC, cppFun3);
+
         cppClass1.add(Cpp.PUBLIC, cppClass2);
 
 

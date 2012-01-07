@@ -47,6 +47,10 @@ public interface CFun extends CLangElem {
 			return instance;
 		}
 
+		public CFun create(String name, String returnType) throws CDuplicateException {
+		    return create(name, returnType, null);
+		}
+
 		public CFun create(String name, String returnType,
 				CFunSignature signature)
 				throws CDuplicateException {
