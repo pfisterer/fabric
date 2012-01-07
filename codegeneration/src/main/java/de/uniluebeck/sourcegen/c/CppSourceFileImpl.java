@@ -290,18 +290,23 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	public boolean containsInclude(CppSourceFile includeFile) {
 		// Check with cppUserHeaderFiles
-		for (CppSourceFileImpl csf : cppUserHeaderFiles)
-			if (csf.equals(includeFile))
+		for (CppSourceFileImpl csf : cppUserHeaderFiles) {
+			if (csf.equals(includeFile)) {
 				return true;
+      }
+    }
 
 		// Check with local strings
 		return this.cppUserHeaderFilesStrings.contains(includeFile.getFileName());
 	}
 
 	public boolean containsLibInclude(String libInclude) {
-		for (String l : base.libIncludes)
-			if (l.equals(libInclude))
+		for (String l : base.libIncludes) {
+			if (l.equals(libInclude)) {
 				return true;
+      }
+    }
+
 		return false;
 	}
 

@@ -1,4 +1,4 @@
-/** 06.01.2012 18:13 */
+/** 07.01.2012 21:23 */
 package fabric.module.typegen.java;
 
 import java.util.Map;
@@ -734,7 +734,7 @@ public class JavaClassGenerationStrategy implements ClassGenerationStrategy
    *
    * @return Text with first letter capitalized or null
    */
-  private String firstLetterCapital(final String text) throws Exception
+  private String firstLetterCapital(final String text)
   {
     return (null == text ? null : text.substring(0, 1).toUpperCase() + text.substring(1, text.length()));
   }

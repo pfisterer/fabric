@@ -1,4 +1,4 @@
-/** 06.01.2012 18:24 */
+/** 07.01.2012 22:57 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.c.*;
@@ -162,7 +164,7 @@ public class CppTypeGen implements TypeGen
       cpphf = cWorkspace.getCppHeaderFile(name);
       cpphf.add(sourceFileData.typeObject);
       cpphf.setComment(new CCommentImpl(String.format("The '%s' header file.", name)));
-      
+
       // Add include for XSD built-in types
       if (!cpphf.getFileName().equals(CppTypeHelper.FILE_NAME))
       {
@@ -178,14 +180,35 @@ public class CppTypeGen implements TypeGen
       // Add includes for private member variables with custom data type
       for (CppVar member: sourceFileData.typeObject.getVars(Cpp.PRIVATE))
       {
-        if (!this.mapper.isBuiltInType(member.getName()) && // No includes for built-in types
-            !member.getName().startsWith("vector") && // Do not include vector class
+        // Extract plain type name from typed collections (e.g. vector)
+        String typeName = CppTypeGen.extractPlainType(member.getName());
+
+        if (!this.mapper.isBuiltInType(typeName) && // No includes for built-in types
             !this.isLocalEnum(sourceFileData.typeObject, member) && // Do not include local enums
-            !member.getName().equals(name) && // Do no self-inclusion
-            !cpphf.containsLibInclude(member.getName() + ".hpp") && // Do no duplicate inclusion
+            !typeName.equals(name) && // Do no self-inclusion
+            !cpphf.containsInclude(typeName + ".hpp") && // Do no duplicate inclusion
             !this.incompleteLocalBuilders.containsKey(name)) // Do not add include for inner classes
         {
-          cpphf.addInclude(member.getName() + ".hpp");
+          cpphf.addInclude(typeName + ".hpp");
+        }
+      }
+      
+      // Add includes for types that are used in inner classes
+      for (CppClass classObject: sourceFileData.typeObject.getNested(Cpp.PUBLIC))
+      {
+        for (CppVar member: classObject.getVars(Cpp.PRIVATE))
+        {
+          // Extract plain type name from typed collections (e.g. vector)
+          String typeName = CppTypeGen.extractPlainType(member.getName());
+
+          if (!this.mapper.isBuiltInType(typeName) && // No includes for built-in types
+              !this.isLocalEnum(classObject, member) && // Do not include local enums
+              !typeName.equals(name) && // Do no self-inclusion
+              !cpphf.containsInclude(typeName + ".hpp")) // Do no duplicate inclusion
+              // No need to check for inner classes here, we do one-level-nesting only
+          {
+            cpphf.addInclude(typeName + ".hpp");
+          }
         }
       }
 
@@ -616,6 +639,39 @@ public class CppTypeGen implements TypeGen
   }
 
   /**
+   * Private helper method to extract the plain type name
+   * from typed collections (e.g. vector<T>). If the type
+   * definition is not a typed collection, it will be
+   * returned unchanged.
+   *
+   * For example 'vector<FooType>' will return 'FooType',
+   * whereas 'BarType' will remain unchanged.
+   *
+   * @param typeDefinition Type definition that may or may
+   * not contain a typed collection (e.g. a vector)
+   *
+   * @return Plain type name
+   */
+  private static String extractPlainType(final String typeDefinition)
+  {
+    String result = typeDefinition;
+
+    // Match any string that contains a pair of angle brackets:
+    // [^<>]* matches 0 or more caracters of any kind (except < and >)
+    // <(.*)> groups any characters between the < and > brackets
+    Pattern pattern = Pattern.compile("[^<>]*<(.*)>[^<>]*");
+    Matcher matcher = pattern.matcher(typeDefinition);
+
+    // Extract plain type name
+    if (matcher.find())
+    {
+      result = matcher.group(1);
+    }
+
+    return result;
+  }
+
+  /**
    * Private helper method to capitalize the first letter of a string.
    * Function will return null, if argument was null.
    *
@@ -623,7 +679,7 @@ public class CppTypeGen implements TypeGen
    *
    * @return Text with first letter capitalized or null
    */
-  private String firstLetterCapital(final String text) throws Exception
+  private String firstLetterCapital(final String text)
   {
     return (null == text ? null : text.substring(0, 1).toUpperCase() + text.substring(1, text.length()));
   }

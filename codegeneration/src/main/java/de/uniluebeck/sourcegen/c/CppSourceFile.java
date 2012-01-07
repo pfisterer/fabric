@@ -68,8 +68,9 @@ public interface CppSourceFile extends SourceFile, CppElem {
 	public boolean 			containsForwardDeclaration	(CFun function);
 	public boolean 			containsGlobalDeclaration	(String declaration);
 	public boolean 			containsInclude				(CHeaderFile headerFile);
-	public boolean			containsInclude				(CppSourceFile include);
-	public boolean 			containsLibInclude			(String fileName);
+	public boolean 			containsInclude				(String headerFile);
+  public boolean			containsInclude				(CppSourceFile includeFile);
+	public boolean 			containsLibInclude			(String libInclude);
 
 	public boolean 			equals						(CppSourceFile other);
 }
