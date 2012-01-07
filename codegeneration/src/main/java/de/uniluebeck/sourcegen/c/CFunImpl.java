@@ -285,4 +285,9 @@ class CFunImpl extends CElemImpl implements CFun {
         return myParents.toString();
     }
 
+    @Override
+    public CComment getComment() {
+        return this.comment;
+    }
+
 }

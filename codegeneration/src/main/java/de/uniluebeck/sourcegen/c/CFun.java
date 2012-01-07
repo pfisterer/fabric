@@ -182,6 +182,8 @@ public interface CFun extends CLangElem {
 
 	public CFun	setComment(CComment comment);
 
+	public CComment getComment();
+
 	public String getSignature();
 
 	public CFun addParents(List<String> parents, String cFun);

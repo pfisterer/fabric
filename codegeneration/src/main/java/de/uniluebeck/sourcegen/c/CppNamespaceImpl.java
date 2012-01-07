@@ -115,6 +115,9 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
             StringBuffer inner = new StringBuffer();
             // Add signatures of the C functions
             for (CFun fun : cfuns) {
+                if(fun.getComment() != null) {
+                    inner.append(fun.getComment().toString());
+                }
                 inner.append(fun.getSignature() + ";");
                 inner.append(Cpp.newline);
             }

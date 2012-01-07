@@ -25,6 +25,7 @@
 package examples;
 
 import de.uniluebeck.sourcegen.Workspace;
+import de.uniluebeck.sourcegen.c.CCommentImpl;
 import de.uniluebeck.sourcegen.c.CFun;
 import de.uniluebeck.sourcegen.c.CFunSignature;
 import de.uniluebeck.sourcegen.c.CParam;
@@ -69,6 +70,7 @@ public class Example15_Namespaces {
         // Generate the print-function
         CFun fun_print = CFun.factory.create("print", "int", sig);
         fun_print.appendCode("return 0;");
+        fun_print.setComment(new CCommentImpl("Test"));
         ns.add(Cpp.PUBLIC, fun_print);
 
         CppClass cppClass1 = CppClass.factory.create("SimpleClass");
