@@ -1,4 +1,4 @@
-/** 06.01.2012 17:56 */
+/** 08.01.2012 02:54 */
 package fabric.module.typegen.cpp;
 
 import fabric.module.typegen.AttributeContainer;
@@ -216,13 +216,13 @@ public class CppRestrictionHelper
               CppUtilHelper.FILE_NAME, member.name, Long.parseLong(member.restrictions.length));
     }
     // Member variable is of type hexBinary or base64Binary
-    else if (("xs_hexBinary_t").equals(member.type) || ("xs_base64Binary_t").equals(member.type))
+    else if (("xsd_hexBinary_t").equals(member.type) || ("xsd_base64Binary_t").equals(member.type))
     {
       result = String.format("%s.length != %d",
               member.name, Long.parseLong(member.restrictions.length));
     }
     // Member variable is of type qName or NOTATION
-    else if (("xs_qName_t").equals(member.type) || ("xs_notation_t").equals(member.type))
+    else if (("xsd_qName_t").equals(member.type) || ("xsd_notation_t").equals(member.type))
     {
       result = String.format("%s::my_strlen(%s.localPart) + %s::my_strlen(%s.namespaceURI) != %d",
               CppUtilHelper.FILE_NAME, member.name,
@@ -252,13 +252,13 @@ public class CppRestrictionHelper
               CppUtilHelper.FILE_NAME, member.name, Long.parseLong(member.restrictions.minLength));
     }
     // Member variable is of type hexBinary or base64Binary
-    else if (("xs_hexBinary_t").equals(member.type) || ("xs_base64Binary_t").equals(member.type))
+    else if (("xsd_hexBinary_t").equals(member.type) || ("xsd_base64Binary_t").equals(member.type))
     {
       result = String.format("%s.length < %d",
               member.name, Long.parseLong(member.restrictions.length));
     }
     // Member variable is of type qName or NOTATION
-    else if (("xs_qName_t").equals(member.type) || ("xs_notation_t").equals(member.type))
+    else if (("xsd_qName_t").equals(member.type) || ("xsd_notation_t").equals(member.type))
     {
       result = String.format("%s::my_strlen(%s.localPart) + %s::my_strlen(%s.namespaceURI) < %d",
               CppUtilHelper.FILE_NAME, member.name,
@@ -288,13 +288,13 @@ public class CppRestrictionHelper
               CppUtilHelper.FILE_NAME, member.name, Long.parseLong(member.restrictions.maxLength));
     }
     // Member variable is of type hexBinary or base64Binary
-    else if (("xs_hexBinary_t").equals(member.type) || ("xs_base64Binary_t").equals(member.type))
+    else if (("xsd_hexBinary_t").equals(member.type) || ("xsd_base64Binary_t").equals(member.type))
     {
       result = String.format("%s.length > %d",
               member.name, Long.parseLong(member.restrictions.length));
     }
     // Member variable is of type qName or NOTATION
-    else if (("xs_qName_t").equals(member.type) || ("xs_notation_t").equals(member.type))
+    else if (("xsd_qName_t").equals(member.type) || ("xsd_notation_t").equals(member.type))
     {
       result = String.format("%s::my_strlen(%s.localPart) + %s::my_strlen(%s.namespaceURI) > %d",
               CppUtilHelper.FILE_NAME, member.name,
