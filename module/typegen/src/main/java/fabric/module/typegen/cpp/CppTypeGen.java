@@ -1,4 +1,4 @@
-/** 07.01.2012 22:57 */
+/** 08.01.2012 22:02 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -149,7 +149,7 @@ public class CppTypeGen implements TypeGen
     // Create file with definitions for XSD built-in types once
     CppTypeHelper.init(workspace);
     
-    // Create file with namespace for util functions once
+    // Create file with namespace for utility functions once
     CppUtilHelper.init(workspace);
 
     // Create new source file for every container
@@ -186,10 +186,10 @@ public class CppTypeGen implements TypeGen
         if (!this.mapper.isBuiltInType(typeName) && // No includes for built-in types
             !this.isLocalEnum(sourceFileData.typeObject, member) && // Do not include local enums
             !typeName.equals(name) && // Do no self-inclusion
-            !cpphf.containsInclude(typeName + ".hpp") && // Do no duplicate inclusion
+            !cpphf.containsInclude(CppTypeGen.createIncludeFileName(typeName)) && // Do no duplicate inclusion
             !this.incompleteLocalBuilders.containsKey(name)) // Do not add include for inner classes
         {
-          cpphf.addInclude(typeName + ".hpp");
+          cpphf.addInclude(CppTypeGen.createIncludeFileName(typeName));
         }
       }
       
@@ -204,10 +204,10 @@ public class CppTypeGen implements TypeGen
           if (!this.mapper.isBuiltInType(typeName) && // No includes for built-in types
               !this.isLocalEnum(classObject, member) && // Do not include local enums
               !typeName.equals(name) && // Do no self-inclusion
-              !cpphf.containsInclude(typeName + ".hpp")) // Do no duplicate inclusion
+              !cpphf.containsInclude(CppTypeGen.createIncludeFileName(typeName))) // Do no duplicate inclusion
               // No need to check for inner classes here, we do one-level-nesting only
           {
-            cpphf.addInclude(typeName + ".hpp");
+            cpphf.addInclude(CppTypeGen.createIncludeFileName(typeName));
           }
         }
       }
@@ -232,7 +232,7 @@ public class CppTypeGen implements TypeGen
       // Add includes
       cppsf.addInclude(cpphf);
 
-      // Add include for util functions once
+      // Add include for utility functions once
       if (!cppsf.getFileName().equals(CppUtilHelper.FILE_NAME))
       {
         cppsf.addInclude(CppUtilHelper.FILE_NAME + ".hpp");
@@ -390,6 +390,9 @@ public class CppTypeGen implements TypeGen
         {
           typeName += "Type";
         }
+
+        // Make it a C++ pointer
+        typeName += "*";
 
         isCustomTyped = true;
       }
@@ -598,11 +601,11 @@ public class CppTypeGen implements TypeGen
     mainMethod.setComment(new CCommentImpl("Main function of the application."));
 
     String methodBody = String.format(
-            "%s *%s = new %s();\n\n" +
+            "%s* %s = new %s();\n\n" +
             "try {\n" +
             "\t// TODO: Add your custom initialization code here\n" +
             "}\n" +
-            "catch (char const *e) {\n" +
+            "catch (const char* e) {\n" +
             "\tcout << e << endl;\n" +
             "}\n\n" +
             "delete %s;\n\n" +
@@ -636,6 +639,30 @@ public class CppTypeGen implements TypeGen
     }
 
     return fileName.replaceAll("\\.", "_").toUpperCase();
+  }
+
+  /**
+   * Private helper method to create a source file name for
+   * a given type name. If the type name contains a star
+   * (as C++ pointers do), it is stripped from the name.
+   *
+   * @param typeName Type name (e.g. FooType or BarType*)
+   *
+   * @return File name for C++ include (e.g. FooType.hpp
+   * or BarType.hpp)
+   */
+  private static String createIncludeFileName(String typeName)
+  {
+    // Remove * from C++ pointers
+    typeName = typeName.replaceAll("\\*", "");
+
+    // Add file extension
+    if (!typeName.endsWith(".hpp"))
+    {
+      typeName += ".hpp";
+    }
+
+    return typeName;
   }
 
   /**

@@ -24,6 +24,7 @@
 package de.uniluebeck.sourcegen.c;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 
@@ -147,49 +148,33 @@ class CppFunImpl extends CElemImpl implements CppFun {
 	            // TODO: Just working for one layer until now
 	            // TODO: clazz.getNested(Cpp.PRIVATE | Cpp.PUBLIC | Cpp.PROTECTED)
 
-	            List<CppClass> inner = clazz.getNested(Cpp.PRIVATE);
-	            for (CppClass c : inner) {
-                    if (c.getName().equals(returnTypeString)) {
-                        return getParents(clazz) + clazz.getName() + "::" + returnTypeString;
-                    }
-                }
+              // Check nested classes
+	            List<CppClass> inner = new ArrayList<CppClass>();
+              inner.addAll(clazz.getNested(Cpp.PRIVATE));
+              inner.addAll(clazz.getNested(Cpp.PUBLIC));
+              inner.addAll(clazz.getNested(Cpp.PROTECTED));
 
-	            inner = clazz.getNested(Cpp.PUBLIC);
-	            for (CppClass c : inner) {
-                    if (c.getName().equals(returnTypeString)) {
-                        return getParents(clazz) + clazz.getName() + "::" + returnTypeString;
-                    }
-                }
+              for (CppClass c : inner) {
+                  // Return type may also be a pointer
+                  if (returnTypeString.equals(c.getName()) || returnTypeString.equals(c.getName() + "*")) {
+                      return getParents(clazz) + clazz.getName() + "::" + returnTypeString;
+                  }
+              }
 
-                inner = clazz.getNested(Cpp.PROTECTED);
-                for (CppClass c : inner) {
-                    if (c.getName().equals(returnTypeString)) {
-                        return getParents(clazz) + clazz.getName() + "::" + returnTypeString;
-                    }
-                }
+              List<CEnum> enums = new ArrayList<CEnum>();
+              enums.addAll(clazz.getEnums(Cpp.PRIVATE));
+              enums.addAll(clazz.getEnums(Cpp.PUBLIC));
+              enums.addAll(clazz.getEnums(Cpp.PROTECTED));
 
-                List<CEnum> enums = clazz.getEnums(Cpp.PRIVATE);
-                for (CEnum e : enums) {
-                    if (e.getName().equals(returnTypeString)) {
-                        return getParents(clazz) + clazz.getName() + "::" + returnTypeString;
-                    }
-                }
+              // Check local enumerations
+              for (CEnum e : enums) {
+                  // Return type may also be a pointer
+                  if (returnTypeString.equals(e.getName()) || returnTypeString.equals(e.getName() + "*")) {
+                      return getParents(clazz) + clazz.getName() + "::" + returnTypeString;
+                  }
+              }
 
-                enums = clazz.getEnums(Cpp.PUBLIC);
-                for (CEnum e : enums) {
-                    if (e.getName().equals(returnTypeString)) {
-                        return getParents(clazz) + clazz.getName() + "::" + returnTypeString;
-                    }
-                }
-
-                enums = clazz.getEnums(Cpp.PROTECTED);
-                for (CEnum e : enums) {
-                    if (e.getName().equals(returnTypeString)) {
-                        return getParents(clazz) + clazz.getName() + "::" + returnTypeString;
-                    }
-                }
-
-	        	return returnTypeString;
+	        	  return returnTypeString;
         }
 
         return "{UNKNOWN_TYPE}";
