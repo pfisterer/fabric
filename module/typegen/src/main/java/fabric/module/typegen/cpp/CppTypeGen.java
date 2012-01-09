@@ -1,4 +1,4 @@
-/** 09.01.2012 01:42 */
+/** 09.01.2012 22:03 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -174,7 +174,16 @@ public class CppTypeGen implements TypeGen
       // Add internally required includes (e.g. vector class)
       for (String requiredInclude: sourceFileData.requiredIncludes)
       {
-        cpphf.addLibInclude(requiredInclude);
+        // Use C++ Standard Library...
+        if (("vector").equals(requiredInclude))
+        {
+          cpphf.addLibInclude(requiredInclude);
+        }
+        // ... or user header file
+        else
+        {
+          cpphf.addInclude(requiredInclude);
+        }
       }
 
       // Add includes for private member variables with custom data type
@@ -212,9 +221,6 @@ public class CppTypeGen implements TypeGen
         }
       }
 
-      // Add namespace
-      cpphf.addUsingNamespace("std");
-
       // Add include guards to header file
       cpphf.addBeforeDirective("ifndef " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
       cpphf.addBeforeDirective("define " + CppTypeGen.createIncludeGuardName(cpphf.getFileName()));
@@ -237,9 +243,6 @@ public class CppTypeGen implements TypeGen
       {
         cppsf.addInclude(CppUtilHelper.FILE_NAME + ".hpp");
       }
-
-      // Add namespace
-      cppsf.addUsingNamespace("std");
 
       LOGGER.debug(String.format("Generated new source file '%s'.", name));
     }
@@ -482,7 +485,9 @@ public class CppTypeGen implements TypeGen
     if (!this.incompleteBuilders.empty())
     {
       // Create strategy for code generation
-      CppClassGenerationStrategy cppStrategy = new CppClassGenerationStrategy();
+      CppClassGenerationStrategy cppStrategy = new CppClassGenerationStrategy(
+              this.properties.getProperty(FabricTypeGenModule.VECTOR_NAME_KEY),
+              this.properties.getProperty(FabricTypeGenModule.VECTOR_INCLUDE_KEY));
 
       CppClass classObject = (CppClass)this.incompleteBuilders.pop().build().asClassObject(cppStrategy);
 

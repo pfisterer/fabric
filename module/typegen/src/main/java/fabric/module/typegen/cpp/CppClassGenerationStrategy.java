@@ -1,4 +1,4 @@
-/** 07.01.2012 21:24 */
+/** 09.01.2012 21:18 */
 package fabric.module.typegen.cpp;
 
 import java.util.Map;
@@ -22,15 +22,36 @@ import fabric.module.typegen.exceptions.FabricTypeGenException;
  */
 public class CppClassGenerationStrategy implements ClassGenerationStrategy
 {
+  /** Name of vector type to use in generated code (e.g. std::vector) */
+  private String vectorTypeName;
+
+  /** C++ include that is required for vector type (e.g. vector) */
+  private String vectorInclude;
+
   /** List of required C++ includes to compile the class */
   private ArrayList<String> requiredIncludes;
 
   /**
-   * Parameterless constructor creates an ArrayList for the
-   * required C++ includes.
+   * Parameterless constructor uses vector implementation from
+   * the C++ Standard Library.
    */
   public CppClassGenerationStrategy()
   {
+    this("std::vector", "vector");
+  }
+
+  /**
+   * Parameterized constructor can be configured with a custom
+   * vector type name and vector include. Furthermore it creates
+   * an ArrayList for the required C++ includes.
+   *
+   * @param vectorTypeName Name of vector type to use
+   * @param vectorInclude Required include for vector type
+   */
+  public CppClassGenerationStrategy(final String vectorTypeName, final String vectorInclude)
+  {
+    this.vectorTypeName = vectorTypeName;
+    this.vectorInclude = vectorInclude;
     this.requiredIncludes = new ArrayList<String>();
   }
 
@@ -252,8 +273,8 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     else if (member.getClass() == AttributeContainer.ElementArray.class)
     {
       AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
-      String type = String.format("vector<%s>", ea.type);
-      this.addRequiredInclude("vector");
+      String type = String.format("%s<%s>", this.vectorTypeName, ea.type);
+      this.addRequiredInclude(this.vectorInclude);
       
       // No array size is given
       if (ea.maxSize == Integer.MAX_VALUE)
@@ -275,8 +296,8 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     else if (member.getClass() == AttributeContainer.ElementList.class)
     {
       AttributeContainer.ElementList el = (AttributeContainer.ElementList)member;
-      String type = String.format("vector<%s>", el.type);
-      this.addRequiredInclude("vector");
+      String type = String.format("%s<%s>", this.vectorTypeName, el.type);
+      this.addRequiredInclude(this.vectorInclude);
       
       // No list size is given
       if (el.maxSize == Integer.MAX_VALUE)
@@ -337,7 +358,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     else if (member instanceof AttributeContainer.ElementCollection)
     {
       AttributeContainer.ElementCollection ec = (AttributeContainer.ElementCollection)member;
-      type = String.format("vector<%s>", member.type);
+      type = String.format("%s<%s>", this.vectorTypeName, member.type);
 
       // Create code to check array or list size
       methodBody += CppRestrictionHelper.createCheckCode(
@@ -484,7 +505,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     String type = member.type;
     if (member instanceof AttributeContainer.ElementCollection)
     {
-      type = String.format("vector<%s>", member.type);
+      type = String.format("%s<%s>", this.vectorTypeName, member.type);
     }
 
     // Member variable is a constant

@@ -1,4 +1,4 @@
-/** 19.10.2011 11:59 */
+/** 09.01.2012 23:07 */
 package fabric.module.typegen;
 
 import java.util.Properties;
@@ -35,6 +35,12 @@ public class FabricTypeGenModule implements FabricModule
 
   /** Key for main package name in properties object */
   public static final String PACKAGE_NAME_KEY = "typegen.java.package_name";
+
+  /** Key for vector type name in properties object */
+  public static final String VECTOR_NAME_KEY = "typegen.cpp.vector_type_name";
+
+  /** Key for vector include in properties object */
+  public static final String VECTOR_INCLUDE_KEY = "typegen.cpp.vector_include";
 
   /** Key for name of TypeGen class used in TypeGenFactory */
   public static final String FACTORY_CLASS_KEY = "typegen.typegen_name";
@@ -74,9 +80,11 @@ public class FabricTypeGenModule implements FabricModule
   @Override
   public String getDescription()
   {
-    return String.format("TypeGen module for generation of XML abstractions. "
-            + "Valid options are '%s', '%s', '%s' and '%s'.",
-            TARGET_LANGUAGE_KEY, MAIN_CLASS_NAME_KEY, XML_FRAMEWORK_KEY, PACKAGE_NAME_KEY);
+    return String.format("TypeGen module for container class generation. "
+            + "Valid options are '%s', '%s', '%s', '%s', '%s' and '%s'.",
+            TARGET_LANGUAGE_KEY, MAIN_CLASS_NAME_KEY,
+            XML_FRAMEWORK_KEY, PACKAGE_NAME_KEY,
+            VECTOR_NAME_KEY, VECTOR_INCLUDE_KEY);
   }
 
   /**
@@ -122,6 +130,8 @@ public class FabricTypeGenModule implements FabricModule
     this.checkMainClassName();
     this.checkXMLFramework();
     this.checkPackageName();
+    this.checkVectorTypeName();
+    this.checkVectorInclude();
 
     // Print typegen properties for debug purposes
     for (String key: this.properties.stringPropertyNames())
@@ -216,6 +226,47 @@ public class FabricTypeGenModule implements FabricModule
     if (null != packageName)
     {
       this.properties.setProperty(PACKAGE_NAME_KEY, packageName.toLowerCase());
+    }
+  }
+
+  /**
+   * Check parameter for the vector type name. This property is
+   * optional. However, it is strongly recommended to provide a
+   * value, because otherwise "std::vector" is used as default.
+   */
+  private void checkVectorTypeName()
+  {
+    String vectorTypeName = this.properties.getProperty(VECTOR_NAME_KEY);
+
+    // Use vector from C++ Standard Library on default
+    if (null == vectorTypeName)
+    {
+      this.properties.setProperty(VECTOR_NAME_KEY, "std::vector");
+    }
+  }
+
+  /**
+   * Check parameter for vector include. This property is optional.
+   * However, it is strongly recommended to provide a value, because
+   * otherwise "vector" is used as default. If the property was set
+   * to "vector.h", it is automatically replaced by "vector", because
+   * "vector.h" is deprecated.
+   */
+  private void checkVectorInclude()
+  {
+    String vectorInclude = this.properties.getProperty(VECTOR_INCLUDE_KEY);
+
+    // Check for deprecated vector.h
+    if (("vector.h").equals(vectorInclude))
+    {
+      this.properties.setProperty(VECTOR_INCLUDE_KEY, "vector");
+      LOGGER.warn("The header file 'vector.h' is deprecated. Will use 'vector' instead.");
+    }
+
+    // Use vector from C++ Standard Library on default
+    if (null == vectorInclude)
+    {
+      this.properties.setProperty(VECTOR_INCLUDE_KEY, "vector");
     }
   }
 }

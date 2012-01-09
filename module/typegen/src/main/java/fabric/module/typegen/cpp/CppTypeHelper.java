@@ -1,4 +1,4 @@
-/** 08.01.2012 02:52 */
+/** 09.01.2012 17:24 */
 package fabric.module.typegen.cpp;
 
 import java.util.ArrayList;
@@ -72,17 +72,6 @@ public class CppTypeHelper
     ArrayList<CTypeDef> typeDefinitions = new ArrayList<CTypeDef>();
 
     // Add custom type definitions
-    // TODO: Readd after presentation of milestone 3
-//    typeDefinitions.add(CppTypeDef.factory.create("wiselib::uint8_t", "uint8"));
-//    typeDefinitions.add(CppTypeDef.factory.create("wiselib::int8_t", "int8"));
-//    typeDefinitions.add(CppTypeDef.factory.create("wiselib::uint16_t", "uint16"));
-//    typeDefinitions.add(CppTypeDef.factory.create("wiselib::int16_t", "int16"));
-//    typeDefinitions.add(CppTypeDef.factory.create("wiselib::uint32_t", "uint32"));
-//    typeDefinitions.add(CppTypeDef.factory.create("wiselib::int32_t", "int32"));
-//    typeDefinitions.add(CppTypeDef.factory.create("wiselib::uint64_t", "uint64"));
-//    typeDefinitions.add(CppTypeDef.factory.create("wiselib::int64_t", "int64"));
-
-    // TODO: Remove after presentation of milestone 3
     typeDefinitions.add(CppTypeDef.factory.create("unsigned char", "uint8"));
     typeDefinitions.add(CppTypeDef.factory.create("signed char", "int8"));
     typeDefinitions.add(CppTypeDef.factory.create("unsigned int", "uint16"));
