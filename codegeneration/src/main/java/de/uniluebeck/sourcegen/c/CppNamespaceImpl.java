@@ -53,7 +53,10 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
 
     public CppNamespace add(long vis, CFun... functions) throws CppDuplicateException {
         for (CFun f : functions) {
-            cfuns.add(f);
+            if (this.contains(f)) {
+                throw new CppDuplicateException("Function " + f.getName() + " already exists.");
+            }
+            this.cfuns.add(f);
         }
         return this;
     }
@@ -61,6 +64,9 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
     @Override
     public CppNamespace add(CppClass... cppClasses) throws CppDuplicateException {
         for (CppClass c : cppClasses) {
+            if (this.contains(c)) {
+                throw new CppDuplicateException("Class " + c.getName() + " already exists.");
+            }
             this.classes.add(c);
         }
         return this;
@@ -111,19 +117,21 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
             StringBuffer inner = new StringBuffer();
             // Add signatures of C functions
             for (CFun fun : cfuns) {
-                inner.append(fun.getSignature() + ";" + Cpp.newline);
+                if (null != fun.getComment()) {
+                    inner.append(fun.getComment().toString());
+                }
+                inner.append(fun.getSignature() + ";" + Cpp.newline + Cpp.newline);
             }
-            inner.append(Cpp.newline + Cpp.newline);
             appendBody(buffer, inner, tabCount + 1);
+            buffer.append(Cpp.newline + Cpp.newline);
         }
 
         if (null != classes && classes.size() > 0) {
             StringBuffer inner = new StringBuffer();
             // FIXME: A tab to much
             for (CppClass c : classes) {
-                inner.append(c.toString() + Cpp.newline);
+                inner.append(c.toString() + Cpp.newline + Cpp.newline);
             }
-            inner.append(Cpp.newline);
             appendBody(buffer, inner, tabCount + 1);
         }
         buffer.append(Cpp.newline + "};" + Cpp.newline);
@@ -165,12 +173,13 @@ class CppNamespaceImpl extends CElemImpl implements CppNamespace {
         if (isPrepared)
             return;
 
-        for (CFun c : this.cfuns) {
-            c.addParents(this.parents, this.getName());
+        for (CFun f : this.cfuns) {
+            f.addParents(this.parents, this.getName());
         }
 
         for (CppClass c : this.classes) {
             c.addParents(this.parents, this.getName());
+            c.prepare();
         }
 
         isPrepared = true;

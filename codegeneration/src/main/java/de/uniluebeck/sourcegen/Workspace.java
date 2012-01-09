@@ -26,8 +26,9 @@ package de.uniluebeck.sourcegen;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.LinkedList;
+import java.util.Date;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.Properties;
 
 import org.slf4j.LoggerFactory;
@@ -142,10 +143,12 @@ public class Workspace {
 
         jPackagePrefix = properties.getProperty(KEY_JAVA_PKG_PREFIX, "");
 
-        for (SourceFile sF : sourceFiles) {
+        long timeStart = (new Date()).getTime();
 
-            String dirString = getDirString(sF);
-            String fileString = getFileString(sF);
+        for (SourceFile sourceFile : sourceFiles) {
+
+            String dirString = getDirString(sourceFile);
+            String fileString = getFileString(sourceFile);
 
             File dir = new File(dirString);
             File file = new File(dirString + fileString);
@@ -155,12 +158,17 @@ public class Workspace {
 
             log.info("Generating file " + file.getAbsolutePath() + ".");
 
+            StringBuffer buffer = new StringBuffer(sourceFile.toString());
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write(sF.toString() + "\n");
-            log.debug("Sourcecode of " + sF.getFileName() + ":\n");
-            log.debug(sF.toString());
+
+            writer.write(buffer.toString() + "\n");
+            log.debug("Sourcecode of " + sourceFile.getFileName() + ":\n");
+            log.debug(buffer.toString());
             writer.close();
         }
+
+        long timeEnd = (new Date()).getTime();
+        log.info("Generated " + sourceFiles.size() + " source files in " + (timeEnd - timeStart) + " ms.");
     }
 
     // ###################################################################

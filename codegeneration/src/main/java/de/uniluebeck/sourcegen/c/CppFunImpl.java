@@ -125,7 +125,7 @@ class CppFunImpl extends CElemImpl implements CppFun {
         buffer.append(Cpp.newline + "}");
 
         if (!isLast) {
-          buffer.append(Cpp.newline + Cpp.newline);
+            buffer.append(Cpp.newline + Cpp.newline);
         }
     }
 
