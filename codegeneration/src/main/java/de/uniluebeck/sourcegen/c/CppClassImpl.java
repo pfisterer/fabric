@@ -739,9 +739,14 @@ class CppClassImpl extends CElemImpl implements CppClass {
     private void toStringHelper(StringBuffer tmp, int tabCount, long visability) {
         // Nested classes
         if (null != this.getNested(visability) && this.getNested(visability).size() > 0) {
-            for (CppClass c : this.getNested(visability)) {
+            for (int i = 0; i < this.getNested(visability).size(); ++i) {
                 // Add the classes recursive
-                c.toString(tmp, tabCount);
+                this.getNested(visability).get(i).toString(tmp, tabCount);
+
+                // No line break after last nested class
+                if (i < this.getNested(visability).size() - 1) {
+                    tmp.append(Cpp.newline);
+                }
             }
             tmp.append(Cpp.newline);
         }

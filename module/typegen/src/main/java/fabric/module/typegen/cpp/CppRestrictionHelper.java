@@ -1,4 +1,4 @@
-/** 08.01.2012 02:54 */
+/** 08.01.2012 22:37 */
 package fabric.module.typegen.cpp;
 
 import fabric.module.typegen.AttributeContainer;
@@ -47,7 +47,7 @@ public class CppRestrictionHelper
 
     result += String.format("if (%s)", expression);
     result += "\n{";
-    result += String.format("\n\tthrow \"%s\";\n", message);
+    result += String.format("\n\tthrow \"%s\";", message);
     result += "\n}\n\n";
 
     return result;
@@ -109,7 +109,7 @@ public class CppRestrictionHelper
   public static String createWhiteSpaceCheckCode(final String memberName, final String whiteSpace) throws Exception
   {
     String result = "";
-    String message = "// Enforce '%s' for the 'whiteSpace' restriction\n";
+    String message = "// Enforce '%s' for the 'whiteSpace' restriction";
 
     // Preserve whitespace characters, i.e. leave value unchanged
     if (("preserve").equals(whiteSpace))
