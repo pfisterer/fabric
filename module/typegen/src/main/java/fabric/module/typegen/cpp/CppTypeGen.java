@@ -1,4 +1,4 @@
-/** 09.01.2012 22:03 */
+/** 11.01.2012 00:35 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -193,10 +193,10 @@ public class CppTypeGen implements TypeGen
         String typeName = CppTypeGen.extractPlainType(member.getName());
 
         if (!this.mapper.isBuiltInType(typeName) && // No includes for built-in types
-            !this.isLocalEnum(sourceFileData.typeObject, member) && // Do not include local enums
+            !this.isLocalEnum(sourceFileData.typeObject, typeName) && // Do not include local enums
             !typeName.equals(name) && // Do no self-inclusion
             !cpphf.containsInclude(CppTypeGen.createIncludeFileName(typeName)) && // Do no duplicate inclusion
-            !this.incompleteLocalBuilders.containsKey(name)) // Do not add include for inner classes
+            !this.isInnerClass(sourceFileData.typeObject, typeName)) // Do not add include for inner classes
         {
           cpphf.addInclude(CppTypeGen.createIncludeFileName(typeName));
         }
@@ -211,7 +211,7 @@ public class CppTypeGen implements TypeGen
           String typeName = CppTypeGen.extractPlainType(member.getName());
 
           if (!this.mapper.isBuiltInType(typeName) && // No includes for built-in types
-              !this.isLocalEnum(classObject, member) && // Do not include local enums
+              !this.isLocalEnum(classObject, typeName) && // Do not include local enums
               !typeName.equals(name) && // Do no self-inclusion
               !cpphf.containsInclude(CppTypeGen.createIncludeFileName(typeName))) // Do no duplicate inclusion
               // No need to check for inner classes here, we do one-level-nesting only
@@ -549,25 +549,54 @@ public class CppTypeGen implements TypeGen
   }
 
   /**
-   * Private helper method to check, whether a member variable
-   * is a local enum within the CppClass object or not. This
+   * Private helper method to check, whether a type names
+   * a local enum within the CppClass object or not. This
    * function is being used, to determine necessary includes
    * in writeSourceFiles().
    *
    * @param classObject Class object with possible local enums
-   * @param member Member variable to check
+   * @param typeName Type name to check
    *
-   * @return True if member variable is a local enum,
-   * false otherwise
+   * @return True if type names a local enum, false otherwise
    */
-  private boolean isLocalEnum(final CppClass classObject, final CppVar member)
+  private boolean isLocalEnum(final CppClass classObject, final String typeName)
   {
     boolean result = false;
 
-    // Check if member variable is a local enum within class object
+    // Check if type names a local enum within class object
     for (CEnum enumElement: classObject.getEnums(Cpp.PUBLIC))
     {
-      if (enumElement.getName().equals(member.getName()))
+      if (enumElement.getName().equals(typeName))
+      {
+        result = true;
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Private helper method to check, whether a type names
+   * an inner class of a CppClass object. This function
+   * is being used to determine necessary includes in
+   * writeSourceFiles().
+   *
+   * @param classObject Class object with inner classes
+   * @param typeName Type name to check
+   * 
+   * @return True if type names an inner class, false otherwise
+   */
+  private boolean isInnerClass(final CppClass classObject, String typeName)
+  {
+    boolean result = false;
+
+    // Remove * from C++ pointers
+    typeName = typeName.replaceAll("\\*", "");
+
+    // Check if type names an inner class
+    for (CppClass innerClass: classObject.getNested(Cpp.PUBLIC))
+    {
+      if (innerClass.getName().equals(typeName))
       {
         result = true;
       }
@@ -676,7 +705,7 @@ public class CppTypeGen implements TypeGen
    * definition is not a typed collection, it will be
    * returned unchanged.
    *
-   * For example 'vector<FooType>' will return 'FooType',
+   * For example 'vector<FooType*>' will return 'FooType*',
    * whereas 'BarType' will remain unchanged.
    *
    * @param typeDefinition Type definition that may or may
