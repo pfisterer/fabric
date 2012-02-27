@@ -540,9 +540,18 @@ public class CppSourceFileImpl extends CElemImpl implements CppSourceFile {
 
 	    // Add functions, such that main() is possible
 	    if (null != this.base && null != this.base.getFuns() && this.base.getFuns().size() > 0) {
-          buffer.append(Cpp.newline + Cpp.newline); // TODO?
+          boolean isFirst = true;
           for (CFun fun : this.base.getFuns()) {
-	            fun.toString(buffer, tabCount);
+              // No empty lines before first function
+              if (isFirst)
+              {
+                isFirst = false;
+              }
+              else
+              {
+                buffer.append(Cpp.newline + Cpp.newline);
+              }
+              fun.toString(buffer, tabCount);
 	        }
 	    }
 

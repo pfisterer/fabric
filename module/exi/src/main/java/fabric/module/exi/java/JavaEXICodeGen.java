@@ -1,4 +1,4 @@
-/** 11.12.2011 15:33 */
+/** 27.02.2012 14:25 */
 package fabric.module.exi.java;
 
 import org.slf4j.Logger;
@@ -42,7 +42,7 @@ public class JavaEXICodeGen implements EXICodeGen
   /** Name for main application */
   private String applicationClassName;
   
-  /** Class with EXI serializer and deserializer */
+  /** Class with main application */
   private JClass applicationClass;
   
   /** Name of the package in which the bean class resides */
@@ -169,7 +169,7 @@ public class JavaEXICodeGen implements EXICodeGen
     JMethod exiDeserialize = exiConverter.generateDeserializeCall();
     if (null != exiDeserialize)
     {
-      this.applicationClass.add(exiDeserialize);      
+      this.applicationClass.add(exiDeserialize);
     }
   }
 
