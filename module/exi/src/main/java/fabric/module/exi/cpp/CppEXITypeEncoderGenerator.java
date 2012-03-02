@@ -96,8 +96,8 @@ public class CppEXITypeEncoderGenerator {
         headerFile.setComment(new CCommentImpl("Methods for encoding values for the EXI stream."));
 
         // Surround definitions with include guard
-        headerFile.addBeforeDirective("ifndef EXI_TYPE_ENCODER_HPP");
-        headerFile.addBeforeDirective("define EXI_TYPE_ENCODER_HPP");
+        headerFile.addBeforeDirective("ifndef EXITYPEENCODER_HPP");
+        headerFile.addBeforeDirective("define EXITYPEENCODER_HPP");
 
         // Add includes
         headerFile.addInclude(CppEXIStreamGenerator.FILE_NAME + ".hpp");
@@ -106,7 +106,7 @@ public class CppEXITypeEncoderGenerator {
         headerFile.add(clazz);
 
         // Close include guard
-        headerFile.addAfterDirective("endif // EXI_TYPE_ENCODER_HPP");
+        headerFile.addAfterDirective("endif // EXITYPEENCODER_HPP");
     }
 
     /**

@@ -61,7 +61,7 @@ public class CppEXIStreamGenerator {
      */
     private static void createClass() throws CppDuplicateException, CppCodeValidationException {
         clazz = CppClass.factory.create("EXIStream");
-        CppEXIStreamGenerator.createStreamVariable();
+        CppEXIStreamGenerator.createVariables();
         CppEXIStreamGenerator.createInitStream();
         CppEXIStreamGenerator.createCloseStream();
         CppEXIStreamGenerator.createWriteNextBit();
@@ -101,32 +101,27 @@ public class CppEXIStreamGenerator {
 
         // Add includes
         headerFile.addInclude(CppTypeHelper.FILE_NAME + ".hpp");
-        // TODO: stdio.h is only needed if we write the EXI stream to a file!
-        // headerFile.addInclude("<stdio.h>");
 
         // Surround definitions with include guard
-        headerFile.addBeforeDirective("ifndef EXI_TYPE_ENCODER_HPP");
-        headerFile.addBeforeDirective("define EXI_TYPE_ENCODER_HPP");
+        headerFile.addBeforeDirective("ifndef EXISTREAM_HPP");
+        headerFile.addBeforeDirective("define EXISTREAM_HPP");
 
         // Add macros and other required variable definitions
         headerFile.addBeforeDirective("define BUFFER_END_REACHED -2");
         headerFile.addBeforeDirective("define UNEXPECTED_ERROR -1");
         headerFile.addBeforeDirective("define ERR_OK 0");
         headerFile.addBeforeDirective("define REVERSE_BIT_POSITION(p) (7-p)");
-
-        // Add list with bit masks
-        headerFile.add(CppVar.factory.create(Cpp.CONST | Cpp.UNSIGNED | Cpp.CHAR,
-                "BIT_MASK[] = {0, 1, 3, 7, 15, 31, 63, 127, 255}"));
+        headerFile.addBeforeDirective("define NULL 0");
+        headerFile.addBeforeDirective("define MASKS {0, 1, 3, 7, 15, 31, 63, 127, 255}");
 
         // Add structs and type definitions for the EXI streams
-        // TODO: needed? (uint32 has already been defined in simple_type_definitions.hpp)
-        // headerFile.add(CppTypeDef.factory.create(Cpp.UNSIGNED | Cpp.INT, "uint32"));
+        headerFile.add(CppTypeDef.factory.create(Cpp.INT, "size_t"));
 
         CStruct streamContext = CStruct.factory.create("", "StreamContext", true,
                 CParam.factory.create("size_t", "bufferIndx"),
                 CParam.factory.create("unsigned char", "bitPointer"));
         streamContext.setComment(new CCommentImpl(
-                "Holds the current position in the buffer (bytewise)" +
+                "Holds the current position in the buffer (bytewise) " +
                         "and the current position within the current byte."));
         headerFile.add(streamContext);
 
@@ -150,19 +145,26 @@ public class CppEXIStreamGenerator {
         headerFile.add(clazz);
 
         // Close include guard
-        headerFile.addAfterDirective("endif // EXI_TYPE_ENCODER_HPP");
+        headerFile.addAfterDirective("endif // EXISTREAM_HPP");
     }
 
     /**
-     * Generates the member variable strm of type EXIEncodedStream in the class.
+     * Generates the member variables strm and bit_masks in the class.
      *
      * @throws CppCodeValidationException
      * @throws CppDuplicateException
      */
-    private static void createStreamVariable() throws CppCodeValidationException, CppDuplicateException {
+    private static void createVariables() throws CppCodeValidationException, CppDuplicateException {
+        // Add variable strm
         CppVar var_strm = CppVar.factory.create(Cpp.PRIVATE, "EXIEncodedStream", "strm");
         var_strm.setComment(new CCommentImpl("EXI stream"));
-        clazz.add(CppVar.factory.create(Cpp.PRIVATE, "EXIEncodedStream", "strm"));
+        clazz.add(var_strm);
+
+        // Add bit masks
+        CppVar var_masks = CppVar.factory.create(Cpp.PRIVATE | Cpp.CONST, "unsigned int",
+                "BIT_MASK[9] = {0, 1, 3, 7, 15, 31, 63, 127, 255}");
+        var_masks.setComment(new CCommentImpl("Bit masks"));
+        clazz.add(var_masks);
     }
 
     /**
@@ -172,7 +174,7 @@ public class CppEXIStreamGenerator {
      */
     private static void createInitStream() throws CppDuplicateException {
         CppVar var_buf          = CppVar.factory.create(Cpp.CHAR | Cpp.POINTER, "buf");
-        CppVar var_len          = CppVar.factory.create("uint32", "len");
+        CppVar var_len          = CppVar.factory.create("size_t", "len");
         CppVar var_stream       = CppVar.factory.create("IOStream", "stream");
         CppFun fun_initStream   = CppFun.factory.create(Cpp.VOID, "initStream",
                 var_buf, var_len, var_stream);
