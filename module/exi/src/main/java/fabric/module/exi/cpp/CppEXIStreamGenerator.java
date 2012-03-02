@@ -116,10 +116,10 @@ public class CppEXIStreamGenerator {
         headerFile.addBeforeDirective("endif // NULL");
 
         // Add structs and type definitions for the EXI streams
-        headerFile.add(CppTypeDef.factory.create("uint32", "size_t"));
+        headerFile.add(CppTypeDef.factory.create("uint32", "mySize_t"));
 
         CStruct streamContext = CStruct.factory.create("", "StreamContext", true,
-                CParam.factory.create("size_t", "bufferIndx"),
+                CParam.factory.create("mySize_t", "bufferIndx"),
                 CParam.factory.create("unsigned char", "bitPointer"));
         streamContext.setComment(new CCommentImpl(
                 "Holds the current position in the buffer (bytewise) " +
@@ -127,16 +127,16 @@ public class CppEXIStreamGenerator {
         headerFile.add(streamContext);
 
         CStruct ioStream = CStruct.factory.create("", "IOStream", true,
-                CParam.factory.create("size_t",
-                        "(*readWriteToStream)(void* buf, size_t size, void* stream)"),
+                CParam.factory.create("mySize_t",
+                        "(*readWriteToStream)(void* buf, mySize_t size, void* stream)"),
                 CParam.factory.create("void*", "stream"));
         ioStream.setComment(new CCommentImpl("Representation of an Input/Output Stream"));
         headerFile.add(ioStream);
 
         CStruct exiStream = CStruct.factory.create("", "EXIEncodedStream", true,
                 CParam.factory.create("char*", "buffer"),
-                CParam.factory.create("size_t", "bufLen"),
-                CParam.factory.create("size_t", "bufContent"),
+                CParam.factory.create("mySize_t", "bufLen"),
+                CParam.factory.create("mySize_t", "bufContent"),
                 CParam.factory.create("IOStream", "ioStrm"),
                 CParam.factory.create("StreamContext", "context"));
         exiStream.setComment(new CCommentImpl("Represents an EXI stream"));
@@ -186,7 +186,7 @@ public class CppEXIStreamGenerator {
      */
     private static void createInitStream() throws CppDuplicateException {
         CppVar var_buf          = CppVar.factory.create(Cpp.CHAR | Cpp.POINTER, "buf");
-        CppVar var_len          = CppVar.factory.create("size_t", "len");
+        CppVar var_len          = CppVar.factory.create("mySize_t", "len");
         CppVar var_stream       = CppVar.factory.create("IOStream", "stream");
         CppFun fun_initStream   = CppFun.factory.create(Cpp.VOID, "initStream",
                 var_buf, var_len, var_stream);
@@ -334,7 +334,7 @@ public class CppEXIStreamGenerator {
                         "\t\t// The buffer end is reached: there are fewer than nbits bits " +
                         "left in the buffer\n" +
                         "\t\tchar leftOverBits;\n" +
-                        "\t\tsize_t numBytesWritten = 0;\n" +
+                        "\t\tmySize_t numBytesWritten = 0;\n" +
                         "\t\tif(strm.ioStrm.readWriteToStream == NULL)\n" +
                         "\t\t\treturn BUFFER_END_REACHED;\n\n" +
                         "\t\tleftOverBits = strm.buffer[strm.context.bufferIndx];\n\n" +
@@ -388,7 +388,7 @@ public class CppEXIStreamGenerator {
         String methodBody =
                 "if(strm.bufLen <= strm.context.bufferIndx) // the whole buffer is filled! flush it!\n" +
                         "\t{\n" +
-                        "\t\tsize_t numBytesWritten = 0;\n" +
+                        "\t\tmySize_t numBytesWritten = 0;\n" +
                         "\t\tif(strm.ioStrm.readWriteToStream == NULL)\n" +
                         "\t\t\treturn BUFFER_END_REACHED;\n" +
                         "\t\tnumBytesWritten = strm.ioStrm.readWriteToStream(strm.buffer, strm.bufLen, " +
