@@ -57,8 +57,6 @@ public class CppEXIConverter
    * Public callback method that generates the EXI de-/serializer class
    * and adds it to the provided Java source file.
    * 
-   * @param sourceFile Java source file for code write-out
-   * 
    * @throws Exception Source file was null or error during code generation
    */
   public void generateSerializerClass(final Workspace workspace) throws Exception
@@ -70,10 +68,10 @@ public class CppEXIConverter
     else
     {
       // Generate EXIStream class
-      // TODO: CppEXIStreamGenerator.init(workspace);
+      CppEXIStreamGenerator.init(workspace);
       
       // Generate EXITypeEncoder class
-      // TODO: CppEXITypeEncoder.init(workspace);
+      CppEXITypeEncoderGenerator.init(workspace);
       
       // Generate EXIConverter class
       this.serializerClass = CppClass.factory.create(this.serializerClassName);
