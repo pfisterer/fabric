@@ -111,11 +111,12 @@ public class CppEXIStreamGenerator {
         headerFile.addBeforeDirective("define UNEXPECTED_ERROR -1");
         headerFile.addBeforeDirective("define ERR_OK 0");
         headerFile.addBeforeDirective("define REVERSE_BIT_POSITION(p) (7-p)");
+        headerFile.addBeforeDirective("ifndef NULL");
         headerFile.addBeforeDirective("define NULL 0");
-        headerFile.addBeforeDirective("define MASKS {0, 1, 3, 7, 15, 31, 63, 127, 255}");
+        headerFile.addBeforeDirective("endif // NULL");
 
         // Add structs and type definitions for the EXI streams
-        headerFile.add(CppTypeDef.factory.create(Cpp.INT, "size_t"));
+        headerFile.add(CppTypeDef.factory.create("uint32", "size_t"));
 
         CStruct streamContext = CStruct.factory.create("", "StreamContext", true,
                 CParam.factory.create("size_t", "bufferIndx"),
@@ -161,10 +162,21 @@ public class CppEXIStreamGenerator {
         clazz.add(var_strm);
 
         // Add bit masks
-        CppVar var_masks = CppVar.factory.create(Cpp.PRIVATE | Cpp.CONST, "unsigned int",
-                "BIT_MASK[9] = {0, 1, 3, 7, 15, 31, 63, 127, 255}");
+        CppVar var_masks = CppVar.factory.create(Cpp.PRIVATE, Cpp.UNSIGNED | Cpp.INT, "BIT_MASK[9]");
         var_masks.setComment(new CCommentImpl("Bit masks"));
         clazz.add(var_masks);
+        CppConstructor constr = CppConstructor.factory.create();
+        constr.appendCode(
+                "BIT_MASK[0] = 0;\n" +
+                "BIT_MASK[1] = 1;\n" +
+                "BIT_MASK[2] = 3;\n" +
+                "BIT_MASK[3] = 7;\n" +
+                "BIT_MASK[4] = 15;\n" +
+                "BIT_MASK[5] = 31;\n" +
+                "BIT_MASK[6] = 63;\n" +
+                "BIT_MASK[7] = 127;\n" +
+                "BIT_MASK[8] = 255;");
+        clazz.add(Cpp.PUBLIC, constr);
     }
 
     /**
