@@ -105,8 +105,8 @@ public class CppEXIStreamGenerator {
         // headerFile.addInclude("<stdio.h>");
 
         // Surround definitions with include guard
-        headerFile.addBeforeDirective("ifndef EXI_TYPE_ENCODER_HPP");
-        headerFile.addBeforeDirective("define EXI_TYPE_ENCODER_HPP");
+        headerFile.addBeforeDirective("ifndef EXISTREAM_HPP");
+        headerFile.addBeforeDirective("define EXISTREAM_HPP");
 
         // Add macros and other required variable definitions
         headerFile.addBeforeDirective("define BUFFER_END_REACHED -2");
@@ -126,7 +126,7 @@ public class CppEXIStreamGenerator {
                 CParam.factory.create("size_t", "bufferIndx"),
                 CParam.factory.create("unsigned char", "bitPointer"));
         streamContext.setComment(new CCommentImpl(
-                "Holds the current position in the buffer (bytewise)" +
+                "Holds the current position in the buffer (bytewise) " +
                         "and the current position within the current byte."));
         headerFile.add(streamContext);
 
@@ -150,7 +150,7 @@ public class CppEXIStreamGenerator {
         headerFile.add(clazz);
 
         // Close include guard
-        headerFile.addAfterDirective("endif // EXI_TYPE_ENCODER_HPP");
+        headerFile.addAfterDirective("endif // EXISTREAM_HPP");
     }
 
     /**

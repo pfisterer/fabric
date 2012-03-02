@@ -17,6 +17,7 @@ import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppHeaderFile;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 
+import de.uniluebeck.sourcegen.c.CppVar;
 import fabric.module.exi.FabricEXIModule;
 import fabric.module.exi.exceptions.FabricEXIException;
 
@@ -74,9 +75,10 @@ public class CppEXIConverter
       CppEXITypeEncoderGenerator.init(workspace);
       
       // Generate EXIConverter class
-      this.serializerClass = CppClass.factory.create(this.serializerClassName);
+      this.serializerClass = CppClass.factory.create(this.serializerClassName);      
       this.generateSerializeCode();
       this.generateDeserializeCode();
+      this.generateHeaderGenerationCode();
       
       /*****************************************************************
        * Create C++ header file
@@ -85,7 +87,11 @@ public class CppEXIConverter
       
       cpphf.setComment(new CCommentImpl(String.format("The '%s' header file.", this.serializerClassName)));
       cpphf.add(this.serializerClass);
-
+      
+      // Add includes
+      cpphf.addInclude(CppEXIStreamGenerator.FILE_NAME + ".hpp");
+      cpphf.addInclude(CppEXITypeEncoderGenerator.FILE_NAME + ".hpp");
+      
       // Add include guards to header file
       cpphf.addBeforeDirective("ifndef " + CppEXIConverter.createIncludeGuardName(cpphf.getFileName()));
       cpphf.addBeforeDirective("define " + CppEXIConverter.createIncludeGuardName(cpphf.getFileName()));
@@ -104,18 +110,51 @@ public class CppEXIConverter
       LOGGER.debug(String.format("Generated new source file '%s'.", this.serializerClassName));
     }
   }
-  
+
   // TODO: Add implementation and comment
-  public void generateSerializeCode() throws Exception
+  private void generateHeaderGenerationCode() throws Exception
   {
-    CppFun serialize = CppFun.factory.create("void", "serialize");
+    CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "exiStream");
+    CppFun generateHeader = CppFun.factory.create("void", "generateHeader", streamObject);
+    
+    String methodBody =
+            "// TODO: Add code to write EXI header to stream here";
+    
+    generateHeader.appendCode(methodBody);
+    generateHeader.setComment(new CCommentImpl("Write header to EXI byte stream."));
+    
+    this.serializerClass.add(Cpp.PUBLIC, generateHeader);
+  }
+
+  // TODO: Add implementation and comment
+  private void generateSerializeCode() throws Exception
+  {    
+    CppVar typeObject = CppVar.factory.create(Cpp.NONE, this.beanClassName + "*", "typeObject");
+    CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "exiStream");
+    CppFun serialize = CppFun.factory.create("void", "serialize", typeObject, streamObject);
+    
+    String methodBody =
+            "// TODO: Add code to serialize object here";
+    
+    serialize.appendCode(methodBody);
+    serialize.setComment(new CCommentImpl(String.format("Serialize %s object to EXI byte stream.", this.beanClassName)));
+    
     this.serializerClass.add(Cpp.PUBLIC, serialize);
   }
-  
+
   // TODO: Add implementation and comment
-  public void generateDeserializeCode() throws Exception
+  private void generateDeserializeCode() throws Exception
   {
-    CppFun deserialize = CppFun.factory.create("void", "deserialize");
+    CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "exiStream");
+    CppVar typeObject = CppVar.factory.create(Cpp.NONE, this.beanClassName + "*", "typeObject");
+    CppFun deserialize = CppFun.factory.create("void", "deserialize", streamObject, typeObject);
+    
+    String methodBody =
+            "// TODO: Add code to deserialize object here";
+    
+    deserialize.appendCode(methodBody);
+    deserialize.setComment(new CCommentImpl(String.format("Deserialize EXI byte stream to %s object.", this.beanClassName)));
+    
     this.serializerClass.add(Cpp.PUBLIC, deserialize);
   }
 
@@ -135,9 +174,11 @@ public class CppEXIConverter
     CFunSignature cfs = CFunSignature.factory.create(typeObject, streamObject);
     CFun cf = CFun.factory.create("toEXIStream", "void", cfs);
 
-    String methodBody =
-            "// TODO: Add implementation\n\n" +
-            "return 0;";
+    String methodBody = String.format(
+            "%s* exiConverter = new %s();\n\n" +
+            "exiConverter->serialize(typeObject, exiStream);\n\n" +
+            "delete exiConverter;",
+            this.serializerClassName, this.serializerClassName);
     
     cf.appendCode(methodBody);
     cf.setComment(new CCommentImpl("Serialize type object to EXI byte stream."));
@@ -161,9 +202,11 @@ public class CppEXIConverter
     CFunSignature cfs = CFunSignature.factory.create(streamObject, typeObject);
     CFun cf = CFun.factory.create("fromEXIStream", "void", cfs);
 
-    String methodBody =
-            "// TODO: Add implementation\n\n" +
-            "return 0;";
+    String methodBody = String.format(
+            "%s* exiConverter = new %s();\n\n" +
+            "exiConverter->deserialize(exiStream, typeObject);\n\n" +
+            "delete exiConverter;",
+            this.serializerClassName, this.serializerClassName);
     
     cf.appendCode(methodBody);
     cf.setComment(new CCommentImpl("Deserialize EXI byte stream to type object."));

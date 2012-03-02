@@ -38,16 +38,16 @@ public class CppEXICodeGen implements EXICodeGen
 
   /** Name of the bean class */
   private String beanClassName;
-  
-  /** Name for main application */
-  private String applicationName;
-  
-  /** Source file with main application */
-  private CppSourceFile application;
 
   /** Name of the EXI de-/serializer class */
   private String serializerClassName;
-  
+
+  /** Name for main application */
+  private String applicationName;
+
+  /** Source file with main application */
+  private CppSourceFile application;
+
   /**
    * Constructor creates class object for EXI serializer and
    * deserializer code.
@@ -62,11 +62,11 @@ public class CppEXICodeGen implements EXICodeGen
     
     this.beanClassName = this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY);
     
+    this.serializerClassName = "EXIConverter";
+    
     // Create source file for application
     this.applicationName = this.properties.getProperty(FabricEXIModule.APPLICATION_CLASS_NAME_KEY);
     this.application = this.createMainApplication(this.applicationName);
-    
-    this.serializerClassName = "EXIConverter";
   }
 
   // TODO: Add implementation and comment
@@ -132,6 +132,7 @@ public class CppEXICodeGen implements EXICodeGen
     cppsf.addLibInclude("cstdlib");
     cppsf.addLibInclude("iostream");
     cppsf.addInclude(this.beanClassName + ".hpp");
+    cppsf.addInclude(this.serializerClassName + ".hpp"); // TODO: Is this okay?
     cppsf.addUsingNamespace("std");
     
     return cppsf;
