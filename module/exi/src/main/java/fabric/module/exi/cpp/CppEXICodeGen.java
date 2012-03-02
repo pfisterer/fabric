@@ -76,19 +76,9 @@ public class CppEXICodeGen implements EXICodeGen
                            ArrayList<ListData> fixLists) throws Exception
   {
     /*****************************************************************
-     * Create main function for application
-     *****************************************************************/
-
-    CFun main = this.createMainFunction();
-    if (null != main)
-    {
-      this.application.add(main);
-    }
-    
-    /*****************************************************************
      * Create class and method calls for EXI converter
      *****************************************************************/
-    
+
     CppEXIConverter exiConverter = new CppEXIConverter(this.properties);
 
     // Create source file for EXI converter class
@@ -112,6 +102,16 @@ public class CppEXICodeGen implements EXICodeGen
     {
       this.application.add(exiDeserialize);
     }
+
+    /*****************************************************************
+     * Create main function for application
+     *****************************************************************/
+
+    CFun main = this.createMainFunction();
+    if (null != main)
+    {
+      this.application.add(main);
+    }      
   }
   
   @Override
@@ -132,7 +132,7 @@ public class CppEXICodeGen implements EXICodeGen
     cppsf.addLibInclude("cstdlib");
     cppsf.addLibInclude("iostream");
     cppsf.addInclude(this.beanClassName + ".hpp");
-    cppsf.addInclude(this.serializerClassName + ".hpp"); // TODO: Is this okay?
+    cppsf.addInclude(this.serializerClassName + ".hpp");
     cppsf.addUsingNamespace("std");
     
     return cppsf;

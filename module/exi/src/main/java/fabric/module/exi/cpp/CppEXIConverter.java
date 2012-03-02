@@ -76,9 +76,9 @@ public class CppEXIConverter
       
       // Generate EXIConverter class
       this.serializerClass = CppClass.factory.create(this.serializerClassName);      
+      this.generateHeaderGenerationCode();
       this.generateSerializeCode();
       this.generateDeserializeCode();
-      this.generateHeaderGenerationCode();
       
       /*****************************************************************
        * Create C++ header file
