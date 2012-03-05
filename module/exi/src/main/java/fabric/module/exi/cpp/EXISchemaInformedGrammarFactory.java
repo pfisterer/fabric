@@ -5,24 +5,21 @@ import exi.events.ExiEventCodeGenerator;
 import exi.grammar.ExiDocumentGrammar;
 import exi.grammar.ExiGrammar;
 import exi.grammar.ExiGrammarFactory;
-import fabric.wsdlschemaparser.schema.FElement;
-import org.omg.CORBA.PRIVATE_MEMBER;
 
 import javax.xml.namespace.QName;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class EXISchemaInformedGrammarFactory implements ExiGrammarFactory {
 
 
-    private ArrayList<String> elements;
+    private ArrayList<String> globalElements;
 
 
     /**
      * Constructor.
      */
     public EXISchemaInformedGrammarFactory() {
-        elements = new ArrayList<String>();
+        globalElements = new ArrayList<String>();
     }
 
 
@@ -30,8 +27,8 @@ public class EXISchemaInformedGrammarFactory implements ExiGrammarFactory {
      *
      * @param element
      */
-    public void addElement(String element) {
-        elements.add(element);
+    public void addGlobalElement(String element) {
+        globalElements.add(element);
     }
 
 
@@ -47,6 +44,15 @@ public class EXISchemaInformedGrammarFactory implements ExiGrammarFactory {
         eg.append(start, content, "SD", g.getNextCode(1));
 
         g.reset( );
+
+
+
+        java.util.Collections.sort(globalElements);
+
+        for(int i=0; i< globalElements.size(); i++) {
+            eg.append(content, end, "SE("+ globalElements.get(i)+")", g.getNextCode(i+1));
+        }
+
 
         /*
         eg.append(content, end, "SE(*)", g.getNextCode(1));
