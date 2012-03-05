@@ -1,4 +1,4 @@
-/** 27.02.2012 16:00 */
+/** 05.03.2012 13:09 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -42,15 +42,16 @@ public class CppEXICodeGen implements EXICodeGen
   /** Name of the EXI de-/serializer class */
   private String serializerClassName;
 
-  /** Name for main application */
+  /** Name of the main application */
   private String applicationName;
 
   /** Source file with main application */
   private CppSourceFile application;
 
   /**
-   * Constructor creates class object for EXI serializer and
-   * deserializer code.
+   * Constructor sets various class names and creates source
+   * file for main application to do EXI serialization and
+   * deserialization.
    *
    * @param workspace Workspace object for source code write-out
    * @param properties Properties object with module options
@@ -69,14 +70,24 @@ public class CppEXICodeGen implements EXICodeGen
     this.application = this.createMainApplication(this.applicationName);
   }
 
-  // TODO: Add implementation and comment
+  /**
+   * Generate code to serialize and deserialize Bean objects with EXI.
+   * The method arguments are used in the JavaEXICodeGen and should
+   * not be relevant for the CppEXICodeGen implementation.
+   * 
+   * @param fixElements XML elements, where value-tags need to be fixed
+   * @param fixArrays XML arrays, where value-tags need to be fixed
+   * @param fixLists XML lists, where value-tags need to be fixed
+   *
+   * @throws Exception Error during code generation
+   */
   @Override
   public void generateCode(ArrayList<ElementData> fixElements,
                            ArrayList<ArrayData> fixArrays,
                            ArrayList<ListData> fixLists) throws Exception
   {
     /*****************************************************************
-     * Create function that writes EXI stream to file
+     * Create callback method that writes EXI stream to file
      *****************************************************************/
 
     CFun outputStream = this.generateOutputStreamFunction();
@@ -118,21 +129,39 @@ public class CppEXICodeGen implements EXICodeGen
       this.application.add(main);
     }
   }
-  
+
+  /**
+   * Create source file and write it to language-specific workspace.
+   * In CppEXICodeGen this is entirely done in the generateCode()
+   * method, because C++ main applications are no classes, but
+   * contain procedural code.
+   *
+   * @throws Exception Error during source file write-out
+   */
   @Override
   public void writeSourceFile() throws Exception
   {
-    // TODO: Add implementation and comment
+    // Empty implementation
   }
 
-  // TODO: Add comment
+  /**
+   * Create main application in the C++ workspace and return
+   * source file. This method adds all necessary comments,
+   * includes and namespaces to the file.
+   * 
+   * @param applicationName Desired application name
+   * 
+   * @return CppSourceFile with main application
+   * 
+   * @throws Exception Error during code generation
+   */
   private CppSourceFile createMainApplication(final String applicationName) throws Exception
   {
     CppSourceFile cppsf = workspace.getC().getCppSourceFile(applicationName);
     cppsf.setComment(new CCommentImpl("The EXI application's main file."));
-    
+
     LOGGER.debug(String.format("Generated application source file '%s'.", cppsf.getFileName()));
-    
+
     // Add includes and namespace
     cppsf.addLibInclude("cstdlib");
     cppsf.addLibInclude("cstdio");
@@ -141,11 +170,19 @@ public class CppEXICodeGen implements EXICodeGen
     cppsf.addInclude("EXIStream.hpp");
     cppsf.addInclude(this.serializerClassName + ".hpp");
     cppsf.addUsingNamespace("std");
-    
+
     return cppsf;
   }
-
-  // TODO: Remove method, let developer define output stream externally
+  
+  /**
+   * Create callback method that is used as a function pointer,
+   * when the EXI converter wants to write data to an output
+   * stream.
+   * 
+   * @return CFun with definition of callback method
+   * 
+   * @throws Exception Error during code generation
+   */
   private CFun generateOutputStreamFunction() throws Exception
   {
     CParam buffer = CParam.factory.create("void*", "buffer");
@@ -165,16 +202,17 @@ public class CppEXICodeGen implements EXICodeGen
   }
 
   /**
-   * Create source file for application. It will contain a main
-   * method that initializes the root container name, so that
-   * one can easily test the C++ type generator or create a
-   * new application based on the source file's code.
-   *
-   * @throws Exception Error during enum generation
+   * Create main function for application. The method initializes
+   * the root container and an EXIStream object, so that one can
+   * easily test the C++ EXI module or create a new application
+   * based on the source file's code.
+   * 
+   * @return CFun with definition of the main function
+   * 
+   * @throws Exception Error during code generation
    */
   private CFun createMainFunction() throws Exception
   {    
-    // Create main method
     CParam argc = CParam.factory.create("int", "argc");
     CParam argv = CParam.factory.create("char*", "argv[]");
     CFunSignature mainSignature = CFunSignature.factory.create(argc, argv);
@@ -185,6 +223,10 @@ public class CppEXICodeGen implements EXICodeGen
             "%s* %s = new %s();\n" +
             "EXIStream exiStream;\n\n" +
             "try {\n" +
+            "\t// TODO: Add your custom initialization code here\n\n" +
+            "\t// Write EXI header to stream\n" +
+            "\t// TODO: exiConverter->generateHeader(exiStream);\n\n" +
+            "\t// Serialize bean object with EXI\n" +
             "\ttoEXIStream(%s, &exiStream, writeFileOutputStream);\n" +
             "}\n" +
             "catch (const char* e) {\n" +

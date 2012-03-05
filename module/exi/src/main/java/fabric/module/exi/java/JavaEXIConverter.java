@@ -1,4 +1,4 @@
-/** 11.12.2011 15:34 */
+/** 05.03.2012 13:00 */
 package fabric.module.exi.java;
 
 import java.util.Properties;
@@ -109,7 +109,7 @@ public class JavaEXIConverter
    * EXI de-/serializer class. The generated code demonstrates
    * how to deserialize a byte stream with EXI.
    * 
-   * @return JMethod object with deserializer code
+   * @return JMethod object with deserialization code
    * 
    * @throws Exception Error during code generation
    */

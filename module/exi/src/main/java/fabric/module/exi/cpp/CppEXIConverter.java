@@ -1,4 +1,4 @@
-/** 27.02.2012 15:59 */
+/** 05.03.2012 13:09 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -16,35 +16,41 @@ import de.uniluebeck.sourcegen.c.CppClass;
 import de.uniluebeck.sourcegen.c.CppFun;
 import de.uniluebeck.sourcegen.c.CppHeaderFile;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
-
 import de.uniluebeck.sourcegen.c.CppVar;
+
 import fabric.module.exi.FabricEXIModule;
 import fabric.module.exi.exceptions.FabricEXIException;
 
 /**
+ * CppEXIConverter class creates the EXI de-/serializer class
+ * and generates methods for the application's main function
+ * to demonstrate the usage of the converter.
+ * 
  * @author seidel
  */
 public class CppEXIConverter
 {
-  // TODO: Add documentation to class
-  // TODO: Check and update all comments in this class
-
   /** Logger object */
   private static final Logger LOGGER = LoggerFactory.getLogger(CppEXIConverter.class);
-
+  
   /** Properties object with module configuration */
   private Properties properties;
-
+  
   /** Name of the bean class */
-  private String beanClassName;    
+  private String beanClassName;
   
   /** Name of the EXI de-/serializer class */
   private String serializerClassName;
   
   /** EXI de-/serializer class */
   private CppClass serializerClass;
-  
-  // TODO: Add comment
+
+  /**
+   * Parameterized constructor initializes properties object
+   * and various other member variables.
+   * 
+   * @param properties Properties object with module options
+   */
   public CppEXIConverter(Properties properties)
   {
     this.properties = properties;
@@ -56,9 +62,12 @@ public class CppEXIConverter
 
   /**
    * Public callback method that generates the EXI de-/serializer class
-   * and adds it to the provided Java source file.
+   * and adds the corresponding header and source file to the provided
+   * Fabric workspace.
    * 
-   * @throws Exception Source file was null or error during code generation
+   * @param workspace Fabric workspace for code write-out
+   * 
+   * @throws Exception Workspace was null or error during code generation
    */
   public void generateSerializerClass(final Workspace workspace) throws Exception
   {
@@ -70,29 +79,29 @@ public class CppEXIConverter
     {
       // Generate EXIStream class
       CppEXIStreamGenerator.init(workspace);
-      
+
       // Generate EXITypeEncoder class
       CppEXITypeEncoderGenerator.init(workspace);
-      
+
       // Generate EXIConverter class
-      this.serializerClass = CppClass.factory.create(this.serializerClassName);      
-      this.generateHeaderGenerationCode();
+      this.serializerClass = CppClass.factory.create(this.serializerClassName);
+      this.generateEXIHeaderGenerationCode();
       this.generateSerializeCode();
       this.generateDeserializeCode();
-      
+
       /*****************************************************************
        * Create C++ header file
-       *****************************************************************/      
+       *****************************************************************/
       CppHeaderFile cpphf = workspace.getC().getCppHeaderFile(this.serializerClassName);
-      
+
       cpphf.setComment(new CCommentImpl(String.format("The '%s' header file.", this.serializerClassName)));
       cpphf.add(this.serializerClass);
-      
+
       // Add includes
       cpphf.addInclude(this.beanClassName + ".hpp");
       cpphf.addInclude(CppEXIStreamGenerator.FILE_NAME + ".hpp");
       cpphf.addInclude(CppEXITypeEncoderGenerator.FILE_NAME + ".hpp");
-      
+
       // Add include guards to header file
       cpphf.addBeforeDirective("ifndef " + CppEXIConverter.createIncludeGuardName(cpphf.getFileName()));
       cpphf.addBeforeDirective("define " + CppEXIConverter.createIncludeGuardName(cpphf.getFileName()));
@@ -102,24 +111,34 @@ public class CppEXIConverter
 
       /*****************************************************************
        * Create C++ source file
-       *****************************************************************/      
+       *****************************************************************/
       CppSourceFile cppsf = workspace.getC().getCppSourceFile(this.serializerClassName);
-      
+
       cppsf.setComment(new CCommentImpl(String.format("The '%s' source file.", this.serializerClassName)));
+
+      // Add includes
       cppsf.addInclude(cpphf);
-      cppsf.addLibInclude("cstdio"); // TODO: Remove?
+      cppsf.addLibInclude("cstdio");
+
+      // Add constant definition
       cppsf.addBeforeDirective("define OUTPUT_BUFFER_SIZE 100");
-      
+
       LOGGER.debug(String.format("Generated new source file '%s'.", this.serializerClassName));
     }
   }
 
-  // TODO: Add implementation and comment
-  private void generateHeaderGenerationCode() throws Exception
+  /**
+   * Generate code that adds an EXI header to the EXI stream
+   * in the C++ EXI converter class.
+   * 
+   * @throws Exception Error during code generation
+   */
+  private void generateEXIHeaderGenerationCode() throws Exception
   {
     CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "exiStream");
     CppFun generateHeader = CppFun.factory.create("void", "generateHeader", streamObject);
     
+    // TODO: Add method body here
     String methodBody =
             "// TODO: Add code to write EXI header to stream here";
     
@@ -129,9 +148,14 @@ public class CppEXIConverter
     this.serializerClass.add(Cpp.PUBLIC, generateHeader);
   }
 
-  // TODO: Add implementation and comment
+  /**
+   * Generate code for EXI serialization with C++. The code is
+   * created individually for each bean object.
+   * 
+   * @throws Exception Error during code generation
+   */
   private void generateSerializeCode() throws Exception
-  {    
+  {
     CppVar typeObject = CppVar.factory.create(Cpp.NONE, this.beanClassName + "*", "typeObject");
     CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "exiStream");
     CppVar functionPointer = CppVar.factory.create(Cpp.NONE, "mySize_t", "(*outputFunction)(void*, mySize_t, void*)");
@@ -156,13 +180,19 @@ public class CppEXIConverter
     this.serializerClass.add(Cpp.PUBLIC, serialize);
   }
 
-  // TODO: Add implementation and comment
+  /**
+   * Generate code for EXI deserialization with C++. The code is
+   * created individually for each bean object.
+   * 
+   * @throws Exception Error during code generation
+   */
   private void generateDeserializeCode() throws Exception
   {
     CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "exiStream");
     CppVar typeObject = CppVar.factory.create(Cpp.NONE, this.beanClassName + "*", "typeObject");
     CppFun deserialize = CppFun.factory.create("void", "deserialize", streamObject, typeObject);
     
+    // TODO: Add method body here
     String methodBody =
             "// TODO: Add code to deserialize object here";
     
@@ -175,9 +205,9 @@ public class CppEXIConverter
   /**
    * Public callback method that creates code to operate the
    * EXI de-/serializer class. The generated code demonstrates
-   * how to serialize a plain XML document with EXI.
+   * how to serialize a bean object with EXI.
    * 
-   * @return JMethod object with serialization code
+   * @return CFun object with serialization code
    * 
    * @throws Exception Error during code generation
    */
@@ -206,7 +236,7 @@ public class CppEXIConverter
    * EXI de-/serializer class. The generated code demonstrates
    * how to deserialize a byte stream with EXI.
    * 
-   * @return JMethod object with deserializer code
+   * @return CFun object with deserialization code
    * 
    * @throws Exception Error during code generation
    */

@@ -1,4 +1,4 @@
-/** 05.03.2012 11:58 */
+/** 05.03.2012 12:29 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -610,11 +610,11 @@ public class CppTypeGen implements TypeGen
 
   /**
    * Create source file for application. It will contain a main
-   * method that initializes the root container name, so that
-   * one can easily test the C++ type generator or create a
-   * new application based on the source file's code.
+   * method that initializes the root container, so that one
+   * can easily test the C++ type generator or create a new
+   * application based on the source file's code.
    *
-   * @throws Exception Error during enum generation
+   * @throws Exception Error during code generation
    */
   private void createMainApplication() throws Exception
   {
