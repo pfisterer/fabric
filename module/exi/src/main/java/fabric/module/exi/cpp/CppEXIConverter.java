@@ -73,6 +73,9 @@ public class CppEXIConverter
       
       // Generate EXITypeEncoder class
       CppEXITypeEncoderGenerator.init(workspace);
+
+      // Generate EXITypeDecoder class
+      CppEXITypeDecoderGenerator.init(workspace);
       
       // Generate EXIConverter class
       this.serializerClass = CppClass.factory.create(this.serializerClassName);      
@@ -89,6 +92,7 @@ public class CppEXIConverter
       cpphf.add(this.serializerClass);
       
       // Add includes
+      cpphf.addInclude(this.beanClassName + ".hpp");
       cpphf.addInclude(CppEXIStreamGenerator.FILE_NAME + ".hpp");
       cpphf.addInclude(CppEXITypeEncoderGenerator.FILE_NAME + ".hpp");
       
@@ -106,6 +110,8 @@ public class CppEXIConverter
       
       cppsf.setComment(new CCommentImpl(String.format("The '%s' source file.", this.serializerClassName)));
       cppsf.addInclude(cpphf);
+      cppsf.addLibInclude("cstdio"); // TODO: Remove?
+      cppsf.addBeforeDirective("define OUTPUT_BUFFER_SIZE 100");
       
       LOGGER.debug(String.format("Generated new source file '%s'.", this.serializerClassName));
     }
@@ -131,10 +137,21 @@ public class CppEXIConverter
   {    
     CppVar typeObject = CppVar.factory.create(Cpp.NONE, this.beanClassName + "*", "typeObject");
     CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "exiStream");
-    CppFun serialize = CppFun.factory.create("void", "serialize", typeObject, streamObject);
+    CppVar functionPointer = CppVar.factory.create(Cpp.NONE, "mySize_t", "(*outputFunction)(void*, mySize_t, void*)");
+    CppFun serialize = CppFun.factory.create("void", "serialize", typeObject, streamObject, functionPointer);
     
     String methodBody =
-            "// TODO: Add code to serialize object here";
+            "FILE *outfile = fopen(\"test.txt\", \"wb\");\n\n" +
+            "EXITypeEncoder encoder;\n" +
+            "char buffer[OUTPUT_BUFFER_SIZE];\n" +
+            "IOStream outputStream;\n\n" +
+            "// Use function pointer to define external output stream\n" +
+            "outputStream.readWriteToStream = outputFunction;\n" +
+            "outputStream.stream = outfile;\n\n" +
+            "exiStream->initStream(buffer, OUTPUT_BUFFER_SIZE, outputStream);\n\n" +
+            "encoder.encodeInteger(exiStream, 3000);\n\n" +
+            "exiStream->closeStream();\n\n" +
+            "fclose(outfile);";
     
     serialize.appendCode(methodBody);
     serialize.setComment(new CCommentImpl(String.format("Serialize %s object to EXI byte stream.", this.beanClassName)));
@@ -171,12 +188,13 @@ public class CppEXIConverter
   {
     CParam typeObject = CParam.factory.create(this.beanClassName + "*", "typeObject");
     CParam streamObject = CParam.factory.create("EXIStream*", "exiStream");
-    CFunSignature cfs = CFunSignature.factory.create(typeObject, streamObject);
+    CParam functionPointer = CParam.factory.create("mySize_t", "(*outputFunction)(void*, mySize_t, void*)");
+    CFunSignature cfs = CFunSignature.factory.create(typeObject, streamObject, functionPointer);
     CFun cf = CFun.factory.create("toEXIStream", "void", cfs);
 
     String methodBody = String.format(
             "%s* exiConverter = new %s();\n\n" +
-            "exiConverter->serialize(typeObject, exiStream);\n\n" +
+            "exiConverter->serialize(typeObject, exiStream, outputFunction);\n\n" +
             "delete exiConverter;",
             this.serializerClassName, this.serializerClassName);
     

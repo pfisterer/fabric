@@ -58,7 +58,7 @@ public class CppEXITypeEncoderGenerator {
      * Generates the C++ class EXITypeEncoder.
      */
     private static void createClass() throws CppDuplicateException {
-        clazz = CppClass.factory.create("EXITypeEncoder");
+        clazz = CppClass.factory.create(FILE_NAME);
         CppEXITypeEncoderGenerator.createEncodeBoolean();
         CppEXITypeEncoderGenerator.createEncodeInteger();
         CppEXITypeEncoderGenerator.createEncodeUnsignedInteger();
@@ -78,7 +78,7 @@ public class CppEXITypeEncoderGenerator {
      */
     private static void createCpp(Workspace workspace) throws CPreProcessorValidationException, CppDuplicateException {
         // Create Cpp file
-        sourceFile = workspace.getC().getCppSourceFile(CppEXITypeEncoderGenerator.FILE_NAME);
+        sourceFile = workspace.getC().getCppSourceFile(FILE_NAME);
         sourceFile.setComment(new CCommentImpl("Methods for encoding values for the EXI stream."));
         sourceFile.addInclude(headerFile);
     }
@@ -91,7 +91,7 @@ public class CppEXITypeEncoderGenerator {
      */
     private static void createHeader(Workspace workspace) throws Exception {
         // Create header file
-        headerFile = workspace.getC().getCppHeaderFile(CppEXITypeEncoderGenerator.FILE_NAME);
+        headerFile = workspace.getC().getCppHeaderFile(FILE_NAME);
         headerFile.setComment(new CCommentImpl("Methods for encoding values for the EXI stream."));
 
         // Surround definitions with include guard
@@ -126,10 +126,18 @@ public class CppEXITypeEncoderGenerator {
         clazz.add(Cpp.PUBLIC, fun_encString);
     }
 
+    /**
+     * Generates the function encodeBnary.
+     */
     private static void createEncodeBinary() {
         // TODO: implement!
     }
 
+    /**
+     * Generates the function encodeFloat.
+     *
+     * @throws CppDuplicateException
+     */
     private static void createEncodeFloat() throws CppDuplicateException {
         CppVar var_strm     = CppVar.factory.create("EXIStream*", "strm");
         CppVar var_flVal    = CppVar.factory.create(Cpp.FLOAT, "fl_val");
@@ -144,6 +152,11 @@ public class CppEXITypeEncoderGenerator {
         clazz.add(Cpp.PUBLIC, fun_encFloat);
     }
 
+    /**
+     * Generates the function encodeDecimal.
+     *
+     * @throws CppDuplicateException
+     */
     private static void createEncodeDecimal() throws CppDuplicateException {
         CppVar var_strm     = CppVar.factory.create("EXIStream*", "strm");
         CppVar var_decVal   = CppVar.factory.create(Cpp.CHAR | Cpp.POINTER, "dec_val");
@@ -158,10 +171,18 @@ public class CppEXITypeEncoderGenerator {
         clazz.add(Cpp.PUBLIC, fun_encDec);
     }
 
+    /**
+     * Generates the function encodeNBitUnsignedInteger.
+     */
     private static void createEncodeNBitUnsignedInteger() {
         // TODO: implement!
     }
 
+    /**
+     * Generates the function encodeUnsignedInteger.
+     *
+     * @throws CppDuplicateException
+     */
     private static void createEncodeUnsignedInteger() throws CppDuplicateException {
         CppVar var_strm         = CppVar.factory.create("EXIStream*", "strm");
         CppVar var_intVal       = CppVar.factory.create("uint32", "int_val");
@@ -195,6 +216,11 @@ public class CppEXITypeEncoderGenerator {
         clazz.add(Cpp.PUBLIC, fun_encUnsInt);
     }
 
+    /**
+     * Generates the function encodeInteger.
+     *
+     * @throws CppDuplicateException
+     */
     private static void createEncodeInteger() throws CppDuplicateException {
         CppVar var_strm     = CppVar.factory.create("EXIStream*", "strm");
         CppVar var_sintVal  = CppVar.factory.create("int32", "sint_val");
@@ -226,13 +252,18 @@ public class CppEXITypeEncoderGenerator {
         clazz.add(Cpp.PUBLIC, fun_encInt);
     }
 
+    /**
+     * Generates the function encodeBoolean.
+     *
+     * @throws CppDuplicateException
+     */
     private static void createEncodeBoolean() throws CppDuplicateException {
         CppVar var_strm     = CppVar.factory.create("EXIStream*", "strm");
         CppVar var_boolVal  = CppVar.factory.create(Cpp.BOOL, "bool_val");
         CppFun fun_encBool  = CppFun.factory.create(Cpp.INT, "encodeBoolean",
                 var_strm, var_boolVal);
         String methodBody =
-                "return UNEXPECTED_ERROR;";
+                "return strm->writeNextBit((unsigned char) bool_val);";
         String comment =
                 "Encodes boolean values.";
         fun_encBool.appendCode(methodBody);
