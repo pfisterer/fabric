@@ -111,6 +111,8 @@ public class FabricEXIHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called startTopLevelElement().");
 
+    exiGenerator.handleElement(element);
+
     if (null != element)
     {
       this.fixElementIfRequired(element);
@@ -133,6 +135,8 @@ public class FabricEXIHandler extends FabricDefaultHandler
   public void startLocalElement(FElement element, FComplexType parent) throws Exception
   {
     LOGGER.debug("Called startLocalElement().");
+
+    exiGenerator.handleElement(element);
 
     if (null != element)
     {

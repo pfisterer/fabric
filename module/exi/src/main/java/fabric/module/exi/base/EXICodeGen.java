@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import fabric.module.exi.java.FixValueContainer.ElementData;
 import fabric.module.exi.java.FixValueContainer.ArrayData;
 import fabric.module.exi.java.FixValueContainer.ListData;
+import fabric.wsdlschemaparser.schema.FElement;
 
 /**
  * Public interface for EXICodeGen implementations.
@@ -32,4 +33,12 @@ public interface EXICodeGen
    * @throws Exception Error during source file write-out
    */
   public void writeSourceFile() throws Exception;
+
+
+  /**
+   * Handle element.
+   *
+   * @throws Exception Error during source file write-out
+   */
+  public void handleElement(FElement element) throws Exception;
 }
