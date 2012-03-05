@@ -73,6 +73,9 @@ public class CppEXIConverter
       
       // Generate EXITypeEncoder class
       CppEXITypeEncoderGenerator.init(workspace);
+
+      // Generate EXITypeDecoder class
+      CppEXITypeDecoderGenerator.init(workspace);
       
       // Generate EXIConverter class
       this.serializerClass = CppClass.factory.create(this.serializerClassName);      
