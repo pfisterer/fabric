@@ -1,4 +1,4 @@
-/** 05.03.2012 13:09 */
+/** 05.03.2012 14:42 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -94,6 +94,9 @@ public class CppEXICodeGen implements EXICodeGen
     if (null != outputStream)
     {
       this.application.add(outputStream);
+      
+      // Define name of EXI outfile as "BeanClassName.exi"
+      this.application.addBeforeDirective(String.format("define OUTFILE_NAME \"%s.exi\"", this.beanClassName));
     }
 
     /*****************************************************************
@@ -187,13 +190,14 @@ public class CppEXICodeGen implements EXICodeGen
   {
     CParam buffer = CParam.factory.create("void*", "buffer");
     CParam readSize = CParam.factory.create("mySize_t", "readSize");
-    CParam outputStream = CParam.factory.create("void*", "outputStream");
-    CFunSignature cfs = CFunSignature.factory.create(buffer, readSize, outputStream);
+    CFunSignature cfs = CFunSignature.factory.create(buffer, readSize);
     CFun writeFileOutputStream = CFun.factory.create("writeFileOutputStream", "mySize_t", cfs);
     
     String methodBody =
-            "FILE *outfile = (FILE*)outputStream;\n" +
-            "return fwrite(buffer, 1, readSize, outfile);";
+            "FILE *outfile = fopen(OUTFILE_NAME, \"wb\");\n\n" +
+            "mySize_t result = fwrite(buffer, 1, readSize, outfile);\n" +
+            "fclose(outfile);\n\n" +
+            "return result;";
     
     writeFileOutputStream.appendCode(methodBody);
     writeFileOutputStream.setComment(new CCommentImpl("Write EXI stream to an output file."));

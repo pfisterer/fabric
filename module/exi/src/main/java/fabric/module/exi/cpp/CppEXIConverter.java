@@ -1,4 +1,4 @@
-/** 05.03.2012 13:09 */
+/** 05.03.2012 14:42 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -83,6 +83,9 @@ public class CppEXIConverter
       // Generate EXITypeEncoder class
       CppEXITypeEncoderGenerator.init(workspace);
 
+      // Generate EXITypeDecoder class
+      CppEXITypeDecoderGenerator.init(workspace);
+
       // Generate EXIConverter class
       this.serializerClass = CppClass.factory.create(this.serializerClassName);
       this.generateEXIHeaderGenerationCode();
@@ -158,21 +161,18 @@ public class CppEXIConverter
   {
     CppVar typeObject = CppVar.factory.create(Cpp.NONE, this.beanClassName + "*", "typeObject");
     CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "exiStream");
-    CppVar functionPointer = CppVar.factory.create(Cpp.NONE, "mySize_t", "(*outputFunction)(void*, mySize_t, void*)");
+    CppVar functionPointer = CppVar.factory.create(Cpp.NONE, "mySize_t", "(*outputFunction)(void*, mySize_t)");
     CppFun serialize = CppFun.factory.create("void", "serialize", typeObject, streamObject, functionPointer);
     
     String methodBody =
-            "FILE *outfile = fopen(\"test.txt\", \"wb\");\n\n" +
-            "EXITypeEncoder encoder;\n" +
             "char buffer[OUTPUT_BUFFER_SIZE];\n" +
-            "IOStream outputStream;\n\n" +
+            "IOStream outputStream;\n" +
+            "EXITypeEncoder encoder;\n\n" +
             "// Use function pointer to define external output stream\n" +
-            "outputStream.readWriteToStream = outputFunction;\n" +
-            "outputStream.stream = outfile;\n\n" +
+            "outputStream.readWriteToStream = outputFunction;\n\n" +
             "exiStream->initStream(buffer, OUTPUT_BUFFER_SIZE, outputStream);\n\n" +
             "encoder.encodeInteger(exiStream, 3000);\n\n" +
-            "exiStream->closeStream();\n\n" +
-            "fclose(outfile);";
+            "exiStream->closeStream();";
     
     serialize.appendCode(methodBody);
     serialize.setComment(new CCommentImpl(String.format("Serialize %s object to EXI byte stream.", this.beanClassName)));
@@ -215,7 +215,7 @@ public class CppEXIConverter
   {
     CParam typeObject = CParam.factory.create(this.beanClassName + "*", "typeObject");
     CParam streamObject = CParam.factory.create("EXIStream*", "exiStream");
-    CParam functionPointer = CParam.factory.create("mySize_t", "(*outputFunction)(void*, mySize_t, void*)");
+    CParam functionPointer = CParam.factory.create("mySize_t", "(*outputFunction)(void*, mySize_t)");
     CFunSignature cfs = CFunSignature.factory.create(typeObject, streamObject, functionPointer);
     CFun cf = CFun.factory.create("toEXIStream", "void", cfs);
 

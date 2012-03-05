@@ -65,10 +65,13 @@ public class CppEXIStreamGenerator {
         CppEXIStreamGenerator.createInitStream();
         CppEXIStreamGenerator.createCloseStream();
         CppEXIStreamGenerator.createWriteNextBit();
+        CppEXIStreamGenerator.createReadNextBit();
         CppEXIStreamGenerator.createWriteNBits();
+        CppEXIStreamGenerator.createReadNBits();
         CppEXIStreamGenerator.createLog2Int();
         CppEXIStreamGenerator.createGetBitsNumber();
         CppEXIStreamGenerator.createMoveBitPointer();
+        CppEXIStreamGenerator.createMyMemcpy();
     }
 
     /**
@@ -128,8 +131,7 @@ public class CppEXIStreamGenerator {
 
         CStruct ioStream = CStruct.factory.create("", "IOStream", true,
                 CParam.factory.create("mySize_t",
-                        "(*readWriteToStream)(void* buf, mySize_t size, void* stream)"),
-                CParam.factory.create("void*", "stream"));
+                        "(*readWriteToStream)(void* buf, mySize_t size)"));
         ioStream.setComment(new CCommentImpl("Representation of an Input/Output Stream"));
         headerFile.add(ioStream);
 
@@ -176,6 +178,7 @@ public class CppEXIStreamGenerator {
                 "BIT_MASK[6] = 63;\n" +
                 "BIT_MASK[7] = 127;\n" +
                 "BIT_MASK[8] = 255;");
+        constr.setComment(new CppConstructorCommentImpl("Constructor of EXIStream initializes the bit masks."));
         clazz.add(Cpp.PUBLIC, constr);
     }
 
@@ -212,8 +215,8 @@ public class CppEXIStreamGenerator {
         String methodBody =
                 "if(strm.ioStrm.readWriteToStream != NULL)\n" +
                         "\t{\n" +
-                        "\t\tif(strm.ioStrm.readWriteToStream(strm.buffer, strm.context.bufferIndx + 1, " +
-                        "strm.ioStrm.stream) < strm.context.bufferIndx + 1)\n" +
+                        "\t\tif(strm.ioStrm.readWriteToStream(strm.buffer, strm.context.bufferIndx + 1) " +
+                        "< strm.context.bufferIndx + 1)\n" +
                         "\t\t\treturn BUFFER_END_REACHED;\n" +
                         "\t}\n" +
                         "    return ERR_OK;";
@@ -339,7 +342,7 @@ public class CppEXIStreamGenerator {
                         "\t\t\treturn BUFFER_END_REACHED;\n\n" +
                         "\t\tleftOverBits = strm.buffer[strm.context.bufferIndx];\n\n" +
                         "\t\tnumBytesWritten = strm.ioStrm.readWriteToStream(" +
-                        "strm.buffer, strm.context.bufferIndx, strm.ioStrm.stream);\n" +
+                        "strm.buffer, strm.context.bufferIndx);\n" +
                         "\t\tif(numBytesWritten < strm.context.bufferIndx)\n" +
                         "\t\t\treturn BUFFER_END_REACHED;\n\n" +
                         "\t\tstrm.buffer[0] = leftOverBits;\n" +
@@ -391,8 +394,7 @@ public class CppEXIStreamGenerator {
                         "\t\tmySize_t numBytesWritten = 0;\n" +
                         "\t\tif(strm.ioStrm.readWriteToStream == NULL)\n" +
                         "\t\t\treturn BUFFER_END_REACHED;\n" +
-                        "\t\tnumBytesWritten = strm.ioStrm.readWriteToStream(strm.buffer, strm.bufLen, " +
-                        "strm.ioStrm.stream);\n" +
+                        "\t\tnumBytesWritten = strm.ioStrm.readWriteToStream(strm.buffer, strm.bufLen);\n" +
                         "\t\tif(numBytesWritten < strm.bufLen)\n" +
                         "\t\t\treturn BUFFER_END_REACHED;\n" +
                         "\t\tstrm.context.bitPointer = 0;\n" +
@@ -415,4 +417,129 @@ public class CppEXIStreamGenerator {
         clazz.add(Cpp.PUBLIC, fun_writeNextBit);
     }
 
+    /**
+     * Generates the function readNBits.
+     *
+     * @throws CppDuplicateException
+     */
+    private static void createReadNBits() throws CppDuplicateException {
+        CppVar var_nbits        = CppVar.factory.create(Cpp.UNSIGNED | Cpp.CHAR, "nbits");
+        CppVar var_bitsVal      = CppVar.factory.create(Cpp.UNSIGNED | Cpp.INT | Cpp.POINTER, "bits_val");
+        CppFun fun_readNBits    = CppFun.factory.create(Cpp.INT, "readNBits", var_nbits, var_bitsVal);
+        String methodBody =
+                "unsigned int numBitsRead = 0; // Number of the bits read so far\n" +
+                        "unsigned int tmp = 0;\n" +
+                        "unsigned int bits_in_byte = 0; // Number of bits read in one iteration\n" +
+                        "unsigned int numBytesToBeRead = ((unsigned int) nbits) / 8 + (8 - strm.context.bitPointer " +
+                        "< nbits % 8 );\n" +
+                        "*bits_val = 0;\n\n" +
+                        "if(strm.bufContent <= strm.context.bufferIndx + numBytesToBeRead)\n" +
+                        "{\n" +
+                        "\t// The buffer end is reached: there are fewer than n bits left unparsed\n" +
+                        "\tchar leftOverBits[16];\n" +
+                        "\tmySize_t bytesCopied = strm.bufContent - strm.context.bufferIndx;\n" +
+                        "\tmySize_t bytesRead = 0;\n" +
+                        "\tif(strm.ioStrm.readWriteToStream == NULL)\n" +
+                        "\t\treturn BUFFER_END_REACHED;\n\n" +
+                        "\tmy_memcpy(leftOverBits, strm.buffer + strm.context.bufferIndx, bytesCopied);\n\n" +
+                        "\tbytesRead = strm.ioStrm.readWriteToStream(strm.buffer + bytesCopied, " +
+                        "strm.bufLen - bytesCopied);\n" +
+                        "\tstrm.bufContent = bytesRead + bytesCopied;\n" +
+                        "\tif(strm.bufContent < numBytesToBeRead)\n" +
+                        "\t\treturn BUFFER_END_REACHED;\n\n" +
+                        "\tmy_memcpy(strm.buffer, leftOverBits, bytesCopied);\n" +
+                        "\tstrm.context.bufferIndx = 0;\n" +
+                        "}\n\n" +
+                        "while(numBitsRead < nbits)\n" +
+                        "{\n" +
+                        "\ttmp = 0;\n" +
+                        "\tif((unsigned int)(nbits - numBitsRead) <= (unsigned int)(8 - strm.context.bitPointer)) " +
+                        "// The rest of the unread bits are located in the current byte from the stream\n" +
+                        "\t{\n" +
+                        "\t\tint tmp_shift;\n" +
+                        "\t\tbits_in_byte = nbits - numBitsRead;\n" +
+                        "\t\ttmp_shift = 8 - strm.context.bitPointer - bits_in_byte;\n" +
+                        "\t\ttmp = (strm.buffer[strm.context.bufferIndx] >> tmp_shift) & BIT_MASK[bits_in_byte];\n" +
+                        "\t}\n" +
+                        "\telse // The rest of the unread bits are located in multiple bytes from the stream\n" +
+                        "\t{\n" +
+                        "\t\tbits_in_byte = 8 - strm.context.bitPointer;\n" +
+                        "\t\ttmp = strm.buffer[strm.context.bufferIndx] & BIT_MASK[bits_in_byte];\n" +
+                        "\t}\n" +
+                        "\tnumBitsRead += bits_in_byte;\n" +
+                        "\ttmp = tmp << (nbits - numBitsRead);\n" +
+                        "\t*bits_val = *bits_val | tmp;\n\n" +
+                        "\tmoveBitPointer(bits_in_byte);\n" +
+                        "}\n" +
+                        "return ERR_OK;";
+        String comment =
+                "@brief Reads an unsigned integer value to an EXI stream with nbits (possible 0 paddings)\n" +
+                        "and moves the stream current bit pointer to the last bit written.\n" +
+                        "@param[out] strm EXI stream of bits\n" +
+                        "@param[in] nbits number of bits\n" +
+                        "@param[in] bits_val resulting bits value";
+        fun_readNBits.appendCode(methodBody);
+        fun_readNBits.setComment(new CppFunCommentImpl(comment));
+        clazz.add(Cpp.PUBLIC, fun_readNBits);
+    }
+
+    /**
+     * Generates the function readNextBit.
+     *
+     * @throws CppDuplicateException
+     */
+    private static void createReadNextBit() throws CppDuplicateException {
+        CppVar var_bitVal       = CppVar.factory.create(Cpp.UNSIGNED | Cpp.CHAR | Cpp.POINTER, "bit_val");
+        CppFun fun_readNextBit  = CppFun.factory.create(Cpp.INT, "readNextBit", var_bitVal);
+        String methodBody =
+                "if(strm.bufContent <= strm.context.bufferIndx) // the whole buffer is parsed! read another " +
+                        "portion\n" +
+                        "{\n" +
+                        "\tif(strm.ioStrm.readWriteToStream == NULL)\n" +
+                        "\t\treturn BUFFER_END_REACHED;\n" +
+                        "\tstrm.bufContent = strm.ioStrm.readWriteToStream(strm.buffer, strm.bufLen);\n" +
+                        "\tif(strm.bufContent == 0)\n" +
+                        "\t\treturn BUFFER_END_REACHED;\n" +
+                        "\tstrm.context.bitPointer = 0;\n" +
+                        "\tstrm.context.bufferIndx = 0;\n" +
+                        "}\n" +
+                        "*bit_val = 0;\n" +
+                        "*bit_val = (strm.buffer[strm.context.bufferIndx] & (1<<REVERSE_BIT_POSITION(strm.context" +
+                        ".bitPointer))) != 0;\n\n" +
+                        "moveBitPointer(1);\n" +
+                        "return ERR_OK;";
+        String comment =
+                "@brief Reads a single bit an EXI stream and moves its current bit pointer\n" +
+                        "@param[out] strm EXI stream of bits\n" +
+                        "@param[in] bit_val the value of the next bit: 0 or 1\n" +
+                        "@return Error handling code";
+        fun_readNextBit.appendCode(methodBody);
+        fun_readNextBit.setComment(new CppFunCommentImpl(comment));
+        clazz.add(Cpp.PUBLIC, fun_readNextBit);
+    }
+
+    /**
+     * Generates the function my_memcpy.
+     *
+     * @throws CppDuplicateException
+     */
+    private static void createMyMemcpy() throws CppDuplicateException {
+        CppVar var_dst  = CppVar.factory.create("void*", "dst");
+        CppVar var_src  = CppVar.factory.create("void*", "src");
+        CppVar var_num  = CppVar.factory.create("mySize_t", "num");
+        CppFun fun_myMemcpy = CppFun.factory.create("void*", "my_memcpy", var_dst, var_src, var_num);
+        String methodBody =
+                "void * ret = dst;\n" +
+                        "while (num--) {\n" +
+                        "\t*(char *)dst = *(char *)src;\n" +
+                        "\tdst = (char *)dst + 1;\n" +
+                        "\tsrc = (char *)src + 1;\n" +
+                        "}\n" +
+                        "return(ret);";
+        String comment =
+                "Implementation of memcpy in string.h";
+        fun_myMemcpy.appendCode(methodBody);
+        fun_myMemcpy.setComment(new CppFunCommentImpl(comment));
+        clazz.add(Cpp.PRIVATE, fun_myMemcpy);
+    }
 }
