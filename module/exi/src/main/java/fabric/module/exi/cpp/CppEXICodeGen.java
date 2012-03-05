@@ -38,16 +38,16 @@ public class CppEXICodeGen implements EXICodeGen
 
   /** Name of the bean class */
   private String beanClassName;
-  
-  /** Name for main application */
-  private String applicationName;
-  
-  /** Source file with main application */
-  private CppSourceFile application;
 
   /** Name of the EXI de-/serializer class */
   private String serializerClassName;
-  
+
+  /** Name for main application */
+  private String applicationName;
+
+  /** Source file with main application */
+  private CppSourceFile application;
+
   /**
    * Constructor creates class object for EXI serializer and
    * deserializer code.
@@ -62,11 +62,11 @@ public class CppEXICodeGen implements EXICodeGen
     
     this.beanClassName = this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY);
     
+    this.serializerClassName = "EXIConverter";
+    
     // Create source file for application
     this.applicationName = this.properties.getProperty(FabricEXIModule.APPLICATION_CLASS_NAME_KEY);
     this.application = this.createMainApplication(this.applicationName);
-    
-    this.serializerClassName = "EXIConverter";
   }
 
   // TODO: Add implementation and comment
@@ -76,19 +76,19 @@ public class CppEXICodeGen implements EXICodeGen
                            ArrayList<ListData> fixLists) throws Exception
   {
     /*****************************************************************
-     * Create main function for application
+     * Create function that writes EXI stream to file
      *****************************************************************/
 
-    CFun main = this.createMainFunction();
-    if (null != main)
+    CFun outputStream = this.generateOutputStreamFunction();
+    if (null != outputStream)
     {
-      this.application.add(main);
+      this.application.add(outputStream);
     }
-    
+
     /*****************************************************************
      * Create class and method calls for EXI converter
      *****************************************************************/
-    
+
     CppEXIConverter exiConverter = new CppEXIConverter(this.properties);
 
     // Create source file for EXI converter class
@@ -112,6 +112,16 @@ public class CppEXICodeGen implements EXICodeGen
     {
       this.application.add(exiDeserialize);
     }
+
+    /*****************************************************************
+     * Create main function for application
+     *****************************************************************/
+
+    CFun main = this.createMainFunction();
+    if (null != main)
+    {
+      this.application.add(main);
+    }
   }
   
   @Override
@@ -130,13 +140,35 @@ public class CppEXICodeGen implements EXICodeGen
     
     // Add includes and namespace
     cppsf.addLibInclude("cstdlib");
+    cppsf.addLibInclude("cstdio");
     cppsf.addLibInclude("iostream");
     cppsf.addInclude(this.beanClassName + ".hpp");
+    cppsf.addInclude("EXIStream.hpp");
+    cppsf.addInclude(this.serializerClassName + ".hpp");
     cppsf.addUsingNamespace("std");
     
     return cppsf;
   }
-  
+
+  // TODO: Remove method, let developer define output stream externally
+  private CFun generateOutputStreamFunction() throws Exception
+  {
+    CParam buffer = CParam.factory.create("void*", "buffer");
+    CParam readSize = CParam.factory.create("mySize_t", "readSize");
+    CParam outputStream = CParam.factory.create("void*", "outputStream");
+    CFunSignature cfs = CFunSignature.factory.create(buffer, readSize, outputStream);
+    CFun writeFileOutputStream = CFun.factory.create("writeFileOutputStream", "mySize_t", cfs);
+    
+    String methodBody =
+            "FILE *outfile = (FILE*)outputStream;\n" +
+            "return fwrite(buffer, 1, readSize, outfile);";
+    
+    writeFileOutputStream.appendCode(methodBody);
+    writeFileOutputStream.setComment(new CCommentImpl("Write EXI stream to an output file."));
+    
+    return writeFileOutputStream;
+  }
+
   /**
    * Create source file for application. It will contain a main
    * method that initializes the root container name, so that
@@ -155,17 +187,19 @@ public class CppEXICodeGen implements EXICodeGen
     mainMethod.setComment(new CCommentImpl("Main function of the application."));
 
     String methodBody = String.format(
-            "%s* %s = new %s();\n\n"
-            + "try {\n"
-            + "\t// TODO: Add your custom initialization code here\n"
-            + "}\n"
-            + "catch (const char* e) {\n"
-            + "\tcout << e << endl;\n"
-            + "}\n\n"
-            + "delete %s;\n\n"
-            + "return EXIT_SUCCESS;",
+            "%s* %s = new %s();\n" +
+            "EXIStream exiStream;\n\n" +
+            "try {\n" +
+            "\ttoEXIStream(%s, &exiStream, writeFileOutputStream);\n" +
+            "}\n" +
+            "catch (const char* e) {\n" +
+            "\tcout << e << endl;\n" +
+            "}\n\n" +
+            "delete %s;\n\n" +
+            "return EXIT_SUCCESS;",
             this.firstLetterCapital(this.beanClassName), this.beanClassName.toLowerCase(),
-            this.firstLetterCapital(this.beanClassName), this.beanClassName.toLowerCase());
+            this.firstLetterCapital(this.beanClassName), this.beanClassName.toLowerCase(),
+            this.beanClassName.toLowerCase());
     
     mainMethod.appendCode(methodBody);
     
