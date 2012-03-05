@@ -1,4 +1,4 @@
-/** 05.03.2012 14:42 */
+/** 05.03.2012 15:27 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -96,7 +96,7 @@ public class CppEXICodeGen implements EXICodeGen
       this.application.add(outputStream);
       
       // Define name of EXI outfile as "BeanClassName.exi"
-      this.application.addBeforeDirective(String.format("define OUTFILE_NAME \"%s.exi\"", this.beanClassName));
+      this.application.addBeforeDirective(String.format("define OUTFILE_NAME \"%s_serialized.exi\"", this.beanClassName.toLowerCase()));
     }
 
     /*****************************************************************
@@ -225,21 +225,24 @@ public class CppEXICodeGen implements EXICodeGen
 
     String methodBody = String.format(
             "%s* %s = new %s();\n" +
+            "%s* exiConverter = new %s();\n" +
             "EXIStream exiStream;\n\n" +
             "try {\n" +
             "\t// TODO: Add your custom initialization code here\n\n" +
             "\t// Write EXI header to stream\n" +
             "\t// TODO: exiConverter->generateHeader(exiStream);\n\n" +
             "\t// Serialize bean object with EXI\n" +
-            "\ttoEXIStream(%s, &exiStream, writeFileOutputStream);\n" +
+            "\ttoEXIStream(exiConverter, %s, &exiStream, writeFileOutputStream);\n" +
             "}\n" +
             "catch (const char* e) {\n" +
             "\tcout << e << endl;\n" +
             "}\n\n" +
-            "delete %s;\n\n" +
+            "delete %s;\n" +
+            "delete exiConverter;\n\n" +
             "return EXIT_SUCCESS;",
             this.firstLetterCapital(this.beanClassName), this.beanClassName.toLowerCase(),
-            this.firstLetterCapital(this.beanClassName), this.beanClassName.toLowerCase(),
+            this.firstLetterCapital(this.beanClassName), this.serializerClassName,
+            this.serializerClassName, this.beanClassName.toLowerCase(),
             this.beanClassName.toLowerCase());
     
     mainMethod.appendCode(methodBody);

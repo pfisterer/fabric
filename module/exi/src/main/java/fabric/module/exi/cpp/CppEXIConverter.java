@@ -1,4 +1,4 @@
-/** 05.03.2012 14:42 */
+/** 05.03.2012 15:04 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -164,15 +164,16 @@ public class CppEXIConverter
     CppVar functionPointer = CppVar.factory.create(Cpp.NONE, "mySize_t", "(*outputFunction)(void*, mySize_t)");
     CppFun serialize = CppFun.factory.create("void", "serialize", typeObject, streamObject, functionPointer);
     
-    String methodBody =
+    String methodBody = String.format(
             "char buffer[OUTPUT_BUFFER_SIZE];\n" +
             "IOStream outputStream;\n" +
-            "EXITypeEncoder encoder;\n\n" +
+            "%s encoder;\n\n" +
             "// Use function pointer to define external output stream\n" +
             "outputStream.readWriteToStream = outputFunction;\n\n" +
             "exiStream->initStream(buffer, OUTPUT_BUFFER_SIZE, outputStream);\n\n" +
             "encoder.encodeInteger(exiStream, 3000);\n\n" +
-            "exiStream->closeStream();";
+            "exiStream->closeStream();",
+            CppEXITypeEncoderGenerator.FILE_NAME);
     
     serialize.appendCode(methodBody);
     serialize.setComment(new CCommentImpl(String.format("Serialize %s object to EXI byte stream.", this.beanClassName)));
@@ -213,17 +214,14 @@ public class CppEXIConverter
    */
   public CFun generateSerializeCall() throws Exception
   {
+    CParam converterObject = CParam.factory.create(this.serializerClassName + "*", "exiConverter");
     CParam typeObject = CParam.factory.create(this.beanClassName + "*", "typeObject");
-    CParam streamObject = CParam.factory.create("EXIStream*", "exiStream");
+    CParam streamObject = CParam.factory.create(CppEXIStreamGenerator.FILE_NAME + "*", "exiStream");
     CParam functionPointer = CParam.factory.create("mySize_t", "(*outputFunction)(void*, mySize_t)");
-    CFunSignature cfs = CFunSignature.factory.create(typeObject, streamObject, functionPointer);
+    CFunSignature cfs = CFunSignature.factory.create(converterObject, typeObject, streamObject, functionPointer);
     CFun cf = CFun.factory.create("toEXIStream", "void", cfs);
-
-    String methodBody = String.format(
-            "%s* exiConverter = new %s();\n\n" +
-            "exiConverter->serialize(typeObject, exiStream, outputFunction);\n\n" +
-            "delete exiConverter;",
-            this.serializerClassName, this.serializerClassName);
+    
+    String methodBody = "exiConverter->serialize(typeObject, exiStream, outputFunction);";
     
     cf.appendCode(methodBody);
     cf.setComment(new CCommentImpl("Serialize type object to EXI byte stream."));
@@ -242,16 +240,13 @@ public class CppEXIConverter
    */
   public CFun generateDeserializeCall() throws Exception
   {
-    CParam streamObject = CParam.factory.create("EXIStream*", "exiStream");
+    CParam converterObject = CParam.factory.create(this.serializerClassName + "*", "exiConverter");
+    CParam streamObject = CParam.factory.create(CppEXIStreamGenerator.FILE_NAME + "*", "exiStream");
     CParam typeObject = CParam.factory.create(this.beanClassName + "*", "typeObject");
-    CFunSignature cfs = CFunSignature.factory.create(streamObject, typeObject);
+    CFunSignature cfs = CFunSignature.factory.create(converterObject, streamObject, typeObject);
     CFun cf = CFun.factory.create("fromEXIStream", "void", cfs);
-
-    String methodBody = String.format(
-            "%s* exiConverter = new %s();\n\n" +
-            "exiConverter->deserialize(exiStream, typeObject);\n\n" +
-            "delete exiConverter;",
-            this.serializerClassName, this.serializerClassName);
+    
+    String methodBody = "exiConverter->deserialize(exiStream, typeObject);";
     
     cf.appendCode(methodBody);
     cf.setComment(new CCommentImpl("Deserialize EXI byte stream to type object."));
