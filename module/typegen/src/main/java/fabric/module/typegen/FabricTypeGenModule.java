@@ -1,4 +1,4 @@
-/** 09.01.2012 23:07 */
+/** 05.03.2012 11:56 */
 package fabric.module.typegen;
 
 import java.util.Properties;
@@ -35,6 +35,9 @@ public class FabricTypeGenModule implements FabricModule
 
   /** Key for main package name in properties object */
   public static final String PACKAGE_NAME_KEY = "typegen.java.package_name";
+
+  /** Key for flag to create main.cpp file in properties object */
+  public static final String CREATE_MAIN_KEY = "typegen.cpp.create_main_cpp";
 
   /** Key for vector type name in properties object */
   public static final String VECTOR_NAME_KEY = "typegen.cpp.vector_type_name";
@@ -84,7 +87,8 @@ public class FabricTypeGenModule implements FabricModule
             + "Valid options are '%s', '%s', '%s', '%s', '%s' and '%s'.",
             TARGET_LANGUAGE_KEY, MAIN_CLASS_NAME_KEY,
             XML_FRAMEWORK_KEY, PACKAGE_NAME_KEY,
-            VECTOR_NAME_KEY, VECTOR_INCLUDE_KEY);
+            CREATE_MAIN_KEY, VECTOR_NAME_KEY,
+            VECTOR_INCLUDE_KEY);
   }
 
   /**
@@ -130,6 +134,7 @@ public class FabricTypeGenModule implements FabricModule
     this.checkMainClassName();
     this.checkXMLFramework();
     this.checkPackageName();
+    this.checkCreateMain();
     this.checkVectorTypeName();
     this.checkVectorInclude();
 
@@ -226,6 +231,35 @@ public class FabricTypeGenModule implements FabricModule
     if (null != packageName)
     {
       this.properties.setProperty(PACKAGE_NAME_KEY, packageName.toLowerCase());
+    }
+  }
+
+  /**
+   * Check parameter that determines, whether a main.cpp file
+   * should be created or not. This property is optional.
+   * However, it is strongly recommended to provide a value,
+   * because otherwise "true" is used as default.
+   * 
+   * @throws Exception Invalid value passed for property
+   */
+  private void checkCreateMain() throws Exception
+  {
+    String createMain = this.properties.getProperty(CREATE_MAIN_KEY);
+
+    // Create main.cpp on default or if desired
+    if (null == createMain || createMain.toLowerCase().equals("true"))
+    {
+      this.properties.setProperty(CREATE_MAIN_KEY, "true");
+    }
+    // Do not create file otherwise
+    else if (createMain.toLowerCase().equals("false"))
+    {
+      this.properties.setProperty(CREATE_MAIN_KEY, "false");
+    }
+    // Invalid value provided
+    else
+    {
+      throw new FabricTypeGenException(String.format("Invalid value '%s' for flag to create main.cpp. Use one of [true, false].", createMain));
     }
   }
 

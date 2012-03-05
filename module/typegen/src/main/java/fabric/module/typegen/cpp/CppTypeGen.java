@@ -1,4 +1,4 @@
-/** 02.03.2012 15:45 */
+/** 05.03.2012 11:58 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -248,7 +248,10 @@ public class CppTypeGen implements TypeGen
     }
 
     // Create source file with main method for application
-    // this.createMainApplication(); // TODO: Remove
+    if (this.properties.getProperty(FabricTypeGenModule.CREATE_MAIN_KEY).toLowerCase().equals("true"))
+    {
+      this.createMainApplication();
+    }
   }
 
   /**
@@ -613,7 +616,6 @@ public class CppTypeGen implements TypeGen
    *
    * @throws Exception Error during enum generation
    */
-  /** TODO: Remove method
   private void createMainApplication() throws Exception
   {
     String rootContainerName = this.properties.getProperty(FabricTypeGenModule.MAIN_CLASS_NAME_KEY);
@@ -654,7 +656,6 @@ public class CppTypeGen implements TypeGen
 
     LOGGER.debug(String.format("Generated application source file '%s'.", cppsf.getFileName()));
   }
-  */
 
   /**
    * Private helper method to translate a source file name to a string

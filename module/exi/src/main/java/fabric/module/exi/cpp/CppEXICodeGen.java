@@ -90,11 +90,6 @@ public class CppEXICodeGen implements EXICodeGen
      *****************************************************************/
 
     CppEXIConverter exiConverter = new CppEXIConverter(this.properties);
-
-    // Create source file for EXI converter class
-//    TODO: Remove? CppSourceFile cppsf = workspace.getC().getCppSourceFile(this.serializerClassName);
-
-    LOGGER.debug(String.format("Generated new source file '%s' for EXI de-/serializer.", this.serializerClassName));
     
     // Create EXI de-/serializer class
     exiConverter.generateSerializerClass(this.workspace);
