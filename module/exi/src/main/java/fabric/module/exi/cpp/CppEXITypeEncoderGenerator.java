@@ -4,7 +4,6 @@ import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.c.*;
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
-import fabric.module.typegen.cpp.CppTypeHelper;
 
 /**
  * Created by IntelliJ IDEA.

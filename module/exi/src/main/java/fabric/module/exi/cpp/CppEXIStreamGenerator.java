@@ -176,6 +176,7 @@ public class CppEXIStreamGenerator {
                 "BIT_MASK[6] = 63;\n" +
                 "BIT_MASK[7] = 127;\n" +
                 "BIT_MASK[8] = 255;");
+        constr.setComment(new CppConstructorCommentImpl("Constructor of EXIStream initializes the bit masks."));
         clazz.add(Cpp.PUBLIC, constr);
     }
 
