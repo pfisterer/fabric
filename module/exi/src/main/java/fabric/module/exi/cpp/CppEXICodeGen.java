@@ -1,6 +1,8 @@
 /** 27.02.2012 16:00 */
 package fabric.module.exi.cpp;
 
+import exi.events.ExiEventCodeGenerator;
+import fabric.wsdlschemaparser.schema.FElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +21,8 @@ import fabric.module.exi.base.EXICodeGen;
 import fabric.module.exi.java.FixValueContainer.ElementData;
 import fabric.module.exi.java.FixValueContainer.ArrayData;
 import fabric.module.exi.java.FixValueContainer.ListData;
+
+import exi.grammar.*;
 
 /**
  * EXI code generator for C++.
@@ -47,6 +51,11 @@ public class CppEXICodeGen implements EXICodeGen
 
   /** Source file with main application */
   private CppSourceFile application;
+
+  /** Used to build EXIGrammar */
+  private ExiGrammar g;
+  private ExiEventCodeGenerator ecg;
+
 
   /**
    * Constructor creates class object for EXI serializer and
@@ -120,7 +129,17 @@ public class CppEXICodeGen implements EXICodeGen
     // TODO: Add implementation and comment
   }
 
-  // TODO: Add comment
+  @Override
+  public void handleElement(FElement element) throws Exception {
+      /* TODO
+       * Build grammar here
+       */
+      g = new ExiDocumentGrammar();
+
+
+  }
+
+    // TODO: Add comment
   private CppSourceFile createMainApplication(final String applicationName) throws Exception
   {
     CppSourceFile cppsf = workspace.getC().getCppSourceFile(applicationName);
