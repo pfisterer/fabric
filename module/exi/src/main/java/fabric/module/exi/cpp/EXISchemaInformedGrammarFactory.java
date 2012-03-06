@@ -3,6 +3,7 @@ package fabric.module.exi.cpp;
 import exi.ExiException;
 import exi.events.ExiEventCodeGenerator;
 import exi.grammar.ExiDocumentGrammar;
+import exi.grammar.ExiElementGrammar;
 import exi.grammar.ExiGrammar;
 import exi.grammar.ExiGrammarFactory;
 
@@ -34,21 +35,17 @@ public class EXISchemaInformedGrammarFactory implements ExiGrammarFactory {
 
     @Override
     public ExiGrammar createDocumentGrammar() throws ExiException {
-        ExiGrammar eg = new ExiDocumentGrammar( );
+        ExiDocumentGrammar eg = new ExiDocumentGrammar( );
         ExiEventCodeGenerator g = new ExiEventCodeGenerator( );
 
-        String start = "Document";
+        String start   = "Document";
         String content = "DocContent";
-        String end = "DocEnd";
+        String end     = "DocEnd";
 
         eg.append(start, content, "SD", g.getNextCode(1));
-
-        g.reset( );
-
-
+        g.reset();
 
         java.util.Collections.sort(globalElements);
-
         for(int i=0; i< globalElements.size(); i++) {
             eg.append(content, end, "SE("+ globalElements.get(i)+")", g.getNextCode(i+1));
         }
@@ -65,9 +62,10 @@ public class EXISchemaInformedGrammarFactory implements ExiGrammarFactory {
         if (this.options.isSet(FidelityOption.PRESERVE_PROCESSING_INSTRUCTIONS)) {
             eg.append(content, content, "PI", g.getNextCode(3));
         }
-        g.reset( );
+
         */
 
+        g.reset();
         eg.append(end, "", "ED", g.getNextCode(1));
         /*
         if (this.options.isSet(FidelityOption.PRESERVE_COMMENTS)) {
@@ -89,6 +87,7 @@ public class EXISchemaInformedGrammarFactory implements ExiGrammarFactory {
 
     @Override
     public ExiGrammar createElementGrammar(QName qName) throws ExiException {
+        //ExiElementGrammar eg = new ExiElementGrammar();
         return null;
     }
 }

@@ -53,8 +53,7 @@ public class CppEXICodeGen implements EXICodeGen
   private CppSourceFile application;
 
   /** Used to build EXIGrammar */
-  private ExiGrammar g;
-  private ExiEventCodeGenerator ecg;
+  private EXISchemaInformedGrammarFactory gf;
 
 
   /**
@@ -72,6 +71,8 @@ public class CppEXICodeGen implements EXICodeGen
     this.beanClassName = this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY);
     
     this.serializerClassName = "EXIConverter";
+
+    this.gf = new EXISchemaInformedGrammarFactory();
     
     // Create source file for application
     this.applicationName = this.properties.getProperty(FabricEXIModule.APPLICATION_CLASS_NAME_KEY);
@@ -140,13 +141,11 @@ public class CppEXICodeGen implements EXICodeGen
   }
 
   @Override
-  public void handleElement(FElement element) throws Exception {
-      /* TODO
+  public void handleGlobalElement(FElement element) {
+      /*
        * Build grammar here
        */
-      g = new ExiDocumentGrammar();
-
-
+      gf.addGlobalElement(element.getName());
   }
 
     // TODO: Add comment

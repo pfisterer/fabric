@@ -36,9 +36,7 @@ public interface EXICodeGen
 
 
   /**
-   * Handle element.
-   *
-   * @throws Exception Error during source file write-out
+   * Forward global element.
    */
-  public void handleElement(FElement element) throws Exception;
+  public void handleGlobalElement(FElement element);
 }
