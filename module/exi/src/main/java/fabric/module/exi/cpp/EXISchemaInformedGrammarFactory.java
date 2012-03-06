@@ -6,6 +6,7 @@ import exi.grammar.ExiDocumentGrammar;
 import exi.grammar.ExiElementGrammar;
 import exi.grammar.ExiGrammar;
 import exi.grammar.ExiGrammarFactory;
+import fabric.wsdlschemaparser.schema.FElement;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -28,8 +29,12 @@ public class EXISchemaInformedGrammarFactory implements ExiGrammarFactory {
      *
      * @param element
      */
-    public void addGlobalElement(String element) {
-        globalElements.add(element);
+    public void addGlobalElement(FElement element) {
+        globalElements.add(element.toString());
+    }
+
+    public void addLocalElement(FElement element) {
+        // TODO
     }
 
 

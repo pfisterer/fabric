@@ -145,7 +145,12 @@ public class CppEXICodeGen implements EXICodeGen
       /*
        * Build grammar here
        */
-      gf.addGlobalElement(element.getName());
+      gf.addGlobalElement(element);
+  }
+
+  @Override
+  public void handleLocalElement(FElement element) {
+      gf.addLocalElement(element);
   }
 
     // TODO: Add comment

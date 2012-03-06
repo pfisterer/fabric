@@ -39,4 +39,10 @@ public interface EXICodeGen
    * Forward global element.
    */
   public void handleGlobalElement(FElement element);
+
+
+  /**
+   * Forward local element.
+   */
+  public void handleLocalElement(FElement element);
 }

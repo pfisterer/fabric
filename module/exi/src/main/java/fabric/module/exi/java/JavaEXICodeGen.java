@@ -1,6 +1,7 @@
 /** 27.02.2012 14:25 */
 package fabric.module.exi.java;
 
+import fabric.wsdlschemaparser.schema.FElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -198,7 +199,17 @@ public class JavaEXICodeGen implements EXICodeGen
     LOGGER.debug(String.format("Generated new source file '%s' for main application.", this.applicationClassName));
   }
 
-  /**
+    @Override
+    public void handleGlobalElement(FElement element) {
+        /* Empty in the Java code-generation process */
+    }
+
+    @Override
+    public void handleLocalElement(FElement element) {
+        /* Empty in the Java code-generation process */
+    }
+
+    /**
    * Private helper method to create a main function for the application.
    * We add some example code here to demonstrate the usage of the XML
    * converter and the EXI de-/serialization class.
