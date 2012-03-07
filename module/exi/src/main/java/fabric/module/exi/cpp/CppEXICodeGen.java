@@ -72,6 +72,7 @@ public class CppEXICodeGen implements EXICodeGen
     
     this.serializerClassName = "EXIConverter";
 
+    // Create a factory for schema-informed EXI-grammars
     this.gf = new EXISchemaInformedGrammarFactory();
     
     // Create source file for application
