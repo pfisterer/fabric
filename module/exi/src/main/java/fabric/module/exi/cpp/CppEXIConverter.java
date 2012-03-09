@@ -1,10 +1,11 @@
-/** 05.03.2012 15:04 */
+/** 09.03.2012 13:29 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
+import java.util.Queue;
 
 import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.c.CCommentImpl;
@@ -18,6 +19,7 @@ import de.uniluebeck.sourcegen.c.CppHeaderFile;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppVar;
 
+import fabric.module.exi.ElementMetadata;
 import fabric.module.exi.FabricEXIModule;
 import fabric.module.exi.exceptions.FabricEXIException;
 
@@ -66,10 +68,11 @@ public class CppEXIConverter
    * Fabric workspace.
    * 
    * @param workspace Fabric workspace for code write-out
+   * @param elementMetadata Queue with metadata of XML elements
    * 
    * @throws Exception Workspace was null or error during code generation
    */
-  public void generateSerializerClass(final Workspace workspace) throws Exception
+  public void generateSerializerClass(final Workspace workspace, final Queue<ElementMetadata> elementMetadata) throws Exception
   {
     if (null == workspace)
     {
@@ -88,9 +91,9 @@ public class CppEXIConverter
 
       // Generate EXIConverter class
       this.serializerClass = CppClass.factory.create(this.serializerClassName);
-      this.generateEXIHeaderGenerationCode();
-      this.generateSerializeCode();
-      this.generateDeserializeCode();
+      this.generateEXIHeaderGenerationCode(); // TODO: Remove?
+      this.generateSerializeCode(elementMetadata);
+      this.generateDeserializeCode(elementMetadata);
 
       /*****************************************************************
        * Create C++ header file
@@ -155,9 +158,11 @@ public class CppEXIConverter
    * Generate code for EXI serialization with C++. The code is
    * created individually for each bean object.
    * 
+   * @param elementMetadata Queue with metadata of XML elements
+   * 
    * @throws Exception Error during code generation
    */
-  private void generateSerializeCode() throws Exception
+  private void generateSerializeCode(final Queue<ElementMetadata> elementMetadata) throws Exception
   {
     CppVar typeObject = CppVar.factory.create(Cpp.NONE, this.beanClassName + "*", "typeObject");
     CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "exiStream");
@@ -185,9 +190,11 @@ public class CppEXIConverter
    * Generate code for EXI deserialization with C++. The code is
    * created individually for each bean object.
    * 
+   * @param elementMetadata Queue with metadata of XML elements
+   * 
    * @throws Exception Error during code generation
    */
-  private void generateDeserializeCode() throws Exception
+  private void generateDeserializeCode(final Queue<ElementMetadata> elementMetadata) throws Exception
   {
     CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "exiStream");
     CppVar typeObject = CppVar.factory.create(Cpp.NONE, this.beanClassName + "*", "typeObject");

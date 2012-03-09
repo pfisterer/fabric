@@ -1,10 +1,11 @@
-/** 09.03.2012 12:12 */
+/** 09.03.2012 13:29 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
+import java.util.Queue;
 import java.util.ArrayList;
 
 import de.uniluebeck.sourcegen.Workspace;
@@ -16,6 +17,7 @@ import de.uniluebeck.sourcegen.c.CppSourceFile;
 
 import fabric.wsdlschemaparser.schema.FElement;
 
+import fabric.module.exi.ElementMetadata;
 import fabric.module.exi.FabricEXIModule;
 import fabric.module.exi.base.EXICodeGen;
 import fabric.module.exi.java.FixValueContainer.ElementData;
@@ -50,6 +52,9 @@ public class CppEXICodeGen implements EXICodeGen
   /** Source file with main application */
   private CppSourceFile application;
 
+  /** Queue with metadata of XML elements */
+  private Queue<ElementMetadata> elementMetadata;
+
   /** Factory to build schema-informed EXI grammars */
   private EXISchemaInformedGrammarFactory grammarFactory;
 
@@ -70,12 +75,12 @@ public class CppEXICodeGen implements EXICodeGen
     
     this.serializerClassName = "EXIConverter";
     
-    // Create factory for schema-informed EXI grammars
-    this.grammarFactory = new EXISchemaInformedGrammarFactory();
-    
     // Create source file for application
     this.applicationName = this.properties.getProperty(FabricEXIModule.APPLICATION_CLASS_NAME_KEY);
     this.application = this.createMainApplication(this.applicationName);
+    
+    // Create factory for schema-informed EXI grammars
+    this.grammarFactory = new EXISchemaInformedGrammarFactory();
   }
 
   /**
@@ -114,7 +119,7 @@ public class CppEXICodeGen implements EXICodeGen
     CppEXIConverter exiConverter = new CppEXIConverter(this.properties);
     
     // Create EXI de-/serializer class
-    exiConverter.generateSerializerClass(this.workspace);
+    exiConverter.generateSerializerClass(this.workspace, this.elementMetadata);
     
     // Create method for EXI serialization
     CFun exiSerialize = exiConverter.generateSerializeCall();
