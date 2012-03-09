@@ -1,4 +1,4 @@
-/** 09.03.2012 13:29 */
+/** 09.03.2012 14:11 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Properties;
 import java.util.Queue;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.c.CCommentImpl;
@@ -78,6 +79,8 @@ public class CppEXICodeGen implements EXICodeGen
     // Create source file for application
     this.applicationName = this.properties.getProperty(FabricEXIModule.APPLICATION_CLASS_NAME_KEY);
     this.application = this.createMainApplication(this.applicationName);
+    
+    this.elementMetadata = new LinkedList<ElementMetadata>();
     
     // Create factory for schema-informed EXI grammars
     this.grammarFactory = new EXISchemaInformedGrammarFactory();
@@ -162,16 +165,20 @@ public class CppEXICodeGen implements EXICodeGen
   
   // TODO: Add documentation
   @Override
-  public void handleTopLevelElement(FElement element)
+  public void handleTopLevelElement(final FElement element)
   {
+    this.elementMetadata.add(new ElementMetadata(element));
+    
     // Build grammar
     grammarFactory.addGlobalElement(element);
   }
   
   // TODO: Add documentation
   @Override
-  public void handleLocalElement(FElement element)
+  public void handleLocalElement(final FElement element)
   {
+    this.elementMetadata.add(new ElementMetadata(element));
+    
     // Build grammar
     grammarFactory.addLocalElement(element);
   }

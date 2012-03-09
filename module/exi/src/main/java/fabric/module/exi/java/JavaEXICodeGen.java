@@ -208,7 +208,7 @@ public class JavaEXICodeGen implements EXICodeGen
    * @param element Top level element to handle
    */
   @Override
-  public void handleTopLevelElement(FElement element)
+  public void handleTopLevelElement(final FElement element)
   {
     // Empty implementation
   }
@@ -221,7 +221,7 @@ public class JavaEXICodeGen implements EXICodeGen
    * @param element Local element to handle
    */
   @Override
-  public void handleLocalElement(FElement element)
+  public void handleLocalElement(final FElement element)
   {
     // Empty implementation
   }

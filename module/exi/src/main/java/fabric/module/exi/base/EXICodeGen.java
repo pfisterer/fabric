@@ -40,7 +40,7 @@ public interface EXICodeGen
    * 
    * @param element Top level element to handle
    */
-  public void handleTopLevelElement(FElement element);
+  public void handleTopLevelElement(final FElement element);
 
   /**
    * Handle local element from XML Schema document,
@@ -48,5 +48,5 @@ public interface EXICodeGen
    * 
    * @param element Local element to handle
    */
-  public void handleLocalElement(FElement element);
+  public void handleLocalElement(final FElement element);
 }

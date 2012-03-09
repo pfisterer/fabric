@@ -1,4 +1,4 @@
-/** 09.03.2012 11:47 */
+/** 09.03.2012 13:56 */
 package fabric.module.exi;
 
 import org.slf4j.Logger;
@@ -114,7 +114,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
     if (null != element)
     {
       // Handle top level element (e.g. build EXI grammar)
-      exiGenerator.handleTopLevelElement(element);
+      this.exiGenerator.handleTopLevelElement(element);
 
       this.fixElementIfRequired(element);
     }
@@ -140,7 +140,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
     if (null != element)
     {
       // Handle local element (e.g. build EXI grammar)
-      exiGenerator.handleLocalElement(element);
+      this.exiGenerator.handleLocalElement(element);
 
       this.fixElementIfRequired(element);
     }
