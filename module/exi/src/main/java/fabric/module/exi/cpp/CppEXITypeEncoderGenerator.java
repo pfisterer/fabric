@@ -127,7 +127,7 @@ public class CppEXITypeEncoderGenerator {
     }
 
     /**
-     * Generates the function encodeBnary.
+     * Generates the function encodeBinary.
      */
     private static void createEncodeBinary() {
         // TODO: implement!

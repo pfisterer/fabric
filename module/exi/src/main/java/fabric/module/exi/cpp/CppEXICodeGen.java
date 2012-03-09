@@ -1,4 +1,4 @@
-/** 05.03.2012 15:27 */
+/** 09.03.2012 12:12 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -13,6 +13,8 @@ import de.uniluebeck.sourcegen.c.CFun;
 import de.uniluebeck.sourcegen.c.CFunSignature;
 import de.uniluebeck.sourcegen.c.CParam;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
+
+import fabric.wsdlschemaparser.schema.FElement;
 
 import fabric.module.exi.FabricEXIModule;
 import fabric.module.exi.base.EXICodeGen;
@@ -48,6 +50,9 @@ public class CppEXICodeGen implements EXICodeGen
   /** Source file with main application */
   private CppSourceFile application;
 
+  /** Factory to build schema-informed EXI grammars */
+  private EXISchemaInformedGrammarFactory grammarFactory;
+
   /**
    * Constructor sets various class names and creates source
    * file for main application to do EXI serialization and
@@ -64,6 +69,9 @@ public class CppEXICodeGen implements EXICodeGen
     this.beanClassName = this.properties.getProperty(FabricEXIModule.MAIN_CLASS_NAME_KEY);
     
     this.serializerClassName = "EXIConverter";
+    
+    // Create factory for schema-informed EXI grammars
+    this.grammarFactory = new EXISchemaInformedGrammarFactory();
     
     // Create source file for application
     this.applicationName = this.properties.getProperty(FabricEXIModule.APPLICATION_CLASS_NAME_KEY);
@@ -145,6 +153,22 @@ public class CppEXICodeGen implements EXICodeGen
   public void writeSourceFile() throws Exception
   {
     // Empty implementation
+  }
+  
+  // TODO: Add documentation
+  @Override
+  public void handleTopLevelElement(FElement element)
+  {
+    // Build grammar
+    grammarFactory.addGlobalElement(element);
+  }
+  
+  // TODO: Add documentation
+  @Override
+  public void handleLocalElement(FElement element)
+  {
+    // Build grammar
+    grammarFactory.addLocalElement(element);
   }
 
   /**

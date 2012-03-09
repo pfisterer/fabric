@@ -64,6 +64,8 @@ public class CppEXIStreamGenerator {
         CppEXIStreamGenerator.createVariables();
         CppEXIStreamGenerator.createInitStream();
         CppEXIStreamGenerator.createCloseStream();
+        CppEXIStreamGenerator.createWriteHeader();
+        CppEXIStreamGenerator.createReadHeader();
         CppEXIStreamGenerator.createWriteNextBit();
         CppEXIStreamGenerator.createReadNextBit();
         CppEXIStreamGenerator.createWriteNBits();
@@ -110,8 +112,9 @@ public class CppEXIStreamGenerator {
         headerFile.addBeforeDirective("define EXISTREAM_HPP");
 
         // Add macros and other required variable definitions
-        headerFile.addBeforeDirective("define BUFFER_END_REACHED -2");
-        headerFile.addBeforeDirective("define UNEXPECTED_ERROR -1");
+        headerFile.addBeforeDirective("define INVALID_EXI_HEADER 3");
+        headerFile.addBeforeDirective("define BUFFER_END_REACHED 2");
+        headerFile.addBeforeDirective("define UNEXPECTED_ERROR 1");
         headerFile.addBeforeDirective("define ERR_OK 0");
         headerFile.addBeforeDirective("define REVERSE_BIT_POSITION(p) (7-p)");
         headerFile.addBeforeDirective("ifndef NULL");
@@ -225,6 +228,112 @@ public class CppEXIStreamGenerator {
         fun_closeStream.appendCode(methodBody);
         fun_closeStream.setComment(new CppFunCommentImpl(comment));
         clazz.add(Cpp.PUBLIC, fun_closeStream);
+    }
+
+    /**
+     * Generates the function writeHeader.
+     *
+     * @throws CppDuplicateException
+     */
+    private static void createWriteHeader() throws CppDuplicateException {
+        CppFun fun_writeHeader = CppFun.factory.create(Cpp.INT, "writeHeader");
+        String methodBody =
+                "int tmp_err_code = UNEXPECTED_ERROR;\n\n" +
+                        "// Encode cookie: $EXI\n" +
+                        "tmp_err_code = writeNBits(8, 36); // ASCII code for $ = 00100100  (36)\n" +
+                        "if(tmp_err_code != ERR_OK)\n" +
+                        "\treturn tmp_err_code;\n" +
+                        "tmp_err_code = writeNBits(8, 69); // ASCII code for E = 01000101  (69)\n" +
+                        "if(tmp_err_code != ERR_OK)\n" +
+                        "\treturn tmp_err_code;\n" +
+                        "tmp_err_code = writeNBits(8, 88); // ASCII code for X = 01011000  (88)\n" +
+                        "if(tmp_err_code != ERR_OK)\n" +
+                        "\treturn tmp_err_code;\n" +
+                        "tmp_err_code = writeNBits(8, 73); // ASCII code for I = 01001001  (73)\n" +
+                        "if(tmp_err_code != ERR_OK)\n" +
+                        "\treturn tmp_err_code;\n\n" +
+                        "// Encode distinguishing bits: 10 \n" +
+                        "tmp_err_code = writeNBits(2, 2);\n" +
+                        "if(tmp_err_code != ERR_OK)\n" +
+                        "\treturn tmp_err_code;\n\n" +
+                        "// Encode presence bit for EXI options: 1\n" +
+                        "tmp_err_code = writeNextBit(1);\n" +
+                        "if(tmp_err_code != ERR_OK)\n" +
+                        "\treturn tmp_err_code;\n\n" +
+                        "// Encode EXI format version: 00000 (final)\n" +
+                        "tmp_err_code = writeNBits(5, 0);\n" +
+                        "if(tmp_err_code != ERR_OK)\n" +
+                        "\treturn tmp_err_code;\n\n" +
+                        "// Encode option header: 01000 (strict)\n" +
+                        "tmp_err_code = writeNBits(5, 8);\n\n" +
+                        "return tmp_err_code;";
+        String comment = "Writes the header to the stream.";
+        fun_writeHeader.appendCode(methodBody);
+        fun_writeHeader.setComment(new CppFunCommentImpl(comment));
+        clazz.add(Cpp.PUBLIC, fun_writeHeader);
+    }
+
+    /**
+     * Generates the function readHeader.
+     *
+     * @throws CppDuplicateException
+     */
+    private static void createReadHeader() throws CppDuplicateException {
+        CppFun fun_readHeader = CppFun.factory.create(Cpp.INT, "readHeader");
+        String methodBody =
+                "int tmp_err_code = UNEXPECTED_ERROR;\n" +
+                        "unsigned int bits_val = 0;\n" +
+                        "unsigned char smallVal = 0;\n\n" +
+                        "// Decode cookie: $EXI\n" +
+                        "tmp_err_code = readNBits(8, &bits_val);\n" +
+                        "if(tmp_err_code != ERR_OK)\n" +
+                        "\treturn tmp_err_code;\n" +
+                        "if(bits_val != 36) // ASCII code for $ = 00100100  (36)\n" +
+                        "\treturn INVALID_EXI_HEADER;\n\n" +
+                        "tmp_err_code = readNBits(8, &bits_val);\n" +
+                        "if(tmp_err_code != ERR_OK)\n" +
+                        "\treturn tmp_err_code;\n" +
+                        "if(bits_val != 69) // ASCII code for E = 01000101  (69)\n" +
+                        "\treturn INVALID_EXI_HEADER;\n\n" +
+                        "tmp_err_code = readNBits(8, &bits_val);\n" +
+                        "if(tmp_err_code != ERR_OK)\n" +
+                        "\treturn tmp_err_code;\n" +
+                        "if(bits_val != 88) // ASCII code for X = 01011000  (88)\n" +
+                        "\treturn INVALID_EXI_HEADER;\n\n" +
+                        "tmp_err_code = readNBits(8, &bits_val);\n" +
+                        "if(tmp_err_code != ERR_OK)\n" +
+                        "\treturn tmp_err_code;\n" +
+                        "if(bits_val != 73) // ASCII code for I = 01001001  (73)\n" +
+                        "\treturn INVALID_EXI_HEADER;\n\n" +
+                        "// Decode distinguishing bits: 10\n" +
+                        "tmp_err_code = readNBits(2, &bits_val);\n" +
+                        "if(tmp_err_code != ERR_OK)\n" +
+                        "\treturn tmp_err_code;\n" +
+                        "if(bits_val != 2)\n" +
+                        "\treturn INVALID_EXI_HEADER;\n\n" +
+                        "// Decode presence bit for EXI options: 1\n" +
+                        "tmp_err_code = readNextBit(&smallVal);\n" +
+                        "if(tmp_err_code != ERR_OK)\n" +
+                        "\treturn tmp_err_code;\n" +
+                        "if(smallVal != 1)\n" +
+                        "\treturn INVALID_EXI_HEADER;\n\n" +
+                        "// Decode EXI format version: 00000 (final)\n" +
+                        "tmp_err_code = readNBits(5, &bits_val);\n" +
+                        "if(tmp_err_code != ERR_OK)\n" +
+                        "\treturn tmp_err_code;\n" +
+                        "if(bits_val != 0)\n" +
+                        "\treturn INVALID_EXI_HEADER;\n\n" +
+                        "// Decode option header: 01000 (strict)\n" +
+                        "tmp_err_code = readNBits(5, &bits_val);\n" +
+                        "if(tmp_err_code != ERR_OK)\n" +
+                        "\treturn tmp_err_code;\n" +
+                        "if(bits_val != 8)\n" +
+                        "\treturn INVALID_EXI_HEADER;\n\n" +
+                        "return tmp_err_code;";
+        String comment = "Reads the header from the stream.";
+        fun_readHeader.appendCode(methodBody);
+        fun_readHeader.setComment(new CppFunCommentImpl(comment));
+        clazz.add(Cpp.PUBLIC, fun_readHeader);
     }
 
     /**

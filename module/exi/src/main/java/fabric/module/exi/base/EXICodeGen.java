@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import fabric.module.exi.java.FixValueContainer.ElementData;
 import fabric.module.exi.java.FixValueContainer.ArrayData;
 import fabric.module.exi.java.FixValueContainer.ListData;
+import fabric.wsdlschemaparser.schema.FElement;
 
 /**
  * Public interface for EXICodeGen implementations.
@@ -32,4 +33,20 @@ public interface EXICodeGen
    * @throws Exception Error during source file write-out
    */
   public void writeSourceFile() throws Exception;
+
+  /**
+   * Handle top level element from XML Schema document,
+   * i.e. build EXI grammar for element.
+   * 
+   * @param element Top level element to handle
+   */
+  public void handleTopLevelElement(FElement element);
+
+  /**
+   * Handle local element from XML Schema document,
+   * i.e. build EXI grammar for element.
+   * 
+   * @param element Local element to handle
+   */
+  public void handleLocalElement(FElement element);
 }

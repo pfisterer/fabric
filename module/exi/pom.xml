@@ -22,11 +22,18 @@
       <groupId>de.uniluebeck.itm</groupId>
       <artifactId>fabric.module.api</artifactId>
     </dependency>
-    
+
     <!-- TypeGen module for usage in FabricEXIHandler class -->
     <dependency>
       <groupId>de.uniluebeck.itm</groupId>
       <artifactId>fabric.module.typegen</artifactId>
+    </dependency>
+
+    <!-- EXI-Connexion to build EXI grammars for C++ -->
+    <dependency>
+      <groupId>de.uniluebeck.itm.connexion</groupId>
+      <artifactId>exi-connexion</artifactId>
+      <version>1.0</version>
     </dependency>
 
     <dependency>
@@ -39,7 +46,7 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
-    </dependency>
+    </dependency>   
 
   </dependencies>
 

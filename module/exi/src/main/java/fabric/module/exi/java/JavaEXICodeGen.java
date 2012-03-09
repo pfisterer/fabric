@@ -1,4 +1,4 @@
-/** 27.02.2012 14:25 */
+/** 09.03.2012 12:17 */
 package fabric.module.exi.java;
 
 import org.slf4j.Logger;
@@ -16,6 +16,8 @@ import de.uniluebeck.sourcegen.java.JMethodSignature;
 import de.uniluebeck.sourcegen.java.JModifier;
 import de.uniluebeck.sourcegen.java.JParameter;
 import de.uniluebeck.sourcegen.java.JSourceFile;
+
+import fabric.wsdlschemaparser.schema.FElement;
 
 import fabric.module.exi.FabricEXIModule;
 import fabric.module.exi.base.EXICodeGen;
@@ -196,6 +198,32 @@ public class JavaEXICodeGen implements EXICodeGen
     }
     
     LOGGER.debug(String.format("Generated new source file '%s' for main application.", this.applicationClassName));
+  }
+
+  /**
+   * Handle top level element from XML Schema document. We
+   * do not need to build any EXI gramma in the Java code
+   * generator, so this method is left empty.
+   * 
+   * @param element Top level element to handle
+   */
+  @Override
+  public void handleTopLevelElement(FElement element)
+  {
+    // Empty implementation
+  }
+
+  /**
+   * Handle local element from XML Schema document. We
+   * do not need to build any EXI gramma in the Java code
+   * generator, so this method is left empty.
+   * 
+   * @param element Local element to handle
+   */
+  @Override
+  public void handleLocalElement(FElement element)
+  {
+    // Empty implementation
   }
 
   /**
