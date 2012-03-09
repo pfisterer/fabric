@@ -52,6 +52,14 @@ public interface CppSourceFile extends SourceFile, CppElem {
 	public CppSourceFile 	addInclude					(CppSourceFile... includes) 			throws CppDuplicateException;
 	public CppSourceFile 	addInclude					(String... includes) 					throws CppDuplicateException;
 	public CppSourceFile 	addLibInclude				(String... libIncludes)					throws CppDuplicateException;
+
+	// TODO
+    //public CppSourceFile addConditionalInclude(String beforeDirective, String afterDirective, CHeaderFile... includes);
+    //public CppSourceFile addConditionalInclude(String beforeDirective, String afterDirective, CppSourceFile... includes);
+
+    public CppSourceFile addConditionalInclude(String beforeDirective, String afterDirective, String... includes) throws CppDuplicateException;
+	public CppSourceFile addConditionalLibInclude(String beforeDirective, String afterDirective,String... libIncludes) throws CppDuplicateException;
+
 	public CppSourceFile 	addUsingNamespace			(String... namespaces)					throws CppDuplicateException;
 	public CppSourceFile 	setComment(CComment comment);
 

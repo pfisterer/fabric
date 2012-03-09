@@ -86,7 +86,7 @@ public class Example8_Directives {
         file.addInclude(header);
 
         // The following line can be added to the file as well
-        header.addLibInclude("iostream");
+        header.addConditionalLibInclude("#ifndef NO_RESTRICTIONS", "#endif // NO_RESTRICTIONS", "iostream");
         header.addUsingNamespace("std");
 
         header.addBeforeDirective("define PRINT_PI");
