@@ -43,8 +43,18 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 
         // LibIncludes: System header files
         if (null != this.base && null != this.base.getLibIncludes() && this.base.getLibIncludes().size() > 0) {
-            for (String include : this.base.getLibIncludes()) {
-                buffer.append("#include <" + include + ">" + Cpp.newline);
+            for (CppInclude inc : this.base.getLibIncludes()) {
+                if(inc.beforeDirective != null) {
+                    buffer.append(inc.beforeDirective + Cpp.newline);
+                }
+
+                for (String file : inc.include) {
+                    buffer.append("#include <" + file + ">" + Cpp.newline);
+                }
+
+                if(inc.afterDirective != null) {
+                    buffer.append(inc.afterDirective + Cpp.newline);
+                }
             }
             buffer.append(Cpp.newline);
         }
@@ -52,11 +62,23 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
         // Includes: User header files
         if ((null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) || (this.cppUserHeaderFilesStrings.size() > 0) ) {
             for (CppSourceFile file : this.cppUserHeaderFiles) {
+                // TODO: before directive
                 buffer.append("#include \"" + file.getFileName() + ".hpp\"" + Cpp.newline);
+                // TODO: after directive
             }
 
-            for (String file : this.cppUserHeaderFilesStrings) {
-                buffer.append("#include \"" + file + "\"" + Cpp.newline);
+            for (CppInclude inc : this.cppUserHeaderFilesStrings) {
+                if(inc.beforeDirective != null) {
+                    buffer.append(inc.beforeDirective + Cpp.newline);
+                }
+
+                for (String file : inc.include) {
+                    buffer.append("#include \"" + file + "\"" + Cpp.newline);
+                }
+
+                if(inc.afterDirective != null) {
+                    buffer.append(inc.afterDirective + Cpp.newline);
+                }
             }
 
             buffer.append(Cpp.newline);

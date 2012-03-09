@@ -31,7 +31,7 @@ import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
 
 /**
  * Class representing a C source file.
- * 
+ *
  * @author Daniel Bimschas
  */
 //TODO make package private. it's public because of Workspace::getCSourceFile. (new CSourceFileImpl(fileName);)
@@ -50,7 +50,7 @@ public class CSourceFileImpl extends CElemImpl implements CSourceFile {
 	/**
 	 * Constructs a new <code>CSourceFileImpl</code> instance with the filename
 	 * <code>fileName</code>.
-	 * 
+	 *
 	 * @param fileName
 	 *            the filename
 	 */
@@ -63,7 +63,7 @@ public class CSourceFileImpl extends CElemImpl implements CSourceFile {
 		base.internalAddAfterDirective(hash, directive);
 		return this;
 	}
-	
+
 	public CSourceFile addAfterDirective(CPreProcessorDirective... directives) {
 		base.internalAddAfterDirective(directives);
 		return this;
@@ -115,7 +115,7 @@ public class CSourceFileImpl extends CElemImpl implements CSourceFile {
 	}
 
 	public CSourceFile addLibInclude(String... fileNames) throws CDuplicateException {
-		base.internalAddLibInclude(fileNames);
+		base.internalAddLibInclude(new CppInclude(null, null, fileNames));
 		return this;
 	}
 
@@ -196,7 +196,7 @@ public class CSourceFileImpl extends CElemImpl implements CSourceFile {
 	public boolean equals(CSourceFile other) {
 		return fileName.equals(((CSourceFileImpl)other).fileName);
 	}
-	
+
 	@Override
 	public void toString(StringBuffer buffer, int tabCount) {
 		base.toString(buffer, tabCount);
