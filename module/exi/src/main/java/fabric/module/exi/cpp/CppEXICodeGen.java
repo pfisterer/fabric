@@ -1,4 +1,4 @@
-/** 14.03.2012 12:21 */
+/** 14.03.2012 13:27 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -268,7 +268,7 @@ public class CppEXICodeGen implements EXICodeGen
             "\t// Serialize bean object to EXI stream\n" +
             "\ttoEXIStream(exiConverter, %s, &exiStream, writeFileOutputStream);\n\n" +
             "\t// Deserialize bean object from EXI stream\n" +
-            "\t// TODO: fromEXIStream(exiConverter, %s, &exiStream, readFileInputStream);\n\n" +
+            "\t// TODO: fromEXIStream(exiConverter, %s, &exiStream, readFileInputStream);\n" +
             "}\n" +
             "catch (const char* e) {\n" +
             "\tcout << e << endl;\n" +

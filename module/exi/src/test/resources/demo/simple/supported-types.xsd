@@ -1,0 +1,15 @@
+<!--
+  Schema test file for supported EXI types.
+-->
+
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <xs:element name="FirstNumber" type="xs:int" />
+  
+  <xs:element name="SecondNumber" type="xs:int" />
+  
+  <xs:element name="ThirdNumber" type="xs:int" />
+
+  <xs:element name="LogicalValue" type="xs:boolean" />
+
+</xs:schema>

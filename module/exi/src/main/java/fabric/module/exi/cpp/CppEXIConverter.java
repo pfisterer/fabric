@@ -1,4 +1,4 @@
-/** 14.03.2012 11:54 */
+/** 14.03.2012 14:03 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 import java.util.Queue;
+import java.util.LinkedList;
 
 import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.c.CCommentImpl;
@@ -91,9 +92,8 @@ public class CppEXIConverter
 
       // Generate EXIConverter class
       this.serializerClass = this.createSerializerClass(this.serializerClassName);
-      // TODO: Clone elementMetadata for second call?
-      this.generateSerializeCode(elementMetadata);
-      this.generateDeserializeCode(elementMetadata);
+      this.generateSerializeCode(CppEXIConverter.getCopyOfQueue(elementMetadata));
+      this.generateDeserializeCode(CppEXIConverter.getCopyOfQueue(elementMetadata));
 
       /*****************************************************************
        * Create C++ header file
@@ -140,7 +140,7 @@ public class CppEXIConverter
    * 
    * @param className Desired name for the serializer class
    * 
-   * @return Serializer class
+   * @return Serializer class object
    * 
    * @throws Exception Error during code generation
    */
@@ -182,7 +182,7 @@ public class CppEXIConverter
     CppVar functionPointer = CppVar.factory.create(Cpp.NONE, "mySize_t", "(*outputFunction)(void*, mySize_t)");
     CppFun serialize = CppFun.factory.create("int", "serialize", typeObject, streamObject, functionPointer);
     
-    // TODO: Create code for element serialization
+    // Create code for element serialization
     String serializerCode = "";
     while (!elementMetadata.isEmpty())
     {
@@ -191,7 +191,7 @@ public class CppEXIConverter
       serializerCode += String.format(
               "// Encode the '%s' element\n" +
               "exitCode += stream->writeNBits(3, %d);\n" +
-              "exitCode += encoder.encode%s(stream, typeObject->%s);\n\n",
+              "exitCode += encoder.encode%s(stream, typeObject->get%s());\n\n",
               element.getElementName(), element.getEXIEventCode(),
               element.getElementType(), element.getElementName());
     }
@@ -235,7 +235,7 @@ public class CppEXIConverter
     CppVar functionPointer = CppVar.factory.create(Cpp.NONE, "mySize_t", "(*inputFunction)(void*, mySize_t)");
     CppFun deserialize = CppFun.factory.create("int", "deserialize", typeObject, streamObject, functionPointer);
     
-    // TODO: Create code for element deserialization
+    // Create code for element deserialization
     String deserializerCode = "";
     while (!elementMetadata.isEmpty())
     {
@@ -244,7 +244,7 @@ public class CppEXIConverter
       deserializerCode += String.format(
               "// Decode the '%s' element\n" +
               "exitCode += stream->readNBits(3, %d);\n" +
-              "exitCode += decoder.decode%s(stream, typeObject->%s);\n\n",
+              "exitCode += decoder.decode%s(stream, typeObject->get%s());\n\n",
               element.getElementName(), element.getEXIEventCode(),
               element.getElementType(), element.getElementName());
     }
@@ -323,6 +323,27 @@ public class CppEXIConverter
     cf.setComment(new CCommentImpl("Deserialize EXI byte stream to type object."));
 
     return cf;
+  }
+
+  /**
+   * Private helper method to create a deep copy of a queue
+   * containing ElementMetadata objects.
+   * 
+   * @param queue Queue object with element metadata
+   * 
+   * @return Deep copy of queue object
+   */
+  private static Queue<ElementMetadata> getCopyOfQueue(final Queue<ElementMetadata> queue)
+  {
+    Queue<ElementMetadata> clonedQueue = new LinkedList<ElementMetadata>();
+
+    // Create a deep copy of queue elements
+    for (ElementMetadata element: queue)
+    {
+      clonedQueue.add(element.clone());
+    }
+
+    return clonedQueue;
   }
 
   /**
