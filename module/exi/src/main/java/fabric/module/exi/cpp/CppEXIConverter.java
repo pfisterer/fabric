@@ -1,4 +1,4 @@
-/** 09.03.2012 13:29 */
+/** 14.03.2012 11:54 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -90,15 +90,10 @@ public class CppEXIConverter
       CppEXITypeDecoderGenerator.init(workspace);
 
       // Generate EXIConverter class
-      this.serializerClass = CppClass.factory.create(this.serializerClassName);
+      this.serializerClass = this.createSerializerClass(this.serializerClassName);
+      // TODO: Clone elementMetadata for second call?
       this.generateSerializeCode(elementMetadata);
       this.generateDeserializeCode(elementMetadata);
-
-      // TODO: Add member variables to EXIConverter class
-      serializerClass.add(CppVar.factory.create(Cpp.PRIVATE, "char", "buffer[BUFFER_SIZE]"));
-      serializerClass.add(CppVar.factory.create(Cpp.PRIVATE, "IOStream", "ioStrm"));
-      serializerClass.add(CppVar.factory.create(Cpp.PRIVATE, CppEXITypeEncoderGenerator.FILE_NAME, "encoder"));
-      serializerClass.add(CppVar.factory.create(Cpp.PRIVATE, CppEXITypeDecoderGenerator.FILE_NAME, "decoder"));
 
       /*****************************************************************
        * Create C++ header file
@@ -140,6 +135,39 @@ public class CppEXIConverter
   }
 
   /**
+   * Private helper method to create the EXI serializer class for
+   * C++ and add all necessary member variables to it.
+   * 
+   * @param className Desired name for the serializer class
+   * 
+   * @return Serializer class
+   * 
+   * @throws Exception Error during code generation
+   */
+  private CppClass createSerializerClass(final String className) throws Exception
+  {
+    CppClass result = CppClass.factory.create(className);
+
+    CppVar buffer = CppVar.factory.create(Cpp.PRIVATE, "char", "buffer[BUFFER_SIZE]");
+    buffer.setComment(new CCommentImpl("Buffer for EXI stream write-out"));
+    result.add(buffer);
+
+    CppVar ioStream = CppVar.factory.create(Cpp.PRIVATE, "IOStream", "ioStream");
+    ioStream.setComment(new CCommentImpl("Stream for data input and output"));
+    result.add(ioStream);
+
+    CppVar encoder = CppVar.factory.create(Cpp.PRIVATE, CppEXITypeEncoderGenerator.FILE_NAME, "encoder");
+    encoder.setComment(new CCommentImpl("EXI encoder object"));
+    result.add(encoder);
+
+    CppVar decoder = CppVar.factory.create(Cpp.PRIVATE, CppEXITypeDecoderGenerator.FILE_NAME, "decoder");
+    decoder.setComment(new CCommentImpl("EXI decoder object"));
+    result.add(decoder);
+
+    return result;
+  }
+
+  /**
    * Generate code for EXI serialization with C++. The code is
    * created individually for each bean object.
    * 
@@ -150,40 +178,41 @@ public class CppEXIConverter
   private void generateSerializeCode(final Queue<ElementMetadata> elementMetadata) throws Exception
   {
     CppVar typeObject = CppVar.factory.create(Cpp.NONE, this.beanClassName + "*", "typeObject");
-    CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "strm");
+    CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "stream");
     CppVar functionPointer = CppVar.factory.create(Cpp.NONE, "mySize_t", "(*outputFunction)(void*, mySize_t)");
-    CppFun serialize = CppFun.factory.create(Cpp.INT, "serialize", typeObject, streamObject, functionPointer);
+    CppFun serialize = CppFun.factory.create("int", "serialize", typeObject, streamObject, functionPointer);
     
-    // TODO: Generate code to serialize elements from XSD file
+    // TODO: Create code for element serialization
     String serializerCode = "";
     while (!elementMetadata.isEmpty())
     {
       ElementMetadata element = elementMetadata.poll();
-      serializerCode += String.format("\n// Encode the '%s' element\n", element.getElementName());
+      
       serializerCode += String.format(
-              "exit_code += strm->writeNBits(3, %d);\n" +
-              "exit_code += encoder.encode%s(strm, typeObject->%s);\n",
-              element.getEXIEventCode(), element.getElementType(),
-              element.getElementName());
+              "// Encode the '%s' element\n" +
+              "exitCode += stream->writeNBits(3, %d);\n" +
+              "exitCode += encoder.encode%s(stream, typeObject->%s);\n\n",
+              element.getElementName(), element.getEXIEventCode(),
+              element.getElementType(), element.getElementName());
     }
     
-    // TODO: Add code to encode the elements in the object.
     String methodBody = String.format(
-            "// Set exit code to zero\n" +
-                    "int exit_code = 0;\n\n" +
-                    "// Define method to write on the stream\n" +
-                    "ioStrm.readWriteToStream = outputFunction;\n\n" +
-                    "// Open EXI stream\n" +
-                    "strm->initStream(buffer, BUFFER_SIZE, ioStrm);\n\n" +
-                    "// Write header to the EXI stream\n" +
-                    "exit_code += strm->writeHeader();\n\n" +
-                    "// Encode elements\n" +
-                    "%s\n\n" +
-                    "// Close EXI stream\n" +
-                    "exit_code += strm->closeStream();\n\n" +
-                    "// Return the exit code\n" +
-                    "return exit_code;",
-                    serializerCode);
+            "// Initialize exit code\n" +
+            "int exitCode = 0;\n\n" +
+            "// Define method to write on stream\n" +
+            "ioStream.readWriteToStream = outputFunction;\n\n" +
+            "// Open EXI stream\n" +
+            "stream->initStream(buffer, BUFFER_SIZE, ioStream);\n\n" +
+            "// Write EXI header to EXI stream\n" +
+            "exitCode += stream->writeHeader();\n\n" +
+            "/*************** Serialize elements ***************/\n\n" +
+            "%s" +
+            "/**************************************************/\n\n" +
+            "// Close EXI stream\n" +
+            "exitCode += stream->closeStream();\n\n" +
+            "// Return exit code\n" +
+            "return exitCode;",
+            serializerCode);
     
     serialize.appendCode(methodBody);
     serialize.setComment(new CCommentImpl(String.format("Serialize %s object to EXI byte stream.", this.beanClassName)));
@@ -201,28 +230,42 @@ public class CppEXIConverter
    */
   private void generateDeserializeCode(final Queue<ElementMetadata> elementMetadata) throws Exception
   {
-      CppVar typeObject = CppVar.factory.create(Cpp.NONE, this.beanClassName + "*", "typeObject");
-      CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "strm");
-      CppVar functionPointer = CppVar.factory.create(Cpp.NONE, "mySize_t", "(*inputFunction)(void*, mySize_t)");
-      CppFun deserialize = CppFun.factory.create(Cpp.INT, "deserialize", typeObject, streamObject, functionPointer);
+    CppVar typeObject = CppVar.factory.create(Cpp.NONE, this.beanClassName + "*", "typeObject");
+    CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "stream");
+    CppVar functionPointer = CppVar.factory.create(Cpp.NONE, "mySize_t", "(*inputFunction)(void*, mySize_t)");
+    CppFun deserialize = CppFun.factory.create("int", "deserialize", typeObject, streamObject, functionPointer);
     
-    // TODO: Add code to decode the elements.
-    String methodBody =
-            "// Set exit code to zero\n" +
-                    "int exit_code = 0;\n\n" +
-                    "// Define method to read from the stream\n" +
-                    "ioStrm.readWriteToStream = inputFunction;\n\n" +
-                    "// Open EXI stream\n" +
-                    "strm->initStream(buffer, BUFFER_SIZE, ioStrm);\n\n" +
-                    "// Read header from the EXI stream\n" +
-                    "exit_code += strm->readHeader();\n\n" +
-                    "// Decode elements\n" +
-                    "// TODO: Implement!\n" +
-                    "// unsigned int event_code = 0;\n" +
-                    "// exit_code += strm->readNBits(3, &event_code);\n" +
-                    "// exit_code += decoder.decodeX(strm, &value);\n\n" +
-                    "// Return the exit code\n" +
-                    "return exit_code;";
+    // TODO: Create code for element deserialization
+    String deserializerCode = "";
+    while (!elementMetadata.isEmpty())
+    {
+      ElementMetadata element = elementMetadata.poll();
+      
+      deserializerCode += String.format(
+              "// Decode the '%s' element\n" +
+              "exitCode += stream->readNBits(3, %d);\n" +
+              "exitCode += decoder.decode%s(stream, typeObject->%s);\n\n",
+              element.getElementName(), element.getEXIEventCode(),
+              element.getElementType(), element.getElementName());
+    }
+    
+    String methodBody = String.format(
+            "// Initialize exit code\n" +
+            "int exitCode = 0;\n\n" +
+            "// Define method to read from stream\n" +
+            "ioStream.readWriteToStream = inputFunction;\n\n" +
+            "// Open EXI stream\n" +
+            "stream->initStream(buffer, BUFFER_SIZE, ioStream);\n\n" +
+            "// Read EXI header from EXI stream\n" +
+            "exitCode += stream->readHeader();\n\n" +
+            "/*************** Deserialize elements ***************/\n\n" +
+            "%s" +
+            "/****************************************************/\n\n" +
+            "// Close EXI stream\n" +
+            "exitCode += stream->closeStream();\n\n" +
+            "// Return exit code\n" +
+            "return exitCode;",
+            deserializerCode);
     
     deserialize.appendCode(methodBody);
     deserialize.setComment(new CCommentImpl(String.format("Deserialize EXI byte stream to %s object.", this.beanClassName)));
@@ -247,9 +290,9 @@ public class CppEXIConverter
     CParam functionPointer = CParam.factory.create("mySize_t", "(*outputFunction)(void*, mySize_t)");
     CFunSignature cfs = CFunSignature.factory.create(converterObject, typeObject, streamObject, functionPointer);
     CFun cf = CFun.factory.create("toEXIStream", "void", cfs);
-    
+
     String methodBody = "exiConverter->serialize(typeObject, exiStream, outputFunction);";
-    
+
     cf.appendCode(methodBody);
     cf.setComment(new CCommentImpl("Serialize type object to EXI byte stream."));
 
@@ -273,12 +316,12 @@ public class CppEXIConverter
     CParam functionPointer = CParam.factory.create("mySize_t", "(*inputFunction)(void*, mySize_t)");
     CFunSignature cfs = CFunSignature.factory.create(converterObject, typeObject, streamObject, functionPointer);
     CFun cf = CFun.factory.create("fromEXIStream", "void", cfs);
-    
+
     String methodBody = "exiConverter->deserialize(typeObject, exiStream, inputFunction);";
-    
+
     cf.appendCode(methodBody);
     cf.setComment(new CCommentImpl("Deserialize EXI byte stream to type object."));
-    
+
     return cf;
   }
 

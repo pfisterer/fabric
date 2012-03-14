@@ -1,4 +1,4 @@
-/** 09.03.2012 14:11 */
+/** 14.03.2012 12:21 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -265,10 +265,10 @@ public class CppEXICodeGen implements EXICodeGen
             "EXIStream exiStream;\n\n" +
             "try {\n" +
             "\t// TODO: Add your custom initialization code here\n\n" +
-            "\t// Write EXI header to stream\n" +
-            "\t// TODO: exiConverter->generateHeader(exiStream);\n\n" +
-            "\t// Serialize bean object with EXI\n" +
-            "\ttoEXIStream(exiConverter, %s, &exiStream, writeFileOutputStream);\n" +
+            "\t// Serialize bean object to EXI stream\n" +
+            "\ttoEXIStream(exiConverter, %s, &exiStream, writeFileOutputStream);\n\n" +
+            "\t// Deserialize bean object from EXI stream\n" +
+            "\t// TODO: fromEXIStream(exiConverter, %s, &exiStream, readFileInputStream);\n\n" +
             "}\n" +
             "catch (const char* e) {\n" +
             "\tcout << e << endl;\n" +
@@ -279,7 +279,7 @@ public class CppEXICodeGen implements EXICodeGen
             this.firstLetterCapital(this.beanClassName), this.beanClassName.toLowerCase(),
             this.firstLetterCapital(this.beanClassName), this.serializerClassName,
             this.serializerClassName, this.beanClassName.toLowerCase(),
-            this.beanClassName.toLowerCase());
+            this.beanClassName.toLowerCase(), this.beanClassName.toLowerCase());
     
     mainMethod.appendCode(methodBody);
     
