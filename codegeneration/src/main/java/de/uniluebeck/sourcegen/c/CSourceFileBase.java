@@ -78,7 +78,7 @@ public class CSourceFileBase extends ElemImpl {
 	/**
 	 * a list of header library files to be included
 	 */
-	public LinkedList<String> libIncludes;
+	public LinkedList<CppInclude> libIncludes;
 
 	/**
 	 * a list of structs and unions contained in this source file, which are
@@ -102,7 +102,7 @@ public class CSourceFileBase extends ElemImpl {
 		forwardDeclarations = new LinkedList<CFunImpl>(other.forwardDeclarations);
 		globalDeclarations 	= new LinkedList<String>(globalDeclarations);
 		includes 			= new LinkedList<CHeaderFileImpl>(other.includes);
-		libIncludes			= new LinkedList<String>(other.libIncludes);
+		libIncludes			= new LinkedList<CppInclude>(other.libIncludes);
 		structsUnions		= new LinkedList<CStructBaseImpl>(other.structsUnions);
 		typeDefs			= new LinkedList<CTypeDef>(other.typeDefs);
 
@@ -123,7 +123,7 @@ public class CSourceFileBase extends ElemImpl {
 		funs				= new LinkedList<CFunImpl>();
 		globalDeclarations 	= new LinkedList<String>();
 		includes 			= new LinkedList<CHeaderFileImpl>();
-		libIncludes			= new LinkedList<String>();
+		libIncludes			= new LinkedList<CppInclude>();
 		structsUnions		= new LinkedList<CStructBaseImpl>();
 		typeDefs			= new LinkedList<CTypeDef>();
 	}
@@ -168,7 +168,7 @@ public class CSourceFileBase extends ElemImpl {
 		return includes;
 	}
 
-	public LinkedList<String> getLibIncludes() {
+	public LinkedList<CppInclude> getLibIncludes() {
 		return libIncludes;
 	}
 
@@ -260,13 +260,15 @@ public class CSourceFileBase extends ElemImpl {
 
 	}
 
-	public void internalAddLibInclude(String... fileNames) throws CDuplicateException {
-
-		for (String fn : fileNames) {
-			if (internalContainsLibInclude(fn))
-				throw new CDuplicateException("Duplicate header file include of " + fn);
-
-			libIncludes.add(fn);
+	public void internalAddLibInclude(CppInclude... fileNames) throws CDuplicateException {
+	    // Check for error
+		for (CppInclude inc : fileNames) {
+		    String[] includes = inc.include;
+		    for (String fn : includes) {
+		        if (internalContainsLibInclude(fn))
+		            throw new CDuplicateException("Duplicate header file include of " + fn);
+            }
+		    libIncludes.add(inc);
 		}
 
 	}
@@ -376,12 +378,15 @@ public class CSourceFileBase extends ElemImpl {
 
 	public boolean internalContainsLibInclude(String fileName) {
 
-		for (String s : libIncludes)
-			if (s.equals(fileName))
-				return true;
+		for (CppInclude inc : libIncludes) {
+		    String[] includes = inc.include;
+		    for (String s : includes) {
+		        if (s.equals(fileName))
+		            return true;
+            }
+		}
 
 		return false;
-
 	}
 
 	public boolean internalContainsStruct(CStruct struct) {
@@ -617,11 +622,18 @@ public class CSourceFileBase extends ElemImpl {
 		}
 
 		if (libIncludes.size() > 0) {
-			for (String i : libIncludes) {
-				indent(buffer, tabCount);
-				buffer.append("#include <");
-				buffer.append(i);
-				buffer.append(">\n");
+			for (CppInclude i : libIncludes) {
+
+			    String[] includes = i.include;
+
+			    // TODO: before directive
+			    for (String s : includes) {
+			        indent(buffer, tabCount);
+			        buffer.append("#include <");
+			        buffer.append(s);
+			        buffer.append(">\n");
+                }
+			    // TODO: after directive
 			}
 			buffer.append("\n");
 		}

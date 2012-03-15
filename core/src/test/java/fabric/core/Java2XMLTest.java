@@ -1,9 +1,7 @@
 package fabric.core;
 
 import de.uniluebeck.itm.tr.util.FileUtils;
-import de.uniluebeck.sourcegen.SourceFile;
 import de.uniluebeck.sourcegen.Workspace;
-import de.uniluebeck.sourcegen.java.JSourceFile;
 import fabric.core.filegen.java.CT_All_SourceFileGenerator;
 import fabric.core.filegen.java.JSourceFileGenerator;
 import fabric.module.typegen.FabricTypeGenModule;
@@ -11,9 +9,7 @@ import org.junit.*;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Properties;
 
 import static org.junit.Assert.assertTrue;
