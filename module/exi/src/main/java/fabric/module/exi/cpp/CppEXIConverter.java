@@ -188,11 +188,53 @@ public class CppEXIConverter
       ElementMetadata element = elementMetadata.poll();
       
       serializerCode += String.format(
-              "// Encode the '%s' element\n" +
-              "exitCode += stream->writeNBits(3, %d);\n" +
-              "exitCode += encoder.encode%s(stream, typeObject->get%s());\n\n",
-              element.getElementName(), element.getEXIEventCode(),
-              element.getElementEXIType(), element.getElementName());
+              "// Encode the '%s' element\n",
+              element.getElementName());
+      
+      // TODO: Distinguish XML element types
+      switch (element.getType())
+      {
+        // XML element is a simple value
+        case ElementMetadata.XML_ATOMIC_VALUE:
+          serializerCode += String.format(
+                  "exitCode += stream->writeNBits(3, %d);\n" +
+                  "exitCode += encoder.encode%s(stream, typeObject->get%s());\n\n",
+                  element.getEXIEventCode(), element.getElementEXIType(),
+                  element.getElementName());
+          break;
+        
+        // XML element is a list
+        case ElementMetadata.XML_LIST:
+          serializerCode += String.format(
+                  "// Write EXI event code\n" +
+                  "exitCode += stream->writeNBits(3, %d);\n" +
+                  "// Encode length of list\n" +
+                  "unsigned int length = typeObject->get%s()->size();\n" +
+                  "exitCode += encoder.encodeUnsignedInteger(stream, length);\n\n" +
+                  "// Encode list elements\n" +
+                  "for (int i = 0; i < length; ++i) {\n" +
+                  "\texitCode += encoder.encode%s(stream, typeObject->get%s()->at(i));\n" +
+                  "}\n\n",
+                  element.getEXIEventCode(), element.getElementName(),
+                  element.getElementEXIType(), element.getElementName());
+          break;
+        
+        // XML element is an array
+        case ElementMetadata.XML_ARRAY:
+          serializerCode += String.format(
+                  "for (int i = 0; i < typeObject->%s.size(); ++i) {\n" +                  
+                  "\t// TODO: Encode array elements\n" +
+                  "\texitCode += stream->writeNBits(3, %d);\n" +
+                  "\texitCode += encoder.encode%s(stream, typeObject->get%s().at(i));\n\n",
+                  "}\n\n",
+                  element.getElementName(), element.getEXIEventCode(),
+                  element.getElementEXIType(), element.getElementName());
+          break;
+        
+        default:
+          // TODO: Set a more meaningful error message. Maybe create own Exception class?
+          throw new FabricEXIException("Unknown XML element type.");
+      }
     }
     
     String methodBody = String.format(
@@ -243,15 +285,55 @@ public class CppEXIConverter
       deserializerCode += String.format(
               "// Initialize new variable for the decoded value\n" +
               "%s %s;\n" +
-              "// Decode the '%s' element\n" +
-              "exitCode += stream->readNBits(3, &event_bits);\n" +
-              "exitCode += decoder.decode%s(stream, &%s);\n" +
-              "if (exitCode == 0)\n" +
-              "\ttypeObject->set%s(%s);\n\n",
+              "// Decode the '%s' element\n",
               element.getElementCppType(), element.getElementName().toLowerCase(),
-              element.getElementName(),
-              element.getElementEXIType(), element.getElementName().toLowerCase(),
-              element.getElementName(), element.getElementName().toLowerCase());
+              element.getElementName());
+      
+      // TODO: Distinguish XML element types
+      switch (element.getType())
+      {
+        // XML element is a simple value
+        case ElementMetadata.XML_ATOMIC_VALUE:
+          deserializerCode += String.format(
+                  "// Read EXI event code\n" +
+                  "exitCode += stream->readNBits(3, &event_bits);\n\n" +
+                  "// Decode element value\n" +
+                  "exitCode += decoder.decode%s(stream, &%s);\n" +
+                  "if (0 == exitCode)\n" +
+                  "\ttypeObject->set%s(%s);\n\n",
+                  element.getElementEXIType(), element.getElementName().toLowerCase(),
+                  element.getElementName(), element.getElementName().toLowerCase());
+          break;
+        
+        // XML element is a list
+        case ElementMetadata.XML_LIST:
+          deserializerCode += String.format(
+                  "// Read EXI event code\n\n" +
+                  "exitCode += stream->readNBits(3, &event_bits);\n" +
+                  "// Read length of list\n" +
+                  "uint32 length;\n" +
+                  "exitCode += decoder.decodeUnsignedInteger(stream, &length);\n\n" +
+                  "// Resize target list\n" +
+                  "typeObject->get%s()->resize(length);\n\n" +
+                  "%s temp;\n" +                  
+                  "// Decode list elements\n" +
+                  "for (int i = 0; i < length; ++i) {\n" +
+                  "\texitCode += decoder.decode%s(stream, &temp);\n" +
+                  "\ttypeObject->get%s()->at(i) = temp;\n" +
+                  "}\n\n",
+                  element.getElementName(), element.getElementCppType(),
+                  element.getElementEXIType(), element.getElementName());
+          break;
+        
+        // XML element is an array
+        case ElementMetadata.XML_ARRAY:
+          // TODO: Deserialize array elements
+          break;
+        
+        default:
+          // TODO: Set a more meaningful error message. Maybe create own Exception class?
+          throw new FabricEXIException("Unknown XML element type.");
+      }
     }
     
     String methodBody = String.format(

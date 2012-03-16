@@ -1,4 +1,4 @@
-/** 14.03.2012 13:27 */
+/** 16.03.2012 15:10 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -180,8 +180,11 @@ public class CppEXICodeGen implements EXICodeGen
   @Override
   public void handleTopLevelElement(final FElement element)
   {
-    this.elementMetadata.add(new ElementMetadata(element));
-    
+    if (element.getSchemaType().isSimple())
+    {
+      this.elementMetadata.add(new ElementMetadata(element));
+    }
+
     // Build grammar
     grammarFactory.addGlobalElement(element);
   }
@@ -190,8 +193,11 @@ public class CppEXICodeGen implements EXICodeGen
   @Override
   public void handleLocalElement(final FElement element)
   {
-    this.elementMetadata.add(new ElementMetadata(element));
-    
+    if (element.getSchemaType().isSimple())
+    {
+      this.elementMetadata.add(new ElementMetadata(element));
+    }
+
     // Build grammar
     grammarFactory.addLocalElement(element);
   }

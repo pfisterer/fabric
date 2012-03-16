@@ -1,4 +1,4 @@
-/** 09.03.2012 14:11 */
+/** 16.03.2012 14:30 */
 package fabric.module.exi;
 
 import org.slf4j.Logger;
@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 
 import fabric.wsdlschemaparser.schema.FElement;
+import fabric.wsdlschemaparser.schema.FList;
 import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
 
 /**
@@ -25,13 +26,13 @@ public class ElementMetadata
   
   /** Mapping from Fabric type names (FInt, FString etc.) to EXI built-in type names */
   private static HashMap<String, String> typesFabricToEXI = new HashMap<String, String>();
-
-  /** Mapping from EXI built-in type names to C++ type names */
+  
+  /** Mapping from EXI built-in type names to C++ types */
   private static HashMap<String, String> typesEXIToCpp = new HashMap<String, String>();
-
+  
   static
   {
-    // Initialize type mapping
+    // Initialize type mappings
     ElementMetadata.createMappingFabricToEXI();
     ElementMetadata.createMappingEXIToCpp();
   }
@@ -70,8 +71,7 @@ public class ElementMetadata
    * @param type XML element type (atomic value, list or array)
    * @param exiEventCode EXI event code
    */
-  public ElementMetadata(final String elementName, final String elementEXIType, final String elementCppType,
-                         final int type, final int exiEventCode)
+  public ElementMetadata(final String elementName, final String elementEXIType, final String elementCppType, final int type, final int exiEventCode)
   {
     this.elementName = elementName;
     this.elementEXIType = elementEXIType;
@@ -92,25 +92,27 @@ public class ElementMetadata
     // Set XML element name
     this.elementName = element.getName();
 
-    // Set XML element type (e.g. Boolean, Integer or String)
-    this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName());
+    // Set EXI and XML element type
+    if (FSchemaTypeHelper.isList(element))
+    {
+      FList listType = (FList)element.getSchemaType();
+
+      this.elementEXIType = this.getEXITypeName(listType.getItemType().getClass().getSimpleName());
+      this.type = ElementMetadata.XML_LIST;
+    }
+    /*else if (FSchemaTypeHelper.isArray(element))
+    {
+      this.elementEXIType = element.getSchemaType().getName() + "Type"; // TODO: Set type of array elements
+      this.type = ElementMetadata.XML_ARRAY;
+    }*/
+    else
+    {
+      this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName());
+      this.type = ElementMetadata.XML_ATOMIC_VALUE;
+    }
 
     // Set element C++ type (bool, int, float etc.)
     this.elementCppType = this.getCppTypeName(elementEXIType);
-
-    // Set XML element type (e.g. atomic value, list or array)
-    if (FSchemaTypeHelper.isList(element))
-    {
-      this.type = ElementMetadata.XML_LIST;
-    }
-    else if (FSchemaTypeHelper.isArray(element))
-    {
-      this.type = ElementMetadata.XML_ARRAY;
-    }
-    else
-    {
-      this.type = ElementMetadata.XML_ATOMIC_VALUE;
-    }
 
     // Set EXI event code
     this.exiEventCode = 0;
@@ -231,27 +233,27 @@ public class ElementMetadata
     throw new IllegalArgumentException(String.format("No mapping found for XML datatype '%s'.", schemaTypeName));
   }
 
-    /**
-     * TODO: Add comment
-     *
-     * @param exiTypeName
-     * @return
-     * @throws IllegalArgumentException No matching mapping found
-     */
-    private String getCppTypeName(final String exiTypeName) throws IllegalArgumentException
+  /**
+   * TODO: Add comment
+   *
+   * @param exiTypeName
+   * @return
+   * @throws IllegalArgumentException No matching mapping found
+   */
+  private String getCppTypeName(final String exiTypeName) throws IllegalArgumentException
+  {
+    if (typesEXIToCpp.containsKey(exiTypeName))
     {
-        if (typesEXIToCpp.containsKey(exiTypeName))
-        {
-            return typesEXIToCpp.get(exiTypeName);
-        }
-
-        throw new IllegalArgumentException(String.format("No mapping found for EXI datatype '%s'.", exiTypeName));
+      return typesEXIToCpp.get(exiTypeName);
     }
 
-    /**
-     * Private helper method to populate the mapping of Fabric's
-     * XML Schema type names to EXI built-in type names.
-     */
+    throw new IllegalArgumentException(String.format("No mapping found for EXI datatype '%s'.", exiTypeName));
+  }
+
+  /**
+   * Private helper method to populate the mapping of Fabric's
+   * XML Schema type names to EXI built-in type names.
+   */
   private static void createMappingFabricToEXI()
   {
     typesFabricToEXI.put("FBoolean", "Boolean");
