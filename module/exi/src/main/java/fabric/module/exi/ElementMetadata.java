@@ -24,11 +24,10 @@ public class ElementMetadata
   private static final Logger LOGGER = LoggerFactory.getLogger(ElementMetadata.class);
   
   /** Mapping from Fabric type names (FInt, FString etc.) to EXI built-in type names */
-  private static HashMap<String, String> types = new HashMap<String, String>();
-  
-  // TODO: Check static initializer
+  private static HashMap<String, String> types = new HashMap<String, String>();  
   static
   {
+    // Initialize type mapping
     ElementMetadata.createMapping();
   }
   
@@ -54,14 +53,14 @@ public class ElementMetadata
   private int exiEventCode;
   
   /**
-   * Parameterless constructor.
+   * Parameterized constructor.
+   * 
+   * @param elementName XML element name
+   * @param elementType XML element content type (e.g. Boolean,
+   * Integer or String)
+   * @param type XML element type (atomic value, list or array)
+   * @param exiEventCode EXI event code
    */
-  /*private ElementMetadata()
-  {
-    // Empty implementation
-  }*/
-  
-  // TODO: Add comment
   public ElementMetadata(final String elementName, final String elementType, final int type, final int exiEventCode)
   {
     this.elementName = elementName;
@@ -78,10 +77,7 @@ public class ElementMetadata
    * @param element FElement object passed through from treewalker
    */
   public ElementMetadata(final FElement element)
-  {
-    // Initialize mapping of type names
-    // this.createMapping(); // TODO: Better use static initializer?
-            
+  {            
     // Set XML element name
     this.elementName = element.getName();
 
@@ -153,7 +149,6 @@ public class ElementMetadata
    */
   public void setType(final int type)
   {
-    // TODO: Validate values
     this.type = type;
   }
   
