@@ -10,6 +10,12 @@ import fabric.wsdlschemaparser.schema.FElement;
 import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
 
 /**
+ * This class is a container for XML element metadata. While
+ * the treewalker processes an XML Schema file, information
+ * about XML elements is collected in a Queue of ElementMetadata
+ * objects. The data is later used to generate the serialization
+ * and deserialization methods in EXIConverter class dynamically.
+ * 
  * @author seidel
  */
 public class ElementMetadata
@@ -18,33 +24,71 @@ public class ElementMetadata
   private static final Logger LOGGER = LoggerFactory.getLogger(ElementMetadata.class);
   
   /** Mapping from Fabric type names (FInt, FString etc.) to EXI built-in type names */
-  private HashMap<String, String> types = new HashMap<String, String>();
+  private static HashMap<String, String> types = new HashMap<String, String>();
   
+  // TODO: Check static initializer
+  static
+  {
+    ElementMetadata.createMapping();
+  }
+  
+  /** XML element is a single value */
   public static final int XML_ATOMIC_VALUE = 0;
+  
+  /** XML element is a list that may contain multiple values */
   public static final int XML_LIST = 1;
+  
+  /** XML element is an array that may contain multiple values */
   public static final int XML_ARRAY = 2;
   
+  /** Name of the XML element */
   private String elementName;
+  
+  /** Type of the XML element content (e.g. Boolean, Integer or String) */
   private String elementType;
+  
+  /** Type of the XML element (e.g. atomic value, list or array) */
   private int type;
+  
+  /** EXI event code within the XML Schema document structure */
   private int exiEventCode;
-
-  private ElementMetadata()
+  
+  /**
+   * Parameterless constructor.
+   */
+  /*private ElementMetadata()
   {
+    // Empty implementation
+  }*/
+  
+  // TODO: Add comment
+  public ElementMetadata(final String elementName, final String elementType, final int type, final int exiEventCode)
+  {
+    this.elementName = elementName;
+    this.elementType = elementType;
+    this.type = type;
+    this.exiEventCode = exiEventCode;
   }
-
+  
+  /**
+   * Parameterized constructor creates ElementMetadata object
+   * from an FElement object passed through from the Fabric
+   * treewalker.
+   * 
+   * @param element FElement object passed through from treewalker
+   */
   public ElementMetadata(final FElement element)
   {
     // Initialize mapping of type names
-    this.createMapping(); // TODO: Better use static initializer?
-
-    // Set element name
+    // this.createMapping(); // TODO: Better use static initializer?
+            
+    // Set XML element name
     this.elementName = element.getName();
 
-    // Set element type (boolean, int, double etc.)
+    // Set XML element type (e.g. Boolean, Integer or String)
     this.elementType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName());
 
-    // Set element type (atomic value, list or array)
+    // Set XML element type (e.g. atomic value, list or array)
     if (FSchemaTypeHelper.isList(element))
     {
       this.type = ElementMetadata.XML_LIST;
@@ -61,121 +105,167 @@ public class ElementMetadata
     // Set EXI event code
     this.exiEventCode = 0;
   }
-
-  public String getElementName()
-  {
-    return this.elementName;
-  }
-
+  
+  /**
+   * Setter for XML element name.
+   * 
+   * @param elementName XML element name
+   */
   public void setElementName(final String elementName)
   {
     this.elementName = elementName;
   }
-
-  public String getElementType()
+  
+  /**
+   * Getter for XML element name.
+   * 
+   * @return XML element name
+   */  
+  public String getElementName()
   {
-    return this.elementType;
+    return this.elementName;
   }
-
+  
+  /**
+   * Setter for XML element type (e.g. Boolean, Integer or String).
+   * 
+   * @param elementType XML element type
+   */
   public void setElementType(final String elementType)
   {
     this.elementType = elementType;
   }
-
+  
+  /**
+   * Getter for XML element type.
+   * 
+   * @return XML element type
+   */
+  public String getElementType()
+  {
+    return this.elementType;
+  }
+  
+  /**
+   * Setter for XML element type (e.g. atomic value, list or array).
+   * 
+   * @param type XML element type
+   */
+  public void setType(final int type)
+  {
+    // TODO: Validate values
+    this.type = type;
+  }
+  
+  /**
+   * Getter for XML element type.
+   * 
+   * @return XML element type
+   */
   public int getType()
   {
     return this.type;
   }
-
-  public void setType(final int type)
-  {
-    this.type = type;
-  }
-
-  public int getEXIEventCode()
-  {
-    return this.exiEventCode;
-  }
-
+  
+  /**
+   * Setter for EXI event code.
+   * 
+   * @param exiEventCode EXI event code
+   */
   public void setEXIEventCode(int exiEventCode)
   {
     this.exiEventCode = exiEventCode;
   }
   
+  /**
+   * Getter for EXI event code.
+   * 
+   * @return EXI event code
+   */
+  public int getEXIEventCode()
+  {
+    return this.exiEventCode;
+  }
+  
+  /**
+   * Clone ElementMetadata object and return a deep copy.
+   * 
+   * @return Cloned ElementMetadata object
+   */
   @Override
   public ElementMetadata clone()
   {
-    ElementMetadata element = new ElementMetadata();
-    
-    element.elementName = this.elementName;
-    element.elementType = this.elementType;
-    element.type = this.type;
-    element.exiEventCode = this.exiEventCode;
-    
-    return element;
+    return new ElementMetadata(this.elementName, this.elementType, this.type, this.exiEventCode);
   }
-
+  
   /**
-   * TODO: Add comment
+   * Private helper method to get the EXI built-in type name
+   * (e.g. Boolean, Integer or String) for one of Fabric's
+   * XML Schema type names (e.g. FBoolean, FInt or FString).
    * 
-   * @param schemaTypeName
-   * @return 
+   * @param schemaTypeName Fabric type name
+   * 
+   * @return EXI built-in type name
+   * 
    * @throws IllegalArgumentException No matching mapping found
    */
   private String getEXITypeName(final String schemaTypeName) throws IllegalArgumentException
   {
-    // TODO: Output a meaningful debug message
-    LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>>>> Mapping type: " + schemaTypeName);
-
+    // Return mapping if available
     if (types.containsKey(schemaTypeName))
     {
+      LOGGER.debug(String.format("Mapped Fabric data type '%s' to EXI built-in type '%s'.", schemaTypeName, types.get(schemaTypeName)));
+
       return types.get(schemaTypeName);
     }
 
     throw new IllegalArgumentException(String.format("No mapping found for datatype '%s'.", schemaTypeName));
   }
-
-  // TODO: Add comment
-  private void createMapping()
+  
+  /**
+   * Private helper method to populate the mapping of Fabric's
+   * XML Schema type names to EXI built-in type names.
+   */
+  private static void createMapping()
   {
-    // TODO: Add mapping for EXI built-in type names here:
-    this.types.put("FBoolean", "Boolean");
-    this.types.put("FFloat", "float");
-    this.types.put("FDouble", "double");
-    this.types.put("FByte", "int8");
-    this.types.put("FUnsignedByte", "uint8");
-    this.types.put("FShort", "int32");
-    this.types.put("FUnsignedShort", "uint16");
-    this.types.put("FInt", "Integer");
-    this.types.put("FInteger", "Integer*");
-    this.types.put("FPositiveInteger", "Integer");
-    this.types.put("FUnsignedInt", "Integer");
-    this.types.put("FLong", "int64");
-    this.types.put("FUnsignedLong", "uint64");
-    this.types.put("FDecimal", "char*");
-    this.types.put("FString", "String");
-    this.types.put("FHexBinary", "xsd_hexBinary_t");
-    this.types.put("FBase64Binary", "xsd_base64Binary_t");
-    this.types.put("FDateTime", "xsd_dateTime_t");
-    this.types.put("FTime", "xsd_time_t");
-    this.types.put("FDate", "xsd_date_t");
-    this.types.put("FDay", "xsd_gDay_t");
-    this.types.put("FMonth", "xsd_gMonth_t");
-    this.types.put("FMonthDay", "xsd_gMonthDay_t");
-    this.types.put("FYear", "xsd_gYear_t");
-    this.types.put("FYearMonth", "xsd_gYearMonth_t");
-    this.types.put("FDuration", "xsd_duration_t");
-    this.types.put("FNOTATION", "xsd_notation_t");
-    this.types.put("FQName", "xsd_qName_t");
-    this.types.put("FName", "char*");
-    this.types.put("FNCName", "char*");
-    this.types.put("FNegativeInteger", "char*");
-    this.types.put("FNMTOKEN", "char*");
-    this.types.put("FNonNegativeInteger", "char*");
-    this.types.put("FNonPositiveInteger", "char*");
-    this.types.put("FNormalizedString", "char*");
-    this.types.put("FToken", "char*");
-    this.types.put("FAnyURI", "char*");
-    this.types.put("FAny", "char*");
+    // TODO: Insert all EXI type names here (right parameter in each line)
+    ElementMetadata.types.put("FBoolean", "Boolean");
+    ElementMetadata.types.put("FFloat", "float");
+    ElementMetadata.types.put("FDouble", "double");
+    ElementMetadata.types.put("FByte", "int8");
+    ElementMetadata.types.put("FUnsignedByte", "uint8");
+    ElementMetadata.types.put("FShort", "int32");
+    ElementMetadata.types.put("FUnsignedShort", "uint16");
+    ElementMetadata.types.put("FInt", "Integer");
+    ElementMetadata.types.put("FInteger", "Integer*");
+    ElementMetadata.types.put("FPositiveInteger", "Integer");
+    ElementMetadata.types.put("FUnsignedInt", "Integer");
+    ElementMetadata.types.put("FLong", "int64");
+    ElementMetadata.types.put("FUnsignedLong", "uint64");
+    ElementMetadata.types.put("FDecimal", "char*");
+    ElementMetadata.types.put("FString", "String");
+    ElementMetadata.types.put("FHexBinary", "xsd_hexBinary_t");
+    ElementMetadata.types.put("FBase64Binary", "xsd_base64Binary_t");
+    ElementMetadata.types.put("FDateTime", "xsd_dateTime_t");
+    ElementMetadata.types.put("FTime", "xsd_time_t");
+    ElementMetadata.types.put("FDate", "xsd_date_t");
+    ElementMetadata.types.put("FDay", "xsd_gDay_t");
+    ElementMetadata.types.put("FMonth", "xsd_gMonth_t");
+    ElementMetadata.types.put("FMonthDay", "xsd_gMonthDay_t");
+    ElementMetadata.types.put("FYear", "xsd_gYear_t");
+    ElementMetadata.types.put("FYearMonth", "xsd_gYearMonth_t");
+    ElementMetadata.types.put("FDuration", "xsd_duration_t");
+    ElementMetadata.types.put("FNOTATION", "xsd_notation_t");
+    ElementMetadata.types.put("FQName", "xsd_qName_t");
+    ElementMetadata.types.put("FName", "char*");
+    ElementMetadata.types.put("FNCName", "char*");
+    ElementMetadata.types.put("FNegativeInteger", "char*");
+    ElementMetadata.types.put("FNMTOKEN", "char*");
+    ElementMetadata.types.put("FNonNegativeInteger", "char*");
+    ElementMetadata.types.put("FNonPositiveInteger", "char*");
+    ElementMetadata.types.put("FNormalizedString", "char*");
+    ElementMetadata.types.put("FToken", "char*");
+    ElementMetadata.types.put("FAnyURI", "char*");
+    ElementMetadata.types.put("FAny", "char*");
   }
 }
