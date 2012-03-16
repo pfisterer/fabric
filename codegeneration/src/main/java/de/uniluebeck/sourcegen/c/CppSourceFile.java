@@ -48,16 +48,16 @@ public interface CppSourceFile extends SourceFile, CppElem {
 	public CppSourceFile 	addBeforeDirective			(String... directive) 					throws CPreProcessorValidationException;
 	public CppSourceFile 	addForwardDeclaration		(CFun... function) 						throws CDuplicateException;
 	public CppSourceFile 	addGlobalDeclaration		(String... declaration) 				throws CCodeValidationException;
+
 	public CppSourceFile	addInclude					(CHeaderFile... includes)				throws CppDuplicateException;
 	public CppSourceFile 	addInclude					(CppSourceFile... includes) 			throws CppDuplicateException;
 	public CppSourceFile 	addInclude					(String... includes) 					throws CppDuplicateException;
 	public CppSourceFile 	addLibInclude				(String... libIncludes)					throws CppDuplicateException;
 
 	// TODO
-    //public CppSourceFile addConditionalInclude(String beforeDirective, String afterDirective, CHeaderFile... includes);
-    //public CppSourceFile addConditionalInclude(String beforeDirective, String afterDirective, CppSourceFile... includes);
-
-    public CppSourceFile addConditionalInclude(String beforeDirective, String afterDirective, String... includes) throws CppDuplicateException;
+	// public CppSourceFile addConditionalInclude(String beforeDirective, String afterDirective, CHeaderFile... includes);
+	// public CppSourceFile addConditionalInclude(String beforeDirective, String afterDirective, CppSourceFile... includes);
+	public CppSourceFile addConditionalInclude(String beforeDirective, String afterDirective, String... includes) throws CppDuplicateException;
 	public CppSourceFile addConditionalLibInclude(String beforeDirective, String afterDirective,String... libIncludes) throws CppDuplicateException;
 
 	public CppSourceFile 	addUsingNamespace			(String... namespaces)					throws CppDuplicateException;

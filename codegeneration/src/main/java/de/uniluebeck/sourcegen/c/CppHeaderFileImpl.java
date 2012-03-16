@@ -36,48 +36,48 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
         prepare();
 
         // Write comment if necessary
-        if (comment != null) {
-            comment.toString(buffer, tabCount);
+        if (null != this.comment) {
+            this.comment.toString(buffer, tabCount);
             buffer.append(Cpp.newline);
         }
 
         // LibIncludes: System header files
         if (null != this.base && null != this.base.getLibIncludes() && this.base.getLibIncludes().size() > 0) {
-            for (CppInclude inc : this.base.getLibIncludes()) {
-                if(inc.beforeDirective != null) {
-                    buffer.append(inc.beforeDirective + Cpp.newline);
+            for (CppInclude include: this.base.getLibIncludes()) {
+                if (null != include.beforeDirective) {
+                    buffer.append(include.beforeDirective + Cpp.newline);
                 }
 
-                for (String file : inc.include) {
+                for (String file: include.include) {
                     buffer.append("#include <" + file + ">" + Cpp.newline);
                 }
 
-                if(inc.afterDirective != null) {
-                    buffer.append(inc.afterDirective + Cpp.newline);
+                if (null != include.afterDirective) {
+                    buffer.append(include.afterDirective + Cpp.newline);
                 }
             }
             buffer.append(Cpp.newline);
         }
 
         // Includes: User header files
-        if ((null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) || (this.cppUserHeaderFilesStrings.size() > 0) ) {
-            for (CppSourceFile file : this.cppUserHeaderFiles) {
+        if ((null != this.cppUserHeaderFiles && this.cppUserHeaderFiles.size() > 0) || (this.cppUserHeaderFilesStrings.size() > 0)) {
+            for (CppSourceFile file: this.cppUserHeaderFiles) {
                 // TODO: before directive
                 buffer.append("#include \"" + file.getFileName() + ".hpp\"" + Cpp.newline);
                 // TODO: after directive
             }
 
-            for (CppInclude inc : this.cppUserHeaderFilesStrings) {
-                if(inc.beforeDirective != null) {
-                    buffer.append(inc.beforeDirective + Cpp.newline);
+            for (CppInclude include: this.cppUserHeaderFilesStrings) {
+                if (null != include.beforeDirective) {
+                    buffer.append(include.beforeDirective + Cpp.newline);
                 }
 
-                for (String file : inc.include) {
+                for (String file: include.include) {
                     buffer.append("#include \"" + file + "\"" + Cpp.newline);
                 }
 
-                if(inc.afterDirective != null) {
-                    buffer.append(inc.afterDirective + Cpp.newline);
+                if (null != include.afterDirective) {
+                    buffer.append(include.afterDirective + Cpp.newline);
                 }
             }
 

@@ -46,63 +46,62 @@ import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 
 public class Example8_Directives {
 
-	private Workspace workspace = null;
+  private Workspace workspace = null;
 
-	public Example8_Directives(Workspace workspace) throws Exception {
-	    this.workspace = workspace;
-		generate();
-	}
+  public Example8_Directives(Workspace workspace) throws Exception {
+      this.workspace = workspace;
+      generate();
+  }
 
-	void generate() throws Exception {
+  void generate() throws Exception {
+      String className = "Directives";
 
-		String className = "Directives";
+      // Generate the class -- without an explicit file
+      CppClass class_CRectangleSimple = CppClass.factory.create(className);
 
-        // Generate the class -- without an explicit file
-        CppClass class_CRectangleSimple = CppClass.factory.create(className);
+      // Generate two int variables
+      CppTypeGenerator type_int = new CppTypeGenerator(Cpp.DOUBLE);
 
-        // Generate two int variables
-        CppTypeGenerator type_int = new CppTypeGenerator(Cpp.DOUBLE);
+      // Generate function area
+      CppFun fun_print = CppFun.factory.create(type_int, "print");
 
-        // Generate function area
-        CppFun fun_print = CppFun.factory.create(type_int, "print");
+      CPreProcessorDirective preIfdef = CPreProcessorDirective.factory.create("ifdef PRINT_PI");
+      CPreProcessorDirective preIfdefPI = CPreProcessorDirective.factory.create("ifdef PI");
+      CPreProcessorDirective preElse = CPreProcessorDirective.factory.create("else");
+      CPreProcessorDirective preEndif = CPreProcessorDirective.factory.create("endif");
 
-        CPreProcessorDirective preIfdef = CPreProcessorDirective.factory.create("ifdef PRINT_PI");
-        CPreProcessorDirective preIfdefPI = CPreProcessorDirective.factory.create("ifdef PI");
-        CPreProcessorDirective preElse = CPreProcessorDirective.factory.create("else");
-        CPreProcessorDirective preEndif = CPreProcessorDirective.factory.create("endif");
+      fun_print.appendCode(preIfdefPI.toString());
+      fun_print.appendCode("return PI;");
+      fun_print.appendCode(preElse.toString());
+      fun_print.appendCode("return 0;");
+      fun_print.appendCode(preEndif.toString());
+      class_CRectangleSimple.add(Cpp.PUBLIC, fun_print);
 
-        fun_print.appendCode(preIfdefPI.toString());
-        fun_print.appendCode("return PI;");
-        fun_print.appendCode(preElse.toString());
-        fun_print.appendCode("return 0;");
-        fun_print.appendCode(preEndif.toString());
-        class_CRectangleSimple.add(Cpp.PUBLIC, fun_print);
+      // Generate the files (cpp + hpp)
+      CppSourceFile file = workspace.getC().getCppSourceFile(className);
 
-        // Generate the files (cpp + hpp)
-		CppSourceFile file = workspace.getC().getCppSourceFile(className);
+      // We also need a header
+      CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
+      file.addInclude(header);
 
-		// We also need a header
-        CppSourceFile header = this.workspace.getC().getCppHeaderFile(className);
-        file.addInclude(header);
+      // The following line can be added to the file as well
+      header.addConditionalLibInclude("#ifndef NO_RESTRICTIONS", "#endif // NO_RESTRICTIONS", "iostream");
+      header.addUsingNamespace("std");
 
-        // The following line can be added to the file as well
-        header.addConditionalLibInclude("#ifndef NO_RESTRICTIONS", "#endif // NO_RESTRICTIONS", "iostream");
-        header.addUsingNamespace("std");
+      header.addBeforeDirective("define PRINT_PI");
+      header.addBeforeDirective(preIfdef);
+      header.addBeforeDirective(false, "// Set the valie PI");
+      header.addBeforeDirective("define PI 3.14159");
+      header.addBeforeDirective(preEndif);
 
-        header.addBeforeDirective("define PRINT_PI");
-        header.addBeforeDirective(preIfdef);
-        header.addBeforeDirective(false, "// Set the valie PI");
-        header.addBeforeDirective("define PI 3.14159");
-        header.addBeforeDirective(preEndif);
+      // Add the main function to the file
+      CFun fun_main = CFun.factory.create("main", "int", null);
+      fun_main.appendCode(className + " obj;");
+      fun_main.appendCode("cout << obj.print() << \"\\n\";");
+      fun_main.appendCode("return 0;");
+      file.add(fun_main);
 
-        // Add the main function to the file
-        CFun fun_main = CFun.factory.create("main", "int", null);
-        fun_main.appendCode(className + " obj;");
-        fun_main.appendCode("cout << obj.print() << \"\\n\";");
-        fun_main.appendCode("return 0;");
-        file.add(fun_main);
-
-        // Finally, add class to the file
-        header.add(class_CRectangleSimple);
-	}
+      // Finally, add class to the file
+      header.add(class_CRectangleSimple);
+  }
 }

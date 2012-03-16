@@ -104,7 +104,7 @@ public class Java2XMLTest {
      *
      * @param xml Name of the expected XML file
      * @param sourceFileGenerator JSourceFileGenerator object
-     * @return  true, if the manually generated XML file matches the given XML file, false otherwise.
+     * @return true, if the manually generated XML file matches the given XML file, false otherwise.
      */
     private boolean testFile(String xml, JSourceFileGenerator sourceFileGenerator) throws Exception {
         /*

@@ -87,6 +87,9 @@ public class CSourceFileBase extends ElemImpl {
 	 */
 	public LinkedList<CStructBaseImpl> structsUnions;
 
+	/**
+	 * a list of type definitions for this source file
+	 */
 	public LinkedList<CTypeDef> typeDefs;
 
 	/**
@@ -243,7 +246,6 @@ public class CSourceFileBase extends ElemImpl {
 
 		for (String d : declarations) {
 			// TODO: implement validation
-			// remove SuppressWarnings(!)
 			globalDeclarations.add(d);
 		}
 
@@ -260,18 +262,19 @@ public class CSourceFileBase extends ElemImpl {
 
 	}
 
-	public void internalAddLibInclude(CppInclude... fileNames) throws CDuplicateException {
-	    // Check for error
-		for (CppInclude inc : fileNames) {
-		    String[] includes = inc.include;
-		    for (String fn : includes) {
-		        if (internalContainsLibInclude(fn))
-		            throw new CDuplicateException("Duplicate header file include of " + fn);
-            }
-		    libIncludes.add(inc);
-		}
+  public void internalAddLibInclude(CppInclude... fileNames) throws CDuplicateException {
+    // Check for error
+    for (CppInclude inc: fileNames) {
+      String[] includes = inc.include;
+      for (String fn: includes) {
+        if (internalContainsLibInclude(fn)) {
+          throw new CDuplicateException("Duplicate header file include of " + fn);
+        }
+      }
+      libIncludes.add(inc);
+    }
 
-	}
+  }
 
 	public void internalAddStruct(CStruct... structs) throws CDuplicateException {
 
@@ -363,7 +366,6 @@ public class CSourceFileBase extends ElemImpl {
 				return true;
 
 		return false;
-
 	}
 
 	public boolean internalContainsInclude(CHeaderFile headerFile) {
@@ -373,21 +375,21 @@ public class CSourceFileBase extends ElemImpl {
 				return true;
 
 		return false;
-
 	}
 
-	public boolean internalContainsLibInclude(String fileName) {
+  public boolean internalContainsLibInclude(String fileName) {
 
-		for (CppInclude inc : libIncludes) {
-		    String[] includes = inc.include;
-		    for (String s : includes) {
-		        if (s.equals(fileName))
-		            return true;
-            }
-		}
+    for (CppInclude inc: libIncludes) {
+      String[] includes = inc.include;
+      for (String s: includes) {
+        if (s.equals(fileName)) {
+          return true;
+        }
+      }
+    }
 
-		return false;
-	}
+    return false;
+  }
 
 	public boolean internalContainsStruct(CStruct struct) {
 		return internalContainsStruct(((CStructImpl)struct).getName());
@@ -446,7 +448,6 @@ public class CSourceFileBase extends ElemImpl {
 				return e;
 
 		return null;
-
 	}
 
 	/**
@@ -507,7 +508,6 @@ public class CSourceFileBase extends ElemImpl {
 				return f;
 
 		return null;
-
 	}
 
 	/**
@@ -525,9 +525,7 @@ public class CSourceFileBase extends ElemImpl {
 	 * @return the list of global variable declarations
 	 */
 	public String[] internalGetGlobalDeclarations() {
-
 		return globalDeclarations.toArray(new String[globalDeclarations.size()]);
-
 	}
 
 	/**
@@ -563,7 +561,6 @@ public class CSourceFileBase extends ElemImpl {
 				return (CStruct) s;
 
 		return null;
-
 	}
 
 	/**
@@ -591,7 +588,6 @@ public class CSourceFileBase extends ElemImpl {
 				return (CUnion) u;
 
 		return null;
-
 	}
 
 	public CTypeDef internalGetTypeDefByName(String name) {
@@ -621,22 +617,21 @@ public class CSourceFileBase extends ElemImpl {
 			buffer.append("\n");
 		}
 
-		if (libIncludes.size() > 0) {
-			for (CppInclude i : libIncludes) {
+    if (libIncludes.size() > 0) {
+      for (CppInclude i: libIncludes) {
+        String[] includes = i.include;
 
-			    String[] includes = i.include;
-
-			    // TODO: before directive
-			    for (String s : includes) {
-			        indent(buffer, tabCount);
-			        buffer.append("#include <");
-			        buffer.append(s);
-			        buffer.append(">\n");
-                }
-			    // TODO: after directive
-			}
-			buffer.append("\n");
-		}
+        // TODO: before directive
+        for (String s: includes) {
+          indent(buffer, tabCount);
+          buffer.append("#include <");
+          buffer.append(s);
+          buffer.append(">\n");
+        }
+        // TODO: after directive
+      }
+      buffer.append("\n");
+    }
 
 		if (globalDeclarations.size() > 0) {
 			for (String d : globalDeclarations) {

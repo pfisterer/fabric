@@ -1,4 +1,4 @@
-/** 05.03.2012 12:29 */
+/** 16.03.2012 01:37 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -241,7 +241,8 @@ public class CppTypeGen implements TypeGen
       // Add include for utility functions once
       if (!cppsf.getFileName().equals(CppUtilHelper.FILE_NAME))
       {
-        cppsf.addInclude(CppUtilHelper.FILE_NAME + ".hpp");
+        // TODO: Check conditional include
+        cppsf.addConditionalInclude("#ifndef NO_RESTRICTIONS", "#endif // NO_RESTRICTIONS", CppUtilHelper.FILE_NAME + ".hpp");
       }
 
       LOGGER.debug(String.format("Generated new source file '%s'.", name));

@@ -45,45 +45,44 @@ import de.uniluebeck.sourcegen.c.CppTypeGenerator;
 
 public class Example0_Empty {
 
-	private Workspace workspace = null;
+  private Workspace workspace = null;
 
-	public Example0_Empty(Workspace workspace) throws Exception {
-	    this.workspace = workspace;
-		generate();
-	}
+  public Example0_Empty(Workspace workspace) throws Exception {
+      this.workspace = workspace;
+      generate();
+  }
 
-	void generate() throws Exception {
+  void generate() throws Exception {
+      String className = "Empty";
 
-		String className = "Empty";
+      // Generate the class -- without an explicit file
+      CppClass clazz = CppClass.factory.create(className);
 
-        // Generate the class -- without an explicit file
-        CppClass clazz = CppClass.factory.create(className);
+      // Generate an int variable
+      CppTypeGenerator type_int = new CppTypeGenerator(Cpp.DOUBLE);
 
-        // Generate an int variable
-        CppTypeGenerator type_int = new CppTypeGenerator(Cpp.DOUBLE);
+      // Generate the print-function
+      CppFun fun_print = CppFun.factory.create(type_int, "print");
+      fun_print.appendCode("return 0;");
+      clazz.add(Cpp.PUBLIC, fun_print);
 
-        // Generate the print-function
-        CppFun fun_print = CppFun.factory.create(type_int, "print");
-        fun_print.appendCode("return 0;");
-        clazz.add(Cpp.PUBLIC, fun_print);
+      // Generate the files (cpp + hpp)
+      CppSourceFile file = workspace.getC().getCppSourceFile(className);
 
-        // Generate the files (cpp + hpp)
-		CppSourceFile file = workspace.getC().getCppSourceFile(className);
+      // We also need a header
+      file.addLibInclude("iostream");
+      file.addUsingNamespace("std");
 
-		// We also need a header
-        file.addLibInclude("iostream");
-        file.addUsingNamespace("std");
+      file.addConditionalInclude("#ifdef NONSENSE", "#endif // NONSENSE", "nonsense.hpp");
 
-        file.addConditionalInclude("#ifdef NONSENSE", "#endif // NONSENSE", "nonsense.hpp");
+      // Add the main function to the file
+      CFun fun_main = CFun.factory.create("main", "int", null);
+      fun_main.appendCode(className + " obj;");
+      fun_main.appendCode("cout << obj.print() << \"\\n\";");
+      fun_main.appendCode("return 0;");
+      file.add(fun_main);
 
-        // Add the main function to the file
-        CFun fun_main = CFun.factory.create("main", "int", null);
-        fun_main.appendCode(className + " obj;");
-        fun_main.appendCode("cout << obj.print() << \"\\n\";");
-        fun_main.appendCode("return 0;");
-        file.add(fun_main);
-
-        // Finally, add class to the file
-        file.add(clazz);
-	}
+      // Finally, add class to the file
+      file.add(clazz);
+  }
 }
