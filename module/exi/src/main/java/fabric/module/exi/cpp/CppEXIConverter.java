@@ -128,7 +128,6 @@ public class CppEXIConverter
 
       // Add includes
       cppsf.addInclude(cpphf);
-      cppsf.addLibInclude("cstdio");
 
       LOGGER.debug(String.format("Generated new source file '%s'.", this.serializerClassName));
     }
@@ -193,7 +192,7 @@ public class CppEXIConverter
               "exitCode += stream->writeNBits(3, %d);\n" +
               "exitCode += encoder.encode%s(stream, typeObject->get%s());\n\n",
               element.getElementName(), element.getEXIEventCode(),
-              element.getElementType(), element.getElementName());
+              element.getElementEXIType(), element.getElementName());
     }
     
     String methodBody = String.format(
@@ -242,11 +241,17 @@ public class CppEXIConverter
       ElementMetadata element = elementMetadata.poll();
       
       deserializerCode += String.format(
+              "// Initialize new variable for the decoded value\n" +
+              "%s %s;\n" +
               "// Decode the '%s' element\n" +
-              "exitCode += stream->readNBits(3, %d);\n" +
-              "exitCode += decoder.decode%s(stream, typeObject->get%s());\n\n",
-              element.getElementName(), element.getEXIEventCode(),
-              element.getElementType(), element.getElementName());
+              "exitCode += stream->readNBits(3, &event_bits);\n" +
+              "exitCode += decoder.decode%s(stream, &%s);\n" +
+              "if (exitCode == 0)\n" +
+              "\ttypeObject->set%s(%s);\n\n",
+              element.getElementCppType(), element.getElementName().toLowerCase(),
+              element.getElementName(),
+              element.getElementEXIType(), element.getElementName().toLowerCase(),
+              element.getElementName(), element.getElementName().toLowerCase());
     }
     
     String methodBody = String.format(
@@ -258,6 +263,8 @@ public class CppEXIConverter
             "stream->initStream(buffer, BUFFER_SIZE, ioStream);\n\n" +
             "// Read EXI header from EXI stream\n" +
             "exitCode += stream->readHeader();\n\n" +
+            "// Initialize variable for event bits\n" +
+            "unsigned int event_bits;\n\n" +
             "/*************** Deserialize elements ***************/\n\n" +
             "%s" +
             "/****************************************************/\n\n" +

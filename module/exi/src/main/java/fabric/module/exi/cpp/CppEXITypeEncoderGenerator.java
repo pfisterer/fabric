@@ -174,8 +174,19 @@ public class CppEXITypeEncoderGenerator {
     /**
      * Generates the function encodeNBitUnsignedInteger.
      */
-    private static void createEncodeNBitUnsignedInteger() {
-        // TODO: implement!
+    private static void createEncodeNBitUnsignedInteger() throws CppDuplicateException {
+        CppVar var_strm     = CppVar.factory.create("EXIStream*", "strm");
+        CppVar var_n        = CppVar.factory.create(Cpp.UNSIGNED | Cpp.CHAR, "n");
+        CppVar var_intVal   = CppVar.factory.create(Cpp.UNSIGNED | Cpp.INT, "int_val");
+        CppFun fun_encNBitUnsInt = CppFun.factory.create(Cpp.INT, "encodeNBitUnsignedInteger",
+                var_strm, var_n, var_intVal);
+        String methodBody =
+                "return strm->writeNBits(n, int_val);";
+        String comment =
+                "Encodes n-bit unsigned integer values.";
+        fun_encNBitUnsInt.appendCode(methodBody);
+        fun_encNBitUnsInt.setComment(new CppFunCommentImpl(comment));
+        clazz.add(Cpp.PUBLIC, fun_encNBitUnsInt);
     }
 
     /**
@@ -190,25 +201,24 @@ public class CppEXITypeEncoderGenerator {
                 var_strm, var_intVal);
         String methodBody =
                 "int tmp_err_code = UNEXPECTED_ERROR;\n" +
-                        "\tunsigned int nbits = strm->getBitsNumber(int_val);\n" +
-                        "\tunsigned int nbyte7 = nbits / 7 + (nbits % 7 != 0);\n" +
-                        "\tunsigned int tmp_byte_buf = 0;\n" +
-                        "\tunsigned int i = 0;\n" +
-                        "\tif(nbyte7 == 0)\n" +
-                        "\t\tnbyte7 = 1;  // the 0 Unsigned Integer is encoded with one 7bit byte\n" +
-                        "\tfor(i = 0; i < nbyte7; i++)\n" +
-                        "\t{\n" +
-                        "\t\ttmp_byte_buf = (unsigned int) ((int_val >> (i * 7)) & 0x7F);\n" +
-                        "\t\tif(i == nbyte7 - 1)\n" +
-                        "\t\t\tstrm->writeNextBit(0);\n" +
-                        "\t\telse\n" +
-                        "\t\t\tstrm->writeNextBit(1);\n" +
-                        "        \n" +
-                        "\t\ttmp_err_code = strm->writeNBits(7, tmp_byte_buf);\n" +
-                        "\t\tif(tmp_err_code != ERR_OK)\n" +
-                        "\t\t\treturn tmp_err_code;\n" +
-                        "\t}\n" +
-                        "\treturn ERR_OK;";
+                        "unsigned int nbits = strm->getBitsNumber(int_val);\n" +
+                        "unsigned int nbyte7 = nbits / 7 + (nbits % 7 != 0);\n" +
+                        "unsigned int tmp_byte_buf = 0;\n" +
+                        "unsigned int i = 0;\n" +
+                        "if(nbyte7 == 0)\n" +
+                        "\tnbyte7 = 1;  // the 0 Unsigned Integer is encoded with one 7bit byte\n" +
+                        "for(i = 0; i < nbyte7; i++)\n" +
+                        "{\n" +
+                        "\ttmp_byte_buf = (unsigned int) ((int_val >> (i * 7)) & 0x7F);\n" +
+                        "\tif(i == nbyte7 - 1)\n" +
+                        "\t\tstrm->writeNextBit(0);\n" +
+                        "\telse\n" +
+                        "\t\tstrm->writeNextBit(1);\n\n" +
+                        "\ttmp_err_code = strm->writeNBits(7, tmp_byte_buf);\n" +
+                        "\tif(tmp_err_code != ERR_OK)\n" +
+                        "\t\treturn tmp_err_code;\n" +
+                        "}\n" +
+                        "return ERR_OK;";
         String comment =
                 "Encodes unsigned integer values.";
         fun_encUnsInt.appendCode(methodBody);
@@ -228,23 +238,23 @@ public class CppEXITypeEncoderGenerator {
                 var_strm, var_sintVal);
         String methodBody =
                 "int tmp_err_code = UNEXPECTED_ERROR;\n" +
-                        "\tuint32 uval;\n" +
-                        "\tunsigned char sign;\n" +
-                        "\tif(sint_val >= 0)\n" +
-                        "\t{\n" +
-                        "\t\tsign = 0;\n" +
-                        "\t\tuval = (uint32) sint_val;\n" +
-                        "\t}\n" +
-                        "\telse\n" +
-                        "\t{\n" +
-                        "\t\tsint_val += 1;\n" +
-                        "\t\tuval = (uint32) -sint_val;\n" +
-                        "\t\tsign = 1;\n" +
-                        "\t}\n" +
-                        "\ttmp_err_code = strm->writeNextBit(sign);\n" +
-                        "\tif(tmp_err_code != ERR_OK)\n" +
-                        "\t\treturn tmp_err_code;\n" +
-                        "    return encodeUnsignedInteger(strm, uval);";
+                        "uint32 uval;\n" +
+                        "unsigned char sign;\n" +
+                        "if(sint_val >= 0)\n" +
+                        "{\n" +
+                        "\tsign = 0;\n" +
+                        "\tuval = (uint32) sint_val;\n" +
+                        "}\n" +
+                        "else\n" +
+                        "{\n" +
+                        "\tsint_val += 1;\n" +
+                        "\tuval = (uint32) -sint_val;\n" +
+                        "\tsign = 1;\n" +
+                        "}\n" +
+                        "tmp_err_code = strm->writeNextBit(sign);\n" +
+                        "if(tmp_err_code != ERR_OK)\n" +
+                        "\treturn tmp_err_code;\n" +
+                        "return encodeUnsignedInteger(strm, uval);";
         String comment =
                 "Encodes integer values (both negative and positive).";
         fun_encInt.appendCode(methodBody);

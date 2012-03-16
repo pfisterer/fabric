@@ -217,12 +217,12 @@ public class CppEXIStreamGenerator {
         CppFun fun_closeStream = CppFun.factory.create(Cpp.INT, "closeStream");
         String methodBody =
                 "if(strm.ioStrm.readWriteToStream != NULL)\n" +
-                        "\t{\n" +
-                        "\t\tif(strm.ioStrm.readWriteToStream(strm.buffer, strm.context.bufferIndx + 1) " +
+                        "{\n" +
+                        "\tif(strm.ioStrm.readWriteToStream(strm.buffer, strm.context.bufferIndx + 1) " +
                         "< strm.context.bufferIndx + 1)\n" +
-                        "\t\t\treturn BUFFER_END_REACHED;\n" +
-                        "\t}\n" +
-                        "    return ERR_OK;";
+                        "\t\treturn BUFFER_END_REACHED;\n" +
+                        "}\n" +
+                        "return ERR_OK;";
         String comment =
                 "Writes the content of the buffer to the stream and pads zeros to fill the last byte.";
         fun_closeStream.appendCode(methodBody);
@@ -345,20 +345,20 @@ public class CppEXIStreamGenerator {
         CppVar var_bitPositions     = CppVar.factory.create(Cpp.UNSIGNED | Cpp.INT, "bitPositions");
         CppFun fun_moveBitPointer   = CppFun.factory.create(Cpp.VOID, "moveBitPointer", var_bitPositions);
         String methodBody =
-                "\tint nbits;\n\n" +
-                        "\tstrm.context.bufferIndx += bitPositions/8;\n" +
-                        "\tnbits = bitPositions % 8;\n" +
-                        "\tif(nbits < 8 - strm.context.bitPointer)" +
+                "int nbits;\n\n" +
+                        "strm.context.bufferIndx += bitPositions/8;\n" +
+                        "nbits = bitPositions % 8;\n" +
+                        "if(nbits < 8 - strm.context.bitPointer)" +
                         " // The remaining (0-7) bit positions can be moved" +
                         " within the current byte\n" +
-                        "\t{\n" +
-                        "\t\tstrm.context.bitPointer += nbits;\n" +
-                        "\t}\n" +
-                        "\telse\n" +
-                        "\t{\n" +
-                        "\t\tstrm.context.bufferIndx += 1;\n" +
-                        "\t\tstrm.context.bitPointer = nbits - (8 - strm.context.bitPointer);\n" +
-                        "\t}";
+                        "{\n" +
+                        "\tstrm.context.bitPointer += nbits;\n" +
+                        "}\n" +
+                        "else\n" +
+                        "{\n" +
+                        "\tstrm.context.bufferIndx += 1;\n" +
+                        "\tstrm.context.bitPointer = nbits - (8 - strm.context.bitPointer);\n" +
+                        "}";
         String comment =
                 "@brief Moves the BitPointer with certain positions. Takes care of byteIndex increasing " +
                         "when\n" +
@@ -379,8 +379,8 @@ public class CppEXIStreamGenerator {
         CppFun fun_getBitsNumber = CppFun.factory.create(Cpp.UNSIGNED | Cpp.CHAR, "getBitsNumber", var_val);
         String methodBody =
                 "if(val == 0)\n" +
-                        "\t\treturn 0;\n" +
-                        "\treturn log2INT(val) + 1;";
+                        "\treturn 0;\n" +
+                        "return log2INT(val) + 1;";
         String comment =
                 "@brief Determine the number of bits needed to encode a unsigned integer value\n" +
                         "⌈ log 2 m ⌉ from the spec is equal to getBitsNumber(m - 1)\n" +
@@ -437,47 +437,47 @@ public class CppEXIStreamGenerator {
         CppFun fun_writeNBits   = CppFun.factory.create(Cpp.INT, "writeNBits", var_nbits, var_bitsVal);
         String methodBody =
                 "unsigned int numBitsWrite = 0; // Number of the bits written so far\n" +
-                        "\tunsigned char tmp = 0;\n" +
-                        "\tint bits_in_byte = 0; // Number of bits written in one iteration\n" +
-                        "\tunsigned int numBytesToBeWritten = " +
+                        "unsigned char tmp = 0;\n" +
+                        "int bits_in_byte = 0; // Number of bits written in one iteration\n" +
+                        "unsigned int numBytesToBeWritten = " +
                         "((unsigned int) nbits) / 8 + (8 - strm.context.bitPointer < nbits % 8 );\n\n" +
                         "if(strm.bufLen <= strm.context.bufferIndx + numBytesToBeWritten)\n" +
-                        "\t{\n" +
-                        "\t\t// The buffer end is reached: there are fewer than nbits bits " +
+                        "{\n" +
+                        "\t// The buffer end is reached: there are fewer than nbits bits " +
                         "left in the buffer\n" +
-                        "\t\tchar leftOverBits;\n" +
-                        "\t\tmySize_t numBytesWritten = 0;\n" +
-                        "\t\tif(strm.ioStrm.readWriteToStream == NULL)\n" +
-                        "\t\t\treturn BUFFER_END_REACHED;\n\n" +
-                        "\t\tleftOverBits = strm.buffer[strm.context.bufferIndx];\n\n" +
-                        "\t\tnumBytesWritten = strm.ioStrm.readWriteToStream(" +
+                        "\tchar leftOverBits;\n" +
+                        "\tmySize_t numBytesWritten = 0;\n" +
+                        "\tif(strm.ioStrm.readWriteToStream == NULL)\n" +
+                        "\t\treturn BUFFER_END_REACHED;\n\n" +
+                        "\tleftOverBits = strm.buffer[strm.context.bufferIndx];\n\n" +
+                        "\tnumBytesWritten = strm.ioStrm.readWriteToStream(" +
                         "strm.buffer, strm.context.bufferIndx);\n" +
-                        "\t\tif(numBytesWritten < strm.context.bufferIndx)\n" +
-                        "\t\t\treturn BUFFER_END_REACHED;\n\n" +
-                        "\t\tstrm.buffer[0] = leftOverBits;\n" +
-                        "\t\tstrm.context.bufferIndx = 0;\n" +
-                        "\t}\n\n" +
-                        "\twhile(numBitsWrite < nbits)\n" +
-                        "\t{\n" +
-                        "\t\tif((unsigned int)(nbits - numBitsWrite) <= " +
+                        "\tif(numBytesWritten < strm.context.bufferIndx)\n" +
+                        "\t\treturn BUFFER_END_REACHED;\n\n" +
+                        "\tstrm.buffer[0] = leftOverBits;\n" +
+                        "\tstrm.context.bufferIndx = 0;\n" +
+                        "}\n\n" +
+                        "while(numBitsWrite < nbits)\n" +
+                        "{\n" +
+                        "\tif((unsigned int)(nbits - numBitsWrite) <= " +
                         "(unsigned int)(8 - strm.context.bitPointer))" +
                         "// The rest of the unwritten bits can be put in the current byte\n" +
-                        "\t\t\tbits_in_byte = nbits - numBitsWrite;\n" +
-                        "\t\telse // The rest of the unwritten bits are more than the bits " +
+                        "\t\tbits_in_byte = nbits - numBitsWrite;\n" +
+                        "\telse // The rest of the unwritten bits are more than the bits " +
                         "in the current byte\n" +
-                        "\t\t\tbits_in_byte = 8 - strm.context.bitPointer;\n\n" +
-                        "\t\ttmp = (bits_val >> (nbits - numBitsWrite - bits_in_byte)) " +
+                        "\t\tbits_in_byte = 8 - strm.context.bitPointer;\n\n" +
+                        "\ttmp = (bits_val >> (nbits - numBitsWrite - bits_in_byte)) " +
                         "& BIT_MASK[bits_in_byte];\n" +
-                        "\t\ttmp = tmp << (8 - strm.context.bitPointer - bits_in_byte);\n" +
-                        "\t\tstrm.buffer[strm.context.bufferIndx] = strm.buffer[strm.context.bufferIndx] " +
+                        "\ttmp = tmp << (8 - strm.context.bitPointer - bits_in_byte);\n" +
+                        "\tstrm.buffer[strm.context.bufferIndx] = strm.buffer[strm.context.bufferIndx] " +
                         "& (~BIT_MASK[8 - strm.context.bitPointer]); " +
                         "// Initialize the unused bits with 0s\n" +
-                        "\t\tstrm.buffer[strm.context.bufferIndx] = strm.buffer[strm.context.bufferIndx] " +
+                        "\tstrm.buffer[strm.context.bufferIndx] = strm.buffer[strm.context.bufferIndx] " +
                         "| tmp;\n\n" +
-                        "\t\tnumBitsWrite += bits_in_byte;\n" +
-                        "\t\tmoveBitPointer(bits_in_byte);\n" +
-                        "\t}\n\n" +
-                        "\treturn ERR_OK;";
+                        "\tnumBitsWrite += bits_in_byte;\n" +
+                        "\tmoveBitPointer(bits_in_byte);\n" +
+                        "}\n\n" +
+                        "return ERR_OK;";
         String comment =
                 "@brief Writes an unsigned integer value to an EXI stream with nbits " +
                         "(possible 0 paddings)\n" +
@@ -499,24 +499,24 @@ public class CppEXIStreamGenerator {
         CppFun fun_writeNextBit     = CppFun.factory.create(Cpp.INT, "writeNextBit", var_bitVal);
         String methodBody =
                 "if(strm.bufLen <= strm.context.bufferIndx) // the whole buffer is filled! flush it!\n" +
-                        "\t{\n" +
-                        "\t\tmySize_t numBytesWritten = 0;\n" +
-                        "\t\tif(strm.ioStrm.readWriteToStream == NULL)\n" +
-                        "\t\t\treturn BUFFER_END_REACHED;\n" +
-                        "\t\tnumBytesWritten = strm.ioStrm.readWriteToStream(strm.buffer, strm.bufLen);\n" +
-                        "\t\tif(numBytesWritten < strm.bufLen)\n" +
-                        "\t\t\treturn BUFFER_END_REACHED;\n" +
-                        "\t\tstrm.context.bitPointer = 0;\n" +
-                        "\t\tstrm.context.bufferIndx = 0;\n" +
-                        "\t}\n\n" +
-                        "\tif(bit_val == 0)\n" +
-                        "\t\tstrm.buffer[strm.context.bufferIndx] = strm.buffer[strm.context.bufferIndx]" +
+                        "{\n" +
+                        "\tmySize_t numBytesWritten = 0;\n" +
+                        "\tif(strm.ioStrm.readWriteToStream == NULL)\n" +
+                        "\t\treturn BUFFER_END_REACHED;\n" +
+                        "\tnumBytesWritten = strm.ioStrm.readWriteToStream(strm.buffer, strm.bufLen);\n" +
+                        "\tif(numBytesWritten < strm.bufLen)\n" +
+                        "\t\treturn BUFFER_END_REACHED;\n" +
+                        "\tstrm.context.bitPointer = 0;\n" +
+                        "\tstrm.context.bufferIndx = 0;\n" +
+                        "}\n\n" +
+                        "if(bit_val == 0)\n" +
+                        "\tstrm.buffer[strm.context.bufferIndx] = strm.buffer[strm.context.bufferIndx]" +
                         " & (~(1<<REVERSE_BIT_POSITION(strm.context.bitPointer)));\n" +
-                        "\telse\n" +
-                        "\t\tstrm.buffer[strm.context.bufferIndx] = strm.buffer[strm.context.bufferIndx]" +
+                        "else\n" +
+                        "\tstrm.buffer[strm.context.bufferIndx] = strm.buffer[strm.context.bufferIndx]" +
                         " | (1<<REVERSE_BIT_POSITION(strm.context.bitPointer));\n\n" +
-                        "\tmoveBitPointer(1);\n\n" +
-                        "\treturn ERR_OK;";
+                        "moveBitPointer(1);\n\n" +
+                        "return ERR_OK;";
         String comment =
                 "@brief Writes a single bit to an EXI stream and moves its current bit pointer\n" +
                         "@param[in] bit_val the value of the next bit: 0 or 1\n" +
