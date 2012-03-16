@@ -10,6 +10,12 @@ import fabric.wsdlschemaparser.schema.FElement;
 import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
 
 /**
+ * This class is a container for XML element metadata. While
+ * the treewalker processes an XML Schema file, information
+ * about XML elements is collected in a Queue of ElementMetadata
+ * objects. The data is later used to generate the serialization
+ * and deserialization methods in EXIConverter class dynamically.
+ * 
  * @author seidel
  */
 public class ElementMetadata
@@ -18,41 +24,81 @@ public class ElementMetadata
   private static final Logger LOGGER = LoggerFactory.getLogger(ElementMetadata.class);
   
   /** Mapping from Fabric type names (FInt, FString etc.) to EXI built-in type names */
-  private HashMap<String, String> typesFabricToEXI = new HashMap<String, String>();
+  private static HashMap<String, String> typesFabricToEXI = new HashMap<String, String>();
 
   /** Mapping from EXI built-in type names to C++ type names */
-  private HashMap<String, String> typesEXIToCpp = new HashMap<String, String>();
+  private static HashMap<String, String> typesEXIToCpp = new HashMap<String, String>();
+
+  static
+  {
+    // Initialize type mapping
+    ElementMetadata.createMappingFabricToEXI();
+    ElementMetadata.createMappingEXIToCpp();
+  }
   
+  /** XML element is a single value */
   public static final int XML_ATOMIC_VALUE = 0;
+  
+  /** XML element is a list that may contain multiple values */
   public static final int XML_LIST = 1;
+  
+  /** XML element is an array that may contain multiple values */
   public static final int XML_ARRAY = 2;
   
+  /** Name of the XML element */
   private String elementName;
+  
+  /** Type of the XML element content (e.g. Boolean, Integer or String) */
   private String elementEXIType;
+
   private String elementCppType;
+  
+  /** Type of the XML element (e.g. atomic value, list or array) */
   private int type;
+  
+  /** EXI event code within the XML Schema document structure */
   private int exiEventCode;
-
-  private ElementMetadata()
+  
+  /**
+   * Parameterized constructor.
+   * 
+   * @param elementName XML element name
+   * @param elementEXIType XML element content type for EXI (e.g. Boolean,
+   * Integer or String)
+   * @param elementCppType XML element content type for C++ (e.g. bool,
+   * int or char*)
+   * @param type XML element type (atomic value, list or array)
+   * @param exiEventCode EXI event code
+   */
+  public ElementMetadata(final String elementName, final String elementEXIType, final String elementCppType,
+                         final int type, final int exiEventCode)
   {
+    this.elementName = elementName;
+    this.elementEXIType = elementEXIType;
+    this.elementCppType = elementCppType;
+    this.type = type;
+    this.exiEventCode = exiEventCode;
   }
-
+  
+  /**
+   * Parameterized constructor creates ElementMetadata object
+   * from an FElement object passed through from the Fabric
+   * treewalker.
+   * 
+   * @param element FElement object passed through from treewalker
+   */
   public ElementMetadata(final FElement element)
-  {
-    // Initialize mapping of type names
-    this.createMappingFabricToEXI(); // TODO: Better use static initializer?
-    this.createMappingEXIToCpp();
-
-    // Set element name
+  {            
+    // Set XML element name
     this.elementName = element.getName();
 
-    // Set element EXI type (Boolean, Integer, Float etc.)
+    // Set XML element type (e.g. Boolean, Integer or String)
     this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName());
 
     // Set element C++ type (bool, int, float etc.)
     this.elementCppType = this.getCppTypeName(elementEXIType);
 
-    // Set element type (atomic value, list or array)
+    // Set XML element type (e.g. atomic value, list or array)
     if (FSchemaTypeHelper.isList(element))
     {
       this.type = ElementMetadata.XML_LIST;
@@ -69,12 +115,12 @@ public class ElementMetadata
     // Set EXI event code
     this.exiEventCode = 0;
   }
-
-  public String getElementName()
-  {
-    return this.elementName;
-  }
-
+  
+  /**
+   * Setter for XML element name.
+   * 
+   * @param elementName XML element name
+   */
   public void setElementName(final String elementName)
   {
     this.elementName = elementName;
@@ -96,59 +142,89 @@ public class ElementMetadata
     return this.elementCppType;
   }
 
-  public void setElementCppType(final String elementCppType)
-  {
-    this.elementCppType = elementCppType;
+  public void setElementCppType(final String elementCppType) {
+      this.elementCppType = elementCppType;
   }
-
-  public int getType()
+  
+  /**
+   * Getter for XML element name.
+   * 
+   * @return XML element name
+   */  
+  public String getElementName()
   {
-    return this.type;
+    return this.elementName;
   }
-
+  
+  /**
+   * Setter for XML element type (e.g. atomic value, list or array).
+   * 
+   * @param type XML element type
+   */
   public void setType(final int type)
   {
     this.type = type;
   }
-
-  public int getEXIEventCode()
+  
+  /**
+   * Getter for XML element type.
+   * 
+   * @return XML element type
+   */
+  public int getType()
   {
-    return this.exiEventCode;
+    return this.type;
   }
-
+  
+  /**
+   * Setter for EXI event code.
+   * 
+   * @param exiEventCode EXI event code
+   */
   public void setEXIEventCode(int exiEventCode)
   {
     this.exiEventCode = exiEventCode;
   }
   
+  /**
+   * Getter for EXI event code.
+   * 
+   * @return EXI event code
+   */
+  public int getEXIEventCode()
+  {
+    return this.exiEventCode;
+  }
+  
+  /**
+   * Clone ElementMetadata object and return a deep copy.
+   * 
+   * @return Cloned ElementMetadata object
+   */
   @Override
   public ElementMetadata clone()
   {
-    ElementMetadata element = new ElementMetadata();
-    
-    element.elementName = this.elementName;
-    element.elementEXIType = this.elementEXIType;
-    element.elementCppType = this.elementCppType;
-    element.type = this.type;
-    element.exiEventCode = this.exiEventCode;
-    
-    return element;
+    return new ElementMetadata(this.elementName, this.elementEXIType, this.elementCppType, this.type, this.exiEventCode);
   }
-
+  
   /**
-   * TODO: Add comment
+   * Private helper method to get the EXI built-in type name
+   * (e.g. Boolean, Integer or String) for one of Fabric's
+   * XML Schema type names (e.g. FBoolean, FInt or FString).
    * 
-   * @param schemaTypeName
-   * @return 
+   * @param schemaTypeName Fabric type name
+   * 
+   * @return EXI built-in type name
+   * 
    * @throws IllegalArgumentException No matching mapping found
    */
   private String getEXITypeName(final String schemaTypeName) throws IllegalArgumentException
   {
-    // TODO: Output a meaningful debug message
-    LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>>>> Mapping type: " + schemaTypeName);
-
+    // Return mapping if available
     if (typesFabricToEXI.containsKey(schemaTypeName))
     {
+      LOGGER.debug(String.format("Mapped Fabric data type '%s' to EXI built-in type '%s'.", schemaTypeName, typesFabricToEXI.get(schemaTypeName)));
+
       return typesFabricToEXI.get(schemaTypeName);
     }
 
@@ -172,58 +248,61 @@ public class ElementMetadata
         throw new IllegalArgumentException(String.format("No mapping found for EXI datatype '%s'.", exiTypeName));
     }
 
-  // TODO: Add comment
-  private void createMappingFabricToEXI()
+    /**
+     * Private helper method to populate the mapping of Fabric's
+     * XML Schema type names to EXI built-in type names.
+     */
+  private static void createMappingFabricToEXI()
   {
-    this.typesFabricToEXI.put("FBoolean", "Boolean");
-    this.typesFabricToEXI.put("FFloat", "Float");
-    this.typesFabricToEXI.put("FDouble", "Float");
-    this.typesFabricToEXI.put("FByte", "NBitUnsignedInteger");
-    this.typesFabricToEXI.put("FUnsignedByte", "NBitUnsignedInteger");
-    this.typesFabricToEXI.put("FShort", "Integer");
-    this.typesFabricToEXI.put("FUnsignedShort", "Integer");
-    this.typesFabricToEXI.put("FInt", "Integer");
-    this.typesFabricToEXI.put("FInteger", "Integer");
-    this.typesFabricToEXI.put("FPositiveInteger", "UnsignedInteger");
-    this.typesFabricToEXI.put("FUnsignedInt", "UnsignedInteger");
-    this.typesFabricToEXI.put("FLong", "Integer");
-    this.typesFabricToEXI.put("FUnsignedLong", "UnsignedInteger");
-    this.typesFabricToEXI.put("FDecimal", "Decimal");
-    this.typesFabricToEXI.put("FString", "String");
-    this.typesFabricToEXI.put("FHexBinary", "Binary");
-    this.typesFabricToEXI.put("FBase64Binary", "Binary");
-    this.typesFabricToEXI.put("FDateTime", "DateTime");
-    this.typesFabricToEXI.put("FTime", "DateTime");
-    this.typesFabricToEXI.put("FDate", "DateTime");
-    this.typesFabricToEXI.put("FDay", "DateTime");
-    this.typesFabricToEXI.put("FMonth", "DateTime");
-    this.typesFabricToEXI.put("FMonthDay", "DateTime");
-    this.typesFabricToEXI.put("FYear", "DateTime");
-    this.typesFabricToEXI.put("FYearMonth", "DateTime");
-    this.typesFabricToEXI.put("FDuration", "String");
-    this.typesFabricToEXI.put("FNOTATION", "String");
-    this.typesFabricToEXI.put("FQName", "String");
-    this.typesFabricToEXI.put("FName", "String");
-    this.typesFabricToEXI.put("FNCName", "String");
-    this.typesFabricToEXI.put("FNegativeInteger", "Integer");
-    this.typesFabricToEXI.put("FNMTOKEN", "String");
-    this.typesFabricToEXI.put("FNonNegativeInteger", "UnsignedInteger");
-    this.typesFabricToEXI.put("FNonPositiveInteger", "Integer");
-    this.typesFabricToEXI.put("FNormalizedString", "String");
-    this.typesFabricToEXI.put("FToken", "String");
-    this.typesFabricToEXI.put("FAnyURI", "String");
-      this.typesFabricToEXI.put("FAny", "String");
+    typesFabricToEXI.put("FBoolean", "Boolean");
+    typesFabricToEXI.put("FFloat", "Float");
+    typesFabricToEXI.put("FDouble", "Float");
+    typesFabricToEXI.put("FByte", "NBitUnsignedInteger");
+    typesFabricToEXI.put("FUnsignedByte", "NBitUnsignedInteger");
+    typesFabricToEXI.put("FShort", "Integer");
+    typesFabricToEXI.put("FUnsignedShort", "Integer");
+    typesFabricToEXI.put("FInt", "Integer");
+    typesFabricToEXI.put("FInteger", "Integer");
+    typesFabricToEXI.put("FPositiveInteger", "UnsignedInteger");
+    typesFabricToEXI.put("FUnsignedInt", "UnsignedInteger");
+    typesFabricToEXI.put("FLong", "Integer");
+    typesFabricToEXI.put("FUnsignedLong", "UnsignedInteger");
+    typesFabricToEXI.put("FDecimal", "Decimal");
+    typesFabricToEXI.put("FString", "String");
+    typesFabricToEXI.put("FHexBinary", "Binary");
+    typesFabricToEXI.put("FBase64Binary", "Binary");
+    typesFabricToEXI.put("FDateTime", "DateTime");
+    typesFabricToEXI.put("FTime", "DateTime");
+    typesFabricToEXI.put("FDate", "DateTime");
+    typesFabricToEXI.put("FDay", "DateTime");
+    typesFabricToEXI.put("FMonth", "DateTime");
+    typesFabricToEXI.put("FMonthDay", "DateTime");
+    typesFabricToEXI.put("FYear", "DateTime");
+    typesFabricToEXI.put("FYearMonth", "DateTime");
+    typesFabricToEXI.put("FDuration", "String");
+    typesFabricToEXI.put("FNOTATION", "String");
+    typesFabricToEXI.put("FQName", "String");
+    typesFabricToEXI.put("FName", "String");
+    typesFabricToEXI.put("FNCName", "String");
+    typesFabricToEXI.put("FNegativeInteger", "Integer");
+    typesFabricToEXI.put("FNMTOKEN", "String");
+    typesFabricToEXI.put("FNonNegativeInteger", "UnsignedInteger");
+    typesFabricToEXI.put("FNonPositiveInteger", "Integer");
+    typesFabricToEXI.put("FNormalizedString", "String");
+    typesFabricToEXI.put("FToken", "String");
+    typesFabricToEXI.put("FAnyURI", "String");
+    typesFabricToEXI.put("FAny", "String");
   }
 
     // TODO: Add comment
-    private void createMappingEXIToCpp()
+    private static void createMappingEXIToCpp()
     {
-        this.typesEXIToCpp.put("Boolean", "bool");
-        this.typesEXIToCpp.put("Float", "float");
-        this.typesEXIToCpp.put("String", "const char*");
-        this.typesEXIToCpp.put("Decimal", "char*");
-        this.typesEXIToCpp.put("Integer", "int32");
-        this.typesEXIToCpp.put("UnsignedInteger", "uint32");
-        this.typesEXIToCpp.put("NBitUnsignedInteger", "unsigned int");
+        typesEXIToCpp.put("Boolean", "bool");
+        typesEXIToCpp.put("Float", "float");
+        typesEXIToCpp.put("String", "const char*");
+        typesEXIToCpp.put("Decimal", "char*");
+        typesEXIToCpp.put("Integer", "int32");
+        typesEXIToCpp.put("UnsignedInteger", "uint32");
+        typesEXIToCpp.put("NBitUnsignedInteger", "unsigned int");
     }
 }
