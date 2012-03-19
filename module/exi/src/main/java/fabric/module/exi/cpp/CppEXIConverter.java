@@ -20,7 +20,6 @@ import de.uniluebeck.sourcegen.c.CppHeaderFile;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppVar;
 
-import fabric.module.exi.ElementMetadata;
 import fabric.module.exi.FabricEXIModule;
 import fabric.module.exi.exceptions.FabricEXIException;
 
