@@ -1,5 +1,5 @@
-/** 16.03.2012 14:30 */
-package fabric.module.exi;
+/** 19.03.2012 11:48 */
+package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,9 +49,10 @@ public class ElementMetadata
   /** Name of the XML element */
   private String elementName;
   
-  /** Type of the XML element content (e.g. Boolean, Integer or String) */
+  /** EXI type of XML element content (e.g. Boolean, Integer or String) */
   private String elementEXIType;
-
+  
+  /** C++ type of element content (e.g. boolean, int or char*) */
   private String elementCppType;
   
   /** Type of the XML element (e.g. atomic value, list or array) */
@@ -64,9 +65,9 @@ public class ElementMetadata
    * Parameterized constructor.
    * 
    * @param elementName XML element name
-   * @param elementEXIType XML element content type for EXI (e.g. Boolean,
+   * @param elementEXIType EXI type of element content (e.g. Boolean,
    * Integer or String)
-   * @param elementCppType XML element content type for C++ (e.g. bool,
+   * @param elementCppType C++ type of element content (e.g. bool,
    * int or char*)
    * @param type XML element type (atomic value, list or array)
    * @param exiEventCode EXI event code
@@ -100,24 +101,26 @@ public class ElementMetadata
       this.elementEXIType = this.getEXITypeName(listType.getItemType().getClass().getSimpleName());
       this.type = ElementMetadata.XML_LIST;
     }
-    /*else if (FSchemaTypeHelper.isArray(element))
+    /* TODO
+    else if (FSchemaTypeHelper.isArray(element))
     {
       this.elementEXIType = element.getSchemaType().getName() + "Type"; // TODO: Set type of array elements
       this.type = ElementMetadata.XML_ARRAY;
-    }*/
+    }
+    */
     else
     {
       this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName());
       this.type = ElementMetadata.XML_ATOMIC_VALUE;
     }
-
-    // Set element C++ type (bool, int, float etc.)
-    this.elementCppType = this.getCppTypeName(elementEXIType);
-
+    
+    // Set C++ element type
+    this.elementCppType = this.getCppTypeName(this.elementEXIType);
+    
     // Set EXI event code
     this.exiEventCode = 0;
   }
-  
+
   /**
    * Setter for XML element name.
    * 
@@ -128,36 +131,56 @@ public class ElementMetadata
     this.elementName = elementName;
   }
 
-  public String getElementEXIType()
+  /**
+   * Getter for XML element name.
+   * 
+   * @return XML element name
+   */
+  public String getElementName()
   {
-    return this.elementEXIType;
+    return this.elementName;
   }
 
+  /**
+   * Setter for EXI element content type.
+   * 
+   * @param elementEXIType EXI element content type
+   */
   public void setElementEXIType(final String elementEXIType)
   {
     this.elementEXIType = elementEXIType;
   }
 
+  /**
+   * Getter for EXI element content type.
+   * 
+   * @return EXI element content type
+   */
+  public String getElementEXIType()
+  {
+    return this.elementEXIType;
+  }
 
+  /**
+   * Setter for C++ element content type.
+   * 
+   * @param elementCppType C++ element content type
+   */
+  public void setElementCppType(final String elementCppType)
+  {
+    this.elementCppType = elementCppType;
+  }
+
+  /**
+   * Getter for C++ element content type.
+   * 
+   * @return C++ element content type
+   */
   public String getElementCppType()
   {
     return this.elementCppType;
   }
 
-  public void setElementCppType(final String elementCppType) {
-      this.elementCppType = elementCppType;
-  }
-  
-  /**
-   * Getter for XML element name.
-   * 
-   * @return XML element name
-   */  
-  public String getElementName()
-  {
-    return this.elementName;
-  }
-  
   /**
    * Setter for XML element type (e.g. atomic value, list or array).
    * 
@@ -167,7 +190,7 @@ public class ElementMetadata
   {
     this.type = type;
   }
-  
+
   /**
    * Getter for XML element type.
    * 
@@ -177,17 +200,17 @@ public class ElementMetadata
   {
     return this.type;
   }
-  
+
   /**
    * Setter for EXI event code.
    * 
    * @param exiEventCode EXI event code
    */
-  public void setEXIEventCode(int exiEventCode)
+  public void setEXIEventCode(final int exiEventCode)
   {
     this.exiEventCode = exiEventCode;
   }
-  
+
   /**
    * Getter for EXI event code.
    * 
@@ -197,7 +220,7 @@ public class ElementMetadata
   {
     return this.exiEventCode;
   }
-  
+
   /**
    * Clone ElementMetadata object and return a deep copy.
    * 
@@ -208,7 +231,7 @@ public class ElementMetadata
   {
     return new ElementMetadata(this.elementName, this.elementEXIType, this.elementCppType, this.type, this.exiEventCode);
   }
-  
+
   /**
    * Private helper method to get the EXI built-in type name
    * (e.g. Boolean, Integer or String) for one of Fabric's
@@ -216,7 +239,7 @@ public class ElementMetadata
    * 
    * @param schemaTypeName Fabric type name
    * 
-   * @return EXI built-in type name
+   * @return Corresponding EXI built-in type name
    * 
    * @throws IllegalArgumentException No matching mapping found
    */
@@ -234,16 +257,23 @@ public class ElementMetadata
   }
 
   /**
-   * TODO: Add comment
+   * Private helper method to get the C++ type name (e.g.
+   * bool, int or char) for one of the EXI built-in type
+   * names (e.g. Boolean, Integer or String).
    *
-   * @param exiTypeName
-   * @return
+   * @param exiTypeName EXI built-in type name
+   * 
+   * @return Corresponding C++ type name
+   * 
    * @throws IllegalArgumentException No matching mapping found
    */
   private String getCppTypeName(final String exiTypeName) throws IllegalArgumentException
   {
+    // Return mapping if available
     if (typesEXIToCpp.containsKey(exiTypeName))
     {
+      LOGGER.debug(String.format("Mapped EXI built-in type '%s' to C++ type '%s'.", exiTypeName, typesEXIToCpp.get(exiTypeName)));
+
       return typesEXIToCpp.get(exiTypeName);
     }
 
@@ -296,15 +326,18 @@ public class ElementMetadata
     typesFabricToEXI.put("FAny", "String");
   }
 
-    // TODO: Add comment
-    private static void createMappingEXIToCpp()
-    {
-        typesEXIToCpp.put("Boolean", "bool");
-        typesEXIToCpp.put("Float", "float");
-        typesEXIToCpp.put("String", "const char*");
-        typesEXIToCpp.put("Decimal", "char*");
-        typesEXIToCpp.put("Integer", "int32");
-        typesEXIToCpp.put("UnsignedInteger", "uint32");
-        typesEXIToCpp.put("NBitUnsignedInteger", "unsigned int");
-    }
+  /**
+   * Private helper method to populate the mapping of EXI
+   * built-in type names to C++ type names.
+   */
+  private static void createMappingEXIToCpp()
+  {
+    typesEXIToCpp.put("Boolean", "bool");
+    typesEXIToCpp.put("Float", "float");
+    typesEXIToCpp.put("String", "const char*");
+    typesEXIToCpp.put("Decimal", "char*");
+    typesEXIToCpp.put("Integer", "int32");
+    typesEXIToCpp.put("UnsignedInteger", "uint32");
+    typesEXIToCpp.put("NBitUnsignedInteger", "unsigned int");
+  }
 }

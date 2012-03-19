@@ -18,7 +18,6 @@ import de.uniluebeck.sourcegen.c.CppSourceFile;
 
 import fabric.wsdlschemaparser.schema.FElement;
 
-import fabric.module.exi.ElementMetadata;
 import fabric.module.exi.FabricEXIModule;
 import fabric.module.exi.base.EXICodeGen;
 import fabric.module.exi.java.FixValueContainer.ElementData;

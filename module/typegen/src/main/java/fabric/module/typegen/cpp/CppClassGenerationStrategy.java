@@ -1,4 +1,4 @@
-/** 09.01.2012 21:18 */
+/** 19.03.2012 11:46 */
 package fabric.module.typegen.cpp;
 
 import java.util.Map;
@@ -273,7 +273,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     else if (member.getClass() == AttributeContainer.ElementArray.class)
     {
       AttributeContainer.ElementArray ea = (AttributeContainer.ElementArray)member;
-      String type = String.format("%s<%s>", this.vectorTypeName, ea.type);
+      String type = String.format("%s<%s>*", this.vectorTypeName, ea.type);
       this.addRequiredInclude(this.vectorInclude);
       
       // No array size is given
@@ -296,7 +296,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     else if (member.getClass() == AttributeContainer.ElementList.class)
     {
       AttributeContainer.ElementList el = (AttributeContainer.ElementList)member;
-      String type = String.format("%s<%s>", this.vectorTypeName, el.type);
+      String type = String.format("%s<%s>*", this.vectorTypeName, el.type);
       this.addRequiredInclude(this.vectorInclude);
       
       // No list size is given
@@ -358,11 +358,11 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     else if (member instanceof AttributeContainer.ElementCollection)
     {
       AttributeContainer.ElementCollection ec = (AttributeContainer.ElementCollection)member;
-      type = String.format("%s<%s>", this.vectorTypeName, member.type);
+      type = String.format("%s<%s>*", this.vectorTypeName, member.type);
 
       // Create code to check array or list size
       methodBody += CppRestrictionHelper.createCheckCode(
-              String.format("%s.size() < %d || %s.size() > %d", member.name, ec.minSize, member.name, ec.maxSize),
+              String.format("%s->size() < %d || %s->size() > %d", member.name, ec.minSize, member.name, ec.maxSize),
               String.format("Illegal size for array '%s'.", member.name),
               "Check the occurrence indicators");
       
@@ -505,7 +505,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
     String type = member.type;
     if (member instanceof AttributeContainer.ElementCollection)
     {
-      type = String.format("%s<%s>", this.vectorTypeName, member.type);
+      type = String.format("%s<%s>*", this.vectorTypeName, member.type);
     }
 
     // Member variable is a constant
