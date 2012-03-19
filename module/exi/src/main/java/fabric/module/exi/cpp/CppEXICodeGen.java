@@ -1,4 +1,4 @@
-/** 16.03.2012 15:10 */
+/** 19.03.2012 09:47 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -106,25 +106,25 @@ public class CppEXICodeGen implements EXICodeGen
      * Create callback method that writes EXI stream to file
      *****************************************************************/
 
-    CFun outputStream   = this.generateOutputStreamFunction();
+    CFun outputStream = this.generateOutputStreamFunction();
     if (null != outputStream)
     {
       this.application.add(outputStream);
       
-      // Define name of EXI outfile as "BeanClassName.exi"
-        this.application.addBeforeDirective(String.format("define OUTFILE_NAME \"%s_serialized.exi\"", this.beanClassName.toLowerCase()));
+      // Define name of EXI outfile
+      this.application.addBeforeDirective(String.format("define OUTFILE_NAME \"%s_serialized.exi\"", this.beanClassName.toLowerCase()));
     }
 
     /*****************************************************************
     * Create callback method that reads EXI stream from file
     *****************************************************************/
 
-    CFun inputStream    = this.generateInputStreamFunction();
+    CFun inputStream = this.generateInputStreamFunction();
     if (null != inputStream)
     {
       this.application.add(inputStream);
 
-      // Define name of EXI infile as "BeanClassName.exi"
+      // Define name of EXI infile
       this.application.addBeforeDirective(String.format("define INFILE_NAME \"%s_serialized.exi\"", this.beanClassName.toLowerCase()));
     }
 
@@ -175,11 +175,17 @@ public class CppEXICodeGen implements EXICodeGen
   {
     // Empty implementation
   }
-  
-  // TODO: Add documentation
+
+  /**
+   * Handle top level element from XML Schema document,
+   * i.e. build EXI grammar for element.
+   *
+   * @param element Top level element to handle
+   */
   @Override
   public void handleTopLevelElement(final FElement element)
   {
+    // Collect data of elements with simple type
     if (element.getSchemaType().isSimple())
     {
       this.elementMetadata.add(new ElementMetadata(element));
@@ -188,11 +194,17 @@ public class CppEXICodeGen implements EXICodeGen
     // Build grammar
     grammarFactory.addGlobalElement(element);
   }
-  
-  // TODO: Add documentation
+
+  /**
+   * Handle local element from XML Schema document,
+   * i.e. build EXI grammar for element.
+   *
+   * @param element Local element to handle
+   */
   @Override
   public void handleLocalElement(final FElement element)
   {
+    // Collect data of elements with simple type
     if (element.getSchemaType().isSimple())
     {
       this.elementMetadata.add(new ElementMetadata(element));
@@ -260,33 +272,33 @@ public class CppEXICodeGen implements EXICodeGen
     return writeFileOutputStream;
   }
 
-    /**
-     * Create callback method that is used as a function pointer,
-     * when the EXI converter wants to read data from an input
-     * stream.
-     *
-     * @return CFun with definition of callback method
-     *
-     * @throws Exception Error during code generation
-     */
-    private CFun generateInputStreamFunction() throws Exception
-    {
-        CParam buffer = CParam.factory.create("void*", "buffer");
-        CParam readSize = CParam.factory.create("mySize_t", "readSize");
-        CFunSignature cfs = CFunSignature.factory.create(buffer, readSize);
-        CFun readFileInputStream = CFun.factory.create("readFileInputStream", "mySize_t", cfs);
+  /**
+   * Create callback method that is used as a function pointer,
+   * when the EXI converter wants to read data from an input
+   * stream.
+   *
+   * @return CFun with definition of callback method
+   *
+   * @throws Exception Error during code generation
+   */
+  private CFun generateInputStreamFunction() throws Exception
+  {
+    CParam buffer = CParam.factory.create("void*", "buffer");
+    CParam readSize = CParam.factory.create("mySize_t", "readSize");
+    CFunSignature cfs = CFunSignature.factory.create(buffer, readSize);
+    CFun readFileInputStream = CFun.factory.create("readFileInputStream", "mySize_t", cfs);
+    
+    String methodBody =
+            "FILE *infile = fopen(INFILE_NAME, \"rb\");\n\n" +
+            "mySize_t result = fread(buffer, 1, readSize, infile);\n" +
+            "fclose(infile);\n\n" +
+            "return result;";
 
-        String methodBody =
-                "FILE *infile = fopen(INFILE_NAME, \"rb\");\n\n" +
-                        "mySize_t result = fread(buffer, 1, readSize, infile);\n" +
-                        "fclose(infile);\n\n" +
-                        "return result;";
+    readFileInputStream.appendCode(methodBody);
+    readFileInputStream.setComment(new CCommentImpl("Read EXI stream from an input file."));
 
-        readFileInputStream.appendCode(methodBody);
-        readFileInputStream.setComment(new CCommentImpl("Read EXI stream from an input file."));
-
-        return readFileInputStream;
-    }
+    return readFileInputStream;
+  }
 
   /**
    * Create main function for application. The method initializes
