@@ -1,4 +1,4 @@
-/** 19.03.2012 09:42 */
+/** 19.03.2012 13:55 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -186,9 +186,8 @@ public class CppEXIConverter
     {
       ElementMetadata element = elementMetadata.poll();
       
-      serializerCode += String.format(
-              "// Encode the '%s' element\n",
-              element.getElementName());
+      serializerCode += CppEXIConverter.createNiceCommentDelimiter(
+              String.format("Encode the '%s' element", element.getElementName())) + "\n\n";
       
       // Distinguish XML element types
       switch (element.getType())
@@ -273,12 +272,13 @@ public class CppEXIConverter
     {
       ElementMetadata element = elementMetadata.poll();
       
+      deserializerCode += CppEXIConverter.createNiceCommentDelimiter(
+              String.format("Decode the '%s' element", element.getElementName())) + "\n\n";
+      
       deserializerCode += String.format(
-              "// Decode the '%s' element\n" +
               "// Initialize variable to hold decoded value\n" +
               "%s %s;\n",
-              element.getElementName(), element.getElementCppType(),
-              element.getElementName().toLowerCase());
+              element.getElementCppType(), element.getElementName().toLowerCase());
       
       // Distinguish XML element types
       switch (element.getType())
@@ -338,9 +338,9 @@ public class CppEXIConverter
             "exitCode += stream->readHeader();\n\n" +
             "// Initialize variable for EXI event code bits\n" +
             "unsigned int eventCodeBits;\n\n" +
-            "/*************** Deserialize elements ***************/\n\n" +
+            "/************** Deserialize elements **************/\n\n" +
             "%s" +
-            "/****************************************************/\n\n" +
+            "/**************************************************/\n\n" +
             "// Close EXI stream\n" +
             "exitCode += stream->closeStream();\n\n" +
             "// Return exit code\n" +
@@ -445,5 +445,61 @@ public class CppEXIConverter
     }
 
     return fileName.replaceAll("\\.", "_").toUpperCase();
+  }
+
+  /**
+   * Private helper method to create nice delimiters in code
+   * comments. Each delimiter is a one-line comment of 52
+   * characters. The text is centered and surrounded by
+   * asterisk characters (*).
+   * 
+   * @param comment Comment to prettify
+   * 
+   * @return Prettified one-line comment
+   * 
+   * @throws IllegalStateException Error during comment creation
+   */
+  private static String createNiceCommentDelimiter(String comment) throws IllegalStateException
+  {
+    String result = "";
+    int amountOfStars = 0;
+    int lengthOfResult = 52;
+
+    // Trim comments that are too long
+    //
+    // Every return value contains at least
+    // 2 slashes, 2 stars, 2 spaces and 3
+    // dots (...): 52 - 9 = 43
+    if (comment.length() > lengthOfResult - 9)
+    {
+      comment = comment.substring(0, lengthOfResult - 9) + "...";
+    }
+
+    // Delimiter has 52 characters at maximum minus
+    // 2 slashes minus 2 spaces minus comment text
+    amountOfStars = lengthOfResult - 2 - 2 - comment.length();
+
+    // Create sequence of stars
+    String stars = "";
+    for (int i = 0; i < amountOfStars / 2; ++i)
+    {
+      stars += "*";
+    }
+
+    // Build return value
+    result = "/" + stars;
+    if (amountOfStars % 2 != 0)
+    {
+      result += "*"; // Comment has odd text length!
+    }
+    result += " " + comment + " " + stars + "/";
+
+    // This guard should never trigger!
+    if (result.length() > lengthOfResult)
+    {
+      throw new IllegalStateException("CppEXIConverter reached an illegal state. This should never happen.");
+    }
+
+    return result;
   }
 }
