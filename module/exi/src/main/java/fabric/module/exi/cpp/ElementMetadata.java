@@ -48,6 +48,9 @@ public class ElementMetadata
   
   /** Name of the XML element */
   private String elementName;
+
+    /** Name of the parent element */
+  private String parentName;
   
   /** EXI type of XML element content (e.g. Boolean, Integer or String) */
   private String elementEXIType;
@@ -101,13 +104,14 @@ public class ElementMetadata
       this.elementEXIType = this.getEXITypeName(listType.getItemType().getClass().getSimpleName());
       this.type = ElementMetadata.XML_LIST;
     }
-    /* TODO
+
     else if (FSchemaTypeHelper.isArray(element))
     {
-      this.elementEXIType = element.getSchemaType().getName() + "Type"; // TODO: Set type of array elements
+      this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName()); // TODO: Set type of array elements
+        LOGGER.debug(">>> " + elementEXIType);
       this.type = ElementMetadata.XML_ARRAY;
     }
-    */
+
     else
     {
       this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName());
@@ -120,6 +124,15 @@ public class ElementMetadata
     // Set EXI event code
     this.exiEventCode = 0;
   }
+    
+  public ElementMetadata(FElement element, String parentName) {
+    this(element);
+    this.parentName = parentName;
+      LOGGER.debug(">>> " + this.parentName);
+  }
+
+    
+    
 
   /**
    * Setter for XML element name.
@@ -140,6 +153,24 @@ public class ElementMetadata
   {
     return this.elementName;
   }
+
+    /**
+     * Getter for parent element name.
+     *
+     * @return Parent element name
+     */
+    public String getParentName() {
+        return this.parentName;
+    }
+
+    /**
+     * Setter for parent element name.
+     *
+     * @param parentName Parent element name
+     */
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
 
   /**
    * Setter for EXI element content type.
@@ -229,7 +260,9 @@ public class ElementMetadata
   @Override
   public ElementMetadata clone()
   {
-    return new ElementMetadata(this.elementName, this.elementEXIType, this.elementCppType, this.type, this.exiEventCode);
+    ElementMetadata metadata = new ElementMetadata(this.elementName, this.elementEXIType, this.elementCppType, this.type, this.exiEventCode);
+    metadata.setParentName(this.parentName);
+    return metadata;
   }
 
   /**

@@ -45,8 +45,9 @@ public interface EXICodeGen
   /**
    * Handle local element from XML Schema document,
    * i.e. build EXI grammar for element.
-   * 
+   *
    * @param element Local element to handle
+   * @param parentName
    */
-  public void handleLocalElement(final FElement element);
+  public void handleLocalElement(final FElement element, String parentName);
 }

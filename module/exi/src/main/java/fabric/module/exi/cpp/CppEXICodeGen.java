@@ -199,14 +199,15 @@ public class CppEXICodeGen implements EXICodeGen
    * i.e. build EXI grammar for element.
    *
    * @param element Local element to handle
+   * @param parentName Name of parent element
    */
   @Override
-  public void handleLocalElement(final FElement element)
+  public void handleLocalElement(final FElement element, final String parentName)
   {
     // Collect data of elements with simple type
     if (element.getSchemaType().isSimple())
     {
-      this.elementMetadata.add(new ElementMetadata(element));
+      this.elementMetadata.add(new ElementMetadata(element, parentName));
     }
 
     // Build grammar

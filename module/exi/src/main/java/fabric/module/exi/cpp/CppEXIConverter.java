@@ -220,15 +220,15 @@ public class CppEXIConverter
         // XML element is an array
         case ElementMetadata.XML_ARRAY:
             serializerCode += String.format(
-                    "for (int i = 0; i < typeObject->get%s()->size(); ++i)\n" +
+                    "for (int i = 0; i < typeObject->get%s()->get%s()->size(); ++i)\n" +
                             "{\n" +
                             "\t// Write EXI event code\n" +
                             "\texitCode += stream->writeNBits(3, %d);\n\n" +
                             "\t// Encode array element\n" +
-                            "\texitCode += encoder.encode%s(stream, typeObject->get%s()->at(i));\n" +
+                            "\texitCode += encoder.encode%s(stream, typeObject->get%s()->get%s()->at(i));\n" +
                             "}\n\n",
-                    element.getElementName(), element.getEXIEventCode(),
-                    element.getElementEXIType(), element.getElementName());
+                    element.getParentName(), element.getElementName(), element.getEXIEventCode(),
+                    element.getElementEXIType(), element.getParentName(), element.getElementName());
             break;
         
         default:
@@ -339,16 +339,17 @@ public class CppEXIConverter
                             "for (int i = 0; %d == eventCodeBits; ++i, exitCode += stream->readNBits(3, &eventCodeBits))\n" +
                             "{\n" +
                             "\t// Resize target list\n" +
-                            "\ttypeObject->get%s()->resize(i+1);\n\n" +
+                            "\ttypeObject->get%s()->get%s()->resize(i+1);\n\n" +
                             "\t// Decode list elements\n" +
                             "\texitCode += decoder.decode%s(stream, &%s);\n" +
                             "\tif (0 == exitCode)\n" +
                             "\t{\n" +
-                            "\t\ttypeObject->get%s()->at(i) = %s;\n" +
+                            "\t\ttypeObject->get%s()->get%s()->at(i) = %s;\n" +
                             "\t}\n" +
                             "}\n\n",
-                    element.getEXIEventCode(), element.getElementName(),
+                    element.getEXIEventCode(), element.getParentName(), element.getElementName(),
                     element.getElementEXIType(), element.getElementName().toLowerCase(),
+                    element.getParentName(),
                     element.getElementName(), element.getElementName().toLowerCase());
             break;
         

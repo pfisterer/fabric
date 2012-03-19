@@ -140,7 +140,7 @@ public class FabricEXIHandler extends FabricDefaultHandler
     if (null != element)
     {
       // Handle local element (e.g. build EXI grammar)
-      this.exiGenerator.handleLocalElement(element);
+      this.exiGenerator.handleLocalElement(element, parent.getName());
 
       this.fixElementIfRequired(element);
     }

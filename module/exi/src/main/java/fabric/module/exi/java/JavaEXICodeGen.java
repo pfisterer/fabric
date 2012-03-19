@@ -217,11 +217,12 @@ public class JavaEXICodeGen implements EXICodeGen
    * Handle local element from XML Schema document. We
    * do not need to build any EXI gramma in the Java code
    * generator, so this method is left empty.
-   * 
+   *
    * @param element Local element to handle
+   * @param parentName
    */
   @Override
-  public void handleLocalElement(final FElement element)
+  public void handleLocalElement(final FElement element, String parentName)
   {
     // Empty implementation
   }
