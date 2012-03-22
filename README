@@ -26,7 +26,7 @@ In addition, a number of modules are contained that generate code
     (http://code.google.com/p/protobuf/) files.
 
 In 2011/12 the Fabric framework was extended by two more modules:
-  - typegen: A generator to create Java bean-like container
+  - typegen: A generator to create JavaBean-like container
     classes from XML schema documents for both Java and C++.
 
   - exi: An implementation of the Efficient XML Interchange

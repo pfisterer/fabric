@@ -1,4 +1,4 @@
-/** 19.03.2012 13:55 */
+/** 22.03.2012 17:48 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -28,7 +28,7 @@ import fabric.module.exi.exceptions.FabricEXIException;
  * and generates methods for the application's main function
  * to demonstrate the usage of the converter.
  * 
- * @author seidel
+ * @author seidel, reichart
  */
 public class CppEXIConverter
 {
@@ -204,13 +204,14 @@ public class CppEXIConverter
         // XML element is a list
         case ElementMetadata.XML_LIST:
           serializerCode += String.format(
-                  "// Write EXI event code\n" +
+                  "// Write EXI event code once\n" +
                   "exitCode += stream->writeNBits(3, %d);\n\n" +
                   "// Encode length of list\n" +
                   "unsigned int length = typeObject->get%s()->size();\n" +
                   "exitCode += encoder.encodeUnsignedInteger(stream, length);\n\n" +
                   "// Encode list elements\n" +
                   "for (int i = 0; i < length; ++i) {\n" +
+                  "\t// Encode list element\n" +
                   "\texitCode += encoder.encode%s(stream, typeObject->get%s()->at(i));\n" +
                   "}\n\n",
                   element.getEXIEventCode(), element.getElementName(),
@@ -219,18 +220,18 @@ public class CppEXIConverter
         
         // XML element is an array
         case ElementMetadata.XML_ARRAY:
-            serializerCode += String.format(
-                    "for (int i = 0; i < typeObject->get%s()->get%s()->size(); ++i)\n" +
-                            "{\n" +
-                            "\t// Write EXI event code\n" +
-                            "\texitCode += stream->writeNBits(3, %d);\n\n" +
-                            "\t// Encode array element\n" +
-                            "\texitCode += encoder.encode%s(stream, typeObject->get%s()->get%s()->at(i));\n" +
-                            "}\n\n",
-                    element.getParentName(), element.getElementName(), element.getEXIEventCode(),
-                    element.getElementEXIType(), element.getParentName(), element.getElementName());
-            break;
-        
+          serializerCode += String.format(
+                  "// Encode array elements\n" +
+                  "for (int i = 0; i < typeObject->get%s()->get%s()->size(); ++i) {\n" +
+                  "\t// Write EXI event code for each element\n" +
+                  "\texitCode += stream->writeNBits(3, %d);\n\n" +
+                  "\t// Encode array element\n" +
+                  "\texitCode += encoder.encode%s(stream, typeObject->get%s()->get%s()->at(i));\n" +
+                  "}\n\n",
+                  element.getParentName(), element.getElementName(), element.getEXIEventCode(),
+                  element.getElementEXIType(), element.getParentName(), element.getElementName());
+          break;
+
         default:
           throw new FabricEXIException("Unknown XML element type. Use one of [atomic value, array, list].");
       }
@@ -285,8 +286,8 @@ public class CppEXIConverter
               String.format("Decode the '%s' element", element.getElementName())) + "\n\n";
       
       deserializerCode += String.format(
-              "// Initialize variable to hold decoded value\n" +
-              "%s %s;\n",
+              "// Define variable to hold decoded value\n" +
+              "%s %s;\n\n",
               element.getElementCppType(), element.getElementName().toLowerCase());
       
       // Distinguish XML element types
@@ -298,9 +299,8 @@ public class CppEXIConverter
                   "// Read EXI event code\n" +
                   "exitCode += stream->readNBits(3, &eventCodeBits);\n\n" +
                   "// Decode element value\n" +
-                  "exitCode += decoder.decode%s(stream, &%s);\n" +
-                  "if (0 == exitCode)\n" +
-                  "{\n" +
+                  "exitCode += decoder.decode%s(stream, &%s);\n\n" +
+                  "if (0 == exitCode) {\n" +
                   "\ttypeObject->set%s(%s);\n" +
                   "}\n\n",
                   element.getElementEXIType(), element.getElementName().toLowerCase(),
@@ -310,7 +310,7 @@ public class CppEXIConverter
         // XML element is a list
         case ElementMetadata.XML_LIST:
           deserializerCode += String.format(
-                  "// Read EXI event code\n" +
+                  "// Read EXI event code once\n" +
                   "exitCode += stream->readNBits(3, &eventCodeBits);\n\n" +
                   "// Read length of list\n" +
                   "uint32 length;\n" +
@@ -319,39 +319,39 @@ public class CppEXIConverter
                   "typeObject->get%s()->resize(length);\n\n" +
                   "// Decode list elements\n" +
                   "for (int i = 0; i < length; ++i) {\n" +
-                  "\texitCode += decoder.decode%s(stream, &%s);\n" +
-                  "\tif (0 == exitCode)\n" +
-                  "\t{\n" +
+                  "\t// Decode list element\n" +
+                  "\texitCode += decoder.decode%s(stream, &%s);\n\n" +
+                  "\tif (0 == exitCode) {\n" +
                   "\t\ttypeObject->get%s()->at(i) = %s;\n" +
                   "\t}\n" +
                   "}\n\n",
-                  element.getElementName(),
-                  element.getElementEXIType(), element.getElementName().toLowerCase(),
-                  element.getElementName(), element.getElementName().toLowerCase());
+                  element.getElementName(), element.getElementEXIType(),
+                  element.getElementName().toLowerCase(), element.getElementName(),
+                  element.getElementName().toLowerCase());
           break;
         
         // XML element is an array
         case ElementMetadata.XML_ARRAY:
-            deserializerCode += String.format(
-                    "// Read EXI event code\n" +
-                            "exitCode += stream->readNBits(3, &eventCodeBits);\n\n" +
-                            "// As long as the array has elements decode these elements\n" +
-                            "for (int i = 0; %d == eventCodeBits; ++i, exitCode += stream->readNBits(3, &eventCodeBits))\n" +
-                            "{\n" +
-                            "\t// Resize target list\n" +
-                            "\ttypeObject->get%s()->get%s()->resize(i+1);\n\n" +
-                            "\t// Decode list elements\n" +
-                            "\texitCode += decoder.decode%s(stream, &%s);\n" +
-                            "\tif (0 == exitCode)\n" +
-                            "\t{\n" +
-                            "\t\ttypeObject->get%s()->get%s()->at(i) = %s;\n" +
-                            "\t}\n" +
-                            "}\n\n",
-                    element.getEXIEventCode(), element.getParentName(), element.getElementName(),
-                    element.getElementEXIType(), element.getElementName().toLowerCase(),
-                    element.getParentName(),
-                    element.getElementName(), element.getElementName().toLowerCase());
-            break;
+          deserializerCode += String.format(
+                  "// Read first EXI event code\n" +
+                  "exitCode += stream->readNBits(3, &eventCodeBits);\n\n" +
+                  "// Decode array elements\n" +
+                  "for (int i = 0; %d == eventCodeBits; ++i) {\n" +
+                  "\t// Resize target array\n" +
+                  "\ttypeObject->get%s()->get%s()->resize(i + 1);\n\n" +
+                  "\t// Decode array element\n" +
+                  "\texitCode += decoder.decode%s(stream, &%s);\n\n" +
+                  "\tif (0 == exitCode) {\n" +
+                  "\t\ttypeObject->get%s()->get%s()->at(i) = %s;\n" +
+                  "\t}\n\n" +
+                  "\t// Read next EXI event code\n" +
+                  "\texitCode += stream->readNBits(3, &eventCodeBits);\n" +
+                  "}\n\n",
+                  element.getEXIEventCode(), element.getParentName(),
+                  element.getElementName(), element.getElementEXIType(),
+                  element.getElementName().toLowerCase(), element.getParentName(),
+                  element.getElementName(), element.getElementName().toLowerCase());
+          break;
         
         default:
           throw new FabricEXIException("Unknown XML element type. Use one of [atomic value, array, list].");

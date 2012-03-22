@@ -1,4 +1,4 @@
-/** 19.03.2012 11:48 */
+/** 22.03.2012 18:30 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
  * objects. The data is later used to generate the serialization
  * and deserialization methods in EXIConverter class dynamically.
  * 
- * @author seidel
+ * @author seidel, reichart
  */
 public class ElementMetadata
 {
@@ -48,10 +48,10 @@ public class ElementMetadata
   
   /** Name of the XML element */
   private String elementName;
-
-    /** Name of the parent element */
-  private String parentName;
   
+  /** Name of the parent XML element */
+  private String parentName;
+
   /** EXI type of XML element content (e.g. Boolean, Integer or String) */
   private String elementEXIType;
   
@@ -96,7 +96,7 @@ public class ElementMetadata
     // Set XML element name
     this.elementName = element.getName();
 
-    // Set EXI and XML element type
+    // Element is an XML list
     if (FSchemaTypeHelper.isList(element))
     {
       FList listType = (FList)element.getSchemaType();
@@ -104,35 +104,42 @@ public class ElementMetadata
       this.elementEXIType = this.getEXITypeName(listType.getItemType().getClass().getSimpleName());
       this.type = ElementMetadata.XML_LIST;
     }
-
+    // Element is an XML array
     else if (FSchemaTypeHelper.isArray(element))
     {
-      this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName()); // TODO: Set type of array elements
-        LOGGER.debug(">>> " + elementEXIType);
+      this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName());
       this.type = ElementMetadata.XML_ARRAY;
     }
-
+    // Element is an atomic value
     else
     {
       this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName());
       this.type = ElementMetadata.XML_ATOMIC_VALUE;
     }
-    
+
     // Set C++ element type
     this.elementCppType = this.getCppTypeName(this.elementEXIType);
-    
+
     // Set EXI event code
     this.exiEventCode = 0;
   }
-    
-  public ElementMetadata(FElement element, String parentName) {
-    this(element);
-    this.parentName = parentName;
-      LOGGER.debug(">>> " + this.parentName);
-  }
 
+  /**
+   * Parameterized constructor creates ElementMetadata object
+   * from an FElement object and stores the name of the parent
+   * XML element.
+   *
+   * @param element FElement object passed through from treewalker
+   * @param parentName Name of the parent XML element
+   */
+  public ElementMetadata(final FElement element, final String parentName)
+  {
+    // Set element metadata
+    this(element);
     
-    
+    // Set name of parent XML element
+    this.parentName = parentName;
+  }
 
   /**
    * Setter for XML element name.
@@ -154,23 +161,25 @@ public class ElementMetadata
     return this.elementName;
   }
 
-    /**
-     * Getter for parent element name.
-     *
-     * @return Parent element name
-     */
-    public String getParentName() {
-        return this.parentName;
-    }
+  /**
+   * Setter for parent XML element name.
+   *
+   * @param parentName Parent XML element name
+   */
+  public void setParentName(final String parentName)
+  {
+    this.parentName = parentName;
+  }
 
-    /**
-     * Setter for parent element name.
-     *
-     * @param parentName Parent element name
-     */
-    public void setParentName(String parentName) {
-        this.parentName = parentName;
-    }
+  /**
+   * Getter for parent XML element name.
+   *
+   * @return Parent XML element name
+   */
+  public String getParentName()
+  {
+    return this.parentName;
+  }
 
   /**
    * Setter for EXI element content type.
@@ -260,9 +269,10 @@ public class ElementMetadata
   @Override
   public ElementMetadata clone()
   {
-    ElementMetadata metadata = new ElementMetadata(this.elementName, this.elementEXIType, this.elementCppType, this.type, this.exiEventCode);
-    metadata.setParentName(this.parentName);
-    return metadata;
+    ElementMetadata result = new ElementMetadata(this.elementName, this.elementEXIType, this.elementCppType, this.type, this.exiEventCode);
+    result.setParentName(this.parentName);
+
+    return result;
   }
 
   /**

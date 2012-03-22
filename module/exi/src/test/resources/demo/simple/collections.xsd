@@ -16,7 +16,6 @@
   <!--
     Element with XML array.
   -->
-  <!-- TODO: Not supported yet.
   <xs:element name="ComplexLocalArray">
     <xs:complexType>
       <xs:sequence>
@@ -24,6 +23,5 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  -->
 
 </xs:schema>

@@ -1,4 +1,4 @@
-/** 19.03.2012 09:47 */
+/** 22.03.2012 19:11 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -199,7 +199,7 @@ public class CppEXICodeGen implements EXICodeGen
    * i.e. build EXI grammar for element.
    *
    * @param element Local element to handle
-   * @param parentName Name of parent element
+   * @param parentName Name of parent XML element
    */
   @Override
   public void handleLocalElement(final FElement element, final String parentName)

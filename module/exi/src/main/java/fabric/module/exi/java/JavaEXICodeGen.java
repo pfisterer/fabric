@@ -1,4 +1,4 @@
-/** 09.03.2012 12:17 */
+/** 22.03.2012 19:11 */
 package fabric.module.exi.java;
 
 import org.slf4j.Logger;
@@ -219,10 +219,10 @@ public class JavaEXICodeGen implements EXICodeGen
    * generator, so this method is left empty.
    *
    * @param element Local element to handle
-   * @param parentName
+   * @param parentName Name of parent XML element
    */
   @Override
-  public void handleLocalElement(final FElement element, String parentName)
+  public void handleLocalElement(final FElement element, final String parentName)
   {
     // Empty implementation
   }
