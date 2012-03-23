@@ -1,4 +1,4 @@
-/** 23.03.2012 13:14 */
+/** 23.03.2012 14:06 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -57,9 +57,6 @@ public class ElementMetadata
   /** EXI type of XML element content (e.g. Boolean, Integer or String) */
   private String elementEXIType;
   
-  /** C++ type of element content (e.g. boolean, int or char*) */
-  private String elementCppType;
-  
   /** Type of the XML element (e.g. atomic value, list or array) */
   private int type;
   
@@ -72,16 +69,13 @@ public class ElementMetadata
    * @param elementName XML element name
    * @param elementEXIType EXI type of element content (e.g. Boolean,
    * Integer or String)
-   * @param elementCppType C++ type of element content (e.g. bool,
-   * int or char*)
    * @param type XML element type (atomic value, list or array)
    * @param exiEventCode EXI event code
    */
-  public ElementMetadata(final String elementName, final String elementEXIType, final String elementCppType, final int type, final int exiEventCode)
+  public ElementMetadata(final String elementName, final String elementEXIType, final int type, final int exiEventCode)
   {
     this.elementName = elementName;
     this.elementEXIType = elementEXIType;
-    this.elementCppType = elementCppType;
     this.type = type;
     this.exiEventCode = exiEventCode;
 
@@ -121,9 +115,6 @@ public class ElementMetadata
       this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName());
       this.type = ElementMetadata.XML_ATOMIC_VALUE;
     }
-
-    // Set C++ element type
-    this.elementCppType = this.getCppTypeName(this.elementEXIType);
 
     // Set EXI event code
     this.exiEventCode = 0;
@@ -210,23 +201,13 @@ public class ElementMetadata
   }
 
   /**
-   * Setter for C++ element content type.
-   * 
-   * @param elementCppType C++ element content type
-   */
-  public void setElementCppType(final String elementCppType)
-  {
-    this.elementCppType = elementCppType;
-  }
-
-  /**
    * Getter for C++ element content type.
    * 
    * @return C++ element content type
    */
   public String getElementCppType()
   {
-    return this.elementCppType;
+    return this.getCppTypeName(this.elementEXIType);
   }
 
   /**
@@ -277,7 +258,7 @@ public class ElementMetadata
   @Override
   public ElementMetadata clone()
   {
-    ElementMetadata result = new ElementMetadata(this.elementName, this.elementEXIType, this.elementCppType, this.type, this.exiEventCode);
+    ElementMetadata result = new ElementMetadata(this.elementName, this.elementEXIType, this.type, this.exiEventCode);
     result.setParentName(this.parentName);
 
     return result;
