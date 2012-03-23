@@ -144,7 +144,17 @@ public class CppEXITypeEncoderGenerator {
         CppFun fun_encFloat = CppFun.factory.create(Cpp.INT, "encodeFloat",
                 var_strm, var_flVal);
         String methodBody =
-                "return UNEXPECTED_ERROR;";
+        	"int tmp_err_code = UNEXSPECTED_ERROR;\n" +
+        	"int32* mantissa;\n" +
+        	"int32* exponent;\n" +
+        	"tmp_err_code = encodeInteger(strm, mantissa);\n" +
+        	"if(tmp_err_code != ERR_OK)\n" +
+    		"\treturn tmp_err_code;\n\n" +
+    		"tmp_err_code = encodeInteger(strm, exponent);\n" +
+        	"if(tmp_err_code != ERR_OK)\n" +
+    		"\treturn tmp_err_code;\n\n" +
+    		"return ERR_OK;";
+        
         String comment =
                 "Encodes float values.";
         fun_encFloat.appendCode(methodBody);
