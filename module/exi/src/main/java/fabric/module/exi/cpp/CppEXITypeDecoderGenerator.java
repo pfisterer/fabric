@@ -141,7 +141,25 @@ public class CppEXITypeDecoderGenerator {
         CppFun fun_decFloat = CppFun.factory.create(Cpp.INT, "decodeFloat",
                 var_strm, var_flVal);
         String methodBody =
-                "return UNEXPECTED_ERROR;";
+        	"int tmp_err_code = UNEXPECTED_ERROR;\n" +
+        	"int32 mantissa;\n" +
+        	"int32 exponent;\n" +
+        	"tmp_err_code = decodeInteger(strm, &mantissa);\n" +
+        	"if(tmp_err_code != ERR_OK)\n" +
+        	"\treturn tmp_err_code;\n\n" +
+        	"tmp_err_code = decodeInteger(strm, &exponent);\n" +
+        	"if(tmp_err_code != ERR_OK)\n" +
+        	"\treturn tmp_err_code;\n\n" +
+        	"fl_val = (float*) mantissa;\n" +
+        	"while(exponent)\n" +
+        	"{\n" +
+        	"\tif(exponent > 0)\n" +
+        	"\t\texponent--;\n" +
+        	"\telse\n" +
+      		"\t\texponent++;\n" +
+        	"\t*fl_val *= 10.0;\n" +
+        	"}\n" +
+        	"return ERR_OK;";
         String comment =
                 "Decodes float values.";
         fun_decFloat.appendCode(methodBody);
