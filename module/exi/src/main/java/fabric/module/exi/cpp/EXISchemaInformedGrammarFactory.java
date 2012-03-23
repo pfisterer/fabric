@@ -3,10 +3,8 @@ package fabric.module.exi.cpp;
 import exi.ExiException;
 import exi.events.ExiEventCodeGenerator;
 import exi.grammar.ExiDocumentGrammar;
-import exi.grammar.ExiElementGrammar;
 import exi.grammar.ExiGrammar;
 import exi.grammar.ExiGrammarFactory;
-import fabric.wsdlschemaparser.schema.FElement;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -14,27 +12,25 @@ import java.util.ArrayList;
 public class EXISchemaInformedGrammarFactory implements ExiGrammarFactory {
 
 
-    private ArrayList<String> globalElements;
+    private ArrayList<ElementMetadata> globalElements;
+    private ArrayList<ElementMetadata> localElements;
 
 
     /**
      * Constructor.
      */
     public EXISchemaInformedGrammarFactory() {
-        globalElements = new ArrayList<String>();
+        globalElements = new ArrayList<ElementMetadata>();
+        localElements = new ArrayList<ElementMetadata>();
     }
 
 
-    /**
-     *
-     * @param element
-     */
-    public void addGlobalElement(FElement element) {
-        globalElements.add(element.toString());
+    public void addGlobalElement(ElementMetadata element) {
+        globalElements.add(element);
     }
 
-    public void addLocalElement(FElement element) {
-        // TODO
+    public void addLocalElement(ElementMetadata element) {
+        localElements.add(element);
     }
 
 
@@ -52,7 +48,7 @@ public class EXISchemaInformedGrammarFactory implements ExiGrammarFactory {
 
         java.util.Collections.sort(globalElements);
         for(int i=0; i< globalElements.size(); i++) {
-            eg.append(content, end, "SE("+ globalElements.get(i)+")", g.getNextCode(i+1));
+            eg.append(content, end, "SE("+ globalElements.get(i)+")", g.getNextCode(1));
         }
 
 

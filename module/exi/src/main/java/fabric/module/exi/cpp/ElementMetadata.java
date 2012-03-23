@@ -1,4 +1,4 @@
-/** 23.03.2012 14:06 */
+/** 23.03.2012 15:23 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
  * 
  * @author seidel, reichart
  */
-public class ElementMetadata
+public class ElementMetadata implements Comparable<ElementMetadata>
 {
   /** Logger object */
   private static final Logger LOGGER = LoggerFactory.getLogger(ElementMetadata.class);
@@ -402,5 +402,12 @@ public class ElementMetadata
     {
       throw new UnsupportedOperationException(String.format("EXI data type '%s' is not supported yet.", exiTypeName));
     }
+  }
+
+  // TODO: Add comment and move to clone()
+  @Override
+  public int compareTo(final ElementMetadata elementMetadata)
+  {
+    return this.elementName.compareTo(elementMetadata.elementName);
   }
 }
