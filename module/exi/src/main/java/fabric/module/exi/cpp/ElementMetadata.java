@@ -1,9 +1,11 @@
-/** 22.03.2012 18:30 */
+/** 23.03.2012 13:14 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import fabric.wsdlschemaparser.schema.FElement;
@@ -82,8 +84,11 @@ public class ElementMetadata
     this.elementCppType = elementCppType;
     this.type = type;
     this.exiEventCode = exiEventCode;
+
+    // Validate support for EXI type
+    ElementMetadata.checkEXITypeSupport(this.elementEXIType);
   }
-  
+
   /**
    * Parameterized constructor creates ElementMetadata object
    * from an FElement object passed through from the Fabric
@@ -122,6 +127,9 @@ public class ElementMetadata
 
     // Set EXI event code
     this.exiEventCode = 0;
+
+    // Validate support for EXI type
+    ElementMetadata.checkEXITypeSupport(this.elementEXIType);
   }
 
   /**
@@ -382,5 +390,36 @@ public class ElementMetadata
     typesEXIToCpp.put("Integer", "int32");
     typesEXIToCpp.put("UnsignedInteger", "uint32");
     typesEXIToCpp.put("NBitUnsignedInteger", "unsigned int");
+  }
+
+  /**
+   * Private helper method to check whether a desired EXI type
+   * is supported by our C++ EXI implementation or not. We do
+   * currently not support all EXI types, e.g. there is no
+   * implementation for EXI string tables yet.
+   * 
+   * In case of an unsupported EXI type an exception is raised.
+   * 
+   * @param exiTypeName EXI type name
+   * 
+   * @throws UnsupportedOperationException EXI type not supported
+   */
+  private static void checkEXITypeSupport(final String exiTypeName)
+  {
+    // Create a list of supported EXI types
+    List<String> supportedEXITypes = new ArrayList<String>();
+    supportedEXITypes.add("Boolean");
+    // supportedEXITypes.add("Float"); // TODO: Add support for Float
+    // supportedEXITypes.add("String"); // TODO: Add support for String
+    // supportedEXITypes.add("Decimal"); // TODO: Add support for Decimal
+    supportedEXITypes.add("Integer");
+    supportedEXITypes.add("UnsignedInteger");
+    supportedEXITypes.add("NBitUnsignedInteger");
+
+    // Validate desired EXI type
+    if (!supportedEXITypes.contains(exiTypeName))
+    {
+      throw new UnsupportedOperationException(String.format("EXI data type '%s' is not supported yet.", exiTypeName));
+    }
   }
 }
