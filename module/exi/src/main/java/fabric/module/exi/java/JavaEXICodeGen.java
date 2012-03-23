@@ -1,4 +1,4 @@
-/** 09.03.2012 12:17 */
+/** 22.03.2012 19:11 */
 package fabric.module.exi.java;
 
 import org.slf4j.Logger;
@@ -217,11 +217,12 @@ public class JavaEXICodeGen implements EXICodeGen
    * Handle local element from XML Schema document. We
    * do not need to build any EXI gramma in the Java code
    * generator, so this method is left empty.
-   * 
+   *
    * @param element Local element to handle
+   * @param parentName Name of parent XML element
    */
   @Override
-  public void handleLocalElement(final FElement element)
+  public void handleLocalElement(final FElement element, final String parentName)
   {
     // Empty implementation
   }

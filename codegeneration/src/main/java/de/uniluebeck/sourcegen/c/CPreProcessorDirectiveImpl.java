@@ -56,7 +56,6 @@ class CPreProcessorDirectiveImpl extends CElemImpl implements CPreProcessorDirec
 		this.directive = directive;
 		this.hash = hash;
 		// TODO: implement validation
-		// remove SuppressWarnings (!)
 	}
 	
 	public boolean equals(CPreProcessorDirective other) {

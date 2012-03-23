@@ -1,0 +1,27 @@
+<!--
+  Schema test file for XML lists and arrays.
+-->
+
+<xs:schema xmlns:itm="http://www.itm.uni-luebeck.de/fabrictest" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.itm.uni-luebeck.de/fabrictest" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <!--
+    Element with XML list.
+  -->
+  <xs:element name="SimpleLocalList">
+    <xs:simpleType>
+      <xs:list itemType="xs:int" />
+    </xs:simpleType>
+  </xs:element>
+
+  <!--
+    Element with XML array.
+  -->
+  <xs:element name="ComplexLocalArray">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="ArrayItem" type="xs:int" minOccurs="3" maxOccurs="7" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

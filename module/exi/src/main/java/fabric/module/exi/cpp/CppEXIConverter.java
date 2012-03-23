@@ -1,4 +1,4 @@
-/** 14.03.2012 14:03 */
+/** 22.03.2012 17:48 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -20,7 +20,6 @@ import de.uniluebeck.sourcegen.c.CppHeaderFile;
 import de.uniluebeck.sourcegen.c.CppSourceFile;
 import de.uniluebeck.sourcegen.c.CppVar;
 
-import fabric.module.exi.ElementMetadata;
 import fabric.module.exi.FabricEXIModule;
 import fabric.module.exi.exceptions.FabricEXIException;
 
@@ -29,7 +28,7 @@ import fabric.module.exi.exceptions.FabricEXIException;
  * and generates methods for the application's main function
  * to demonstrate the usage of the converter.
  * 
- * @author seidel
+ * @author seidel, reichart
  */
 public class CppEXIConverter
 {
@@ -128,7 +127,6 @@ public class CppEXIConverter
 
       // Add includes
       cppsf.addInclude(cpphf);
-      cppsf.addLibInclude("cstdio");
 
       LOGGER.debug(String.format("Generated new source file '%s'.", this.serializerClassName));
     }
@@ -188,12 +186,55 @@ public class CppEXIConverter
     {
       ElementMetadata element = elementMetadata.poll();
       
-      serializerCode += String.format(
-              "// Encode the '%s' element\n" +
-              "exitCode += stream->writeNBits(3, %d);\n" +
-              "exitCode += encoder.encode%s(stream, typeObject->get%s());\n\n",
-              element.getElementName(), element.getEXIEventCode(),
-              element.getElementType(), element.getElementName());
+      serializerCode += CppEXIConverter.createNiceCommentDelimiter(
+              String.format("Encode the '%s' element", element.getElementName())) + "\n\n";
+      
+      // Distinguish XML element types
+      switch (element.getType())
+      {
+        // XML element is a simple value
+        case ElementMetadata.XML_ATOMIC_VALUE:
+          serializerCode += String.format(
+                  "exitCode += stream->writeNBits(3, %d);\n" +
+                  "exitCode += encoder.encode%s(stream, typeObject->get%s());\n\n",
+                  element.getEXIEventCode(), element.getElementEXIType(),
+                  element.getElementName());
+          break;
+        
+        // XML element is a list
+        case ElementMetadata.XML_LIST:
+          serializerCode += String.format(
+                  "// Write EXI event code once\n" +
+                  "exitCode += stream->writeNBits(3, %d);\n\n" +
+                  "// Encode length of list\n" +
+                  "unsigned int length = typeObject->get%s()->size();\n" +
+                  "exitCode += encoder.encodeUnsignedInteger(stream, length);\n\n" +
+                  "// Encode list elements\n" +
+                  "for (int i = 0; i < length; ++i) {\n" +
+                  "\t// Encode list element\n" +
+                  "\texitCode += encoder.encode%s(stream, typeObject->get%s()->at(i));\n" +
+                  "}\n\n",
+                  element.getEXIEventCode(), element.getElementName(),
+                  element.getElementEXIType(), element.getElementName());
+          break;
+        
+        // XML element is an array
+        case ElementMetadata.XML_ARRAY:
+          serializerCode += String.format(
+                  "// Encode array elements\n" +
+                  "for (int i = 0; i < typeObject->get%s()->get%s()->size(); ++i) {\n" +
+                  "\t// Write EXI event code for each element\n" +
+                  "\texitCode += stream->writeNBits(3, %d);\n\n" +
+                  "\t// Encode array element\n" +
+                  "\texitCode += encoder.encode%s(stream, typeObject->get%s()->get%s()->at(i));\n" +
+                  "}\n\n",
+                  element.getParentName(), element.getElementName(), element.getEXIEventCode(),
+                  element.getElementEXIType(), element.getParentName(), element.getElementName());
+          break;
+
+        default:
+          throw new FabricEXIException("Unknown XML element type. Use one of [atomic value, array, list].");
+      }
     }
     
     String methodBody = String.format(
@@ -241,12 +282,80 @@ public class CppEXIConverter
     {
       ElementMetadata element = elementMetadata.poll();
       
+      deserializerCode += CppEXIConverter.createNiceCommentDelimiter(
+              String.format("Decode the '%s' element", element.getElementName())) + "\n\n";
+      
       deserializerCode += String.format(
-              "// Decode the '%s' element\n" +
-              "exitCode += stream->readNBits(3, %d);\n" +
-              "exitCode += decoder.decode%s(stream, typeObject->get%s());\n\n",
-              element.getElementName(), element.getEXIEventCode(),
-              element.getElementType(), element.getElementName());
+              "// Define variable to hold decoded value\n" +
+              "%s %s;\n\n",
+              element.getElementCppType(), element.getElementName().toLowerCase());
+      
+      // Distinguish XML element types
+      switch (element.getType())
+      {
+        // XML element is a simple value
+        case ElementMetadata.XML_ATOMIC_VALUE:
+          deserializerCode += String.format(
+                  "// Read EXI event code\n" +
+                  "exitCode += stream->readNBits(3, &eventCodeBits);\n\n" +
+                  "// Decode element value\n" +
+                  "exitCode += decoder.decode%s(stream, &%s);\n\n" +
+                  "if (0 == exitCode) {\n" +
+                  "\ttypeObject->set%s(%s);\n" +
+                  "}\n\n",
+                  element.getElementEXIType(), element.getElementName().toLowerCase(),
+                  element.getElementName(), element.getElementName().toLowerCase());
+          break;
+        
+        // XML element is a list
+        case ElementMetadata.XML_LIST:
+          deserializerCode += String.format(
+                  "// Read EXI event code once\n" +
+                  "exitCode += stream->readNBits(3, &eventCodeBits);\n\n" +
+                  "// Read length of list\n" +
+                  "uint32 length;\n" +
+                  "exitCode += decoder.decodeUnsignedInteger(stream, &length);\n\n" +
+                  "// Resize target list\n" +
+                  "typeObject->get%s()->resize(length);\n\n" +
+                  "// Decode list elements\n" +
+                  "for (int i = 0; i < length; ++i) {\n" +
+                  "\t// Decode list element\n" +
+                  "\texitCode += decoder.decode%s(stream, &%s);\n\n" +
+                  "\tif (0 == exitCode) {\n" +
+                  "\t\ttypeObject->get%s()->at(i) = %s;\n" +
+                  "\t}\n" +
+                  "}\n\n",
+                  element.getElementName(), element.getElementEXIType(),
+                  element.getElementName().toLowerCase(), element.getElementName(),
+                  element.getElementName().toLowerCase());
+          break;
+        
+        // XML element is an array
+        case ElementMetadata.XML_ARRAY:
+          deserializerCode += String.format(
+                  "// Read first EXI event code\n" +
+                  "exitCode += stream->readNBits(3, &eventCodeBits);\n\n" +
+                  "// Decode array elements\n" +
+                  "for (int i = 0; %d == eventCodeBits; ++i) {\n" +
+                  "\t// Resize target array\n" +
+                  "\ttypeObject->get%s()->get%s()->resize(i + 1);\n\n" +
+                  "\t// Decode array element\n" +
+                  "\texitCode += decoder.decode%s(stream, &%s);\n\n" +
+                  "\tif (0 == exitCode) {\n" +
+                  "\t\ttypeObject->get%s()->get%s()->at(i) = %s;\n" +
+                  "\t}\n\n" +
+                  "\t// Read next EXI event code\n" +
+                  "\texitCode += stream->readNBits(3, &eventCodeBits);\n" +
+                  "}\n\n",
+                  element.getEXIEventCode(), element.getParentName(),
+                  element.getElementName(), element.getElementEXIType(),
+                  element.getElementName().toLowerCase(), element.getParentName(),
+                  element.getElementName(), element.getElementName().toLowerCase());
+          break;
+        
+        default:
+          throw new FabricEXIException("Unknown XML element type. Use one of [atomic value, array, list].");
+      }
     }
     
     String methodBody = String.format(
@@ -258,9 +367,11 @@ public class CppEXIConverter
             "stream->initStream(buffer, BUFFER_SIZE, ioStream);\n\n" +
             "// Read EXI header from EXI stream\n" +
             "exitCode += stream->readHeader();\n\n" +
-            "/*************** Deserialize elements ***************/\n\n" +
+            "// Initialize variable for EXI event code bits\n" +
+            "unsigned int eventCodeBits;\n\n" +
+            "/************** Deserialize elements **************/\n\n" +
             "%s" +
-            "/****************************************************/\n\n" +
+            "/**************************************************/\n\n" +
             "// Close EXI stream\n" +
             "exitCode += stream->closeStream();\n\n" +
             "// Return exit code\n" +
@@ -365,5 +476,61 @@ public class CppEXIConverter
     }
 
     return fileName.replaceAll("\\.", "_").toUpperCase();
+  }
+
+  /**
+   * Private helper method to create nice delimiters in code
+   * comments. Each delimiter is a one-line comment of 52
+   * characters. The text is centered and surrounded by
+   * asterisk characters (*).
+   * 
+   * @param comment Comment to prettify
+   * 
+   * @return Prettified one-line comment
+   * 
+   * @throws IllegalStateException Error during comment creation
+   */
+  private static String createNiceCommentDelimiter(String comment) throws IllegalStateException
+  {
+    String result = "";
+    int amountOfStars = 0;
+    int lengthOfResult = 52;
+
+    // Trim comments that are too long
+    //
+    // Every return value contains at least
+    // 2 slashes, 2 stars, 2 spaces and 3
+    // dots (...): 52 - 9 = 43
+    if (comment.length() > lengthOfResult - 9)
+    {
+      comment = comment.substring(0, lengthOfResult - 9) + "...";
+    }
+
+    // Delimiter has 52 characters at maximum minus
+    // 2 slashes minus 2 spaces minus comment text
+    amountOfStars = lengthOfResult - 2 - 2 - comment.length();
+
+    // Create sequence of stars
+    String stars = "";
+    for (int i = 0; i < amountOfStars / 2; ++i)
+    {
+      stars += "*";
+    }
+
+    // Build return value
+    result = "/" + stars;
+    if (amountOfStars % 2 != 0)
+    {
+      result += "*"; // Comment has odd text length!
+    }
+    result += " " + comment + " " + stars + "/";
+
+    // This guard should never trigger!
+    if (result.length() > lengthOfResult)
+    {
+      throw new IllegalStateException("CppEXIConverter reached an illegal state. This should never happen.");
+    }
+
+    return result;
   }
 }

@@ -2,10 +2,11 @@ package fabric.module.exi.base;
 
 import java.util.ArrayList;
 
+import fabric.wsdlschemaparser.schema.FElement;
+
 import fabric.module.exi.java.FixValueContainer.ElementData;
 import fabric.module.exi.java.FixValueContainer.ArrayData;
 import fabric.module.exi.java.FixValueContainer.ListData;
-import fabric.wsdlschemaparser.schema.FElement;
 
 /**
  * Public interface for EXICodeGen implementations.
@@ -47,6 +48,7 @@ public interface EXICodeGen
    * i.e. build EXI grammar for element.
    * 
    * @param element Local element to handle
+   * @param parentName Name of parent XML element
    */
-  public void handleLocalElement(final FElement element);
+  public void handleLocalElement(final FElement element, final String parentName);
 }

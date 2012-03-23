@@ -610,9 +610,7 @@ public class CSourceFileBase extends ElemImpl {
 		if (includes.size() > 0) {
 			for (CHeaderFileImpl header : includes) {
 				indent(buffer, tabCount);
-				buffer.append("#include \"");
-				buffer.append(header.getFileName());
-				buffer.append(".h\"\n");
+				buffer.append("#include \"" + header.getFileName() + ".h\"\n");
 			}
 			buffer.append("\n");
 		}
@@ -624,9 +622,7 @@ public class CSourceFileBase extends ElemImpl {
         // TODO: before directive
         for (String s: includes) {
           indent(buffer, tabCount);
-          buffer.append("#include <");
-          buffer.append(s);
-          buffer.append(">\n");
+          buffer.append("#include <" + s + ">\n");
         }
         // TODO: after directive
       }

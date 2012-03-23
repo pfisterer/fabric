@@ -55,6 +55,13 @@ class CppVarImpl extends CElemImpl implements CppVar {
       return null;
     }
 
+    // Initialize pointers with NULL; we will use
+    // 0 here, because the NULL macro may not be
+    // available everywhere
+    if (typeGenerator.toString().endsWith("*")) {
+      initCode = "0";
+    }
+
     StringBuffer buffer = new StringBuffer();
     buffer.append(varName + "(" + initCode + ")");
     return buffer.toString();
@@ -95,7 +102,7 @@ class CppVarImpl extends CElemImpl implements CppVar {
     return visability;
 	}
 
-  public String getName() {
+  public String getTypeName() {
     return typeGenerator.toString();
   }
 
@@ -123,7 +130,7 @@ class CppVarImpl extends CElemImpl implements CppVar {
     StringBuffer myParents = new StringBuffer();
     if(this.clazz != null) {
       for (CppClass p : this.clazz.getParents()) {
-        myParents.append(p.getName()+ "::");
+        myParents.append(p.getTypeName()+ "::");
     }
     }
     return myParents.toString();

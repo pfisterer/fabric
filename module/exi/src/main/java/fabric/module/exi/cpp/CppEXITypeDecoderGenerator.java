@@ -189,8 +189,19 @@ public class CppEXITypeDecoderGenerator {
     /**
      * Generates the function decodeNBitUnsignedInteger.
      */
-    private static void createDecodeNBitUnsignedInteger() {
-        // TODO: implement!
+    private static void createDecodeNBitUnsignedInteger() throws CppDuplicateException {
+        CppVar var_strm     = CppVar.factory.create("EXIStream*", "strm");
+        CppVar var_n        = CppVar.factory.create(Cpp.UNSIGNED | Cpp.CHAR, "n");
+        CppVar var_intVal   = CppVar.factory.create(Cpp.UNSIGNED | Cpp.INT | Cpp.POINTER, "int_val");
+        CppFun fun_decNBitUnsInt = CppFun.factory.create(Cpp.INT, "decodeNBitUnsignedInteger",
+                var_strm, var_n, var_intVal);
+        String methodBody =
+                "return strm->readNBits(n, int_val);";
+        String comment =
+                "Decodes n-bit unsigned integer values.";
+        fun_decNBitUnsInt.appendCode(methodBody);
+        fun_decNBitUnsInt.setComment(new CppFunCommentImpl(comment));
+        clazz.add(Cpp.PUBLIC, fun_decNBitUnsInt);
     }
 
     /**

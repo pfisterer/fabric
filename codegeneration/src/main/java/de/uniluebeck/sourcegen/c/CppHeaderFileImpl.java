@@ -45,7 +45,7 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
         if (null != this.base && null != this.base.getLibIncludes() && this.base.getLibIncludes().size() > 0) {
             for (CppInclude include: this.base.getLibIncludes()) {
                 if (null != include.beforeDirective) {
-                    buffer.append(include.beforeDirective + Cpp.newline);
+                    buffer.append("#" + include.beforeDirective + Cpp.newline);
                 }
 
                 for (String file: include.include) {
@@ -53,7 +53,7 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
                 }
 
                 if (null != include.afterDirective) {
-                    buffer.append(include.afterDirective + Cpp.newline);
+                    buffer.append("#" + include.afterDirective + Cpp.newline);
                 }
             }
             buffer.append(Cpp.newline);
@@ -69,7 +69,7 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
 
             for (CppInclude include: this.cppUserHeaderFilesStrings) {
                 if (null != include.beforeDirective) {
-                    buffer.append(include.beforeDirective + Cpp.newline);
+                    buffer.append("#" + include.beforeDirective + Cpp.newline);
                 }
 
                 for (String file: include.include) {
@@ -77,7 +77,7 @@ public class CppHeaderFileImpl extends CppSourceFileImpl implements CppHeaderFil
                 }
 
                 if (null != include.afterDirective) {
-                    buffer.append(include.afterDirective + Cpp.newline);
+                    buffer.append("#" + include.afterDirective + Cpp.newline);
                 }
             }
 

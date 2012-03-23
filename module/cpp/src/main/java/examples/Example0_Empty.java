@@ -73,7 +73,7 @@ public class Example0_Empty {
       file.addLibInclude("iostream");
       file.addUsingNamespace("std");
 
-      file.addConditionalInclude("#ifdef NONSENSE", "#endif // NONSENSE", "nonsense.hpp");
+      file.addConditionalInclude("ifdef NONSENSE", "endif // NONSENSE", "nonsense.hpp");
 
       // Add the main function to the file
       CFun fun_main = CFun.factory.create("main", "int", null);

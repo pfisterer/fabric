@@ -1,4 +1,4 @@
-/** 16.03.2012 01:37 */
+/** 22.03.2012 19:37 */
 package fabric.module.typegen.cpp;
 
 import org.slf4j.Logger;
@@ -190,7 +190,7 @@ public class CppTypeGen implements TypeGen
       for (CppVar member: sourceFileData.typeObject.getVars(Cpp.PRIVATE))
       {
         // Extract plain type name from typed collections (e.g. vector)
-        String typeName = CppTypeGen.extractPlainType(member.getName());
+        String typeName = CppTypeGen.extractPlainType(member.getTypeName());
 
         if (!this.mapper.isBuiltInType(typeName) && // No includes for built-in types
             !this.isLocalEnum(sourceFileData.typeObject, typeName) && // Do not include local enums
@@ -208,7 +208,7 @@ public class CppTypeGen implements TypeGen
         for (CppVar member: classObject.getVars(Cpp.PRIVATE))
         {
           // Extract plain type name from typed collections (e.g. vector)
-          String typeName = CppTypeGen.extractPlainType(member.getName());
+          String typeName = CppTypeGen.extractPlainType(member.getTypeName());
 
           if (!this.mapper.isBuiltInType(typeName) && // No includes for built-in types
               !this.isLocalEnum(classObject, typeName) && // Do not include local enums
@@ -241,8 +241,7 @@ public class CppTypeGen implements TypeGen
       // Add include for utility functions once
       if (!cppsf.getFileName().equals(CppUtilHelper.FILE_NAME))
       {
-        // TODO: Check conditional include
-        cppsf.addConditionalInclude("#ifndef NO_RESTRICTIONS", "#endif // NO_RESTRICTIONS", CppUtilHelper.FILE_NAME + ".hpp");
+        cppsf.addConditionalInclude("ifndef NO_RESTRICTIONS", "endif // NO_RESTRICTIONS", CppUtilHelper.FILE_NAME + ".hpp");
       }
 
       LOGGER.debug(String.format("Generated new source file '%s'.", name));

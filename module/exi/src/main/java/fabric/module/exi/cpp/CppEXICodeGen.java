@@ -1,4 +1,4 @@
-/** 14.03.2012 13:27 */
+/** 22.03.2012 19:11 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -18,7 +18,6 @@ import de.uniluebeck.sourcegen.c.CppSourceFile;
 
 import fabric.wsdlschemaparser.schema.FElement;
 
-import fabric.module.exi.ElementMetadata;
 import fabric.module.exi.FabricEXIModule;
 import fabric.module.exi.base.EXICodeGen;
 import fabric.module.exi.java.FixValueContainer.ElementData;
@@ -111,8 +110,21 @@ public class CppEXICodeGen implements EXICodeGen
     {
       this.application.add(outputStream);
       
-      // Define name of EXI outfile as "BeanClassName.exi"
+      // Define name of EXI outfile
       this.application.addBeforeDirective(String.format("define OUTFILE_NAME \"%s_serialized.exi\"", this.beanClassName.toLowerCase()));
+    }
+
+    /*****************************************************************
+    * Create callback method that reads EXI stream from file
+    *****************************************************************/
+
+    CFun inputStream = this.generateInputStreamFunction();
+    if (null != inputStream)
+    {
+      this.application.add(inputStream);
+
+      // Define name of EXI infile
+      this.application.addBeforeDirective(String.format("define INFILE_NAME \"%s_serialized.exi\"", this.beanClassName.toLowerCase()));
     }
 
     /*****************************************************************
@@ -162,23 +174,42 @@ public class CppEXICodeGen implements EXICodeGen
   {
     // Empty implementation
   }
-  
-  // TODO: Add documentation
+
+  /**
+   * Handle top level element from XML Schema document,
+   * i.e. build EXI grammar for element.
+   *
+   * @param element Top level element to handle
+   */
   @Override
   public void handleTopLevelElement(final FElement element)
   {
-    this.elementMetadata.add(new ElementMetadata(element));
-    
+    // Collect data of elements with simple type
+    if (element.getSchemaType().isSimple())
+    {
+      this.elementMetadata.add(new ElementMetadata(element));
+    }
+
     // Build grammar
     grammarFactory.addGlobalElement(element);
   }
-  
-  // TODO: Add documentation
+
+  /**
+   * Handle local element from XML Schema document,
+   * i.e. build EXI grammar for element.
+   *
+   * @param element Local element to handle
+   * @param parentName Name of parent XML element
+   */
   @Override
-  public void handleLocalElement(final FElement element)
+  public void handleLocalElement(final FElement element, final String parentName)
   {
-    this.elementMetadata.add(new ElementMetadata(element));
-    
+    // Collect data of elements with simple type
+    if (element.getSchemaType().isSimple())
+    {
+      this.elementMetadata.add(new ElementMetadata(element, parentName));
+    }
+
     // Build grammar
     grammarFactory.addLocalElement(element);
   }
@@ -242,6 +273,34 @@ public class CppEXICodeGen implements EXICodeGen
   }
 
   /**
+   * Create callback method that is used as a function pointer,
+   * when the EXI converter wants to read data from an input
+   * stream.
+   *
+   * @return CFun with definition of callback method
+   *
+   * @throws Exception Error during code generation
+   */
+  private CFun generateInputStreamFunction() throws Exception
+  {
+    CParam buffer = CParam.factory.create("void*", "buffer");
+    CParam readSize = CParam.factory.create("mySize_t", "readSize");
+    CFunSignature cfs = CFunSignature.factory.create(buffer, readSize);
+    CFun readFileInputStream = CFun.factory.create("readFileInputStream", "mySize_t", cfs);
+    
+    String methodBody =
+            "FILE *infile = fopen(INFILE_NAME, \"rb\");\n\n" +
+            "mySize_t result = fread(buffer, 1, readSize, infile);\n" +
+            "fclose(infile);\n\n" +
+            "return result;";
+
+    readFileInputStream.appendCode(methodBody);
+    readFileInputStream.setComment(new CCommentImpl("Read EXI stream from an input file."));
+
+    return readFileInputStream;
+  }
+
+  /**
    * Create main function for application. The method initializes
    * the root container and an EXIStream object, so that one can
    * easily test the C++ EXI module or create a new application
@@ -268,7 +327,7 @@ public class CppEXICodeGen implements EXICodeGen
             "\t// Serialize bean object to EXI stream\n" +
             "\ttoEXIStream(exiConverter, %s, &exiStream, writeFileOutputStream);\n\n" +
             "\t// Deserialize bean object from EXI stream\n" +
-            "\t// TODO: fromEXIStream(exiConverter, %s, &exiStream, readFileInputStream);\n" +
+            "\tfromEXIStream(exiConverter, %s, &exiStream, readFileInputStream);\n" +
             "}\n" +
             "catch (const char* e) {\n" +
             "\tcout << e << endl;\n" +
