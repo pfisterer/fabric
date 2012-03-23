@@ -1,6 +1,8 @@
 /** 22.03.2012 18:30 */
 package fabric.module.exi.cpp;
 
+import exi.events.ExiEventCode;
+import exi.events.ExiMalformedEventCodeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +64,7 @@ public class ElementMetadata implements Comparable<ElementMetadata>
   private int type;
   
   /** EXI event code within the XML Schema document structure */
-  private int exiEventCode;
+  private ExiEventCode exiEventCode;
   
   /**
    * Parameterized constructor.
@@ -75,7 +77,7 @@ public class ElementMetadata implements Comparable<ElementMetadata>
    * @param type XML element type (atomic value, list or array)
    * @param exiEventCode EXI event code
    */
-  public ElementMetadata(final String elementName, final String elementEXIType, final String elementCppType, final int type, final int exiEventCode)
+  public ElementMetadata(final String elementName, final String elementEXIType, final String elementCppType, final int type, final ExiEventCode exiEventCode)
   {
     this.elementName = elementName;
     this.elementEXIType = elementEXIType;
@@ -121,7 +123,11 @@ public class ElementMetadata implements Comparable<ElementMetadata>
     this.elementCppType = this.getCppTypeName(this.elementEXIType);
 
     // Set EXI event code
-    this.exiEventCode = 0;
+    try {
+        this.exiEventCode = new ExiEventCode(0);
+    } catch (ExiMalformedEventCodeException e) {
+        e.printStackTrace();
+    }
   }
 
   /**
@@ -246,7 +252,7 @@ public class ElementMetadata implements Comparable<ElementMetadata>
    * 
    * @param exiEventCode EXI event code
    */
-  public void setEXIEventCode(final int exiEventCode)
+  public void setEXIEventCode(final ExiEventCode exiEventCode)
   {
     this.exiEventCode = exiEventCode;
   }
@@ -256,7 +262,7 @@ public class ElementMetadata implements Comparable<ElementMetadata>
    * 
    * @return EXI event code
    */
-  public int getEXIEventCode()
+  public ExiEventCode getEXIEventCode()
   {
     return this.exiEventCode;
   }

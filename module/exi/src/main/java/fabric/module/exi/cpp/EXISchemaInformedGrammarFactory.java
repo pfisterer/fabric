@@ -1,6 +1,7 @@
 package fabric.module.exi.cpp;
 
 import exi.ExiException;
+import exi.events.ExiEventCode;
 import exi.events.ExiEventCodeGenerator;
 import exi.grammar.ExiDocumentGrammar;
 import exi.grammar.ExiGrammar;
@@ -47,8 +48,11 @@ public class EXISchemaInformedGrammarFactory implements ExiGrammarFactory {
         g.reset();
 
         java.util.Collections.sort(globalElements);
-        for(int i=0; i< globalElements.size(); i++) {
-            eg.append(content, end, "SE("+ globalElements.get(i)+")", g.getNextCode(1));
+        for(ElementMetadata m : globalElements) {
+            ExiEventCode c = g.getNextCode(1);
+            m.setEXIEventCode(c);
+
+            eg.append(content, end, "SE(" +m.getElementName()+ ")", c);
         }
 
 
