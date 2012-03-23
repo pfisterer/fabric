@@ -19,7 +19,7 @@ import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
  * 
  * @author seidel, reichart
  */
-public class ElementMetadata
+public class ElementMetadata implements Comparable<ElementMetadata>
 {
   /** Logger object */
   private static final Logger LOGGER = LoggerFactory.getLogger(ElementMetadata.class);
@@ -382,5 +382,11 @@ public class ElementMetadata
     typesEXIToCpp.put("Integer", "int32");
     typesEXIToCpp.put("UnsignedInteger", "uint32");
     typesEXIToCpp.put("NBitUnsignedInteger", "unsigned int");
+  }
+
+
+  @Override
+  public int compareTo(ElementMetadata elementMetadata) {
+      return elementName.compareTo(elementMetadata.elementName);
   }
 }
