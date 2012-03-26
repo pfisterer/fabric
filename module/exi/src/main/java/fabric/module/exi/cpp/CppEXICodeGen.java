@@ -115,8 +115,8 @@ public class CppEXICodeGen implements EXICodeGen
     }
 
     /*****************************************************************
-    * Create callback method that reads EXI stream from file
-    *****************************************************************/
+     * Create callback method that reads EXI stream from file
+     *****************************************************************/
 
     CFun inputStream = this.generateInputStreamFunction();
     if (null != inputStream)

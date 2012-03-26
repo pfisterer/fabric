@@ -1,4 +1,4 @@
-/** 22.03.2012 18:30 */
+/** 23.03.2012 15:23 */
 package fabric.module.exi.cpp;
 
 import exi.events.ExiEventCode;
@@ -6,6 +6,8 @@ import exi.events.ExiMalformedEventCodeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import fabric.wsdlschemaparser.schema.FElement;
@@ -56,8 +58,8 @@ public class ElementMetadata implements Comparable<ElementMetadata>
 
   /** EXI type of XML element content (e.g. Boolean, Integer or String) */
   private String elementEXIType;
-  
-  /** C++ type of element content (e.g. boolean, int or char*) */
+
+  /** CPP type of XML element content (e.g. Boolean, Integer or String) */
   private String elementCppType;
   
   /** Type of the XML element (e.g. atomic value, list or array) */
@@ -72,8 +74,7 @@ public class ElementMetadata implements Comparable<ElementMetadata>
    * @param elementName XML element name
    * @param elementEXIType EXI type of element content (e.g. Boolean,
    * Integer or String)
-   * @param elementCppType C++ type of element content (e.g. bool,
-   * int or char*)
+   * @param elementCppType Cpp type of element content
    * @param type XML element type (atomic value, list or array)
    * @param exiEventCode EXI event code
    */
@@ -84,8 +85,11 @@ public class ElementMetadata implements Comparable<ElementMetadata>
     this.elementCppType = elementCppType;
     this.type = type;
     this.exiEventCode = exiEventCode;
+
+    // Validate support for EXI type
+    ElementMetadata.checkEXITypeSupport(this.elementEXIType);
   }
-  
+
   /**
    * Parameterized constructor creates ElementMetadata object
    * from an FElement object passed through from the Fabric
@@ -119,15 +123,15 @@ public class ElementMetadata implements Comparable<ElementMetadata>
       this.type = ElementMetadata.XML_ATOMIC_VALUE;
     }
 
-    // Set C++ element type
-    this.elementCppType = this.getCppTypeName(this.elementEXIType);
-
     // Set EXI event code
     try {
         this.exiEventCode = new ExiEventCode(0);
     } catch (ExiMalformedEventCodeException e) {
         e.printStackTrace();
     }
+
+    // Validate support for EXI type
+    ElementMetadata.checkEXITypeSupport(this.elementEXIType);
   }
 
   /**
@@ -208,23 +212,13 @@ public class ElementMetadata implements Comparable<ElementMetadata>
   }
 
   /**
-   * Setter for C++ element content type.
-   * 
-   * @param elementCppType C++ element content type
-   */
-  public void setElementCppType(final String elementCppType)
-  {
-    this.elementCppType = elementCppType;
-  }
-
-  /**
    * Getter for C++ element content type.
    * 
    * @return C++ element content type
    */
   public String getElementCppType()
   {
-    return this.elementCppType;
+    return this.getCppTypeName(this.elementEXIType);
   }
 
   /**
@@ -275,7 +269,15 @@ public class ElementMetadata implements Comparable<ElementMetadata>
   @Override
   public ElementMetadata clone()
   {
-    ElementMetadata result = new ElementMetadata(this.elementName, this.elementEXIType, this.elementCppType, this.type, this.exiEventCode);
+      ElementMetadata result = null;
+
+      try {
+          ExiEventCode c = new ExiEventCode(exiEventCode.getPart(0), exiEventCode.getPart(1), exiEventCode.getPart(2));
+          result = new ElementMetadata(this.elementName, this.elementEXIType, this.elementCppType, this.type, c);
+      } catch (ExiMalformedEventCodeException e) {
+          e.printStackTrace();
+      }
+
     result.setParentName(this.parentName);
 
     return result;
@@ -390,9 +392,41 @@ public class ElementMetadata implements Comparable<ElementMetadata>
     typesEXIToCpp.put("NBitUnsignedInteger", "unsigned int");
   }
 
+  /**
+   * Private helper method to check whether a desired EXI type
+   * is supported by our C++ EXI implementation or not. We do
+   * currently not support all EXI types, e.g. there is no
+   * implementation for EXI string tables yet.
+   * 
+   * In case of an unsupported EXI type an exception is raised.
+   * 
+   * @param exiTypeName EXI type name
+   * 
+   * @throws UnsupportedOperationException EXI type not supported
+   */
+  private static void checkEXITypeSupport(final String exiTypeName)
+  {
+    // Create a list of supported EXI types
+    List<String> supportedEXITypes = new ArrayList<String>();
+    supportedEXITypes.add("Boolean");
+    // supportedEXITypes.add("Float"); // TODO: Add support for Float
+    // supportedEXITypes.add("String"); // TODO: Add support for String
+    // supportedEXITypes.add("Decimal"); // TODO: Add support for Decimal
+    supportedEXITypes.add("Integer");
+    supportedEXITypes.add("UnsignedInteger");
+    supportedEXITypes.add("NBitUnsignedInteger");
 
+    // Validate desired EXI type
+    if (!supportedEXITypes.contains(exiTypeName))
+    {
+      throw new UnsupportedOperationException(String.format("EXI data type '%s' is not supported yet.", exiTypeName));
+    }
+  }
+
+  // TODO: Add comment and move to clone()
   @Override
-  public int compareTo(ElementMetadata elementMetadata) {
-      return elementName.compareTo(elementMetadata.elementName);
+  public int compareTo(final ElementMetadata elementMetadata)
+  {
+    return this.elementName.compareTo(elementMetadata.elementName);
   }
 }
