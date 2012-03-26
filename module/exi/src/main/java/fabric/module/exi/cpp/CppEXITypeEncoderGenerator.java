@@ -142,17 +142,17 @@ public class CppEXITypeEncoderGenerator {
      */
     private static void createEncodeFloat() throws CppDuplicateException {
         CppVar var_strm     = CppVar.factory.create("EXIStream*", "strm");
-        CppVar var_flVal    = CppVar.factory.create("xsd_float_t*", "fl_val");
+        CppVar var_flVal    = CppVar.factory.create("xsd_float_t", "fl_val");
         CppFun fun_encFloat = CppFun.factory.create(Cpp.INT, "encodeFloat",
                 var_strm, var_flVal);
         String methodBody =
-        	"int tmp_err_code = UNEXSPECTED_ERROR;\n\n" +
+        	"int tmp_err_code = UNEXPECTED_ERROR;\n\n" +
         	"//Encode the mantissa\n" +
-        	"tmp_err_code = encodeInteger(strm, (int)fl_val->mantissa);\n" +
+        	"tmp_err_code = encodeInteger(strm, fl_val.mantissa);\n" +
         	"if(tmp_err_code != ERR_OK)\n" +
     		"\treturn tmp_err_code;\n\n" +
     		"//Encode the exponent\n" +
-    		"tmp_err_code = encodeInteger(strm, (int)fl_val->exponent);\n" +
+    		"tmp_err_code = encodeInteger(strm, fl_val.exponent);\n" +
         	"if(tmp_err_code != ERR_OK)\n" +
     		"\treturn tmp_err_code;\n\n" +
     		"return ERR_OK;";
