@@ -8,7 +8,7 @@
   
   <xs:element name="SecondNumber" type="xs:int" />
   
-  <xs:element name="ThirdNumber" type="xs:int" />
+  <xs:element name="ThirdNumber" type="xs:float" />  
 
   <xs:element name="LogicalValue" type="xs:boolean" />
 
