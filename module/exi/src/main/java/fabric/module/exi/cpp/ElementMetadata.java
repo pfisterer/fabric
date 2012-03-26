@@ -1,4 +1,4 @@
-/** 23.03.2012 15:23 */
+/** 26.03.2012 12:31 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -265,6 +265,20 @@ public class ElementMetadata implements Comparable<ElementMetadata>
   }
 
   /**
+   * Compare two ElementMetadata objects with each other. The
+   * element name is used for the comparison here.
+   * 
+   * @param elementMetadata ElementMetadata object to compare with
+   * 
+   * @return Integer value to represent the order of two objects
+   */
+  @Override
+  public int compareTo(final ElementMetadata elementMetadata)
+  {
+    return this.elementName.compareTo(elementMetadata.elementName);
+  }
+
+  /**
    * Private helper method to get the EXI built-in type name
    * (e.g. Boolean, Integer or String) for one of Fabric's
    * XML Schema type names (e.g. FBoolean, FInt or FString).
@@ -402,12 +416,5 @@ public class ElementMetadata implements Comparable<ElementMetadata>
     {
       throw new UnsupportedOperationException(String.format("EXI data type '%s' is not supported yet.", exiTypeName));
     }
-  }
-
-  // TODO: Add comment and move to clone()
-  @Override
-  public int compareTo(final ElementMetadata elementMetadata)
-  {
-    return this.elementName.compareTo(elementMetadata.elementName);
   }
 }

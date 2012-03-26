@@ -1,4 +1,4 @@
-/** 22.03.2012 19:11 */
+/** 26.03.2012 12:26 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -187,11 +187,13 @@ public class CppEXICodeGen implements EXICodeGen
     // Collect data of elements with simple type
     if (element.getSchemaType().isSimple())
     {
-      ElementMetadata d = new ElementMetadata(element);
-      this.elementMetadata.add(d);
+      ElementMetadata metadata = new ElementMetadata(element);
+
+      // Add metadata to queue
+      this.elementMetadata.add(metadata);
 
       // Build grammar
-      grammarFactory.addGlobalElement(d);
+      grammarFactory.addGlobalElement(metadata);
     }
   }
 
@@ -208,11 +210,13 @@ public class CppEXICodeGen implements EXICodeGen
     // Collect data of elements with simple type
     if (element.getSchemaType().isSimple())
     {
-      ElementMetadata d = new ElementMetadata(element, parentName);
-      this.elementMetadata.add(d);
+      ElementMetadata metadata = new ElementMetadata(element, parentName);
+
+      // Add metadata to queue
+      this.elementMetadata.add(metadata);
 
       // Build grammar
-      grammarFactory.addLocalElement(d);
+      grammarFactory.addLocalElement(metadata);
     }
   }
 
