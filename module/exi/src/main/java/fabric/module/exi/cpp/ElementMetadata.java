@@ -379,7 +379,7 @@ public class ElementMetadata implements Comparable<ElementMetadata>
   private static void createMappingEXIToCpp()
   {
     typesEXIToCpp.put("Boolean", "bool");
-    typesEXIToCpp.put("Float", "float");
+    typesEXIToCpp.put("Float", "xsd_float_t");
     typesEXIToCpp.put("String", "const char*");
     typesEXIToCpp.put("Decimal", "char*");
     typesEXIToCpp.put("Integer", "int32");
@@ -404,7 +404,7 @@ public class ElementMetadata implements Comparable<ElementMetadata>
     // Create a list of supported EXI types
     List<String> supportedEXITypes = new ArrayList<String>();
     supportedEXITypes.add("Boolean");
-    // supportedEXITypes.add("Float"); // TODO: Add support for Float
+    supportedEXITypes.add("Float");
     // supportedEXITypes.add("String"); // TODO: Add support for String
     // supportedEXITypes.add("Decimal"); // TODO: Add support for Decimal
     supportedEXITypes.add("Integer");
