@@ -4,6 +4,7 @@ import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.c.*;
 import de.uniluebeck.sourcegen.exceptions.CPreProcessorValidationException;
 import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
+import fabric.module.typegen.cpp.CppTypeHelper;
 
 /**
  * Created by IntelliJ IDEA.
@@ -100,7 +101,8 @@ public class CppEXITypeDecoderGenerator {
 
         // Add includes
         headerFile.addInclude(CppEXIStreamGenerator.FILE_NAME + ".hpp");
-
+        headerFile.addInclude(CppTypeHelper.FILE_NAME + ".hpp");
+        
         // Add class to the header file
         headerFile.add(clazz);
 
@@ -137,28 +139,23 @@ public class CppEXITypeDecoderGenerator {
      */
     private static void createDecodeFloat() throws CppDuplicateException {
         CppVar var_strm     = CppVar.factory.create("EXIStream*", "strm");
-        CppVar var_flVal    = CppVar.factory.create(Cpp.FLOAT | Cpp.POINTER, "fl_val");
+        CppVar var_flVal    = CppVar.factory.create("xsd_float_t*", "fl_val");
         CppFun fun_decFloat = CppFun.factory.create(Cpp.INT, "decodeFloat",
                 var_strm, var_flVal);
         String methodBody =
         	"int tmp_err_code = UNEXPECTED_ERROR;\n" +
         	"int32 mantissa;\n" +
-        	"int32 exponent;\n" +
+        	"int32 exponent;\n\n" +
+        	"//Decode the mantissa\n" +
         	"tmp_err_code = decodeInteger(strm, &mantissa);\n" +
         	"if(tmp_err_code != ERR_OK)\n" +
         	"\treturn tmp_err_code;\n\n" +
+        	"//Decode the exponent\n" +
         	"tmp_err_code = decodeInteger(strm, &exponent);\n" +
         	"if(tmp_err_code != ERR_OK)\n" +
         	"\treturn tmp_err_code;\n\n" +
-        	"fl_val = (float*) mantissa;\n" +
-        	"while(exponent)\n" +
-        	"{\n" +
-        	"\tif(exponent > 0)\n" +
-        	"\t\texponent--;\n" +
-        	"\telse\n" +
-      		"\t\texponent++;\n" +
-        	"\t*fl_val *= 10.0;\n" +
-        	"}\n" +
+        	"fl_val->mantissa = mantissa;\n" +
+        	"fl_val->exponent = exponent;\n" +
         	"return ERR_OK;";
         String comment =
                 "Decodes float values.";

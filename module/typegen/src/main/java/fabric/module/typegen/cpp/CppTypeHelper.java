@@ -1,4 +1,4 @@
-/** 09.01.2012 17:24 */
+/** 26.03.2012 11:51 */
 package fabric.module.typegen.cpp;
 
 import java.util.ArrayList;
@@ -114,7 +114,8 @@ public class CppTypeHelper
     // xs:gDay is added as type definition
     structs.add(CppTypeHelper.createDurationDefinition());
     structs.add(CppTypeHelper.createNotationDefinition());
-    structs.add(CppTypeHelper.createQNameDefinition());
+    structs.add(CppTypeHelper.createQNameDefinition());    
+    structs.add(CppTypeHelper.createFloatDefinition());
 
     return structs.toArray(new CStruct[0]);
   }
@@ -405,5 +406,28 @@ public class CppTypeHelper
     qNameDefinition.setComment(new CCommentImpl("xs:QName"));
 
     return qNameDefinition;
+  }
+
+  /**
+   * Create struct definition for the xs:float type.
+   * 
+   * typedef struct {
+   *   int32 mantissa;
+   *   int16 exponent;
+   * } xsd_float_t;
+   * 
+   * @return Struct with xs:float definition
+   * 
+   * @throws Exception Error during code generation
+   */
+  private static CStruct createFloatDefinition() throws Exception
+  {
+    CParam mantissa = CParam.factory.create("int32", "mantissa");
+    CParam exponent = CParam.factory.create("int16", "exponent");
+
+    CStruct floatDefinition = CStruct.factory.create("", "xsd_float_t", true, mantissa, exponent);
+    floatDefinition.setComment(new CCommentImpl("xs:float"));
+
+    return floatDefinition;
   }
 }
