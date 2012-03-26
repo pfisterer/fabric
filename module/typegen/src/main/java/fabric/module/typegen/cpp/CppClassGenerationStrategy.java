@@ -1,4 +1,4 @@
-/** 26.03.2012 12:19 */
+/** 26.03.2012 15:32 */
 package fabric.module.typegen.cpp;
 
 import java.util.Map;
@@ -427,7 +427,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
                 String.format(comment, "maxLength"));
     }
 
-    if (member.isMinInclusiveRestricted() && !("xsd_float_t").equals(member.type)) // No restrictions on float struct in C++
+    if (member.isMinInclusiveRestricted() && this.isValidRestriction(member, "minInclusive"))
     {
       result += CppRestrictionHelper.createCheckCode(
               CppRestrictionHelper.minInclusiveExpression(member),
@@ -435,7 +435,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
               String.format(comment, "minInclusive"));
     }
 
-    if (member.isMaxInclusiveRestricted() && !("xsd_float_t").equals(member.type)) // No restrictions on float struct in C++
+    if (member.isMaxInclusiveRestricted() && this.isValidRestriction(member, "maxInclusive"))
     {
       result += CppRestrictionHelper.createCheckCode(
               CppRestrictionHelper.maxInclusiveExpression(member),
@@ -443,7 +443,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
               String.format(comment, "maxInclusive"));
     }
 
-    if (member.isMinExclusiveRestricted() && !("xsd_float_t").equals(member.type)) // No restrictions on float struct in C++
+    if (member.isMinExclusiveRestricted() && this.isValidRestriction(member, "minExclusive"))
     {
       result += CppRestrictionHelper.createCheckCode(
               CppRestrictionHelper.minExclusiveExpression(member),
@@ -451,7 +451,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
               String.format(comment, "minExclusive"));
     }
 
-    if (member.isMaxExclusiveRestricted() && !("xsd_float_t").equals(member.type)) // No restrictions on float struct in C++
+    if (member.isMaxExclusiveRestricted() && this.isValidRestriction(member, "maxExclusive"))
     {
       result += CppRestrictionHelper.createCheckCode(
               CppRestrictionHelper.maxExclusiveExpression(member),
@@ -533,5 +533,59 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
   private String firstLetterCapital(final String text)
   {
     return (null == text ? null : text.substring(0, 1).toUpperCase() + text.substring(1, text.length()));
+  }
+
+  /**
+   * Private helper method to check whether a restriction is valid
+   * for the current type of a member variable. Signed integers
+   * for example do not allow a comparison with negative boundaries.
+   * Furthermore, we do not support restrictions on our C++ float
+   * struct.
+   * 
+   * The method will return false, if the given restriction cannot
+   * be applied to the member's type or true otherwise.
+   * 
+   * @param member Element object with restrictions
+   * @param restrictionType Type of restriction (one of 'minInclusive',
+   * 'maxInclusive', 'minExclusive' or 'maxExclusive')
+   * 
+   * @return True if restriction can be applied on member variable,
+   * false otherwise
+   */
+  private boolean isValidRestriction(final AttributeContainer.RestrictedElementBase member, final String restrictionType)
+  {
+    boolean result = true;
+
+    // No restrictions on float struct in C++
+    result = result && !("xsd_float_t").equals(member.type);
+
+    // No comparison between signed and unsigned integer expressions
+    boolean isSignedInt = (("int8").equals(member.type) || ("int16").equals(member.type) || ("int32").equals(member.type) || ("int64").equals(member.type));
+
+    if (isSignedInt)
+    {
+      // Value for 'minInclusive' restriction must not be negative
+      if (("minInclusive").equals(restrictionType))
+      {
+        result = result && null != member.restrictions.minInclusive && !(Long.valueOf(member.restrictions.minInclusive) < 0);
+      }
+      // Value for 'maxInclusive' restriction must not be negative
+      else if (("maxInclusive").equals(restrictionType))
+      {
+        result = result && null != member.restrictions.maxInclusive && !(Long.valueOf(member.restrictions.maxInclusive) < 0);
+      }
+      // Value for 'minExclusive' restriction must not be negative
+      else if (("minExclusive").equals(restrictionType))
+      {
+        result = result && null != member.restrictions.minExclusive && !(Long.valueOf(member.restrictions.minExclusive) < 0);
+      }
+      // Value for 'maxExclusive' restriction must not be negative
+      else if (("maxExclusive").equals(restrictionType))
+      {
+        result = result && null != member.restrictions.maxExclusive && !(Long.valueOf(member.restrictions.maxExclusive) < 0);
+      }
+    }
+
+    return result;
   }
 }
