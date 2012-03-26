@@ -1,4 +1,4 @@
-/** 19.03.2012 11:46 */
+/** 26.03.2012 12:19 */
 package fabric.module.typegen.cpp;
 
 import java.util.Map;
@@ -427,7 +427,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
                 String.format(comment, "maxLength"));
     }
 
-    if (member.isMinInclusiveRestricted())
+    if (member.isMinInclusiveRestricted() && !("xsd_float_t").equals(member.type)) // No restrictions on float struct in C++
     {
       result += CppRestrictionHelper.createCheckCode(
               CppRestrictionHelper.minInclusiveExpression(member),
@@ -435,7 +435,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
               String.format(comment, "minInclusive"));
     }
 
-    if (member.isMaxInclusiveRestricted())
+    if (member.isMaxInclusiveRestricted() && !("xsd_float_t").equals(member.type)) // No restrictions on float struct in C++
     {
       result += CppRestrictionHelper.createCheckCode(
               CppRestrictionHelper.maxInclusiveExpression(member),
@@ -443,7 +443,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
               String.format(comment, "maxInclusive"));
     }
 
-    if (member.isMinExclusiveRestricted())
+    if (member.isMinExclusiveRestricted() && !("xsd_float_t").equals(member.type)) // No restrictions on float struct in C++
     {
       result += CppRestrictionHelper.createCheckCode(
               CppRestrictionHelper.minExclusiveExpression(member),
@@ -451,7 +451,7 @@ public class CppClassGenerationStrategy implements ClassGenerationStrategy
               String.format(comment, "minExclusive"));
     }
 
-    if (member.isMaxExclusiveRestricted())
+    if (member.isMaxExclusiveRestricted() && !("xsd_float_t").equals(member.type)) // No restrictions on float struct in C++
     {
       result += CppRestrictionHelper.createCheckCode(
               CppRestrictionHelper.maxExclusiveExpression(member),

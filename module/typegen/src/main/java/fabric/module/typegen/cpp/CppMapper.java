@@ -18,7 +18,7 @@ public class CppMapper extends Mapper
   public void createMapping()
   {
     types.put("FBoolean", "bool");
-    types.put("FFloat", "float");
+    types.put("FFloat", "xsd_float_t");
     types.put("FDouble", "double");
     types.put("FByte", "int8");
     types.put("FUnsignedByte", "uint8");
