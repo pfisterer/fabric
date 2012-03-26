@@ -115,8 +115,8 @@ public class CppEXICodeGen implements EXICodeGen
     }
 
     /*****************************************************************
-    * Create callback method that reads EXI stream from file
-    *****************************************************************/
+     * Create callback method that reads EXI stream from file
+     *****************************************************************/
 
     CFun inputStream = this.generateInputStreamFunction();
     if (null != inputStream)
@@ -187,11 +187,12 @@ public class CppEXICodeGen implements EXICodeGen
     // Collect data of elements with simple type
     if (element.getSchemaType().isSimple())
     {
-      this.elementMetadata.add(new ElementMetadata(element));
-    }
+      ElementMetadata d = new ElementMetadata(element);
+      this.elementMetadata.add(d);
 
-    // Build grammar
-    grammarFactory.addGlobalElement(element);
+      // Build grammar
+      grammarFactory.addGlobalElement(d);
+    }
   }
 
   /**
@@ -207,11 +208,12 @@ public class CppEXICodeGen implements EXICodeGen
     // Collect data of elements with simple type
     if (element.getSchemaType().isSimple())
     {
-      this.elementMetadata.add(new ElementMetadata(element, parentName));
-    }
+      ElementMetadata d = new ElementMetadata(element, parentName);
+      this.elementMetadata.add(d);
 
-    // Build grammar
-    grammarFactory.addLocalElement(element);
+      // Build grammar
+      grammarFactory.addLocalElement(d);
+    }
   }
 
   /**

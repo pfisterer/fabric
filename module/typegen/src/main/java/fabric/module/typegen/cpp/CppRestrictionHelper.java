@@ -1,4 +1,4 @@
-/** 08.01.2012 22:37 */
+/** 23.03.2012 12:55 */
 package fabric.module.typegen.cpp;
 
 import fabric.module.typegen.AttributeContainer;
@@ -82,7 +82,7 @@ public class CppRestrictionHelper
    */
   public static String createPatternCheckCode(final String memberName, final String pattern, final String message)
   {
-    // TODO: Add support for Boost.Regex library: www.boost.org/doc/libs/release/libs/regex
+    // TODO: Add support for Boost.Regex library: http://www.boost.org/doc/libs/release/libs/regex
 
     throw new UnsupportedOperationException("Regular expressions are not supported yet.");
   }
