@@ -7,11 +7,9 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 import fabric.module.typegen.cpp.CppTypeHelper;
 
 /**
- * Created by IntelliJ IDEA.
  * User: reichart
  * Date: 02.03.12
  * Time: 15:59
- * To change this template use File | Settings | File Templates.
  */
 public class CppEXITypeDecoderGenerator {
 
@@ -100,8 +98,8 @@ public class CppEXITypeDecoderGenerator {
         headerFile.addBeforeDirective("define EXITYPEDECODER_HPP");
 
         // Add includes
-        headerFile.addInclude(CppEXIStreamGenerator.FILE_NAME + ".hpp");
         headerFile.addInclude(CppTypeHelper.FILE_NAME + ".hpp");
+        headerFile.addInclude(CppEXIStreamGenerator.FILE_NAME + ".hpp");
         
         // Add class to the header file
         headerFile.add(clazz);
@@ -146,13 +144,13 @@ public class CppEXITypeDecoderGenerator {
         	"int tmp_err_code = UNEXPECTED_ERROR;\n" +
         	"int32 mantissa;\n" +
         	"int32 exponent;\n\n" +
-        	"//Decode the mantissa\n" +
+        	"// Decode the mantissa\n" +
         	"tmp_err_code = decodeInteger(strm, &mantissa);\n" +
-        	"if(tmp_err_code != ERR_OK)\n" +
+        	"if (tmp_err_code != ERR_OK)\n" +
         	"\treturn tmp_err_code;\n\n" +
-        	"//Decode the exponent\n" +
+        	"// Decode the exponent\n" +
         	"tmp_err_code = decodeInteger(strm, &exponent);\n" +
-        	"if(tmp_err_code != ERR_OK)\n" +
+        	"if (tmp_err_code != ERR_OK)\n" +
         	"\treturn tmp_err_code;\n\n" +
         	"fl_val->mantissa = mantissa;\n" +
         	"fl_val->exponent = exponent;\n" +
