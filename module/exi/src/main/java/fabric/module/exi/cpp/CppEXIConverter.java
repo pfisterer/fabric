@@ -200,6 +200,15 @@ public class CppEXIConverter
                   element.getEXIEventCode(), element.getElementEXIType(),
                   element.getElementName());
           break;
+
+        // TODO: XML element is custom typed
+        case ElementMetadata.CUSTOM_TYPED:
+          serializerCode += String.format(
+                  "exitCode += stream->writeNBits(3, %d);\n" +
+                  "exitCode += encoder.encode%s(stream, typeObject->get%s()->get%s());\n\n",
+                  element.getEXIEventCode(), element.getElementEXIType(),
+                  element.getParentName(), element.getElementName());
+          break;
         
         // XML element is a list
         case ElementMetadata.XML_LIST:
@@ -305,6 +314,21 @@ public class CppEXIConverter
                   "}\n\n",
                   element.getElementEXIType(), element.getElementName().toLowerCase(),
                   element.getElementName(), element.getElementName().toLowerCase());
+          break;
+        
+        // TODO: XML element is custom typed
+        case ElementMetadata.CUSTOM_TYPED:
+          deserializerCode += String.format(
+                  "// Read EXI event code\n" +
+                  "exitCode += stream->readNBits(3, &eventCodeBits);\n\n" +
+                  "// Decode element value\n" +
+                  "exitCode += decoder.decode%s(stream, &%s);\n\n" +
+                  "if (0 == exitCode) {\n" +
+                  "\ttypeObject->get%s()->set%s(%s);\n" +
+                  "}\n\n",
+                  element.getElementEXIType(), element.getElementName().toLowerCase(),
+                  element.getParentName(), element.getElementName(),
+                  element.getElementName().toLowerCase());
           break;
         
         // XML element is a list

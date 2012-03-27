@@ -13,6 +13,7 @@ import java.util.HashMap;
 import fabric.wsdlschemaparser.schema.FElement;
 import fabric.wsdlschemaparser.schema.FList;
 import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
+import fabric.wsdlschemaparser.schema.SchemaHelper;
 
 /**
  * This class is a container for XML element metadata. While
@@ -49,6 +50,9 @@ public class ElementMetadata implements Comparable<ElementMetadata>
   
   /** XML element is an array that may contain multiple values */
   public static final int XML_ARRAY = 2;
+
+  // TODO: Constant added
+  public static final int CUSTOM_TYPED = 3;
   
   /** Name of the XML element */
   private String elementName;
@@ -102,8 +106,11 @@ public class ElementMetadata implements Comparable<ElementMetadata>
     // Set XML element name
     this.elementName = element.getName();
 
+    // TODO: Line added
+    boolean isCustomTyped = !SchemaHelper.isBuiltinTypedElement(element);
+
     // Element is an XML list
-    if (FSchemaTypeHelper.isList(element))
+    if (FSchemaTypeHelper.isList(element) && !isCustomTyped)
     {
       FList listType = (FList)element.getSchemaType();
 
@@ -115,6 +122,13 @@ public class ElementMetadata implements Comparable<ElementMetadata>
     {
       this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName());
       this.type = ElementMetadata.XML_ARRAY;
+    }
+    // TODO: Block added
+    // Element is custom typed
+    else if (isCustomTyped)
+    {
+      this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName());
+      this.type = ElementMetadata.CUSTOM_TYPED;
     }
     // Element is an atomic value
     else
