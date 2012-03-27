@@ -119,6 +119,26 @@
         <version>2.4.0</version>
       </dependency>
 
+      <!-- EXIFicient -->
+      <dependency>
+          <groupId>com.siemens.ct.exi</groupId>
+          <artifactId>exificient</artifactId>
+          <version>0.8</version>
+      </dependency>
+
+      <!-- EXIFicient is not a Maven project, requires Xerces. -->
+      <dependency>
+          <groupId>xerces</groupId>
+          <artifactId>xercesImpl</artifactId>
+          <version>xerces-exificient</version>
+      </dependency>
+
+      <dependency>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis</artifactId>
+          <version>apis-exificient</version>
+      </dependency>
+
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>

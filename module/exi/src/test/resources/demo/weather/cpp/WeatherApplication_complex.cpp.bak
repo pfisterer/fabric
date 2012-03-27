@@ -1,0 +1,100 @@
+/**
+ * The EXI application's main file.
+ */
+
+#include <cstdlib>
+#include <cstdio>
+#include <iostream>
+
+#include "Weather.hpp"
+#include "EXIStream.hpp"
+#include "EXIConverter.hpp"
+
+#define OUTFILE_NAME "weather_serialized.exi"
+#define INFILE_NAME "weather_serialized.exi"
+
+using namespace std;
+
+/**
+ * Write EXI stream to an output file.
+ */
+mySize_t writeFileOutputStream(void* buffer, mySize_t readSize) {
+	FILE *outfile = fopen(OUTFILE_NAME, "wb");
+	
+	mySize_t result = fwrite(buffer, 1, readSize, outfile);
+	fclose(outfile);
+	
+	return result;
+}
+
+/**
+ * Read EXI stream from an input file.
+ */
+mySize_t readFileInputStream(void* buffer, mySize_t readSize) {
+	FILE *infile = fopen(INFILE_NAME, "rb");
+	
+	mySize_t result = fread(buffer, 1, readSize, infile);
+	fclose(infile);
+	
+	return result;
+}
+
+/**
+ * Serialize type object to EXI byte stream.
+ */
+void toEXIStream(EXIConverter* exiConverter, Weather* typeObject, EXIStream* exiStream, mySize_t (*outputFunction)(void*, mySize_t)) {
+	exiConverter->serialize(typeObject, exiStream, outputFunction);
+}
+
+/**
+ * Deserialize EXI byte stream to type object.
+ */
+void fromEXIStream(EXIConverter* exiConverter, Weather* typeObject, EXIStream* exiStream, mySize_t (*inputFunction)(void*, mySize_t)) {
+	exiConverter->deserialize(typeObject, exiStream, inputFunction);
+}
+
+/**
+ * Main function of the application.
+ */
+int main(int argc, char* argv[]) {
+	Weather* weather = new Weather();
+    Weather* weather2 = new Weather();
+	EXIConverter* exiConverter = new EXIConverter();
+	EXIStream exiStream;
+	
+	try {
+		// Set weather forecast for object that will be serialized
+        Weather::WeatherForecastType forecast;
+        xsd_float_t temperature = {2, 3};
+        forecast.setTemperature(temperature);
+        forecast.setWindSpeed(30);
+        forecast.setRain(true);
+        weather->setWeatherForecast(&forecast);
+        
+        // Initialize weather forecast for object that will receive serialized data
+        Weather::WeatherForecastType forecast2;
+        weather2->setWeatherForecast(&forecast2);
+	
+		// Serialize bean object to EXI stream
+		toEXIStream(exiConverter, weather, &exiStream, writeFileOutputStream);
+	
+		// Deserialize bean object from EXI stream
+		fromEXIStream(exiConverter, weather2, &exiStream, readFileInputStream);
+        
+        // Print received data
+        cout << forecast2.getTemperature().mantissa << endl;
+        cout << forecast2.getTemperature().exponent << endl;
+        cout << forecast2.getWindSpeed() << endl;
+        cout << forecast2.getRain() << endl;
+	}
+	catch (const char* e) {
+		cout << e << endl;
+	}
+	
+	delete weather;
+    delete weather2;
+	delete exiConverter;
+	
+	return EXIT_SUCCESS;
+}
+
