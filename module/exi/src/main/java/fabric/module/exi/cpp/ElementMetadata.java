@@ -104,10 +104,11 @@ public class ElementMetadata implements Comparable<ElementMetadata>
     this.elementName = element.getName();
 
     // TODO: Line added
-    boolean isCustomTyped = !SchemaHelper.isBuiltinTypedElement(element);
+//    boolean isCustomTyped =  !SchemaHelper.isBuiltinTypedElement(element);
+//    LOGGER.debug(">>> " + element.getName() + " is top-level: " + element.isTopLevel()); // TODO: Remove
 
     // Element is an XML list
-    if (FSchemaTypeHelper.isList(element) && !isCustomTyped)
+    if (FSchemaTypeHelper.isList(element))
     {
       FList listType = (FList)element.getSchemaType();
 
@@ -122,7 +123,7 @@ public class ElementMetadata implements Comparable<ElementMetadata>
     }
     // TODO: Block added
     // Element is custom typed
-    else if (isCustomTyped)
+    else if (!element.isTopLevel())
     {
       this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName());
       this.type = ElementMetadata.CUSTOM_TYPED;
