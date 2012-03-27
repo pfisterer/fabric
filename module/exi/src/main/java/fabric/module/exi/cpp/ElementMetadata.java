@@ -1,4 +1,4 @@
-/** 27.03.2012 15:01 */
+/** 28.03.2012 01:14 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -11,7 +11,6 @@ import java.util.HashMap;
 import fabric.wsdlschemaparser.schema.FElement;
 import fabric.wsdlschemaparser.schema.FList;
 import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
-import fabric.wsdlschemaparser.schema.SchemaHelper;
 
 // TODO: Remove unused imports
 import exi.events.ExiEventCode;
@@ -44,21 +43,21 @@ public class ElementMetadata implements Comparable<ElementMetadata>
     ElementMetadata.createMappingEXIToCpp();
   }
   
-  /** XML element is a single value */
+  /** XML element is a single global value */
   public static final int XML_ATOMIC_VALUE = 0;
   
-  /** XML element is a list that may contain multiple values */
-  public static final int XML_LIST = 1;
+  /** XML element is a local element within a complex type */
+  public static final int XML_LOCAL_ELEMENT = 1;
   
   /** XML element is an array that may contain multiple values */
   public static final int XML_ARRAY = 2;
-
-  // TODO: Constant added
-  public static final int CUSTOM_TYPED = 3;
+  
+  /** XML element is a list that may contain multiple values */
+  public static final int XML_LIST = 3;
   
   /** Name of the XML element */
   private String elementName;
-  
+
   /** Name of the parent XML element */
   private String parentName;
 
@@ -103,30 +102,25 @@ public class ElementMetadata implements Comparable<ElementMetadata>
     // Set XML element name
     this.elementName = element.getName();
 
-    // TODO: Line added
-//    boolean isCustomTyped =  !SchemaHelper.isBuiltinTypedElement(element);
-//    LOGGER.debug(">>> " + element.getName() + " is top-level: " + element.isTopLevel()); // TODO: Remove
-
+    // Element is an XML array
+    if (FSchemaTypeHelper.isArray(element))
+    {
+      this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName());
+      this.type = ElementMetadata.XML_ARRAY;
+    }
     // Element is an XML list
-    if (FSchemaTypeHelper.isList(element))
+    else if(FSchemaTypeHelper.isList(element))
     {
       FList listType = (FList)element.getSchemaType();
 
       this.elementEXIType = this.getEXITypeName(listType.getItemType().getClass().getSimpleName());
       this.type = ElementMetadata.XML_LIST;
     }
-    // Element is an XML array
-    else if (FSchemaTypeHelper.isArray(element))
-    {
-      this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName());
-      this.type = ElementMetadata.XML_ARRAY;
-    }
-    // TODO: Block added
-    // Element is custom typed
+    // Element is a local element
     else if (!element.isTopLevel())
     {
       this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName());
-      this.type = ElementMetadata.CUSTOM_TYPED;
+      this.type = ElementMetadata.XML_LOCAL_ELEMENT;
     }
     // Element is an atomic value
     else
