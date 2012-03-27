@@ -262,8 +262,8 @@ public class CppEXIStreamGenerator {
                         "tmp_err_code = writeNBits(5, 0);\n" +
                         "if(tmp_err_code != ERR_OK)\n" +
                         "\treturn tmp_err_code;\n\n" +
-                        "// Encode option header: 01000 (strict)\n" +
-                        "tmp_err_code = writeNBits(5, 8);\n\n" +
+                        "// Encode option header: 01 (strict)\n" +
+                        "tmp_err_code = writeNBits(2, 1);\n\n" +
                         "return tmp_err_code;";
         String comment = "Writes the header to the stream.";
         fun_writeHeader.appendCode(methodBody);
@@ -321,11 +321,11 @@ public class CppEXIStreamGenerator {
                         "\treturn tmp_err_code;\n" +
                         "if(bits_val != 0)\n" +
                         "\treturn INVALID_EXI_HEADER;\n\n" +
-                        "// Decode option header: 01000 (strict)\n" +
-                        "tmp_err_code = readNBits(5, &bits_val);\n" +
+                        "// Decode option header: 01 (strict)\n" +
+                        "tmp_err_code = readNBits(2, &bits_val);\n" +
                         "if(tmp_err_code != ERR_OK)\n" +
                         "\treturn tmp_err_code;\n" +
-                        "if(bits_val != 8)\n" +
+                        "if(bits_val != 1)\n" +
                         "\treturn INVALID_EXI_HEADER;\n\n" +
                         "return tmp_err_code;";
         String comment = "Reads the header from the stream.";
