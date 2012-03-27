@@ -7,11 +7,9 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 import fabric.module.typegen.cpp.CppTypeHelper;
 
 /**
- * Created by IntelliJ IDEA.
  * User: reichart
  * Date: 27.02.12
  * Time: 13:28
- * To change this template use File | Settings | File Templates.
  */
 public class CppEXITypeEncoderGenerator {
 
@@ -100,8 +98,8 @@ public class CppEXITypeEncoderGenerator {
         headerFile.addBeforeDirective("define EXITYPEENCODER_HPP");
 
         // Add includes
-        headerFile.addInclude(CppEXIStreamGenerator.FILE_NAME + ".hpp");
         headerFile.addInclude(CppTypeHelper.FILE_NAME + ".hpp");
+        headerFile.addInclude(CppEXIStreamGenerator.FILE_NAME + ".hpp");
 
         // Add class to the header file
         headerFile.add(clazz);
@@ -146,16 +144,16 @@ public class CppEXITypeEncoderGenerator {
         CppFun fun_encFloat = CppFun.factory.create(Cpp.INT, "encodeFloat",
                 var_strm, var_flVal);
         String methodBody =
-        	"int tmp_err_code = UNEXPECTED_ERROR;\n\n" +
-        	"//Encode the mantissa\n" +
-        	"tmp_err_code = encodeInteger(strm, fl_val.mantissa);\n" +
-        	"if(tmp_err_code != ERR_OK)\n" +
-    		"\treturn tmp_err_code;\n\n" +
-    		"//Encode the exponent\n" +
-    		"tmp_err_code = encodeInteger(strm, fl_val.exponent);\n" +
-        	"if(tmp_err_code != ERR_OK)\n" +
-    		"\treturn tmp_err_code;\n\n" +
-    		"return ERR_OK;";
+                "int tmp_err_code = UNEXPECTED_ERROR;\n\n" +
+                "// Encode the mantissa\n" +
+                "tmp_err_code = encodeInteger(strm, fl_val.mantissa);\n" +
+                "if (tmp_err_code != ERR_OK)\n" +
+                "\treturn tmp_err_code;\n\n" +
+                "// Encode the exponent\n" +
+                "tmp_err_code = encodeInteger(strm, fl_val.exponent);\n" +
+                "if (tmp_err_code != ERR_OK)\n" +
+                "\treturn tmp_err_code;\n\n" +
+                "return ERR_OK;";
         
         String comment =
                 "Encodes float values.";

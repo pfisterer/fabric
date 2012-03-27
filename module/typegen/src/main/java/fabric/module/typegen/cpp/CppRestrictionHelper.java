@@ -1,4 +1,4 @@
-/** 23.03.2012 12:55 */
+/** 27.03.2012 14:56 */
 package fabric.module.typegen.cpp;
 
 import fabric.module.typegen.AttributeContainer;
@@ -374,7 +374,7 @@ public class CppRestrictionHelper
     {
       result = String.format("%s::compare(%s, \"%s\") <= 0",
               CppUtilHelper.FILE_NAME, member.name, member.restrictions.minExclusive);
-    }    
+    }
     else
     {
       result = String.format("%s <= %d", member.name, Long.parseLong(member.restrictions.minExclusive));

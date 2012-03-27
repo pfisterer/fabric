@@ -8,11 +8,9 @@ import de.uniluebeck.sourcegen.exceptions.CppDuplicateException;
 import fabric.module.typegen.cpp.CppTypeHelper;
 
 /**
- * Created by IntelliJ IDEA.
  * User: reichart
  * Date: 27.02.12
  * Time: 13:37
- * To change this template use File | Settings | File Templates.
  */
 public class CppEXIStreamGenerator {
 
