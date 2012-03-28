@@ -1,4 +1,4 @@
-/** 26.03.2012 12:26 */
+/** 29.03.2012 00:23 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -175,16 +175,22 @@ public class CppEXICodeGen implements EXICodeGen
     // Empty implementation
   }
 
-  // TODO: Add comment
+  /**
+   * Handle end of XML Schema document, i.e. build EXI grammar.
+   *
+   * @param pathToSchemaDocument Path to XML Schema document
+   *
+   * @throws Exception Error during event handling
+   */
   @Override
   public void handleEndOfSchema(final String pathToSchemaDocument) throws Exception
   {
     this.grammarBuilder.buildGrammar(pathToSchemaDocument);
   }
-  
+
   /**
    * Handle top level element from XML Schema document,
-   * i.e. build EXI grammar for element.
+   * i.e. collect element metadata.
    *
    * @param element Top level element to handle
    */
@@ -200,7 +206,7 @@ public class CppEXICodeGen implements EXICodeGen
 
   /**
    * Handle local element from XML Schema document,
-   * i.e. build EXI grammar for element.
+   * i.e. collect element metadata.
    *
    * @param element Local element to handle
    * @param parentName Name of parent XML element

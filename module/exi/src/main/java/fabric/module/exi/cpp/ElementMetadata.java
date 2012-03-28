@@ -1,4 +1,4 @@
-/** 28.03.2012 15:04 */
+/** 29.03.2012 00:14 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
  * 
  * @author seidel, reichart
  */
-public class ElementMetadata implements Comparable<ElementMetadata>
+public class ElementMetadata
 {
   /** Logger object */
   private static final Logger LOGGER = LoggerFactory.getLogger(ElementMetadata.class);
@@ -273,21 +273,6 @@ public class ElementMetadata implements Comparable<ElementMetadata>
     result.setParentName(this.parentName);
     
     return result;
-  }
-
-  /**
-   * Compare two ElementMetadata objects with each other. The
-   * element name is used for the comparison here.
-   * 
-   * @param elementMetadata ElementMetadata object to compare with
-   * 
-   * @return Integer value to represent the order of two objects
-   */
-  // TODO: Do we still need this method?
-  @Override
-  public int compareTo(final ElementMetadata elementMetadata)
-  {    
-    return this.elementName.compareTo(elementMetadata.elementName);
   }
 
   /**

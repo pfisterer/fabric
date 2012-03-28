@@ -1,7 +1,7 @@
+/** 29.03.2012 00:12 */
 package fabric.module.exi.base;
 
 import java.util.ArrayList;
-import java.util.Properties;
 
 import fabric.wsdlschemaparser.schema.FElement;
 
@@ -46,21 +46,17 @@ public interface EXICodeGen
   public void handleEndOfSchema(final String pathToSchemaDocument) throws Exception;
 
   /**
-   * Handle top level element from XML Schema document,
-   * i.e. build EXI grammar for element.
+   * Handle top level element from XML Schema document.
    * 
    * @param element Top level element to handle
    */
-  // TODO: Update comments
   public void handleTopLevelElement(final FElement element);
 
   /**
-   * Handle local element from XML Schema document,
-   * i.e. build EXI grammar for element.
+   * Handle local element from XML Schema document.
    * 
    * @param element Local element to handle
    * @param parentName Name of parent XML element
    */
-  // TODO: Update comments
   public void handleLocalElement(final FElement element, final String parentName);
 }

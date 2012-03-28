@@ -1,3 +1,4 @@
+/** 29.03.2012 00:12 */
 package fabric.module.exi.cpp;
 
 import com.siemens.ct.exi.grammar.EventInformation;

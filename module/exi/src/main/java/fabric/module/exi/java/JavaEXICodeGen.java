@@ -1,4 +1,4 @@
-/** 22.03.2012 19:11 */
+/** 29.03.2012 00:18 */
 package fabric.module.exi.java;
 
 import org.slf4j.Logger;
@@ -200,7 +200,15 @@ public class JavaEXICodeGen implements EXICodeGen
     LOGGER.debug(String.format("Generated new source file '%s' for main application.", this.applicationClassName));
   }
 
-  // TODO: Add comment
+  /**
+   * Handle end of XML Schema document. We do not need to
+   * build any EXI gramma in the Java code generator, so
+   * this method is left empty.
+   *
+   * @param pathToSchemaDocument Path to XML Schema document
+   *
+   * @throws Exception Error during event handling
+   */
   @Override
   public void handleEndOfSchema(final String pathToSchemaDocument) throws Exception
   {
