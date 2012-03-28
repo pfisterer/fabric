@@ -55,8 +55,8 @@ public class CppEXICodeGen implements EXICodeGen
   /** Queue with metadata of XML elements */
   private Queue<ElementMetadata> elementMetadata;
 
-  /** Factory to build schema-informed EXI grammars */
-  private EXISchemaInformedGrammarFactory grammarFactory;
+  /** Object to build schema-informed EXI grammars */
+  private GrammarBuilder grammarBuilder;
 
   /**
    * Constructor sets various class names and creates source
@@ -81,8 +81,8 @@ public class CppEXICodeGen implements EXICodeGen
     
     this.elementMetadata = new LinkedList<ElementMetadata>();
     
-    // Create factory for schema-informed EXI grammars
-    this.grammarFactory = new EXISchemaInformedGrammarFactory();
+    // Create builder for schema-informed EXI grammars
+    this.grammarBuilder = new GrammarBuilder();
   }
 
   /**
@@ -175,6 +175,13 @@ public class CppEXICodeGen implements EXICodeGen
     // Empty implementation
   }
 
+  // TODO: Add comment
+  @Override
+  public void handleEndOfSchema(final String pathToSchemaDocument) throws Exception
+  {
+    this.grammarBuilder.buildGrammar(pathToSchemaDocument);
+  }
+  
   /**
    * Handle top level element from XML Schema document,
    * i.e. build EXI grammar for element.
@@ -187,13 +194,7 @@ public class CppEXICodeGen implements EXICodeGen
     // Collect data of elements with simple type
     if (element.getSchemaType().isSimple())
     {
-      ElementMetadata metadata = new ElementMetadata(element);
-
-      // Add metadata to queue
-      this.elementMetadata.add(metadata);
-
-      // Build grammar
-      grammarFactory.addGlobalElement(metadata);
+      this.elementMetadata.add(new ElementMetadata(element));
     }
   }
 
@@ -210,13 +211,7 @@ public class CppEXICodeGen implements EXICodeGen
     // Collect data of elements with simple type
     if (element.getSchemaType().isSimple())
     {
-      ElementMetadata metadata = new ElementMetadata(element, parentName);
-
-      // Add metadata to queue
-      this.elementMetadata.add(metadata);
-
-      // Build grammar
-      grammarFactory.addLocalElement(metadata);
+      this.elementMetadata.add(new ElementMetadata(element, parentName));
     }
   }
 

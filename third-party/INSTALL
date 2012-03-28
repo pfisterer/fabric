@@ -1,0 +1,12 @@
+This directory contains third-party libraries that are not yet
+available as Maven modules through a public repository.
+
+Thus you have to install the JAR files to your local Maven
+repository manually. The libraries are being used in the
+C++ EXI module.
+
+To install the JAR files, proceed as follows:
+
+mvn install:install-file -DgroupId=com.siemens.ct.exi -DartifactId=exificient -Dversion=0.8 -Dpackaging=jar -Dfile=exificient.jar
+
+mvn install:install-file -DgroupId=xerces -DartifactId=xercesImpl -Dversion=xerces-exificient -Dpackaging=jar -Dfile=xercesImpl.jar

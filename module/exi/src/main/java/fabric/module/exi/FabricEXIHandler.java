@@ -1,4 +1,4 @@
-/** 22.03.2012 19:08 */
+/** 28.03.2012 15:23 */
 package fabric.module.exi;
 
 import org.slf4j.Logger;
@@ -43,6 +43,9 @@ public class FabricEXIHandler extends FabricDefaultHandler
   /** Logger object */
   private static final Logger LOGGER = LoggerFactory.getLogger(FabricEXIHandler.class);
 
+  /** Properties object for module configuration */
+  private Properties properties;
+
   /** EXICodeGen object for EXI class generation */
   private EXICodeGen exiGenerator;
 
@@ -68,6 +71,8 @@ public class FabricEXIHandler extends FabricDefaultHandler
    */
   public FabricEXIHandler(Workspace workspace, Properties properties) throws Exception
   {
+    this.properties = properties;
+
     this.exiGenerator = EXICodeGenFactory.getInstance().createEXICodeGen(
             properties.getProperty(FabricEXIModule.EXICODEGEN_NAME_KEY), workspace, properties);
 
@@ -91,7 +96,8 @@ public class FabricEXIHandler extends FabricDefaultHandler
   public void endSchema(FSchema schema) throws Exception
   {
     LOGGER.debug("Called endSchema().");
-
+    
+    this.exiGenerator.handleEndOfSchema(this.properties.getProperty("fabric.xsd")); // Pass location of XML Schema file
     this.exiGenerator.generateCode(this.fixElements, this.fixArrays, this.fixLists);
     this.exiGenerator.writeSourceFile();
   }

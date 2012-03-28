@@ -1,4 +1,4 @@
-/** 28.03.2012 01:14 */
+/** 28.03.2012 15:04 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -11,10 +11,6 @@ import java.util.HashMap;
 import fabric.wsdlschemaparser.schema.FElement;
 import fabric.wsdlschemaparser.schema.FList;
 import fabric.wsdlschemaparser.schema.FSchemaTypeHelper;
-
-// TODO: Remove unused imports
-import exi.events.ExiEventCode;
-import exi.events.ExiMalformedEventCodeException;
 
 /**
  * This class is a container for XML element metadata. While
@@ -68,7 +64,7 @@ public class ElementMetadata implements Comparable<ElementMetadata>
   private int type;
   
   /** EXI event code within the XML Schema document structure */
-  private ExiEventCode exiEventCode; // TODO: EXIficient grammar builder will return event code as int
+  private int exiEventCode;
   
   /**
    * Parameterized constructor.
@@ -79,7 +75,7 @@ public class ElementMetadata implements Comparable<ElementMetadata>
    * @param type XML element type (atomic value, list or array)
    * @param exiEventCode EXI event code
    */
-  public ElementMetadata(final String elementName, final String elementEXIType, final int type, final ExiEventCode exiEventCode)
+  public ElementMetadata(final String elementName, final String elementEXIType, final int type, final int exiEventCode)
   {
     this.elementName = elementName;
     this.elementEXIType = elementEXIType;
@@ -130,11 +126,7 @@ public class ElementMetadata implements Comparable<ElementMetadata>
     }
 
     // Set EXI event code
-    try {
-        this.exiEventCode = new ExiEventCode(0);
-    } catch (ExiMalformedEventCodeException e) {
-        e.printStackTrace(); // TODO: Properly handle exception
-    }
+    this.exiEventCode = 0;
 
     // Validate support for EXI type
     ElementMetadata.checkEXITypeSupport(this.elementEXIType);
@@ -252,7 +244,7 @@ public class ElementMetadata implements Comparable<ElementMetadata>
    * 
    * @param exiEventCode EXI event code
    */
-  public void setEXIEventCode(final ExiEventCode exiEventCode)
+  public void setEXIEventCode(final int exiEventCode)
   {
     this.exiEventCode = exiEventCode;
   }
@@ -264,9 +256,7 @@ public class ElementMetadata implements Comparable<ElementMetadata>
    */
   public int getEXIEventCode()
   {
-    // TODO: This is probably not correct yet. Check which part of the
-    // event code we need or how all parts must be written to EXI stream.
-    return Integer.valueOf(this.exiEventCode.getPart(0));
+    return this.exiEventCode;
   }
 
   /**
@@ -277,17 +267,11 @@ public class ElementMetadata implements Comparable<ElementMetadata>
   @Override
   public ElementMetadata clone()
   {
-      ElementMetadata result = null;
-
-      try {
-          ExiEventCode c = new ExiEventCode(exiEventCode.getPart(0), exiEventCode.getPart(1), exiEventCode.getPart(2));
-          result = new ElementMetadata(this.elementName, this.elementEXIType, this.type, c);
-      } catch (ExiMalformedEventCodeException e) {
-          e.printStackTrace(); // TODO: Properly handle exception
-      }
-
+    ElementMetadata result;
+    
+    result = new ElementMetadata(this.elementName, this.elementEXIType, this.type, this.exiEventCode);
     result.setParentName(this.parentName);
-
+    
     return result;
   }
 
@@ -299,9 +283,10 @@ public class ElementMetadata implements Comparable<ElementMetadata>
    * 
    * @return Integer value to represent the order of two objects
    */
+  // TODO: Do we still need this method?
   @Override
   public int compareTo(final ElementMetadata elementMetadata)
-  {
+  {    
     return this.elementName.compareTo(elementMetadata.elementName);
   }
 

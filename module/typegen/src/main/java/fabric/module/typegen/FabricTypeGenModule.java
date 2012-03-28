@@ -52,7 +52,7 @@ public class FabricTypeGenModule implements FabricModule
   public static final String MAPPER_CLASS_KEY = "typegen.mapper_name";
 
   /** Properties object for module configuration */
-  private Properties properties = null;
+  private Properties properties;
 
   /**
    * Constructor initializes the internal properties object.

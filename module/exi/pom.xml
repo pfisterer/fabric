@@ -29,11 +29,18 @@
       <artifactId>fabric.module.typegen</artifactId>
     </dependency>
 
-    <!-- EXI-Connexion to build EXI grammars for C++ -->
+    <!-- EXIficient to build EXI grammars for C++ -->
     <dependency>
-      <groupId>de.uniluebeck.itm.connexion</groupId>
-      <artifactId>exi-connexion</artifactId>
-      <version>1.0</version>
+      <groupId>com.siemens.ct.exi</groupId>
+      <artifactId>exificient</artifactId>
+      <version>0.8</version>
+    </dependency>
+
+    <!-- Xerces is required for EXIficient -->
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+      <version>xerces-exificient</version>
     </dependency>
 
     <dependency>

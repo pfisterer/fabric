@@ -69,7 +69,7 @@ public class FabricEXIModule implements FabricModule
   public static final String XSD_DOCUMENT_PATH_KEY = "fabric.xsd";
 
   /** Properties object for module configuration */
-  private Properties properties = null;
+  private Properties properties;
 
   /**
    * Constructor initializes the internal properties object.

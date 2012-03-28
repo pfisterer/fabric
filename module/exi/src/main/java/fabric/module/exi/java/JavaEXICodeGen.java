@@ -200,6 +200,13 @@ public class JavaEXICodeGen implements EXICodeGen
     LOGGER.debug(String.format("Generated new source file '%s' for main application.", this.applicationClassName));
   }
 
+  // TODO: Add comment
+  @Override
+  public void handleEndOfSchema(final String pathToSchemaDocument) throws Exception
+  {
+    // Empty implementation
+  }
+
   /**
    * Handle top level element from XML Schema document. We
    * do not need to build any EXI gramma in the Java code
