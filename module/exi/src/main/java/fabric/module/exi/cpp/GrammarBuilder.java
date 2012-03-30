@@ -1,4 +1,4 @@
-/** 29.03.2012 00:12 */
+/** 30.03.2012 03:23 */
 package fabric.module.exi.cpp;
 
 import com.siemens.ct.exi.grammar.EventInformation;
@@ -25,28 +25,38 @@ public class GrammarBuilder
       // Build schema-informed EXI grammar
       builder.loadGrammar(pathToSchemaDocument);
       SchemaInformedGrammar schemaInformedGrammar = builder.toGrammar();
-      
+
       // Get document grammar and look for SD event (= start document)
       Rule documentGrammar = schemaInformedGrammar.getDocumentGrammar();
+      System.out.println(">>> Grammar builder: Looking for SD event..."); // TODO: Remove
       EventInformation nextEvent = documentGrammar.lookForEvent(EventType.START_DOCUMENT);
       handleEvent(nextEvent);
-      
+
       // Get next rule and look for SE(root) event (= start of root element)
       if (null != nextEvent)
       {
         Rule rootGrammar = nextEvent.next;
-        nextEvent = rootGrammar.lookForStartElement("", "root"); // TODO: Set root name dynamically!
-        handleEvent(nextEvent);
+        System.out.println(">>> Grammar builder: Root grammar has " + rootGrammar.getNumberOfEvents() + " events");
+
+        for (int i = 0; i < rootGrammar.getNumberOfEvents(); ++i)
+        {
+          System.out.println(">>> Grammar builder: Looking for SE(root) event..."); // TODO: Remove
+          nextEvent = rootGrammar.lookFor(i);
+//          nextEvent = rootGrammar.lookForEvent(EventType.START_ELEMENT);
+//          nextEvent = rootGrammar.lookForStartElement("http://www.itm.uni-luebeck.de/fabrictest", "WeatherForecast"); // TODO: namespace and local name dynamically!
+          handleEvent(nextEvent);
+        }
       }
-      
+
       // Get next rule and look for ED event (= end document)
       if (null != nextEvent)
       {
         documentGrammar = nextEvent.next;
+        System.out.println(">>> Grammar builder: Looking for ED event..."); // TODO: Remove
         nextEvent = documentGrammar.lookForEvent(EventType.END_DOCUMENT);
         handleEvent(nextEvent);
       }
-    }  
+    }
   }
   
   // TODO: Implement and add comment
@@ -56,12 +66,14 @@ public class GrammarBuilder
     {
       System.out.println(">>> Grammar builder: " + eventInfo.event + "\t" + eventInfo.getEventCode()); // TODO: Remove
 
+      System.out.println(">>> Grammar builder: Event type is \t" + eventInfo.event.getEventType()); // TODO: Remove
+
       // Handle local elements
       if (eventInfo.event.isEventType(EventType.START_ELEMENT))
       {
         StartElement element = (StartElement)eventInfo.event;
 
-        // Get first production rile
+        // Get first production rule
         EventInformation nextEvent = element.getRule().lookFor(0);
 
         // Handle lefthand side of the grammar production rule
