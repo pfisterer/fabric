@@ -195,18 +195,16 @@ public class CppEXIConverter
         // XML element is a simple value
         case ElementMetadata.XML_ATOMIC_VALUE:
           serializerCode += String.format(
-                  "exitCode += stream->writeNBits(3, %d);\n" +
                   "exitCode += encoder.encode%s(stream, typeObject->get%s());\n\n",
-                  element.getEXIEventCode(), element.getElementEXIType(),
+                  element.getElementEXIType(),
                   element.getElementName());
           break;
         
         // XML element is a local element within a complex type
         case ElementMetadata.XML_LOCAL_ELEMENT:
           serializerCode += String.format(
-                  "exitCode += stream->writeNBits(3, %d);\n" +
                   "exitCode += encoder.encode%s(stream, typeObject->get%s()->get%s());\n\n",
-                  element.getEXIEventCode(), element.getElementEXIType(),
+                  element.getElementEXIType(),
                   element.getParentName(), element.getElementName());
           break;
         
@@ -216,7 +214,7 @@ public class CppEXIConverter
                   "// Encode array elements\n" +
                   "for (int i = 0; i < typeObject->get%s()->get%s()->size(); ++i) {\n" +
                   "\t// Write EXI event code for each element\n" +
-                  "\texitCode += stream->writeNBits(3, %d);\n\n" +
+                  "\texitCode += stream->writeNBits(1, %d);\n\n" +
                   "\t// Encode array element\n" +
                   "\texitCode += encoder.encode%s(stream, typeObject->get%s()->get%s()->at(i));\n" +
                   "}\n\n",
@@ -228,7 +226,7 @@ public class CppEXIConverter
         case ElementMetadata.XML_LIST:
           serializerCode += String.format(
                   "// Write EXI event code once\n" +
-                  "exitCode += stream->writeNBits(3, %d);\n\n" +
+                  "exitCode += stream->writeNBits(1, %d);\n\n" +
                   "// Encode length of list\n" +
                   "unsigned int length = typeObject->get%s()->size();\n" +
                   "exitCode += encoder.encodeUnsignedInteger(stream, length);\n\n" +
@@ -305,8 +303,6 @@ public class CppEXIConverter
         // XML element is a simple value
         case ElementMetadata.XML_ATOMIC_VALUE:
           deserializerCode += String.format(
-                  "// Read EXI event code\n" +
-                  "exitCode += stream->readNBits(3, &eventCodeBits);\n\n" +
                   "// Decode element value\n" +
                   "exitCode += decoder.decode%s(stream, &%s);\n\n" +
                   "if (0 == exitCode) {\n" +
@@ -319,8 +315,6 @@ public class CppEXIConverter
         // XML element is a local element within a complex type
         case ElementMetadata.XML_LOCAL_ELEMENT:
           deserializerCode += String.format(
-                  "// Read EXI event code\n" +
-                  "exitCode += stream->readNBits(3, &eventCodeBits);\n\n" +
                   "// Decode element value\n" +
                   "exitCode += decoder.decode%s(stream, &%s);\n\n" +
                   "if (0 == exitCode) {\n" +
@@ -334,8 +328,10 @@ public class CppEXIConverter
         // XML element is an array
         case ElementMetadata.XML_ARRAY:
           deserializerCode += String.format(
+                  "// Initialize variable for EXI event code bits\n" +
+                  "unsigned int eventCodeBits;\n\n" +
                   "// Read first EXI event code\n" +
-                  "exitCode += stream->readNBits(3, &eventCodeBits);\n\n" +
+                  "exitCode += stream->readNBits(1, &eventCodeBits);\n\n" +
                   "// Decode array elements\n" +
                   "for (int i = 0; %d == eventCodeBits; ++i) {\n" +
                   "\t// Resize target array\n" +
@@ -346,7 +342,7 @@ public class CppEXIConverter
                   "\t\ttypeObject->get%s()->get%s()->at(i) = %s;\n" +
                   "\t}\n\n" +
                   "\t// Read next EXI event code\n" +
-                  "\texitCode += stream->readNBits(3, &eventCodeBits);\n" +
+                  "\texitCode += stream->readNBits(1, &eventCodeBits);\n" +
                   "}\n\n",
                   element.getEXIEventCode(), element.getParentName(),
                   element.getElementName(), element.getElementEXIType(),
@@ -357,8 +353,10 @@ public class CppEXIConverter
         // XML element is a list
         case ElementMetadata.XML_LIST:
           deserializerCode += String.format(
+                  "// Initialize variable for EXI event code bits\n" +
+                  "unsigned int eventCodeBits;\n\n" +
                   "// Read EXI event code once\n" +
-                  "exitCode += stream->readNBits(3, &eventCodeBits);\n\n" +
+                  "exitCode += stream->readNBits(1, &eventCodeBits);\n\n" +
                   "// Read length of list\n" +
                   "uint32 length;\n" +
                   "exitCode += decoder.decodeUnsignedInteger(stream, &length);\n\n" +
@@ -391,8 +389,6 @@ public class CppEXIConverter
             "stream->initStream(buffer, BUFFER_SIZE, ioStream);\n\n" +
             "// Read EXI header from EXI stream\n" +
             "exitCode += stream->readHeader();\n\n" +
-            "// Initialize variable for EXI event code bits\n" +
-            "unsigned int eventCodeBits;\n\n" +
             "/************** Deserialize elements **************/\n\n" +
             "%s" +
             "/**************************************************/\n\n" +
