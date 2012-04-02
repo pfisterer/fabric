@@ -18,8 +18,10 @@ import com.siemens.ct.exi.helpers.DefaultEXIFactory;
 public class GrammarBuilder
 {
   // TODO: Add comment
-  public void buildGrammar(final String pathToSchemaDocument) throws Exception
+  public Grammar buildGrammar(final String pathToSchemaDocument) throws Exception
   {
+    Grammar schemaInformedGrammar = null;
+
     if (null != pathToSchemaDocument)
     {
 //      // Create EXIficient grammar builder
@@ -32,7 +34,7 @@ public class GrammarBuilder
       // TODO: Remove block
       EXIFactory exiFactory = DefaultEXIFactory.newInstance();
       GrammarFactory grammarFactory = GrammarFactory.newInstance();
-      Grammar schemaInformedGrammar = grammarFactory.createGrammar(pathToSchemaDocument);
+      schemaInformedGrammar = grammarFactory.createGrammar(pathToSchemaDocument);
       exiFactory.setGrammar(schemaInformedGrammar);
       exiFactory.setFidelityOptions(FidelityOptions.createStrict());
       schemaInformedGrammar = exiFactory.getGrammar();
@@ -77,7 +79,10 @@ public class GrammarBuilder
         nextEvent = documentGrammar.lookForEvent(EventType.END_DOCUMENT);
         handleEvent(nextEvent);
       }
+
     }
+
+    return schemaInformedGrammar;
   }
   
   // TODO: Implement and add comment

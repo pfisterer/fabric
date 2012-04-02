@@ -43,7 +43,7 @@ public interface EXICodeGen
    * 
    * @throws Exception Error during event handling
    */
-  public void handleEndOfSchema(final String pathToSchemaDocument) throws Exception;
+  public void buildGrammar(final String pathToSchemaDocument) throws Exception;
 
   /**
    * Handle top level element from XML Schema document.
