@@ -81,6 +81,8 @@ public class FabricEXIHandler extends FabricDefaultHandler
     this.fixElements = new ArrayList<ElementData>();
     this.fixArrays = new ArrayList<ArrayData>();
     this.fixLists = new ArrayList<ListData>();
+
+    this.exiGenerator.buildGrammar(this.properties.getProperty("fabric.xsd")); // Pass location of XML Schema file
   }
 
   /**
@@ -97,7 +99,6 @@ public class FabricEXIHandler extends FabricDefaultHandler
   {
     LOGGER.debug("Called endSchema().");
     
-    this.exiGenerator.handleEndOfSchema(this.properties.getProperty("fabric.xsd")); // Pass location of XML Schema file
     this.exiGenerator.generateCode(this.fixElements, this.fixArrays, this.fixLists);
     this.exiGenerator.writeSourceFile();
   }

@@ -210,7 +210,7 @@ public class JavaEXICodeGen implements EXICodeGen
    * @throws Exception Error during event handling
    */
   @Override
-  public void handleEndOfSchema(final String pathToSchemaDocument) throws Exception
+  public void buildGrammar(final String pathToSchemaDocument) throws Exception
   {
     // Empty implementation
   }
