@@ -1,4 +1,4 @@
-/** 30.03.2012 03:23 */
+/** 14.04.2012 00:41 */
 package fabric.module.exi.cpp;
 
 import com.siemens.ct.exi.EXIFactory;
@@ -17,11 +17,16 @@ import com.siemens.ct.exi.helpers.DefaultEXIFactory;
 // TODO: Add class comment
 public class GrammarBuilder
 {
-  // TODO: Add comment
-  public Grammar buildGrammar(final String pathToSchemaDocument) throws Exception
-  {
-    Grammar schemaInformedGrammar = null;
+  private Grammar schemaInformedGrammar;
 
+  public GrammarBuilder()
+  {
+    this.schemaInformedGrammar = null;
+  }
+
+  // TODO: Add comment
+  public void buildGrammar(final String pathToSchemaDocument) throws Exception
+  {
     if (null != pathToSchemaDocument)
     {
 //      // Create EXIficient grammar builder
@@ -34,14 +39,14 @@ public class GrammarBuilder
       // TODO: Remove block
       EXIFactory exiFactory = DefaultEXIFactory.newInstance();
       GrammarFactory grammarFactory = GrammarFactory.newInstance();
-      schemaInformedGrammar = grammarFactory.createGrammar(pathToSchemaDocument);
-      exiFactory.setGrammar(schemaInformedGrammar);
+      this.schemaInformedGrammar = grammarFactory.createGrammar(pathToSchemaDocument);
+      exiFactory.setGrammar(this.schemaInformedGrammar);
       exiFactory.setFidelityOptions(FidelityOptions.createStrict());
-      schemaInformedGrammar = exiFactory.getGrammar();
+      this.schemaInformedGrammar = exiFactory.getGrammar();
       // Block end
 
       // Get document grammar and look for SD event (= start document)
-      Rule documentGrammar = schemaInformedGrammar.getDocumentGrammar();
+      Rule documentGrammar = this.schemaInformedGrammar.getDocumentGrammar();
       System.out.println(">>> Grammar builder: Looking for SD event..."); // TODO: Remove
       System.out.println(">>> Document grammar: " + documentGrammar);
       System.out.println(">>> Grammar builder: Document grammar has " + documentGrammar.getNumberOfEvents() + " events.");
@@ -79,10 +84,7 @@ public class GrammarBuilder
         nextEvent = documentGrammar.lookForEvent(EventType.END_DOCUMENT);
         handleEvent(nextEvent);
       }
-
     }
-
-    return schemaInformedGrammar;
   }
   
   // TODO: Implement and add comment
@@ -127,5 +129,15 @@ public class GrammarBuilder
         System.out.println(">>> Grammar builder: Element is of type " + eventInfo.event.getEventType());
       }
     }
+  }
+
+  public Grammar getGrammar() throws Exception
+  {
+    if (null == this.schemaInformedGrammar)
+    {
+      throw new IllegalStateException("Grammar was not built yet. Call buildGrammar() first!");
+    }
+
+    return this.schemaInformedGrammar;
   }
 }

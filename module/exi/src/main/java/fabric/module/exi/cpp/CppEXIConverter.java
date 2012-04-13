@@ -1,14 +1,14 @@
-/** 28.03.2012 01:21 */
+/** 14.04.2012 00:41 */
 package fabric.module.exi.cpp;
 
-import com.siemens.ct.exi.grammar.Grammar;
-import com.siemens.ct.exi.grammar.rule.Rule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 import java.util.Queue;
 import java.util.LinkedList;
+
+import com.siemens.ct.exi.grammar.Grammar;
 
 import de.uniluebeck.sourcegen.Workspace;
 import de.uniluebeck.sourcegen.c.CCommentImpl;
@@ -71,12 +71,11 @@ public class CppEXIConverter
    * 
    * @param workspace Fabric workspace for code write-out
    * @param elementMetadata Queue with metadata of XML elements
+   * @param exiGrammar Object with schema-informed EXI grammar
    * 
    * @throws Exception Workspace was null or error during code generation
    */
-  public void generateSerializerClass(  final Workspace workspace,
-                                        final Queue<ElementMetadata> elementMetadata,
-                                        final Grammar grammar                          ) throws Exception
+  public void generateSerializerClass(final Workspace workspace, final Queue<ElementMetadata> elementMetadata, final Grammar exiGrammar) throws Exception
   {
     if (null == workspace)
     {
@@ -95,8 +94,8 @@ public class CppEXIConverter
 
       // Generate EXIConverter class
       this.serializerClass = this.createSerializerClass(this.serializerClassName);
-      this.generateSerializeCode(CppEXIConverter.getCopyOfQueue(elementMetadata), grammar);
-      this.generateDeserializeCode(CppEXIConverter.getCopyOfQueue(elementMetadata), grammar);
+      this.generateSerializeCode(CppEXIConverter.getCopyOfQueue(elementMetadata), exiGrammar);
+      this.generateDeserializeCode(CppEXIConverter.getCopyOfQueue(elementMetadata), exiGrammar);
 
       /*****************************************************************
        * Create C++ header file
@@ -173,29 +172,20 @@ public class CppEXIConverter
    * Generate code for EXI serialization with C++. The code is
    * created individually for each bean object.
    * 
-   *
    * @param elementMetadata Queue with metadata of XML elements
+   * @param exiGrammar Object with schema-informed EXI grammar
    *
-   * @param grammar
    * @throws Exception Error during code generation
    */
-  private void generateSerializeCode(final Queue<ElementMetadata> elementMetadata, Grammar grammar) throws Exception
+  private void generateSerializeCode(final Queue<ElementMetadata> elementMetadata, Grammar exiGrammar) throws Exception
   {
+    // TODO: Use exiGrammar object to determine EXI event codes for current context
+
     CppVar typeObject = CppVar.factory.create(Cpp.NONE, this.beanClassName + "*", "typeObject");
     CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "stream");
     CppVar functionPointer = CppVar.factory.create(Cpp.NONE, "mySize_t", "(*outputFunction)(void*, mySize_t)");
     CppFun serialize = CppFun.factory.create("int", "serialize", typeObject, streamObject, functionPointer);
 
-
-    /*
-     * TODO
-     *
-     * Use 'grammar'-object to determine event codes!
-     *
-     * The event codes stored in 'elementMetadata' might be invalid.
-     */
-
-    
     // Create code for element serialization
     String serializerCode = "";
     while (!elementMetadata.isEmpty())
@@ -212,16 +202,15 @@ public class CppEXIConverter
         case ElementMetadata.XML_ATOMIC_VALUE:
           serializerCode += String.format(
                   "exitCode += encoder.encode%s(stream, typeObject->get%s());\n\n",
-                  element.getElementEXIType(),
-                  element.getElementName());
+                  element.getElementEXIType(), element.getElementName());
           break;
         
         // XML element is a local element within a complex type
         case ElementMetadata.XML_LOCAL_ELEMENT:
           serializerCode += String.format(
                   "exitCode += encoder.encode%s(stream, typeObject->get%s()->get%s());\n\n",
-                  element.getElementEXIType(),
-                  element.getParentName(), element.getElementName());
+                  element.getElementEXIType(), element.getParentName(),
+                  element.getElementName());
           break;
         
         // XML element is an array
@@ -234,8 +223,9 @@ public class CppEXIConverter
                   "\t// Encode array element\n" +
                   "\texitCode += encoder.encode%s(stream, typeObject->get%s()->get%s()->at(i));\n" +
                   "}\n\n",
-                  element.getParentName(), element.getElementName(), element.getEXIEventCode(),
-                  element.getElementEXIType(), element.getParentName(), element.getElementName());
+                  element.getParentName(), element.getElementName(),
+                  element.getEXIEventCode(), element.getElementEXIType(),
+                  element.getParentName(), element.getElementName());
           break;
         
         // XML element is a list
@@ -288,30 +278,20 @@ public class CppEXIConverter
    * Generate code for EXI deserialization with C++. The code is
    * created individually for each bean object.
    * 
-   *
    * @param elementMetadata Queue with metadata of XML elements
+   * @param exiGrammar Object with schema-informed EXI grammar
    *
-   * @param grammar
    * @throws Exception Error during code generation
    */
-  private void generateDeserializeCode(final Queue<ElementMetadata> elementMetadata, Grammar grammar) throws Exception
+  private void generateDeserializeCode(final Queue<ElementMetadata> elementMetadata, Grammar exiGrammar) throws Exception
   {
+    // TODO: Use exiGrammar object to determine EXI event codes for current context
+    
     CppVar typeObject = CppVar.factory.create(Cpp.NONE, this.beanClassName + "*", "typeObject");
     CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "stream");
     CppVar functionPointer = CppVar.factory.create(Cpp.NONE, "mySize_t", "(*inputFunction)(void*, mySize_t)");
     CppFun deserialize = CppFun.factory.create("int", "deserialize", typeObject, streamObject, functionPointer);
 
-
-
-    /*
-     * TODO
-     *
-     * Use 'grammar'-object to determine event codes!
-     *
-     * The event codes stored in 'elementMetadata' might be invalid.
-     */
-
-    
     // Create code for element deserialization
     String deserializerCode = "";
     while (!elementMetadata.isEmpty())
@@ -358,7 +338,7 @@ public class CppEXIConverter
         case ElementMetadata.XML_ARRAY:
           deserializerCode += String.format(
                   "// Initialize variable for EXI event code bits\n" +
-                  "unsigned int eventCodeBits;\n\n" +
+                  "unsigned int eventCodeBits = 0;\n\n" +
                   "// Read first EXI event code\n" +
                   "exitCode += stream->readNBits(1, &eventCodeBits);\n\n" +
                   "// Decode array elements\n" +
@@ -383,7 +363,7 @@ public class CppEXIConverter
         case ElementMetadata.XML_LIST:
           deserializerCode += String.format(
                   "// Initialize variable for EXI event code bits\n" +
-                  "unsigned int eventCodeBits;\n\n" +
+                  "unsigned int eventCodeBits = 0;\n\n" +
                   "// Read EXI event code once\n" +
                   "exitCode += stream->readNBits(1, &eventCodeBits);\n\n" +
                   "// Read length of list\n" +

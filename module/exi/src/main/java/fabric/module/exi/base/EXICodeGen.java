@@ -1,4 +1,4 @@
-/** 29.03.2012 00:12 */
+/** 11.04.2012 22:26 */
 package fabric.module.exi.base;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public interface EXICodeGen
    * 
    * @throws Exception Error during event handling
    */
-  public void buildGrammar(final String pathToSchemaDocument) throws Exception;
+  public void handleEndOfSchema(final String pathToSchemaDocument) throws Exception;
 
   /**
    * Handle top level element from XML Schema document.

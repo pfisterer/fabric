@@ -1,7 +1,6 @@
-/** 29.03.2012 00:23 */
+/** 14.04.2012 00:41 */
 package fabric.module.exi.cpp;
 
-import org.apache.xerces.xni.grammars.Grammar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,10 +57,6 @@ public class CppEXICodeGen implements EXICodeGen
 
   /** Object to build schema-informed EXI grammars */
   private GrammarBuilder grammarBuilder;
-
-  /** Input-XSD's Grammar-object */
-  private com.siemens.ct.exi.grammar.Grammar grammar;
-
 
   /**
    * Constructor sets various class names and creates source
@@ -139,7 +134,7 @@ public class CppEXICodeGen implements EXICodeGen
     CppEXIConverter exiConverter = new CppEXIConverter(this.properties);
     
     // Create EXI de-/serializer class
-    exiConverter.generateSerializerClass(this.workspace, this.elementMetadata, this.grammar);
+    exiConverter.generateSerializerClass(this.workspace, this.elementMetadata, this.grammarBuilder.getGrammar());
     
     // Create method for EXI serialization
     CFun exiSerialize = exiConverter.generateSerializeCall();
@@ -188,9 +183,9 @@ public class CppEXICodeGen implements EXICodeGen
    * @throws Exception Error during event handling
    */
   @Override
-  public void buildGrammar(final String pathToSchemaDocument) throws Exception
+  public void handleEndOfSchema(final String pathToSchemaDocument) throws Exception
   {
-    this.grammar = this.grammarBuilder.buildGrammar(pathToSchemaDocument);
+    this.grammarBuilder.buildGrammar(pathToSchemaDocument);
   }
 
   /**
