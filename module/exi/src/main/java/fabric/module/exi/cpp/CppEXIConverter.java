@@ -1,4 +1,4 @@
-/** 14.04.2012 00:41 */
+/** 14.04.2012 00:48 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -224,7 +224,8 @@ public class CppEXIConverter
                   "\texitCode += encoder.encode%s(stream, typeObject->get%s()->get%s()->at(i));\n" +
                   "}\n\n",
                   element.getParentName(), element.getElementName(),
-                  element.getEXIEventCode(), element.getElementEXIType(),
+                  // TODO: Replace '0' with correct EXI event code from exiGrammar object
+                  0 , element.getElementEXIType(),
                   element.getParentName(), element.getElementName());
           break;
         
@@ -241,7 +242,8 @@ public class CppEXIConverter
                   "\t// Encode list element\n" +
                   "\texitCode += encoder.encode%s(stream, typeObject->get%s()->at(i));\n" +
                   "}\n\n",
-                  element.getEXIEventCode(), element.getElementName(),
+                  // TODO: Replace '0' with correct EXI event code from exiGrammar object
+                  0, element.getElementName(),
                   element.getElementEXIType(), element.getElementName());
           break;
         
@@ -353,7 +355,8 @@ public class CppEXIConverter
                   "\t// Read next EXI event code\n" +
                   "\texitCode += stream->readNBits(1, &eventCodeBits);\n" +
                   "}\n\n",
-                  element.getEXIEventCode(), element.getParentName(),
+                  // TODO: Replace '0' with correct EXI event code from exiGrammar object
+                  0, element.getParentName(),
                   element.getElementName(), element.getElementEXIType(),
                   element.getElementName().toLowerCase(), element.getParentName(),
                   element.getElementName(), element.getElementName().toLowerCase());

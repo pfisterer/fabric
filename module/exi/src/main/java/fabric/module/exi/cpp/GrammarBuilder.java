@@ -86,12 +86,12 @@ public class GrammarBuilder
       }
     }
   }
-  
+
   // TODO: Implement and add comment
   private void handleEvent(final EventInformation eventInfo)
   {
     if (null != eventInfo)
-    {     
+    {
       // Handle local elements
       if (eventInfo.event.isEventType(EventType.START_ELEMENT))
       {

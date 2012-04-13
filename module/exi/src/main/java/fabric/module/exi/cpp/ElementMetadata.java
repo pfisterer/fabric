@@ -1,4 +1,4 @@
-/** 29.03.2012 00:14 */
+/** 14.04.2012 00:47 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -62,10 +62,7 @@ public class ElementMetadata
   
   /** Type of the XML element (e.g. atomic value, list or array) */
   private int type;
-  
-  /** EXI event code within the XML Schema document structure */
-  private int exiEventCode;
-  
+
   /**
    * Parameterized constructor.
    * 
@@ -73,14 +70,12 @@ public class ElementMetadata
    * @param elementEXIType EXI type of element content (e.g. Boolean,
    * Integer or String)
    * @param type XML element type (atomic value, list or array)
-   * @param exiEventCode EXI event code
    */
-  public ElementMetadata(final String elementName, final String elementEXIType, final int type, final int exiEventCode)
+  public ElementMetadata(final String elementName, final String elementEXIType, final int type)
   {
     this.elementName = elementName;
     this.elementEXIType = elementEXIType;
     this.type = type;
-    this.exiEventCode = exiEventCode;
 
     // Validate support for EXI type
     ElementMetadata.checkEXITypeSupport(this.elementEXIType);
@@ -124,9 +119,6 @@ public class ElementMetadata
       this.elementEXIType = this.getEXITypeName(element.getSchemaType().getClass().getSimpleName());
       this.type = ElementMetadata.XML_ATOMIC_VALUE;
     }
-
-    // Set EXI event code
-    this.exiEventCode = 0;
 
     // Validate support for EXI type
     ElementMetadata.checkEXITypeSupport(this.elementEXIType);
@@ -240,26 +232,6 @@ public class ElementMetadata
   }
 
   /**
-   * Setter for EXI event code.
-   * 
-   * @param exiEventCode EXI event code
-   */
-  public void setEXIEventCode(final int exiEventCode)
-  {
-    this.exiEventCode = exiEventCode;
-  }
-
-  /**
-   * Getter for EXI event code.
-   * 
-   * @return EXI event code
-   */
-  public int getEXIEventCode()
-  {
-    return this.exiEventCode;
-  }
-
-  /**
    * Clone ElementMetadata object and return a deep copy.
    * 
    * @return Cloned ElementMetadata object
@@ -269,7 +241,7 @@ public class ElementMetadata
   {
     ElementMetadata result;
     
-    result = new ElementMetadata(this.elementName, this.elementEXIType, this.type, this.exiEventCode);
+    result = new ElementMetadata(this.elementName, this.elementEXIType, this.type);
     result.setParentName(this.parentName);
     
     return result;
