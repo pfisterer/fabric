@@ -1,138 +1,90 @@
-/** 14.04.2012 00:41 */
+/** 20.04.2012 02:11 */
 package fabric.module.exi.cpp;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.siemens.ct.exi.EXIFactory;
 import com.siemens.ct.exi.FidelityOptions;
 import com.siemens.ct.exi.GrammarFactory;
-import com.siemens.ct.exi.grammar.EventInformation;
 import com.siemens.ct.exi.grammar.Grammar;
-import com.siemens.ct.exi.grammar.event.EventType;
-import com.siemens.ct.exi.grammar.event.StartElement;
-import com.siemens.ct.exi.grammar.rule.Rule;
 import com.siemens.ct.exi.helpers.DefaultEXIFactory;
 
+import fabric.module.exi.exceptions.FabricEXIException;
+
 /**
+ * This class is a grammar builder for EXI. It can read
+ * an XML Schema document from a file and then build a
+ * schema-informed EXI grammar using the Java EXI library
+ * EXIficient. The grammar can later be used for EXI event
+ * code determination in the C++ EXI module.
+ *
  * @author seidel
  */
-// TODO: Add class comment
 public class GrammarBuilder
 {
+  /** Logger object */
+  private static final Logger LOGGER = LoggerFactory.getLogger(GrammarBuilder.class);
+
+  /** Schema-informed EXI grammar */
   private Grammar schemaInformedGrammar;
 
+  /**
+   * Parameterless constructor.
+   */
   public GrammarBuilder()
   {
     this.schemaInformedGrammar = null;
   }
 
-  // TODO: Add comment
-  public void buildGrammar(final String pathToSchemaDocument) throws Exception
+  /**
+   * Build schema-informed EXI grammar from given XML Schema
+   * document. This method uses the EXIFactory object, which
+   * is part of the EXIficient library, to initialize the
+   * internal EXI grammar object.
+   *
+   * This method must be called once before the EXI grammar
+   * can be retrieved with the getGrammar() method.
+   *
+   * @param schemaLocation Path to XML Schema document
+   *
+   * @throws Exception Error while creating EXI grammar
+   */
+  public void buildGrammar(final String schemaLocation) throws Exception
   {
-    if (null != pathToSchemaDocument)
+    if (null == schemaLocation)
     {
-//      // Create EXIficient grammar builder
-//      XSDGrammarBuilder builder = XSDGrammarBuilder.newInstance();
-//
-//      // Build schema-informed EXI grammar
-//      builder.loadGrammar(pathToSchemaDocument);
-//      SchemaInformedGrammar schemaInformedGrammar = builder.toGrammar();
-
-      // TODO: Remove block
-      EXIFactory exiFactory = DefaultEXIFactory.newInstance();
+      throw new FabricEXIException("Cannot build EXI grammar. Schema location is null.");
+    }
+    else
+    {
+      // Create schema-informed EXI grammar
       GrammarFactory grammarFactory = GrammarFactory.newInstance();
-      this.schemaInformedGrammar = grammarFactory.createGrammar(pathToSchemaDocument);
+      this.schemaInformedGrammar = grammarFactory.createGrammar(schemaLocation);
+      LOGGER.debug(String.format("Schema-informed EXI grammar was built for '%s'.", schemaLocation));
+
+      // Do NOT use XSDGrammarBuilder to create grammar directly!
+
+      // Create EXIFactory and enable fidelity option for strict mode
+      EXIFactory exiFactory = DefaultEXIFactory.newInstance();
       exiFactory.setGrammar(this.schemaInformedGrammar);
       exiFactory.setFidelityOptions(FidelityOptions.createStrict());
-      this.schemaInformedGrammar = exiFactory.getGrammar();
-      // Block end
-
-      // Get document grammar and look for SD event (= start document)
-      Rule documentGrammar = this.schemaInformedGrammar.getDocumentGrammar();
-      System.out.println(">>> Grammar builder: Looking for SD event..."); // TODO: Remove
-      System.out.println(">>> Document grammar: " + documentGrammar);
-      System.out.println(">>> Grammar builder: Document grammar has " + documentGrammar.getNumberOfEvents() + " events.");
-      EventInformation nextEvent = documentGrammar.lookForEvent(EventType.START_DOCUMENT);
-      handleEvent(nextEvent);
-
-      // Get next rule and look for SE(root) event (= start of root element)
-      if (null != nextEvent)
-      {
-        Rule rootGrammar = nextEvent.next;
-        System.out.println(">>> Root grammar: " + rootGrammar);
-        System.out.println(">>> Grammar builder: Root grammar has " + rootGrammar.getNumberOfEvents() + " events.");
-
-        System.out.println(">>> Grammar builder: Handle first child:");
-        handleEvent(rootGrammar.lookFor(0));
-
-        System.out.println(">>> Grammar builder: Handle second child:");
-        handleEvent(rootGrammar.lookFor(1));
-
-//        for (int i = 0; i < rootGrammar.getNumberOfEvents(); ++i)
-//        {
-//          System.out.println(">>> Grammar builder: Looking for SE(root) event..."); // TODO: Remove
-//          nextEvent = rootGrammar.lookFor(i);
-////          nextEvent = rootGrammar.lookForEvent(EventType.START_ELEMENT);
-////          nextEvent = rootGrammar.lookForStartElement("http://www.itm.uni-luebeck.de/fabrictest", "WeatherForecast"); // TODO: namespace and local name dynamically!
-//          handleEvent(nextEvent);
-//        }
-      }
-
-      // Get next rule and look for ED event (= end document)
-      if (null != nextEvent)
-      {
-        documentGrammar = nextEvent.next;
-        System.out.println(">>> Grammar builder: Looking for ED event..."); // TODO: Remove
-        nextEvent = documentGrammar.lookForEvent(EventType.END_DOCUMENT);
-        handleEvent(nextEvent);
-      }
     }
   }
 
-  // TODO: Implement and add comment
-  private void handleEvent(final EventInformation eventInfo)
-  {
-    if (null != eventInfo)
-    {
-      // Handle local elements
-      if (eventInfo.event.isEventType(EventType.START_ELEMENT))
-      {
-        StartElement element = (StartElement)eventInfo.event;
-        System.out.println(">>> Grammar builder: Element " + element.getQName().getLocalPart()
-                + " has " + element.getRule().getNumberOfEvents() + " events.");
-
-        // Get first production rule
-        EventInformation nextEvent = element.getRule().lookFor(0);
-
-        // TODO: Left-hand side is state, that we are in?
-
-        // Handle left-hand side of the grammar production rule
-        // (in this case an element grammar)
-        System.out.println(">>> Grammar builder: Lefthand side of " + element.getQName().getLocalPart() +
-                " is of type " + nextEvent.event.getEventType() + ".");
-        handleEvent(nextEvent);
-
-        // TODO: Right-hand side is a set of states that we can get to via state transition?
-
-        // Handle first production rule for the right-hand side
-        // of the grammar production rule (either another
-        // element grammar or an EE event)
-        System.out.println(">>> Grammar builder: Righthand side of " + element.getQName().getLocalPart() +
-                " has " +  nextEvent.next.getNumberOfEvents() + " events.");
-        for (int i = 0; i < nextEvent.next.getNumberOfEvents(); ++i)
-        {
-          System.out.println(">>> Grammar builder: Righthand side of " + element.getQName().getLocalPart() +
-                " is of type " + nextEvent.next.lookFor(i).event.getEventType() + ".");
-          handleEvent(nextEvent.next.lookFor(i));
-        }
-      }
-      else
-      {
-        System.out.println(">>> Grammar builder: Element is of type " + eventInfo.event.getEventType());
-      }
-    }
-  }
-
+  /**
+   * Retrieve schema-informed EXI grammar for current XML Schema
+   * document. Before you can grab the grammar, it must be build
+   * by calling buildGrammar() once. In case the grammar was not
+   * built yet, a call to getGrammar() will throw an exception.
+   *
+   * @return Schema-informed EXI grammar
+   *
+   * @throws Exception EXI grammar was not built yet
+   */
   public Grammar getGrammar() throws Exception
   {
+    // Check if grammar was already built
     if (null == this.schemaInformedGrammar)
     {
       throw new IllegalStateException("Grammar was not built yet. Call buildGrammar() first!");

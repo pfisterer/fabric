@@ -1,4 +1,4 @@
-/** 14.04.2012 00:48 */
+/** 15.04.2012 21:56 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -248,7 +248,7 @@ public class CppEXIConverter
           break;
         
         default:
-          throw new FabricEXIException("Unknown XML element type. Use one of [atomic value, array, list].");
+          throw new FabricEXIException("Unknown XML element type. Use one of [atomic value, local element, array, list].");
       }
     }
     
@@ -388,7 +388,7 @@ public class CppEXIConverter
           break;
         
         default:
-          throw new FabricEXIException("Unknown XML element type. Use one of [atomic value, array, list].");
+          throw new FabricEXIException("Unknown XML element type. Use one of [atomic value, local element, array, list].");
       }
     }
     
