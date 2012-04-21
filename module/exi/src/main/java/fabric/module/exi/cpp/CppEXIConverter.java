@@ -1,4 +1,4 @@
-/** 15.04.2012 21:56 */
+/** 21.04.2012 18:16 */
 package fabric.module.exi.cpp;
 
 import org.slf4j.Logger;
@@ -179,8 +179,6 @@ public class CppEXIConverter
    */
   private void generateSerializeCode(final Queue<ElementMetadata> elementMetadata, Grammar exiGrammar) throws Exception
   {
-    // TODO: Use exiGrammar object to determine EXI event codes for current context
-
     CppVar typeObject = CppVar.factory.create(Cpp.NONE, this.beanClassName + "*", "typeObject");
     CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "stream");
     CppVar functionPointer = CppVar.factory.create(Cpp.NONE, "mySize_t", "(*outputFunction)(void*, mySize_t)");
@@ -202,15 +200,15 @@ public class CppEXIConverter
         case ElementMetadata.XML_ATOMIC_VALUE:
           serializerCode += String.format(
                   "exitCode += encoder.encode%s(stream, typeObject->get%s());\n\n",
-                  element.getElementEXIType(), element.getElementName());
+                  element.getElementEXIType(), this.firstLetterCapital(element.getElementName()));
           break;
         
         // XML element is a local element within a complex type
         case ElementMetadata.XML_LOCAL_ELEMENT:
           serializerCode += String.format(
                   "exitCode += encoder.encode%s(stream, typeObject->get%s()->get%s());\n\n",
-                  element.getElementEXIType(), element.getParentName(),
-                  element.getElementName());
+                  element.getElementEXIType(), this.firstLetterCapital(element.getParentName()),
+                  this.firstLetterCapital(element.getElementName()));
           break;
         
         // XML element is an array
@@ -223,10 +221,10 @@ public class CppEXIConverter
                   "\t// Encode array element\n" +
                   "\texitCode += encoder.encode%s(stream, typeObject->get%s()->get%s()->at(i));\n" +
                   "}\n\n",
-                  element.getParentName(), element.getElementName(),
+                  this.firstLetterCapital(element.getParentName()), this.firstLetterCapital(element.getElementName()),
                   // TODO: Replace '0' with correct EXI event code from exiGrammar object
                   0 , element.getElementEXIType(),
-                  element.getParentName(), element.getElementName());
+                  this.firstLetterCapital(element.getParentName()), this.firstLetterCapital(element.getElementName()));
           break;
         
         // XML element is a list
@@ -243,8 +241,8 @@ public class CppEXIConverter
                   "\texitCode += encoder.encode%s(stream, typeObject->get%s()->at(i));\n" +
                   "}\n\n",
                   // TODO: Replace '0' with correct EXI event code from exiGrammar object
-                  0, element.getElementName(),
-                  element.getElementEXIType(), element.getElementName());
+                  0, this.firstLetterCapital(element.getElementName()),
+                  element.getElementEXIType(), this.firstLetterCapital(element.getElementName()));
           break;
         
         default:
@@ -287,8 +285,6 @@ public class CppEXIConverter
    */
   private void generateDeserializeCode(final Queue<ElementMetadata> elementMetadata, Grammar exiGrammar) throws Exception
   {
-    // TODO: Use exiGrammar object to determine EXI event codes for current context
-    
     CppVar typeObject = CppVar.factory.create(Cpp.NONE, this.beanClassName + "*", "typeObject");
     CppVar streamObject = CppVar.factory.create(Cpp.NONE, "EXIStream*", "stream");
     CppVar functionPointer = CppVar.factory.create(Cpp.NONE, "mySize_t", "(*inputFunction)(void*, mySize_t)");
@@ -320,7 +316,7 @@ public class CppEXIConverter
                   "\ttypeObject->set%s(%s);\n" +
                   "}\n\n",
                   element.getElementEXIType(), element.getElementName().toLowerCase(),
-                  element.getElementName(), element.getElementName().toLowerCase());
+                  this.firstLetterCapital(element.getElementName()), element.getElementName().toLowerCase());
           break;
         
         // XML element is a local element within a complex type
@@ -332,7 +328,7 @@ public class CppEXIConverter
                   "\ttypeObject->get%s()->set%s(%s);\n" +
                   "}\n\n",
                   element.getElementEXIType(), element.getElementName().toLowerCase(),
-                  element.getParentName(), element.getElementName(),
+                  this.firstLetterCapital(element.getParentName()), this.firstLetterCapital(element.getElementName()),
                   element.getElementName().toLowerCase());
           break;
         
@@ -356,10 +352,10 @@ public class CppEXIConverter
                   "\texitCode += stream->readNBits(1, &eventCodeBits);\n" +
                   "}\n\n",
                   // TODO: Replace '0' with correct EXI event code from exiGrammar object
-                  0, element.getParentName(),
-                  element.getElementName(), element.getElementEXIType(),
-                  element.getElementName().toLowerCase(), element.getParentName(),
-                  element.getElementName(), element.getElementName().toLowerCase());
+                  0, this.firstLetterCapital(element.getParentName()),
+                  this.firstLetterCapital(element.getElementName()), element.getElementEXIType(),
+                  element.getElementName().toLowerCase(), this.firstLetterCapital(element.getParentName()),
+                  this.firstLetterCapital(element.getElementName()), element.getElementName().toLowerCase());
           break;
         
         // XML element is a list
@@ -382,8 +378,8 @@ public class CppEXIConverter
                   "\t\ttypeObject->get%s()->at(i) = %s;\n" +
                   "\t}\n" +
                   "}\n\n",
-                  element.getElementName(), element.getElementEXIType(),
-                  element.getElementName().toLowerCase(), element.getElementName(),
+                  this.firstLetterCapital(element.getElementName()), element.getElementEXIType(),
+                  element.getElementName().toLowerCase(), this.firstLetterCapital(element.getElementName()),
                   element.getElementName().toLowerCase());
           break;
         
@@ -487,6 +483,19 @@ public class CppEXIConverter
     }
 
     return clonedQueue;
+  }
+
+  /**
+   * Private helper method to capitalize the first letter of a string.
+   * Function will return null, if argument was null.
+   *
+   * @param text Text to process
+   *
+   * @return Text with first letter capitalized or null
+   */
+  private String firstLetterCapital(final String text)
+  {
+    return (null == text ? null : text.substring(0, 1).toUpperCase() + text.substring(1, text.length()));
   }
 
   /**
